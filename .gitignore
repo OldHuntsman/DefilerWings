@@ -213,3 +213,17 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+
+###########
+## RenPy
+###########
+
+#Log files
+/errors.txt
+/log.txt
+/traceback.txt
+
+#Compiled code
+*.rpyb
+*.rpyc
