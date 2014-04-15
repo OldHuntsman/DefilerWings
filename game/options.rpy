@@ -289,4 +289,4 @@ init -1 python hide:
     
     # Определяем изображения автоматически
     config.automatic_images = [ '_', '/' ]
-    config.automatic_images_strip = ['ava']
+    config.automatic_images_strip = ['img', 'avadragon', 'avahuman']

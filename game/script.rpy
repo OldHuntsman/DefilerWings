@@ -10,8 +10,8 @@ label start:
     #show ava dragon at topright
     
     $ avatars.DisplayLeft("princess ava ")
-    pr 'Hello world!'
     $ avatars.DisplayRight("dragon ava")
+    pr 'Hello world!'
     dr 'Grrrrr'
 
     
