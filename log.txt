@@ -1,11 +1,11 @@
-Sun Apr 13 14:39:17 2014
+Tue Apr 15 17:51:57 2014
 Windows-7-6.1.7601-SP1
 Ren'Py 6.17.3.327
-Defiler Wings 0.0
+Defiler Wings 0.0.1
 
 
 Windowed mode.
-Screen sizes: virtual=(800, 600) physical=(800, 600)
+Screen sizes: virtual=(1024, 768) physical=(1108, 831)
 Vendor: 'NVIDIA Corporation'
 Renderer: 'GeForce GTX 570/PCIe/SSE2'
 Version: '4.4.0'
@@ -325,11 +325,11 @@ Texture testing:
 Performance test:
 - Target is 5 frames in 0.333333333333 seconds.
 - Frame drawn at 0.000000 seconds.
-- Frame drawn at 0.009000 seconds.
-- Frame drawn at 0.012000 seconds.
-- Frame drawn at 0.028000 seconds.
-- Frame drawn at 0.045000 seconds.
-- 0.045000 seconds to render 5 frames.
+- Frame drawn at 0.003000 seconds.
+- Frame drawn at 0.005000 seconds.
+- Frame drawn at 0.022000 seconds.
+- Frame drawn at 0.039000 seconds.
+- 0.039000 seconds to render 5 frames.
 Deallocating textures.
 Done deallocating textures.
 About to quit GL.

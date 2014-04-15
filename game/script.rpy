@@ -1,20 +1,14 @@
-﻿
-
+﻿# определяем персонажей
+define dr = Character("Дракон", kind=nvl, image = 'ava')
+define pr = Character("Принцесса", kind=nvl, image = 'ava')
 
 # Начало игры
 label start:
+    show bg farscape
+    show ava dragon at topright
+    
+    dr dragon 'Hello world!'
+    pr princess 'Сам такой'
 
-    python:
-        from pythoncode.treasures import generate_treasures
-
-        lst = generate_treasures(10)
-        s = ''
-        total = 0
-        for i in lst:
-            s += str(i) + '\n'
-            total += i.cost
-
-        s += 'Total: ' + str(total)
-        renpy.say(None, s)
     
     return

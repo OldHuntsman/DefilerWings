@@ -1,0 +1,13 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/script.rpy", line 2: invalid syntax
+    Character(u"Дракон", , kind=nvl, image = 'ava')
+                                ^
+
+File "game/script.rpy", line 3: invalid syntax
+    Character(u"Принцесса", , kind=nvl, image = 'ava')
+                                      ^
+
+Ren'Py Version: Ren'Py 6.17.3.327

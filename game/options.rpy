@@ -17,18 +17,18 @@ init -1 python hide:
 
     ## These control the width and height of the screen.
 
-    config.screen_width = 800
-    config.screen_height = 600
+    config.screen_width = 1024
+    config.screen_height = 768
 
     ## This controls the title of the window, when Ren'Py is
     ## running in a window.
 
-    config.window_title = u"Defiler Wings"
+    config.window_title = u"Крылья Осквернителя"
 
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
     config.name = "Defiler Wings"
-    config.version = "0.0"
+    config.version = "0.0.1"
 
     #########################################
     # Themes
@@ -200,7 +200,7 @@ init -1 python hide:
     ## - A file name relative to the base directory, which is opened in a
     ##   web browser.
     ## - None, to disable help.
-    config.help = "README.html"
+    config.help = "readme.txt"
 
 
     #########################################
@@ -286,3 +286,6 @@ init -1 python hide:
 
     #########################################
     ## More customizations can go here.
+    
+    # Определяем изображения автоматически
+    config.automatic_images = [ '_', '/' ]
