@@ -101,8 +101,8 @@ init -1 python hide:
     ## Margin is space surrounding the window, where the background
     ## is not drawn.
 
-    # style.window.left_margin = 6
-    # style.window.right_margin = 6
+    style.window.left_margin = 200
+    style.window.right_margin = 200
     # style.window.top_margin = 6
     # style.window.bottom_margin = 6
 
@@ -117,7 +117,7 @@ init -1 python hide:
     ## This is the minimum height of the window, including the margins
     ## and padding.
 
-    # style.window.yminimum = 250
+    style.window.yminimum = 768
 
 
     #########################################
@@ -289,3 +289,4 @@ init -1 python hide:
     
     # Определяем изображения автоматически
     config.automatic_images = [ '_', '/' ]
+    config.automatic_images_strip = ['ava']
