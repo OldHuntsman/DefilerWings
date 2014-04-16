@@ -25,9 +25,6 @@ init python:
             # Добавляем аватарку в лист.
             self._imgRight.append(image)
             
-        def DisplayCenter(self, image):
-            renpy.show(image, at_list=[Position(xpos = 0, ypos = 0, xanchor=1, yanchor=1)]) #по моему сделал глупо, но я не знаю как по другому
-            
         def HideLeft(self, image):
             """Сркывает изображение image слева."""
             renpy.hide(image)
