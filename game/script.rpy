@@ -1,20 +1,18 @@
-﻿
+﻿# определяем персонажей
+define dr = Character("Дракон")
+define pr = Character("Принцесса")
 
 
 # Начало игры
 label start:
+    $ avatars = Avatars()
+    show bg farscape
+    #show ava dragon at topright
+    
+    $ avatars.DisplayLeft("princess ava ")
+    $ avatars.DisplayRight("dragon ava")
+    pr 'Hello world!'
+    dr 'Grrrrr'
 
-    python:
-        from pythoncode.treasures import generate_treasures
-
-        lst = generate_treasures(10)
-        s = ''
-        total = 0
-        for i in lst:
-            s += str(i) + '\n'
-            total += i.cost
-
-        s += 'Total: ' + str(total)
-        renpy.say(None, s)
     
     return
