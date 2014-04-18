@@ -222,3 +222,4 @@ game/saves
 log.txt
 traceback.txt
 errors.txt
+game/cache
