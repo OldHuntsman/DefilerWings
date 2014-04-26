@@ -127,7 +127,10 @@ screen nvl:
 
     window:
         style "nvl_window"
-
+        xpos 200
+        xsize 760
+        align (0.0,0.0) 
+        
         has vbox:
             style "nvl_vbox"
 
@@ -196,6 +199,14 @@ screen main_menu:
         textbutton _("Настройки") action ShowMenu("preferences")
         textbutton _("Помощь") action Help()
         textbutton _("Выход") action Quit(confirm=False)
+     
+    text "Крылья\nОсквернителя":
+        xalign 0.99
+        yalign 0.05
+        text_align 0.5
+        size 30
+        bold True
+        color "#FFBB00"
 
 init -2:
 

@@ -1,18 +1,14 @@
-﻿# определяем персонажей
-define dr = Character("Дракон")
-define pr = Character("Принцесса")
-define bg = Character(None)
-
-init:
-    image map = "img/bg/map.jpg"  # определение карт
-    image map2 = "img/bg/map2.jpg"
-image bg main = "img/bg/main.jpg"  # заставка главного меню
-image place = ConditionSwitch(              
-    "place == 'farscape'", "img/bg/far_scape.jpg",    # определение фонов для определенных мест  
-    "place == 'cave'", "img/bg/cave.jpg",
-    "place == 'castle'", "img/bg/castle.jpg",
-    "place == 'market'", "img/bg/market.jpg",
-    "place == 'road'", "img/bg/road.jpg",
+﻿init:
+    $ narrator = NVLCharacter(None, kind=nvl)
+    define dragon =  Character("Дракон", color="#c8ffc8", kind=nvl, image="dragon")
+    image side dragon = "dragon ava"
+    image bg main = "img/bg/main.jpg"  # заставка главного меню
+    image place = ConditionSwitch(              
+        "place == 'farscape'", "img/bg/far_scape.jpg",    # определение фонов для определенных мест  
+        "place == 'cave'", "img/bg/cave.jpg",
+        "place == 'castle'", "img/bg/castle.jpg",
+        "place == 'market'", "img/bg/market.jpg",
+        "place == 'road'", "img/bg/road.jpg",
     )
 
 # Начало игры
@@ -20,6 +16,7 @@ image place = ConditionSwitch(
 label start:
     $ avatars = Avatars() # Инициализируем модуль с аватарками
     
+    show screen status_bar
     call screen main_map
     
     if result == "castle":           # то что происходит после клика
@@ -61,3 +58,9 @@ label start:
 
     
     return
+ 
+ 
+label lair:
+    "Вы входите в логово"
+    gg "Аррггххх"
+    "dddfa"
