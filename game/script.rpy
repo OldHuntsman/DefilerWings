@@ -16,38 +16,11 @@ image place = ConditionSwitch(
     )
 
 # Начало игры
-
-label splashscreen:
-    python:
-        if not persistent.disclaimer_accepted:                  # Проверяем был ли принят дисклеймер. Если нет, то:
-            disclaimer_status = renpy.call_screen("disclaimer") # Показываем экран с дисклеймером.
-            if disclaimer_status:                               # И если дисклеймер приняли, то 
-                persistent.disclaimer_accepted = True           # Сохраняем этот факт на будущее
-    
-    scene black
-    with Pause(1)
-
-    show text "Old Huntsman present..." with dissolve   # интро
-    with Pause(1)
-    
-    show text "Defiler Wings" with dissolve
-    with Pause(2)
-
-    hide text with dissolve
-    with Pause(1)
-
-    return
     
 label start:
     $ avatars = Avatars() # Инициализируем модуль с аватарками
-    scene bg main
-
-    $ result = renpy.imagemap("img/bg/map.jpg", "img/bg/map2.jpg", [  # координаты кликабельных мест мапы
-        (230, 230, 325, 315, "castle"),
-        (520, 215, 585, 260, "road"),
-        (690, 315, 750, 375, "cave"),
-        (585, 375, 690, 435, "view"),
-        ])
+    
+    call screen main_map
     
     if result == "castle":           # то что происходит после клика
         scene bg main

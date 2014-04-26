@@ -289,5 +289,5 @@ init -1 python hide:
     
     # Определяем изображения автоматически
     config.automatic_images = [ '_', '/' ]
-    config.automatic_images_strip = ['img', 'avadragon', 'avahuman', 'bg'] # как это работает??
+    config.automatic_images_strip = ['img', 'avadragon', 'avahuman', 'bg', 'map'] # как это работает??
                                                                            # указываешь папки и он из них берет изображения просто прописав название файла.
