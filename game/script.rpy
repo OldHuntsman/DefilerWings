@@ -1,4 +1,8 @@
-﻿init:
+﻿init python:
+    from pythoncode.core import Game
+    game = Game()
+
+init:
     $ narrator = NVLCharacter(None, kind=nvl)
     define dragon =  Character("Дракон", color="#c8ffc8", kind=nvl, image="dragon")
     image side dragon = "dragon ava"
@@ -59,8 +63,12 @@ label start:
     
     return
  
- 
+label fight:
+    $ renpy.say(None, game.battle(game.knight, game.dragon))
+    jump start
+
 label lair:
     "Вы входите в логово"
-    gg "Аррггххх"
+    dragon "Аррггххх"
     "dddfa"
+    

@@ -54,7 +54,7 @@ screen main_map:
         focus_mask True
     imagebutton: # Village
         auto "img/map/button_village_%s.png" 
-        action NullAction()
+        action Jump("fight")
         focus_mask True
 
 screen status_bar:
@@ -63,7 +63,7 @@ screen status_bar:
         xmaximum 320
         
         add "img/bg/status-bar.png"
-        textbutton "{font=Tchekhonin2.ttf}В{/font} {font=times.ttf}пещеру{/font}":
+        textbutton "{font=fonts/Tchekhonin2.ttf}В{/font} {font=fonts/times.ttf}пещеру{/font}":
             pos (72,649)
             xysize (174,36)
             text_xalign 0.5
