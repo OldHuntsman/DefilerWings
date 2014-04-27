@@ -63,7 +63,7 @@ screen status_bar:
         xmaximum 320
         
         add "img/bg/status-bar.png"
-        textbutton "{font=Tchekhonin2.ttf}В{/font} {font=times.ttf}пещеру{/font}":
+        textbutton "{font=fonts/Tchekhonin2.ttf}В{/font} {font=fonts/times.ttf}пещеру{/font}":
             pos (72,649)
             xysize (174,36)
             text_xalign 0.5
