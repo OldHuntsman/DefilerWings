@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding=utf-8
-
+import random
+import math
 
 class Modifier(dict):
     """
@@ -15,29 +16,26 @@ class Modifier(dict):
         """
         return self[name]
 
-    def __init__(self, name, type):
+    def __init__(self, name, group):
         dict.__init__(self)
         self.name = name
-        self.type = type
-        # Список модификаторов от которых данный зависит
+        self.group = group
+        # Множество модификаторов от которых данный зависит
         # например модификатор "когти" зависят от модификатора "лапы"
-        self.depends = []
+        self.depends = set()
         # Модификаторы с которыми данный конфиликтует
         # не уверен что нужно, можно убрать потом
-        self.conflicts = []
-
-        # self.attack = 0
-        # self.sure_attack = 0
-        # self.protection = 0
-        # self.energy = 0
-        # self.max_energy = 0
-        # self.magic = 0
-        # self.fear = 0
-        # self.bloodiness = 0
-        # self.lust = 0
-        # self.hunger = 0
+        self.conflicts = set()
         # context -- Это функция влияющая на модификаторы противника
-        # self.context = lambda x: x
+        self.context = lambda x: x
+
+    def acceptable(self, character):
+        """
+        Проверка возможности получить данный модификатор для данного персонажа.
+        Обычно должно хватать этой функции, но можно переопределить для более сложных случаев вроде цветов.
+        """
+        modif = set(character.modifiers)
+        return self.depends <= modif and self.conflicts.isdisjoint(modif)
 
 
 class Character:
@@ -132,6 +130,7 @@ class Dragon(Fighter):
         self.bloodiness = 0  # range 0..5
         self.lust = 0  # range 0..2
         self.hunger = 0  # range 0..2
+        self.injuries = 0
 
     def kind(self):
         """
@@ -154,7 +153,6 @@ class Knight(Fighter):
     Набросок для тестирования боя.
     Спутников, особенности и снаряжение предпологается засовывать в переменную _modifiers
     """
-
     def __init__(self):
         """
         Здесь должна быть генерация нового рыцаря.
@@ -195,7 +193,34 @@ class Thief(Character):
     """
     Класс вора.
     """
-    pass
+
+    def __init__(self):
+        Character.__init__(self)
+        self.skill = 1
+
+    def title(self):
+        """
+        :return: Текстовое представление 'звания' вора.
+        """
+        if self.skill == 1:
+            return u"Мародёр"
+        elif self.skill == 2:
+            return u"Грабитель"
+        elif self.skill == 3:
+            return u"Взломшик"
+        elif self.skill == 4:
+            return u"Расхититель гробниц"
+        elif self.skill == 5:
+            return u"Мастер вор"
+        else:
+            assert False, u"Недопустимое значение поля skill"
+
+    def upgrade(self):
+        """
+        Метод вызвается если вор не пошел грабить дракона.
+        Здесь идёт выбор случайной новой вещи.
+        """
+        pass
 
 
 class Game:
@@ -203,6 +228,10 @@ class Game:
         self.dragon = Dragon()
         self.knight = Knight()
         self.thief = None
+        self.lean = None  # текущее логово
+        self.reputation_points = 0  # Дурная слава дракона
+        self.mobilization = 0  # мобилизация королевства
+        self.year = 0  # текущий год
 
     def battle(self, fighter1, fighter2):
         """
@@ -231,5 +260,55 @@ class Game:
         Рассчитывается количество лет которое дракон проспит.
         Попытки бегства женщин.
         Сброс характеристик дракона.
+        """
+        time_to_sleep = self.dragon.injuries + 1
+        # Сбрасываем характеристики дракона
+        self.dragon.injuries = 0
+        self.dragon.energy = self.dragon.max_energy
+        self.dragon.lust = 2
+        self.dragon.hunger = 2
+        self.dragon.bloodiness = 0
+        # Спим
+        for i in xrange(time_to_sleep):
+            self.year += 1
+            self.next_year()
+            if self.knight:
+                if 1 == random.randint(1, 3):
+                    self.knight.upgrade()
+            else:
+                # проверка на появление рыцаря
+                pass
+            if self.thief:
+                if 1 == random.randint(1, 3):
+                    self.thief.upgrade()
+            else:
+                # проверка на появление вора
+                pass
+
+    def reputation(self):
+        """
+        Открытые игроку очки дурной славы.
+        Рассчитываьтся по хитрой формуле.
+        """
+        return math.floor(math.log(self.reputation_points))
+
+
+class Lean:
+    def __init__(self):
+        self.the_type = "Буреломный овраг"
+        self.inaccessibility = 0
+        # Список ограничений для доступа воров/рыцарей
+        self.restrictions = []
+        # Сокровищиница
+        self.coins = 0
+        self.treasures = []
+        # Список модификаций(ловушки, стражи и.т.п.)
+        self.modifiers = []
+        # Список женщин в логове
+        self.women = []
+
+    def money(self):
+        """
+        :return: Суммарная стоимость всего, что есть в сокровищнице(Золотое ложе).
         """
         pass
