@@ -54,7 +54,7 @@ screen main_map:
         focus_mask True
     imagebutton: # Village
         auto "img/map/button_village_%s.png" 
-        action Jump("fight")
+        action NullAction()
         focus_mask True
 
 screen status_bar:

@@ -1,136 +1,111 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # coding=utf-8
 import random
 import math
-
-class Modifier(dict):
-    """
-    Класс для разнообразных модификаторов.
-    К примеру: даров владычицы, снаряжения рыцарей, заклинаний и.т.д.
-    """
-
-    def __getattr__(self, name):
-        """
-        Переопределение логики доступа к аттрибуту.
-        Теперь mod.name и mod["name"] возвращают одно значение
-        """
-        return self[name]
-
-    def __init__(self, name, group):
-        dict.__init__(self)
-        self.name = name
-        self.group = group
-        # Множество модификаторов от которых данный зависит
-        # например модификатор "когти" зависят от модификатора "лапы"
-        self.depends = set()
-        # Модификаторы с которыми данный конфиликтует
-        # не уверен что нужно, можно убрать потом
-        self.conflicts = set()
-        # context -- Это функция влияющая на модификаторы противника
-        self.context = lambda x: x
-
-    def acceptable(self, character):
-        """
-        Проверка возможности получить данный модификатор для данного персонажа.
-        Обычно должно хватать этой функции, но можно переопределить для более сложных случаев вроде цветов.
-        """
-        modif = set(character.modifiers)
-        return self.depends <= modif and self.conflicts.isdisjoint(modif)
+from data import get_modifier
+from copy import deepcopy
 
 
-class Character:
+class Character(object):
     """
     Базовый класс для любых персонажей в игре.
     """
 
     def __init__(self):
-        self.name = ""  # У всех быть имя
-        self.modifiers = []
-        self.avatar = ""  # путь к аватарке
+        self.name = ""  # у всех должно быть имя
+        self.avatar = ""  # и аватарка
+        self._modifiers = []  # список модиификаторов(их названий, то бишь строк)
 
-    def tags(self):
+    def modifiers(self):
         """
         Для проверки наличия определенного свойства, подбора картики и.т.д
-        Пример: "flying" in dragon.tags() проверка, что дракон летающий
-        Касательно картинки: предпологается, что каждой картинке сопоставлен список тегов
-        и мы отображаем ту для которой больше всего совпадений с данным списком.
-        :return: Список тегов.
+        Пример: "flying" in dragon.modifiers() проверка, что дракон летающий
+        :return: Список модификаторов.
         """
-        return [mod.name for mod in self.modifiers]
+        return self._modifiers
 
     def pick_avatar(self):
         """
         Логика подборки аватарки. Должна быть переопределена в наследниках.
         """
-        pass
+        raise NotImplementedError
 
 
 class Fighter(Character):
     """
     Базовый класс для всего, что способно драться.
     Декоратор нужен чтобы реализовывать эффекты вроде иммунитета или ядовитого дыхания.
-    То есть такие которые воздействуют на модификаторы противника.
+    То есть такие, которые воздействуют на модификаторы противника.
     """
 
     def __init__(self):
         Character.__init__(self)
-        # Базовые значения атаки и защиты бойца
-        self.base_attack = 1
-        self.base_sure_attack = 0  # (_attack + _sure_attack) in range 1..20
-        self.base_protection = 1  # range 1..20
+        self._modifiers = []
 
-    def attack(self, context=lambda x: x):
+    def protection(self):
         """
-        :param context: Функция декоратор для модификаторов.
-        :return: Значение атаки данного бойца.
+        :rtype : tuple
+        :return: Значение защиты данного бойца в виде котртежа (защита, верная защита).
         """
-        return self.base_attack + sum([mod.attack for mod in
-                                       map(context, self.modifiers)
-                                       if "attack" in self.modifiers])
+        return sum([get_modifier(mod).protection[0] for mod in self.modifiers()]), \
+               sum([get_modifier(mod).protection[1] for mod in self.modifiers()])
 
-    def sure_attack(self, context=lambda x: x):
+    def attack(self):
         """
-        :param context: Функция декоратор для модификаторов.
-        :return: Значение уверенной атаки данного бойца.
+        :rtype : dict
+        :return: Словарик, ключами которого являются типы атаки(лед, огонь, яд...),
+        а значениями кортежи вида (атака, верная атака)
         """
-        return self.base_sure_attack + sum([mod.sure_attack for mod in
-                                            map(context, self.modifiers)
-                                            if "sure_attack" in self.modifiers])
+        return sum([get_modifier(mod).attack[0] for mod in self.modifiers()]), \
+               sum([get_modifier(mod).attack[1] for mod in self.modifiers()])
 
-    def protection(self, context=lambda x: x):
+    def effective_attack(self, attack):
         """
-        :param context: Функция декоратор для модификаторов.
-        :return: Значение защиты данного бойца.
+        :rtype : int
+        :type attack: dict
+        :param attack: Словарик аналогичный описанному выше.
+        :return: Целое число. Реальная атака(этому существу) с учетом всех модификаторов(иммунитеты и проч.).
         """
-        return self.base_protection + sum([mod.protection for mod in
-                                           map(context, self.modifiers)
-                                           if "protection" in self.modifiers])
+        filtered_attack = deepcopy(attack)
+        for mod in self._modifiers:
+            filtered_attack = get_modifier(mod).attack_filter(filtered_attack)
+        return sum([a[0] for a in filtered_attack]), \
+               sum([a[1] for a in filtered_attack])
 
 
 class Dragon(Fighter):
     """
     Класс дракона.
-    Совсем совсем черновой вариант.
     """
-
     def __init__(self):
         Fighter.__init__(self)
         # Здесь должна быть генерация имени.
         self.name = u"Змей Горыныч"
-        # Если мы хотим переопределить базовые параметры бойца
-        self.base_attack = 2
-        self.base_sure_attack = 0
-        self.base_protection = 1
-
-        # Ниже идут специфичные для дракона свойства
-        self.energy = 5
-        self.max_energy = 10
-        self.magic = 0  # range 0..6
-        self.fear = 1  # range 1..20
+        self._tiredness = 0
         self.bloodiness = 0  # range 0..5
         self.lust = 0  # range 0..2
         self.hunger = 0  # range 0..2
-        self.injuries = 0
+
+        self.heads = []
+        self.colors = []
+
+    def modifiers(self):
+        return super(Dragon, self).modifiers() + self.heads + self.colors
+
+    def energy(self):
+        return sum([get_modifier(mod).max_energy for mod in self.modifiers()]) - self._tiredness
+
+    def magic(self):
+        return sum([get_modifier(mod).magic for mod in self.modifiers()])
+
+    def fear(self):
+        return sum([get_modifier(mod).fear for mod in self.modifiers()])
+
+    def rest(self):
+        self._tiredness = 0  # range 0..max_energy
+        self.bloodiness = 0  # range 0..5
+        self.lust = 3  # range 0..3
+        self.hunger = 3  # range 0..3
 
     def kind(self):
         """
@@ -153,14 +128,34 @@ class Knight(Fighter):
     Набросок для тестирования боя.
     Спутников, особенности и снаряжение предпологается засовывать в переменную _modifiers
     """
+
     def __init__(self):
         """
         Здесь должна быть генерация нового рыцаря.
         """
         Fighter.__init__(self)
         self.name = u"Сер Ланселот Озёрный"
-        # Спецефичные для рыцаря свойства
         self.power = 1
+        self.abilities = []
+        self.equipment = [u"щит", u"меч", u"броня", u"копьё", u"скакун", u"спутник"]
+
+    def modifiers(self):
+        return super(Knight, self).modifiers() + self.abilities + self.equipment
+
+    def attack(self):
+        a = super(Knight, self).attack()
+        if "liberator" in self.modifiers():
+            # TODO: подумать как получаем ссылку на логово
+            # Увеличиваем атаку в соответствии со списком женщин в логове
+            raise NotImplementedError
+        return a[0] + self.power, a[1]
+
+    def protection(self):
+        p = super(Knight, self).protection()
+        if "liberator" in self.modifiers():
+            # Увеличиваем защиту в соответствии со списком женщин в логове
+            raise NotImplementedError
+        return p[0] + self.power, p[1]
 
     def title(self):
         """
@@ -184,9 +179,9 @@ class Knight(Fighter):
     def upgrade(self):
         """
         Метод вызвается если рыцать не пошел драться с драконом.
-        Тут должна быть логика его усиления, которая пока еще не придумана.
+        Добавляет новое снаряжение.
         """
-        pass
+        raise NotImplementedError
 
 
 class Thief(Character):
@@ -196,39 +191,57 @@ class Thief(Character):
 
     def __init__(self):
         Character.__init__(self)
-        self.skill = 1
+        self._skill = 1
+
+    def skill(self):
+        if "robbery_plan" in self.modifiers():
+            return self._skill + 1
+        if "bad_plan" in self.modifiers():
+            return self._skill - 1
+        return self._skill
 
     def title(self):
         """
         :return: Текстовое представление 'звания' вора.
         """
-        if self.skill == 1:
+        if self.skill() == 1:
             return u"Мародёр"
-        elif self.skill == 2:
+        elif self.skill() == 2:
             return u"Грабитель"
-        elif self.skill == 3:
+        elif self.skill() == 3:
             return u"Взломшик"
-        elif self.skill == 4:
+        elif self.skill() == 4:
             return u"Расхититель гробниц"
-        elif self.skill == 5:
+        elif self.skill() >= 5:
             return u"Мастер вор"
         else:
             assert False, u"Недопустимое значение поля skill"
 
-    def upgrade(self):
+    def new_ability(self):
+        raise NotImplementedError
+
+    def new_item(self):
         """
         Метод вызвается если вор не пошел грабить дракона.
-        Здесь идёт выбор случайной новой вещи.
+        Здесь идёт выбор новой вещи(подготовка к грабежу).
         """
-        pass
+        raise NotImplementedError
 
 
-class Game:
+class Women(Character):
+    def __init__(self):
+        super(Women, self).__init__()
+        self.magic = 0
+        self.pregnant = False
+        self.can_give_birth = True
+
+
+class Game(object):
     def __init__(self):
         self.dragon = Dragon()
         self.knight = Knight()
         self.thief = None
-        self.lean = None  # текущее логово
+        self.lair = None  # текущее логово
         self.reputation_points = 0  # Дурная слава дракона
         self.mobilization = 0  # мобилизация королевства
         self.year = 0  # текущий год
@@ -236,15 +249,11 @@ class Game:
     def battle(self, fighter1, fighter2):
         """
         Логика сражения.
+        :param fighter1: Fighter
+        :param fighter2: Fighter
         :return: Текст описывающий сражение.
         """
-        return u"{0}(атака {2}, уверенная атака {3}, защита {4}) \n" \
-               u"сражается с \n{1}(атака {5}, уверенная атака {6}, защита {7})".format(
-            fighter1.name, fighter2.name,
-            fighter1.attack(), fighter1.sure_attack(),
-            fighter1.protection(),
-            fighter2.attack(), fighter2.sure_attack(),
-            fighter2.protection())
+        raise NotImplementedError
 
     def next_year(self):
         """
@@ -253,7 +262,7 @@ class Game:
         Изменение дурной славы.
         Что-то ещё?
         """
-        pass
+        raise NotImplementedError
 
     def sleep(self):
         """
@@ -263,11 +272,7 @@ class Game:
         """
         time_to_sleep = self.dragon.injuries + 1
         # Сбрасываем характеристики дракона
-        self.dragon.injuries = 0
-        self.dragon.energy = self.dragon.max_energy
-        self.dragon.lust = 2
-        self.dragon.hunger = 2
-        self.dragon.bloodiness = 0
+        self.dragon.rest()
         # Спим
         for i in xrange(time_to_sleep):
             self.year += 1
@@ -276,39 +281,60 @@ class Game:
                 if 1 == random.randint(1, 3):
                     self.knight.upgrade()
             else:
-                # проверка на появление рыцаря
-                pass
+                self._create_knight()
             if self.thief:
                 if 1 == random.randint(1, 3):
                     self.thief.upgrade()
             else:
-                # проверка на появление вора
-                pass
+                self._create_knight()
+
+    def _create_knight(self):
+        """
+        Проверка на появление рыцаря.
+        """
+        raise NotImplementedError
+
+    def _create_thief(self):
+        """
+        Проверка на появление вора.
+        """
+        raise NotImplementedError
 
     def reputation(self):
         """
-        Открытые игроку очки дурной славы.
-        Рассчитываьтся по хитрой формуле.
+        Видимые игроку очки дурной славы.
+        Рассчитываются по хитрой формуле.
         """
         return math.floor(math.log(self.reputation_points))
 
 
-class Lean:
+class Treasury(object):
     def __init__(self):
-        self.the_type = "Буреломный овраг"
-        self.inaccessibility = 0
-        # Список ограничений для доступа воров/рыцарей
-        self.restrictions = []
-        # Сокровищиница
-        self.coins = 0
-        self.treasures = []
-        # Список модификаций(ловушки, стражи и.т.п.)
-        self.modifiers = []
-        # Список женщин в логове
-        self.women = []
+        self.copper_coins = 0
+        self.silver_coins = 0
+        self.gold_coins = 0
+        # списки строк
+        self.materials = []
+        self.jewelry = []
+        self.equipment = []
 
     def money(self):
         """
         :return: Суммарная стоимость всего, что есть в сокровищнице(Золотое ложе).
         """
-        pass
+        raise NotImplementedError
+
+
+class Lair(object):
+    def __init__(self):
+        self.lair_type = "Буреломный овраг"
+        self.inaccessibility = 0
+        # Список ограничений для доступа воров/рыцарей
+        self.restrictions = []
+        # Сокровищиница
+        self.treasury = Treasury()
+        # Список модификаций(ловушки, стражи и.т.п.)
+        self.modifiers = []
+        # Список женщин в логове
+        self.women = []
+
