@@ -68,7 +68,7 @@ screen choice:
 
     window:
         style "menu_window"
-        xalign 0.5
+        xalign 0.3
         yalign 0.5
 
         vbox:
