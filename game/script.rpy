@@ -8,14 +8,18 @@ init:
     image side dragon = "dragon ava"
     image bg main = "img/bg/main.jpg"  # заставка главного меню
     image place = ConditionSwitch(              
-        "place == 'farscape'", "img/bg/far_scape.png",    # определение фонов для определенных мест  
-        "place == 'cave'", "img/bg/cave.png",
-        "place == 'castle'", "img/bg/castle.png",
-        "place == 'market'", "img/bg/market.png",
-        "place == 'road'", "img/bg/road.png",
+        "place == 'city_gate'", "img/bg/city/outside.png",    # определение фонов для разных мест (потребует доработки)  
+        "place == 'cave'", "img/bg/lair/cave.png",
+        "place == 'forest'", "img/bg/forest/1.png",
+        "place == 'mountain'", "img/bg/mountain/1.png",
         "place == 'plain'", "img/bg/plain/3.png",
-    )
-    image place1 = "img/bg/plain/3.jpg"
+        "place == 'road'", "img/bg/road/1.png",
+        "place == 'sea'", "img/bg/sea/1.png",
+        "place == 'sky'", "img/bg/sky/1.png",
+        "place == 'gremlins'", "img/bg/special/gremlins.png",
+        "place == 'smuglers'", "img/bg/special/smuglers.png",
+        "place == 'mordor'", "img/bg/special/mordor.png",
+        )
 
 # Начало игры
     
@@ -52,7 +56,7 @@ label start:
     
 label lb_mainmap:
     $ avatars = Avatars() # Инициализируем модуль с аватарками
-    
+    nvl clear
     show screen status_bar
     call screen main_map
     
@@ -100,10 +104,63 @@ label fight:
     $ renpy.say(None, game.battle(game.knight, game.dragon))
     jump lb_mainmap
 
-label lair:
-    "Вы входите в логово"
-    dragon "Аррггххх"
-    "dddfa"
+label lb_lair:
+    $ place = 'lair'
+    show place
+    
+    menu:
+        'Сотворить заклинание':
+            $ pass
+        'Чахнуть над златом':
+            $ pass
+        'Проведать пленниц':
+            $ pass
+        'Лечь спать':
+            $ pass
+        'Покинуть логово':
+            $ pass
+            
+    jump lb_mainmap
+    
+label lb_forest_random:
+    $ place = 'forest'
+    show place
+      
+    'Появился случайный энакаунтер'
+        
+    jump lb_mainmap
+    
+label lb_mountain_random:
+    $ place = 'mountain'
+    show place
+      
+    'Появился случайный энакаунтер'
+        
+    jump lb_mainmap
+    
+label lb_road_random:
+    $ place = 'road'
+    show place
+      
+    'Появился случайный энакаунтер'
+        
+    jump lb_mainmap
+    
+label lb_sky_random:
+    $ place = 'sky'
+    show place
+      
+    'Появился случайный энакаунтер'
+        
+    jump lb_mainmap
+    
+label lb_sea_random:
+    $ place = 'sea'
+    show place
+      
+    'Появился случайный энакаунтер'
+        
+    jump lb_mainmap    
     
 label lb_plain_choose:
     $ place = 'plain'
@@ -122,13 +179,71 @@ label lb_plain_choose:
             $ pass
         'Городок':
             $ pass
+        'Отступить':
+            $ pass
         
-    jump lb_mainmap
+    jump lb_mainmap      
+    
+label lb_city_choose:
+    $ place = 'city_gates'
+    show place
+      
+    menu:
+        'Тайный визит':
+            $ pass
+        'Ворваться в город':
+            $ pass
+        'Осадить город':
+            $ pass
+        'Отступить':
+            $ pass
         
+    jump lb_mainmap        
         
+    
+label lb_gremlin_choose:
+    $ place = 'gremlins'
+    show place
+      
+    menu:
+        'Нанять слуг':
+            $ pass
+        'Ловушки для логова':
+            $ pass
+        'Укрепления для логова':
+            $ pass
+        'Уйти':
+            $ pass
         
+    jump lb_mainmap        
         
+    
+label lb_smugler_choose:
+    $ place = 'smuglers'
+    show place
+      
+    menu:
+        'Нанять охрану':
+            $ pass
+        'Финансировать террор':
+            $ pass
+        'Уйти':
+            $ pass
+            
+    jump lb_mainmap        
         
+    
+label lb_mordor_choose:
+    $ place = 'mordor'
+    show place
+      
+    menu:
+        'Армия Тьмы':
+            $ pass
+        'Аудиенция с Владычицей':
+            $ pass
+        
+    jump lb_mainmap               
         
         
         

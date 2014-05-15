@@ -10,15 +10,15 @@ screen main_map:
     
     imagebutton: # Sea
         auto "img/map/button_sea_%s.png" 
-        action NullAction()
+        action Jump('lb_sea_random')
         focus_mask True
     imagebutton: # Cave
         auto "img/map/button_cave_%s.png" 
-        action NullAction()
+        action Jump('lb_mordor_choose')
         focus_mask True
     imagebutton: # Cloud1
         auto "img/map/button_cloud1_%s.png" 
-        action NullAction()
+        action Jump('lb_sky_random')
         focus_mask True
     imagebutton: # Cloud2
         auto "img/map/button_cloud2_%s.png" 
@@ -26,19 +26,19 @@ screen main_map:
         focus_mask True
     imagebutton: # Forest
         auto "img/map/button_forest_%s.png" 
-        action NullAction()
+        action Jump('lb_forest_random')
         focus_mask True
     imagebutton: # Island
         auto "img/map/button_island_%s.png" 
-        action NullAction()
+        action Jump('lb_smugler_choose')
         focus_mask True
     imagebutton: # Mountain
         auto "img/map/button_mountain_%s.png" 
-        action NullAction()
+        action Jump('lb_mountain_random')
         focus_mask True
     imagebutton: # Road
         auto "img/map/button_road_%s.png" 
-        action NullAction()
+        action Jump('lb_road_random')
         focus_mask True
     imagebutton: # Ruin
         auto "img/map/button_ruin_%s.png" 
@@ -46,11 +46,11 @@ screen main_map:
         focus_mask True
     imagebutton: # Strange
         auto "img/map/button_strange_%s.png" 
-        action NullAction()
+        action Jump('lb_gremlin_choose')
         focus_mask True
     imagebutton: # Town
         auto "img/map/button_town_%s.png" 
-        action NullAction()
+        action Jump('lb_city_choose')
         focus_mask True
     imagebutton: # Village
         auto "img/map/button_village_%s.png" 
@@ -70,4 +70,4 @@ screen status_bar:
             text_yalign 0.5
             background "img/bg/logovo.png"
             text_size 22
-            action Jump("lair")
+            action Jump("lb_lair")
