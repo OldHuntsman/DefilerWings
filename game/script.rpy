@@ -8,8 +8,8 @@ init:
     image side dragon = "dragon ava"
     image bg main = "img/bg/main.jpg"  # заставка главного меню
     image place = ConditionSwitch(              
-        "place == 'city_gate'", "img/bg/city/outside.png",    # определение фонов для разных мест (потребует доработки)  
-        "place == 'cave'", "img/bg/lair/cave.png",
+        "place == 'city_gates'", "img/bg/city/outside.png",    # определение фонов для разных мест (потребует доработки)  
+        "place == 'lair'", "img/bg/lair/cave.png",
         "place == 'forest'", "img/bg/forest/1.png",
         "place == 'mountain'", "img/bg/mountain/1.png",
         "place == 'plain'", "img/bg/plain/3.png",
