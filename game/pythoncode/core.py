@@ -167,7 +167,7 @@ class Dragon(Fighter):
         if wings == 0 and heads > 1:
             return u'Гидра'
         if wings == 1 and paws == 2 and heads == 1:
-            return u'Истиный дракон'
+            return u'Истинный дракон'
         if wings > 0 and paws >= 1 and heads > 1:
             return u'Многоглавый дракон'
 
