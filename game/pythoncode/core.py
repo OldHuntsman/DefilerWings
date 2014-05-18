@@ -2,8 +2,13 @@
 # coding=utf-8
 import random
 import math
+import data
 from data import get_modifier
 from copy import deepcopy
+
+
+def tuples_sum(tuple_list):
+    return sum([first for first, _ in tuple_list]), sum([second for _, second in tuple_list])
 
 
 class Character(object):
@@ -44,11 +49,17 @@ class Fighter(Character):
 
     def protection(self):
         """
-        :rtype : tuple
+        :rtype : dict
         :return: Значение защиты данного бойца в виде котртежа (защита, верная защита).
         """
-        return sum([get_modifier(mod).protection[0] for mod in self.modifiers()]), \
-               sum([get_modifier(mod).protection[1] for mod in self.modifiers()])
+        result = dict()
+        for type in data.protection_types:
+            result[type] = tuples_sum(
+                [get_modifier(mod).protection[1]
+                 for mod in self.modifiers()
+                 if get_modifier(mod).protection[0] == type]
+            )
+        return result
 
     def attack(self):
         """
@@ -56,49 +67,79 @@ class Fighter(Character):
         :return: Словарик, ключами которого являются типы атаки(лед, огонь, яд...),
         а значениями кортежи вида (атака, верная атака)
         """
-        return sum([get_modifier(mod).attack[0] for mod in self.modifiers()]), \
-               sum([get_modifier(mod).attack[1] for mod in self.modifiers()])
-
-    def effective_attack(self, attack):
-        """
-        :rtype : int
-        :type attack: dict
-        :param attack: Словарик аналогичный описанному выше.
-        :return: Целое число. Реальная атака(этому существу) с учетом всех модификаторов(иммунитеты и проч.).
-        """
-        filtered_attack = deepcopy(attack)
-        for mod in self._modifiers:
-            filtered_attack = get_modifier(mod).attack_filter(filtered_attack)
-        return sum([a[0] for a in filtered_attack]), \
-               sum([a[1] for a in filtered_attack])
+        result = dict()
+        for type in data.attack_types:
+            result[type] = tuples_sum(
+                [get_modifier(mod).attack[1]
+                 for mod in self.modifiers()
+                 if get_modifier(mod).attack[0] == type]
+            )
+        return result
 
 
 class Dragon(Fighter):
     """
     Класс дракона.
     """
+
     def __init__(self):
         Fighter.__init__(self)
         # Здесь должна быть генерация имени.
         self.name = u"Змей Горыныч"
-        self._tiredness = 0
+        self._tiredness = 0  # увеличивается при каждом действии
         self.bloodiness = 0  # range 0..5
         self.lust = 0  # range 0..2
         self.hunger = 0  # range 0..2
 
-        self.heads = []
-        self.colors = []
+        self.anatomy = ['size', 'paws', 'size', 'wings', 'size', 'paws']
+        self.heads = ['black']  # головы дракона
+        self.spells = ['wings_of_wind']  # заклинания наложенные на дракона(обнуляются после сна)
+
+    def _debug_print(self):
+        print(u'Дракон по имени {0}'.format(self.name))
+        print(u'Список всех модификаторов {0}'.format(self.modifiers()))
+        print(u'Вид дракона {0}'.format(self.kind()))
+        print(u'Размер {0}'.format(data.size_texts[self.size()]))
+        print(u'Анатомия дракона {0}'.format(self.anatomy))
+        print(u'Наложенная на дракона магия {0}'.format(self.spells))
+        print(u'Цвета голов дракона {0}'.format(self.heads))
+        print(u'Энергия {0} из {1}'.format(self.energy(), self.max_energy()))
+        print(u'Могущество {0}'.format(self.attack()))
+        print(u'Несокрушимость {0}'.format(self.protection()))
+        print(u'Коварство {0}'.format(self.magic()))
+        print(u'Чудовищиность {0}'.format(self.fear()))
+
 
     def modifiers(self):
-        return super(Dragon, self).modifiers() + self.heads + self.colors
+        """
+        :return: Список модификаторов дракона
+        """
+        return self.anatomy + \
+               [mod for head_color in self.heads for mod in data.dragon_heads[head_color]] + \
+               [mod for spell in self.spells for mod in data.spell_list[spell]]
+
+    def max_energy(self):
+        """
+        :return: Максимальная энергия(целое число)
+        """
+        return sum([get_modifier(mod).max_energy for mod in self.modifiers()])
 
     def energy(self):
-        return sum([get_modifier(mod).max_energy for mod in self.modifiers()]) - self._tiredness
+        """
+        :return: Оставшаяся энергия(целое число)
+        """
+        return self.max_energy() - self._tiredness
 
     def magic(self):
+        """
+        :return: Магическая сила(целое число)
+        """
         return sum([get_modifier(mod).magic for mod in self.modifiers()])
 
     def fear(self):
+        """
+        :return: Значение чудовищносити(целое число)
+        """
         return sum([get_modifier(mod).fear for mod in self.modifiers()])
 
     def rest(self):
@@ -106,12 +147,47 @@ class Dragon(Fighter):
         self.bloodiness = 0  # range 0..5
         self.lust = 3  # range 0..3
         self.hunger = 3  # range 0..3
+        self.spells = []  # заклинания сбрасываются
 
     def kind(self):
         """
         :return: Текстовое представление 'вида' дракона
         """
-        return u"Ползучий гад"
+        wings = self.wings()
+        paws = self.paws()
+        heads = len(self.heads)
+        if wings == 0 and paws == 0:
+            return u"Ползучий гад"
+        if wings > 0 and paws == 0:
+            return u'Летучий гад'
+        if wings == 0 and paws >= 0:
+            return u'Линдвурм'
+        if wings > 0 and paws == 1:
+            return u'Вирвен'
+        if wings == 0 and heads > 1:
+            return u'Гидра'
+        if wings == 1 and paws == 2 and heads == 1:
+            return u'Истинный дракон'
+        if wings > 0 and paws >= 1 and heads > 1:
+            return u'Многоглавый дракон'
+
+    def size(self):
+        """
+        :return: Размер дракона(число от 1 до 6)
+        """
+        return self.modifiers().count('size')
+
+    def wings(self):
+        """
+        :return: Количество пар крыльев
+        """
+        return self.modifiers().count('wings')
+
+    def paws(self):
+        """
+        :return: Количество пар лап
+        """
+        return self.modifiers().count('paws')
 
     def children(self):
         """
@@ -119,8 +195,12 @@ class Dragon(Fighter):
         Вызывается при отставке дракона.
         :return: list of Dragons
         """
-        pass
+        raise NotImplementedError
 
+
+# if __name__ == '__main__':
+#     d = Dragon()
+#     d._debug_print()
 
 class Knight(Fighter):
     """
