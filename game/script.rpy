@@ -105,7 +105,7 @@ label fight:
     jump lb_mainmap
 
 label lb_lair:
-    $ place = 'lair'
+    $ place = 'cave'
     show place
     
     menu:
@@ -185,7 +185,7 @@ label lb_plain_choose:
     jump lb_mainmap      
     
 label lb_city_choose:
-    $ place = 'city_gates'
+    $ place = 'city_gate'
     show place
       
     menu:
