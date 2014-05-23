@@ -1,62 +1,42 @@
-screen main_map:
-    # Вариант отобаржаение статус-бара. Но в этом варианте он отображается не сразу.
-    #on "show" action Show("status_bar")
-    #on "replace" action Show("status_bar")
-    #on "hide" action Hide("status_bar")
-    #on "replaced" action Hide("status_bar")
+# Как это работает
+#
+# В листе map_data содержатся названия локаций
+# По маске 'img/map/button_<localtion>_%s.png' выбираются картинки для imagebutton
+# TODO: добавить описание для Action
+#
+# Добавление локации на карте
+# Для того чтобы добавить локацию на карте, нужно добавить в лис map_data название этой локации (location)
+# и добавить как минимум две картинки в img/map/ с названиями button_<location>_idle и button_<location>_hover
+# для положений не выделенной локации и локации при наведении соотвественно.
+# Изображения должны по размеру совпадать с размером задника и содержать только саму кнопку - все остальное прозрачный альфа-слой.
+#
+# TODO: Можно добавить map_data куда-нибудь в Game, для того чтобы была возможность управления налету.
 
+
+screen main_map:
+    python:
+        map_data = []
+        map_data.append("sea")
+        map_data.append("cave")
+        map_data.append("sky")
+        map_data.append("forest")
+        map_data.append("island")
+        map_data.append("mountain")
+        map_data.append("road")
+        map_data.append("ruin")
+        map_data.append("strange")
+        map_data.append("city")
+        map_data.append("village")
         
     add "img/map/ground.png"
     
-    imagebutton: # Sea
-        auto "img/map/button_sea_%s.png" 
-        action Jump('lb_sea_random')
-        focus_mask True
-    imagebutton: # Cave
-        auto "img/map/button_cave_%s.png" 
-        action Jump('lb_mordor_choose')
-        focus_mask True
-    imagebutton: # Cloud1
-        auto "img/map/button_cloud1_%s.png" 
-        action Jump('lb_sky_random')
-        focus_mask True
-    imagebutton: # Cloud2
-        auto "img/map/button_cloud2_%s.png" 
-        action NullAction()
-        focus_mask True
-    imagebutton: # Forest
-        auto "img/map/button_forest_%s.png" 
-        action Jump('lb_forest_random')
-        focus_mask True
-    imagebutton: # Island
-        auto "img/map/button_island_%s.png" 
-        action Jump('lb_smugler_choose')
-        focus_mask True
-    imagebutton: # Mountain
-        auto "img/map/button_mountain_%s.png" 
-        action Jump('lb_mountain_random')
-        focus_mask True
-    imagebutton: # Road
-        auto "img/map/button_road_%s.png" 
-        action Jump('lb_road_random')
-        focus_mask True
-    imagebutton: # Ruin
-        auto "img/map/button_ruin_%s.png" 
-        action NullAction()
-        focus_mask True
-    imagebutton: # Strange
-        auto "img/map/button_strange_%s.png" 
-        action Jump('lb_gremlin_choose')
-        focus_mask True
-    imagebutton: # Town
-        auto "img/map/button_town_%s.png" 
-        action Jump('lb_city_choose')
-        focus_mask True
-    imagebutton: # Village
-        auto "img/map/button_village_%s.png" 
-        action Jump('lb_plain_choose')
-        focus_mask True
-
+    for target in map_data:
+        imagebutton: # target
+            auto "img/map/button_" + target + "_%s.png"
+            action Return(target)
+            focus_mask True
+    
+            
 screen status_bar:
     fixed:
         xalign 1.0
