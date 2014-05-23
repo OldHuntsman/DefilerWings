@@ -8,4 +8,4 @@ label lb_location_mordor_main:
         'јудиенци¤ с ¬ладычицей':
             $ pass
         
-    jump lb_mainmap
+    return

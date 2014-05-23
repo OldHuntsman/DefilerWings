@@ -33,7 +33,7 @@ screen main_map:
     for target in map_data:
         imagebutton: # target
             auto "img/map/button_" + target + "_%s.png"
-            action Jump("lb_location_%s_main" % target)
+            action Return(target)
             focus_mask True
     
             

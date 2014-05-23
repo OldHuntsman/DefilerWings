@@ -11,5 +11,5 @@ label lb_location_city_main:
             $ pass
         'Отступить':
             $ pass
-        
-    jump lb_mainmap
+            
+    return

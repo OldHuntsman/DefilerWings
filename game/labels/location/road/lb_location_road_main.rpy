@@ -4,4 +4,4 @@ label lb_location_road_main:
       
     'Появился случайный энакаунтер'
         
-    jump lb_mainmap
+    return

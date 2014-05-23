@@ -4,4 +4,4 @@ label lb_location_sea_main:
       
     'Появился случайный энакаунтер'
         
-    jump lb_mainmap 
+    return 

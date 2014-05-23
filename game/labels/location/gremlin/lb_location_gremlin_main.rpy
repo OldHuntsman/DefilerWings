@@ -12,4 +12,4 @@ label lb_location_gremlin_main:
         'Уйти':
             $ pass
         
-    jump lb_mainmap
+    return

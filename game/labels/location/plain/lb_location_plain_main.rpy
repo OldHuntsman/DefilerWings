@@ -18,4 +18,4 @@ label lb_location_plain_main:
         'Отступить':
             $ pass
         
-    jump lb_mainmap
+    return

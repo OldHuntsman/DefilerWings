@@ -3,5 +3,5 @@ label lb_location_forest_main:
     show place
       
     'Появился случайный энакаунтер'
-        
-    jump lb_mainmap
+    
+    return

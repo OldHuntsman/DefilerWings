@@ -10,4 +10,4 @@ label lb_location_smugler_main:
         'Уйти':
             $ pass
             
-    jump lb_mainmap
+    return

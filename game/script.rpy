@@ -24,41 +24,21 @@ init:
 # Начало игры
     
 label start:
-    # Прокручиваем заставку. Это черновой вариант, надо будет переделывать. Нужно чтобы текст одним куском прокручивался снизу вверх на фоне меняющихся картинок. И чтобы текст нормально читался нужно либо обвести буквы, либо сделать подложку.
-    scene black
-    play music "mus/intro.ogg"
-    show intro 1 with dissolve
-    show text intro_text[0]
-    with Pause(10)
-    show intro 2 with dissolve
-    show text intro_text[1]
-    with Pause(10)
-    show intro 3 with dissolve
-    show text intro_text[2]
-    with Pause(10)
-    show intro 4 with dissolve
-    show text intro_text[3]
-    with Pause(10)
-    show intro 5 with dissolve
-    show text intro_text[4]
-    with Pause(10)
-    show intro 6 with dissolve
-    show text intro_text[5]
-    with Pause(10)
-    show intro 7 with dissolve
-    show text intro_text[6]
-    with Pause(10)
-    show intro 8 with dissolve
-    show text intro_text[7]
-    with Pause(10)
+    # Прокручиваем заставку.
+    call lb_intro
     
-    stop music
-    
-label lb_mainmap:
     $ avatars = Avatars() # Инициализируем модуль с аватарками
     nvl clear
     show screen status_bar
-    call screen main_map
+    #call screen main_map
+    $ win = False
+    while not win:
+        $ target_location = renpy.call_screen("main_map")
+        $ target_label = "lb_location_" + target_location + "_main"
+        if renpy.has_label(target_label):
+            $ renpy.call(target_label)
+        else:
+            $ renpy.call("lb_location_missed")
     
     return
  
