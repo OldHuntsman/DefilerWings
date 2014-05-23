@@ -18,15 +18,14 @@ screen main_map:
         map_data = []
         map_data.append("sea")
         map_data.append("cave")
-        map_data.append("cloud1")
-        map_data.append("cloud2")
+        map_data.append("sky")
         map_data.append("forest")
         map_data.append("island")
         map_data.append("mountain")
         map_data.append("road")
         map_data.append("ruin")
         map_data.append("strange")
-        map_data.append("town")
+        map_data.append("city")
         map_data.append("village")
         
     add "img/map/ground.png"
