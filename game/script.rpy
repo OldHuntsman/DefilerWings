@@ -60,44 +60,6 @@ label lb_mainmap:
     show screen status_bar
     call screen main_map
     
-    if result == "castle":           # то что происходит после клика
-        scene bg main
-        $ bg ("Куда теперь?")
-        menu:
-            'Рынок':
-                $ place = 'market'
-            'Замок':
-                $ place = 'castle'
-            'Карта':
-                jump start
-    if result == "road":
-        menu:
-            'Дорога':
-                $ place = 'road'
-            'Карта':
-                jump start
-    if result == "cave":
-        menu:
-            'Пещера':
-                $ place = 'cave'
-            'Карта':
-                jump start
-    if result == "view":
-        menu:
-            'Красивый вид':
-                $ place = 'farscape'
-            'Карта':
-                jump start
-        
-    
-    show place
-    $ avatars.DisplayLeft("princess ava ") # Показываем принцессу слева
-    $ avatars.DisplayRight("dragon ava") # Показываем дракона справа
-    pr 'Hello world!'
-    dr 'Grrrrr'
-    jump lb_mainmap
-
-    
     return
  
 label fight:
