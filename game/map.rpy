@@ -17,16 +17,16 @@ screen main_map:
     python:
         map_data = []
         map_data.append("sea")
-        map_data.append("cave")
+        map_data.append("mordor")
         map_data.append("sky")
         map_data.append("forest")
-        map_data.append("island")
+        map_data.append("smugler")
         map_data.append("mountain")
         map_data.append("road")
         map_data.append("ruin")
-        map_data.append("strange")
+        map_data.append("gremlin")
         map_data.append("city")
-        map_data.append("village")
+        map_data.append("plains")
         
     add "img/map/ground.png"
     
@@ -50,4 +50,5 @@ screen status_bar:
             text_yalign 0.5
             background "img/bg/logovo.png"
             text_size 22
-            action Jump("lb_lair")
+            action Jump("lb_location_lair_main")
+

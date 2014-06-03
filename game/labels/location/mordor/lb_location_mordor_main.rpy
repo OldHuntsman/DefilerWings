@@ -3,9 +3,11 @@ label lb_location_mordor_main:
     show place
       
     menu:
-        'јрми¤ “ьмы':
+        'Армия Тьмы':
             $ pass
-        'јудиенци¤ с ¬ладычицей':
+        'Аудиенция с владычицей':
+            $ pass
+        'Назад':
             $ pass
         
     return

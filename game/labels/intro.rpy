@@ -28,5 +28,7 @@ label lb_intro:
     with Pause(10)
 
     stop music
+    show intro blank
+    hide text
     
     return
