@@ -50,4 +50,4 @@ screen status_bar:
             text_yalign 0.5
             background "img/bg/logovo.png"
             text_size 22
-            action Jump("lb_lair")
+            action Jump("lb_location_lair_main")

@@ -1,10 +1,8 @@
 ﻿init python:
-    from pythoncode.core import Game
-    game = Game()
+    from pythoncode import data
+    dragon = Dragon();
 
 init:
-    $ narrator = NVLCharacter(None, kind=nvl)
-    define dragon =  Character("Дракон", color="#c8ffc8", kind=nvl, image="dragon")
     image side dragon = "dragon ava"
     image bg main = "img/bg/main.jpg"  # заставка главного меню
     image place = ConditionSwitch(              
