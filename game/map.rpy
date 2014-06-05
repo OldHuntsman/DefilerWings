@@ -51,4 +51,7 @@ screen status_bar:
             background "img/bg/logovo.png"
             text_size 22
             action Jump("lb_location_lair_main")
+<<<<<<< HEAD
 
+=======
+>>>>>>> db25a977867d94cb74c144a85c25c950e4ada961

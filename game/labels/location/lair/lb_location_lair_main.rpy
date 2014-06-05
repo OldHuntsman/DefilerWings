@@ -4,7 +4,8 @@ label lb_location_lair_main:
     
     menu:
         'Сотворить заклинание':
-            $ pass
+            dragon "I'm dragon"
+            $ dragon._debug_print()
         'Чахнуть над златом':
             $ pass
         'Проведать пленниц':
