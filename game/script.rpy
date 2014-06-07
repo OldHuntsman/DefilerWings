@@ -1,6 +1,7 @@
 ﻿init python:
     from pythoncode import data
-    dragon = Dragon();
+    from pythoncode import core
+    game = core.Game(NVLCharacter)
 
 init:
     image side dragon = "dragon ava"
