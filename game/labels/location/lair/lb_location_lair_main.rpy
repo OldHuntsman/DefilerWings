@@ -3,9 +3,11 @@ label lb_location_lair_main:
     show place
     
     menu:
+        'Отладка дракона':
+            game.dragon "I'm dragon"
+            $ game.dragon._debug_print()
         'Сотворить заклинание':
-            dragon "I'm dragon"
-            $ dragon._debug_print()
+            $ pass
         'Чахнуть над златом':
             $ pass
         'Проведать пленниц':

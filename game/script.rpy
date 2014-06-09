@@ -1,8 +1,7 @@
 ﻿init python:
     from pythoncode import data
     from pythoncode import core
-    from pythoncode import treasures
-    dragon = Dragon();
+    game = core.Game(NVLCharacter)
 
 init:
     image side dragon = "dragon ava"
