@@ -1,5 +1,7 @@
 ﻿init python:
     from pythoncode import data
+    from pythoncode import core
+    from pythoncode import treasures
     dragon = Dragon();
 
 init:
@@ -18,15 +20,16 @@ init:
         "place == 'smuglers'", "img/bg/special/smuglers.png",
         "place == 'mordor'", "img/bg/special/mordor.png",
         )
+    define narrator = Character(None, kind=nvl)
+
 
 # Начало игры
     
 label start:
     # Прокручиваем заставку.
     call lb_intro
-    
-    $ avatars = Avatars() # Инициализируем модуль с аватарками
     nvl clear
+    $ avatars = Avatars() # Инициализируем модуль с аватарками
     show screen status_bar
     #call screen main_map
     $ win = False
@@ -39,7 +42,3 @@ label start:
             $ renpy.call("lb_location_missed")
     
     return
- 
-label fight:
-    $ renpy.say(None, game.battle(game.knight, game.dragon))
-    jump lb_mainmap
