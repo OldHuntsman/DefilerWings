@@ -27,7 +27,7 @@ init:
     
 label start:
     # Прокручиваем заставку.
-    call lb_intro
+    call screen sc_intro
     nvl clear
     show screen status_bar
     $ win = False

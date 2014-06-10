@@ -1,34 +1,40 @@
-# TODO: Нужно чтобы текст одним куском прокручивался снизу вверх на фоне меняющихся картинок. И чтобы текст нормально читался нужно либо обвести буквы, либо сделать подложку.
-label lb_intro:
-    scene black
-    play music "mus/intro.ogg"
-    show intro 1 with dissolve
-    show text intro_text[0]
-    with Pause(10)
-    show intro 2 with dissolve
-    show text intro_text[1]
-    with Pause(10)
-    show intro 3 with dissolve
-    show text intro_text[2]
-    with Pause(10)
-    show intro 4 with dissolve
-    show text intro_text[3]
-    with Pause(10)
-    show intro 5 with dissolve
-    show text intro_text[4]
-    with Pause(10)
-    show intro 6 with dissolve
-    show text intro_text[5]
-    with Pause(10)
-    show intro 7 with dissolve
-    show text intro_text[6]
-    with Pause(10)
-    show intro 8 with dissolve
-    show text intro_text[7]
-    with Pause(10)
-
-    stop music
-    show intro blank
-    hide text
+﻿# DONE: РќСѓР¶РЅРѕ С‡С‚РѕР±С‹ С‚РµРєСЃС‚ РѕРґРЅРёРј РєСѓСЃРєРѕРј РїСЂРѕРєСЂСѓС‡РёРІР°Р»СЃСЏ СЃРЅРёР·Сѓ РІРІРµСЂС… РЅР° С„РѕРЅРµ РјРµРЅСЏСЋС‰РёС…СЃСЏ РєР°СЂС‚РёРЅРѕРє. Р С‡С‚РѕР±С‹ С‚РµРєСЃС‚ РЅРѕСЂРјР°Р»СЊРЅРѕ С‡РёС‚Р°Р»СЃСЏ РЅСѓР¶РЅРѕ Р»РёР±Рѕ РѕР±РІРµСЃС‚Рё Р±СѓРєРІС‹, Р»РёР±Рѕ СЃРґРµР»Р°С‚СЊ РїРѕРґР»РѕР¶РєСѓ.
+# РўODO: РќСѓР¶РЅРѕ С‡С‚РѕР±С‹ РїСЂРё РЅР°Р¶Р°С‚РёРё esc Рё РїСЂРѕС‡РёС… РІС‹Р·РѕРІРѕРІ РјРµРЅСЋ РїСЂРѕРєСЂСѓС‚РєР° РѕСЃС‚Р°РЅР°РІР»РёРІР°Р»Р°СЃСЊ.
     
-    return
+transform bottom_to_top:
+        ypos 720 
+        linear 90.0 ypos 0 yanchor 1.0
+
+transform intro_bg:
+    "intro 1"
+    pause 10
+    "intro 2" with dissolve
+    pause 10
+    "intro 3" with dissolve
+    pause 10
+    "intro 4" with dissolve
+    pause 10
+    "intro 5" with dissolve
+    pause 10
+    "intro 6" with dissolve
+    pause 10
+    "intro 7" with dissolve
+    pause 10
+    "intro 8" with dissolve
+    repeat
+    
+screen sc_intro:
+    add "intro 1" at intro_bg
+    #text intro_text at bottom_to_top:
+    text intro_text:
+        first_indent 30
+        newline_indent True
+        layout "tex-subtitle"
+        #rest_indent 0
+        justify True
+        outlines [(1, "#0008", 1, 1)]
+        #xmaximum 1280
+    key "K_SPACE" action Return()
+    key 'K_RETURN' action Return()
+    key 'K_KP_ENTER' action Return()
+    key "mousedown_1" action Return()
