@@ -333,51 +333,49 @@ class Game(object):
         :param fighter2: Fighter
         :return: Текст описывающий сражение.
         """
-        fight_end == False#Отслеживаем завершение боя
-        while fight_end == False:
+        
+        
             """
             Прокидываем шансы для каждой атаки и защиты, складываем
             с показателями верной атаки/защиты
             """
-            hit1 = fighter1.attack[1]
-            for attacks in range(1, fighter1.attack[0]+1):
-                dice = random.randint(1,3)
-                if dice ==1:
-                    hit1 +=1
-            hit2 = fighter2.attack[1]
-            for attacks in range(1, fighter2.attack[0]+1):
-                dice = random.randint(1,3)
-                if dice == 1:
-                    hit2 += 1
-            prot1 = fighter1.protection[1]
-            for protects in range(1, fighter1.protection[0]+1):
-                dice = random.randint(1,3)
-                if dice == 1:
-                    prot1 +=1
-            prot2 = fighter2.protection[1]
-            for protects in range(1, fighter2.protection[0]+1):
-                dice = random.randint(1,3)
-                if dice ==1:
-                    prot2 +=1
+        hit1 = fighter1.attack[1]
+        for attacks in range(1, fighter1.attack[0]+1):
+            dice = random.randint(1,3)
+            if dice ==1:
+                hit1 +=1
+        hit2 = fighter2.attack[1]
+        for attacks in range(1, fighter2.attack[0]+1):
+            dice = random.randint(1,3)
+            if dice == 1:
+                hit2 += 1
+        prot1 = fighter1.protection[1]
+        for protects in range(1, fighter1.protection[0]+1):
+            dice = random.randint(1,3)
+            if dice == 1:
+                prot1 +=1
+        prot2 = fighter2.protection[1]
+        for protects in range(1, fighter2.protection[0]+1):
+            dice = random.randint(1,3)
+            if dice ==1:
+                prot2 +=1
                 """
                 Возможные результаты боя
                 """
-            if hit1 > prot2:#Дракон попал
-                if hit2 <= prot1:
-                    return u'Дракон победил и не ранен'
-                else:
-                    return u'Дракон победил, но ранен'
-                    #также увеличиваем показатель ранений дракона
-            if hit1 <= prot2:#дракон не попал
-                if hit2 <= prot1:
-                    print u'Дракон не победил, но остался цел'
-                    #тут предлогаем игроку бежать или продолжить бой, если
-                    #бежит то :fight_end = True:
-                if hit2 > prot1:
-                    print u'Драконе не победил и получил ранеу'
-                    #тут предлогаем игроку бежать или продолжить бой, если
-                    #бежит то :fight_end = True:
-                    #также увеличиваем показатель ранений дракона
+        if hit1 > prot2:#Дракон попал
+            if hit2 <= prot1:
+                return u'Дракон победил и не ранен'
+            else:
+                return u'Дракон победил, но ранен'
+                #также увеличиваем показатель ранений дракона
+        if hit1 <= prot2:#дракон не попал
+            if hit2 <= prot1:
+                return u'Дракон не победил, но остался цел'
+                #тут предлогаем игроку бежать или продолжить бой
+            if hit2 > prot1:
+                return u'Драконе не победил и получил ранеу'
+                #тут предлогаем игроку бежать или продолжить бой
+                #также увеличиваем показатель ранений дракона
                     
         
 
