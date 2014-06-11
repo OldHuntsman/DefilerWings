@@ -339,23 +339,23 @@ class Game(object):
             Прокидываем шансы для каждой атаки и защиты, складываем
             с показателями верной атаки/защиты
             """
-        hit1 = fighter1.attack[1]
-        for attacks in range(1, fighter1.attack[0]+1):
+        hit1 = sum(fighter1.attack()[key][1] for key in fighter1.attack())
+        for attacks in range(1,sum(fighter1.attack()[key][0] for key in fighter1.attack()) +1):
             dice = random.randint(1,3)
             if dice ==1:
-                hit1 +=1
-        hit2 = fighter2.attack[1]
-        for attacks in range(1, fighter2.attack[0]+1):
+                hit1 +=1       
+        hit2 = sum(fighter2.attack()[key][1] for key in fighter2.attack())
+        for attacks in range(1, sum(fighter2.attack()[key][0] for key in fighter2.attack()) +1):
             dice = random.randint(1,3)
             if dice == 1:
                 hit2 += 1
-        prot1 = fighter1.protection[1]
-        for protects in range(1, fighter1.protection[0]+1):
+        prot1 = sum(fighter1.protection()[key][1] for key in fighter1.protection())
+        for protects in range(1, sum(fighter1.protection()[key][1]for key in fighter1.protection())+1):
             dice = random.randint(1,3)
             if dice == 1:
                 prot1 +=1
-        prot2 = fighter2.protection[1]
-        for protects in range(1, fighter2.protection[0]+1):
+        prot2 = sum(fighter2.protection()[key][1] for key in fighter2.protection())
+        for protects in range(1, sum(fighter2.protection()[key][1] for key in fighter2.protection())+1):
             dice = random.randint(1,3)
             if dice ==1:
                 prot2 +=1
