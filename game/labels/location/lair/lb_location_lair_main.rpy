@@ -17,4 +17,5 @@ label lb_location_lair_main:
         'Покинуть логово':
             $ pass
             
+    jump 'lb_location_lair_map'
     return

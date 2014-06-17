@@ -2,6 +2,7 @@
     from pythoncode import data
     from pythoncode import core
     game = core.Game(NVLCharacter)
+    dragon = Dragon()
 
 init:
     image side dragon = "dragon ava"
@@ -28,9 +29,7 @@ label start:
     # Прокручиваем заставку.
     call lb_intro
     nvl clear
-    $ avatars = Avatars() # Инициализируем модуль с аватарками
     show screen status_bar
-    #call screen main_map
     $ win = False
     while not win:
         $ target_location = renpy.call_screen("main_map")
