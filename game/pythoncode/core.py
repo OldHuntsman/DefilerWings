@@ -77,22 +77,25 @@ class Game(object):
                 self.hunger = 0  # range 0..2
 
                 self.anatomy = ['size', 'paws', 'size', 'wings', 'size', 'paws']
-                self.heads = ['black']  # головы дракона
+                self.heads = ['green', 'green']  # головы дракона
                 self.spells = ['wings_of_wind']  # заклинания наложенные на дракона(обнуляются после сна)
 
             def _debug_print(self):
-                self(u'Дракон по имени {0}'.format(self.name))
-                self(u'Список всех модификаторов {0}'.format(', '.join(self.modifiers())))
-                self(u'Вид дракона {0}'.format(self.kind()))
-                self(u'Размер {0}'.format(data.size_texts[self.size()]))
-                self(u'Анатомия дракона {0}'.format(', '.join(self.anatomy)))
-                self(u'Наложенная на дракона магия {0}'.format(' '.join(self.spells)))
-                self(u'Цвета голов дракона {0}'.format(', '.join(self.heads)))
-                self(u'Энергия {0} из {1}'.format(self.energy(), self.max_energy()))
-                self(u'Могущество {0}'.format(', '.join(['{0} {1}'.format(k, v) for k, v in self.attack().items()])))
-                self(u'Несокрушимость {0}'.format(', '.join(['{0} {1}'.format(k, v) for k, v in self.protection().items()])))
-                self(u'Коварство {0}'.format(self.magic()))
-                self(u'Чудовищиность {0}'.format(self.fear()))
+                # self(u'Дракон по имени {0}'.format(self.name))
+                # self(u'Список всех модификаторов {0}'.format(', '.join(self.modifiers())))
+                # self(u'Вид дракона {0}'.format(self.kind()))
+                # self(u'Размер {0}'.format(data.size_texts[self.size()]))
+                # self(u'Анатомия дракона {0}'.format(', '.join(self.anatomy)))
+                # self(u'Наложенная на дракона магия {0}'.format(' '.join(self.spells)))
+                # self(u'Цвета голов дракона {0}'.format(', '.join(self.heads)))
+                # self(u'Энергия {0} из {1}'.format(self.energy(), self.max_energy()))
+                # self(u'Могущество {0}'.format(', '.join(['{0} {1}'.format(k, v) for k, v in self.attack().items()])))
+                # self(u'Несокрушимость {0}'.format(', '.join(['{0} {1}'.format(k, v) for k, v in self.protection().items()])))
+                # self(u'Коварство {0}'.format(self.magic()))
+                # self(u'Чудовищиность {0}'.format(self.fear()))
+                children = self.children()
+                for child in children:
+                    self(u'Ребенок {0}'.format(', '.join(child.anatomy[-3:] + child.heads)))
 
 
             def modifiers(self):
@@ -180,7 +183,46 @@ class Game(object):
                 Вызывается при отставке дракона.
                 :return: list of Dragons
                 """
-                raise NotImplementedError
+                # Обнуляем заклинания, они уже не понадобятся
+                self.spells = []
+                # Формируем список возможных улучшений
+                dragon_leveling = ['head']
+                if self.size() < 6:
+                    dragon_leveling += ['size']
+                if self.paws() < 3:
+                    dragon_leveling += ['paws']
+                if self.wings() < 3:
+                    dragon_leveling += ['wings']
+                if 'tough_scale' not in self.modifiers():
+                    dragon_leveling += ['tough_scale']
+                if 'clutches' not in self.modifiers():
+                    dragon_leveling += ['clutches']
+                if 'fangs' not in self.modifiers() and self.paws() > 0:
+                    dragon_leveling += ['fangs']
+                if 'horns' not in self.modifiers():
+                    dragon_leveling += ['horns']
+                if 'ugly' not in self.modifiers():
+                    dragon_leveling += ['ugly']
+                if 'poisoned_sting' not in self.modifiers():
+                    dragon_leveling += ['poisoned_sting']
+                if self.modifiers().count('cunning') < 3:
+                    dragon_leveling += ['cunning']
+                if self.heads.count('green') > 0:
+                    dragon_leveling += ['color']
+                # Выбираем три случайных способности
+                number_of_abilities = 3
+                new_abilities = random.sample(dragon_leveling, number_of_abilities)
+                children = [deepcopy(self) for i in range(0, number_of_abilities)]
+                for i in range(0, number_of_abilities):
+                    if new_abilities[i] == 'color':
+                        # список возможных цветов
+                        colors = ['red', 'white', 'blue', 'black', 'iron', 'copper', 'silver', 'gold', 'shadow']
+                        children[i].heads[self.heads.index('green')] = random.choice(colors)
+                    elif new_abilities[i] == 'head':
+                        children[i].heads += ['green']
+                    else:
+                        children[i].anatomy += [new_abilities[i]]
+                return children
 
         class Knight(Fighter):
             """

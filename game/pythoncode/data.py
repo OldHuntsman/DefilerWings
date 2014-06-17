@@ -108,11 +108,10 @@ dragon_modifiers['wings'] = DragonModifier(protection=('base', (1, 0)), energy=1
 dragon_modifiers['tough_scale'] = DragonModifier(protection=('scale', (0, 1)))
 dragon_modifiers['clutches'] = DragonModifier(attack=('base', (0, 1)))
 dragon_modifiers['fangs'] = DragonModifier(attack=('base', (2, 0)), fear=1)
+dragon_modifiers['horns'] = DragonModifier(protection=('base', (2, 0)), fear=1)
 dragon_modifiers['ugly'] = DragonModifier(fear=2)
 dragon_modifiers['poisoned_sting'] = DragonModifier(attack=('poison', (1, 1)))
 dragon_modifiers['cunning'] = DragonModifier(magic=1)
-
-
 
 
 thief_items = dict()
