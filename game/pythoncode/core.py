@@ -242,7 +242,7 @@ class Game(object):
                 self.equipment = [u"щит", u"меч", u"броня", u"копьё", u"скакун", u"спутник"]
 
             def modifiers(self):
-                return super(Knight, self).modifiers() + self.abilities + self.equipment
+                return self._modifiers + self.abilities + self.equipment
 
             def attack(self):
                 a = super(Knight, self).attack()
@@ -250,14 +250,16 @@ class Game(object):
                     # TODO: подумать как получаем ссылку на логово
                     # Увеличиваем атаку в соответствии со списком женщин в логове
                     raise NotImplementedError
-                return a[0] + self.power, a[1]
+                a['base'][0] + self.power
+                return a
 
             def protection(self):
                 p = super(Knight, self).protection()
                 if "liberator" in self.modifiers():
                     # Увеличиваем защиту в соответствии со списком женщин в логове
                     raise NotImplementedError
-                return p[0] + self.power, p[1]
+                p['base'][0] + self.power
+                return p
 
             def title(self):
                 """
@@ -345,7 +347,43 @@ class Game(object):
         :param fighter2: Fighter
         :return: Текст описывающий сражение.
         """
-        raise NotImplementedError
+        hit1 = sum(fighter1.attack()[key][1] for key in fighter1.attack())
+        for attacks in range(1,sum(fighter1.attack()[key][0] for key in fighter1.attack()) +1):
+            dice = random.randint(1,3)
+            if dice ==1:
+                hit1 +=1       
+        hit2 = sum(fighter2.attack()[key][1] for key in fighter2.attack())
+        for attacks in range(1, sum(fighter2.attack()[key][0] for key in fighter2.attack()) +1):
+            dice = random.randint(1,3)
+            if dice == 1:
+                hit2 += 1
+        prot1 = sum(fighter1.protection()[key][1] for key in fighter1.protection())
+        for protects in range(1, sum(fighter1.protection()[key][1]for key in fighter1.protection())+1):
+            dice = random.randint(1,3)
+            if dice == 1:
+                prot1 +=1
+        prot2 = sum(fighter2.protection()[key][1] for key in fighter2.protection())
+        for protects in range(1, sum(fighter2.protection()[key][1] for key in fighter2.protection())+1):
+            dice = random.randint(1,3)
+            if dice ==1:
+                prot2 +=1        
+        """
+        Возможные результаты боя
+        """
+        if hit1 > prot2:#Дракон попал
+            if hit2 <= prot1:
+                return u"%s Побеждает %s не получив ран"%(fighter1.name, fighter2.name)
+            elif hit2 > prot1:
+                return u"%s Побеждает %s получив рану"%(fighter1.name, fighter2.name)
+                #также увеличиваем показатель ранений дракона   
+        elif hit1 <= prot2:#дракон не попал
+            if hit2 <= prot1:
+                return u"%s не побеждает, ран нет"%(fighter1.name)
+                #тут предлагаем игроку бежать или продолжить бой
+            elif hit2 > prot1:
+                return u"%s не побеждает, ранен"%(fighter1.name)
+                #тут предлагаем игроку бежать или продолжить бой
+                #также увеличиваем показатель ранений дракона
 
     def next_year(self):
         """
