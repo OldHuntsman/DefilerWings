@@ -18,6 +18,6 @@ label lb_location_lair_main:
             $ pass
         'Тестовый бой':
             menu:
-                "Бой с рыцарем"
-                jump lb_fight
+                "Бой с рыцарем":
+                    jump lb_fight
     return
