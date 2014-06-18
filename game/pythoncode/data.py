@@ -44,7 +44,12 @@ size_texts[5] = u'Огромный'
 size_texts[6] = u'Исполинский'
 
 fighter_mods = dict()
-
+fighter_mods[u"щит"] = FighterModifier(protection = ('base', (1, 0)))
+fighter_mods[u"меч"] = FighterModifier(attack = ('base', (2,1)))
+fighter_mods[u"броня"] = FighterModifier(protection = ('base', (0,1)))
+fighter_mods[u"копьё"] = FighterModifier(attack = ('base', (1,1)))
+fighter_mods[u"спутник"] = FighterModifier(attack = ('base', (1,0), protection = ('base', (1,0))))
+fighter_mods[u"скакун"] = FighterModifier(attack = ('base', (1,0)))
 # Типы голов(цвета)
 dragon_heads = dict()
 dragon_heads['green'] = []
@@ -122,4 +127,6 @@ knight_abilities = dict()
 def get_modifier(name):
     if name in dragon_modifiers:
         return dragon_modifiers[name]
+    elif name in fighter_mods:
+        return fighter_mods[name]
     raise NotImplementedError
