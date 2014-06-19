@@ -347,7 +347,7 @@ class Game(object):
         :param fighter2: Fighter
         :return: Текст описывающий сражение.
         """
-        self.game = False
+        self.fight = False
         hit1 = sum(fighter1.attack()[key][1] for key in fighter1.attack())
         for attacks in range(1,sum(fighter1.attack()[key][0] for key in fighter1.attack()) +1):
             dice = random.randint(1,3)
