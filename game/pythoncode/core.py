@@ -347,7 +347,6 @@ class Game(object):
         :param fighter2: Fighter
         :return: Текст описывающий сражение.
         """
-        self.fight = False
         hit1 = sum(fighter1.attack()[key][1] for key in fighter1.attack())
         for attacks in range(1,sum(fighter1.attack()[key][0] for key in fighter1.attack()) +1):
             dice = random.randint(1,3)
@@ -372,18 +371,17 @@ class Game(object):
         Возможные результаты боя
         """
         if hit1 > prot2:#Дракон попал
-            self.fight = True
             if hit2 <= prot1:
-                return u"%s Побеждает %s не получив ран"%(fighter1.name, fighter2.name)
+                return (True, u"%s Побеждает %s не получив ран"%(fighter1.name, fighter2.name))
             elif hit2 > prot1:
-                return u"%s Побеждает %s получив рану"%(fighter1.name, fighter2.name)
+                return (True, u"%s Побеждает %s получив рану"%(fighter1.name, fighter2.name))
                 #также увеличиваем показатель ранений дракона   
         elif hit1 <= prot2:#дракон не попал
             if hit2 <= prot1:
-                return u"%s не побеждает, ран нет"%(fighter1.name)
+                return (False, u"%s не побеждает, ран нет"%(fighter1.name))
                 #тут предлагаем игроку бежать или продолжить бой
             elif hit2 > prot1:
-                return u"%s не побеждает, ранен"%(fighter1.name)
+                return (False, u"%s не побеждает, ранен"%(fighter1.name))
                 #тут предлагаем игроку бежать или продолжить бой
                 #также увеличиваем показатель ранений дракона
 
