@@ -7,7 +7,7 @@ label lb_fight:
     #цикл, который заканчивается победой дракона, или отступлением
     #TODO: параметр здоровья дракона, механизм отрубания голов при низком здоровье
     #также завершение боя смертью дракона
-    while result[0:len(game.dragon.name)+13] == "%s не побеждает"%(game.dragon.name):
+    while game.fight == False:
         menu:
             "Вы можете продолжить бой, или отступить"
             'Продолжать бой':
@@ -15,5 +15,6 @@ label lb_fight:
                 result "Результат боя"
             'Отступить':
                 "Вы отступили"
+                $ game.fight = True
                 jump lb_location_lair_main
     jump lb_location_lair_main
