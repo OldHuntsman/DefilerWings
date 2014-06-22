@@ -2,7 +2,8 @@
     from pythoncode import data
     from pythoncode import core
     game = core.Game(NVLCharacter)
-    
+    dragon = Dragon()
+
 init:
     image side dragon = "dragon ava"
     image bg main = "img/bg/main.jpg"  # заставка главного меню
@@ -26,7 +27,13 @@ init:
     
 label start:
     # Прокручиваем заставку.
+<<<<<<< HEAD
+    call lb_intro
+=======
     call screen sc_intro
+    
+    $ avatars = Avatars() # Инициализируем модуль с аватарками
+>>>>>>> Прокрутка интро. Нужно еще пофиксить баг с вылезанием текста за край.
     nvl clear
     show screen status_bar
     $ win = False
