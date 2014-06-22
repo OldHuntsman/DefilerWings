@@ -3,7 +3,7 @@ label lb_intro:
     scene black
     play music "mus/intro.ogg"
     show intro 1 with dissolve
-    show blur_intro
+    show blur
     show text intro_text at bot_to_top
     with Pause(10)
     show intro 2 with dissolve
