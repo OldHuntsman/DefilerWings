@@ -10,7 +10,7 @@ init:
         linear 100 yalign 3.0
         repeat
     image side dragon = "dragon ava"
-    image blur_intro = "img/intro/blur.png"
+    image blur = "img/intro/blur.png"
     image bg main = "img/bg/main.jpg"  # заставка главного меню
     image place = ConditionSwitch(              
         "place == 'city_gates'", "img/bg/city/outside.png",    # определение фонов для разных мест (потребует доработки)  
