@@ -8,7 +8,7 @@ init:
     transform bot_to_top:
         align(-2, -2)
         linear 100 yalign 3.0
-    image blur = "img/intro/blur.png"
+    image blur_intro = "img/intro/blur.png"
     image side dragon = "dragon ava"
     image bg main = "img/bg/main.jpg"  # заставка главного меню
     image place = ConditionSwitch(              
