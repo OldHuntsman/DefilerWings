@@ -2,7 +2,7 @@
     from pythoncode import data
     from pythoncode import core
     game = core.Game(NVLCharacter)
-    dragon = Dragon()
+    dragon = game.dragon #TODO: Заменить везде использование дракона.
 
 init:
     transform bot_to_top:
