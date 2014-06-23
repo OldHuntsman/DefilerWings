@@ -42,4 +42,5 @@ screen sc_intro:
     key "K_SPACE" action Return()
     key 'K_RETURN' action Return()
     key 'K_KP_ENTER' action Return()
-    #key "mousedown_1" action Return()  # Почему-то при нажатии мышкой в зону imagebatton еще (теоритически) не нарисованного screen main_map вы
+    key 'mouseup_1' action Return()     # Почему-то при нажатии мышкой в зону imagebatton еще (теоритически) не нарисованного screen main_map вызывалась сцена
+                                        # Fixed, ренпи реагирует на поднятие кнопки, а не на нажим. Таким образом до того как кнопку отпускали успела загрузиться карта
