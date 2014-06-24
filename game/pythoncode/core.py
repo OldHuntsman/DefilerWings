@@ -24,8 +24,26 @@ class Game(object):
         self.year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
         
-        # TODO: Описать Narrator
-        
+        class Narrator(BaseCharacter):
+            """
+            Класс, которым будет заменен narrator по-умолчанию.
+            """
+            def __init__(self, gameRef, *args, **kwargs):
+                """
+                :param gameRef: Game object
+                """
+                super(Narrator, self).__init__(*args, **kwargs)
+                self.gameRef = gameRef
+                self.avatar = None # У нарраторар нет аватарки. Ну или можно будет поставить потом.
+            
+            def __call__(self, *args, **kwargs):
+                """
+                Этот метод используется при попытке сказать что-то персонажем.
+                Переопределяем, чтобы сообщить игре, что сейчас говорит этот персонаж.
+                """
+                self.gameRef.currentCharacter = self
+                super(Narrator, self).__call__(*args, **kwargs)
+                
         class Fighter(BaseCharacter):
             """
             Базовый класс для всего, что способно драться.
@@ -45,7 +63,7 @@ class Game(object):
             def __call__(self, *args, **kwargs):
                 """
                 Этот метод используется при попытке сказать что-то персонажем.
-                Переопределяем, чтобы сообщить игре, что сейчас говорит етот персонаж.
+                Переопределяем, чтобы сообщить игре, что сейчас говорит этот персонаж.
                 """
                 self.gameRef.currentCharacter = self
                 super(Fighter, self).__call__(*args, **kwargs)
@@ -357,6 +375,7 @@ class Game(object):
 
         self.dragon = Dragon(self)
         self.knight = Knight(self)
+        self.narrator = Narrator(self)
 
     def battle(self, fighter1, fighter2):
         """
