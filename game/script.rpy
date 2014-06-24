@@ -33,7 +33,6 @@ label start:
     # Прокручиваем заставку.
     call lb_intro
     nvl clear
-    show screen status_bar
     $ win = False
     while not win:
         $ target_location = renpy.call_screen("main_map")

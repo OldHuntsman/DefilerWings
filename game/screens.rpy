@@ -54,6 +54,7 @@ screen say:
     else:
         add SideImage() xalign 0.0 yalign 1.0
 
+    use status_bar
     # Use the quick menu.
     use quick_menu
 
@@ -87,6 +88,8 @@ screen choice:
 
                 else:
                     text caption style "menu_caption"
+    
+    use status_bar
 
 init -2:
     $ config.narrator_menu = True
@@ -169,6 +172,7 @@ screen nvl:
 
     add SideImage() xalign 0.0 yalign 1.0
 
+    use status_bar
     use quick_menu
 
 ##############################################################################
