@@ -1,4 +1,4 @@
-label lb_location_plain_main:
+label lb_location_plains_main:
     $ place = 'plain'
     show place
       

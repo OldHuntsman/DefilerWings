@@ -2,6 +2,6 @@ label lb_location_mountain_main:
     $ place = 'mountain'
     show place
       
-    'Появился случайный энакаунтер'
+    'Горы. Появился случайный энакаунтер'
         
     return

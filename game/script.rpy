@@ -1,10 +1,14 @@
 ﻿init python:
-    from pythoncode.core import Game
-    game = Game()
+    from pythoncode import data
+    from pythoncode import core
+    game = core.Game(NVLCharacter)
+    dragon = game.dragon #TODO: Заменить везде использование дракона.
 
 init:
-    $ narrator = NVLCharacter(None, kind=nvl)
-    define dragon =  Character("Дракон", color="#c8ffc8", kind=nvl, image="dragon")
+    transform bot_to_top:
+        align(-2, -2)
+        linear 100 yalign 3.0
+        repeat
     image side dragon = "dragon ava"
     image bg main = "img/bg/main.jpg"  # заставка главного меню
     image place = ConditionSwitch(              
@@ -20,17 +24,16 @@ init:
         "place == 'smuglers'", "img/bg/special/smuglers.png",
         "place == 'mordor'", "img/bg/special/mordor.png",
         )
+    define narrator = Character(None, kind=nvl)
+
 
 # Начало игры
     
 label start:
     # Прокручиваем заставку.
     call lb_intro
-    
-    $ avatars = Avatars() # Инициализируем модуль с аватарками
     nvl clear
     show screen status_bar
-    #call screen main_map
     $ win = False
     while not win:
         $ target_location = renpy.call_screen("main_map")
@@ -41,7 +44,3 @@ label start:
             $ renpy.call("lb_location_missed")
     
     return
- 
-label fight:
-    $ renpy.say(None, game.battle(game.knight, game.dragon))
-    jump lb_mainmap

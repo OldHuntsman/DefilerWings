@@ -2,6 +2,6 @@ label lb_location_forest_main:
     $ place = 'forest'
     show place
       
-    'Появился случайный энакаунтер'
+    'Лес. Случайная встреча [dragon.name]'
     
     return

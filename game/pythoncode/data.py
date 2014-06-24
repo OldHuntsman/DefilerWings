@@ -44,7 +44,12 @@ size_texts[5] = u'Огромный'
 size_texts[6] = u'Исполинский'
 
 fighter_mods = dict()
-
+fighter_mods[u"щит"] = FighterModifier(protection = ('base', (1, 0)))
+fighter_mods[u"меч"] = FighterModifier(attack = ('base', (2,1)))
+fighter_mods[u"броня"] = FighterModifier(protection = ('base', (0,1)))
+fighter_mods[u"копьё"] = FighterModifier(attack = ('base', (1,1)))
+fighter_mods[u"спутник"] = FighterModifier(attack = ('base', (1,0)), protection = ('base', (1,0)))
+fighter_mods[u"скакун"] = FighterModifier(attack = ('base', (1,0)))
 # Типы голов(цвета)
 dragon_heads = dict()
 dragon_heads['green'] = []
@@ -108,11 +113,10 @@ dragon_modifiers['wings'] = DragonModifier(protection=('base', (1, 0)), energy=1
 dragon_modifiers['tough_scale'] = DragonModifier(protection=('scale', (0, 1)))
 dragon_modifiers['clutches'] = DragonModifier(attack=('base', (0, 1)))
 dragon_modifiers['fangs'] = DragonModifier(attack=('base', (2, 0)), fear=1)
+dragon_modifiers['horns'] = DragonModifier(protection=('base', (2, 0)), fear=1)
 dragon_modifiers['ugly'] = DragonModifier(fear=2)
 dragon_modifiers['poisoned_sting'] = DragonModifier(attack=('poison', (1, 1)))
 dragon_modifiers['cunning'] = DragonModifier(magic=1)
-
-
 
 
 thief_items = dict()
@@ -123,4 +127,6 @@ knight_abilities = dict()
 def get_modifier(name):
     if name in dragon_modifiers:
         return dragon_modifiers[name]
+    elif name in fighter_mods:
+        return fighter_mods[name]
     raise NotImplementedError

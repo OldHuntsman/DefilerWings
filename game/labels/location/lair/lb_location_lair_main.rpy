@@ -3,6 +3,9 @@ label lb_location_lair_main:
     show place
     
     menu:
+        'Отладка дракона':
+            game.dragon "I'm dragon"
+            $ game.dragon._debug_print()
         'Сотворить заклинание':
             $ pass
         'Чахнуть над златом':
@@ -13,5 +16,8 @@ label lb_location_lair_main:
             $ pass
         'Покинуть логово':
             $ pass
-            
+        'Тестовый бой':
+            menu:
+                "Бой с рыцарем":
+                    jump lb_fight
     return
