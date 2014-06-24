@@ -4,12 +4,8 @@
     game = core.Game(NVLCharacter)
     dragon = game.dragon #TODO: Заменить везде использование дракона.
     narrator = game.narrator
-
+    
 init:
-    transform bot_to_top:
-        align(-2, -2)
-        linear 100 yalign 3.0
-        repeat
     image side dragon = "dragon ava"
     image bg main = "img/bg/main.jpg"  # заставка главного меню
     image place = ConditionSwitch(              
@@ -31,7 +27,7 @@ init:
     
 label start:
     # Прокручиваем заставку.
-    call lb_intro
+    call screen sc_intro
     nvl clear
     $ win = False
     while not win:
