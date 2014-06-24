@@ -3,6 +3,7 @@
     from pythoncode import core
     game = core.Game(NVLCharacter)
     dragon = game.dragon #TODO: Заменить везде использование дракона.
+    narrator = game.narrator
 
 init:
     transform bot_to_top:
@@ -24,7 +25,6 @@ init:
         "place == 'smuglers'", "img/bg/special/smuglers.png",
         "place == 'mordor'", "img/bg/special/mordor.png",
         )
-    define narrator = Character(None, kind=nvl)
 
 
 # Начало игры
@@ -33,7 +33,6 @@ label start:
     # Прокручиваем заставку.
     call lb_intro
     nvl clear
-    show screen status_bar
     $ win = False
     while not win:
         $ target_location = renpy.call_screen("main_map")

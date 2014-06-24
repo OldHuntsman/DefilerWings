@@ -5,6 +5,7 @@ import math
 import data
 from data import get_modifier
 from copy import deepcopy
+import renpy.exports as renpy
 
 
 def tuples_sum(tuple_list):
@@ -21,7 +22,28 @@ class Game(object):
         self.reputation_points = 0  # Дурная слава дракона
         self.mobilization = 0  # мобилизация королевства
         self.year = 0  # текущий год
-
+        self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
+        
+        class Narrator(BaseCharacter):
+            """
+            Класс, которым будет заменен narrator по-умолчанию.
+            """
+            def __init__(self, gameRef, *args, **kwargs):
+                """
+                :param gameRef: Game object
+                """
+                super(Narrator, self).__init__(*args, **kwargs)
+                self.gameRef = gameRef
+                self.avatar = None # У нарраторар нет аватарки. Ну или можно будет поставить потом.
+            
+            def __call__(self, *args, **kwargs):
+                """
+                Этот метод используется при попытке сказать что-то персонажем.
+                Переопределяем, чтобы сообщить игре, что сейчас говорит этот персонаж.
+                """
+                self.gameRef.currentCharacter = self
+                super(Narrator, self).__call__(*args, **kwargs)
+                
         class Fighter(BaseCharacter):
             """
             Базовый класс для всего, что способно драться.
@@ -29,9 +51,22 @@ class Game(object):
             То есть такие, которые воздействуют на модификаторы противника.
             """
 
-            def __init__(self, *args, **kwargs):
+            def __init__(self, gameRef, *args, **kwargs):
+                """
+                :param gameRef: Game object
+                """
                 super(Fighter, self).__init__(*args, **kwargs)
+                self.gameRef = gameRef
                 self._modifiers = []
+                self.avatar = None # По умолчанию аватарки нет, нужно выбрать в потомках.
+                
+            def __call__(self, *args, **kwargs):
+                """
+                Этот метод используется при попытке сказать что-то персонажем.
+                Переопределяем, чтобы сообщить игре, что сейчас говорит этот персонаж.
+                """
+                self.gameRef.currentCharacter = self
+                super(Fighter, self).__call__(*args, **kwargs)
 
             def protection(self):
                 """
@@ -79,6 +114,7 @@ class Game(object):
                 self.anatomy = ['size', 'paws', 'size', 'wings', 'size', 'paws']
                 self.heads = ['green', 'green']  # головы дракона
                 self.spells = ['wings_of_wind']  # заклинания наложенные на дракона(обнуляются после сна)
+                self.avatar = "img/avadragon/green/1.jpg"
 
             def _debug_print(self):
                 # self(u'Дракон по имени {0}'.format(self.name))
@@ -337,8 +373,9 @@ class Game(object):
                 self.pregnant = False
                 self.can_give_birth = True
 
-        self.dragon = Dragon()
-        self.knight = Knight()
+        self.dragon = Dragon(self)
+        self.knight = Knight(self)
+        self.narrator = Narrator(self)
 
     def battle(self, fighter1, fighter2):
         """
