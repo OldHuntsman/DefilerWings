@@ -5,6 +5,7 @@ import math
 import data
 from data import get_modifier
 from copy import deepcopy
+import renpy.exports as renpy
 
 
 def tuples_sum(tuple_list):
@@ -23,6 +24,8 @@ class Game(object):
         self.year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
         
+        # TODO: Описать Narrator
+        
         class Fighter(BaseCharacter):
             """
             Базовый класс для всего, что способно драться.
@@ -37,6 +40,7 @@ class Game(object):
                 super(Fighter, self).__init__(*args, **kwargs)
                 self.gameRef = gameRef
                 self._modifiers = []
+                self.avatar = None # По умолчанию аватарки нет, нужно выбрать в потомках.
                 
             def __call__(self, *args, **kwargs):
                 """
@@ -92,6 +96,7 @@ class Game(object):
                 self.anatomy = ['size', 'paws', 'size', 'wings', 'size', 'paws']
                 self.heads = ['green', 'green']  # головы дракона
                 self.spells = ['wings_of_wind']  # заклинания наложенные на дракона(обнуляются после сна)
+                self.avatar = "img/avadragon/green/1.jpg"
 
             def _debug_print(self):
                 # self(u'Дракон по имени {0}'.format(self.name))

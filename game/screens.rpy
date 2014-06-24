@@ -174,6 +174,7 @@ screen nvl:
 
     use status_bar
     use quick_menu
+    use sc_avatar
 
 ##############################################################################
 # Main Menu
