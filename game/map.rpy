@@ -36,6 +36,7 @@ screen main_map:
             action Return(target)
             focus_mask True
     
+    use status_bar
             
 screen status_bar:
     fixed:
