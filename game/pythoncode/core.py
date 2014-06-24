@@ -21,7 +21,8 @@ class Game(object):
         self.reputation_points = 0  # Дурная слава дракона
         self.mobilization = 0  # мобилизация королевства
         self.year = 0  # текущий год
-
+        self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
+        
         class Fighter(BaseCharacter):
             """
             Базовый класс для всего, что способно драться.
@@ -29,9 +30,21 @@ class Game(object):
             То есть такие, которые воздействуют на модификаторы противника.
             """
 
-            def __init__(self, *args, **kwargs):
+            def __init__(self, gameRef, *args, **kwargs):
+                """
+                :param gameRef: Game object
+                """
                 super(Fighter, self).__init__(*args, **kwargs)
+                self.gameRef = gameRef
                 self._modifiers = []
+                
+            def __call__(self, *args, **kwargs):
+                """
+                Этот метод используется при попытке сказать что-то персонажем.
+                Переопределяем, чтобы сообщить игре, что сейчас говорит етот персонаж.
+                """
+                self.gameRef.currentCharacter = self
+                super(Fighter, self).__call__(*args, **kwargs)
 
             def protection(self):
                 """
@@ -337,8 +350,8 @@ class Game(object):
                 self.pregnant = False
                 self.can_give_birth = True
 
-        self.dragon = Dragon()
-        self.knight = Knight()
+        self.dragon = Dragon(self)
+        self.knight = Knight(self)
 
     def battle(self, fighter1, fighter2):
         """
