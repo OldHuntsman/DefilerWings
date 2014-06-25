@@ -37,7 +37,8 @@ screen main_map:
             focus_mask True
     
     use status_bar
-    use to_lair_button
+    if game.lair is not None:
+        use to_lair_button
             
 screen status_bar:
     fixed:
