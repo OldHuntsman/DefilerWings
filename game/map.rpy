@@ -37,6 +37,7 @@ screen main_map:
             focus_mask True
     
     use status_bar
+    use to_lair_button
             
 screen status_bar:
     fixed:
@@ -44,6 +45,11 @@ screen status_bar:
         xmaximum 320
         
         add "img/bg/status-bar.png"
+            
+screen to_lair_button:
+    fixed:
+        xalign 1.0
+        xmaximum 320
         textbutton "{font=fonts/Tchekhonin2.ttf}В{/font} {font=fonts/times.ttf}пещеру{/font}":
             pos (72,649)
             xysize (174,36)
