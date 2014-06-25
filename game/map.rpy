@@ -46,6 +46,13 @@ screen status_bar:
         xmaximum 320
         
         add "img/bg/status-bar.png"
+        
+        text "%d" % game.dragon.energy():
+            pos(63,365)
+            anchor (0.5,0.5)
+            size 30
+            color "a7926d"      #Цвет взял с шаблона, но тут он почему-то выглядит по-другому.
+            outlines [(2, "#0004", 0, 0),(4, "#0003", 0, 0),(6, "#0002", 0, 0),(8, "#0001", 0, 0)]
             
 screen to_lair_button:
     fixed:
