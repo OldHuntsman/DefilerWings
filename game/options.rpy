@@ -237,10 +237,10 @@ init -1 python hide:
     config.window_hide_transition = None
 
     ## Used when showing NVL-mode text directly after ADV-mode text.
-    config.adv_nvl_transition = dissolve
+    config.adv_nvl_transition = None
 
     ## Used when showing ADV-mode text directly after NVL-mode text.
-    config.nvl_adv_transition = dissolve
+    config.nvl_adv_transition = None
 
     ## Used when yesno is shown.
     config.enter_yesno_transition = None

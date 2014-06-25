@@ -33,7 +33,7 @@ screen main_map:
     for target in map_data:
         imagebutton: # target
             auto "img/map/button_" + target + "_%s.png"
-            action Return(target)
+            action Return("lb_location_" + target + "_main")
             focus_mask True
     
     use status_bar
@@ -53,7 +53,17 @@ screen status_bar:
             size 30
             color "a7926d"      #Цвет взял с шаблона, но тут он почему-то выглядит по-другому.
             outlines [(2, "#0004", 0, 0),(4, "#0003", 0, 0),(6, "#0002", 0, 0),(8, "#0001", 0, 0)]
-            
+        
+        if config.developer:
+            textbutton "{font=fonts/Tchekhonin2.ttf}О{/font}{font=fonts/times.ttf}тладка{/font}":
+                pos (72,599)
+                xysize (174,36)
+                text_xalign 0.5
+                text_yalign 0.5
+                background "img/bg/logovo.png"
+                text_size 22
+                action ShowMenu("lb_debug_main")
+        
 screen to_lair_button:
     fixed:
         xalign 1.0
@@ -65,4 +75,4 @@ screen to_lair_button:
             text_yalign 0.5
             background "img/bg/logovo.png"
             text_size 22
-            action Jump("lb_location_lair_main")
+            action Return("lb_location_lair_main")
