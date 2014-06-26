@@ -5,37 +5,56 @@
 # TODO: добавить описание для Action
 #
 # Добавление локации на карте
-# Для того чтобы добавить локацию на карте, нужно добавить в лис map_data название этой локации (location)
+# Для того чтобы добавить локацию на карте, нужно добавить в лист map_data название этой локации (location, name)
+# где location - внутреннее название локации, а name - отображаемое название локации пользователю
 # и добавить как минимум две картинки в img/map/ с названиями button_<location>_idle и button_<location>_hover
 # для положений не выделенной локации и локации при наведении соотвественно.
 # Изображения должны по размеру совпадать с размером задника и содержать только саму кнопку - все остальное прозрачный альфа-слой.
 #
 # TODO: Можно добавить map_data куда-нибудь в Game, для того чтобы была возможность управления налету.
 
+init python:
+    style.map_tooltip = style.prompt
+    style.map_tooltip.background = Frame("img/bg/logovo.png", 5,5)
 
 screen main_map:
     python:
-        map_data = []
-        map_data.append("sea")
-        map_data.append("mordor")
-        map_data.append("sky")
-        map_data.append("forest")
-        map_data.append("smugler")
-        map_data.append("mountain")
-        map_data.append("road")
-        map_data.append("ruin")
-        map_data.append("gremlin")
-        map_data.append("city")
-        map_data.append("plains")
-        
-    add "img/map/ground.png"
+        map_data = [("sea", "Море"),
+                    ("mordor", "Мордор"),
+                    ("sky", "Небеса"),
+                    ("forest", "Лес"),
+                    ("smugler", "Приют контрабандиста"),
+                    ("mountain", "Гора"),
+                    ("road", "Дороги"),
+                    ("ruin", "Руины"),
+                    ("gremlin", "Гремлины"),
+                    ("city", "Город"),
+                    ("plains", "Равнины")]
     
-    for target in map_data:
-        imagebutton: # target
-            auto "img/map/button_" + target + "_%s.png"
-            action Return(target)
-            focus_mask True
+    default map_tooltip = Tooltip("None") #Подсказка на что сейчас наведена мышка
     
+    fixed:
+        fit_first True  #Принимаем размер следущей картинки. Нужно для корректного отображения подсказки посередине.
+        add "img/map/ground.png"
+    
+        for target in map_data:
+            imagebutton: # target
+                auto "img/map/button_" + target[0] + "_%s.png"
+                action Return(target[0])
+                focus_mask True
+                hovered map_tooltip.Action(target[1])
+    
+        if map_tooltip.value != "None": #Костыль-костылык. Не показываем подсказу если у нее значение по умолчанию
+            frame:
+                style "map_tooltip"
+                xpadding 10
+                ypadding 5
+                xalign 0.5
+                yalign 0.01
+                text map_tooltip.value:
+                    xalign 0.5
+                    
+    #Выводим из под действия fixed
     use status_bar
     if game.lair is not None:
         use to_lair_button
