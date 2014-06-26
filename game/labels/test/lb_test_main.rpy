@@ -5,7 +5,7 @@ label lb_test_main:
             "Примеры":
                 call lb_test_examples
             "Отладка":
-                pass
+                call lb_test_debug
             "Назад":
                 return
     return
@@ -17,4 +17,16 @@ label lb_test_examples:
             call lb_test_example_returnLoop
         "Назад":
             return
+    return
+    
+label lb_test_debug:
+    nvl clear
+    menu:
+        "Отладка"
+        "Потратить одну энергию":
+            $ res = game.dragon.drain_energy()
+            if res:
+                game.dragon "Силы покинули меня."
+            else:
+                game.dragon "Я и так истощен."
     return
