@@ -153,6 +153,16 @@ class Game(object):
                 :return: Оставшаяся энергия(целое число)
                 """
                 return self.max_energy() - self._tiredness
+                
+            def drain_energy(self, drain=1):
+                """
+                :param drain: количество отнимаемой у дракона энергии.
+                :return: True если успешно, иначе False.
+                """
+                if self.energy() - self._tiredness - drain >= 0:
+                    self._tiredness = self._tiredness + drain
+                    return True
+                return False
 
             def magic(self):
                 """
