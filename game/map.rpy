@@ -62,7 +62,7 @@ screen status_bar:
                 text_yalign 0.5
                 background "img/bg/logovo.png"
                 text_size 22
-                action ShowMenu("lb_debug_main")
+                action ShowMenu("lb_test_main")
         
 screen to_lair_button:
     fixed:
