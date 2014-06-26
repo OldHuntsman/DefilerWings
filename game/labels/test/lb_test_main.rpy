@@ -15,6 +15,8 @@ label lb_test_examples:
         "Примеры"
         "Цикл с возвратом":
             call lb_test_example_returnLoop
+        "Схватка":
+            call lb_test_example_fight
         "Назад":
             return
     return
