@@ -159,7 +159,7 @@ class Game(object):
                 :param drain: количество отнимаемой у дракона энергии.
                 :return: True если успешно, иначе False.
                 """
-                if self.energy() - self._tiredness - drain >= 0:
+                if self.energy() - drain >= 0:
                     self._tiredness = self._tiredness + drain
                     return True
                 return False
