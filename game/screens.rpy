@@ -102,6 +102,11 @@ init -2:
     style menu_choice_button is button:
         xminimum int(config.screen_width * 0.75)
         xmaximum int(config.screen_width * 0.75)
+        
+    python:
+        style.menu_choice_button.background = Frame("img/bg/button-idle.png", 5,5)
+        style.menu_choice_button.hover_background = Frame("img/bg/button-hovered.png", 5,5)
+        style.menu_choice_button.ypadding = 4
 
 
 ##############################################################################
@@ -261,6 +266,13 @@ screen main_menu:
         yalign 0.05
         text_align 0.5
         size 30
+        bold True
+        color "#FFBB00"
+    text "Версия: %s"%(config.version):
+        xalign 0.99
+        yalign 0.17
+        text_align 0.5
+        size 14
         bold True
         color "#FFBB00"
 

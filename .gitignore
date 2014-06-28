@@ -223,6 +223,7 @@ log.txt
 traceback.txt
 errors.txt
 game/cache
+game/version
 
 
 # PyCharm
