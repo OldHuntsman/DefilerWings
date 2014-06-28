@@ -268,6 +268,13 @@ screen main_menu:
         size 30
         bold True
         color "#FFBB00"
+    text "Версия: %s"%(config.version):
+        xalign 0.99
+        yalign 0.17
+        text_align 0.5
+        size 14
+        bold True
+        color "#FFBB00"
 
 init -2:
 
