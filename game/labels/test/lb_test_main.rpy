@@ -17,6 +17,8 @@ label lb_test_examples:
             call lb_test_example_returnLoop
         "Схватка":
             call lb_test_example_fight
+        "Случайный энкаунтер":
+            call lb_test_example_encounter
         "Назад":
             return
     return
