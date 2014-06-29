@@ -102,7 +102,63 @@ init -2:
     style menu_choice_button is button:
         xminimum int(config.screen_width * 0.75)
         xmaximum int(config.screen_width * 0.75)
+        
+    python:
+        style.menu_choice_button.background = Frame("img/bg/button-idle.png", 5,5)
+        style.menu_choice_button.hover_background = Frame("img/bg/button-hovered.png", 5,5)
+        style.menu_choice_button.ypadding = 4
 
+
+##############################################################################
+# DF_Choice
+#
+# Custom screen that's used to display in-game menus.
+#
+# На вход экрану подается список из опций выбора, со следущем синтаксисом.
+# (caption, value, visible=True, condition=True)
+# где:
+#   caption - текст опции
+#   value - возвращаемое значение при выборе этой опции
+#   visible - условие при котором опция видна, по-умолчанию True
+#   condition - условие при котором опция доступна для выбора, по-умолчанию True
+# Пример листа:
+#  [("Пункт 1", 1, True, False), - Видимый, но недоступный для выбора пункт
+#   ("Пункт 2", 2, persistent.punkt2_visible) - пункт показываестя только если ранее переменная persistent.punkt2_visible была выставлена в True
+#   ("Пункт 3", 3, persistent.punkt3_visible, energy > 10)] - тоже самое что пункт2 + можно выбрать только при значении energy > 10
+screen dw_choice(items):
+    window:
+        style "menu_window"
+        xalign 0.3
+        yalign 0.5
+
+        vbox:
+            style "menu"
+            spacing 2
+            
+            for caption, value, visible, condition in items:
+
+                if visible and condition:
+
+                    button:
+                        action Return(value)
+                        style "menu_choice_button"
+
+                        text caption style "menu_choice"
+                        
+                if visible and not condition:
+                    
+                    button:
+                        action NullAction()
+                        style "menu_choice_button"
+                        
+                        text caption style "menu_choice_inactive"
+    use status_bar
+
+init python:
+    # Наследуем дефолтный стиль для текста
+    style.menu_choice_inactive = Style("menu_choice")
+    # И делаем текст серым, чтобы показать его недоступность
+    style.menu_choice_inactive.color = "#C0C0C0"
 
 ##############################################################################
 # Input
@@ -210,6 +266,13 @@ screen main_menu:
         yalign 0.05
         text_align 0.5
         size 30
+        bold True
+        color "#FFBB00"
+    text "Версия: %s"%(config.version):
+        xalign 0.99
+        yalign 0.17
+        text_align 0.5
+        size 14
         bold True
         color "#FFBB00"
 

@@ -6,6 +6,7 @@ import data
 from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
+import renpy.store as store
 
 
 def tuples_sum(tuple_list):
@@ -483,6 +484,31 @@ class Game(object):
         Рассчитываются по хитрой формуле.
         """
         return math.floor(math.log(self.reputation_points))
+        
+    @staticmethod
+    def weighted_random(data):
+        """
+        :param data: list of tuples (option, weight), где option - возвращаемый вариант, а
+                     weight - вес варианта. Чем больше, тем вероятнее что он выпадет.
+        :return: option, или None, если сделать выбор не удалось.
+        Пример использования:
+        coin_flip = weighted_random([("орёл", 1), ("решка",1)])
+        """
+        if len(data)>0:
+            import bisect
+            #Складываем вес всех доступных энкаунтеров
+            accumulated = []
+            total = 0
+            for option, weight in data:
+                assert weight >= 0
+                accumulated.append(weight + total)
+                total += weight
+            #Проверяем, что суммарный вес не равен нулю.
+            if total == 0:
+                return None
+            r = random.random() * accumulated[-1]
+            return data[bisect.bisect(accumulated, r)][0]
+        return None
 
 
 class Treasury(object):
@@ -515,3 +541,6 @@ class Lair(object):
         # Список женщин в логове
         self.women = []
 
+
+    
+    
