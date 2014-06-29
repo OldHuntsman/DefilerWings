@@ -38,12 +38,12 @@ screen main_map:
         fit_first True  #Принимаем размер следущей картинки. Нужно для корректного отображения подсказки посередине.
         add "img/map/ground.png"
     
-        for target in map_data:
+        for target, description in map_data:
             imagebutton: # target
-                auto "img/map/button_" + target[0] + "_%s.png"
-                action Return(target[0])
+                auto "img/map/button_" + target + "_%s.png"
+                action Return("lb_location_%s_main" % target)
                 focus_mask True
-                hovered map_tooltip.Action(target[1])
+                hovered map_tooltip.Action(description)
     
         if map_tooltip.value != "None": #Костыль-костылык. Не показываем подсказу если у нее значение по умолчанию
             frame:
