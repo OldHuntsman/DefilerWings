@@ -105,7 +105,7 @@ class Game(object):
             def __init__(self, *args, **kwargs):
                 super(Dragon, self).__init__(*args, **kwargs)
                 # TODO: нужно дать игроку возможность называть своего дракона при первом выборе выборе и давать следующим драконом это имя как фамильное после рандомного личного
-                self.name = u"Змей Горыныч"
+                self.name = u"Старый Охотник"
                 self._tiredness = 0  # увеличивается при каждом действии
                 self.bloodiness = 0  # range 0..5
                 self.lust = 0  # range 0..2
@@ -132,8 +132,7 @@ class Game(object):
                 children = self.children()
                 for child in children:
                     self(u'Ребенок {0}'.format(', '.join(child.anatomy[-3:] + child.heads)))
-
-
+            
             def modifiers(self):
                 """
                 :return: Список модификаторов дракона

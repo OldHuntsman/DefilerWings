@@ -1,6 +1,8 @@
 ﻿init python:
     from pythoncode import data
     from pythoncode import core
+    import os
+    import random
     game = core.Game(NVLCharacter)
     dragon = game.dragon #TODO: Заменить везде использование дракона.
     narrator = game.narrator
