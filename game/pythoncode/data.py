@@ -35,14 +35,6 @@ class DragonModifier(FighterModifier):
 attack_types = ['base', 'fire', 'ice', 'poison', 'sound', 'lightning']
 protection_types = ['base', 'scale', 'shield', 'armor']
 
-size_texts = dict()
-size_texts[1] = u'Мелкий'
-size_texts[2] = u'Обычный'
-size_texts[3] = u'Крупный'
-size_texts[4] = u'Внушительный'
-size_texts[5] = u'Огромный'
-size_texts[6] = u'Исполинский'
-
 fighter_mods = dict()
 fighter_mods[u"щит"] = FighterModifier(protection = ('base', (1, 0)))
 fighter_mods[u"меч"] = FighterModifier(attack = ('base', (2,1)))

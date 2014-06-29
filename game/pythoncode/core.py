@@ -104,7 +104,7 @@ class Game(object):
 
             def __init__(self, *args, **kwargs):
                 super(Dragon, self).__init__(*args, **kwargs)
-                # Здесь должна быть генерация имени.
+                # TODO: нужно дать игроку возможность называть своего дракона при первом выборе выборе и давать следующим драконом это имя как фамильное после рандомного личного
                 self.name = u"Змей Горыныч"
                 self._tiredness = 0  # увеличивается при каждом действии
                 self.bloodiness = 0  # range 0..5
@@ -112,7 +112,7 @@ class Game(object):
                 self.hunger = 0  # range 0..2
 
                 self.anatomy = ['size', 'paws', 'size', 'wings', 'size', 'paws']
-                self.heads = ['green', 'green']  # головы дракона
+                self.heads = ['green', 'red', 'shadow']  # головы дракона
                 self.spells = ['wings_of_wind']  # заклинания наложенные на дракона(обнуляются после сна)
                 self.avatar = "img/avadragon/green/1.jpg"
 
@@ -172,6 +172,31 @@ class Game(object):
                 self.lust = 3  # range 0..3
                 self.hunger = 3  # range 0..3
                 self.spells = []  # заклинания сбрасываются
+                
+            def color(self):
+                """
+                :return: Текстовое представление базового цвета дракона
+                """
+                if self.heads[0] == 'red':
+                    return u'красный'
+                elif self.heads[0] == 'black':
+                    return u'черный'
+                elif self.heads[0] == 'blue':
+                    return u'синий'
+                elif self.heads[0] == 'gold':
+                    return u'золотой'
+                elif self.heads[0] == 'silver':
+                    return u'серебряный'
+                elif self.heads[0] == 'bronze':
+                    return u'бронзовый'
+                elif self.heads[0] == 'iron':
+                    return u'стальной'
+                elif self.heads[0] == 'shadow':
+                    return u'фантомный'
+                elif self.heads[0] == 'white':
+                    return u'белый'
+                else:
+                    return u'зеленый'
 
             def kind(self):
                 """
@@ -181,19 +206,41 @@ class Game(object):
                 paws = self.paws()
                 heads = len(self.heads)
                 if wings == 0 and paws == 0:
-                    return u"Ползучий гад"
+                    return u"ползучий гад"
                 if wings > 0 and paws == 0:
-                    return u'Летучий гад'
+                    return u'летучий гад'
                 if wings == 0 and paws >= 0:
-                    return u'Линдвурм'
+                    return u'линдвурм'
                 if wings > 0 and paws == 1:
-                    return u'Вирвен'
+                    return u'вирвен'
                 if wings == 0 and heads > 1:
-                    return u'Гидра'
+                    if heads == 2:
+                        return u'двуглавый гидра'
+                    if heads == 3:
+                        return u'трехглавый гидра'
+                    if heads == 4:
+                        return u'четырёхглавый гидра'
+                    if heads == 5:
+                        return u'пятиглавый гидра'
+                    if heads == 6:
+                        return u'шестиглавый гидра'
+                    if heads == 7:
+                        return u'семиглавый гидрус'
                 if wings == 1 and paws == 2 and heads == 1:
-                    return u'Истинный дракон'
+                    return u'дракон'
                 if wings > 0 and paws >= 1 and heads > 1:
-                    return u'Многоглавый дракон'
+                    if heads == 2:
+                        return u'двуглавый дракон'
+                    if heads == 3:
+                        return u'трехглавый дракон'
+                    if heads == 4:
+                        return u'четырёхглавый дракон'
+                    if heads == 5:
+                        return u'пятиглавый дракон'
+                    if heads == 6:
+                        return u'шестиглавый дракон'
+                    if heads == 7:
+                        return u'семиглавый дракон'
 
             def size(self):
                 """
