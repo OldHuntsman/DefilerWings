@@ -72,10 +72,12 @@ init -1 python hide:
                 startupinfo = STARTUPINFO()
                 startupinfo.dwFlags |= STARTF_USESHOWWINDOW
             # Выполняем эту команду
-            p = Popen(cmd, stdout=PIPE, stderr=PIPE, startupinfo=startupinfo)
-            #r = call(["git", "describe --tag --long --always"])
-            if p.wait() == 0:           # Проверяем удачно ли она завершилась
-                return p.stdout.read()  # Возвращаем ее результат
+            try:
+                p = Popen(cmd, stdout=PIPE, stderr=PIPE, startupinfo=startupinfo)
+                if p.wait() == 0:           # Проверяем удачно ли она завершилась
+                    return p.stdout.read()  # Возвращаем ее результат
+            except:     #Поймали эксепшен, скорее всего из-за того что git не находится в PATH
+                pass
         return "Unknown"                # Возвращаем "Unknown", если ничего не получилось.
     
     config.version = get_version()
