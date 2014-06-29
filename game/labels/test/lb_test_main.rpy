@@ -33,4 +33,9 @@ label lb_test_debug:
                 game.dragon "Силы покинули меня."
             else:
                 game.dragon "Я и так истощен."
+        "Создать логово":
+            menu:
+                "Пока логово только одно. Нужно больше логов."
+                "Буреломный овраг":
+                    $ game.lair = core.Lair()
     return
