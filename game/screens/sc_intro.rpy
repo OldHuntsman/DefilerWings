@@ -26,6 +26,7 @@ transform intro_bg:
     
 screen sc_intro:
     add "intro 1" at intro_bg           #Показываем фон и добавляем трансформ чтобы он менялся по ходу сцены
+    add "img/bg/blur.png"               #Добавляем блюр.
     on "show" action Play("music","mus/intro.ogg") #Ставим играть музыку при открытии этого экрана
     on "hide" action Stop("music")      #Останавливаем при закрытии
     text intro_text at bottom_to_top:   #Добавляем текст (определен в text.py) с прокруткой
