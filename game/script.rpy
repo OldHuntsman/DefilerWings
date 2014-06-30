@@ -33,8 +33,7 @@ label start:
     nvl clear
     $ win = False
     while not win:
-        $ target_location = renpy.call_screen("main_map")
-        $ target_label = "lb_location_" + target_location + "_main"
+        $ target_label = renpy.call_screen("main_map")
         if renpy.has_label(target_label):
             $ renpy.call(target_label)
         else:

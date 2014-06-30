@@ -28,7 +28,59 @@ init -1 python hide:
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
     config.name = "Defiler Wings"
-    config.version = "0.0.3"
+    
+    def get_version():
+        '''
+        Функция для поиска текущей версии.
+        Читает версию из неотслеживаемого файла game/version. Его можно заполнять и ручками, но 
+        можно и используя автоматически выполняемые скрипты post-commit (чтобы версия писалась после
+        каждого коммита) и post-checkout (чтобы был корректный номер после смены ревизии). Оба эти 
+        файла должны находиться в .git/hooks/. Пример содержания такого скрипта:
+        #### FILE START ####
+        #!/bin/sh
+        git describe --tag --long --always > game/version
+        # где:
+        #   git describe - выводит верисию c опциями:
+        #       --tag - Если есть, то текущий тег
+        #       --long - Всегда длинном формате, указывая количество коммитов и номер коммита
+        #       --always - если тег не найден, то просто номер текущего коммита
+        #   >  - перенаправляем вывод этой команды в файл перезаписывая его.
+        #   game/version - путь к файлу
+        #### FILE END ####
+        Если такого файла не найдено, то можно пропробовать определить версию "на горячую" выполнив
+        то же самое в консоли. В релизнутой игре это точно не получится, но в dev-версии стоит
+        попробовать.
+        :return: Возвращает строку с версией игры, читая ее из game/version. Если этот файл найти не
+        удалось возвращает "Unknown".
+        '''
+        import os
+        version_file = os.path.join(config.basedir, "game/version") # Получаем путь до файла с версией
+        if os.path.isfile(version_file):    # Проверяем есть ли такой файл
+            f = open(version_file)          # и если есть
+            return f.read()                 # возвращаем его содержание
+        else:                               # Если это не получилось, то пробуем получить версию файла самостоятельно
+            from subprocess import Popen, PIPE, STDOUT, STARTUPINFO, STARTF_USESHOWWINDOW # Импортирует все немобходимое
+            cmd = ["git",                   # Составляем команду для получения версии. См. описание выше.
+                    "--git-dir=%s"%os.path.join(config.basedir, ".git"),
+                    "describe",
+                    "--tags",
+                    "--long",
+                    "--always"]
+            # Для винды делаем там чтобы не выскакивало окно консоли.
+            startupinfo = None
+            if os.name == 'nt':
+                startupinfo = STARTUPINFO()
+                startupinfo.dwFlags |= STARTF_USESHOWWINDOW
+            # Выполняем эту команду
+            try:
+                p = Popen(cmd, stdout=PIPE, stderr=PIPE, startupinfo=startupinfo)
+                if p.wait() == 0:           # Проверяем удачно ли она завершилась
+                    return p.stdout.read()  # Возвращаем ее результат
+            except:     #Поймали эксепшен, скорее всего из-за того что git не находится в PATH
+                pass
+        return "Unknown"                # Возвращаем "Unknown", если ничего не получилось.
+    
+    config.version = get_version()
 
     #########################################
     # Themes
@@ -237,10 +289,10 @@ init -1 python hide:
     config.window_hide_transition = None
 
     ## Used when showing NVL-mode text directly after ADV-mode text.
-    config.adv_nvl_transition = dissolve
+    config.adv_nvl_transition = None
 
     ## Used when showing ADV-mode text directly after NVL-mode text.
-    config.nvl_adv_transition = dissolve
+    config.nvl_adv_transition = None
 
     ## Used when yesno is shown.
     config.enter_yesno_transition = None
