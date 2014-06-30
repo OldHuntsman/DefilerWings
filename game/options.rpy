@@ -60,24 +60,25 @@ init -1 python hide:
             return f.read()                 # возвращаем его содержание
         else:                               # Если это не получилось, то пробуем получить версию файла самостоятельно
             from subprocess import Popen, PIPE, STDOUT, STARTUPINFO, STARTF_USESHOWWINDOW # Импортирует все немобходимое
-            cmd = ["git",                   # Составляем команду для получения версии. См. описание выше.
-                    "--git-dir=%s"%os.path.join(config.basedir, ".git"),
-                    "describe",
-                    "--tags",
-                    "--long",
-                    "--always"]
+            cmd_ops =  ["--git-dir=%s"%os.path.join(config.basedir, ".git"), # Составляем список опций.
+                        "describe",
+                        "--tags",
+                        "--long",
+                        "--always"]
             # Для винды делаем там чтобы не выскакивало окно консоли.
             startupinfo = None
             if os.name == 'nt':
                 startupinfo = STARTUPINFO()
                 startupinfo.dwFlags |= STARTF_USESHOWWINDOW
             # Выполняем эту команду
-            try:
-                p = Popen(cmd, stdout=PIPE, stderr=PIPE, startupinfo=startupinfo)
-                if p.wait() == 0:           # Проверяем удачно ли она завершилась
-                    return p.stdout.read()  # Возвращаем ее результат
-            except:     #Поймали эксепшен, скорее всего из-за того что git не находится в PATH
-                pass
+            for cmd in ["git",
+                        os.path.join(os.environ["PROGRAMFILES"], "Git", "bin", "git")]:
+                try: #Пробуем выполнить один из этих бинаринков
+                    p = Popen([cmd] + cmd_ops, stdout=PIPE, stderr=PIPE, startupinfo=startupinfo)
+                    if p.wait() == 0:           # Проверяем удачно ли она завершилась
+                        return p.stdout.read()  # Возвращаем ее результат
+                except:     #Поймали эксепшен, скорее всего из-за того OS не нашла такой файл, пробуем следущий
+                    pass
         return "Unknown"                # Возвращаем "Unknown", если ничего не получилось.
     
     config.version = get_version()
