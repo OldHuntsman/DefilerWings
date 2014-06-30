@@ -1,9 +1,7 @@
 ﻿init python:
     from pythoncode import data
     from pythoncode import core
-    game = core.Game(NVLCharacter)
-    dragon = game.dragon #TODO: Заменить везде использование дракона.
-    narrator = game.narrator
+    from pythoncode.core import Game
     
 init:
     image side dragon = "dragon ava"
@@ -26,6 +24,12 @@ init:
 # Начало игры
     
 label start:
+    python:
+        #Инициализируем game в начале игры, а не при инициализации. Для того чтобы 
+        game = core.Game(NVLCharacter)
+        #dragon = game.dragon       #TODO: Заменить везде использование дракона на game.dragon
+        narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
+        
     # Прокручиваем заставку.
     call screen sc_intro
     nvl clear
