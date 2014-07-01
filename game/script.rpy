@@ -1,14 +1,24 @@
 ﻿init python:
+    #Импортируем нужные библиотеки. Возможно это надо засунуть в какой-то отдельный файл инициализации.
     from pythoncode import data
     from pythoncode import core
     import os
     import random
+    
+    #Заряжаем пасхалки. Их можно будет встретить в игре лишь однажды
+    one_time_encounters = ['enc_redcape']
+    for encounter in one_time_encounters:
+        if persistent.encounter == None:
+            persistent.encounter = False
+    
     game = core.Game(NVLCharacter)
     dragon = game.dragon #TODO: Заменить везде использование дракона.
     narrator = game.narrator
     
+    
+    
 init:
-    image side dragon = "dragon ava"
+    $ game.dragon.avatar = get_dragon_avatar('green')
     image bg main = "img/bg/main.jpg"  # заставка главного меню
     image place = ConditionSwitch(              
         "place == 'city_gates'", "img/bg/city/outside.png",    # определение фонов для разных мест (потребует доработки)  

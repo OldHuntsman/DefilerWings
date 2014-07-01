@@ -2,6 +2,31 @@
 
 python early:
     #Описания дракона
+    hunger_texts = {}
+    hunger_texts[0] = '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Обожрался{/color}{/font}'
+    hunger_texts[1] = '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Сытый{/color}{/font}'
+    hunger_texts[2] = '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Заморил червячка{/color}{/font}'
+    hunger_texts[3] = '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Голодный{/color}{/font}'
+
+    lust_texts = {}
+    lust_texts[0] = '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Вялый{/color}{/font}'
+    lust_texts[1] = '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Возбужден{/color}{/font}'
+    lust_texts[2] = '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Осеменитель{/color}{/font}'
+    lust_texts[3] = '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Сосуд похоти{/color}{/font}'
+
+    bloodlust_texts = {}
+    bloodlust_texts[5] = '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Взбешен{/color}{/font}'
+    bloodlust_texts[4] = '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Разъярен{/color}{/font}'
+    bloodlust_texts[3] = '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Раздражен{/color}{/font}'
+    bloodlust_texts[2] = '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Напряжен{/color}{/font}'
+    bloodlust_texts[1] = '{font=fonts/AnticvarShadow.ttf}{color=#ссссff}Спокоен{/color}{/font}'    
+    bloodlust_texts[0] = '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Умиротворен{/color}{/font}'
+
+    health_texts = {}
+    health_texts[0] = '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Полудохлый{/color}{/font}'
+    health_texts[1] = '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Раненый{/color}{/font}'
+    health_texts[2] = '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Цел и невредим{/color}{/font}'
+    
     size_texts = {}
     size_texts[1] = 'Мелкий'
     size_texts[2] = 'Обычный'

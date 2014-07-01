@@ -1,8 +1,8 @@
 init python:
     def get_dragon_avatar(type):
-        directory = 'img/avadragon/' + type #получаем путь простым сложением
+        directory = os.path.join(config.basedir,"game", "img", "avadragon", type) 
         filename = random.choice(os.listdir(directory)) # получаем название файла
-        return directory + '/' + filename
+        return os.path.join(directory,filename)
 
     class Avatars:
         def __init__(self):
