@@ -23,7 +23,7 @@ label lb_location_plains_main:
     return
     
 label lb_encounter_plains:
-    $ choices = [("lb_enc_fair", 10),
+    $ choices = [("lb_enc_fair", 1000),
                 ("lb_enc_girls", 10),
                 ("lb_enc_militia", 10),
                 ("lb_enc_mill", 10),
@@ -38,9 +38,8 @@ label lb_enc_fair:
     'Ярмарка'
     menu:
         'Оставить их в покое':
-            $drain = game.dragon.drain_energy()
+            $ game.dragon.bloodiness = 3
             return
-    
     
     return
     

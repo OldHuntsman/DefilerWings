@@ -110,11 +110,12 @@ class Game(object):
                 self.bloodiness = 0  # range 0..5
                 self.lust = 0  # range 0..2
                 self.hunger = 0  # range 0..2
+                self.health = 2 # range 0..2
                 self.reputation_points = 1 # при наборе определённого количества растёт уровень дурной славы
 
                 self.anatomy = ['size', 'paws', 'size', 'wings', 'size', 'paws']
-                self.heads = ['green', 'red', 'shadow']  # головы дракона
-                self.spells = ['wings_of_wind']  # заклинания наложенные на дракона(обнуляются после сна)
+                self.heads = ['green']  # головы дракона
+                self.spells = []  # заклинания наложенные на дракона(обнуляются после сна)
                 self.avatar = "img/avadragon/green/1.jpg"
 
             def _debug_print(self):

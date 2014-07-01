@@ -14,13 +14,12 @@ python early:
     lust_texts[2] = '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Осеменитель{/color}{/font}'
     lust_texts[3] = '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Сосуд похоти{/color}{/font}'
 
-    bloodlust_texts = {}
-    bloodlust_texts[5] = '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Взбешен{/color}{/font}'
-    bloodlust_texts[4] = '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Разъярен{/color}{/font}'
-    bloodlust_texts[3] = '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Раздражен{/color}{/font}'
-    bloodlust_texts[2] = '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Напряжен{/color}{/font}'
-    bloodlust_texts[1] = '{font=fonts/AnticvarShadow.ttf}{color=#ссссff}Спокоен{/color}{/font}'    
-    bloodlust_texts[0] = '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Умиротворен{/color}{/font}'
+    bloodlust_texts = ['{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Умиротворен{/color}{/font}',
+                      '{font=fonts/AnticvarShadow.ttf}{color=#ссссff}Спокоен{/color}{/font}',
+                      '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Напряжен{/color}{/font}',
+                      '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Раздражен{/color}{/font}',
+                      '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Разъярен{/color}{/font}',
+                      '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Взбешен{/color}{/font}']
 
     health_texts = {}
     health_texts[0] = '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Полудохлый{/color}{/font}'
