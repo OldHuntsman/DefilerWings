@@ -45,9 +45,11 @@ label lb_test_debug:
 label lb_test_example_inaccessible_menu:
     nvl clear
     python:
+        # Составляем список параметров для выбора.
         menu_options = [("Делать что-нибудь (Заблокировано:нужен остаток энергии меньше 2)", 1, game.dragon.energy()>=2, game.dragon.energy()<2),
                         ("Делать что-нибудь", 2, game.dragon.energy()<2, game.dragon.energy()<2),
                         ("Назад", 3, True, True)]
+        # Для описания параметров см описание экрана "dw_choice", в данный момент он находится в screens.rpy
         result = renpy.call_screen("dw_choice", menu_options)
         if result == 1:
             pass
