@@ -164,7 +164,16 @@ class Game(object):
                     self._tiredness = self._tiredness + drain
                     return True
                 return False
-
+            
+            def gain_rage(self, gain=1):
+                """
+                Увеличивает раздражение дракона на :gain:
+                """
+                if self.bloodiness < 5:
+                    self.bloodiness += 1
+                    return True
+                return False
+                
             def magic(self):
                 """
                 :return: Магическая сила(целое число)

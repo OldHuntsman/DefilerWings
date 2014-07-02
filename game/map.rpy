@@ -123,7 +123,7 @@ screen status_bar:
             anchor (0.5,0.5)
             size 23
             
-        text "%s" % bloodlust_texts[1]:
+        text "%s" % bloodlust_texts[game.dragon.bloodiness]:
             pos(160,503)
             anchor (0.5,0.5)
             size 23

@@ -35,10 +35,19 @@ label lb_encounter_plains:
     
     
 label lb_enc_fair:
-    'Ярмарка'
+    'Ярмарка. Тут юноши присматривают невест из окрестных деревень, а крестьяне демонстрируют свой лучший скот.'
     menu:
-        'Оставить их в покое':
-            $ game.dragon.bloodiness = 3
+        'Красавица':
+            'Сцена погони. Все разбегаются, дракон остаётся с пойманной девушкой.'
+            $ girl = Girl('peasant')
+            girl 'Я тут???'
+            return
+            
+        'Бык':
+            return:
+            
+        'Оставить их в покое' if game.dragon.bloodiness < 5:
+            $ dragon.gain_rage()
             return
     
     return

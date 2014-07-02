@@ -15,7 +15,7 @@ python early:
     lust_texts[3] = '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Сосуд похоти{/color}{/font}'
 
     bloodlust_texts = ['{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Умиротворен{/color}{/font}',
-                      '{font=fonts/AnticvarShadow.ttf}{color=#ссссff}Спокоен{/color}{/font}',
+                      '{font=fonts/AnticvarShadow.ttf}{color=#00cccc}Спокоен{/color}{/font}',
                       '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Напряжен{/color}{/font}',
                       '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Раздражен{/color}{/font}',
                       '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Разъярен{/color}{/font}',
