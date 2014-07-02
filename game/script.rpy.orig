@@ -1,6 +1,15 @@
 ﻿init python:
     from pythoncode import data
     from pythoncode import core
+<<<<<<< HEAD
+    import os
+    import random
+    game = core.Game(NVLCharacter)
+    dragon = game.dragon #TODO: Заменить везде использование дракона.
+    narrator = game.narrator
+=======
+    from pythoncode.core import Game
+>>>>>>> save-load-reload
     
 init:
     image side dragon = "dragon ava"

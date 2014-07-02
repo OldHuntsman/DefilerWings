@@ -409,3 +409,7 @@ init python:
     build.documentation('*.html')
     build.documentation('*.txt')
     
+    # Улучшаем вывод ошибок Pickle
+    if config.developer:
+        config.use_cpickle = False
+    
