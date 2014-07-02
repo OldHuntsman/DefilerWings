@@ -1,8 +1,10 @@
 init python:
+    import os
+    import random
     def get_dragon_avatar(type):
-    # config.basedir - директория где у нас лежит сама игра.
-    # "game" - директория относительно config.basedir где лежат собственно файлы игры и 
-    # относительно которой высчитываются все пути
+        # config.basedir - директория где у нас лежит сама игра.
+        # "game" - директория относительно config.basedir где лежат собственно файлы игры и 
+        # относительно которой высчитываются все пути
         relative_path = "img/avadragon/"+type # Относительный путь для движка ренпи
         absolute_path = os.path.join(config.basedir, "game", relative_path) # Cоставляем абсолютный путь где искать
         filename = random.choice(os.listdir(absolute_path)) # получаем название файла
