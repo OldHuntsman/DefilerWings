@@ -13,6 +13,8 @@
 #
 # TODO: Можно добавить map_data куда-нибудь в Game, для того чтобы была возможность управления налету.
 
+# Составляем стиль для подсказки.
+# TODO: выпилить, сделав нормальный стиль для prompt
 init python:
     style.map_tooltip = Style("prompt")
     style.map_tooltip.background = Frame("img/bg/logovo.png", 5,5)
@@ -46,20 +48,22 @@ screen main_map:
                 hovered map_tooltip.Action(description)
     
         if map_tooltip.value != "None": #Костыль-костылык. Не показываем подсказу если у нее значение по умолчанию
-            frame:
-                style "map_tooltip"
+            frame:                      # Делаем небольшой фрейм, чтобы показать подсказку
+                style "map_tooltip"     # Ставим ему стиль
                 xpadding 10
                 ypadding 5
                 xalign 0.5
                 yalign 0.01
-                text map_tooltip.value:
+                text map_tooltip.value: # Выводим собственно текст подсказки
                     xalign 0.5
                     
-    #Выводим из под действия fixed
+    #Выходим из под действия fixed
     use status_bar
     if game.lair is not None:
         use to_lair_button
-            
+
+# Составляем стиль для подсказки.
+# TODO: выпилить, сделав нормальный стиль для prompt
 init python:
     style.status_bar_tooltip = Style("prompt")
     style.status_bar_tooltip.background = Frame("img/bg/logovo.png", 5,5)
@@ -133,7 +137,7 @@ screen status_bar:
             anchor (0.5,0.5)
             size 23
         
-        if status_bar_tooltip.value != "None": #Костыль аналогичный map_tooltip
+        if status_bar_tooltip.value != "None": #см. map_tooltip на экране main_map
             frame:
                 style "status_bar_tooltip"
                 xpadding 10
