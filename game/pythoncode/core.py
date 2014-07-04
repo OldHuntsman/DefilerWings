@@ -9,7 +9,6 @@ import renpy.exports as renpy
 import renpy as renpy_internal
 import renpy.store as store
 
-
 def tuples_sum(tuple_list):
     return sum([first for first, _ in tuple_list]), sum([second for _, second in tuple_list])
 
@@ -308,10 +307,12 @@ class Dragon(Fighter):
         self.bloodiness = 0  # range 0..5
         self.lust = 0  # range 0..2
         self.hunger = 0  # range 0..2
+        self.health = 2 # range 0..2
+        self.reputation_points = 1 # при наборе определённого количества растёт уровень дурной славы
 
         self.anatomy = ['size', 'paws', 'size', 'wings', 'size', 'paws']
-        self.heads = ['green', 'red', 'shadow']  # головы дракона
-        self.spells = ['wings_of_wind']  # заклинания наложенные на дракона(обнуляются после сна)
+        self.heads = ['green']  # головы дракона
+        self.spells = []  # заклинания наложенные на дракона(обнуляются после сна)
         self.avatar = "img/avadragon/green/1.jpg"
 
     def _debug_print(self):
@@ -361,13 +362,29 @@ class Dragon(Fighter):
             self._tiredness = self._tiredness + drain
             return True
         return False
-
+            
+    def gain_rage(self, gain=1):
+        """
+        Увеличивает раздражение дракона на :gain:
+        """
+        if self.bloodiness < 5:
+            self.bloodiness += 1
+            return True
+        return False
+                
     def magic(self):
         """
         :return: Магическая сила(целое число)
         """
         return sum([get_modifier(mod).magic for mod in self.modifiers()])
-
+            
+    def reputation(self):
+        """
+        Видимые игроку очки дурной славы.
+        Рассчитываются по хитрой формуле.
+        """
+        return math.floor(math.log(self.reputation_points))
+        
     def fear(self):
         """
         :return: Значение чудовищносити(целое число)

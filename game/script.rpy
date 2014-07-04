@@ -1,9 +1,28 @@
 ﻿init python:
+    #Импортируем нужные библиотеки. Возможно это надо засунуть в какой-то отдельный файл инициализации.
     from pythoncode import data
     from pythoncode import core
     
+    #Заряжаем пасхалки. Их можно будет встретить в игре лишь однажды
+    one_time_encounters = ['enc_redcape']
+    for encounter in one_time_encounters:
+        if persistent.encounter == None:
+            persistent.encounter = False
+    
+    
+    #Делаем нужные классы
+    class Girl(object):
+        """
+        Базовый класс для всего, с чем можно заниматься сексом.
+        """
+            
+        def __init__(self, gtype = 'peasant'):
+            self.gtype = gtype
+            self.avatar = "img/avahuman/peasant/1.jpg"
+            self.name = u"Дуняша"            
+    
+    
 init:
-    image side dragon = "dragon ava"
     image bg main = "img/bg/main.jpg"  # заставка главного меню
     image place = ConditionSwitch(              
         "place == 'city_gates'", "img/bg/city/outside.png",    # определение фонов для разных мест (потребует доработки)  
@@ -27,6 +46,7 @@ label start:
         #Инициализируем game в начале игры, а не при инициализации. Для того чтобы 
         game = core.Game(NVLCharacter)
         #dragon = game.dragon       #TODO: Заменить везде использование дракона на game.dragon
+        game.dragon.avatar = get_dragon_avatar('green')
         narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
         
     # Прокручиваем заставку.
