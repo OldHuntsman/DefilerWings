@@ -24,14 +24,34 @@ class Game(store.object):
         self.lair = None  # текущее логово
         self.reputation_points = 0  # Дурная слава дракона
         self.mobilization = 0  # мобилизация королевства
-        self.year = 0  # текущий год
+        self._year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
-                
         
         self.dragon = Dragon(self, base_character())
         self.knight = Knight(self, base_character())
         self.narrator = Narrator(self, base_character())
+        #temp:
+        self.thief = Thief(self.reputation())
 
+    @property
+    def year(self):
+        return self._year
+    @year.setter
+    def year(self, value):
+        if value >= self._year:
+            self._year = value
+        else:
+            raise Exception ("Время не может течь назад")
+        
+    def save(self):
+        '''
+        Логика сохранения игры.
+        '''
+        renpy.rename_save("1-1", "1-2") #Переименовываем старый сейв
+        renpy.take_screenshot() # Делаем скриншот для отображения в сейве
+        renpy.save("1-1")               # Сохраняем игру
+        return True
+        
     def battle(self, fighter1, fighter2):
         """
         Логика сражения.
@@ -78,13 +98,13 @@ class Game(store.object):
                 #также увеличиваем показатель ранений дракона
 
     def next_year(self):
-        """
+        '''
         Логика смены года.
         Проверки на появление/левелап/рейд рыцаря/вора.
         Изменение дурной славы.
         Что-то ещё?
-        """
-        raise NotImplementedError
+        '''
+        self.year += 1
 
     def sleep(self):
         """
@@ -127,6 +147,9 @@ class Game(store.object):
         Видимые игроку очки дурной славы.
         Рассчитываются по хитрой формуле.
         """
+        #т.к. логарифма нуля не существует, а меньше 1 логарифм будет отрицательным
+        if self.reputation_points < 1:
+            return 0
         return math.floor(math.log(self.reputation_points))
         
     @staticmethod
