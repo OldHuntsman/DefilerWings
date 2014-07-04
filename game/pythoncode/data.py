@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-
 class FighterModifier(object):
     """
     Базовый класс для разнообразных модификаторов.
@@ -31,6 +30,88 @@ class DragonModifier(FighterModifier):
         self.fear = fear
         self.max_energy = energy
 
+class Container(dict):
+    '''
+    Класс-хранилище разнообразных свойст/модификаторов
+    '''
+    def __init__(self,id,data=None,*args,**kwargs):
+        super(Container, self).__init__(*args,**kwargs)
+        self.id = id
+        if data is not None:
+        
+            for key, value in data.items():
+                self.add(key, value)
+    
+    def add(self, id, data):
+        '''
+        :param id: Идентификатор свойства/модификатора
+        :param data: dict, содержащий парамерты этого свойства/модификатор
+        '''
+        if id not in self:
+            if type(data) is dict:
+                self[id] = Container(id, data)
+            else:
+                self[id] = data
+        else:
+            raise Exception("Already in container")
+    
+    def sum(self, parameter):
+        '''
+        :param parameter: Значение, по которому нужно суммировать аттрибуты. Суммирование проводится
+                          рекурсивно.
+        '''
+        total = 0
+        if parameter in self:
+            try:
+                total += self[parameter]
+            except ValueError:
+                pass
+        for i in self:
+            if type(self[i]) == 'pythoncode.data.Container':
+                total += self[i].sum(parameter)
+        return total
+    
+    def __getattr__(self, name):
+        if name in self:
+            return self[name]
+        else:
+            return None
+
+thief_abilities = Container("thief_abilities",
+                            { 
+                              "climber":      { "name": "Альпинист" },
+                              "diver":        { "name": "Ныряльщик" },
+                              "greedy":       { "name": "Жадина" },
+                              "mechanic":     { "name": "Механик" },
+                              "magicproof":   { "name": "Знаток магии" },
+                              "poisoner":     { "name": "Отравитель" },
+                              "assassin":     { "name": "Ассасин" },
+                              "night_shadow": { "name": "Ночная тень" },
+                              "trickster":    { "name": "Ловкач" }
+                            }
+                           )
+thief_items = Container("thief_items",
+                        {
+                          "plan":                 {"name": "План ограбления",
+                                                   "level": 1},
+                          "scheme":               {"name": "Схема тайных проходов"},
+                          "sleep_dust":           {"name": "Сонный порошок"},
+                          "bottomless_sac":       {"name": "Бездонный мешок",
+                                                   "dropable": True},
+                          "antidot":              {"name": "Антидот"},
+                          "enchanted_dagger":     {"name": "Зачарованный кинжал",
+                                                   "dropable": True},
+                          "ring_of_invisibility": {"name": "Кольцо-невидимка",
+                                                   "dropable": True},
+                          "flying_boots":         {"name": "Летучие сандалии",
+                                                   "dropable": True},
+                          "cooling_amulet":       {"name": "Охлаждающий амулет",
+                                                   "dropable": True},
+                          "warming_amulet1":      {"name": "Согревающий амулет",
+                                                   "dropable": True}
+                        })
+
+thief_titles = [ "Мародер", "Грабитель", "Взломшик", "Расхититель гробниц", "Мастер вор" ]
 
 attack_types = ['base', 'fire', 'ice', 'poison', 'sound', 'lightning']
 protection_types = ['base', 'scale', 'shield', 'armor']

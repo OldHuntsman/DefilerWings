@@ -105,6 +105,16 @@ class Game(store.object):
         Что-то ещё?
         '''
         self.year += 1
+        # Если вора нет, то пробуем создать его
+        if self.thief is None:
+            self.thief = Thief(self.reputation())
+        else: # Иначе пробуем его пустить на дело
+            if random.choice(range(6)) in range(1+len(self.thief.items)):
+                #self.thief.do_stuff() # Идем на дело
+                pass
+            else:
+                if random.choice(range(2)) == 0:    # C 50% шансом получаем шмотку
+                    self.thief.receive_item()
 
     def sleep(self):
         """
@@ -524,38 +534,52 @@ class Knight(Fighter):
 class Thief(store.object):
     """
     Класс вора.
+    TODO: Имя вора.
     """
-
+    
+    def __new__(cls, reputation, *args, **kwargs):
+        obj = super(Thief, cls).__new__(cls, *args, **kwargs)
+        skill = 0
+        for i in range(3+reputation):
+            if random.choice(range(3)) == 0:
+                skill += 1
+        # Если не повезло и уровень вора по прежнему на нуле - он не появляется
+        if skill == 0:
+            return None
+        else:
+            obj._skill = skill
+            return obj
+    
     def __init__(self, *args, **kwargs):
         super(Thief, self).__init__(self, *args, **kwargs)
-        self._skill = 1
+        self.abilities = data.Container("thief_abilities")
+        self.items = data.Container("thief_items")
+        # Определяем способности вора
+        ability_list = [ a for a in data.thief_abilities ] # Составляем список из возможных способностей
+        ability_list = ability_list + [ None for i in range(len(ability_list)) ] # Добавляем невалидных вариантов
+        for level in range(self._skill):
+            ab = random.choice(ability_list)
+            if ab is not None and ab not in self.abilities:
+                self.abilities.add(ab, data.thief_abilities[ab])
 
+    @property # Read-Only
     def skill(self):
-        if "robbery_plan" in self.modifiers():
-            return self._skill + 1
-        if "bad_plan" in self.modifiers():
-            return self._skill - 1
-        return self._skill
+        return self._skill + self.items.sum("skill")
 
     def title(self):
         """
         :return: Текстовое представление 'звания' вора.
         """
-        if self.skill() == 1:
-            return u"Мародёр"
-        elif self.skill() == 2:
-            return u"Грабитель"
-        elif self.skill() == 3:
-            return u"Взломшик"
-        elif self.skill() == 4:
-            return u"Расхититель гробниц"
-        elif self.skill() >= 5:
-            return u"Мастер вор"
-        else:
-            assert False, u"Недопустимое значение поля skill"
+        try:
+            return data.thief_titles[self.skill - 1]
+        except:
+            raise Exception("Cannot determine title for skill level %s" % self.skill)
 
-    def new_ability(self):
-        raise NotImplementedError
+    def receive_item(self):
+        item_list = [ i for i in data.thief_items if i not in self.items ]
+        item = random.choice(item_list)
+        self.items.add(item, data.thief_items[item])
+        return True
 
     def new_item(self):
         """
