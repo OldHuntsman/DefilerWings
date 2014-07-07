@@ -27,10 +27,10 @@ class Game(store.object):
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
                 
         
-        self.dragon = Dragon(self, base_character())
-        self.knight = Knight(self, base_character())
-        self.narrator = Narrator(self, base_character())
-        self.girl = Girl(self, base_character())
+        self.dragon = Dragon(self, base_character)
+        self.knight = Knight(self, base_character)
+        self.narrator = Sayer(self, base_character)
+        self.girl = Girl(self, base_character)
 
     def battle(self, fighter1, fighter2):
         """
@@ -186,74 +186,59 @@ class Lair(object):
         self.women = []
 
 
-class Narrator(store.object):
-    """
-    Класс, которым будет заменен narrator по-умолчанию.
-    """
-    def __init__(self, gameRef, base_character, *args, **kwargs):
+class Sayer(store.object):
+    '''
+    Базовый класс для всего что умеет говорить
+    '''
+    def __init__(self,gameRef, base_character, *args, **kwargs):
         """
         :param gameRef: Game object
-        :param base_character: base_character базовый персонаж от которого будет вестись вещание
+        :param base_character: base_character базовый класс персонажа от которого будет вестись вещание
         """
-        super(Narrator, self).__init__(*args, **kwargs)
-        self.gameRef = gameRef
-        self.base_character = base_character
-        self.avatar = None # У нарраторар нет аватарки. Ну или можно будет поставить потом.
+        self.avatar = None      # По умолчанию аватарки нет
+        self._gameRef = gameRef # Проставляем ссылку на игру
+        self._base_character = base_character # На всякий случай если захотим пересоздать (но зачем?)
+        self._real_character = base_character() # Создаем объект от которого будет вестись вещание
     
+    @property   #Задаем имя через свойство, чтобы при изменении его передавать в персонажа.
+    def name(self):
+        return self._real_character.name
+    
+    @name.setter
+    def name(self, value):
+        self._real_character.name = value
+        
     def __call__(self, *args, **kwargs):
         """
         Этот метод используется при попытке сказать что-то персонажем.
         Переопределяем, чтобы сообщить игре, что сейчас говорит этот персонаж.
         """
-        self.gameRef.currentCharacter = self
-        self.base_character(*args, **kwargs)
+        self._gameRef.currentCharacter = self # Прописываем кто говорит в настоящий момент
+        self._real_character(*args, **kwargs) # На самом деле говорим
 
-class Girl(store.object):
+class Girl(Sayer):
     """
     Базовый класс для всего, с чем можно заниматься сексом.
     """
             
-    def __init__(self, gameRef, base_character, *args, **kwargs):
-        super(Girl, self).__init__(*args, **kwargs)
-        self.gameRef = gameRef
-        self.base_character = base_character
-        self.avatar = "img/avahuman/peasant/1.jpg"
-        self.name = u"Дуняша"  
-        self.real_character = base_character(self.name)
-        
-        
-    def __call__(self, *args, **kwargs):
-        """
-        Этот метод используется при попытке сказать что-то персонажем.
-        Переопределяем, чтобы сообщить игре, что сейчас говорит этот персонаж.
-        """
-        self.gameRef.currentCharacter = self
-        self.base_character(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(Girl, self).__init__(*args, **kwargs) # Инициализируем родителя
+        self.name = u"Дуняша"
             
-class Fighter(store.object):
+class Fighter(Sayer):
     """
     Базовый класс для всего, что способно драться.
     Декоратор нужен чтобы реализовывать эффекты вроде иммунитета или ядовитого дыхания.
     То есть такие, которые воздействуют на модификаторы противника.
     """
 
-    def __init__(self, gameRef, base_character, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """
         :param gameRef: Game object
         """
         super(Fighter, self).__init__(*args, **kwargs)
-        self.gameRef = gameRef
-        self.base_character = base_character
         self._modifiers = []
         self.avatar = None # По умолчанию аватарки нет, нужно выбрать в потомках.
-        
-    def __call__(self, *args, **kwargs):
-        """
-        Этот метод используется при попытке сказать что-то персонажем.
-        Переопределяем, чтобы сообщить игре, что сейчас говорит этот персонаж.
-        """
-        self.gameRef.currentCharacter = self
-        self.base_character(*args, **kwargs)
 
     def protection(self):
         """
@@ -634,4 +619,3 @@ class Women(store.object):
         self.magic = 0
         self.pregnant = False
         self.can_give_birth = True
-

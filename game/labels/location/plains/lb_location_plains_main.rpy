@@ -41,7 +41,7 @@ label lb_enc_fair:
         'Красавица':
             'Сцена погони. Все разбегаются, дракон остаётся с пойманной девушкой.'
             $ get_girl()
-            game.girl(base_character(game.girl.name)) 'Я тут???'
+            game.girl 'Я тут???'
             game.dragon 'Да, тут.'
             return
             
