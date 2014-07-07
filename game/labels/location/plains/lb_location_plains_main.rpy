@@ -35,12 +35,14 @@ label lb_encounter_plains:
     
     
 label lb_enc_fair:
+    $ 
     'Ярмарка. Тут юноши присматривают невест из окрестных деревень, а крестьяне демонстрируют свой лучший скот.'
     menu:
         'Красавица':
             'Сцена погони. Все разбегаются, дракон остаётся с пойманной девушкой.'
-            $ girl = Girl('peasant')
-            girl 'Я тут???'
+            $ get_girl()
+            game.girl(base_character(game.girl.name)) 'Я тут???'
+            game.dragon 'Да, тут.'
             return
             
         'Бык':

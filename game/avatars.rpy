@@ -9,6 +9,13 @@ init python:
         absolute_path = os.path.join(config.basedir, "game", relative_path) # Cоставляем абсолютный путь где искать
         filename = random.choice(os.listdir(absolute_path)) # получаем название файла
         return relative_path + "/" + filename # Возвращаем правильно отформатированно значение
+        
+    def get_girl(type = 'peasant'):
+        relative_path = "img/avahuman/"+type # Относительный путь для движка ренпи
+        absolute_path = os.path.join(config.basedir, "game", relative_path) # Cоставляем абсолютный путь где искать
+        filename = random.choice(os.listdir(absolute_path)) # получаем название файла
+        game.girl.avatar = relative_path + "/" + filename # Возвращаем правильно отформатированно значение
+
 
     class Avatars:
         def __init__(self):

@@ -30,6 +30,7 @@ class Game(store.object):
         self.dragon = Dragon(self, base_character())
         self.knight = Knight(self, base_character())
         self.narrator = Narrator(self, base_character())
+        self.girl = Girl(self, base_character())
 
     def battle(self, fighter1, fighter2):
         """
@@ -206,7 +207,29 @@ class Narrator(store.object):
         """
         self.gameRef.currentCharacter = self
         self.base_character(*args, **kwargs)
-    
+
+class Girl(store.object):
+    """
+    Базовый класс для всего, с чем можно заниматься сексом.
+    """
+            
+    def __init__(self, gameRef, base_character, *args, **kwargs):
+        super(Girl, self).__init__(*args, **kwargs)
+        self.gameRef = gameRef
+        self.base_character = base_character
+        self.avatar = "img/avahuman/peasant/1.jpg"
+        self.name = u"Дуняша"  
+        self.real_character = base_character(self.name)
+        
+        
+    def __call__(self, *args, **kwargs):
+        """
+        Этот метод используется при попытке сказать что-то персонажем.
+        Переопределяем, чтобы сообщить игре, что сейчас говорит этот персонаж.
+        """
+        self.gameRef.currentCharacter = self
+        self.base_character(*args, **kwargs)
+            
 class Fighter(store.object):
     """
     Базовый класс для всего, что способно драться.
@@ -330,14 +353,14 @@ class Dragon(Fighter):
             return True
         return False
             
-            def gain_rage(self, gain=1):
-                """
-                Увеличивает раздражение дракона на :gain:
-                """
-                if self.bloodiness < 5:
-                    self.bloodiness += 1
-                    return True
-                return False
+    def gain_rage(self, gain=1):
+        """
+        Увеличивает раздражение дракона на :gain:
+        """
+        if self.bloodiness < 5:
+            self.bloodiness += 1
+            return True
+        return False
                 
     def magic(self):
         """

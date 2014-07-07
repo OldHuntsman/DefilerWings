@@ -10,18 +10,6 @@
             persistent.encounter = False
     
     
-    #Делаем нужные классы
-    class Girl(object):
-        """
-        Базовый класс для всего, с чем можно заниматься сексом.
-        """
-            
-        def __init__(self, gtype = 'peasant'):
-            self.gtype = gtype
-            self.avatar = "img/avahuman/peasant/1.jpg"
-            self.name = u"Дуняша"            
-    
-    
 init:
     image bg main = "img/bg/main.jpg"  # заставка главного меню
     image place = ConditionSwitch(              
