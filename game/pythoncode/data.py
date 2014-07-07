@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
 
+import collections
+
 class FighterModifier(object):
     """
     Базовый класс для разнообразных модификаторов.
@@ -30,7 +32,7 @@ class DragonModifier(FighterModifier):
         self.fear = fear
         self.max_energy = energy
 
-class Container(dict):
+class Container(collections.defaultdict):
     '''
     Класс-хранилище разнообразных свойст/модификаторов
     '''
@@ -71,11 +73,8 @@ class Container(dict):
                 total += self[i].sum(parameter)
         return total
     
-    def __getattr__(self, name):
-        if name in self:
-            return self[name]
-        else:
-            return None
+    def __missing__(key):
+        return None
 
 thief_abilities = Container("thief_abilities",
                             { 

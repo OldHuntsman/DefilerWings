@@ -306,7 +306,7 @@ screen navigation:
 
         textbutton _("Обратно") action Return()
         textbutton _("Настройки") action ShowMenu("preferences")
-        textbutton _("Сохранить игру") action ShowMenu("save")
+        #textbutton _("Сохранить игру") action ShowMenu("save")
         textbutton _("Загрузить игру") action ShowMenu("load")
         textbutton _("Главное меню") action MainMenu()
         textbutton _("Помощь") action Help()
@@ -348,8 +348,8 @@ screen file_picker:
             textbutton _("Авто"):
                 action FilePage("auto")
 
-            textbutton _("Быстрое сохранение"):
-                action FilePage("quick")
+            #textbutton _("Быстрое сохранение"):
+            #    action FilePage("quick")
 
             for i in range(1, 9):
                 textbutton str(i):
@@ -615,8 +615,8 @@ screen quick_menu:
         yalign 1.0
 
         textbutton _("Назад") action Rollback()
-        textbutton _("Сохранить") action ShowMenu('save')
-        textbutton _("Б.сохранение") action QuickSave()
+        #textbutton _("Сохранить") action ShowMenu('save')
+        #textbutton _("Б.сохранение") action QuickSave()
         textbutton _("Б.загрузка") action QuickLoad()
         textbutton _("пропуск") action Skip()
         textbutton _("Б.пропуск") action Skip(fast=True, confirm=True)

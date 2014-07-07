@@ -413,3 +413,4 @@ init python:
     if config.developer:
         config.use_cpickle = False
     
+    config.save_dump = True
