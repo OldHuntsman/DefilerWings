@@ -73,20 +73,23 @@ class Container(collections.defaultdict):
                 total += self[i].sum(parameter)
         return total
     
+    def __getattr__(self,name):
+        return self[name]
+    
     def __missing__(key):
         return None
 
 thief_abilities = Container("thief_abilities",
                             { 
-                              "climber":      { "name": "Альпинист" },
-                              "diver":        { "name": "Ныряльщик" },
-                              "greedy":       { "name": "Жадина" },
-                              "mechanic":     { "name": "Механик" },
-                              "magicproof":   { "name": "Знаток магии" },
-                              "poisoner":     { "name": "Отравитель" },
-                              "assassin":     { "name": "Ассасин" },
-                              "night_shadow": { "name": "Ночная тень" },
-                              "trickster":    { "name": "Ловкач" }
+                              "climber":      { "name": u"Альпинист" },
+                              "diver":        { "name": u"Ныряльщик" },
+                              "greedy":       { "name": u"Жадина" },
+                              "mechanic":     { "name": u"Механик" },
+                              "magicproof":   { "name": u"Знаток магии" },
+                              "poisoner":     { "name": u"Отравитель" },
+                              "assassin":     { "name": u"Ассасин" },
+                              "night_shadow": { "name": u"Ночная тень" },
+                              "trickster":    { "name": u"Ловкач" }
                             }
                            )
 thief_items = Container("thief_items",

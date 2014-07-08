@@ -651,6 +651,27 @@ class Thief(store.object):
         Здесь идёт выбор новой вещи(подготовка к грабежу).
         """
         raise NotImplementedError
+    
+    def description(self):
+        '''
+        Описание вора, возвращает строку с описанием.
+        TODO: добавить описания вещей
+        '''
+        d = []
+        d.append(u"Мастерство: %d" % self.skill)
+        if self.abilities:
+            d.append(u"Способности: ")
+            for ability in self.abilities:
+                d.append(u"    %s" % self.abilities[ability].name)
+        else:
+            d.append(u"Способности отсутствуют")
+        if self.items:
+            d.append(u"Вещи:")
+            for item in self.items:
+                d.append(u"    %s" % self.items[item].name)
+        else:
+            d.append(u"Вещи отсутствуют")
+        return u"\n".join(d)
 
 class Women(store.object):
     def __init__(self, *args, **kwargs):

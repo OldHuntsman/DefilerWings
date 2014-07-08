@@ -40,6 +40,11 @@ label lb_test_debug:
                 "Пока логово только одно. Нужно больше логов."
                 "Буреломный овраг":
                     $ game.lair = core.Lair()
+        "Описать вора":
+            if game.thief is not None:
+                $ narrator(game.thief.description())
+            else:
+                "Вора нет"
     return
     
 label lb_test_example_inaccessible_menu:
