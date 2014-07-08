@@ -27,10 +27,10 @@ class Game(store.object):
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
                 
         
-        self.dragon = Dragon(self, base_character)
-        self.knight = Knight(self, base_character)
-        self.narrator = Sayer(self, base_character)
-        self.girl = Girl(self, base_character)
+        self.dragon = Dragon(gameRef=self, base_character=base_character)
+        self.knight = Knight(gameRef=self, base_character=base_character)
+        self.narrator = Sayer(gameRef=self, base_character=base_character)
+        self.girl = Girl(gameRef=self, base_character=base_character)
 
     def battle(self, fighter1, fighter2):
         """
@@ -215,6 +215,20 @@ class Sayer(store.object):
         """
         self._gameRef.currentCharacter = self # Прописываем кто говорит в настоящий момент
         self._real_character(*args, **kwargs) # На самом деле говорим
+        
+    def third(self, *args, **kwargs):
+        '''
+        Говорим от третьего лица. Принимаются предложения на более удачное название.
+        Например прямая речь:
+        $ game.person ("Что-нибудь")
+        game.person "Где-нибудь"
+        Рассказ о том что делает этот персонаж:
+        $ game.person.third("Делая что-нибудь")
+        game.person.third "Делая где-нибудь"
+        '''
+        self._gameRef.currentCharacter = self # Делаем вид, что сказали сами
+        self._gameRef.narrator._real_character(*args, **kwargs) # Говорим о лица нарратора. Грязный хак.
+        
 
 class Girl(Sayer):
     """
