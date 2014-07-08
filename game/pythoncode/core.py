@@ -8,6 +8,8 @@ from copy import deepcopy
 import renpy.exports as renpy
 import renpy as renpy_internal
 import renpy.store as store
+names = {}
+names['peasant'] = [u'Манька', u'Зойка', u'Жанна']
 
 def tuples_sum(tuple_list):
     return sum([first for first, _ in tuple_list]), sum([second for _, second in tuple_list])
@@ -223,7 +225,12 @@ class Girl(Sayer):
             
     def __init__(self, *args, **kwargs):
         super(Girl, self).__init__(*args, **kwargs) # Инициализируем родителя
-        self.name = u"Дуняша"
+        self.virgin = True # девственность = пригодность для оплодотворения драконом
+        self.pregnant = 0 # 0 - не беременна, 1 - беременна базовым отродьем, 2 - беременна продвинутым отродьем
+        self.quality = 0 # Репродуктивное качество женщины. Если коварство дракона превышает её репродуктивное качество, то отродье будет продвинутым. Иначе базовым
+        self.status = 'free' # 'free' - находится вне логова и жива, 'hostage' - заточена в логове и жива, 'dead' - умерла  
+        self.name = random.choice(names['peasant'])
+        self.treashure = []
             
 class Fighter(Sayer):
     """
@@ -280,9 +287,9 @@ class Dragon(Fighter):
         self.name = u"Старый Охотник"
         self._tiredness = 0  # увеличивается при каждом действии
         self.bloodiness = 0  # range 0..5
-        self.lust = 0  # range 0..2
-        self.hunger = 0  # range 0..2
-        self.health = 2 # range 0..2
+        self.lust = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
+        self.hunger = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
+        self.health = 2 # range 0..2, ресурс восстанавливается до 2 после каждого отдыха
         self.reputation_points = 1 # при наборе определённого количества растёт уровень дурной славы
 
         self.anatomy = ['size', 'paws', 'size', 'wings', 'size', 'paws']

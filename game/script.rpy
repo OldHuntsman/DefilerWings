@@ -9,6 +9,22 @@
         if persistent.encounter == None:
             persistent.encounter = False
     
+    def impregnate():
+        """
+        Осеменение женщины.
+        """
+        game.girl.virgin = False
+        game.girl.pregnant = 1
+        if game.girl.quality < game.dragon.magic():
+            game.girl.pregnant = 2
+        game.dragon.lust -= 1
+
+    def get_girl(type = 'peasant'):
+        game.girl = core.Girl()
+        relative_path = "img/avahuman/"+type # Относительный путь для движка ренпи
+        absolute_path = os.path.join(config.basedir, "game", relative_path) # Cоставляем абсолютный путь где искать
+        filename = random.choice(os.listdir(absolute_path)) # получаем название файла
+        game.girl.avatar = relative_path + "/" + filename # Возвращаем правильно отформатированно значение
     
 init:
     image bg main = "img/bg/main.jpg"  # заставка главного меню
