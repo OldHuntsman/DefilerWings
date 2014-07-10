@@ -4,7 +4,7 @@ label lb_test_example_fight:
     $ place = "city_gates"
     show place
     'А это уже локация самой битвы'
-    $result = game.battle(game.dragon, game.knight)
+    $result = game.battle(game.dragon, enemy)
     "Результат боя: [result[1]]"
     #цикл, который заканчивается победой дракона, или отступлением
     #TODO: параметр здоровья дракона, механизм отрубания голов при низком здоровье

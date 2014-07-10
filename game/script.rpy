@@ -2,6 +2,7 @@
     #Импортируем нужные библиотеки. Возможно это надо засунуть в какой-то отдельный файл инициализации.
     from pythoncode import data
     from pythoncode import core
+    from copy import deepcopy
     
     #Заряжаем пасхалки. Их можно будет встретить в игре лишь однажды
     one_time_encounters = ['enc_redcape']
@@ -9,6 +10,10 @@
         if persistent.encounter == None:
             persistent.encounter = False
     
+    #Нужные переменные
+    girls_list = []
+    
+    #Нужные функции
     def impregnate():
         """
         Осеменение женщины.
@@ -20,7 +25,8 @@
         game.dragon.lust -= 1
 
     def get_girl(type = 'peasant'):
-        game.girl = core.Girl()
+        game.girl = core.Girl(gameRef=game, base_character=NVLCharacter)
+        girls_list.append(game.girl)
         relative_path = "img/avahuman/"+type # Относительный путь для движка ренпи
         absolute_path = os.path.join(config.basedir, "game", relative_path) # Cоставляем абсолютный путь где искать
         filename = random.choice(os.listdir(absolute_path)) # получаем название файла
@@ -46,10 +52,10 @@ init:
 # Начало игры
     
 label start:
+    
     python:
         #Инициализируем game в начале игры, а не при инициализации. Для того чтобы 
         game = core.Game(NVLCharacter)
-        #dragon = game.dragon       #TODO: Заменить везде использование дракона на game.dragon
         game.dragon.avatar = get_dragon_avatar('green')
         narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
         

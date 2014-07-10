@@ -8,6 +8,7 @@ from copy import deepcopy
 import renpy.exports as renpy
 import renpy as renpy_internal
 import renpy.store as store
+import texts
 names = {}
 names['peasant'] = [u'Манька', u'Зойка', u'Жанна']
 
@@ -28,12 +29,12 @@ class Game(store.object):
         self.year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
                 
-        
+        self.lair = Lair()
         self.dragon = Dragon(gameRef=self, base_character=base_character)
         self.knight = Knight(gameRef=self, base_character=base_character)
         self.narrator = Sayer(gameRef=self, base_character=base_character)
         self.girl = Girl(gameRef=self, base_character=base_character)
-
+    
     def battle(self, fighter1, fighter2):
         """
         Логика сражения.
@@ -528,6 +529,33 @@ class Dragon(Fighter):
                 children[i].anatomy += [new_abilities[i]]
         return children
 
+
+class Enemy(Fighter):
+    """
+    Класс одноразового противника для энкаунтера.
+    """
+
+    def __init__(self, kin = 'generic',  *args, **kwargs):
+        """
+        Здесь должна быть генерация нового рыцаря.
+        """
+        super(Enemy, self).__init__(*args, **kwargs)
+        self.name = mob[kin]['name']
+        self.power = mob[kin]['power']
+        self.defence = mob[kin]['defence']
+        self.intro = mob[kin]['intro']
+        self.abilities = []
+        self.equipment = []
+
+    def modifiers(self):
+        return []
+
+    def attack(self):
+        return self.power
+
+    def protection(self):
+        return self.defence
+
 class Knight(Fighter):
     """
     Класс рыцаря.
@@ -633,10 +661,3 @@ class Thief(store.object):
         Здесь идёт выбор новой вещи(подготовка к грабежу).
         """
         raise NotImplementedError
-
-class Women(store.object):
-    def __init__(self, *args, **kwargs):
-        super(Women, self).__init__(*args, **kwargs)
-        self.magic = 0
-        self.pregnant = False
-        self.can_give_birth = True

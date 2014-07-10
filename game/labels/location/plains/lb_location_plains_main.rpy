@@ -48,6 +48,9 @@ label lb_enc_fair:
             return
             
         'Бык':
+            'Бык вступает в бой'
+            $ enemy = core.Enemy(gameRef=game, base_character=NVLCharacter, 'bull')
+            call lb_fight
             return:
             
         'Оставить их в покое' if game.dragon.bloodiness < 5:
