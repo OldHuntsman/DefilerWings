@@ -33,7 +33,7 @@ class Game(store.object):
         self.knight = Knight(gameRef=self, base_character=base_character)
         self.narrator = Sayer(gameRef=self, base_character=base_character)
         self.girl = Girl(gameRef=self, base_character=base_character)
-        self.thief = Thief(self.reputation())
+        self.thief = Thief(reputation=self.reputation(), gameRef=self, base_character=base_character)
 
     @property
     def year(self):
@@ -109,7 +109,7 @@ class Game(store.object):
         self.year += 1
         # Если вора нет, то пробуем создать его
         if self.thief is None:
-            self.thief = Thief(self.reputation())
+            self.thief = Thief(reputation=self.reputation(), gameRef=self, base_character = self.base_character)
         else: # Иначе пробуем его пустить на дело
             if random.choice(range(6)) in range(1+len(self.thief.items)):
                 #self.thief.do_stuff() # Идем на дело
@@ -208,18 +208,35 @@ class Treasury(object):
 
 
 class Lair(object):
-    def __init__(self):
-        self.lair_type = "Буреломный овраг"
+    def __init__(self, type = "impassable_coomb"):
+        self.type = data.Container(type, data.lair_types[type])
+        self.upgrades = data.Container('lair_upgrades')
         self.inaccessibility = 0
-        # Список ограничений для доступа воров/рыцарей
-        self.restrictions = []
         # Сокровищиница
         self.treasury = Treasury()
         # Список модификаций(ловушки, стражи и.т.п.)
         self.modifiers = []
         # Список женщин в логове
         self.women = []
-
+        
+    def reachable(self, abilities):
+        '''
+        Функция для проверки доступности логова
+        :param abilities: - список способностей у того, кто пытается достичь, например, для вора: [ 'alpinism', 'swimming' ]
+        :return: Возращает True ,если до логова можно добраться и False если нет
+        '''
+        for r in self.requirements():
+            if r not in abilities:
+                return False
+        return True
+    
+    def requirements(self):
+        '''
+        :return: Возвращает список способностей которые нужны чтобы достичь логова.
+        '''
+        if self.upgrades.requires:
+            return self.type.require + self.upgrades.require
+        return self.type.require
 
 class Sayer(store.object):
     '''
@@ -651,14 +668,13 @@ class Knight(Fighter):
         """
         raise NotImplementedError
 
-class Thief(store.object):
+class Thief(Sayer):
     """
     Класс вора.
-    TODO: Имя вора.
     """
     
-    def __new__(cls, reputation, *args, **kwargs):
-        obj = super(Thief, cls).__new__(cls, *args, **kwargs)
+    def __new__(cls, reputation, **kwargs):
+        obj = super(Thief, cls).__new__(cls, **kwargs)
         skill = 0
         for i in range(3+reputation):
             if random.choice(range(3)) == 0:
@@ -671,7 +687,8 @@ class Thief(store.object):
             return obj
     
     def __init__(self, *args, **kwargs):
-        super(Thief, self).__init__(self, *args, **kwargs)
+        super(Thief, self).__init__(*args, **kwargs)
+        self.name = "%s %s" % (random.choice(data.thief_first_names), random.choice(data.thief_last_names))
         self.abilities = data.Container("thief_abilities")
         self.items = data.Container("thief_items")
         # Определяем способности вора
@@ -696,9 +713,11 @@ class Thief(store.object):
             raise Exception("Cannot determine title for skill level %s" % self.skill)
 
     def receive_item(self):
+        #TODO: учесь что список может быть пустым
         item_list = [ i for i in data.thief_items if i not in self.items ]
         item = random.choice(item_list)
         self.items.add(item, data.thief_items[item])
+        self(u"Я получил предмет %s" % data.thief_items[item].name)
         return True
 
     def new_item(self):
@@ -718,13 +737,74 @@ class Thief(store.object):
         if self.abilities:
             d.append(u"Способности: ")
             for ability in self.abilities:
-                d.append(u"    %s" % self.abilities[ability].name)
+                d.append(u"    %s: %s" % (self.abilities[ability].name, self.abilities[ability].description))
         else:
             d.append(u"Способности отсутствуют")
         if self.items:
             d.append(u"Вещи:")
             for item in self.items:
-                d.append(u"    %s" % self.items[item].name)
+                d.append(u"    %s: %s" % (self.items[item].name, self.items[item].description))
         else:
             d.append(u"Вещи отсутствуют")
         return u"\n".join(d)
+    
+    def steal(self, lair):
+        '''
+        Вор пытается урасть что-нибудь.
+        :param lair: Логово из которого происходит кража
+        '''
+        # Для начала пытаемся понять можем ли мы попасть в логово:
+        if lair.reachable([ a for ab in self.abilities for a in self.abilities[ab].provide ]):
+            # TODO: логика сломанных предметов
+            luck = self.skill
+            # Проверка неприступности
+            for i in range(lair.inaccessability):
+                if random.choice(range(3)) == 0:
+                    luck -= 1
+            if luck < 0:
+                self.die ("inaccessability")
+            # Проверка ловушек и стражей
+            for upgrade in lair.upgrades:
+                for i in range(data.lair_upgrades[upgrade].protection):
+                    if random.choice(range(3)) == 0:
+                        luck -= 1
+                    if luck < 0:
+                        self.die(upgrade)
+            if luck == 0:
+                pass # Отступаем
+            else:
+                # Грабим логово
+                # TODO: Добавить проклятые вещи
+                attempts = 1
+                if "greedy" in self.abilities:
+                    attempts += 1
+                if "bottomless_sac" in self.items:
+                    attempts *= 2
+                for i in range(attemtps):
+                    if random.choice(range(10)) in range(5 - self.skill):
+                        #Берем шмотку
+                        self("Взял бы шмотку, но пока ничего не релизовали")
+                    else:
+                        #Мы разбудили дракона
+                        self.die("wake_up")
+        else: #До логова добраться не получилось, получаем предмет c 50%м шансом
+            if random.choice(range(2)) == 0:
+                self.thief.receive_item()
+    
+    def check_luck(self, luck):
+        pass
+    
+    def die(self, reason=None):
+        '''
+        Вор умирает
+        '''
+        if reason is None:
+            self("Я погиб при невыясненных обстоятельствах.")
+        else:
+            target_label = "lb_thief_die_"+reason
+            if renpy.has_label(target_label):
+                renpy.call(target_label)
+            else:
+                renpy.call("lb_missed", label = target_label)
+        self = None
+        

@@ -76,125 +76,243 @@ class Container(collections.defaultdict):
     def __getattr__(self,name):
         return self[name]
     
-    def __missing__(key):
+    def __missing__(self,key):
         return None
+
+#
+# Вор
+#
+
+thief_first_names = [ u"Джек",
+                      u"Гарри",
+                      u"Cэм"]
+thief_last_names = [ u"Лысый",
+                     u"Скользкий",
+                     u"Шустрый"]
 
 thief_abilities = Container("thief_abilities",
                             { 
-                              "climber":      { "name": u"Альпинист" },
-                              "diver":        { "name": u"Ныряльщик" },
-                              "greedy":       { "name": u"Жадина" },
-                              "mechanic":     { "name": u"Механик" },
-                              "magicproof":   { "name": u"Знаток магии" },
-                              "poisoner":     { "name": u"Отравитель" },
-                              "assassin":     { "name": u"Ассасин" },
-                              "night_shadow": { "name": u"Ночная тень" },
-                              "trickster":    { "name": u"Ловкач" }
+                              "climber":      { "name": u"Альпинист",
+                                                "description": u"Дает \"Альпинизм\"",
+                                                "provide": [ "alpinism" ] },
+                              "diver":        { "name": u"Ныряльщик",
+                                                "description": u"Дает \"Плавание\"",
+                                                "provide": [ "swimming" ] },
+                              "greedy":       { "name": u"Жадина",
+                                                "description": u"Пытается украсть одно дополнительное сокровище",
+                                                "provide": [ ] },
+                              "mechanic":     { "name": u"Механик",
+                                                "description": u"Игнорирует механические ловушки",
+                                                "avoids": [ "mechanic_traps" ],
+                                                "provide": [ ] },
+                              "magicproof":   { "name": u"Знаток магии",
+                                                "description": u"Игнорирует магические ловушки",
+                                                "avoids": [ "magic_traps" ],
+                                                "provide": [ ] },
+                              "poisoner":     { "name": u"Отравитель",
+                                                "description": u"Игнорирует ядовитых стражей",
+                                                "avoids": [ "poison_guargs" ],
+                                                "provide": [ ] },
+                              "assassin":     { "name": u"Ассасин",
+                                                "description": u"Игнорирует обычных стражей",
+                                                "avoids": [ "regular_guargs" ],
+                                                "provide": [ ] },
+                              "night_shadow": { "name": u"Ночная тень",
+                                                "description": u"Игнорирует элитных стражей",
+                                                "avoids": [ "elite_guards" ], # Это странно, что он может быть пойман обычными стражами
+                                                "provide": [ ] }, 
+                              "trickster":    { "name": u"Ловкач",
+                                                "description": u"Не имеет шанса разбудить дракона",
+                                                "provide": [ ]  }
                             }
                            )
+
 thief_items = Container("thief_items",
                         {
-                          "plan":                 {"name": "План ограбления",
-                                                   "level": 1},
-                          "scheme":               {"name": "Схема тайных проходов"},
-                          "sleep_dust":           {"name": "Сонный порошок"},
-                          "bottomless_sac":       {"name": "Бездонный мешок",
-                                                   "dropable": True},
-                          "antidot":              {"name": "Антидот"},
-                          "enchanted_dagger":     {"name": "Зачарованный кинжал",
-                                                   "dropable": True},
-                          "ring_of_invisibility": {"name": "Кольцо-невидимка",
-                                                   "dropable": True},
-                          "flying_boots":         {"name": "Летучие сандалии",
-                                                   "dropable": True},
-                          "cooling_amulet":       {"name": "Охлаждающий амулет",
-                                                   "dropable": True},
-                          "warming_amulet1":      {"name": "Согревающий амулет",
-                                                   "dropable": True}
+                          "plan":                 {"name": u"План ограбления",
+                                                   "level": 1,
+                                                   "description": u"+1 к уровню вора"},
+                          "scheme":               {"name": u"Схема тайных проходов",
+                                                   "description": u"Позволяет игнорировать неприступность логова"},
+                          "sleep_dust":           {"name": u"Сонный порошок",
+                                                   "description": u"Вор не имеет шанса разбудить дракона"},
+                          "bottomless_sac":       {"name": u"Бездонный мешок",
+                                                   "dropable": True,
+                                                   "description": u"Удваивает попытки кражи"},
+                          "antidot":              {"name": u"Антидот",
+                                                   "description": u"Вор игнорирует ядовитых стражей"},
+                          "enchanted_dagger":     {"name": u"Зачарованный кинжал",
+                                                   "dropable": True,
+                                                   "description": u"Вор игнорирует обычных стражей"},
+                          "ring_of_invisibility": {"name": u"Кольцо-невидимка",
+                                                   "dropable": True,
+                                                   "description": u"Вор элитных стражей"},
+                          "flying_boots":         {"name": u"Летучие сандалии",
+                                                   "dropable": True,
+                                                   "description": u"Дает \"Полёт\""},
+                          "cooling_amulet":       {"name": u"Охлаждающий амулет",
+                                                   "dropable": True,
+                                                   "description": u"Дает \"защиту от огня\""},
+                          "warming_amulet":      {"name": u"Согревающий амулет",
+                                                   "dropable": True,
+                                                   "description": u"Дает \"защиту от холода\""}
                         })
 
 thief_titles = [ "Мародер", "Грабитель", "Взломшик", "Расхититель гробниц", "Мастер вор" ]
 
+#
+# Логово
+#
+
+lair_types = Container("lair_types", {
+                                "impassable_coomb"  : { "name": u"Буреломный овраг"},
+                                "impregnable_peak"  : { "name": u"Неприступная вершина",
+                                                        "require" : [ "aplinism" ] },
+                                "solitude_сitadel"  : { "name": u"Цитадель одиночества",
+                                                        "require" : [ "aplinism", "coldproof" ] },
+                                "vulcano_chasm"     : { "name": u"Вулканическая расселина",
+                                                        "require" : [ "aplinism", "fireproof" ] },
+                                "underwater_grot"   : { "name": u"Подводный грот",
+                                                        "require" : [ "swimming" ] },
+                                "underground_burrow": { "name": u"Подземная нора",
+                                                        "inaccessability": 1,
+                                                        "require" : [ ] },
+                                "dragon_castle"     : { "name": u"Драконий замок",
+                                                        "inaccessabitity" : 1,
+                                                        "require" : [ ] },
+                                "castle"            : { "name": u"Драконий замок",
+                                                        "inaccessabitity" : 1,
+                                                        "require" : [ ] },
+                                "cannibal_den"      : { "name": u"Берлога людоеда",
+                                                        "inaccessabitity" : 1,
+                                                        "require" : [ ] },
+                                "broad_cave"        : { "name": u"Просторная пещера",
+                                                        "inaccessabitity" : 1,
+                                                        "require" : [ ] },
+                                "tower_ruin"        : { "name": u"Руины башни",
+                                                        "provide": [ "magic_traps" ]},
+                                "monastery_ruin"    : { "name": u"Руины монастыря",
+                                                        "inaccessabitity" : 1,
+                                                        "require" : [ ] },
+                                "fortress_ruin"     : { "name": u"Руины каменной крепости",
+                                                        "inaccessabitity" : 2,
+                                                        "require" : [ ] },
+                                "castle_ruin"       : { "name": u"Руины королевского замка",
+                                                        "inaccessabitity" : 1,
+                                                        "require" : [ ] },
+                                "ice_citadel"       : { "name": u"Ледяная цитадель",
+                                                        "inaccessabitity" : 1,
+                                                        "require" : [ "aplinism", "coldproof" ] },
+                                "vulcanic_forge"    : { "name": u"Вулканическая кузница",
+                                                        "inaccessabitity" : 1,
+                                                        "require" : [ "aplinism", "fireproof" ] },
+                                "cloud_castle"      : { "name": u"Замок в облаках",
+                                                        "inaccessabitity" : 2,
+                                                        "require": [ "flight" ] },
+                                "undefwater_mansion": { "name": u"Подводные хоромы",
+                                                        "inaccessabitity" : 1,
+                                                        "require" : [ "swimming" ] },
+                                "underground_palaces": { "name": u"Подгорные чертоги",
+                                                        "inaccessabitity" : 2,
+                                                        "require" : [ "aplinism" ],
+                                                        "provide": [ "mechanic_traps" ] },
+                                })
+
+lair_upgrades = Container("lair_upgrades", {
+                                            "mechanic_traps" : { "name": u"Механические ловушки",
+                                                                 "protection": 1},
+                                            "magic_traps" : { "name": u"Магические ловушки",
+                                                                 "protection": 1 },
+                                            "poison_guards" : { "name": u"Ядовитые стражи",
+                                                                 "protection": 1 },
+                                            "regular_guards" : { "name": u"Обычные стражи",
+                                                                 "protection": 2 },
+                                            "elite_guards" : { "name": u"Элитные стражи",
+                                                                 "protection": 3 }
+                                            })
 attack_types = ['base', 'fire', 'ice', 'poison', 'sound', 'lightning']
 protection_types = ['base', 'scale', 'shield', 'armor']
 
-fighter_mods = dict()
-fighter_mods[u"щит"] = FighterModifier(protection = ('base', (1, 0)))
-fighter_mods[u"меч"] = FighterModifier(attack = ('base', (2,1)))
-fighter_mods[u"броня"] = FighterModifier(protection = ('base', (0,1)))
-fighter_mods[u"копьё"] = FighterModifier(attack = ('base', (1,1)))
-fighter_mods[u"спутник"] = FighterModifier(attack = ('base', (1,0)), protection = ('base', (1,0)))
-fighter_mods[u"скакун"] = FighterModifier(attack = ('base', (1,0)))
+fighter_mods = {
+    u"щит"      : FighterModifier(protection = ('base', (1, 0))),
+    u"меч"      : FighterModifier(attack = ('base', (2,1))),
+    u"броня"    : FighterModifier(protection = ('base', (0,1))),
+    u"копьё"    : FighterModifier(attack = ('base', (1,1))),
+    u"спутник"  : FighterModifier(attack = ('base', (1,0)), protection = ('base', (1,0))),
+    u"скакун"   : FighterModifier(attack = ('base', (1,0)))
+    }
+
 # Типы голов(цвета)
-dragon_heads = dict()
-dragon_heads['green'] = []
-dragon_heads['red'] = ['fire_breath', 'fire_immunity']
-dragon_heads['white'] = ['ice_breath', 'ice_immunity']
-dragon_heads['blue'] = ['can_swim']
-dragon_heads['black'] = ['black_power', 'poison_breath']  # black_power -- +1 атака
-dragon_heads['iron'] = ['iron_scale', 'sound_breath']  # iron_scale -- +1 защита
-dragon_heads['copper'] = ['copper_scale', 'can_dig']  # copper_scale -- +1 защита
-dragon_heads['silver'] = ['silver_magic', 'lightning_immunity']
-dragon_heads['gold'] = ['gold_magic', 'greedy']  # greedy -- -2 к шансам вора
-dragon_heads['shadow'] = ['shadow_magic', 'fear_of_dark']  # fear_of_dark -- +2 к страху
+dragon_heads = {
+    'green' : [],
+    'red'   : ['fire_breath', 'fire_immunity'],
+    'white' : ['ice_breath', 'ice_immunity'],
+    'blue'  : ['can_swim'],
+    'black' : ['black_power', 'poison_breath'],  # black_power -- +1 атака
+    'iron'  : ['iron_scale', 'sound_breath'],  # iron_scale -- +1 защита
+    'copper': ['copper_scale', 'can_dig'],  # copper_scale -- +1 защита
+    'silver': ['silver_magic', 'lightning_immunity'],
+    'gold'  : ['gold_magic', 'greedy'],  # greedy -- -2 к шансам вора
+    'shadow': ['shadow_magic', 'fear_of_dark'], # fear_of_dark -- +2 к страху
+    }
 
 dragon_gifts = dict()
 
 # Заклинания
-spell_list = dict()
-# заговоры -- дают иммунитет к атаке выбранного типа
-spell_list['fire_protection'] = ['fire_immunity']
-spell_list['ice_protection'] = ['ice_immunity']
-spell_list['poison_protection'] = ['poison_immunity']
-spell_list['lightning_protection'] = ['lightning_immunity']
-spell_list['fire_protection'] = ['fire_immunity']
-spell_list['sound_protection'] = ['sound_immunity']
-# сердца -- дают дыхание нужного типа
-spell_list['fire_heart'] = ['fire_breath']
-spell_list['ice_heart'] = ['ice_breath']
-spell_list['poison_heart'] = ['poison_breath']
-spell_list['thunder_heart'] = ['sound_breath']
-spell_list['lightning_heart'] = ['lightning_breath']
-# прочие
-spell_list['wings_of_wind'] = ['wings_of_wind']
-spell_list['aura_of_horror'] = ['aura_of_horror']
-spell_list['unbreakable_scale'] = ['virtual_head']
+spell_list = {
+    # заговоры -- дают иммунитет к атаке выбранного типа
+    'fire_protection'       : ['fire_immunity'],
+    'ice_protection'        : ['ice_immunity'],
+    'poison_protection'     : ['poison_immunity'],
+    'lightning_protection'  : ['lightning_immunity'],
+    'fire_protection'       : ['fire_immunity'],
+    'sound_protection'      : ['sound_immunity'],
+    # сердца -- дают дыхание нужного типа
+    'fire_heart'            : ['fire_breath'],
+    'ice_heart'             : ['ice_breath'],
+    'poison_heart'          : ['poison_breath'],
+    'thunder_heart'         : ['sound_breath'],
+    'lightning_heart'       : ['lightning_breath'],
+    # прочие
+    'wings_of_wind'         : ['wings_of_wind'],
+    'aura_of_horror'        : ['aura_of_horror'],
+    'unbreakable_scale'     : ['virtual_head']
+    }
 
-dragon_modifiers = dict()
-dragon_modifiers['fire_immunity'] = DragonModifier()
-dragon_modifiers['ice_immunity'] = DragonModifier()
-dragon_modifiers['poison_immunity'] = DragonModifier()
-dragon_modifiers['lightning_immunity'] = DragonModifier()
-dragon_modifiers['sound_immunity'] = DragonModifier()
+dragon_modifiers = {
+    'fire_immunity'     : DragonModifier(),
+    'ice_immunity'      : DragonModifier(),
+    'poison_immunity'   : DragonModifier(),
+    'lightning_immunity': DragonModifier(),
+    'sound_immunity'    : DragonModifier(),
 
-dragon_modifiers['fire_breath'] = DragonModifier(attack=('fire', (0, 1)))
-dragon_modifiers['ice_breath'] = DragonModifier(attack=('ice', (0, 1)))
-dragon_modifiers['poison_breath'] = DragonModifier(attack=('poison', (0, 1)))
-dragon_modifiers['sound_breath'] = DragonModifier(attack=('sound', (0, 1)))
-dragon_modifiers['lightning_breath'] = DragonModifier(attack=('lightning', (0, 1)))
-dragon_modifiers['black_power'] = DragonModifier(attack=('base', (1, 0)))
-dragon_modifiers['iron_scale'] = DragonModifier(protection=('scale', (1, 0)))
-dragon_modifiers['copper_scale'] = DragonModifier(protection=('scale', (1, 0)))
-dragon_modifiers['silver_magic'] = DragonModifier(magic=1)
-dragon_modifiers['gold_magic'] = DragonModifier(magic=1)
-dragon_modifiers['shadow_magic'] = DragonModifier(magic=1)
-dragon_modifiers['fear_of_dark'] = DragonModifier(fear=2)
-dragon_modifiers['aura_of_horror'] = DragonModifier(fear=1)
-dragon_modifiers['wings_of_wind'] = DragonModifier(energy=1)
-#
-dragon_modifiers['size'] = DragonModifier(attack=('base', (1, 0)), protection=('base', (1, 0)), fear=1)
-dragon_modifiers['paws'] = DragonModifier(attack=('base', (1, 0)), energy=1)
-dragon_modifiers['wings'] = DragonModifier(protection=('base', (1, 0)), energy=1)
-dragon_modifiers['tough_scale'] = DragonModifier(protection=('scale', (0, 1)))
-dragon_modifiers['clutches'] = DragonModifier(attack=('base', (0, 1)))
-dragon_modifiers['fangs'] = DragonModifier(attack=('base', (2, 0)), fear=1)
-dragon_modifiers['horns'] = DragonModifier(protection=('base', (2, 0)), fear=1)
-dragon_modifiers['ugly'] = DragonModifier(fear=2)
-dragon_modifiers['poisoned_sting'] = DragonModifier(attack=('poison', (1, 1)))
-dragon_modifiers['cunning'] = DragonModifier(magic=1)
+    'fire_breath'       : DragonModifier(attack=('fire', (0, 1))),
+    'ice_breath'        : DragonModifier(attack=('ice', (0, 1))),
+    'poison_breath'     : DragonModifier(attack=('poison', (0, 1))),
+    'sound_breath'      : DragonModifier(attack=('sound', (0, 1))),
+    'lightning_breath'  : DragonModifier(attack=('lightning', (0, 1))),
+    'black_power'       : DragonModifier(attack=('base', (1, 0))),
+    'iron_scale'        : DragonModifier(protection=('scale', (1, 0))),
+    'copper_scale'      : DragonModifier(protection=('scale', (1, 0))),
+    'silver_magic'      : DragonModifier(magic=1),
+    'gold_magic'        : DragonModifier(magic=1),
+    'shadow_magic'      : DragonModifier(magic=1),
+    'fear_of_dark'      : DragonModifier(fear=2),
+    'aura_of_horror'    : DragonModifier(fear=1),
+    'wings_of_wind'     : DragonModifier(energy=1),
+    #
+    'size'          : DragonModifier(attack=('base', (1, 0)), protection=('base', (1, 0)), fear=1),
+    'paws'          : DragonModifier(attack=('base', (1, 0)), energy=1),
+    'wings'         : DragonModifier(protection=('base', (1, 0)), energy=1),
+    'tough_scale'   : DragonModifier(protection=('scale', (0, 1))),
+    'clutches'      : DragonModifier(attack=('base', (0, 1))),
+    'fangs'         : DragonModifier(attack=('base', (2, 0)), fear=1),
+    'horns'         : DragonModifier(protection=('base', (2, 0)), fear=1),
+    'ugly'          : DragonModifier(fear=2),
+    'poisoned_sting': DragonModifier(attack=('poison', (1, 1))),
+    'cunning'       : DragonModifier(magic=1)
+    }
 
-
-thief_items = dict()
 knight_items = dict()
 knight_abilities = dict()
 

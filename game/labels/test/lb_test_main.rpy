@@ -39,10 +39,7 @@ label lb_test_debug:
             else:
                 game.dragon "Я и так истощен."
         "Создать логово":
-            menu:
-                "Пока логово только одно. Нужно больше логов."
-                "Буреломный овраг":
-                    $ game.lair = core.Lair()
+            call lb_test_debug_create_lair
         "Описать вора":
             if game.thief is not None:
                 $ narrator(game.thief.description())
@@ -67,3 +64,13 @@ label lb_test_example_inaccessible_menu:
             pass
     "Возвращаемся"
     return
+
+label lb_test_debug_create_lair:
+    python:
+        menu_options = []
+        for a in data.lair_types:
+            menu_options.append((data.lair_types[a].name,a, True, True))
+        type = renpy.call_screen("dw_choice", menu_options)
+        game.lair = core.Lair(type)
+    return
+        
