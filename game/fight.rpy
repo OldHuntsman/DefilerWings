@@ -1,7 +1,6 @@
 label lb_fight:
-    $ place = "city_gates"
     show place
-    'А это уже локация самой битвы'
+    '[enemy.fight_intro]'
     $result = game.battle(game.dragon, game.knight)
     result[1] "Результат боя"
     #цикл, который заканчивается победой дракона, или отступлением

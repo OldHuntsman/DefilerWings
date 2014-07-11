@@ -21,6 +21,9 @@ label lb_test_examples:
             call lb_test_example_encounter
         "Меню с недоступными вариантами":
             call lb_test_example_inaccessible_menu
+        "Прямая и косвенная речь":
+            game.dragon "Прямая речь"
+            game.dragon.third "Косвенная речь"
         "Назад":
             return
     return

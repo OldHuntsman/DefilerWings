@@ -8,6 +8,9 @@ from copy import deepcopy
 import renpy.exports as renpy
 import renpy as renpy_internal
 import renpy.store as store
+import texts
+names = {}
+names['peasant'] = [u'Манька', u'Зойка', u'Жанна']
 
 def tuples_sum(tuple_list):
     return sum([first for first, _ in tuple_list]), sum([second for _, second in tuple_list])
@@ -26,10 +29,10 @@ class Game(store.object):
         self._year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
         
-        self.dragon = Dragon(self, base_character())
-        self.knight = Knight(self, base_character())
-        self.narrator = Narrator(self, base_character())
-        #temp:
+        self.dragon = Dragon(gameRef=self, base_character=base_character)
+        self.knight = Knight(gameRef=self, base_character=base_character)
+        self.narrator = Sayer(gameRef=self, base_character=base_character)
+        self.girl = Girl(gameRef=self, base_character=base_character)
         self.thief = Thief(self.reputation())
 
     @property
@@ -50,7 +53,7 @@ class Game(store.object):
         renpy.take_screenshot() # Делаем скриншот для отображения в сейве
         renpy.save("1-1")               # Сохраняем игру
         return True
-        
+    
     def battle(self, fighter1, fighter2):
         """
         Логика сражения.
@@ -218,52 +221,78 @@ class Lair(object):
         self.women = []
 
 
-class Narrator(store.object):
-    """
-    Класс, которым будет заменен narrator по-умолчанию.
-    """
-    def __init__(self, gameRef, base_character, *args, **kwargs):
+class Sayer(store.object):
+    '''
+    Базовый класс для всего что умеет говорить
+    '''
+    def __init__(self,gameRef, base_character, *args, **kwargs):
         """
         :param gameRef: Game object
-        :param base_character: base_character базовый персонаж от которого будет вестись вещание
+        :param base_character: base_character базовый класс персонажа от которого будет вестись вещание
         """
-        super(Narrator, self).__init__(*args, **kwargs)
-        self.gameRef = gameRef
-        self.base_character = base_character
-        self.avatar = None # У нарраторар нет аватарки. Ну или можно будет поставить потом.
+        self.avatar = None      # По умолчанию аватарки нет
+        self._gameRef = gameRef # Проставляем ссылку на игру
+        self._base_character = base_character # На всякий случай если захотим пересоздать (но зачем?)
+        self._real_character = base_character() # Создаем объект от которого будет вестись вещание
     
-    def __call__(self, *args, **kwargs):
-        """
-        Этот метод используется при попытке сказать что-то персонажем.
-        Переопределяем, чтобы сообщить игре, что сейчас говорит этот персонаж.
-        """
-        self.gameRef.currentCharacter = self
-        self.base_character(*args, **kwargs)
+    @property   #Задаем имя через свойство, чтобы при изменении его передавать в персонажа.
+    def name(self):
+        return self._real_character.name
     
-class Fighter(store.object):
-    """
-    Базовый класс для всего, что способно драться.
-    Декоратор нужен чтобы реализовывать эффекты вроде иммунитета или ядовитого дыхания.
-    То есть такие, которые воздействуют на модификаторы противника.
-    """
-
-    def __init__(self, gameRef, base_character, *args, **kwargs):
-        """
-        :param gameRef: Game object
-        """
-        super(Fighter, self).__init__(*args, **kwargs)
-        self.gameRef = gameRef
-        self.base_character = base_character
-        self._modifiers = []
-        self.avatar = None # По умолчанию аватарки нет, нужно выбрать в потомках.
+    @name.setter
+    def name(self, value):
+        self._real_character.name = value
         
     def __call__(self, *args, **kwargs):
         """
         Этот метод используется при попытке сказать что-то персонажем.
         Переопределяем, чтобы сообщить игре, что сейчас говорит этот персонаж.
         """
-        self.gameRef.currentCharacter = self
-        self.base_character(*args, **kwargs)
+        self._gameRef.currentCharacter = self # Прописываем кто говорит в настоящий момент
+        self._real_character(*args, **kwargs) # На самом деле говорим
+        
+    def third(self, *args, **kwargs):
+        '''
+        Говорим от третьего лица. Принимаются предложения на более удачное название.
+        Например прямая речь:
+        $ game.person ("Что-нибудь")
+        game.person "Где-нибудь"
+        Рассказ о том что делает этот персонаж:
+        $ game.person.third("Делая что-нибудь")
+        game.person.third "Делая где-нибудь"
+        '''
+        self._gameRef.currentCharacter = self # Делаем вид, что сказали сами
+        self._gameRef.narrator._real_character(*args, **kwargs) # Говорим о лица нарратора. Грязный хак.
+        
+
+class Girl(Sayer):
+    """
+    Базовый класс для всего, с чем можно заниматься сексом.
+    """
+            
+    def __init__(self, *args, **kwargs):
+        super(Girl, self).__init__(*args, **kwargs) # Инициализируем родителя
+        self.virgin = True # девственность = пригодность для оплодотворения драконом
+        self.pregnant = 0 # 0 - не беременна, 1 - беременна базовым отродьем, 2 - беременна продвинутым отродьем
+        self.quality = 0 # Репродуктивное качество женщины. Если коварство дракона превышает её репродуктивное качество, то отродье будет продвинутым. Иначе базовым
+        self.status = 'free' # 'free' - находится вне логова и жива, 'hostage' - заточена в логове и жива, 'dead' - умерла  
+        self.name = random.choice(names['peasant'])
+        self.treashure = []
+            
+class Fighter(Sayer):
+    """
+    Базовый класс для всего, что способно драться.
+    Декоратор нужен чтобы реализовывать эффекты вроде иммунитета или ядовитого дыхания.
+    То есть такие, которые воздействуют на модификаторы противника.
+    """
+
+    def __init__(self, *args, **kwargs):
+        """
+        :param gameRef: Game object
+        """
+        super(Fighter, self).__init__(*args, **kwargs)
+        self._modifiers = []
+        self.avatar = None # По умолчанию аватарки нет, нужно выбрать в потомках.
 
     def protection(self):
         """
@@ -305,9 +334,9 @@ class Dragon(Fighter):
         self.name = u"Старый Охотник"
         self._tiredness = 0  # увеличивается при каждом действии
         self.bloodiness = 0  # range 0..5
-        self.lust = 0  # range 0..2
-        self.hunger = 0  # range 0..2
-        self.health = 2 # range 0..2
+        self.lust = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
+        self.hunger = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
+        self.health = 2 # range 0..2, ресурс восстанавливается до 2 после каждого отдыха
         self.reputation_points = 1 # при наборе определённого количества растёт уровень дурной славы
 
         self.anatomy = ['size', 'paws', 'size', 'wings', 'size', 'paws']
@@ -532,6 +561,33 @@ class Dragon(Fighter):
                 children[i].anatomy += [new_abilities[i]]
         return children
 
+
+class Enemy(Fighter):
+    """
+    Класс одноразового противника для энкаунтера.
+    """
+
+    def __init__(self, kin = 'generic',  *args, **kwargs):
+        """
+        Здесь должна быть генерация нового рыцаря.
+        """
+        super(Enemy, self).__init__(*args, **kwargs)
+        self.name = mob[kin]['name']
+        self.power = mob[kin]['power']
+        self.defence = mob[kin]['defence']
+        self.intro = mob[kin]['intro']
+        self.abilities = []
+        self.equipment = []
+
+    def modifiers(self):
+        return []
+
+    def attack(self):
+        return self.power
+
+    def protection(self):
+        return self.defence
+
 class Knight(Fighter):
     """
     Класс рыцаря.
@@ -672,11 +728,3 @@ class Thief(store.object):
         else:
             d.append(u"Вещи отсутствуют")
         return u"\n".join(d)
-
-class Women(store.object):
-    def __init__(self, *args, **kwargs):
-        super(Women, self).__init__(*args, **kwargs)
-        self.magic = 0
-        self.pregnant = False
-        self.can_give_birth = True
-

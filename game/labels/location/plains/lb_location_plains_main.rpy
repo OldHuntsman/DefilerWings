@@ -36,18 +36,25 @@ label lb_encounter_plains:
     
 label lb_enc_fair:
     'Ярмарка. Тут юноши присматривают невест из окрестных деревень, а крестьяне демонстрируют свой лучший скот.'
+    nvl clear
     menu:
         'Красавица':
+            $ game.dragon.drain_energy()
+            $ get_girl()
             'Сцена погони. Все разбегаются, дракон остаётся с пойманной девушкой.'
-            $ girl = Girl('peasant')
-            girl 'Я тут???'
+            nvl clear
+            game.girl 'Описание девушки'
+            call lb_nature_sex      
             return
             
         'Бык':
+            'Бык вступает в бой'
+            $ enemy = core.Enemy(gameRef=game, base_character=NVLCharacter, 'bull')
+            call lb_fight
             return:
             
         'Оставить их в покое' if game.dragon.bloodiness < 5:
-            $ dragon.gain_rage()
+            $ game.dragon.gain_rage()
             return
     
     return

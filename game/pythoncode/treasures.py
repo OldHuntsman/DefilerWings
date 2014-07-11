@@ -2,8 +2,11 @@ import random
 
 
 class Coins(object):
+    """
+    Монеты.
+    """
     def __init__(self, amount):
-        self.amount = amount
+        self.amount = amount # количество монеток
 
     @property
     def cost(self):
