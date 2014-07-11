@@ -40,11 +40,15 @@ label lb_test_debug:
                 game.dragon "Я и так истощен."
         "Создать логово":
             call lb_test_debug_create_lair
-        "Описать вора":
-            if game.thief is not None:
-                $ narrator(game.thief.description())
-            else:
-                "Вора нет"
+        "Вор":
+            menu:
+                "(пере)Создать вора":
+                    $ game.create_thief()
+                "Описать вора":
+                    if game.thief is not None:
+                        $ narrator(game.thief.description())
+                    else:
+                        "Вора нет"
     return
     
 label lb_test_example_inaccessible_menu:

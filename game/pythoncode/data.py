@@ -36,7 +36,7 @@ class Container(collections.defaultdict):
     '''
     Класс-хранилище разнообразных свойст/модификаторов
     '''
-    def __init__(self,id,data=None,*args,**kwargs):
+    def __init__(self,id=None,data=None,*args,**kwargs):
         super(Container, self).__init__(*args,**kwargs)
         self.id = id
         if data is not None:
@@ -158,7 +158,11 @@ thief_items = Container("thief_items",
                                                    "description": u"Дает \"защиту от холода\""}
                         })
 
-thief_titles = [ "Мародер", "Грабитель", "Взломшик", "Расхититель гробниц", "Мастер вор" ]
+thief_titles = [ u"Мародер", 
+                 u"Грабитель", 
+                 u"Взломшик", 
+                 u"Расхититель гробниц", 
+                 u"Мастер вор" ]
 
 #
 # Логово
