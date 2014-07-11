@@ -198,6 +198,14 @@ thief_items = dict()
 knight_items = dict()
 knight_abilities = dict()
 
+mob = {
+        "bull" : {
+            "name" : u"Бык",
+            "power" : 1,
+            "defence" : 1,
+            "intro" : u"Грозный бык дыша паром выскакиевает из-за угла"
+            }
+       }
 
 def get_modifier(name):
     if name in dragon_modifiers:

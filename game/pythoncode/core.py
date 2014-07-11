@@ -8,7 +8,7 @@ from copy import deepcopy
 import renpy.exports as renpy
 import renpy as renpy_internal
 import renpy.store as store
-import texts
+#import texts
 names = {}
 names['peasant'] = [u'Манька', u'Зойка', u'Жанна']
 
@@ -567,15 +567,15 @@ class Enemy(Fighter):
     Класс одноразового противника для энкаунтера.
     """
 
-    def __init__(self, kin = 'generic',  *args, **kwargs):
+    def __init__(self, kind = 'generic',  *args, **kwargs):
         """
         Здесь должна быть генерация нового рыцаря.
         """
         super(Enemy, self).__init__(*args, **kwargs)
-        self.name = mob[kin]['name']
-        self.power = mob[kin]['power']
-        self.defence = mob[kin]['defence']
-        self.intro = mob[kin]['intro']
+        self.name = data.mob[kind]['name']
+        self.power = data.mob[kind]['power']
+        self.defence = data.mob[kind]['defence']
+        self.fight_intro = data.mob[kind]['intro']
         self.abilities = []
         self.equipment = []
 
