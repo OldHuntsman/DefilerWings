@@ -250,38 +250,50 @@ screen main_menu:
     # The main menu buttons.
     frame:
         style_group "mm"
-        xalign .98
-        yalign .98
+        xalign .976
+        yalign .89
 
         has vbox
 
-        textbutton _("Начать игру") action Start()
-        textbutton _("Загрузить игру") action ShowMenu("load")
-        textbutton _("Настройки") action ShowMenu("preferences")
-        textbutton _("Помощь") action Help()
-        textbutton _("Выход") action Quit(confirm=False)
+        textbutton _("{font=fonts/PFMonumentaPro-Regular кнопки.ttf}Новая игра") action Start()
+        textbutton _("{font=fonts/PFMonumentaPro-Regular кнопки.ttf}Загрузить игру") action ShowMenu("load")
+        textbutton _("{font=fonts/PFMonumentaPro-Regular кнопки.ttf}Настройки") action ShowMenu("preferences")
+        textbutton _("{font=fonts/PFMonumentaPro-Regular кнопки.ttf}Помощь") action Help()
+        textbutton _("{font=fonts/PFMonumentaPro-Regular кнопки.ttf}Выход") action Quit(confirm=False)
      
-    text "Крылья\nОсквернителя":
-        xalign 0.99
-        yalign 0.05
-        text_align 0.5
-        size 30
-        bold True
-        color "#FFBB00"
-    text "Версия: %s"%(config.version):
-        xalign 0.99
-        yalign 0.17
+    text "{font=fonts/Lombardina лого.ttf}Крылья":
+        xalign 0.94
+        yalign 0.11
+        text_align 1
+        size 90
+        bold False
+        color "#607080"
+    text "{font=fonts/Lombardina лого.ttf}Осквернителя":
+        xalign 0.95
+        yalign 0.22
+        text_align 1
+        size 60
+        bold False
+        color "#607080"
+    text "{font=fonts/PFMonumentaPro-Regular кнопки.ttf}Версия: %s"%(config.version):
+        xalign 0.96
+        yalign 0.29
         text_align 0.5
         size 14
-        bold True
-        color "#FFBB00"
+        bold False
+        color "#758595"
 
-init -2:
-
-    # Make all the main menu buttons be the same size.
-    style mm_button:
-        size_group "mm"
-
+init -2 python:
+    style.mm_button.size_group = "mm"
+    
+init python:
+    style.mm_button.background = Frame("img/menu/кнопки/не выделенная кнопка.png",10,10)
+    style.mm_button.hover_background = Frame("img/menu/кнопки/выделенная кнопка.png",10,10)
+    style.mm_button.selected_background = Frame("img/menu/кнопки/кнопка нажата.png",10,10)
+    style.mm_button.selected_hover_background = Frame("img/menu/кнопки/выделенная кнопка.png",10,10)
+    style.mm_frame.background = Frame("img/menu/frame.png",10,10)
+    style.mm_button.yminimum = 80
+    style.mm_button.xminimum = 300
 
 
 ##############################################################################

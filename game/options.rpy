@@ -124,7 +124,7 @@ init -1 python hide:
         ## The background of the main menu. This can be a color
         ## beginning with '#', or an image filename. The latter
         ## should take up the full height and width of the screen.
-        mm_root = "img/bg/main.jpg", # фон главного экрана
+        mm_root = "img/menu/mmenu.png", # фон главного экрана
 
         ## The background of the game menu. This can be a color
         ## beginning with '#', or an image filename. The latter
@@ -187,10 +187,10 @@ init -1 python hide:
     ## the number is interpreted as a fraction of the size of the
     ## displayable or screen.
 
-    # style.mm_menu_frame.xpos = 0.5
-    # style.mm_menu_frame.xanchor = 0.5
-    # style.mm_menu_frame.ypos = 0.75
-    # style.mm_menu_frame.yanchor = 0.5
+    ## style.mm_menu_frame.xpos = 0.5
+    ## style.mm_menu_frame.xanchor = 0.5
+    ## style.mm_menu_frame.ypos = 0.75
+    ## style.mm_menu_frame.yanchor = 0.5
 
 
     #########################################
@@ -342,10 +342,8 @@ init -1 python hide:
     
     # Определяем изображения автоматически
     config.automatic_images = [ '_', '/' ]
-    config.automatic_images_strip = ['img', 'avadragon', 'avahuman', 'bg', 'map'] # как это работает??
-                                                                           # указываешь папки и он из них берет изображения просто прописав название файла.
-
-
+    config.automatic_images_strip = ['img', 'avadragon', 'avahuman', 'bg', 'map']
+    
 ## This section contains information about how to build your project into
 ## distribution files.
 init python:
