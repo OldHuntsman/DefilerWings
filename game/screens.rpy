@@ -292,7 +292,7 @@ screen main_menu:
         text_align 0.5
         size 14
         bold False
-        color "#758595"
+        color "#241511"
 
 init -2 python:
     style.mm_button.size_group = "mm"
