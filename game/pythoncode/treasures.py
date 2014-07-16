@@ -103,7 +103,7 @@ def generate_gem(count, *args):
         while count != 0:
             if cut == None:
                 cut = cut_chose()
-            elif size == None:
+            if size == None:
                 size = size_chose()
             elif len(new_dict) == 0:
                 new_dict = gem_types
