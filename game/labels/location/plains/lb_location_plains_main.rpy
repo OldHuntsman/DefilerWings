@@ -47,11 +47,6 @@ label lb_enc_fair:
             call lb_nature_sex      
             return
             
-        'Бык':
-            'Бык вступает в бой'
-            $ enemy = core.Enemy(gameRef=game, base_character=NVLCharacter, 'bull')
-            call lb_fight
-            return:
             
         'Оставить их в покое' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
