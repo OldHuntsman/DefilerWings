@@ -177,6 +177,8 @@ def generate_mat(count, *args):
     return mats        
 class Treasure(object):#класс для сокровищ
     decorate_types = {"incuse":(33,), "etching":(33,), "travlenie":(33,)}
+    quality_types = {"common":(60, 2), "skillfully":(20, 3),\
+                    "rough":(10, 1), "mastery":(10, 5)}
     def __init__(self, treasure_type, alignment):
         """все значения заносятся из treasure_types"""
         self.treasure_type = treasure_type
@@ -187,11 +189,12 @@ class Treasure(object):#класс для сокровищ
         self.image = treasure_types[self.treasure_type][4]
         self.incrustable = treasure_types[self.treasure_type][5]
         self.decorable = treasure_types[self.treasure_type][6]
+        """дальше генерируем характеристики в зависимости от типа сокровища"""
         self.random_mod = random.randint(0, self.base_price*10)
         self.alignment = alignment
-        self.spangled = generate_gem(1,{"size":("small",)}) if random.randint(1,100) <= 50 and self.incrustable != False else None
-        self.inlaid = generate_gem(1,{"size":("common",)}) if random.randint(1,100)  <=15 and self.incrustable != False  else None
-        self.huge = generate_gem(1,{"size":("large",)}) if random.randint(1,100) <= 5 and self.incrustable != False else None 
+        self.spangled = generate_gem(1,{"size":("small",)})[0] if random.randint(1,100) <= 50 and self.incrustable != False else None
+        self.inlaid = generate_gem(1,{"size":("common",)})[0] if random.randint(1,100)  <=15 and self.incrustable != False  else None
+        self.huge = generate_gem(1,{"size":("large",)})[0] if random.randint(1,100) <= 5 and self.incrustable != False else None 
                 
         def metalls_available():#проверяем принадлежность к расе(из каких металов может быть сделано)
             if self.alignment == "human" or self.alignment ==  "cleric" or self.alignment == "knight":
@@ -213,7 +216,7 @@ class Treasure(object):#класс для сокровищ
             else:
                 return weighted_select(material_types)
         self.material = material()
-        
+        self.mat_price = material_types[self.material][1] if material_types.has_key(self.material) else metal_types[self.material]
         def decorate():
             if self.decorable != False:#todo: словарь, откуда будем брать варианты орнаментов
                 rnd = random.randint(1,100)
@@ -229,6 +232,16 @@ class Treasure(object):#класс для сокровищ
                 else:
                     return None
         self.decoration = decorate()
+        self.dec_mod = 1 if self.decoration == None else 2
+        def q_choice():
+            if self.alignment == "human" or self.alignment ==  "cleric" or self.alignment == "knight":
+                return weighted_select(Treasure.quality_types)
+            else:
+                holder = {k:v for k, v in Treasure.quality_types.items()}
+                holder.__delitem__("rough")
+                return weighted_select(holder)
+        self.quality =  q_choice()
+        self.quality_mod = Treasure.quality_types[self.quality][1]
     def incrustation(self, gem):
         if self.incrustable == False:
             return "Can't be incrusted"
@@ -244,10 +257,20 @@ class Treasure(object):#класс для сокровищ
             if self.huge == None:
                 self.huge = gem
             return
-                        
+    @property
+    def incrustation_cost(self):
+        holder = 0
+        if self.spangled != None:
+            holder += self.spangled.cost
+        if self.inlaid != None:
+            holder += self.inlaid.cost
+        if self.huge != None:
+            holder += self.huge.cost
+        return holder
     @property
     def cost(self):
-        return 100
+        return self.base_price*self.quality_mod*self.dec_mod*self.mat_price+\
+               self.incrustation_cost+self.random_mod
     def __repr__(self):
         return "%s%s" %(self.material, self.treasure_type)
 """Генерируем рандомное сокровище"""
