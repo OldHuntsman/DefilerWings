@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
 import random
+size_dict = {"small":(40, 1), "common":(50, 5), "large":(8, 25),\
+             "exceptional":(2, 100)}
 """Словари , ключи - типы камней, значения - кортежи вида(шанс появления, ценность)"""
 gem_types = {"amber":(5,3), "crystall":(5,3), "beryll":(4,5),\
              "tigerye":(4,5), "granate":(3,10), "turmaline":(3,10),\
@@ -85,41 +87,43 @@ class Coins(object):
 class Gem(object):#класс для генерации драг.камней
     def __init__(self, g_type, size,cut_chose ):
         self.g_type = g_type#Тип камня
-        self.size = size#размер
+        self.size = (size, size_dict[size][1])
         """степень обработки"""
         self.cut_mod = (1,"") if self.g_type == "pearl" or self.g_type == "black_pearl" else cut_chose
         self.base = gem_types[self.g_type][1]#базовая ценность, зависит от типа
         self.can_be_incrusted = False if self.size==100 else True #проверяем возможность инкрустации
+        self.amount = 1 if self.size[1] >= 25 else 5 if self.size[1] == 5 else 20
     @property
     def cost(self):#цена камня, складывается из базы(зависит от типа), размера и степени обработки
-        return self.base*self.size[0]*self.cut_mod[0]
+        return self.base*self.size[1]*self.cut_mod[0]
     def __str__(self):
-        return "%s %s %s, cost(%s)" %(self.size[1], self.cut_mod[1], self.g_type, self.cost)
+        return "%s %s %s, cost(%s)" %(self.size[0], self.cut_mod[1], self.g_type, self.cost)
     def __repr__(self):
-        return "%s %s %s" %(self.size[1], self.cut_mod[1], self.g_type)
+        return "%s %s %s %s" %(self.amount, self.size[0], self.cut_mod[1], self.g_type)
 """функция для генерации камней, 1 обязательный аргумент - количество камней
 которое нужно сгенерировать, чтобы задать размер и/или качество обработки
-вызываем с аргументом {"size или cut":("имя_размера или качества",num)}
-где num любое число, которое будет использоваться для определения ценности
+вызываем с аргументом {"size":("размер", "размер", ...} или {"cut":(число, "качество)}
+число будет использоваться для определения ценности
 камня, чтобы задать типы камней, вызываем с аргументом "тип камня" или
 ["тип камня", "тип камня", ...]
-на пример generate_gem(5, {"size":("unusual", 33)}, ["ruby", "star", "aqua"],
+на пример generate_gem(5, {"size":("common", "small")}, ["ruby", "star", "aqua"],
                        "diamond")
-создаст 5 разных камней размера unusual случайного качества огранки, 
+создаст 5 разных камней размера common или small случайного качества огранки, 
 тип каждого будет выбран из заданных, шансы появления которых относительно
 друг друга указанны в словаре gem_types"""
 def generate_gem(count, *args):
     cut = None
-    size = None
     gems = []
     if len(args) != 0:
-        size = size_chose()
+        size = {}
         new_dict = {}
         args_holder = [i for i in args]
         for i in args_holder:
             if type(i) == dict:
                 if i.keys()[0] == "size":
-                    size = i.values()[0]
+                    for v in i["size"]:
+                        if size_dict.has_key(v) != False:
+                            size[v] = size_dict[v]
                 elif i.keys()[0] == "cut":
                     cut = i.values()[0]
             elif type(i) == list:
@@ -132,17 +136,16 @@ def generate_gem(count, *args):
         while count != 0:
             if cut == None:
                 cut = cut_chose()
-            elif size == None:
-                size = size_chose()
-            elif len(new_dict) == 0:
+            if len(size) == 0:
+                size = size_dict
+            if len(new_dict) == 0:
                 new_dict = gem_types
-            gems.append(Gem(weighted_select(new_dict), size, cut))
+            gems.append(Gem(weighted_select(new_dict), weighted_select(size), cut))
             count -= 1
         return gems
     for i in xrange(count):
         cut = cut_chose()
-        size = size_chose()
-        gems.append(Gem(weighted_select(gem_types), size, cut))
+        gems.append(Gem(weighted_select(gem_types), weighted_select(size_dict), cut))
     return gems
 class Material(object):#класс для генерации материалов
     def __init__(self, m_type, size):
@@ -164,7 +167,9 @@ def generate_mat(count, *args):
         for i in args_holder:
             if type(i) == dict:
                 if i.keys()[0] == "size":
-                    size = i.values()[0]
+                    for v in i["size"]:
+                        if size_dict.has_key(v) != False:
+                            size[v] = size_dict[v]
             elif type(i) == list:
                 for item in i:
                     if material_types.has_key(item) != False:
@@ -175,7 +180,7 @@ def generate_mat(count, *args):
         while count != 0:
             if size == None:
                 size = size_chose()
-            elif len(new_dict) == 0:
+            if len(new_dict) == 0:
                 new_dict = material_types
             mats.append(Material(weighted_select(new_dict), size))
             count -= 1
