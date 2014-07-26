@@ -32,18 +32,6 @@ treasure_types["tome"] = (10, "he", True, False, False, True, True)
 treasure_types["comb"] = (3, "he", True, True, False, False, True)
 treasure_types["phallos"] = (3, "he", True, True, False, False, True)
 treasure_types["mirror"] = (4, "it", True, True, False, True, True)
-def size_chose():#прокидывает шансы для размера, возвращает кортеж вида(число, текст)
-    rnd = random.randint(1,100)
-    if rnd <=10:
-        if rnd >2:
-            return (25, "large")
-        else:
-            return (100, "exceptional")
-    elif rnd >10:
-        if rnd < 50:
-            return (5,"common")
-        else:
-            return (1, "small")
 def cut_chose():#прокидывает шансы обработки, возвращает кортежи вида(число, текст)
     rnd = random.randint(1,100)
     if rnd <= 50:
@@ -151,17 +139,17 @@ class Material(object):#класс для генерации материало�
     def __init__(self, m_type, size):
         self.m_type = m_type
         self.base = material_types[self.m_type][1]
-        self.size = size
+        self.size = (size, size_dict[size][1])
     @property
     def cost(self):
-        return self.size[0]*self.base
+        return self.size[1]*self.base
     def __repr__(self):
-        return "%s %s" %(self.size[1], self.m_type)
+        return "%s %s" %(self.size[0], self.m_type)
 """принцип работы такойже как для драг.камней"""
 def generate_mat(count, *args):
     mats = []
-    size = None
     if len(args) != 0:
+        size = {}
         new_dict = {}
         args_holder = [i for i in args]
         for i in args_holder:
@@ -177,17 +165,15 @@ def generate_mat(count, *args):
             elif type(i) == str:
                 if material_types.has_key(i) != False:
                     new_dict[i] = material_types[i]
-        while count != 0:
-            if size == None:
-                size = size_chose()
+        for i in xrange(count):
+            if len(size) == 0:
+                size = size = size_dict
             if len(new_dict) == 0:
                 new_dict = material_types
-            mats.append(Material(weighted_select(new_dict), size))
-            count -= 1
-    while count != 0:
-        size = size_chose()
-        mats.append(Material(weighted_select(material_types), size))
-        count -= 1
+            mats.append(Material(weighted_select(new_dict), weighted_select(size)))
+        return mats
+    for i in xrange(count):
+        mats.append(Material(weighted_select(material_types), weighted_select(size_dict)))
     return mats        
 class Treasure(object):#класс для сокровищ
     def __init__(self, treasure_type, alignment):
@@ -222,7 +208,6 @@ class Treasure(object):#класс для сокровищ
             else:
                 return weighted_select(material_types)
         self.material = material()
-
     @property
     def cost(self):
         return 100
@@ -241,9 +226,9 @@ def gen_treas(count, t_list, alignment, min_cost, max_cost):
             treasures_list.append(Ingot(treas_holder))
         if treasure_types.has_key(treas_holder):
             treasures_list.append(Treasure(treas_holder, alignment))
-        count -= 1
         for i in treasures_list:
             if i.cost < min_cost or i.cost > max_cost:
                 treasures_list.remove(i)
                 count += 1
+        count -= 1
     return treasures_list
