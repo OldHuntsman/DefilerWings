@@ -85,7 +85,7 @@ class Gem(object):#класс для генерации драг.камней
     def cost(self):#цена камня, складывается из базы(зависит от типа), размера и степени обработки
         return self.base*self.size[1]*self.cut_mod[0]
     def __str__(self):
-        return "%s %s %s, cost(%s)" %(self.size[0], self.cut_mod[1], self.g_type, self.cost)
+        return "%s %s %s %s" %(self.amount, self.size[0], self.cut_mod[1], self.g_type)
     def __repr__(self):
         return "%s %s %s %s" %(self.amount, self.size[0], self.cut_mod[1], self.g_type)
 """функция для генерации камней, 1 обязательный аргумент - количество камней
@@ -176,6 +176,7 @@ def generate_mat(count, *args):
         mats.append(Material(weighted_select(material_types), weighted_select(size_dict)))
     return mats        
 class Treasure(object):#класс для сокровищ
+    decorate_types = {"incuse":(33,), "etching":(33,), "travlenie":(33,)}
     def __init__(self, treasure_type, alignment):
         """все значения заносятся из treasure_types"""
         self.treasure_type = treasure_type
@@ -187,8 +188,11 @@ class Treasure(object):#класс для сокровищ
         self.incrustable = treasure_types[self.treasure_type][5]
         self.decorable = treasure_types[self.treasure_type][6]
         self.random_mod = random.randint(0, self.base_price*10)
-        self.alignment = alignment  
-        
+        self.alignment = alignment
+        self.spangled = generate_gem(1,{"size":("small",)}) if random.randint(1,100) <= 50 and self.incrustable != False else None
+        self.inlaid = generate_gem(1,{"size":("common",)}) if random.randint(1,100)  <=15 and self.incrustable != False  else None
+        self.huge = generate_gem(1,{"size":("large",)}) if random.randint(1,100) <= 5 and self.incrustable != False else None 
+                
         def metalls_available():#проверяем принадлежность к расе(из каких металов может быть сделано)
             if self.alignment == "human" or self.alignment ==  "cleric" or self.alignment == "knight":
                 return {"silver":(70,), "gold":(30,)}
@@ -196,6 +200,7 @@ class Treasure(object):#класс для сокровищ
                 return {"gold":(70,), "mithril":(30,)}
             elif self.alignment == "dwarf":
                 return {"gold":(70,), "adamantine":(30,)}
+        
         def material():
             if self.metall == True and self.nonmetall == True:
                 rnd = random.randint(1,100)
@@ -208,11 +213,43 @@ class Treasure(object):#класс для сокровищ
             else:
                 return weighted_select(material_types)
         self.material = material()
+        
+        def decorate():
+            if self.decorable != False:#todo: словарь, откуда будем брать варианты орнаментов
+                rnd = random.randint(1,100)
+                if rnd <= 15:
+                    rnd = random.randint(1,100)
+                    if rnd <=50:
+                        if material_types.has_key(self.material):
+                            return ("carving", "")
+                        else:
+                            return (weighted_select(decorate_types), "")
+                    else:
+                        return None
+                else:
+                    return None
+        self.decoration = decorate()
+    def incrustation(self, gem):
+        if self.incrustable == False:
+            return "Can't be incrusted"
+        if gem.size[1] == 1:
+            if self.spangled == None:
+                self.spangled = gem
+            return
+        if gem.size[1] == 5:
+            if self.inlaid == None:
+                self.inlaid = gem
+            return
+        if gem.size[1] == 25:
+            if self.huge == None:
+                self.huge = gem
+            return
+                        
     @property
     def cost(self):
         return 100
     def __repr__(self):
-        return "%s %s" %(self.material, self.treasure_type)
+        return "%s%s" %(self.material, self.treasure_type)
 """Генерируем рандомное сокровище"""
 def gen_treas(count, t_list, alignment, min_cost, max_cost):
     treasures_list = []
