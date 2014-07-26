@@ -47,7 +47,6 @@ label lb_enc_fair:
             call lb_nature_sex      
             return
 
-            
         'Оставить их в покое' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             return
