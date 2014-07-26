@@ -223,7 +223,7 @@ class Treasure(object):#класс для сокровищ
                         if material_types.has_key(self.material):
                             return ("carving", "")
                         else:
-                            return (weighted_select(decorate_types), "")
+                            return (weighted_select(Treasure.decorate_types), "")
                     else:
                         return None
                 else:
