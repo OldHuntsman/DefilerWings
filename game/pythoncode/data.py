@@ -84,6 +84,10 @@ dragon_modifiers['poison_immunity'] = DragonModifier()
 dragon_modifiers['lightning_immunity'] = DragonModifier()
 dragon_modifiers['sound_immunity'] = DragonModifier()
 
+dragon_modifiers['can_swim'] = DragonModifier()
+dragon_modifiers['can_dig'] = DragonModifier()
+dragon_modifiers['greedy'] = DragonModifier()
+
 dragon_modifiers['fire_breath'] = DragonModifier(attack=('fire', (0, 1)))
 dragon_modifiers['ice_breath'] = DragonModifier(attack=('ice', (0, 1)))
 dragon_modifiers['poison_breath'] = DragonModifier(attack=('poison', (0, 1)))
@@ -121,4 +125,4 @@ def get_modifier(name):
         return dragon_modifiers[name]
     elif name in fighter_mods:
         return fighter_mods[name]
-    raise NotImplementedError
+    raise NotImplementedError, name

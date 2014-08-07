@@ -408,7 +408,7 @@ class Dragon(Fighter):
             return u'золотой'
         elif self.heads[0] == 'silver':
             return u'серебряный'
-        elif self.heads[0] == 'bronze':
+        elif self.heads[0] == 'copper':
             return u'бронзовый'
         elif self.heads[0] == 'iron':
             return u'стальной'
