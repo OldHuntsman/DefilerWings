@@ -8,7 +8,6 @@ from copy import deepcopy
 import renpy.exports as renpy
 import renpy as renpy_internal
 import renpy.store as store
-#import texts
 names = {}
 names['peasant'] = [u'Манька', u'Зойка', u'Жанна']
 
@@ -29,18 +28,13 @@ class Game(store.object):
         self._year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
         
-<<<<<<< Updated upstream
+                
+        self.lair = Lair()
         self.dragon = Dragon(gameRef=self, base_character=base_character)
         self.knight = Knight(gameRef=self, base_character=base_character)
         self.narrator = Sayer(gameRef=self, base_character=base_character)
         self.girl = Girl(gameRef=self, base_character=base_character)
-        self.thief = Thief(self.reputation())
-=======
-        self.dragon = Dragon(self, base_character())
-        self.knight = Knight(self, base_character())
-        self.narrator = Narrator(self, base_character())
         self.thief = Thief(reputation=self.reputation(), gameRef=self, base_character=base_character)
->>>>>>> Stashed changes
 
     @property
     def year(self):
@@ -116,7 +110,7 @@ class Game(store.object):
         self.year += 1
         # Если вора нет, то пробуем создать его
         if self.thief is None:
-            self.thief = Thief(self.reputation())
+            self.thief = Thief(reputation=self.reputation(), gameRef=self, base_character = self.base_character)
         else: # Иначе пробуем его пустить на дело
             if random.choice(range(6)) in range(1+len(self.thief.items)):
                 #self.thief.do_stuff() # Идем на дело
@@ -680,8 +674,8 @@ class Thief(Sayer):
     Класс вора.
     """
     
-    def __new__(cls, reputation, *args, **kwargs):
-        obj = super(Thief, cls).__new__(cls, *args, **kwargs)
+    def __new__(cls, reputation, **kwargs):
+        obj = super(Thief, cls).__new__(cls, **kwargs)
         skill = 0
         for i in range(3+reputation):
             if random.choice(range(3)) == 0:
@@ -694,7 +688,7 @@ class Thief(Sayer):
             return obj
     
     def __init__(self, *args, **kwargs):
-        super(Thief, self).__init__(self, *args, **kwargs)
+        super(Thief, self).__init__(*args, **kwargs)
         self.name = "%s %s" % (random.choice(data.thief_first_names), random.choice(data.thief_last_names))
         self.abilities = data.Container("thief_abilities")
         self.items = data.Container("thief_items")
@@ -720,9 +714,11 @@ class Thief(Sayer):
             raise Exception("Cannot determine title for skill level %s" % self.skill)
 
     def receive_item(self):
+        #TODO: учесь что список может быть пустым
         item_list = [ i for i in data.thief_items if i not in self.items ]
         item = random.choice(item_list)
         self.items.add(item, data.thief_items[item])
+        self(u"Я получил предмет %s" % data.thief_items[item].name)
         return True
 
     def new_item(self):
@@ -731,6 +727,7 @@ class Thief(Sayer):
         Здесь идёт выбор новой вещи(подготовка к грабежу).
         """
         raise NotImplementedError
+<<<<<<< HEAD
     
     def description(self):
         '''
@@ -751,9 +748,6 @@ class Thief(Sayer):
                 d.append(u"    %s: %s" % (self.items[item].name, self.items[item].description))
         else:
             d.append(u"Вещи отсутствуют")
-<<<<<<< Updated upstream
-        return u"\n".join(d)
-=======
         return u"\n".join(d)
     
     def steal(self, lair):
@@ -816,11 +810,5 @@ class Thief(Sayer):
                 renpy.call("lb_missed", label = target_label)
         self = None
         
-class Women(store.object):
-    def __init__(self, *args, **kwargs):
-        super(Women, self).__init__(*args, **kwargs)
-        self.magic = 0
-        self.pregnant = False
-        self.can_give_birth = True
-
->>>>>>> Stashed changes
+=======
+>>>>>>> origin/treasures
