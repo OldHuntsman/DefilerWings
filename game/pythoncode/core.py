@@ -8,7 +8,6 @@ from copy import deepcopy
 import renpy.exports as renpy
 import renpy as renpy_internal
 import renpy.store as store
-import texts
 names = {}
 names['peasant'] = [u'Манька', u'Зойка', u'Жанна']
 
