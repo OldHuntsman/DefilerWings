@@ -1,3 +1,6 @@
+init python:
+    from pythoncode import core
+
 label lb_test_main:
     nvl clear
     while True:
@@ -11,19 +14,19 @@ label lb_test_main:
                 menu:
                     "Выберите уровень боя"
                     '1 уровень':
-                        $foe = battle.Enemy('calf', gameRef=game, base_character=NVLCharacter)
+                        $foe = core.Enemy('calf', gameRef=game, base_character=NVLCharacter)
                         $grdh = battle.test_dragon_gen(test_game=game, test_character=NVLCharacter, level=1)
                     '5 уровень':
-                        $foe = battle.Enemy('bull', gameRef=game, base_character=NVLCharacter)
+                        $foe = core.Enemy('bull', gameRef=game, base_character=NVLCharacter)
                         $grdh = battle.test_dragon_gen(test_game=game, test_character=NVLCharacter, level=5)
                     '10 уровень':
-                        $foe = battle.Enemy('buffalo', gameRef=game, base_character=NVLCharacter)
+                        $foe = core.Enemy('buffalo', gameRef=game, base_character=NVLCharacter)
                         $grdh = battle.test_dragon_gen(test_game=game, test_character=NVLCharacter, level=10)
                     '15 уровень':
-                        $foe = battle.Enemy('minotaur', gameRef=game, base_character=NVLCharacter)
+                        $foe = core.Enemy('minotaur', gameRef=game, base_character=NVLCharacter)
                         $grdh = battle.test_dragon_gen(test_game=game, test_character=NVLCharacter, level=15)
                     '20 уровень':
-                        $foe = battle.Enemy('Jupiter', gameRef=game, base_character=NVLCharacter)
+                        $foe = core.Enemy('Jupiter', gameRef=game, base_character=NVLCharacter)
                         $grdh = battle.test_dragon_gen(test_game=game, test_character=NVLCharacter, level=20)
                 nvl clear
                 python:
@@ -42,7 +45,7 @@ label lb_test_main:
                         if grdh.paws() > 0:
                             ddescription += '\n  ' +pawstxt[grdh.paws()]
                 "[ddescription]"
-                call lb_fight
+                call lb_test_fight
             "Назад":
                 return
     return

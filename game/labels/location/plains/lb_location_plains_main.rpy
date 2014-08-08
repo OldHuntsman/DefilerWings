@@ -49,9 +49,7 @@ label lb_enc_fair:
 
         'Бык':
             $ game.dragon.drain_energy()
-            #Для теста дракона пусть зовут grdh, чтобы потом можно было легко заменить  
-            $ grdh = battle.Dragon(gameRef=game, base_character=NVLCharacter)
-            $ foe = battle.Enemy('calf', gameRef=game, base_character=NVLCharacter)
+            $ foe = core.Enemy('calf', gameRef=game, base_character=NVLCharacter)
             call lb_fight
             return
             
