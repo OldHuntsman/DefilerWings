@@ -313,6 +313,7 @@ dragon_modifiers = {
     'cunning'       : DragonModifier(magic=1)
     }
 
+thief_items = dict()
 knight_items = dict()
 knight_abilities = dict()
 
@@ -330,4 +331,4 @@ def get_modifier(name):
         return dragon_modifiers[name]
     elif name in fighter_mods:
         return fighter_mods[name]
-    raise NotImplementedError
+    raise NotImplementedError, name

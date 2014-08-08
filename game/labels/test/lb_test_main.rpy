@@ -6,6 +6,43 @@ label lb_test_main:
                 call lb_test_examples
             "Отладка":
                 call lb_test_debug
+            "Тестовый бой":
+                $ place = "city_gates"           
+                menu:
+                    "Выберите уровень боя"
+                    '1 уровень':
+                        $foe = battle.Enemy('calf', gameRef=game, base_character=NVLCharacter)
+                        $grdh = battle.test_dragon_gen(test_game=game, test_character=NVLCharacter, level=1)
+                    '5 уровень':
+                        $foe = battle.Enemy('bull', gameRef=game, base_character=NVLCharacter)
+                        $grdh = battle.test_dragon_gen(test_game=game, test_character=NVLCharacter, level=5)
+                    '10 уровень':
+                        $foe = battle.Enemy('buffalo', gameRef=game, base_character=NVLCharacter)
+                        $grdh = battle.test_dragon_gen(test_game=game, test_character=NVLCharacter, level=10)
+                    '15 уровень':
+                        $foe = battle.Enemy('minotaur', gameRef=game, base_character=NVLCharacter)
+                        $grdh = battle.test_dragon_gen(test_game=game, test_character=NVLCharacter, level=15)
+                    '20 уровень':
+                        $foe = battle.Enemy('Jupiter', gameRef=game, base_character=NVLCharacter)
+                        $grdh = battle.test_dragon_gen(test_game=game, test_character=NVLCharacter, level=20)
+                nvl clear
+                python:
+                    ddescription = '  '
+                    ddescription += size_texts[grdh.size()] + ' ' + grdh.color() + ' ' + grdh.kind()
+                    i = -1
+                    for head in grdh.heads:
+                        i += 1 
+                        if grdh.heads[i] != 'green': ddescription += '\n  Его %s голова ' % womennum[i] + head_texts[grdh.heads[i]]
+                    if grdh.wings() == 0 and grdh.paws() == 0:
+                        ddescription += wingstxt[0]
+                    else:
+                        if grdh.wings() > 0:
+                            ddescription += '\n  ' + wingstxt[grdh.wings()]
+                    
+                        if grdh.paws() > 0:
+                            ddescription += '\n  ' +pawstxt[grdh.paws()]
+                "[ddescription]"
+                call lb_fight
             "Назад":
                 return
     return
