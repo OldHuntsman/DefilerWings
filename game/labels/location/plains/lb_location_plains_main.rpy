@@ -49,7 +49,7 @@ label lb_enc_fair:
             
         'Бык':
             'Бык вступает в бой'
-            $ enemy = core.Enemy('bull', gameRef=game, base_character=NVLCharacter)
+            $ enemy = core.Enemy(gameRef=game, base_character=NVLCharacter, 'bull')
             call lb_fight
             return:
             

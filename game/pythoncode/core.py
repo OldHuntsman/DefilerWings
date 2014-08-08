@@ -8,7 +8,7 @@ from copy import deepcopy
 import renpy.exports as renpy
 import renpy as renpy_internal
 import renpy.store as store
-#import texts
+import texts
 names = {}
 names['peasant'] = [u'Манька', u'Зойка', u'Жанна']
 
@@ -29,6 +29,8 @@ class Game(store.object):
         self._year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
         
+                
+        self.lair = Lair()
         self.dragon = Dragon(gameRef=self, base_character=base_character)
         self.knight = Knight(gameRef=self, base_character=base_character)
         self.narrator = Sayer(gameRef=self, base_character=base_character)
