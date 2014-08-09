@@ -64,6 +64,7 @@ label start:
     nvl clear
     $ win = False
     while not win:
+        $ renpy.block_rollback()
         $ target_label = renpy.call_screen("main_map")
         if renpy.has_label(target_label):
             $ renpy.call(target_label)

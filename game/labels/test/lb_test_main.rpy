@@ -43,10 +43,21 @@ label lb_test_debug:
         "Вор":
             menu:
                 "(пере)Создать вора":
-                    $ game.create_thief()
+                    $ game._create_thief()
                 "Описать вора":
                     if game.thief is not None:
                         $ narrator(game.thief.description())
+                    else:
+                        "Вора нет"
+                "Редактировать умения":
+                    if game.thief is not None:
+                        $ value = "ololo" #Хз зачем эта строчка
+                        call screen sc_container_editor(game.thief.abilities, [data.thief_abilities])
+                    else:
+                        "Вора нет"
+                "Редактировать предметы":
+                    if game.thief is not None:
+                        call screen sc_container_editor(game.thief.items, [data.thief_items, data.thief_items_cursed])
                     else:
                         "Вора нет"
     return
