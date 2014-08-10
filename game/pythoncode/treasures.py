@@ -109,6 +109,12 @@ class Gem(object):#класс для генерации драг.камней
         return self.base*self.size_mod*self.cut_mod*self.amount
     def __repr__(self):
         return "%s %s %s" %(self.size, self.cut, self.g_type)
+    def __eq__(self, other):
+        if isinstance(other, Gem):
+            return other and self.g_type == other.g_type and self.cut == other.cut\
+            and self.size == other.size
+        else:
+            return
 """функция для генерации камней, 1 обязательный аргумент - количество камней
 которое нужно сгенерировать, чтобы задать размер и/или качество обработки
 вызываем с аргументом {"size":("размер", "размер", ...} или {"cut":("качество, "качество", ...)}
@@ -170,6 +176,11 @@ class Material(object):#класс для генерации материало�
         return self.size_mod*self.base
     def __repr__(self):
         return "%s %s" %(self.size, self.m_type)
+    def __eq__(self, other):
+        if isinstance(other, Material):
+            return other and self.m_type == other.m_type and self.size == other.size
+        else:
+            return
 """принцип работы такойже как для драг.камней"""
 def generate_mat(count, *args):
     mats = []
