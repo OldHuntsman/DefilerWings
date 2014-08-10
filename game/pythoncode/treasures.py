@@ -1,21 +1,51 @@
 #!/usr/bin/env python
 # coding=utf-8
 import random
-size_dict = {"small":(40, 1), "common":(50, 5), "large":(8, 25),\
-             "exceptional":(2, 100)}
-"""Словари , ключи - типы камней, значения - кортежи вида(шанс появления, ценность)"""
-gem_types = {"amber":(5,3), "crystall":(5,3), "beryll":(4,5),\
-             "tigerye":(4,5), "granate":(3,10), "turmaline":(3,10),\
-             "aqua":(3,10), "pearl":(3,10),"black_pearl":(3,10),\
-             "elven_beryll":(2,25), "topaz":(2,25), "saphire":(2,25),\
-             "ruby":(2,25), "emerald":(2,25), "goodruby":(1,100),\
-             "goodemerald":(1,100), "star":(1,100), "diamond":(1,100),\
-             "black_diamond":(1,100), "rose_diamond":(1,100)}
-material_types = {"jasper":(5,1), "turquoise":(5,1), "jade":(5,1),\
+import core
+coin_types = {"farting":(1, 1), "taller":(1, 10), "dublon":(1, 100)}
+
+size_dict = {"small":(40, 1,u"маленький"), "common":(50, 5,u"обычный"), "large":(8, 25,u"большой"),\
+             "exceptional":(2, 100, u"исключительный")}
+
+cut_dict = {"polished":(50, 2, u"полированный"), "rough":(30, 1, u"необработанный"), "faceted":(20, 3, u"ограненный")}
+
+"""Словарь , ключи - названия камней(для внутреннего пользования), значения - кортежи вида(шанс появления, ценность, название)"""
+gem_types = {}
+gem_types["amber"] = (5,3,u"янтарь")
+gem_types["crystall"] = (5,3,u"горный хрусталь")
+gem_types["beryll"] = (4,5,u"берилл")
+gem_types["tigereye"] = (4,5,u"тигровый глаз")
+gem_types["granate"] = (3,10, u"гранат")
+gem_types["turmaline"] = (3,10,u"турмалин")
+gem_types["aqua"] = (3,10,u"аквамарин")
+gem_types["pearl"] = (3,10,u"жемчуг")
+gem_types["black_pearl"] = (3,10,u"черный жемчуг")
+gem_types["elven_beryll"] = (2,25,u"эльфийский берилл")
+gem_types["topaz"] = (2,25,u"топаз")
+gem_types["saphire"] = (2,25,u"сапфир")
+gem_types["ruby"] = (2,25,u"рубин")
+gem_types["emerald"] = (2,25,u"изумруд")
+gem_types["goodruby"] = (1,100,u"яхонт")
+gem_types["goodemerald"] = (1,100,u"смарагд")
+gem_types["star"] = (1,100,u"звездный сапфир")
+gem_types["diamond"] = (1,100,u"алмаз")
+gem_types["black_diamond"] = (1,100,u"черный алмаз")
+gem_types["rose_diamond"] = (1,100,u"розовый алмаз")
+
+material_types = {"jasper":(5,1,u"яшма"), "turquoise":(5,1), "jade":(5,1),\
                   "malachite":(5,1), "corall":(4,2), "ivory":(4,2),\
                   "agate":(3,5), "shell":(3,5), "horn":(1,10)}
+material_types["jasper"] = (5,1,u"яшма")
+material_types["turquoise"] = (5,1,u"бирюза")
+material_types["jade"] = (5,1,u"нефрит")
+material_types["malachite"] = (5,1,u"малахит")
+material_types["corall"] = (4,2,u"коралл")
+material_types["ivory"] = (4,2,u"слоновая кость")
+material_types["agate"] = (3,5,u"агат")
+material_types["shell"] = (3,5,u"перламутр")
+material_types["horn"] = (1,10,u"драконий рог")
 """словарь для типов металлов, ключ - металл, значение - ценность"""
-metal_types = {"silver": 1, "gold":10, "mithril":50, "adamantine":50}
+metal_types = {"silver": (1,u"серебряный"), "gold":(10,u"золотой"), "mithril":(50,u"мифриловый"), "adamantine":(50,u"адамантиновый")}
 """словарь для типов сокровищ, ключ - тип сокровища,
 значение - (базовая цена, пол, можно ли сделать из метала(булевое), можно ли
             сделать из поделочных материалов(булевое), является ли изображением(булевое),
@@ -32,15 +62,6 @@ treasure_types["tome"] = (10, "he", True, False, False, True, True)
 treasure_types["comb"] = (3, "he", True, True, False, False, True)
 treasure_types["phallos"] = (3, "he", True, True, False, False, True)
 treasure_types["mirror"] = (4, "it", True, True, False, True, True)
-def cut_chose():#прокидывает шансы обработки, возвращает кортежи вида(число, текст)
-    rnd = random.randint(1,100)
-    if rnd <= 50:
-        if rnd >20:
-            return (1, "rough")
-        else:
-            return (3, "faceted")
-    else:
-        return (2, "polished")
 def weighted_select(d):
     weight = random.random()*sum(v[0] for k, v in d.items())
     for k, v in d.items():
@@ -57,40 +78,45 @@ class Ingot(object):#класс для генерации слитков
     @property
     def cost(self):
         return self.metal_cost*self.weight
+    @property
+    def desc(self):
+        return 
     def __repr__(self):
         return "%s pound %s ingot"%(self.weight, self.metal_type)
 class Coins(object):
     """
     Монеты.
     """
-    def __init__(self, amount):
+    def __init__(self,name, amount):
         self.amount = amount # количество монеток
-
+        self.name = name
+        self.value = coin_types[self.name][1]
     @property
     def cost(self):
-        return self.amount
+        return self.amount*self.value
 
-    def __str__(self):
-        return str(self.cost) + ' coins'
+    def __repr__(self):
+        return str(self.cost) +" " + "%s(s)" %(self.name)
 class Gem(object):#класс для генерации драг.камней
-    def __init__(self, g_type, size,cut_chose ):
-        self.g_type = g_type#Тип камня
-        self.size = (size, size_dict[size][1])
+    def __init__(self, g_type, size,cut):
+        self.g_type = (g_type, gem_types[g_type][2])#Тип камня
+        self.size = (size, size_dict[size][1], size_dict[size][2])
         """степень обработки"""
-        self.cut_mod = (1,"") if self.g_type == "pearl" or self.g_type == "black_pearl" else cut_chose
-        self.base = gem_types[self.g_type][1]#базовая ценность, зависит от типа
+        self.cut_mod = (" ",1," ") if self.g_type == "pearl" or self.g_type == "black_pearl" else (cut, cut_dict[cut][1], cut_dict[cut][2])
+        self.base = gem_types[self.g_type[0]][1]#базовая ценность, зависит от типа
         self.can_be_incrusted = False if self.size==100 else True #проверяем возможность инкрустации
         self.amount = 1 if self.size[1] >= 25 else 5 if self.size[1] == 5 else 20
     @property
     def cost(self):#цена камня, складывается из базы(зависит от типа), размера и степени обработки
-        return self.base*self.size[1]*self.cut_mod[0]
-    def __str__(self):
-        return "%s %s %s %s" %(self.amount, self.size[0], self.cut_mod[1], self.g_type)
+        return self.base*self.size[1]*self.cut_mod[1]
+    @property
+    def desc(self):
+        return "%s %s %s %s" %(self.amount, self.size[2], self.cut_mod[2], self.g_type[1])
     def __repr__(self):
-        return "%s %s %s %s" %(self.amount, self.size[0], self.cut_mod[1], self.g_type)
+        return "%s %s %s" %(self.size[0], self.cut_mod[0], self.g_type[0])
 """функция для генерации камней, 1 обязательный аргумент - количество камней
 которое нужно сгенерировать, чтобы задать размер и/или качество обработки
-вызываем с аргументом {"size":("размер", "размер", ...} или {"cut":(число, "качество)}
+вызываем с аргументом {"size":("размер", "размер", ...} или {"cut":("качество, "качество", ...)}
 число будет использоваться для определения ценности
 камня, чтобы задать типы камней, вызываем с аргументом "тип камня" или
 ["тип камня", "тип камня", ...]
@@ -100,9 +126,9 @@ class Gem(object):#класс для генерации драг.камней
 тип каждого будет выбран из заданных, шансы появления которых относительно
 друг друга указанны в словаре gem_types"""
 def generate_gem(count, *args):
-    cut = None
     gems = []
     if len(args) != 0:
+        cut = {}
         size = {}
         new_dict = {}
         args_holder = [i for i in args]
@@ -113,7 +139,9 @@ def generate_gem(count, *args):
                         if size_dict.has_key(v) != False:
                             size[v] = size_dict[v]
                 elif i.keys()[0] == "cut":
-                    cut = i.values()[0]
+                    for v in i["cut"]:
+                        if cut_dict.has_key(v) != False:
+                            cut[v] = cut_dict[v]
             elif type(i) == list:
                 for item in i:
                     if gem_types.has_key(item) != False:
@@ -122,29 +150,32 @@ def generate_gem(count, *args):
                 if gem_types.has_key(i) != False:
                     new_dict[i] = gem_types[i]              
         while count != 0:
-            if cut == None:
-                cut = cut_chose()
+            if len(cut) == 0:
+                cut = cut_dict
             if len(size) == 0:
                 size = size_dict
             if len(new_dict) == 0:
                 new_dict = gem_types
-            gems.append(Gem(weighted_select(new_dict), weighted_select(size), cut))
+            gems.append(Gem(weighted_select(new_dict), weighted_select(size),weighted_select(cut)))
             count -= 1
         return gems
     for i in xrange(count):
-        cut = cut_chose()
-        gems.append(Gem(weighted_select(gem_types), weighted_select(size_dict), cut))
+        cut = cut_dict
+        gems.append(Gem(weighted_select(gem_types), weighted_select(size_dict),weighted_select(cut)))
     return gems
 class Material(object):#класс для генерации материалов
     def __init__(self, m_type, size):
-        self.m_type = m_type
-        self.base = material_types[self.m_type][1]
-        self.size = (size, size_dict[size][1])
+        self.m_type = (m_type, material_types[m_type][2])#кортеж (ключ для поиска в словаре, название)
+        self.base = material_types[m_type][1]#базовая цена
+        self.size = (size, size_dict[size][1], size_dict[size][2])#кортеж (ключ для поиска в словаре, числовой эквивалент размера, размер)
     @property
-    def cost(self):
+    def cost(self):#определяем цену материала(зависит от размера и типа)
         return self.size[1]*self.base
+    @property
+    def desc(self):#(описание)
+        return "%s %s" %(self.size[2], self.m_type[1])
     def __repr__(self):
-        return "%s %s" %(self.size[0], self.m_type)
+        return "%s %s" %(self.size[0], self.m_type[0])
 """принцип работы такойже как для драг.камней"""
 def generate_mat(count, *args):
     mats = []
@@ -180,7 +211,7 @@ class Treasure(object):#класс для сокровищ
     quality_types = {"common":(60, 2), "skillfully":(20, 3),\
                     "rough":(10, 1), "mastery":(10, 5)}
     def __init__(self, treasure_type, alignment):
-        """все значения заносятся из treasure_types"""
+        """все значения заносятся из словаря treasure_types"""
         self.treasure_type = treasure_type
         self.base_price = treasure_types[self.treasure_type][0]
         self.gender = treasure_types[self.treasure_type][1]
@@ -215,8 +246,10 @@ class Treasure(object):#класс для сокровищ
                 return weighted_select(metalls_available())
             else:
                 return weighted_select(material_types)
-        self.material = material()
-        self.mat_price = material_types[self.material][1] if material_types.has_key(self.material) else metal_types[self.material]
+        self.material = material()#выбираем материал
+        
+        self.mat_price = material_types[self.material][1] if material_types.has_key(self.material) else metal_types[self.material][0]
+        
         def decorate():
             if self.decorable != False:#todo: словарь, откуда будем брать варианты орнаментов
                 rnd = random.randint(1,100)
@@ -228,12 +261,12 @@ class Treasure(object):#класс для сокровищ
                         else:
                             return (weighted_select(Treasure.decorate_types), "")
                     else:
-                        return None
+                        return
                 else:
-                    return None
-        self.decoration = decorate()
-        self.dec_mod = 1 if self.decoration == None else 2
-        def q_choice():
+                    return
+        self.decoration = decorate()#выбираем орнамент
+        self.dec_mod = 1 if self.decoration == None else 2#равен двум если есть орнамент
+        def q_choice():#прокидываем качество вещи
             if self.alignment == "human" or self.alignment ==  "cleric" or self.alignment == "knight":
                 return weighted_select(Treasure.quality_types)
             else:
@@ -242,7 +275,7 @@ class Treasure(object):#класс для сокровищ
                 return weighted_select(holder)
         self.quality =  q_choice()
         self.quality_mod = Treasure.quality_types[self.quality][1]
-    def incrustation(self, gem):
+    def incrustation(self, gem):#метод для икрустации камней
         if self.incrustable == False:
             return "Can't be incrusted"
         if gem.size[1] == 1:
@@ -257,7 +290,7 @@ class Treasure(object):#класс для сокровищ
             if self.huge == None:
                 self.huge = gem
             return
-    @property
+    @property#цена вставленных камней
     def incrustation_cost(self):
         holder = 0
         if self.spangled != None:
@@ -268,7 +301,7 @@ class Treasure(object):#класс для сокровищ
             holder += self.huge.cost
         return holder
     @property
-    def cost(self):
+    def cost(self):#цена сокровища
         return self.base_price*self.quality_mod*self.dec_mod*self.mat_price+\
                self.incrustation_cost+self.random_mod
     def __repr__(self):
