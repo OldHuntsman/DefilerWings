@@ -255,9 +255,9 @@ class Treasure(object):#класс для сокровищ
                         else:
                             return (weighted_select(Treasure.decorate_types))
                     else:
-                        return "" 
+                        return None
                 else:
-                    return ""
+                    return None
         self.decoration = decorate()#выбираем орнамент
         self.dec_mod = 1 if self.decoration == None else 2#равен двум если есть орнамент
         def q_choice():#прокидываем качество вещи
@@ -318,3 +318,4 @@ def gen_treas(count, t_list, alignment, min_cost, max_cost):
                 treasures_list.remove(i)
                 count += 1
         count -= 1
+    return treasures_list
