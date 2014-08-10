@@ -114,6 +114,9 @@ class Gem(object):#класс для генерации драг.камней
         return "%s %s %s %s" %(self.amount, self.size[2], self.cut_mod[2], self.g_type[1])
     def __repr__(self):
         return "%s %s %s" %(self.size[0], self.cut_mod[0], self.g_type[0])
+    def __eq__(self, other):
+        return other and self.g_type == other.g_type and self.size == other.size\
+        and self.cut_mod == other.cut_mod
 """функция для генерации камней, 1 обязательный аргумент - количество камней
 которое нужно сгенерировать, чтобы задать размер и/или качество обработки
 вызываем с аргументом {"size":("размер", "размер", ...} или {"cut":("качество, "качество", ...)}
