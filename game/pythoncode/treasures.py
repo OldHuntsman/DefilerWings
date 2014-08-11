@@ -338,8 +338,6 @@ def gen_treas(count, t_list, alignment, min_cost, max_cost):
             treasures_list.append(Ingot(treas_holder))
         if Coin.coin_types.has_key(treas_holder):
             rnd = random.randint(min_cost, max_cost)
-            print rnd
-            print treas_holder
             treasures_list.append(Coin(treas_holder,rnd/Coin.coin_types[treas_holder][1]))
         if treasure_types.has_key(treas_holder):
             treasures_list.append(Treasure(treas_holder, alignment))
