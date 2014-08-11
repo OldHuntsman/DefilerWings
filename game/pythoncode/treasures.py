@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
 import random
-import core
-coin_types = {"farting":(1, 1), "taller":(1, 10), "dublon":(1, 100)}
-
 """Словарь , ключи - названия камней, значения - кортежи вида(шанс появления, ценность)"""
 gem_types = {}
 gem_types["amber"] = (5,3)
@@ -55,6 +52,22 @@ treasure_types["tome"] = (10, "he", True, False, False, True, True)
 treasure_types["comb"] = (3, "he", True, True, False, False, True)
 treasure_types["phallos"] = (3, "he", True, True, False, False, True)
 treasure_types["mirror"] = (4, "it", True, True, False, True, True)
+treasure_types["band"] = (3, "he", True, False, False, False, False)
+treasure_types["diadem"] = (3, "she", True, False, False, True, False)
+treasure_types["tiara"] = (4, "she", True, False, False, True, False)
+treasure_types["earring"] = (1, "she", True, False, False, True, False)
+treasure_types["necklace"] = (4, "it", True, False, False, True, False)
+treasure_types["pendant"] = (2, "he", True, False, False, False, True)
+treasure_types["ring"] = (1, "it", True, True, False, False, False)
+treasure_types["broch"] = (2, "she", True, False, False, True, False)
+treasure_types["gemring"] = (2, "he", True, True, False, True, False)
+treasure_types["seal"] = (3, "he", True, True, False, False, True)
+treasure_types["armbrace"] = (3, "he", True, True, False, True, True)
+treasure_types["legbrace"] = (3, "he", True, True, False, True, True)
+treasure_types["crown"] = (5, "she", True, False, False, True, False)
+treasure_types["scepter"] = (10, "he", True, False, False, True, False)
+treasure_types["chain"] = (3, "she", True, False, False, False, False)
+treasure_types["fibula"] = (2, "she", True, False, False, False, True)
 def weighted_select(d):
     weight = random.random()*sum(v[0] for k, v in d.items())
     for k, v in d.items():
@@ -76,20 +89,21 @@ class Ingot(object):#класс для генерации слитков
         return 
     def __repr__(self):
         return "%s pound %s ingot"%(self.weight, self.metal_type)
-class Coins(object):
+class Coin(object):
+    coin_types = {"farting":(1, 1), "taller":(1, 10), "dublon":(1, 100)}
     """
     Монеты.
     """
     def __init__(self,name, amount):
         self.amount = amount # количество монеток
         self.name = name
-        self.value = coin_types[self.name][1]
+        self.value = Coin.coin_types[self.name][1]
     @property
     def cost(self):
         return self.amount*self.value
 
     def __repr__(self):
-        return str(self.cost) +" " + "%s(s)" %(self.name)
+        return str(self.amount) +" " + "%s(s)" %(self.name)
 class Gem(object):#класс для генерации драг.камней
     cut_dict = {"polished":(50, 2), "rough":(30, 1), "faceted":(20, 3)}
     size_dict = {"small":(40, 1), "common":(50, 5), "large":(8, 25),\
@@ -212,7 +226,7 @@ def generate_mat(count, *args):
         mats.append(Material(weighted_select(material_types), weighted_select(Material.size_dict)))
     return mats        
 class Treasure(object):#класс для сокровищ
-    decorate_types = {"incuse":(33,), "etching":(33,), "travlenie":(33,)}
+    decorate_types = {"incuse":(33,), "engrave":(33,), "etching":(33,), "carving":(0,)}
     quality_types = {"common":(60, 2), "skillfully":(20, 3),\
                     "rough":(10, 1), "mastery":(10, 5)}
     def __init__(self, treasure_type, alignment):
@@ -322,6 +336,11 @@ def gen_treas(count, t_list, alignment, min_cost, max_cost):
             treasures_list.extend(generate_mat(1, treas_holder))
         if metal_types.has_key(treas_holder):
             treasures_list.append(Ingot(treas_holder))
+        if Coin.coin_types.has_key(treas_holder):
+            rnd = random.randint(min_cost, max_cost)
+            print rnd
+            print treas_holder
+            treasures_list.append(Coin(treas_holder,rnd/Coin.coin_types[treas_holder][1]))
         if treasure_types.has_key(treas_holder):
             treasures_list.append(Treasure(treas_holder, alignment))
         for i in treasures_list:
