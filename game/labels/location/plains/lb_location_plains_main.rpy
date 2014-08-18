@@ -49,7 +49,7 @@ label lb_enc_fair:
 
         'Бык':
             $ game.dragon.drain_energy()
-            $ foe = core.Enemy('calf', gameRef=game, base_character=NVLCharacter)
+            $ foe = core.Enemy('bull', gameRef=game, base_character=NVLCharacter)
             call lb_fight
             return
             

@@ -639,7 +639,7 @@ class Enemy(Fighter):
 
     def __init__(self, kind = 'generic',  *args, **kwargs):
         """
-        Здесь должна быть генерация нового рыцаря.
+        Создание врага.
         """
         super(Enemy, self).__init__(*args, **kwargs)
         self.name = mob_data.mob[kind]['name']
@@ -649,6 +649,7 @@ class Enemy(Fighter):
         self._modifiers = mob_data.mob[kind]['modifiers']
         self.abilities = []
         self.equipment = []
+        self.img = '' "img\scene\%s.png" % mob_data.mob[kind]['image']
 
     def modifiers(self):
         return self._modifiers

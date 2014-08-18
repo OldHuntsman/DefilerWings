@@ -22,9 +22,10 @@ mob = {
         
         'bull' : {
             'name' : u"Бык",
-            'power': {'base' : (6, 0)},
-            'defence' : {'base' : (6, 0)},
+            'power': {'base' : (3, 0)},
+            'defence' : {'base' : (3, 0)},
             'modifiers' : [],
+            'image' : 'bull',
             'descriptions' : [
                     [['foe_intro'], u"{0} бросается на {1}", ['foe_name', 'dragon_name'], 0],
                     [['foe_intro'], u"{0} роет копытами землю, готовясь напасть", ['foe_name'], 0],

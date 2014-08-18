@@ -2,7 +2,7 @@ init python:
     from pythoncode import battle
 
 label lb_fight:
-    show place
+    show expression foe.img
     $ battle_status = battle.check_fear(game.dragon, foe)
     $ description = foe.battle_description(battle_status, game.dragon)
     "[description]"
