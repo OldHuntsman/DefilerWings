@@ -3,13 +3,13 @@ init python:
 
 label lb_fight:
     show expression foe.img
-    $ battle_status = battle.check_fear(game.dragon, foe)
-    $ description = foe.battle_description(battle_status, game.dragon)
+    $ battle_status = battle.check_fear(game.dragon, game.foe)
+    $ description = game.foe.battle_description(battle_status, game.dragon)
     "[description]"
     #цикл, который заканчивается победой дракона, или отступлением
     while 'foe_alive' in battle_status:
-        $ battle_status = battle.battle_action(game.dragon, foe)
-        $ description = foe.battle_description(battle_status, game.dragon)
+        $ battle_status = battle.battle_action(game.dragon, game.foe)
+        $ description = game.foe.battle_description(battle_status, game.dragon)
         "[description]" 
         if 'dragon_dead' in battle_status:
             #TODO замена текущего дракона с возможностью выбора потомка
@@ -24,7 +24,7 @@ label lb_fight:
                     pass
                     
                 'Отступить':
-                    if type(foe) == core.Knight:
+                    if type(game.foe) == core.Knight:
                         #TODO потеря логова, магнитофона импортного, куртки замшевой. Двух!
                         jump lb_location_lair_main
                     else:

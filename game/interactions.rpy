@@ -4,23 +4,30 @@ label lb_nature_sex:
     nvl clear
     menu:
         'Надругаться' if game.girl.virgin and game.dragon.lust > 0:
-            $ impregnate()
-            game.girl.third 'Подходящая сцена секса'
-        'Ограбить' if game.girl.treashure != []:
-            $ pass
+            $ description = game.girls_list.impregnate()
+            game.girl.third "[description]"
+        'Ограбить' if game.girl.treasure != []:
+            $ description = game.girls_list.rob_girl()
+            game.girl.third "[description]"
         'Сожрать' if game.dragon.hunger > 0:
-            game.girl.third 'Описание обеда'
-            $ game.dragon.hunger -= 1
-            $ game.dragon.bloodiness = 0
+            $ description = game.girls_list.eat_girl()
+            game.girl.third "[description]"
             return
-        'Утащить в логово':
-            '[game.dragon.name] относит пленницу в своё логово...'
+        'Вернуть в темницу' if game.girl.jailed:
+            $ description = game.girls_list.jail_girl()
+            game.girl.third "[description]"
+            return
+        'Утащить в логово' if not game.girl.jailed:
+            $ description = game.girls_list.steal_girl()
+            game.girl.third "[description]"
             $ place = 'lair'
             show place
-            $ game.girl.status = 'hostage'
-            '...и сажает её под замок'
+            nvl clear
+            $ description = game.girls_list.jail_girl()
+            game.girl.third "[description]"
             return
         'Отпустить восвояси':
-            '[game.dragon.name] отправляется по своим делам.'
+            $ description = game.girls_list.free_girl()
+            game.girl.third "[description]"
             return      
     jump lb_nature_sex

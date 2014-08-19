@@ -1,17 +1,16 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 # coding=utf-8
 import random
 import math
 import data
 import battle
 import mob_data
+import girls
 from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
 import renpy as renpy_internal
 import renpy.store as store
-names = {}
-names['peasant'] = [u'Манька', u'Зойка', u'Жанна']
 
 def tuples_sum(tuple_list):
     return sum([first for first, _ in tuple_list]), sum([second for _, second in tuple_list])
@@ -35,8 +34,10 @@ class Game(store.object):
         self.dragon = Dragon(gameRef=self, base_character=base_character)
         self.knight = Knight(gameRef=self, base_character=base_character)
         self.narrator = Sayer(gameRef=self, base_character=base_character)
-        self.girl = Girl(gameRef=self, base_character=base_character)
         self.thief = Thief(reputation=self.reputation(), gameRef=self, base_character=base_character)
+        self.girls_list = girls.Girls_list(gameRef=self, base_character=base_character)
+        self.foe = None
+        self.girl = None
 
     @property
     def year(self):
@@ -249,10 +250,10 @@ class Girl(Sayer):
         super(Girl, self).__init__(*args, **kwargs) # Инициализируем родителя
         self.virgin = True # девственность = пригодность для оплодотворения драконом
         self.pregnant = 0 # 0 - не беременна, 1 - беременна базовым отродьем, 2 - беременна продвинутым отродьем
-        self.quality = 0 # Репродуктивное качество женщины. Если коварство дракона превышает её репродуктивное качество, то отродье будет продвинутым. Иначе базовым
-        self.status = 'free' # 'free' - находится вне логова и жива, 'hostage' - заточена в логове и жива, 'dead' - умерла  
-        self.name = random.choice(names['peasant'])
-        self.treashure = []
+        self.quality = 0 # Репродуктивное качество женщины. Если коварство дракона превышает её репродуктивное качество, то отродье будет продвинутым. Иначе базовым 
+        self.name = ''
+        self.jailed = False # была ли уже в тюрьме, пригодится для описания
+        self.treasure = []
             
 class Fighter(Sayer):
     """
@@ -639,7 +640,7 @@ class Enemy(Fighter):
 
     def __init__(self, kind = 'generic',  *args, **kwargs):
         """
-        Создание врага.
+        Здесь должна быть генерация нового рыцаря.
         """
         super(Enemy, self).__init__(*args, **kwargs)
         self.name = mob_data.mob[kind]['name']
@@ -649,7 +650,6 @@ class Enemy(Fighter):
         self._modifiers = mob_data.mob[kind]['modifiers']
         self.abilities = []
         self.equipment = []
-        self.img = '' "img/scene/fight/%s.png" % mob_data.mob[kind]['image']
 
     def modifiers(self):
         return self._modifiers

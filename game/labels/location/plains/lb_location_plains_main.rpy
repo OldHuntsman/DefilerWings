@@ -40,16 +40,16 @@ label lb_enc_fair:
     menu:
         'Красавица':
             $ game.dragon.drain_energy()
-            $ get_girl()
+            $ description = game.girls_list.new_girl('peasant')
             'Сцена погони. Все разбегаются, дракон остаётся с пойманной девушкой.'
             nvl clear
-            game.girl 'Описание девушки'
+            game.girl "[description]"
             call lb_nature_sex      
             return
 
         'Бык':
             $ game.dragon.drain_energy()
-            $ foe = core.Enemy('bull', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('bull', gameRef=game, base_character=NVLCharacter)
             call lb_fight
             menu:
                 'Сожрать призового быка' if game.dragon.hunger > 0:
