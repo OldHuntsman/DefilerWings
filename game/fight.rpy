@@ -20,7 +20,6 @@ label lb_fight:
             
         if 'foe_alive' in battle_status:
             menu:
-                "Вы можете продолжить бой, или отступить"
                 'Продолжать бой':
                     pass
                     
@@ -31,4 +30,6 @@ label lb_fight:
                     else:
                         "Вы бежали в логово"
                         jump lb_location_lair_main
+    nvl clear
+    show place
     return
