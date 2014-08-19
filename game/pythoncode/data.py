@@ -355,7 +355,7 @@ dragon_heads = {
     'blue'  : ['can_swim'],
     'black' : ['black_power', 'poison_breath'],  # black_power -- +1 атака
     'iron'  : ['iron_scale', 'sound_breath'],  # iron_scale -- +1 защита
-    'copper': ['copper_scale', 'can_dig'],  # copper_scale -- +1 защита
+    'bronze': ['bronze_scale', 'can_dig'],  # bronze_scale -- +1 защита
     'silver': ['silver_magic', 'lightning_immunity'],
     'gold'  : ['gold_magic', 'greedy'],  # greedy -- -2 к шансам вора
     'shadow': ['shadow_magic', 'fear_of_dark'], # fear_of_dark -- +2 к страху
@@ -390,6 +390,10 @@ dragon_modifiers = {
     'poison_immunity'   : DragonModifier(),
     'lightning_immunity': DragonModifier(),
     'sound_immunity'    : DragonModifier(),
+    
+    'can_swim'          :  DragonModifier(),
+    'can_dig'           : DragonModifier(),
+    'greedy'            : DragonModifier(),
 
     'fire_breath'       : DragonModifier(attack=('fire', (0, 1))),
     'ice_breath'        : DragonModifier(attack=('ice', (0, 1))),
@@ -398,7 +402,7 @@ dragon_modifiers = {
     'lightning_breath'  : DragonModifier(attack=('lightning', (0, 1))),
     'black_power'       : DragonModifier(attack=('base', (1, 0))),
     'iron_scale'        : DragonModifier(protection=('scale', (1, 0))),
-    'copper_scale'      : DragonModifier(protection=('scale', (1, 0))),
+    'bronze_scale'      : DragonModifier(protection=('scale', (1, 0))),
     'silver_magic'      : DragonModifier(magic=1),
     'gold_magic'        : DragonModifier(magic=1),
     'shadow_magic'      : DragonModifier(magic=1),
@@ -418,6 +422,7 @@ dragon_modifiers = {
     'cunning'       : DragonModifier(magic=1)
     }
 
+thief_items = dict()
 knight_items = dict()
 knight_abilities = dict()
 
@@ -435,4 +440,4 @@ def get_modifier(name):
         return dragon_modifiers[name]
     elif name in fighter_mods:
         return fighter_mods[name]
-    raise NotImplementedError
+    raise NotImplementedError, name

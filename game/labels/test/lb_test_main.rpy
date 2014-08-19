@@ -1,3 +1,6 @@
+init python:
+    from pythoncode import core
+
 label lb_test_main:
     nvl clear
     while True:

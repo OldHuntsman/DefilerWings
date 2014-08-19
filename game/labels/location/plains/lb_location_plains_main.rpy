@@ -46,12 +46,20 @@ label lb_enc_fair:
             game.girl 'Описание девушки'
             call lb_nature_sex      
             return
-            
+
         'Бык':
-            'Бык вступает в бой'
-            $ enemy = core.Enemy('bull', gameRef=game, base_character=NVLCharacter)
+            $ game.dragon.drain_energy()
+            $ foe = core.Enemy('bull', gameRef=game, base_character=NVLCharacter)
             call lb_fight
-            return:
+            menu:
+                'Сожрать призового быка' if game.dragon.hunger > 0:
+                    'Бык съеден. -1 к голоду, +1 к похоти. Ярость обнуляется.'
+                    $ game.dragon.bloodiness = 0
+                    $ if game.dragon.lust < 3: game.dragon.lust += 1
+                    $ game.dragon.hunger -= 1
+                'Уйти':
+                    return
+            return
             
         'Оставить их в покое' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()

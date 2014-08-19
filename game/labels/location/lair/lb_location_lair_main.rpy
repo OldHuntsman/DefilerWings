@@ -49,8 +49,4 @@ label lb_location_lair_main:
                     del game_loaded
         'Покинуть логово':
             $ pass
-        'Тестовый бой':
-            menu:
-                "Бой с рыцарем":
-                    jump lb_fight
     return

@@ -33,6 +33,12 @@
         game.girl.avatar = relative_path + "/" + filename # Возвращаем правильно отформатированно значение
     
 init:
+    transform bot_to_top:
+        align(-2, -2)
+        linear 100 yalign 3.0
+        repeat
+    image side dragon = "dragon ava"
+    image blur = "img/intro/blur.png"
     image bg main = "img/bg/main.jpg"  # заставка главного меню
     image place = ConditionSwitch(              
         "place == 'city_gates'", "img/bg/city/outside.png",    # определение фонов для разных мест (потребует доработки)  
@@ -47,6 +53,7 @@ init:
         "place == 'smuglers'", "img/bg/special/smuglers.png",
         "place == 'mordor'", "img/bg/special/mordor.png",
         )
+    define narrator = Character(None, kind=nvl)
 
 
 # Начало игры
@@ -62,6 +69,7 @@ label start:
     # Прокручиваем заставку.
     call screen sc_intro
     nvl clear
+    show screen status_bar
     $ win = False
     while not win:
         $ renpy.block_rollback()

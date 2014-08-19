@@ -3,12 +3,13 @@
 import random
 import math
 import data
+import battle
+import mob_data
 from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
 import renpy as renpy_internal
 import renpy.store as store
-#import texts
 names = {}
 names['peasant'] = [u'Манька', u'Зойка', u'Жанна']
 
@@ -29,6 +30,8 @@ class Game(store.object):
         self._year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
         
+                
+        self.lair = Lair()
         self.dragon = Dragon(gameRef=self, base_character=base_character)
         self.knight = Knight(gameRef=self, base_character=base_character)
         self.narrator = Sayer(gameRef=self, base_character=base_character)
@@ -53,51 +56,6 @@ class Game(store.object):
         renpy.take_screenshot() # Делаем скриншот для отображения в сейве
         renpy.save("1-1")               # Сохраняем игру
         return True
-    
-    def battle(self, fighter1, fighter2):
-        """
-        Логика сражения.
-        :param fighter1: Fighter
-        :param fighter2: Fighter
-        :return: Текст описывающий сражение.
-        """
-        hit1 = sum(fighter1.attack()[key][1] for key in fighter1.attack())
-        for attacks in range(1,sum(fighter1.attack()[key][0] for key in fighter1.attack()) +1):
-            dice = random.randint(1,3)
-            if dice ==1:
-                hit1 +=1       
-        hit2 = sum(fighter2.attack()[key][1] for key in fighter2.attack())
-        for attacks in range(1, sum(fighter2.attack()[key][0] for key in fighter2.attack()) +1):
-            dice = random.randint(1,3)
-            if dice == 1:
-                hit2 += 1
-        prot1 = sum(fighter1.protection()[key][1] for key in fighter1.protection())
-        for protects in range(1, sum(fighter1.protection()[key][1]for key in fighter1.protection())+1):
-            dice = random.randint(1,3)
-            if dice == 1:
-                prot1 +=1
-        prot2 = sum(fighter2.protection()[key][1] for key in fighter2.protection())
-        for protects in range(1, sum(fighter2.protection()[key][1] for key in fighter2.protection())+1):
-            dice = random.randint(1,3)
-            if dice ==1:
-                prot2 +=1        
-        """
-        Возможные результаты боя
-        """
-        if hit1 > prot2:#Дракон попал
-            if hit2 <= prot1:
-                return (True, u"%s Побеждает %s не получив ран"%(fighter1.name, fighter2.name))
-            elif hit2 > prot1:
-                return (True, u"%s Побеждает %s получив рану"%(fighter1.name, fighter2.name))
-                #также увеличиваем показатель ранений дракона   
-        elif hit1 <= prot2:#дракон не попал
-            if hit2 <= prot1:
-                return (False, u"%s не побеждает, ран нет"%(fighter1.name))
-                #тут предлагаем игроку бежать или продолжить бой
-            elif hit2 > prot1:
-                return (False, u"%s не побеждает, ранен"%(fighter1.name))
-                #тут предлагаем игроку бежать или продолжить бой
-                #также увеличиваем показатель ранений дракона
 
     def next_year(self):
         '''
@@ -337,7 +295,9 @@ class Fighter(Sayer):
         """
         super(Fighter, self).__init__(*args, **kwargs)
         self._modifiers = []
+        self.descriptions = [] #По умолчанию список описаний пуст
         self.avatar = None # По умолчанию аватарки нет, нужно выбрать в потомках.
+        self.name = u""
 
     def protection(self):
         """
@@ -367,7 +327,56 @@ class Fighter(Sayer):
                  if get_modifier(mod).attack[0] == type]
             )
         return result
-
+    
+    def immunity(self):
+        """
+        :return: Список типов атаки(лед, огонь, яд...), к которым у данного бойца иммунитет
+        """
+        immun = []
+        for type in data.attack_types:
+                if type + '_immunity' in self._modifiers:
+                    immun.append(type)
+        return immun
+        
+    def battle_description (self, status, dragon):
+        """
+        :param status: список, описывающий состояние боя
+        :param dragon: ссылка на дракона, выступающего противником
+        :return: текстовое описание боя
+        """
+        desc_list = [] #список для возможных описаний момента боя
+        curr_round = 100 #переменная для определения наимее использовавшегося описания
+        #цикл по всем индексам списка self.descriptions
+        for desc_i in range(len(self.descriptions)):
+            #получаем список переменных для строки описания из списка
+            (require, desc_str, insertion, round) = self.descriptions[desc_i]
+            #определяем подходит ли описание для текущего статуса
+            desc_need = round <= curr_round #предварительно проверяем на количество использований
+            for req in require:
+                desc_need = (req in status) and desc_need
+            if desc_need:
+                if round < curr_round:  
+                    curr_round = round  #выбираем наименьшее число использований описания
+                    desc_list = []      #все предыдущие описания использовались чаще, очищаем список
+                #вставляем необходимые данные в описание 
+                insert_list = []
+                for ins in insertion:
+                    if ins == 'foe_name':
+                        insert_list.append(self.name)
+                    elif ins == 'dragon_name':
+                        insert_list.append(dragon.name)
+                desc_str = desc_str.format(*insert_list)
+                #добавляем в список для описаний            
+                desc_list.append([desc_str, desc_i])
+        if desc_list:
+            #выбираем случайное описание
+            dice = random.randint(0, len(desc_list) - 1)
+            desc = desc_list[dice]
+            self.descriptions[desc[1]][3] += 1 #увеличиваем число использований этого описания
+            return desc[0]
+        else:
+            return status #список описаний пуст, возвращаем информацию для дебага
+        
 class Dragon(Fighter):
     """
     Класс дракона.
@@ -386,6 +395,7 @@ class Dragon(Fighter):
 
         self.anatomy = ['size', 'paws', 'size', 'wings', 'size', 'paws']
         self.heads = ['green']  # головы дракона
+        self.dead_heads = [] #мертвые головы дракона
         self.spells = []  # заклинания наложенные на дракона(обнуляются после сна)
         self.avatar = "img/avadragon/green/1.jpg"
 
@@ -442,7 +452,7 @@ class Dragon(Fighter):
         Увеличивает раздражение дракона на :gain:
         """
         if self.bloodiness < 5:
-            self.bloodiness += 1
+            self.bloodiness += gain
             return True
         return False
                 
@@ -461,7 +471,7 @@ class Dragon(Fighter):
         
     def fear(self):
         """
-        :return: Значение чудовищносити(целое число)
+        :return: Значение чудовищности(целое число)
         """
         return sum([get_modifier(mod).fear for mod in self.modifiers()])
 
@@ -471,6 +481,7 @@ class Dragon(Fighter):
         self.lust = 3  # range 0..3
         self.hunger = 3  # range 0..3
         self.spells = []  # заклинания сбрасываются
+        self.health = 2
 
     def color(self):
         """
@@ -567,6 +578,8 @@ class Dragon(Fighter):
         """
         # Обнуляем заклинания, они уже не понадобятся
         self.spells = []
+        # копируем мертвые головы в список живых для наследования
+        self.heads.extend(self.dead_heads)
         # Формируем список возможных улучшений
         dragon_leveling = ['head']
         if self.size() < 6:
@@ -593,20 +606,60 @@ class Dragon(Fighter):
             dragon_leveling += ['color']
         # Выбираем три случайных способности
         number_of_abilities = 3
+        while len(dragon_leveling) < number_of_abilities:
+            dragon_leveling += ['head']
         new_abilities = random.sample(dragon_leveling, number_of_abilities)
-        children = [deepcopy(self) for i in range(0, number_of_abilities)]
+        children = [self.deepcopy() for i in range(0, number_of_abilities)]
         for i in range(0, number_of_abilities):
             if new_abilities[i] == 'color':
-                # список возможных цветов
-                colors = ['red', 'white', 'blue', 'black', 'iron', 'copper', 'silver', 'gold', 'shadow']
-                children[i].heads[self.heads.index('green')] = random.choice(colors)
+                # список всех цветов голов
+                colors = data.dragon_heads.keys()
+                # список возможных цветов 
+                available_colors = []
+                for head_color in colors:
+                    # проходим список всех цветов, добавляем только отсутствующие цвета
+                    if head_color not in self.heads:
+                        available_colors += head_color
+                # если список доступных цветов не пуст - добавляем случайный цвет из списка, иначе добавляем зеленую голову
+                if available_colors:
+                    children[i].heads[self.heads.index('green')] = random.choice(colors)
+                else:
+                    children[i].heads += ['green']
             elif new_abilities[i] == 'head':
                 children[i].heads += ['green']
             else:
                 children[i].anatomy += [new_abilities[i]]
         return children
-
-
+        
+    def struck(self):
+        """
+        вызывается при получении удара, наносит урон, отрубает головы и выдает описание произошедшего
+        :return: описание результата удара
+        """
+        if self.health:
+            #до удара self.health > 1 - дракон ранен, self.health = 1 - тяжело ранен
+            self.health -= 1
+            if self.health:
+                return ['dragon_wounded']
+            else:
+                return ['dragon_wounded', 'dragon_heavily_wounded']
+        else:
+            # жизни закончились, рубим случайную голову
+            lost_head = random.choice(self.heads)
+            self.heads.remove(lost_head)
+            self.dead_heads.append(lost_head)
+            # потеря головы, если головы закончились - значит смертушка пришла
+            if self.heads:
+                return ['lost_head', 'lost_' + lost_head]
+            else:
+                return ['dragon_dead']
+                
+    def deepcopy(self):
+        child = Dragon(gameRef=self._gameRef, base_character=self._base_character)
+        child.heads = deepcopy(self.heads)
+        child.anatomy = deepcopy(self.anatomy)
+        return child
+        
 class Enemy(Fighter):
     """
     Класс одноразового противника для энкаунтера.
@@ -614,18 +667,20 @@ class Enemy(Fighter):
 
     def __init__(self, kind = 'generic',  *args, **kwargs):
         """
-        Здесь должна быть генерация нового рыцаря.
+        Создание врага.
         """
         super(Enemy, self).__init__(*args, **kwargs)
-        self.name = data.mob[kind]['name']
-        self.power = data.mob[kind]['power']
-        self.defence = data.mob[kind]['defence']
-        self.fight_intro = data.mob[kind]['intro']
+        self.name = mob_data.mob[kind]['name']
+        self.power = mob_data.mob[kind]['power']
+        self.defence = mob_data.mob[kind]['defence']
+        self.descriptions = mob_data.mob[kind]['descriptions']
+        self._modifiers = mob_data.mob[kind]['modifiers']
         self.abilities = []
         self.equipment = []
+        self.img = '' "img/scene/fight/%s.png" % mob_data.mob[kind]['image']
 
     def modifiers(self):
-        return []
+        return self._modifiers
 
     def attack(self):
         return self.power
@@ -742,10 +797,13 @@ class Thief(Sayer):
     def receive_item(self):
         #TODO: учесь что список может быть пустым
         item_list = [ i for i in data.thief_items if i not in self.items ]
-        item = random.choice(item_list)
-        self.items.add(item, data.thief_items[item])
-        self.event('receive_item', item=data.thief_items[item])
-        return True
+        if item_list:
+            item = random.choice(item_list)
+            self.items.add(item, data.thief_items[item])
+            self.event('receive_item', item=data.thief_items[item])
+            return True
+        else:
+            return False
     
     def description(self):
         '''
