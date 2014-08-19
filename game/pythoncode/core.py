@@ -649,7 +649,7 @@ class Enemy(Fighter):
         self._modifiers = mob_data.mob[kind]['modifiers']
         self.abilities = []
         self.equipment = []
-        self.img = '' "img\scene\%s.png" % mob_data.mob[kind]['image']
+        self.img = '' "img/scene/fight/%s.png" % mob_data.mob[kind]['image']
 
     def modifiers(self):
         return self._modifiers
