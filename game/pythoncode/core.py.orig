@@ -34,15 +34,10 @@ class Game(store.object):
         self.dragon = Dragon(gameRef=self, base_character=base_character)
         self.knight = Knight(gameRef=self, base_character=base_character)
         self.narrator = Sayer(gameRef=self, base_character=base_character)
-<<<<<<< HEAD
-        self.thief = Thief(reputation=self.reputation(), gameRef=self, base_character=base_character)
+        self._create_thief()
         self.girls_list = girls.Girls_list(gameRef=self, base_character=base_character)
         self.foe = None
         self.girl = None
-=======
-        self.girl = Girl(gameRef=self, base_character=base_character)
-        self._create_thief()
->>>>>>> cc0964ef3766c3027bc50dc6c066ce8a95d75d4b
 
     @property
     def year(self):
@@ -76,18 +71,26 @@ class Game(store.object):
             if renpy.config.developer: self.narrator(u"Вора не было или он был мертв, попробуем его создать.")
             self._create_thief()
             if self.thief is None:
+<<<<<<< HEAD
+                if renpy.config.developer: self.narrator(u"Р’РѕСЂ РЅРµ РїРѕСЏРІРёР»СЃСЏ.")
+=======
                 if renpy.config.developer: self.narrator(u"Вор не появился.")
                 self.thief.event("spawn")
             else:
                 if renpy.config.developer: self.narrator(u"Вор появился.")
+>>>>>>> b86d0879f96a6ea8549df24f8d2958ceb034acd5
         else: # Иначе пробуем его пустить на дело
             if random.choice(range(6)) in range(1+len(self.thief.items)):
                 # Идем на дело
                 if renpy.config.developer: self.narrator(u"Вор идет на дело")
                 self.thief.steal(self.lair)
             else:
+<<<<<<< HEAD
+                if random.choice(range(2)) == 0:    # C 50% шансом получаем шмотку                    
+=======
                 if renpy.config.developer: self.thief(u"Что-то ссыкотно, надо бы подготовиться.")
                 if random.choice(range(2)) == 0:    # C 50% шансом получаем шмотку
+>>>>>>> b86d0879f96a6ea8549df24f8d2958ceb034acd5
                     self.thief.receive_item()
                 else:
                     if renpy.config.developer: self.narrator(u"Но вместо этого вор весь год бухает.")
