@@ -2,7 +2,7 @@ init python:
     from pythoncode import battle
 
 label lb_fight:
-    show expression foe.img
+    show expression game.foe.img as foeimg
     $ battle_status = battle.check_fear(game.dragon, game.foe)
     $ description = game.foe.battle_description(battle_status, game.dragon)
     "[description]"
@@ -29,7 +29,9 @@ label lb_fight:
                         jump lb_location_lair_main
                     else:
                         "Вы бежали в логово"
+                        hide foeimg
+                        nvl clear
                         jump lb_location_lair_main
+    hide foeimg
     nvl clear
-    show place
     return

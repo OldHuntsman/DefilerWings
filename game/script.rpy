@@ -46,7 +46,6 @@ label start:
         
     # Прокручиваем заставку.
     call screen sc_intro
-    nvl clear
     show screen status_bar
     $ win = False
     while not win:
