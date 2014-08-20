@@ -76,16 +76,13 @@ class Game(store.object):
             if self.thief is None:
                 if renpy.config.developer: self.narrator(u"Р’РѕСЂ РЅРµ РїРѕСЏРІРёР»СЃСЏ.")
         else: # Иначе пробуем его пустить на дело
-            else:
-                if renpy.config.developer: self.narrator(u"Р’РѕСЂ РїРѕСЏРІРёР»СЃСЏ.")
-        else: # РРЅР°С‡Рµ РїСЂРѕР±СѓРµРј РµРіРѕ РїСѓСЃС‚РёС‚СЊ РЅР° РґРµР»Рѕ
             if random.choice(range(6)) in range(1+len(self.thief.items)):
                 #self.thief.do_stuff() # Идем на дело
                 if renpy.config.developer: self.narrator(u"Р’РѕСЂ РёРґРµС‚ РЅР° РґРµР»Рѕ")
                 self.thief.steal(self.lair)
             else:
                 if random.choice(range(2)) == 0:    # C 50% шансом получаем шмотку                    
-                self.thief.receive_item()
+                    self.thief.receive_item()
                 else:
                     if renpy.config.developer: self.narrator(u"РќРѕ РІРјРµСЃС‚Рѕ СЌС‚РѕРіРѕ РІРѕСЂ РІРµСЃСЊ РіРѕРґ Р±СѓС…Р°РµС‚.")
 
