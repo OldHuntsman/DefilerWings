@@ -74,8 +74,8 @@ class Game(store.object):
                 if renpy.config.developer: self.narrator(u"Вор не появился.")
                 self.thief.event("spawn")
             else:
-                if renpy.config.developer: self.narrator(u"Р’РѕСЂ РїРѕСЏРІРёР»СЃСЏ.")
-        else: # РРЅР°С‡Рµ РїСЂРѕР±СѓРµРј РµРіРѕ РїСѓСЃС‚РёС‚СЊ РЅР° РґРµР»Рѕ
+                if renpy.config.developer: self.narrator(u"Вор появился.")
+        else: # Иначе пробуем его пустить на дело
             if random.choice(range(6)) in range(1+len(self.thief.items)):
                 # Идем на дело
                 if renpy.config.developer: self.narrator(u"Вор идет на дело")
