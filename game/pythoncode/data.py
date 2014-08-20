@@ -35,8 +35,9 @@ class DragonModifier(FighterModifier):
 class Container(collections.defaultdict):
     '''
     Класс-хранилище разнообразных свойст/модификаторов
+    TODO: реверсивный поиск
     '''
-    def __init__(self,id,data=None,*args,**kwargs):
+    def __init__(self,id=None,data=None,*args,**kwargs):
         super(Container, self).__init__(*args,**kwargs)
         self.id = id
         if data is not None:
@@ -69,9 +70,46 @@ class Container(collections.defaultdict):
             except ValueError:
                 pass
         for i in self:
-            if type(self[i]) == 'pythoncode.data.Container':
+            if type(self[i]) == type(self):
                 total += self[i].sum(parameter)
         return total
+        
+    def list(self, key):
+        '''
+        Рекурсивно возвращает лист значений по ключу
+        :param key: Ключ по которому производится поиск
+        :return: Список значений
+        '''
+        result = []
+        if key in self:
+            if type(self[key]) is list:
+                result += self[key]
+            else:
+                result.append(self[key])
+        for i in self:
+            if type(self[i]) == type(self):
+                result += self[i].list(key)
+        return result
+    
+    def contains(self, key):
+        '''
+        Возвращает список айдишников, которые содержат заданный ключ
+        :param key: Ключ который должен содержать элемент
+        :retuкn: список элеметов содержащих ключ, если таких элементов нет, то пустой список
+        '''
+        result = []
+        if key in self:
+            result += [ self.id ]
+        for i in self:
+            if type(self[i]) == type(self):
+                result += self[i].contains(key)
+        return result
+    
+    def type(self):
+        '''
+        For test uses
+        '''
+        return type(self)
     
     def __getattr__(self,name):
         return self[name]
@@ -140,26 +178,93 @@ thief_items = Container("thief_items",
                                                    "dropable": True,
                                                    "description": u"Удваивает попытки кражи"},
                           "antidot":              {"name": u"Антидот",
-                                                   "description": u"Вор игнорирует ядовитых стражей"},
-                          "enchanted_dagger":     {"name": u"Зачарованный кинжал",
+                                                   "description": u"Вор игнорирует ядовитых стражей",
+                                                   "avoids": [ "poison_guargs" ] },
+                          "enchanted_dagger":     {"name": u"Зачарованный кинжал", #Applied
                                                    "dropable": True,
-                                                   "description": u"Вор игнорирует обычных стражей"},
-                          "ring_of_invisibility": {"name": u"Кольцо-невидимка",
+                                                   "description": u"Вор игнорирует обычных стражей",
+                                                   "avoids": [ "regular_guargs" ] },
+                          "ring_of_invisibility": {"name": u"Кольцо-невидимка",#Applied
                                                    "dropable": True,
-                                                   "description": u"Вор элитных стражей"},
-                          "flying_boots":         {"name": u"Летучие сандалии",
+                                                   "description": u"Вор элитных стражей",
+                                                   "avoids": [ "elite_guargs" ] },
+                          "flying_boots":         {"name": u"Летучие сандалии", #Applied
                                                    "dropable": True,
-                                                   "description": u"Дает \"Полёт\""},
-                          "cooling_amulet":       {"name": u"Охлаждающий амулет",
+                                                   "description": u"Дает \"Полёт\"",
+                                                   "provide": [ "flight" ] },
+                          "cooling_amulet":       {"name": u"Охлаждающий амулет", #Applied
                                                    "dropable": True,
-                                                   "description": u"Дает \"защиту от огня\""},
-                          "warming_amulet":      {"name": u"Согревающий амулет",
+                                                   "description": u"Дает \"защиту от огня\"",
+                                                   "provide": [ "fireproof" ] },
+                          "warming_amulet":       {"name": u"Согревающий амулет", #Applied
                                                    "dropable": True,
-                                                   "description": u"Дает \"защиту от холода\""}
+                                                   "description": u"Дает \"защиту от холода\"",
+                                                   "provide": [ "coldproof" ] }
                         })
 
-thief_titles = [ "Мародер", "Грабитель", "Взломшик", "Расхититель гробниц", "Мастер вор" ]
+#Одинаковые айдишники вещей спасут от того, что у вора может оказаться норамльная.
+thief_items_cursed = Container(
+    "thief_items_cursed",
+    {
+      "plan":                 {"name": u"Плохой план", #Applied
+                               "level": -1,
+                               "cursed": True,
+                               "description": u"-1 к уровню вора"},
+      "bottomless_sac":       {"name": u"Дырявый мешок", #Applied
+                               "cursed": True,
+                               "description": u"Вор не уносит никаких сокровищ"},
+      "enchanted_dagger":     {"name": u"Проклятый кинжал", #Applied
+                               "cursed": True,
+                               "description": u"Автоматический успех обычных стражей",
+                               "fails": [ "regular_guards" ] },
+      "ring_of_invisibility": {"name": u"Кольцо мерцания", #Applied
+                               "cursed": True,
+                               "description": u"Автоматический успех элитных стражей",
+                               "fails": [ "elite_guards" ] },
+      "flying_boots":         {"name": u"Ощипанные сандалии", #Applied
+                               "cursed": True,
+                               "description": u"Вор автоматически разбивается насмерть, если идет в логово требующее полета",
+                               "fails": [ "flight" ],
+                               "provide": [ "flight" ] },
+      "cooling_amulet":       {"name": u"Морозильный амулет", #Applied
+                               "cursed": True,
+                               "description": u"Вор замораживается насмерть, если идет в огненное логово",
+                               "fails": [ "fireproof" ],
+                               "provide": [ "fireproof" ] },
+      "warming_amulet":       {"name": u"Шашлычный амулет", #Applied
+                               "cursed": True,
+                               "description": u"Вор зажаривается насмерть, если идет в ледяное логово",
+                               "fails": [ "coldproof" ],
+                               "provide": [ "coldproof" ] }
+    })
 
+thief_titles = [ u"Мародер", 
+                 u"Грабитель", 
+                 u"Взломшик", 
+                 u"Расхититель гробниц", 
+                 u"Мастер вор" ]
+
+'''
+Вызывает label указанный в value словаря. Если указан list, то вызваются все label'ы указанные в
+списке в указанном порядке.
+В качестве ключевых параметров передаются:
+thief - вор стриггеривший ивент
+Дополнительно для "die_trap" и "pass_trap":
+obj - улучшение которое вор обошел или умер
+Дополнительно для "die_item", "receive_item":
+obj - вещь, которую получил вор
+'''
+thief_events = {
+    "spawn": None,
+    "lair_unreachable": None,
+    "lair_enter": "lb_test_example_lairEnter",
+    "die_item": None,
+    "die_inaccessability": None,
+    "die_trap": None,
+    "pass_trap": None,
+    "receive_item": None,
+    "receive_no_item": None
+    }
 #
 # Логово
 #
@@ -178,42 +283,42 @@ lair_types = Container("lair_types", {
                                                         "inaccessability": 1,
                                                         "require" : [ ] },
                                 "dragon_castle"     : { "name": u"Драконий замок",
-                                                        "inaccessabitity" : 1,
+                                                        "inaccessability" : 1,
                                                         "require" : [ ] },
                                 "castle"            : { "name": u"Драконий замок",
-                                                        "inaccessabitity" : 1,
+                                                        "inaccessability" : 1,
                                                         "require" : [ ] },
                                 "cannibal_den"      : { "name": u"Берлога людоеда",
-                                                        "inaccessabitity" : 1,
+                                                        "inaccessability" : 1,
                                                         "require" : [ ] },
                                 "broad_cave"        : { "name": u"Просторная пещера",
-                                                        "inaccessabitity" : 1,
+                                                        "inaccessability" : 1,
                                                         "require" : [ ] },
                                 "tower_ruin"        : { "name": u"Руины башни",
                                                         "provide": [ "magic_traps" ]},
                                 "monastery_ruin"    : { "name": u"Руины монастыря",
-                                                        "inaccessabitity" : 1,
+                                                        "inaccessability" : 1,
                                                         "require" : [ ] },
                                 "fortress_ruin"     : { "name": u"Руины каменной крепости",
-                                                        "inaccessabitity" : 2,
+                                                        "inaccessability" : 2,
                                                         "require" : [ ] },
                                 "castle_ruin"       : { "name": u"Руины королевского замка",
-                                                        "inaccessabitity" : 1,
+                                                        "inaccessability" : 1,
                                                         "require" : [ ] },
                                 "ice_citadel"       : { "name": u"Ледяная цитадель",
-                                                        "inaccessabitity" : 1,
+                                                        "inaccessability" : 1,
                                                         "require" : [ "aplinism", "coldproof" ] },
                                 "vulcanic_forge"    : { "name": u"Вулканическая кузница",
-                                                        "inaccessabitity" : 1,
+                                                        "inaccessability" : 1,
                                                         "require" : [ "aplinism", "fireproof" ] },
                                 "cloud_castle"      : { "name": u"Замок в облаках",
-                                                        "inaccessabitity" : 2,
+                                                        "inaccessability" : 2,
                                                         "require": [ "flight" ] },
                                 "undefwater_mansion": { "name": u"Подводные хоромы",
-                                                        "inaccessabitity" : 1,
+                                                        "inaccessability" : 1,
                                                         "require" : [ "swimming" ] },
                                 "underground_palaces": { "name": u"Подгорные чертоги",
-                                                        "inaccessabitity" : 2,
+                                                        "inaccessability" : 2,
                                                         "require" : [ "aplinism" ],
                                                         "provide": [ "mechanic_traps" ] },
                                 })

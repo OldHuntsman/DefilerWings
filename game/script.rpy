@@ -49,6 +49,7 @@ label start:
     show screen status_bar
     $ win = False
     while not win:
+        $ renpy.block_rollback()
         $ target_label = renpy.call_screen("main_map")
         if renpy.has_label(target_label):
             $ renpy.call(target_label)
