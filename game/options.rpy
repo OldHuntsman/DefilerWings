@@ -412,3 +412,6 @@ init python:
         config.use_cpickle = False
     
     config.save_dump = True
+
+    # Дополнительная переменная для вывода всякой дополнительной инфы.
+    config.debug = False

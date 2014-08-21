@@ -257,6 +257,9 @@ obj - вещь, которую получил вор
 thief_events = {
     "spawn": None,
     "lair_unreachable": None,
+    "prepare": None,
+    "prepare_usefull": None,
+    "prepare_unusefull": None,
     "lair_enter": "lb_test_example_lairEnter",
     "die_item": None,
     "die_inaccessability": None,
