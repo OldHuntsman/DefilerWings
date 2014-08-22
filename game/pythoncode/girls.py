@@ -22,7 +22,7 @@ class Girls_list(object):
         """
         self.game.girl = core.Girl(gameRef=self.game, base_character=self.character)
         self.game.girl.type = type
-        relative_path = "img/avahuman/"+type # Относительный путь для движка ренпи
+        relative_path = "img/avahuman/"+girls_data.girls_info[type]['avatar'] # Относительный путь для движка ренпи
         absolute_path = os.path.join(renpy_internal.config.basedir, "game", relative_path) # Cоставляем абсолютный путь где искать
         filename = random.choice(os.listdir(absolute_path)) # получаем название файла
         self.game.girl.avatar = relative_path + "/" + filename # Возвращаем правильно отформатированное значение
@@ -145,18 +145,14 @@ class Girls_list(object):
                 if 'servant' in self.game.lair.modifiers:
                     if self.game.girl.pregnant:
                         self.description('birth', True)  #описание родов
-                        #TODO создание отродий
-                    elif not self.game.girl.virgin:
-                        self.description('anguish', True) #умирает c тоски
-                        del self.prisoners[girl_i]
+                        #TODO создание отродий           
                 else:
                     self.description('hunger', True)  #описание смерти от голода      
                     del self.prisoners[girl_i]
         #свободные, в том числе только что сбежавшие
         for girl_i in xrange(len(self.free_list)):
             self.game.girl = self.free_list[girl_i]
-            #TODO проверка на великаншу
-            if (random.randint(1,3) == 1):
+            if (random.randint(1,3) == 1) and not girls_data.girls_info[self.game.girl.type]['giantess']:
                 self.description('kill', True) #убивают из-за беременности
             else:
                 self.description('free_birth', True) #рожает на свободе
@@ -164,6 +160,15 @@ class Girls_list(object):
         self.free_list = [] #очистка списка - либо родила, либо убили - отслеживать дальше не имеет смысла
             
                     
+    def before_awakening(self):
+        """
+        Все действия до пробуждения - смерть с тоски, может быть что-то еще?
+        """
+        for girl_i in reversed(xrange(self.prisoners_count())):
+            self.game.girl = self.prisoners[girl_i]
+            if not self.game.girl.virgin:
+                self.description('anguish', True) #умирает c тоски
+                del self.prisoners[girl_i]
     
     def after_awakening(self):
         """

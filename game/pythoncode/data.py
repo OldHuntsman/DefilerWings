@@ -335,7 +335,9 @@ lair_upgrades = Container("lair_upgrades", {
                                             "elite_guards" : { "name": u"Элитные стражи",
                                                                  "protection": 3 },
 											"servant" : { "name": u"Слуги",
-                                                                 "protection": 0 },					 
+                                                                 "protection": 0 },		
+                                            "gremlin" : { "name": u"Гремлины",
+                                                                 "protection": 0 },                     
                                             })
 attack_types = ['base', 'fire', 'ice', 'poison', 'sound', 'lightning']
 protection_types = ['base', 'scale', 'shield', 'armor']
@@ -427,15 +429,6 @@ dragon_modifiers = {
 thief_items = dict()
 knight_items = dict()
 knight_abilities = dict()
-
-mob = {
-        "bull" : {
-            "name" : u"Бык",
-            "power" : 1,
-            "defence" : 1,
-            "intro" : u"Грозный бык дыша паром выскакиевает из-за угла"
-            }
-       }
 
 def get_modifier(name):
     if name in dragon_modifiers:
