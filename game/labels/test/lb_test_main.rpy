@@ -43,11 +43,26 @@ label lb_test_debug:
                 game.dragon "Я и так истощен."
         "Создать логово":
             call lb_test_debug_create_lair
-        "Описать вора":
-            if game.thief is not None:
-                $ narrator(game.thief.description())
-            else:
-                "Вора нет"
+        "Вор":
+            menu:
+                "(пере)Создать вора":
+                    $ game._create_thief()
+                "Описать вора":
+                    if game.thief is not None:
+                        $ narrator(game.thief.description())
+                    else:
+                        "Вора нет"
+                "Редактировать умения":
+                    if game.thief is not None:
+                        $ value = "ololo" #Хз зачем эта строчка
+                        call screen sc_container_editor(game.thief.abilities, [data.thief_abilities])
+                    else:
+                        "Вора нет"
+                "Редактировать предметы":
+                    if game.thief is not None:
+                        call screen sc_container_editor(game.thief.items, [data.thief_items, data.thief_items_cursed])
+                    else:
+                        "Вора нет"
     return
     
 label lb_test_example_inaccessible_menu:

@@ -43,7 +43,7 @@ label lb_enc_fair:
             $ description = game.girls_list.new_girl('peasant')
             'Сцена погони. Все разбегаются, дракон остаётся с пойманной девушкой.'
             nvl clear
-            game.girl "[description]"
+            game.girl.third "[description]"
             call lb_nature_sex      
             return
 
