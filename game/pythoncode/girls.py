@@ -1,4 +1,6 @@
-﻿import random
+﻿#!/usr/bin/env python
+# coding=utf-8
+import random
 import math
 import data
 import core
@@ -50,7 +52,7 @@ class Girls_list(object):
             self.free_list.append(self.game.girl)
         return self.description('free')
         
-    def free_all_girl(self):
+    def free_all_girls(self):
         """
         Выпустить на свободу всех девушек.
         """

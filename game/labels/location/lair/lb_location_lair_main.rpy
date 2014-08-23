@@ -22,7 +22,11 @@ label lb_location_lair_main:
         'Отладка дракона':
             #чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
             game.dragon "[ddescription]"
-            
+        'Осмотреть сокровищницу':
+            python hide:
+                for i in game.lair.treasury.thief_items:
+                    item_name = game.lair.treasury.thief_items[i].name
+                    game.dragon("Я вижу %s" % item_name)
         'Сотворить заклинание':
             $ pass
         'Чахнуть над златом':
@@ -34,7 +38,7 @@ label lb_location_lair_main:
             python:
                 # Делаем хитрую штуку.
                 # Используем переменную game_loaded чтобы определить была ли игра загружена.
-                # Но ставим ее перед самым сохранением, используя renpy.retain_after_load() для того
+                # Но ставим ее перед самым сохранинием, используя renpy.retain_after_load() для того
                 # чтобы она попала в сохранение.
                 if 'game_loaded' in locals() and game_loaded:
                     del game_loaded

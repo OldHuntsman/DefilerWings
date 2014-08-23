@@ -209,10 +209,12 @@ thief_items_cursed = Container(
       "plan":                 {"name": u"Плохой план", #Applied
                                "level": -1,
                                "cursed": True,
-                               "description": u"-1 к уровню вора"},
+                               "description": u"-1 к уровню вора",
+                               "fails": []},
       "bottomless_sac":       {"name": u"Дырявый мешок", #Applied
                                "cursed": True,
-                               "description": u"Вор не уносит никаких сокровищ"},
+                               "description": u"Вор не уносит никаких сокровищ",
+                               "fails": []},
       "enchanted_dagger":     {"name": u"Проклятый кинжал", #Applied
                                "cursed": True,
                                "description": u"Автоматический успех обычных стражей",
@@ -257,6 +259,9 @@ obj - вещь, которую получил вор
 thief_events = {
     "spawn": None,
     "lair_unreachable": None,
+    "prepare": None,
+    "prepare_usefull": None,
+    "prepare_unusefull": None,
     "lair_enter": "lb_test_example_lairEnter",
     "die_item": None,
     "die_inaccessability": None,
@@ -270,14 +275,19 @@ thief_events = {
 #
 
 lair_types = Container("lair_types", {
-                                "impassable_coomb"  : { "name": u"Буреломный овраг"},
+                                "impassable_coomb"  : { "name": u"Буреломный овраг",
+                                                        "inaccessability" : 0},
                                 "impregnable_peak"  : { "name": u"Неприступная вершина",
+                                                        "inaccessability" : 0,
                                                         "require" : [ "aplinism" ] },
                                 "solitude_сitadel"  : { "name": u"Цитадель одиночества",
+                                                        "inaccessability" : 0,
                                                         "require" : [ "aplinism", "coldproof" ] },
                                 "vulcano_chasm"     : { "name": u"Вулканическая расселина",
+                                                        "inaccessability" : 0,
                                                         "require" : [ "aplinism", "fireproof" ] },
                                 "underwater_grot"   : { "name": u"Подводный грот",
+                                                        "inaccessability" : 0,
                                                         "require" : [ "swimming" ] },
                                 "underground_burrow": { "name": u"Подземная нора",
                                                         "inaccessability": 1,
@@ -295,6 +305,7 @@ lair_types = Container("lair_types", {
                                                         "inaccessability" : 1,
                                                         "require" : [ ] },
                                 "tower_ruin"        : { "name": u"Руины башни",
+                                                        "inaccessability" : 0,
                                                         "provide": [ "magic_traps" ]},
                                 "monastery_ruin"    : { "name": u"Руины монастыря",
                                                         "inaccessability" : 1,
@@ -333,7 +344,7 @@ lair_upgrades = Container("lair_upgrades", {
                                             "regular_guards" : { "name": u"Обычные стражи",
                                                                  "protection": 2 },
                                             "elite_guards" : { "name": u"Элитные стражи",
-                                                                 "protection": 3 },                    
+                                                                 "protection": 3 }
                                             })
 attack_types = ['base', 'fire', 'ice', 'poison', 'sound', 'lightning']
 protection_types = ['base', 'scale', 'shield', 'armor']
@@ -422,7 +433,6 @@ dragon_modifiers = {
     'cunning'       : DragonModifier(magic=1)
     }
 
-thief_items = dict()
 knight_items = dict()
 knight_abilities = dict()
 
