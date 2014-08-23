@@ -83,7 +83,7 @@ class Thief(Sayer):
             d.append(u"Вещи отсутствуют")
         return u"\n".join(d)
     
-        def steal(self, lair=None):
+    def steal(self, lair=None):
         '''
         Вор пытается урасть что-нибудь.
         :param lair: Логово из которого происходит кража
@@ -169,7 +169,7 @@ class Thief(Sayer):
                 thief.receive_item()
             else:
                 thief.event("receive_no_item")
-    return
+        return
     
     def check_luck(self, luck):
         '''
@@ -197,8 +197,7 @@ class Thief(Sayer):
     def event(self, event_type, *args, **kwargs):
         if event_type in data.thief_events and data.thief_events[event_type] is not None:
             if type(data.thief_events[event_type]) is str:
-                renpy.call_in_new_context(data.thief_events[event_type], *args, thief=self, **kwargs)
-                self("ololo")
+                call(data.thief_events[event_type], *args, thief=self, **kwargs)
             elif type(data.thief_events[event_type]) is list:
                 for i in data.thief_events[event_type]:
                     call(i, *args, thief=self, **kwargs)

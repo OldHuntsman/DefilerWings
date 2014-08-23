@@ -759,8 +759,8 @@ class Knight(Fighter):
 
 def call(label, *args, **kwargs):
     if renpy.has_label(label):
-        renpy.call(label, *args, **kwargs)
+        renpy.call_in_new_context(label, *args, **kwargs)
     else:
-        renpy.call("lb_missed", label=label)
+        renpy.call_in_new_context("lb_missed", label=label)
     return
 

@@ -48,7 +48,7 @@ label lb_test_debug:
                 "Редактировать воровские предметы":
                     call screen sc_container_editor(game.lair.treasury.thief_items, [data.thief_items, data.thief_items_cursed])
                 "Пустить вора на ограбление":
-                    if game.thief is not None and game.thief.is_alive()
+                    if game.thief is not None and game.thief.is_alive():
                         $ game.thief.steal(game.lair)
                     else:
                         "Вора нет или он мертв."
@@ -78,8 +78,10 @@ label lb_test_debug:
                     else:
                         "Вора нет"
                 "Пустить вора на ограбление":
-                    if game.thief is not None and game.thief.is_alive()
+                    if game.thief is not None and game.thief.is_alive():
                         $ game.thief.steal(game.lair)
+                    else:
+                        "Вора нет или он мертв."
     return
     
 label lb_test_example_inaccessible_menu:
