@@ -41,12 +41,26 @@ label lb_test_debug:
                 game.dragon "Силы покинули меня."
             else:
                 game.dragon "Я и так истощен."
-        "Создать логово":
-            call lb_test_debug_create_lair
+        "Логово":
+            menu:
+                "Создать логово":
+                    call lb_test_debug_create_lair
+                "Редактировать воровские предметы":
+                    call screen sc_container_editor(game.lair.treasury.thief_items, [data.thief_items, data.thief_items_cursed])
+                "Пустить вора на ограбление":
+                    if game.thief is not None and game.thief.is_alive()
+                        $ game.thief.steal(game.lair)
+                    else:
+                        "Вора нет или он мертв."
         "Вор":
             menu:
                 "(пере)Создать вора":
                     $ game._create_thief()
+                "Cоздать вора 1-го уровня":
+                    $ game._create_thief(thief_level=1)
+                "Изменить уровнень вора":
+                    #TODO: implement change of thief level
+                    pass
                 "Описать вора":
                     if game.thief is not None:
                         $ narrator(game.thief.description())
@@ -63,6 +77,9 @@ label lb_test_debug:
                         call screen sc_container_editor(game.thief.items, [data.thief_items, data.thief_items_cursed])
                     else:
                         "Вора нет"
+                "Пустить вора на ограбление":
+                    if game.thief is not None and game.thief.is_alive()
+                        $ game.thief.steal(game.lair)
     return
     
 label lb_test_example_inaccessible_menu:

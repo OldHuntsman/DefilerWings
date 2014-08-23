@@ -6,7 +6,6 @@ import data
 import battle
 import mob_data
 import girls
-from thief import Thief
 from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
@@ -22,9 +21,8 @@ class Game(store.object):
         """
         :param base_character: Базовый класс для персонажа. Скорее всего NVLCharacter.
         """
+        from thief import Thief
         self.base_character = base_character
-        self.thief = None
-        self.lair = None  # текущее логово
         self.reputation_points = 0  # Дурная слава дракона
         self.mobilization = 0  # мобилизация королевства
         self._year = 0  # текущий год
@@ -34,7 +32,8 @@ class Game(store.object):
         self.lair = Lair()
         self.dragon = Dragon(gameRef=self, base_character=base_character)
         self.knight = Knight(gameRef=self, base_character=base_character)
-        #Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
+        self.thief = None #Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
+        
         self.narrator = Sayer(gameRef=self, base_character=base_character)
         self.girls_list = girls.Girls_list(gameRef=self, base_character=base_character)
         self.foe = None
@@ -121,13 +120,18 @@ class Game(store.object):
         """
         raise NotImplementedError
 
-    def _create_thief(self):
+    def _create_thief(self, thief_level=None):
         """
         Проверка на появление вора.
         """
-        thief_level = Thief.start_level(self.reputation())
+        from thief import Thief
+        if thief_level is None:
+            thief_level = Thief.start_level(self.reputation())
         if thief_level > 0:
-            self.thief = Thief(level=thief_level, gameRef=self, base_character=self.base_character)
+            self.thief = Thief(level=thief_level,
+                               treasury=self.lair.treasury,
+                               gameRef=self, 
+                               base_character=self.base_character)
         else:
             self.thief = None
 
@@ -165,16 +169,10 @@ class Game(store.object):
             r = random.random() * accumulated[-1]
             return data[bisect.bisect(accumulated, r)][0]
         return None
-
-    @staticmethod
-    def call(label, *args, **kwargs):
-        if renpy.has_label(label):
-            renpy.call(label, *args, **kwargs)
-        else:
-            renpy.call("lb_missed", label=label)
+    
 
 
-class Treasury(object):
+class Treasury(store.object):
     def __init__(self):
         self.copper_coins = 0
         self.silver_coins = 0
@@ -183,6 +181,8 @@ class Treasury(object):
         self.materials = []
         self.jewelry = []
         self.equipment = []
+        #TODO: multiple same equipment
+        self.thief_items = data.Container(id="equipment")
 
     def money(self):
         """
@@ -757,4 +757,10 @@ class Knight(Fighter):
         raise NotImplementedError
 
 
+def call(label, *args, **kwargs):
+    if renpy.has_label(label):
+        renpy.call(label, *args, **kwargs)
+    else:
+        renpy.call("lb_missed", label=label)
+    return
 

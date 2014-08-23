@@ -22,7 +22,11 @@ label lb_location_lair_main:
         'Отладка дракона':
             #чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
             game.dragon "[ddescription]"
-            
+        'Осмотреть сокровищницу':
+            python hide:
+                for i in game.lair.treasury.thief_items:
+                    item_name = game.lair.treasury.thief_items[i].name
+                    game.dragon("Я вижу %s" % item_name)
         'Сотворить заклинание':
             $ pass
         'Чахнуть над златом':
