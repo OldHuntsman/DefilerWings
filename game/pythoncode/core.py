@@ -94,12 +94,14 @@ class Game(store.object):
         Попытки бегства женщин.
         Сброс характеристик дракона.
         """
-        time_to_sleep = self.dragon.injuries + 1
+        time_to_sleep = self.dragon.injuries() + 1
         # Сбрасываем характеристики дракона
         self.dragon.rest()
+        self.girls_list.before_sleep()
         # Спим
         for i in xrange(time_to_sleep):
             self.next_year()
+        """
             if self.knight:
                 if 1 == random.randint(1, 3):
                     self.knight.upgrade()
@@ -110,6 +112,8 @@ class Game(store.object):
                     self.thief.upgrade()
             else:
                 self._create_knight()
+        """
+        self.girls_list.after_awakening()
 
     def _create_knight(self):
         """
@@ -661,6 +665,9 @@ class Dragon(Fighter):
         child.heads = deepcopy(self.heads)
         child.anatomy = deepcopy(self.anatomy)
         return child
+        
+    def injuries(self):
+        return 2 - self.health
         
 class Enemy(Fighter):
     """

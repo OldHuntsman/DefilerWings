@@ -34,7 +34,7 @@ label lb_location_lair_main:
             python:
                 # Делаем хитрую штуку.
                 # Используем переменную game_loaded чтобы определить была ли игра загружена.
-                # Но ставим ее перед самым сохранинием, используя renpy.retain_after_load() для того
+                # Но ставим ее перед самым сохранением, используя renpy.retain_after_load() для того
                 # чтобы она попала в сохранение.
                 if 'game_loaded' in locals() and game_loaded:
                     del game_loaded
@@ -44,7 +44,7 @@ label lb_location_lair_main:
                     game_loaded = True
                     renpy.retain_after_load()
                     game.save()
-                    game.next_year()
+                    game.sleep()
                     game.narrator("game saved")
                     del game_loaded
         'Покинуть логово':

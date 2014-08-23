@@ -4,7 +4,8 @@ label lb_location_gremlin_main:
       
     menu:
         'Нанять слуг':
-            $ pass
+            $ game.lair.modifiers.append('gremlin')
+            # TODO: платные гремлины
         'Ловушки для логова':
             $ pass
         'Укрепления для логова':

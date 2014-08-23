@@ -333,11 +333,7 @@ lair_upgrades = Container("lair_upgrades", {
                                             "regular_guards" : { "name": u"Обычные стражи",
                                                                  "protection": 2 },
                                             "elite_guards" : { "name": u"Элитные стражи",
-                                                                 "protection": 3 },
-											"servant" : { "name": u"Слуги",
-                                                                 "protection": 0 },		
-                                            "gremlin" : { "name": u"Гремлины",
-                                                                 "protection": 0 },                     
+                                                                 "protection": 3 },                    
                                             })
 attack_types = ['base', 'fire', 'ice', 'poison', 'sound', 'lightning']
 protection_types = ['base', 'scale', 'shield', 'armor']
