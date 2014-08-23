@@ -48,7 +48,7 @@ label lb_location_lair_main:
                     game_loaded = True
                     renpy.retain_after_load()
                     game.save()
-                    game.next_year()
+                    game.sleep()
                     game.narrator("game saved")
                     del game_loaded
         'Покинуть логово':

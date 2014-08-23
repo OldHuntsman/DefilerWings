@@ -101,18 +101,7 @@ class Game(store.object):
         self.dragon.rest()
         # Спим
         for i in xrange(time_to_sleep):
-            self.year += 1
             self.next_year()
-            if self.knight:
-                if 1 == random.randint(1, 3):
-                    self.knight.upgrade()
-            else:
-                self._create_knight()
-            if self.thief:
-                if 1 == random.randint(1, 3):
-                    self.thief.upgrade()
-            else:
-                self._create_knight()
 
     def _create_knight(self):
         """
@@ -664,6 +653,10 @@ class Dragon(Fighter):
         child.heads = deepcopy(self.heads)
         child.anatomy = deepcopy(self.anatomy)
         return child
+    
+    @property
+    def injuries(self):
+        return 2 - self.health
         
 class Enemy(Fighter):
     """
