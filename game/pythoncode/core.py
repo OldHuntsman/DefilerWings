@@ -27,15 +27,14 @@ class Game(store.object):
         self.mobilization = 0  # мобилизация королевства
         self._year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
-        
-                
-        self.lair = Lair()
+          
         self.dragon = Dragon(gameRef=self, base_character=base_character)
         self.knight = Knight(gameRef=self, base_character=base_character)
         self.thief = None #Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
         
         self.narrator = Sayer(gameRef=self, base_character=base_character)
         self.girls_list = girls.Girls_list(gameRef=self, base_character=base_character)
+        self.create_lair() # TODO: первоначальное создание логова
         self.foe = None
         self.girl = None
 
@@ -129,6 +128,16 @@ class Game(store.object):
                                base_character=self.base_character)
         else:
             self.thief = None
+            
+    def create_lair(self, lair_type = "impassable_coomb"):
+        """
+        Создание нового логова.
+        """
+        # Выпускаем всех женщин в прошлом логове на свободу. 
+        self.girls_list.free_all_girls()
+        # Создаем новое логово
+        self.lair = Lair(lair_type)
+        
 
     def reputation(self):
         """
@@ -194,8 +203,6 @@ class Lair(object):
         self.treasury = Treasury()
         # Список модификаций(ловушки, стражи и.т.п.)
         self.modifiers = []
-        # Выпускаем всех женщин в прошлом логове на свободу
-        game.girls_list.free_all_girls()
         
     def reachable(self, abilities):
         '''
