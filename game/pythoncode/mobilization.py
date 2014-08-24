@@ -16,7 +16,7 @@ class Mobilization(store.object):
         больше очков.
         '''
         points = max(self._lvl_to_points(level), points)
-        if points >= 1:
+        if points >= self._min_points():
             self.points = points
     
     @staticmethod
@@ -25,6 +25,10 @@ class Mobilization(store.object):
     @staticmethod
     def _lvl_to_points(lvl):
         return int(math.pow(2, lvl))
+    
+    @staticmethod
+    def _min_points():
+        return Mobilization._lvl_to_points(0)
         
     def _check(self, lvl):
         '''
@@ -39,10 +43,10 @@ class Mobilization(store.object):
     @points.setter
     def points(self, value):
         value = int(value)
-        if value >= 1:
-            self._points = value
+        if value < self._min_points():
+            self._points = self._min_points()
         else:
-            raise Exception("Invalid input")
+            self._points = value
     
     @property
     def level(self):
