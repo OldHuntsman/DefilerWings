@@ -223,8 +223,8 @@ class Lair(object):
         if self.type.require: # Если тип логова что-то требует добавляем что оно требует
             r += self.type.require
         for u in self.upgrades: # Тоже самое для каждого апгрейда
-            if u.require:
-                r += u.require
+            if self.upgrades[u].require:
+                r += self.upgrades[u].require
         return r
     
     @property

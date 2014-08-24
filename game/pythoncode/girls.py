@@ -9,6 +9,7 @@ import renpy as renpy_internal
 import renpy.exports as renpy
 import renpy.store as store
 import girls_data
+from copy import deepcopy
 
 class Girls_list(object):
     def __init__(self, gameRef, base_character):
@@ -124,6 +125,7 @@ class Girls_list(object):
             girl_type = 'girl'
         if girls_data.girls_texts[girl_type][status]:
             text = random.choice(girls_data.girls_texts[girl_type][status]) 
+            # TODO: Ситуативные описания
             text = text.format(*[self.game.girl.name, self.game.dragon.name])
         else: 
             text = "Описание для действия '%s' девушки типа '%s' отсутствует" % (status, self.game.girl.type)
@@ -190,6 +192,7 @@ class Girls_list(object):
         """
         Все действия после пробуждения - разбираемся с воспитанными отродьями.
         """
+
         for spawn_i in xrange(len(self.spawn)):
             spawn_mod = girls_data.spawn_info[self.spawn[spawn_i]]['modifier']
             spawn_menu = []
@@ -215,7 +218,9 @@ class Girls_list(object):
             else:
                 self.game.lair.modifiers.append(menu_action)
                 renpy.say(self.game.narrator, u"%s приступает к выполнению обязанностей" % girls_data.spawn_info[self.spawn[spawn_i]]['name']) #выдача сообщения
-                # TODO: добавление не только в список модификаторов, но и в список апргрейда логова
+                if menu_action <> 'servant':
+                    self.game.lair.upgrades.add(menu_action, deepcopy(data.lair_upgrades[menu_action]))
+        self.spawn = []
       
     def free_spawn(self):
         """
