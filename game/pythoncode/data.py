@@ -344,7 +344,7 @@ lair_upgrades = Container("lair_upgrades", {
                                             "regular_guards" : { "name": u"Обычные стражи",
                                                                  "protection": 2 },
                                             "elite_guards" : { "name": u"Элитные стражи",
-                                                                 "protection": 3 }
+                                                                 "protection": 3 },
                                             "gremlin_fortification" : {"name": u"Укрепления",
                                                                          "inaccessability": 1}
                                             })
