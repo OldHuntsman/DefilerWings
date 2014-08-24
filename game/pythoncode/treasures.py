@@ -325,7 +325,10 @@ class Treasure(object):#класс для сокровищ
                self.incrustation_cost+self.random_mod
     def __repr__(self):
         return "%s%s" %(self.material, self.treasure_type)
-"""Генерируем рандомное сокровище"""
+"""Генерируем рандомное сокровище
+функция генерации сокровищ,count - количество сокровищ, t_list - список строк-имен сокровищ, alignmet - принадлежность
+к определенной культуре(одно из: human, cleric, knight, merman, elf, dwarf), min_cost - минимальная цена сокровища,
+max_cost - максимальная цена сокровища"""
 def gen_treas(count, t_list, alignment, min_cost, max_cost):
     treasures_list = []
     while count != 0:
