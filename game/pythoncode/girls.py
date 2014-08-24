@@ -25,11 +25,19 @@ class Girls_list(object):
         """
         self.game.girl = core.Girl(gameRef=self.game, base_character=self.character)
         self.game.girl.type = type
+        # создание аватарки
         relative_path = "img/avahuman/"+girls_data.girls_info[type]['avatar'] # Относительный путь для движка ренпи
         absolute_path = os.path.join(renpy_internal.config.basedir, "game", relative_path) # Cоставляем абсолютный путь где искать
         filename = random.choice(os.listdir(absolute_path)) # получаем название файла
         self.game.girl.avatar = relative_path + "/" + filename # Возвращаем правильно отформатированное значение
-        self.game.girl.name = random.choice(girls_data.girls_names[type])
+        # генерация имени
+        if type + '_last' in girls_data.girls_names:
+            self.game.girl.name = (u"%s %s") % (random.choice(girls_data.girls_names[type + '_first']), random.choice(girls_data.girls_names[type+ '_last']))
+        else:
+            if type + '_first' in girls_data.girls_names:
+                self.game.girl.name = random.choice(girls_data.girls_names[type + '_first'])
+            else:
+                self.game.girl.name = 'Неизвестная Красавица'
         return self.description('new')
         
     def impregnate(self):
