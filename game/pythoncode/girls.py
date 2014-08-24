@@ -245,6 +245,8 @@ class Girls_list(object):
                 if menu_action <> 'servant':
                     self.game.lair.upgrades.add(menu_action, deepcopy(data.lair_upgrades[menu_action])) #добавление в улучшение логова
         self.spawn = []
+        if 'gremlin' in self.game.lair.modifiers:
+            self.game.lair.modifiers.remove('gremlin')
       
     def free_spawn(self, power):
         """
