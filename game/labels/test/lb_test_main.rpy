@@ -108,6 +108,6 @@ label lb_test_debug_create_lair:
         for a in data.lair_types:
             menu_options.append((data.lair_types[a].name,a, True, True))
         type = renpy.call_screen("dw_choice", menu_options)
-        game.lair = core.Lair(type)
+        game.create_lair(type)
     return
         
