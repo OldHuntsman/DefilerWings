@@ -303,16 +303,16 @@ init -2 python:
     style.mm_button.size_group = "mm"
     
 init python:
-    style.mm_button.background = Frame("img/menu/кнопки/не выделенная кнопка.png",10,10)
-    style.mm_button.hover_background = Frame("img/menu/кнопки/выделенная кнопка.png",10,10)
-    style.mm_button.selected_background = Frame("img/menu/кнопки/кнопка нажата.png",10,10)
-    style.mm_button.selected_hover_background = Frame("img/menu/кнопки/выделенная кнопка.png",10,10)
+    style.mm_button.background = Frame("img/menu/button/idle.png",10,10)
+    style.mm_button.hover_background = Frame("img/menu/button/hover.png",10,10)
+    style.mm_button.selected_background = Frame("img/menu/button/selected.png",10,10)
+    style.mm_button.selected_hover_background = Frame("img/menu/button/selected.png",10,10)
     style.mm_frame.background = Frame("img/menu/frame.png",125,25)
     
     style.mm_button_text.size = 22
     style.mm_button_text.font = "fonts/PFMonumentaPro-Regular кнопки.ttf"
 
-    style.mm_button.yminimum = 90
+    style.mm_button.yminimum = 70
     style.mm_button.xminimum = 280
 
 
@@ -582,7 +582,9 @@ init -2:
 
     style soundtest_button:
         xalign 1.0
-
+    
+    #style pref_root:
+    #    background img/menu/gmenu.png
 
 ##############################################################################
 # Yes/No Prompt
