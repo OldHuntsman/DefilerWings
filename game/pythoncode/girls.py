@@ -195,15 +195,16 @@ class Girls_list(object):
 
         for spawn_i in xrange(len(self.spawn)):
             spawn_mod = girls_data.spawn_info[self.spawn[spawn_i]]['modifier']
+            marine_check = ('marine' not in spawn_mod) or (self.game.lair.type.require and 'swimming' in self.game.lair.type.require)
             spawn_menu = []
             spawn_menu.append((u"К Вам приходит %s и просит назначения" % girls_data.spawn_info[self.spawn[spawn_i]]['name'], None))
-            if ('poisonous' in spawn_mod) and ('poison_guards' not in self.game.lair.modifiers):
+            if ('poisonous' in spawn_mod) and ('poison_guards' not in self.game.lair.modifiers) and marine_check:
                 spawn_menu.append((u"Выпустить в логово", 'poison_guards')) 
-            if ('servant' in spawn_mod) and ('servant' not in self.game.lair.modifiers):
+            if ('servant' in spawn_mod) and ('servant' not in self.game.lair.modifiers) and marine_check:
                 spawn_menu.append((u"Сделать слугой", 'servant'))
-            if ('warrior' in spawn_mod) and ('regular_guards' not in self.game.lair.modifiers):
+            if ('warrior' in spawn_mod) and ('regular_guards' not in self.game.lair.modifiers) and marine_check:
                 spawn_menu.append((u"Сделать охранником", 'regular_guards'))
-            if ('elite' in spawn_mod) and ('elite_guards' not in self.game.lair.modifiers):
+            if ('elite' in spawn_mod) and ('elite_guards' not in self.game.lair.modifiers) and marine_check:
                 spawn_menu.append((u"Сделать элитным охранником", 'elite_guards'))
             spawn_menu.append((u"Выпустить в королевство", 'free'))
             if (('servant' in spawn_mod) or ('warrior' in spawn_mod) or ('elite' in spawn_mod)) and ('marine' not in spawn_mod):

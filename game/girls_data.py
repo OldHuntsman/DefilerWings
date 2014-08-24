@@ -91,7 +91,7 @@ girls_info = { #Информация о всех типах девушек
 spawn_info = { #Информация о всех типах отродий
             'poisonous_asp' : {
                         'power' : 1,  #сила
-                        'modifier' : ['poisonous', 'warrior', 'elite', 'servant'], #возможные роли
+                        'modifier' : ['poisonous', 'warrior', 'elite', 'servant', 'marine'], #возможные роли
                         'name' : u'Ядовитый аспид', #название
                     },
             'winged_asp' : {
