@@ -84,9 +84,6 @@ class Ingot(object):#класс для генерации слитков
     @property
     def cost(self):
         return self.metal_cost*self.weight
-    @property
-    def desc(self):
-        return 
     def __repr__(self):
         return "%s pound %s ingot"%(self.weight, self.metal_type)
 class Coin(object):
@@ -325,8 +322,11 @@ class Treasure(object):#класс для сокровищ
                self.incrustation_cost+self.random_mod
     def __repr__(self):
         return "%s%s" %(self.material, self.treasure_type)
-"""Генерируем рандомное сокровище"""
-def gen_treas(count, t_list, alignment, min_cost, max_cost):
+"""Генерируем рандомное сокровище
+функция генерации сокровищ,count - количество сокровищ, t_list - список строк-имен сокровищ, alignmet - принадлежность
+к определенной культуре(одно из: human, cleric, knight, merman, elf, dwarf), min_cost - минимальная цена сокровища,
+max_cost - максимальная цена сокровища"""
+def gen_treas(count, t_list, alignment, min_cost, max_cost, obtained):
     treasures_list = []
     while count != 0:
         treas_holder = random.choice(t_list)
@@ -340,7 +340,9 @@ def gen_treas(count, t_list, alignment, min_cost, max_cost):
             rnd = random.randint(min_cost, max_cost)
             treasures_list.append(Coin(treas_holder,rnd/Coin.coin_types[treas_holder][1]))
         if treasure_types.has_key(treas_holder):
-            treasures_list.append(Treasure(treas_holder, alignment))
+            t = Treasure(treas_holder, alignment)
+            t.obtained = obtained
+            treasures_list.append(t)
         for i in treasures_list:
             if i.cost < min_cost or i.cost > max_cost:
                 treasures_list.remove(i)
