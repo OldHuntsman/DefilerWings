@@ -6,6 +6,7 @@ import data
 import battle
 import mob_data
 import girls
+from mobilization import Mobilization
 from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
@@ -24,7 +25,7 @@ class Game(store.object):
         from thief import Thief
         self.base_character = base_character
         self.reputation_points = 0  # Дурная слава дракона
-        self.mobilization = 0  # мобилизация королевства
+        self.mobilization = Mobilization()
         self._year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
           
@@ -391,7 +392,7 @@ class Dragon(Fighter):
 
     def __init__(self, *args, **kwargs):
         super(Dragon, self).__init__(*args, **kwargs)
-        # TODO: нужно дать игроку возможность называть своего дракона при первом выборе выборе и давать следующим драконом это имя как фамильное после рандомного личного
+        # TODO: pretty screen for name input
         self._first_name = renpy.input (u"Введите имя дракона", default=u"Старый")
         self._last_name = renpy.input (u"Введите фамилию дракона", default=u"Охотник")
         self.name = u"%s %s" % (self._first_name, self._last_name)

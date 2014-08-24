@@ -39,6 +39,11 @@ label lb_test_debug:
     nvl clear
     menu:
         "Отладка"
+        "Проверить уровень мобилизации":
+            "Очки мобилизации: [game.mobilization.points]\nУровень мобилизации: [game.mobilization.level]"
+            python hide:
+                next_lvl = game.mobilization._lvl_to_points(game.mobilization.level +1) - game.mobilization.points
+                game.narrator("Количество очков до следущего уровня мобилизации: %d" % next_lvl)
         "Потратить одну энергию":
             $ res = game.dragon.drain_energy()
             if res:
