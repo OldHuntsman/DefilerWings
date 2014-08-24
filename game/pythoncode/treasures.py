@@ -84,9 +84,6 @@ class Ingot(object):#класс для генерации слитков
     @property
     def cost(self):
         return self.metal_cost*self.weight
-    @property
-    def desc(self):
-        return 
     def __repr__(self):
         return "%s pound %s ingot"%(self.weight, self.metal_type)
 class Coin(object):
