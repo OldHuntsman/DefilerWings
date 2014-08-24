@@ -96,9 +96,10 @@ class Thief(Sayer):
             return
         # Для начала пытаемся понять можем ли мы попасть в логово:
         if lair.reachable(thief.abilities.list("provide") + thief.items.list("provide")):
+            if renpy.config.debug: thief(u"Логово доступно, пытаюсь добратья до него")
             thief.event("lair_enter")
             # Логика сломанных предметов
-            if renpy.config.debug: thief(u"Проверяем предметы на работоспособность")
+            if renpy.config.debug: thief(u"Проверяем предметы на работоспособность, чтобы попасть влогово")
             for i in thief.items:
                 if renpy.config.debug: thief(u"Использую %s" % thief.items[i].name)
                 if thief.items[i].cursed:
@@ -123,13 +124,13 @@ class Thief(Sayer):
             if renpy.config.debug: thief(u"Пробую обойти ловушки и стражей")
             for upgrade in lair.upgrades:
                 if upgrade in thief.items.list("fails"): #Если для апгрейда есть испорченный предмет
-                    if renpy.config.debug: thief(u"Кажется какой-то предмет подвел меня")
+                    if renpy.config.debug: thief(u"Предмет для %s подвел меня" % upgrade)
                     die(upgrade)                        #Умираем
                     thief.event("die_trap", trap=upgrade)
                     return
                 if ( upgrade in thief.abilities.list("avoids")   #Если у нас есть шмотка или скилл для 
                         or upgrade in thief.items.list("avoids")):  #Обхода ловушки
-                    if renpy.config.debug: thief(u"Кажется я хорошо подготовился и предметы помогли мне")
+                    if renpy.config.debug: thief(u"Я хорошо подготовился и предметы помогли обойти мне %s" % upgrade)
                     continue                                  #Переходим к следущей
                 for i in range(data.lair_upgrades[upgrade].protection):
                     if random.choice(range(3)) == 0:

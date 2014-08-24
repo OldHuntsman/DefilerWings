@@ -392,7 +392,9 @@ class Dragon(Fighter):
     def __init__(self, *args, **kwargs):
         super(Dragon, self).__init__(*args, **kwargs)
         # TODO: нужно дать игроку возможность называть своего дракона при первом выборе выборе и давать следующим драконом это имя как фамильное после рандомного личного
-        self.name = u"Старый Охотник"
+        self._first_name = renpy.input (u"Введите имя дракона", default=u"Старый")
+        self._last_name = renpy.input (u"Введите фамилию дракона", default=u"Охотник")
+        self.name = u"%s %s" % (self._first_name, self._last_name)
         self._tiredness = 0  # увеличивается при каждом действии
         self.bloodiness = 0  # range 0..5
         self.lust = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
