@@ -51,13 +51,16 @@ class Girls_list(object):
         #девушка отслеживается только если беременна
         if self.game.girl.pregnant:
             self.free_list.append(self.game.girl)
-        return self.description('free')
+        if self.game.girl.jailed:
+            return self.description('free_prison')
+        else:
+            return self.description('free')
         
     def free_all_girls(self):
         """
         Выпустить на свободу всех девушек.
         """
-        for girl_i in reversed(xrange(self.prisoners_count())):
+        for girl_i in reversed(xrange(self.prisoners_count)):
             self.game.girl = self.prisoners[girl_i]
             if self.game.girl.pregnant:
                 self.free_list.append(self.game.girl)
@@ -95,6 +98,9 @@ class Girls_list(object):
         return self.description('eat')
         
     def rob_girl(self):
+        """
+        Ограбить девушку.
+        """
         #TODO реальное ограбление с описанием награбленного
         return self.description('rob')
         
@@ -107,6 +113,7 @@ class Girls_list(object):
             jail_list.append(self.prisoners[girl_i].name)
         return jail_list
     
+    @property
     def prisoners_count(self):
         """
         Возвращает количество плененных девушек.
@@ -140,7 +147,7 @@ class Girls_list(object):
         Все действия с девушками за год.
         """        
         #плененные девушки
-        for girl_i in reversed(xrange(self.prisoners_count())):
+        for girl_i in reversed(xrange(self.prisoners_count)):
             self.game.girl = self.prisoners[girl_i]
             #попытка побега
             if (random.randint(1,2) == 1) and self.game.lair.reachable([]) and \
@@ -176,13 +183,12 @@ class Girls_list(object):
                 self.description('free_birth', True) #рожает на свободе
                 self.free_spawn()
         self.free_list = [] #очистка списка - либо родила, либо убили - отслеживать дальше не имеет смысла
-            
-                    
+                               
     def before_sleep(self):
         """
         Все действия до начала сна - смерть с тоски, может быть что-то еще?
         """
-        for girl_i in reversed(xrange(self.prisoners_count())):
+        for girl_i in reversed(xrange(self.prisoners_count)):
             self.game.girl = self.prisoners[girl_i]
             if (not self.game.girl.virgin) and (not self.game.girl.pregnant):
                 self.description('anguish', True) #умирает c тоски
@@ -192,12 +198,12 @@ class Girls_list(object):
         """
         Все действия после пробуждения - разбираемся с воспитанными отродьями.
         """
-
         for spawn_i in xrange(len(self.spawn)):
-            spawn_mod = girls_data.spawn_info[self.spawn[spawn_i]]['modifier']
-            marine_check = ('marine' not in spawn_mod) or (self.game.lair.type.require and 'swimming' in self.game.lair.type.require)
-            spawn_menu = []
-            spawn_menu.append((u"К Вам приходит %s и просит назначения" % girls_data.spawn_info[self.spawn[spawn_i]]['name'], None))
+            spawn_mod = girls_data.spawn_info[self.spawn[spawn_i]]['modifier'] #упрощение обращения к списку модификаторов девушек
+            marine_check = ('marine' not in spawn_mod) or (self.game.lair.type.require and 'swimming' in self.game.lair.type.require) #истина, если не морское отродье или морское в подводном логове
+            spawn_menu = [] #меню отродий
+            spawn_menu.append((u"К Вам приходит %s и просит назначения" % girls_data.spawn_info[self.spawn[spawn_i]]['name'], None)) #заголовок меню
+            #Возможные пункты меню
             if ('poisonous' in spawn_mod) and ('poison_guards' not in self.game.lair.modifiers) and marine_check:
                 spawn_menu.append((u"Выпустить в логово", 'poison_guards')) 
             if ('servant' in spawn_mod) and ('servant' not in self.game.lair.modifiers) and marine_check:
@@ -209,7 +215,9 @@ class Girls_list(object):
             spawn_menu.append((u"Выпустить в королевство", 'free'))
             if (('servant' in spawn_mod) or ('warrior' in spawn_mod) or ('elite' in spawn_mod)) and ('marine' not in spawn_mod):
                 spawn_menu.append((u"Отправить в армию тьмы", 'army_of_darkness'))
+                
             menu_action = renpy.display_menu(spawn_menu)
+            
             if menu_action == 'free':
                 renpy.say(self.game.narrator, u"%s отправляется бесчинствовать в королевстве" % girls_data.spawn_info[self.spawn[spawn_i]]['name'])
                 self.free_spawn()
@@ -217,10 +225,10 @@ class Girls_list(object):
                 renpy.say(self.game.narrator, u"%s отправляется в армию тьмы" % girls_data.spawn_info[self.spawn[spawn_i]]['name'])
                 self.army_of_darkness()
             else:
-                self.game.lair.modifiers.append(menu_action)
+                self.game.lair.modifiers.append(menu_action) #добавление в модификатор логова
                 renpy.say(self.game.narrator, u"%s приступает к выполнению обязанностей" % girls_data.spawn_info[self.spawn[spawn_i]]['name']) #выдача сообщения
                 if menu_action <> 'servant':
-                    self.game.lair.upgrades.add(menu_action, deepcopy(data.lair_upgrades[menu_action]))
+                    self.game.lair.upgrades.add(menu_action, deepcopy(data.lair_upgrades[menu_action])) #добавление в улучшение логова
         self.spawn = []
       
     def free_spawn(self):
@@ -236,3 +244,65 @@ class Girls_list(object):
         # TODO: реализовать отправку в армию тьмы, когда будет понятно что это такое
         """
         pass
+        
+    def inteructions(self):
+        """
+        Реализация меню для взаимодействий с девушками
+        """
+        while self.game.girl:
+            girls_menu = [] #меню взаимодействий с девушками
+            if self.game.girl.virgin and self.game.dragon.lust > 0:
+                girls_menu.append((u"Надругаться", 'impregnate'))
+            if self.game.dragon.hunger > 0:
+                girls_menu.append((u"Сожрать", 'eat_girl'))
+            girls_menu.append((u"Отпустить", 'free_prison'))
+            girls_menu.append((u"Вернуть в клетку", 'jail_girl'))
+            
+            menu_action = renpy.display_menu(girls_menu)
+            
+            if menu_action == 'impregnate':
+                girl_text = self.impregnate()
+            elif menu_action == 'eat_girl':
+                girl_text = self.eat_girl()
+            elif menu_action == 'free_prison':
+                girl_text = self.free_girl()
+            else:
+                girl_text = self.jail_girl()
+            renpy.say(self.game.girl.third, girl_text)
+            if not (menu_action == 'impregnate'): return
+        
+    def prison(self):
+        """
+        Реализация меню для девушек в заключении.
+        """
+        prison_index = 0
+        cell_capacity = 10 # вместимость клетки - сколько будет отображается девушек в одном меню
+        #пока кто-то есть в заключении, выполняем цикл
+        while self.prisoners_count:
+            girls_menu = [] #меню девушек
+            if prison_index > 0: #мы находимся не в первой клетке, добавляем переход к предыдущей
+                girls_menu.append((u"Предыдущая клетка", 'prev'))
+            if self.prisoners_count - prison_index - cell_capacity <= 0: #количество девушек в меню
+                menu_count = self.prisoners_count - prison_index
+            else:
+                menu_count = cell_capacity
+            for girl_i in xrange(menu_count): #заполняем меню именами девушек
+                girls_menu.append((self.prisoners[prison_index + girl_i].name, girl_i))
+            if prison_index + cell_capacity < self.prisoners_count: #мы находимся не в последней клетке, добавляем переход к следующей
+                girls_menu.append((u"Следующая клетка", 'next'))
+            girls_menu.append((u"Покинуть темницу", 'return')) #выход
+            
+            menu_action = renpy.display_menu(girls_menu)
+            
+            if menu_action == 'prev':
+                prison_index -= cell_capacity #отнимаем вместимость клетки
+                if prison_index < 0: prison_index = 0 #если получилось меньше 0, ставим 0. Вообще такого не должно быть
+            elif menu_action == 'next':
+                prison_index += cell_capacity #прибавляем вместимость клетки
+            elif menu_action == 'return':
+                return
+            else:
+                self.set_active(prison_index + menu_action)
+                self.description('prison', True)
+                self.inteructions()
+                if self.prisoners_count == prison_index: prison_index -= cell_capacity
