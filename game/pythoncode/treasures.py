@@ -345,7 +345,7 @@ def gen_treas(count, t_list, alignment, min_cost, max_cost, obtained):
         if treasure_types.has_key(treas_holder):
             t = Treasure(treas_holder, alignment)
             t.obtained = obtained
-            treasure_list.append(t)
+            treasures_list.append(t)
         for i in treasures_list:
             if i.cost < min_cost or i.cost > max_cost:
                 treasures_list.remove(i)
