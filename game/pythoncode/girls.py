@@ -173,23 +173,28 @@ class Girls_list(object):
                 #девушка не убежала
                 if ('servant' in self.game.lair.modifiers) or ('gremlin' in self.game.lair.modifiers):
                     if self.game.girl.pregnant:
-                        self.description('birth', True)  #описание родов
                         if self.game.girl.pregnant == 1:
                             self.spawn.append(girls_data.girls_info[self.game.girl.type]['regular_spawn'])
                         else:
                             self.spawn.append(girls_data.girls_info[self.game.girl.type]['advanced_spawn'])
+                        self.description('birth', True)  #описание родов
                         self.game.girl.pregnant = 0
                 else:
                     self.description('hunger', True)  #описание смерти от голода      
                     del self.prisoners[girl_i]
-        #свободные, в том числе только что сбежавшие
+        #свободные, в том числе только что сбежавшие. Отслеживаются только беременные
         for girl_i in xrange(len(self.free_list)):
             self.game.girl = self.free_list[girl_i]
             if (random.randint(1,3) == 1) and not girls_data.girls_info[self.game.girl.type]['giantess']:
                 self.description('kill', True) #убивают из-за беременности
             else:
                 self.description('free_birth', True) #рожает на свободе
-                self.free_spawn()
+                if self.game.girl.pregnant == 1:
+                    spawn_type = girls_data.girls_info[self.game.girl.type]['regular_spawn']
+                else:
+                    spawn_type = girls_data.girls_info[self.game.girl.type]['advanced_spawn']
+                spawn = girls_data.spawn_info[spawn_type] 
+                self.free_spawn(spawn['power'])
         self.free_list = [] #очистка списка - либо родила, либо убили - отслеживать дальше не имеет смысла
                                
     def before_sleep(self):
@@ -207,10 +212,12 @@ class Girls_list(object):
         Все действия после пробуждения - разбираемся с воспитанными отродьями.
         """
         for spawn_i in xrange(len(self.spawn)):
-            spawn_mod = girls_data.spawn_info[self.spawn[spawn_i]]['modifier'] #упрощение обращения к списку модификаторов девушек
+            spawn_type = self.spawn[spawn_i] #упрощение обращения к типу отродий
+            spawn = girls_data.spawn_info[spawn_type] #упрощение обращения к данным отродий
+            spawn_mod = spawn['modifier'] #упрощение обращения к списку модификаторов отродий
             marine_check = ('marine' not in spawn_mod) or (self.game.lair.type.require and 'swimming' in self.game.lair.type.require) #истина, если не морское отродье или морское в подводном логове
             spawn_menu = [] #меню отродий
-            spawn_menu.append((u"К Вам приходит %s и просит назначения" % girls_data.spawn_info[self.spawn[spawn_i]]['name'], None)) #заголовок меню
+            spawn_menu.append((u"К Вам приходит %s и просит назначения" % spawn['name'], None)) #заголовок меню
             #Возможные пункты меню
             if ('poisonous' in spawn_mod) and ('poison_guards' not in self.game.lair.modifiers) and marine_check:
                 spawn_menu.append((u"Выпустить в логово", 'poison_guards')) 
@@ -227,24 +234,23 @@ class Girls_list(object):
             menu_action = renpy.display_menu(spawn_menu)
             
             if menu_action == 'free':
-                renpy.say(self.game.narrator, u"%s отправляется бесчинствовать в королевстве" % girls_data.spawn_info[self.spawn[spawn_i]]['name'])
-                self.free_spawn()
+                renpy.say(self.game.narrator, u"%s отправляется бесчинствовать в королевстве" % spawn['name'])
+                self.free_spawn(spawn['power'])
             elif menu_action == 'army_of_darkness':
-                renpy.say(self.game.narrator, u"%s отправляется в армию тьмы" % girls_data.spawn_info[self.spawn[spawn_i]]['name'])
+                renpy.say(self.game.narrator, u"%s отправляется в армию тьмы" % spawn['name'])
                 self.army_of_darkness()
             else:
                 self.game.lair.modifiers.append(menu_action) #добавление в модификатор логова
-                renpy.say(self.game.narrator, u"%s приступает к выполнению обязанностей" % girls_data.spawn_info[self.spawn[spawn_i]]['name']) #выдача сообщения
+                renpy.say(self.game.narrator, u"%s приступает к выполнению обязанностей" % spawn['name']) #выдача сообщения
                 if menu_action <> 'servant':
                     self.game.lair.upgrades.add(menu_action, deepcopy(data.lair_upgrades[menu_action])) #добавление в улучшение логова
         self.spawn = []
       
-    def free_spawn(self):
+    def free_spawn(self, power):
         """
         Действия отродий на свободе
-        # TODO: реализовать снижение мобилизации королевства
         """
-        pass
+        self.game.mobilization.points -= power
       
     def army_of_darkness(self):
         """
