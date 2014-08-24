@@ -190,41 +190,46 @@ screen nvl:
         xsize 760
         align (0.0,0.0) 
         
-        has vbox:
-            style "nvl_vbox"
+        viewport:
+            mousewheel True
+            scrollbars "vertical"
+            yinitial 1.0
+            
+            has vbox:
+                style "nvl_vbox"
+            
+            # Display dialogue.
+            for who, what, who_id, what_id, window_id in dialogue:
+                window:
+                    id window_id
 
-        # Display dialogue.
-        for who, what, who_id, what_id, window_id in dialogue:
-            window:
-                id window_id
+                    has hbox:
+                        spacing 10
 
-                has hbox:
-                    spacing 10
+                    if who is not None:
+                        text who id who_id
 
-                if who is not None:
-                    text who id who_id
+                    text what id what_id
 
-                text what id what_id
+            # Display a menu, if given.
+            if items:
 
-        # Display a menu, if given.
-        if items:
+                vbox:
+                    id "menu"
 
-            vbox:
-                id "menu"
+                    for caption, action, chosen in items:
 
-                for caption, action, chosen in items:
+                        if action:
 
-                    if action:
+                            button:
+                                style "nvl_menu_choice_button"
+                                action action
 
-                        button:
-                            style "nvl_menu_choice_button"
-                            action action
+                                text caption style "nvl_menu_choice"
 
-                            text caption style "nvl_menu_choice"
+                        else:
 
-                    else:
-
-                        text caption style "nvl_dialogue"
+                            text caption style "nvl_dialogue"
 
     add SideImage() xalign 0.0 yalign 1.0
 
