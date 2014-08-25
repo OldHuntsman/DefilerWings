@@ -2,6 +2,7 @@
     #Импортируем нужные библиотеки. Возможно это надо засунуть в какой-то отдельный файл инициализации.
     from pythoncode import data
     from pythoncode import core
+    from pythoncode import treasures
     from copy import deepcopy
     
     #Заряжаем пасхалки. Их можно будет встретить в игре лишь однажды

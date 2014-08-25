@@ -54,6 +54,8 @@ label lb_test_debug:
             menu:
                 "Создать логово":
                     call lb_test_debug_create_lair
+                "Редактировать гемы в сокровищнице":
+                    call screen sc_treasury_gems
                 "Редактировать воровские предметы":
                     call screen sc_container_editor(game.lair.treasury.thief_items, [data.thief_items, data.thief_items_cursed])
                 "Пустить вора на ограбление":
