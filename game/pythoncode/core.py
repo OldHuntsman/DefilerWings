@@ -186,6 +186,7 @@ class Treasury(store.object):
         self.materials = []
         self.jewelry = []
         self.equipment = []
+        self.gems = []
         #TODO: multiple same equipment
         self.thief_items = data.Container(id="equipment")
 
