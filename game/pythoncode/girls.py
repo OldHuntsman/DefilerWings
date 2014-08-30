@@ -141,7 +141,10 @@ class Girls_list(object):
         if girls_data.girls_texts[girl_type][status]:
             text = random.choice(girls_data.girls_texts[girl_type][status]) 
             # TODO: Ситуативные описания
-            text = text.format(*[self.game.girl.name, self.game.dragon.name])
+            insert_list = [self.game.girl.name, self.game.dragon.name]
+            if status == 'birth':
+                insert_list.append(girls_data.spawn_info[self.spawn[-1]]['name'])
+            text = text.format(*insert_list)
         else: 
             text = "Описание для действия '%s' девушки типа '%s' отсутствует" % (status, self.game.girl.type)
         if say:
@@ -188,12 +191,12 @@ class Girls_list(object):
             if (random.randint(1,3) == 1) and not girls_data.girls_info[self.game.girl.type]['giantess']:
                 self.description('kill', True) #убивают из-за беременности
             else:
-                self.description('free_birth', True) #рожает на свободе
                 if self.game.girl.pregnant == 1:
                     spawn_type = girls_data.girls_info[self.game.girl.type]['regular_spawn']
                 else:
                     spawn_type = girls_data.girls_info[self.game.girl.type]['advanced_spawn']
                 spawn = girls_data.spawn_info[spawn_type] 
+                self.description('free_birth', True) #рожает на свободе
                 self.free_spawn(spawn['power'])
         self.free_list = [] #очистка списка - либо родила, либо убили - отслеживать дальше не имеет смысла
                                
