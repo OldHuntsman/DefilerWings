@@ -6,6 +6,13 @@ label lb_fight:
     $ battle_status = battle.check_fear(game.dragon, game.foe)
     $ description = game.foe.battle_description(battle_status, game.dragon)
     "[description]"
+    
+    $ chance_win = battle.victory_chance(game.dragon, game.foe)
+    $ chance_wound = battle.victory_chance(game.foe, game.dragon)
+    "Шанс победы дракона: [chance_win] %%, шанс ранения дракона: [chance_wound] %%"
+    
+    #$ chance = battle.practic_dragon_chance(game.dragon, game.foe) # TODO: убрать, ТОЛЬКО ДЛЯ ТЕСТА, слишком медленно
+    #"Реальные шансы: [chance]"
     #цикл, который заканчивается победой дракона, или отступлением
     while 'foe_alive' in battle_status:
         $ battle_status = battle.battle_action(game.dragon, game.foe)

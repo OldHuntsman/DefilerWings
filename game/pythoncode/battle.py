@@ -68,8 +68,98 @@ def battle_action(dragon, foe):
         status.extend(dragon.struck())
     else:
         status.append('dragon_undamaged')
-    return status          
+    return status     
     
+def chance_list(size):
+    """
+    Построение честного списка выпадения значений.
+    """
+    if size < 0: return [1] # защита, вообще такого быть не должно
+    gen_list = [0 for i in range(size + 1)]
+    gen_list[0] = 1L
+    for gen_i in xrange(size):
+        sub_list = list(gen_list)
+        for sub_i in xrange(gen_i + 1):
+            gen_list[sub_i] += sub_list[sub_i] # удвоение шанса для выпадения 0
+            gen_list[sub_i + 1] += sub_list[sub_i] # выпадение единицы
+    return gen_list
+         
+def brute_chance(balance, attack, defence):
+    """
+    Честный расчет вероятности.
+    """
+    # расчет дополнения к функции распределения атаки
+    attack_list = chance_list(attack)
+    summ = 0
+    for attack_i in xrange(len(attack_list)):
+        summ += attack_list[attack_i]
+    residue = 0.0
+    for attack_i in reversed(xrange(len(attack_list))):
+        residue += attack_list[attack_i]
+        attack_list[attack_i] = residue/summ
+    # расчет плотности вероятности защиты
+    defence_list = chance_list(defence)
+    summ = 0.0
+    for defence_i in xrange(len(defence_list)):
+        summ += defence_list[defence_i]
+    for defence_i in xrange(len(defence_list)):
+        defence_list[defence_i] = defence_list[defence_i]/summ
+    # расчет шанса
+    victory = 0.0
+    for defence_i in xrange(len(defence_list)):
+        attack_i = 0
+        while (attack_i + balance <= defence_i) and (attack_i < len(attack_list)):
+            attack_i += 1
+        if attack_i < len(attack_list): victory += defence_list[defence_i] * attack_list[attack_i]
+    return victory
+
+def victory_chance(objective, foe):
+    """
+    Расчет вероятности победы.
+    :param objective: для кого считается шанс победы
+    :param    foe: текущий противник
+    :return: вероятность победы в процентах
+    """    
+    power = objective.attack()
+    immun = foe.immunity()
+    defence = foe.protection()
+    # вычисляем атаку
+    regular_attack = 0
+    perfect_attack = 0
+    for key in power.keys():
+        if key not in immun:
+            (r, p) = power[key]
+            regular_attack += r
+            perfect_attack += p
+    # вычисляем защиту
+    regular_defence = 0
+    perfect_defence = 0
+    for key in defence.keys():
+        (r, p) = defence[key]
+        regular_defence += r
+        perfect_defence += p
+    # вычисляем вероятность победы
+    if perfect_attack + regular_attack < perfect_defence:
+        return 0 # верную защиту невозможно пробить, победа невозможна
+    elif perfect_attack > regular_defence + perfect_defence:
+        return 100 # от верной атаки невозможно защититься, победа очевидна
+    else:
+        return int(brute_chance(perfect_attack - perfect_defence, regular_attack, regular_defence) * 100)
+ 
+def practic_dragon_chance(dragon, foe):
+    """
+    Оценка вероятности победы на практике.
+    ТОЛЬКО ДЛЯ ТЕСТА, слишком медленно
+    """
+    count = 100000
+    drag_win = 0.0
+    drag_wounded = float(count)
+    for test_i in xrange(count):
+        drag = dragon.deepcopy()
+        rslt = battle_action(drag, foe)
+        if 'foe_dead' in rslt: drag_win += 1
+        if 'dragon_undamaged' in rslt: drag_wounded -= 1
+    return "%d %% %d %%" % (int(100 * drag_win / count), int(100 * drag_wounded / count))
         
 def check_fear(dragon, foe):
     """
