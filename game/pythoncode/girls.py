@@ -10,6 +10,7 @@ import renpy.exports as renpy
 import renpy.store as store
 import girls_data
 from copy import deepcopy
+from treasures import gen_treas
 
 class Girls_list(object):
     def __init__(self, gameRef, base_character):
@@ -39,7 +40,15 @@ class Girls_list(object):
             else:
                 self.game.girl.name = 'Неизвестная Красавица'
         return self.description('new')
-        
+
+    def gen_tres(self):
+        """
+        Создание списка индивидуальных сокровищ
+        TODO: сделать чтобы работало...
+        """
+        pass
+        return treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                
     def impregnate(self):
         """
         Осеменение женщины.

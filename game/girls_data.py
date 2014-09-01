@@ -11,6 +11,13 @@ girls_info = { #Информация о всех типах девушек
                         'advanced_spawn' : 'winged_asp', #идентификатор продвинутого отродья
                         'giantess' : False, #является ли великаншей
                         'avatar' : 'peasant', #аватарка
+                        't_count_min' : 0, #количество сокровищ минимальное
+                        't_count_max' : 2, #количество сокровищ максимальное
+                        't_price_min' : 1, #минимальная цена предмета
+                        't_price_max' : 50, #максимальная цена предмета
+                        't_alignment' : 'human'
+                        't_list' : [casket, statue, mirror, comb, phallos, band, earring, necklace, pendant, ring, broch, armbrace, legbrace, fibula, farting], #список возможных предметов в сокровищах 
+                        
                     },
                 'citizen' : {
                         'magic_rating' : 0,
@@ -18,6 +25,12 @@ girls_info = { #Информация о всех типах девушек
                         'advanced_spawn' : 'basilisk',
                         'giantess' : False,
                         'avatar' : 'citizen',
+                        't_count_min' : 2,
+                        't_count_max' : 5,
+                        't_price_min' : 25,
+                        't_price_max' : 250,
+                        't_alignment' : 'human'
+                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, fibula, farting, taller], 
                     },
                 'thief' : {
                         'magic_rating' : 0,
@@ -25,6 +38,12 @@ girls_info = { #Информация о всех типах девушек
                         'advanced_spawn' : 'basilisk',
                         'giantess' : False,
                         'avatar' : 'thief',
+                        't_count_min' : 2,
+                        't_count_max' : 5,
+                        't_price_min' : 25,
+                        't_price_max' : 250,
+                        't_alignment' : 'human'
+                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, fibula, taller, dublon],                         
                     }, 
                 'knight' : {
                         'magic_rating' : 1,
@@ -32,6 +51,12 @@ girls_info = { #Информация о всех типах девушек
                         'advanced_spawn' : 'raptor',
                         'giantess' : False,
                         'avatar' : 'knight',
+                        't_count_min' : 2,
+                        't_count_max' : 5,
+                        't_price_min' : 25,
+                        't_price_max' : 250,
+                        't_alignment' : 'knight'
+                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, fibula, taller, dublon],                         
                     },
                 'princess' : {
                         'magic_rating' : 1,
@@ -39,6 +64,12 @@ girls_info = { #Информация о всех типах девушек
                         'advanced_spawn' : 'raptor',
                         'giantess' : False,
                         'avatar' : 'princess',
+                        't_count_min' : 4,
+                        't_count_max' : 10,
+                        't_price_min' : 250,
+                        't_price_max' : 100000,
+                        't_alignment' : 'human'
+                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, fibula, taller, dublon], 
                     },
                 'elf' : { 
                         'magic_rating' : 2,
@@ -46,6 +77,12 @@ girls_info = { #Информация о всех типах девушек
                         'advanced_spawn' : 'gargoyle',
                         'giantess' : False,
                         'avatar' : 'elf',
+                        't_count_min' : 3,
+                        't_count_max' : 7,
+                        't_price_min' : 250,
+                        't_price_max' : 100000,
+                        't_alignment' : 'elf'
+                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain],                         
                     },
                 'mermaid' : {
                         'magic_rating' : 2,
@@ -53,6 +90,12 @@ girls_info = { #Информация о всех типах девушек
                         'advanced_spawn' : 'poisonous_octopus',
                         'giantess' : False,
                         'avatar' : 'mermaid',
+                        't_count_min' : 2,
+                        't_count_max' : 5,
+                        't_price_min' : 10,
+                        't_price_max' : 500,
+                        't_alignment' : 'merman'
+                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain],  
                     },               
                 'ogre' : {  
                         'magic_rating' : 2,
@@ -60,6 +103,12 @@ girls_info = { #Информация о всех типах девушек
                         'advanced_spawn' : 'minotaur',
                         'giantess' : True,
                         'avatar' : 'ogre',
+                        't_count_min' : 2,
+                        't_count_max' : 5,
+                        't_price_min' : 25,
+                        't_price_max' : 250,
+                        't_alignment' : 'knight'
+                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, fibula, farting, taller, dublon],                         
                     },    
                 'siren' : {
                         'magic_rating' : 3,
@@ -67,6 +116,12 @@ girls_info = { #Информация о всех типах девушек
                         'advanced_spawn' : 'naga',
                         'giantess' : True,
                         'avatar' : 'mermaid',
+                        't_count_min' : 2,
+                        't_count_max' : 5,
+                        't_price_min' : 100,
+                        't_price_max' : 5000,
+                        't_alignment' : 'merman'
+                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, taller, dublon],                          
                     },
                 'ice' : {  
                         'magic_rating' : 3,
@@ -74,6 +129,12 @@ girls_info = { #Информация о всех типах девушек
                         'advanced_spawn' : 'troll',
                         'giantess' : True,
                         'avatar' : 'ice',
+                        't_count_min' : 3,
+                        't_count_max' : 7,
+                        't_price_min' : 100,
+                        't_price_max' : 1000,
+                        't_alignment' : 'human'
+                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, taller, dublon],                            
                     },
                 'fire' : {  
                         'magic_rating' : 3,
@@ -81,6 +142,12 @@ girls_info = { #Информация о всех типах девушек
                         'advanced_spawn' : 'barlog',
                         'giantess' : True,
                         'avatar' : 'fire',
+                        't_count_min' : 3,
+                        't_count_max' : 7,
+                        't_price_min' : 100,
+                        't_price_max' : 1000,
+                        't_alignment' : 'dwarf'
+                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, taller, dublon],  
                     },
                 'titan' : {  
                         'magic_rating' : 4,
@@ -88,6 +155,12 @@ girls_info = { #Информация о всех типах девушек
                         'advanced_spawn' : 'typhon',
                         'giantess' : True,
                         'avatar' : 'titan',
+                        't_count_min' : 3,
+                        't_count_max' : 7,
+                        't_price_min' : 100,
+                        't_price_max' : 1000,
+                        't_alignment' : 'elf'
+                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, taller, dublon],                          
                     },
             }
             
