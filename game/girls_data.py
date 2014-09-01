@@ -15,8 +15,8 @@ girls_info = { #Информация о всех типах девушек
                         't_count_max' : 2, #количество сокровищ максимальное
                         't_price_min' : 1, #минимальная цена предмета
                         't_price_max' : 50, #максимальная цена предмета
-                        't_alignment' : 'human'
-                        't_list' : [casket, statue, mirror, comb, phallos, band, earring, necklace, pendant, ring, broch, armbrace, legbrace, fibula, farting], #список возможных предметов в сокровищах 
+                        't_alignment' : 'human',
+                        't_list' : ['casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'armbrace', 'legbrace', 'fibula', 'farting'], #список возможных предметов в сокровищах 
                         
                     },
                 'citizen' : {
@@ -29,8 +29,8 @@ girls_info = { #Информация о всех типах девушек
                         't_count_max' : 5,
                         't_price_min' : 25,
                         't_price_max' : 250,
-                        't_alignment' : 'human'
-                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, fibula, farting, taller], 
+                        't_alignment' : 'human',
+                        't_list' : ['casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'diadem', 'tiara', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'gemring', 'armbrace', 'legbrace', 'chain', 'fibula', 'farting', 'taller'], 
                     },
                 'thief' : {
                         'magic_rating' : 0,
@@ -42,8 +42,8 @@ girls_info = { #Информация о всех типах девушек
                         't_count_max' : 5,
                         't_price_min' : 25,
                         't_price_max' : 250,
-                        't_alignment' : 'human'
-                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, fibula, taller, dublon],                         
+                        't_alignment' : 'human',
+                        't_list' : ['casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'diadem', 'tiara', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'gemring', 'armbrace', 'legbrace', 'chain', 'fibula', 'taller', 'dublon'],                         
                     }, 
                 'knight' : {
                         'magic_rating' : 1,
@@ -55,8 +55,8 @@ girls_info = { #Информация о всех типах девушек
                         't_count_max' : 5,
                         't_price_min' : 25,
                         't_price_max' : 250,
-                        't_alignment' : 'knight'
-                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, fibula, taller, dublon],                         
+                        't_alignment' : 'knight',
+                        't_list' : ['casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'diadem', 'tiara', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'gemring', 'armbrace', 'legbrace', 'chain', 'fibula', 'taller', 'dublon'],                         
                     },
                 'princess' : {
                         'magic_rating' : 1,
@@ -68,8 +68,8 @@ girls_info = { #Информация о всех типах девушек
                         't_count_max' : 10,
                         't_price_min' : 250,
                         't_price_max' : 100000,
-                        't_alignment' : 'human'
-                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, fibula, taller, dublon], 
+                        't_alignment' : 'human',
+                        't_list' : ['casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'diadem', 'tiara', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'gemring', 'armbrace', 'legbrace', 'chain', 'fibula', 'taller', 'dublon'], 
                     },
                 'elf' : { 
                         'magic_rating' : 2,
@@ -81,8 +81,8 @@ girls_info = { #Информация о всех типах девушек
                         't_count_max' : 7,
                         't_price_min' : 250,
                         't_price_max' : 100000,
-                        't_alignment' : 'elf'
-                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain],                         
+                        't_alignment' : 'elf',
+                        't_list' : ['casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'diadem', 'tiara', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'gemring', 'armbrace', 'legbrace', 'chain'],                         
                     },
                 'mermaid' : {
                         'magic_rating' : 2,
@@ -94,8 +94,8 @@ girls_info = { #Информация о всех типах девушек
                         't_count_max' : 5,
                         't_price_min' : 10,
                         't_price_max' : 500,
-                        't_alignment' : 'merman'
-                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain],  
+                        't_alignment' : 'merman',
+                        't_list' : ['casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'diadem', 'tiara', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'gemring', 'armbrace', 'legbrace', 'chain'],  
                     },               
                 'ogre' : {  
                         'magic_rating' : 2,
@@ -107,8 +107,8 @@ girls_info = { #Информация о всех типах девушек
                         't_count_max' : 5,
                         't_price_min' : 25,
                         't_price_max' : 250,
-                        't_alignment' : 'knight'
-                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, fibula, farting, taller, dublon],                         
+                        't_alignment' : 'knight',
+                        't_list' : ['casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'diadem', 'tiara', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'gemring', 'armbrace', 'legbrace', 'chain', 'fibula', 'farting', 'taller', 'dublon'],                         
                     },    
                 'siren' : {
                         'magic_rating' : 3,
@@ -120,8 +120,8 @@ girls_info = { #Информация о всех типах девушек
                         't_count_max' : 5,
                         't_price_min' : 100,
                         't_price_max' : 5000,
-                        't_alignment' : 'merman'
-                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, taller, dublon],                          
+                        't_alignment' : 'merman',
+                        't_list' : ['casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'diadem', 'tiara', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'gemring', 'armbrace', 'legbrace', 'chain', 'taller', 'dublon'],                          
                     },
                 'ice' : {  
                         'magic_rating' : 3,
@@ -133,8 +133,8 @@ girls_info = { #Информация о всех типах девушек
                         't_count_max' : 7,
                         't_price_min' : 100,
                         't_price_max' : 1000,
-                        't_alignment' : 'human'
-                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, taller, dublon],                            
+                        't_alignment' : 'human',
+                        't_list' : ['casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'diadem', 'tiara', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'gemring', 'armbrace', 'legbrace', 'chain', 'taller', 'dublon'],                            
                     },
                 'fire' : {  
                         'magic_rating' : 3,
@@ -146,8 +146,8 @@ girls_info = { #Информация о всех типах девушек
                         't_count_max' : 7,
                         't_price_min' : 100,
                         't_price_max' : 1000,
-                        't_alignment' : 'dwarf'
-                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, taller, dublon],  
+                        't_alignment' : 'dwarf',
+                        't_list' : ['casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'diadem', 'tiara', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'gemring', 'armbrace', 'legbrace', 'chain', 'taller', 'dublon'],  
                     },
                 'titan' : {  
                         'magic_rating' : 4,
@@ -159,8 +159,8 @@ girls_info = { #Информация о всех типах девушек
                         't_count_max' : 7,
                         't_price_min' : 100,
                         't_price_max' : 1000,
-                        't_alignment' : 'elf'
-                        't_list' : [casket, statue, mirror, comb, phallos, band, diadem, tiara, earring, necklace, pendant, ring, broch, gemring, armbrace, legbrace, chain, taller, dublon],                          
+                        't_alignment' : 'elf',
+                        't_list' : ['casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'diadem', 'tiara', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'gemring', 'armbrace', 'legbrace', 'chain', 'taller', 'dublon'],                          
                     },
             }
             

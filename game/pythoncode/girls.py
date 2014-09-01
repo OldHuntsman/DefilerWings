@@ -26,6 +26,7 @@ class Girls_list(object):
         """
         self.game.girl = core.Girl(gameRef=self.game, base_character=self.character)
         self.game.girl.type = type
+        self.game.girl.treasure = self.gen_tres()
         # создание аватарки
         relative_path = "img/avahuman/"+girls_data.girls_info[type]['avatar'] # Относительный путь для движка ренпи
         absolute_path = os.path.join(renpy_internal.config.basedir, "game", relative_path) # Cоставляем абсолютный путь где искать
@@ -43,12 +44,18 @@ class Girls_list(object):
 
     def gen_tres(self):
         """
-        Создание списка индивидуальных сокровищ
-        TODO: сделать чтобы работало...
+        Создание списка индивидуальных сокровищ для текущей девушки
         """
-        pass
-        return treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
-                
+        type = self.game.girl.type # упрощение обращения к типу девушки
+        girl_info = girls_data.girls_info[type] # упрощение обращения к информации для данного типа девушки
+        count = random.randint(girl_info['t_count_min'], girl_info['t_count_max'])
+        t_list = girl_info['t_list']
+        alignment = girl_info['t_alignment']
+        min_cost = girl_info['t_price_min']
+        max_cost = girl_info['t_price_max']
+        obtained = "Принадлежало красавице по имени %s" % self.game.girl.name
+        return gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+        
     def impregnate(self):
         """
         Осеменение женщины.
