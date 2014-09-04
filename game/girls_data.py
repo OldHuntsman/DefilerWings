@@ -15,7 +15,7 @@ girls_info = { #Информация о всех типах девушек
                         't_count_max' : 2, #количество сокровищ максимальное
                         't_price_min' : 1, #минимальная цена предмета
                         't_price_max' : 50, #максимальная цена предмета
-                        't_alignment' : 'human',
+                        't_alignment' : 'human', #тип украшений
                         't_list' : ['casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'armbrace', 'legbrace', 'fibula', 'farting'], #список возможных предметов в сокровищах 
                         
                     },
