@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# coding=utf-8
 import math
 import renpy.store as store
 
@@ -55,3 +57,32 @@ class Mobilization(store.object):
     def level(self, value):
         value = int(value)
         self.points = self._lvl_to_points(value)
+
+class Reputation(store.object):
+    '''
+    Дурная слава дракона.
+    '''
+    _rp = 0
+    _gain = 0
+    
+    @property
+    def points(self):
+        '''
+        Количество очков дурной славы
+        '''
+        return self._rp
+    @points.setter
+    def points(self, value):
+        if value >= 0:
+            self._gain += value - self._rp
+            self._rp = int(value)
+            
+    @property
+    def points_gained(self):
+        return self._gain
+    
+    def reset_gain(self):
+        '''
+        Обнуляет прибавку к очкам дурной славы. Используется когда, например, дракон спит.
+        '''
+        self._gain = 0
