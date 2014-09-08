@@ -6,7 +6,7 @@ import data
 import battle
 import mob_data
 import girls
-from mobilization import Mobilization
+from points import Mobilization, Reputation
 from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
@@ -24,7 +24,6 @@ class Game(store.object):
         """
         from thief import Thief
         self.base_character = base_character
-        self.reputation_points = 0  # Дурная слава дракона
         self.mobilization = Mobilization()
         self._year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
@@ -67,6 +66,11 @@ class Game(store.object):
         Что-то ещё?
         '''
         self.year += 1
+        # Повышаем уровень мобилизации
+        top_mobilization = math.floor(self.dragon.reputation.points_gained / 10)
+        if self.mobilization.level < top_mobilization:
+            self.mobilization.level += 1
+        
         # Если вора нет, то пробуем создать его
         if self.thief is None or self.thief.is_dead():
             if renpy.config.debug: self.narrator(u"Вора не было или он был мертв, попробуем его создать.")
@@ -103,6 +107,7 @@ class Game(store.object):
         # Спим
         for i in xrange(time_to_sleep):
             self.next_year()
+        self.dragon.reputation.reset_gain()
 
     def _create_knight(self):
         """
@@ -116,7 +121,7 @@ class Game(store.object):
         """
         from thief import Thief
         if thief_level is None:
-            thief_level = Thief.start_level(self.reputation())
+            thief_level = Thief.start_level(self.reputation.points/10)
         if thief_level > 0:
             self.thief = Thief(level=thief_level,
                                treasury=self.lair.treasury,
@@ -124,16 +129,6 @@ class Game(store.object):
                                base_character=self.base_character)
         else:
             self.thief = None
-
-    def reputation(self):
-        """
-        Видимые игроку очки дурной славы.
-        Рассчитываются по хитрой формуле.
-        """
-        #т.к. логарифма нуля не существует, а меньше 1 логарифм будет отрицательным
-        if self.reputation_points < 1:
-            return 0
-        return math.floor(math.log(self.reputation_points))
         
     @staticmethod
     def weighted_random(data):
@@ -384,12 +379,12 @@ class Dragon(Fighter):
         self._first_name = renpy.input (u"Введите имя дракона", default=u"Старый")
         self._last_name = renpy.input (u"Введите фамилию дракона", default=u"Охотник")
         self.name = u"%s %s" % (self._first_name, self._last_name)
+        self.reputation = Reputation()
         self._tiredness = 0  # увеличивается при каждом действии
         self.bloodiness = 0  # range 0..5
         self.lust = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
         self.hunger = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
         self.health = 2 # range 0..2, ресурс восстанавливается до 2 после каждого отдыха
-        self.reputation_points = 1 # при наборе определённого количества растёт уровень дурной славы
 
         self.anatomy = ['size', 'paws', 'size', 'wings', 'size', 'paws']
         self.heads = ['green']  # головы дракона
@@ -459,13 +454,6 @@ class Dragon(Fighter):
         :return: Магическая сила(целое число)
         """
         return sum([get_modifier(mod).magic for mod in self.modifiers()])
-            
-    def reputation(self):
-        """
-        Видимые игроку очки дурной славы.
-        Рассчитываются по хитрой формуле.
-        """
-        return math.floor(math.log(self.reputation_points))
         
     def fear(self):
         """

@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding=utf-8
+
 import random
 import data
 import renpy.exports as renpy
