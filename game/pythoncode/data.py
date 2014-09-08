@@ -244,7 +244,7 @@ thief_titles = [ u"Мародер",
                  u"Грабитель", 
                  u"Взломшик", 
                  u"Расхититель гробниц", 
-                 u"Мастер вор" ]
+                 u"Мастер-вор" ]
 
 '''
 Вызывает label указанный в value словаря. Если указан list, то вызваются все label'ы указанные в
@@ -437,15 +437,6 @@ dragon_modifiers = {
 
 knight_items = dict()
 knight_abilities = dict()
-
-mob = {
-        "bull" : {
-            "name" : u"Бык",
-            "power" : 1,
-            "defence" : 1,
-            "intro" : u"Грозный бык дыша паром выскакиевает из-за угла"
-            }
-       }
 
 def get_modifier(name):
     if name in dragon_modifiers:

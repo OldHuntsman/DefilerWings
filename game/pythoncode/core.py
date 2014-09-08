@@ -27,15 +27,14 @@ class Game(store.object):
         self.mobilization = Mobilization()
         self._year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
-        
-                
-        self.lair = Lair()
+          
         self.dragon = Dragon(gameRef=self, base_character=base_character)
         self.knight = Knight(gameRef=self, base_character=base_character)
         self.thief = None #Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
         
         self.narrator = Sayer(gameRef=self, base_character=base_character)
         self.girls_list = girls.Girls_list(gameRef=self, base_character=base_character)
+        self.create_lair() # TODO: первоначальное создание логова
         self.foe = None
         self.girl = None
 
@@ -63,9 +62,12 @@ class Game(store.object):
         Логика смены года.
         Проверки на появление/левелап/рейд рыцаря/вора.
         Изменение дурной славы.
+        Попытки бегства женщин.
         Что-то ещё?
         '''
         self.year += 1
+        # Действия с девушками каждый год
+        self.girls_list.next_year()
         # Повышаем уровень мобилизации
         top_mobilization = math.floor(self.dragon.reputation.points_gained / 10)
         if self.mobilization.level < top_mobilization:
@@ -98,16 +100,20 @@ class Game(store.object):
     def sleep(self):
         """
         Рассчитывается количество лет которое дракон проспит.
-        Попытки бегства женщин.
         Сброс характеристик дракона.
         """
         time_to_sleep = self.dragon.injuries + 1
         # Сбрасываем характеристики дракона
         self.dragon.rest()
+        # Действия с девушками до начала сна
+        self.girls_list.before_sleep()
         # Спим
         for i in xrange(time_to_sleep):
             self.next_year()
+	# Обнуляем накопленные за бодрствование очки мобилизации
         self.dragon.reputation.reset_gain()
+        # Действия с девушками после конца сна    
+        self.girls_list.after_awakening()
 
     def _create_knight(self):
         """
@@ -129,7 +135,17 @@ class Game(store.object):
                                base_character=self.base_character)
         else:
             self.thief = None
+            
+    def create_lair(self, lair_type = "impassable_coomb"):
+        """
+        Создание нового логова.
+        """
+        # Выпускаем всех женщин в прошлом логове на свободу. 
+        self.girls_list.free_all_girls()
+        # Создаем новое логово
+        self.lair = Lair(lair_type)
         
+
     @staticmethod
     def weighted_random(data):
         """
@@ -185,8 +201,6 @@ class Lair(object):
         self.treasury = Treasury()
         # Список модификаций(ловушки, стражи и.т.п.)
         self.modifiers = []
-        # Список женщин в логове
-        self.women = []
         
     def reachable(self, abilities):
         '''
@@ -207,8 +221,8 @@ class Lair(object):
         if self.type.require: # Если тип логова что-то требует добавляем что оно требует
             r += self.type.require
         for u in self.upgrades: # Тоже самое для каждого апгрейда
-            if u.require:
-                r += u.require
+            if self.upgrades[u].require:
+                r += self.upgrades[u].require
         return r
     
     @property

@@ -6,7 +6,12 @@ label lb_fight:
     $ battle_status = battle.check_fear(game.dragon, game.foe)
     $ description = game.foe.battle_description(battle_status, game.dragon)
     "[description]"
-    #цикл, который заканчивается победой дракона, или отступлением
+    
+    if 'foe_alive' in battle_status:
+        $ chance_win = battle.victory_chance(game.dragon, game.foe)
+        $ chance_wound = battle.victory_chance(game.foe, game.dragon)
+        "Шанс победы дракона: [chance_win] %%, шанс ранения дракона: [chance_wound] %%"
+
     while 'foe_alive' in battle_status:
         $ battle_status = battle.battle_action(game.dragon, game.foe)
         $ description = game.foe.battle_description(battle_status, game.dragon)
@@ -31,6 +36,7 @@ label lb_fight:
                         "Вы бежали в логово"
                         hide foeimg
                         nvl clear
+                        $ renpy.pop_return()
                         jump lb_location_lair_main
     hide foeimg
     nvl clear

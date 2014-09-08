@@ -31,8 +31,8 @@ label lb_location_lair_main:
             $ pass
         'Чахнуть над златом':
             $ pass
-        'Проведать пленниц':
-            $ pass
+        'Проведать пленниц' if game.girls_list.prisoners_count:
+            $ game.girls_list.prison()
         'Лечь спать':
             nvl clear
             python:
