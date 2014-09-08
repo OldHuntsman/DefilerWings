@@ -8,17 +8,22 @@ label lb_location_plains_main:
             call lb_encounter_plains
             return
         'Одинокий хутор':
-            $ pass
+            $ village_size = 1
+            call lb_village
         'Маленький посёлок':
-            $ pass
+            $ village_size = 2
+            call lb_village
         'Деревня':
-            $ pass
+            $ village_size = 3
+            call lb_village
         'Село':
-            $ pass
+            $ village_size = 4
+            call lb_village
         'Городок':
-            $ pass
-        'Отступить':
-            $ pass
+            $ village_size = 5
+            call lb_village
+        'Прочь отсюда':
+            return
         
     return
     
@@ -30,7 +35,7 @@ label lb_encounter_plains:
                 ("lb_enc_bath", 10),   
                 ("lb_enc_militia", 10),
                 ("lb_enc_mill", 10),
-                ("lb_enc_granary", 100000),
+                ("lb_enc_granary", 10),
                 ("lb_enc_sheepherd", 10),
                 ("lb_enc_pigs", 10),
                 ("lb_enc_cattle", 10),
@@ -375,3 +380,24 @@ label lb_enc_cattle:
             return    
     
     return
+    
+#разные деревни
+label lb_village:
+    python:
+        txt_1 = ''
+    
+    show expression 'img/bg/special/village.png' as bg        
+    'Наложить дань':
+        return
+        
+    'Ограбить':
+        return 
+        
+    'Разорить':
+        return
+    
+    'Отступить' if game.dragon.bloodiness < 5:
+        $ game.dragon.gain_rage()
+            
+    return
+    
