@@ -1,6 +1,6 @@
 label lb_location_plains_main:
     $ place = 'plain'
-    show place
+    show place as bg
     nvl clear
       
     menu:
@@ -27,14 +27,14 @@ label lb_encounter_plains:
                 ("lb_enc_berries", 10),
                 ("lb_enc_shrooms", 10),
                 ("lb_enc_laundry", 10),
-                ("lb_enc_bath", 10),                
+                ("lb_enc_bath", 10),   
                 ("lb_enc_militia", 10),
                 ("lb_enc_mill", 10),
-                ("lb_enc_granary", 10),
-                ("lb_enc_gooze", 10)],
-                ("lb_enc_pigs", 10)],
-                ("lb_enc_sheepherd", 10)],
-                ("lb_enc_cattle", 10)],
+                ("lb_enc_granary", 100000),
+                ("lb_enc_sheepherd", 10),
+                ("lb_enc_pigs", 10),
+                ("lb_enc_cattle", 10),
+                ("lb_enc_gooze", 10)]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
     return
@@ -251,36 +251,64 @@ label lb_enc_bath:
     return
     
 label lb_enc_militia:
-    'На поле тренируются ополченцы-новобранцы'
+    show expression 'img/scene/fight/militia.png' as bg
+    'На поле тренируются ополченцы-новобранцы.'
+    menu:
+        'Напасть':
+            $ game.dragon.drain_energy()
+            $ game.foe = core.Enemy('militia', gameRef=game, base_character=NVLCharacter)
+            call lb_fight
+                        
+        'Убраться прочь' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()
     
     return
     
     
 label lb_enc_mill:
-    'Ветряная мельница'
+    show expression 'img/bg/plain/9.png' as bg
+    'Ветряная мельница.'
+    menu:
+        'Расшатать мельницу' if game.dragon.size() > 3:
+            "Я твой мельница щаталь!"
+            return
+        'Пройти мимо':
+            pass
     
     return
 
     
 label lb_enc_granary:
-    'Амбар полный зерна'
-    
+    show expression 'img/bg/plain/9.png' as bg    
+    'Амбар полный зерна.'
+    python:
+        doit = False
+        if 'fire_breath' in game.dragon.modifiers(): 
+            doit = True
+    menu:
+        'Дыхнуть огнём' if doit:
+            "Амбар сгорает оставив без зерна целую деревню."
+        'Наколдовать синее пламя' if game.dragon.magic() > 0:
+            "Амбар сгорает синим пламенем."
+        'Пройти мимо':
+            pass
     
     return
 
 label lb_enc_goose:
     'Босоногая крестьянская девчёнка пасёт гусей. Слишком молода чтобы рожать.'
-    'Сожрать гусей' if game.dragon.hunger > 0:
-        'Дракон ловит и проглатывает одного жирного гуся, но остальные разлетаются.'
-        $ if game.dragon.bloodiness > 0: game.dragon.bloodiness -= 1
-    'Сожрать девчёнку' if game.dragon.hunger > 0:
-        'Дракон хватает девчёнку и съедает её.'
-        $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-        $ game.dragon.hunger -= 1
-    'Устрить побоище' if game.dragon.bloodiness => 5:
-        'Дракон нападает, убивая девочку и всех гусей которых только может поймать, просто ради забавы.'    
-    'Оставить их в покое' if game.dragon.bloodiness < 5:
-        $ game.dragon.gain_rage()
+    menu:
+        'Сожрать гусей' if game.dragon.hunger > 0:
+            'Дракон ловит и проглатывает одного жирного гуся, но остальные разлетаются.'
+            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness -= 1
+        'Сожрать девчёнку' if game.dragon.hunger > 0:
+            'Дракон хватает девчёнку и съедает её.'
+            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
+            $ game.dragon.hunger -= 1
+        'Устрить побоище' if game.dragon.bloodiness => 5:
+            'Дракон нападает, убивая девочку и всех гусей которых только может поймать, просто ради забавы.'    
+        'Оставить их в покое' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()
     
     return
     
@@ -303,8 +331,7 @@ label lb_enc_pigs:
             $ game.dragon.gain_rage()
             return    
     
-    return
-    
+    return    
 
 label lb_enc_sheepherd:
     'Овцы на выпасе. Пастух убегает, остаётся собака.'
