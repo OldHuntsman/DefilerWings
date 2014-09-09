@@ -11,7 +11,7 @@
         if persistent.encounter == None:
             persistent.encounter = False
     
-init:
+init:    
     transform bot_to_top:
         align(-2, -2)
         linear 100 yalign 3.0
@@ -45,6 +45,18 @@ label start:
         game.dragon.avatar = get_dragon_avatar('green')
         narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
         
+        reputation = game.dragon.reputation
+        arp = game.dragon.reputation.points
+        rp_gain = [1,3,5,10,25]
+        def gain_rep(gain = 1):
+            game.dragon.reputation.level += rp_gain[gain]        
+            rep_text = reputation_rise[gain]
+            return rep_text
+        
+        mobilization = game.mobilization.level
+        poverty = 0
+        bloodlust = game.dragon.bloodiness
+    
     # Прокручиваем заставку.
     call screen sc_intro
     show screen status_bar

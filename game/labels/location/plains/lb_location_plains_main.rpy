@@ -384,20 +384,25 @@ label lb_enc_cattle:
 #разные деревни
 label lb_village:
     python:
-        txt_1 = ''
-    
+        txt1 = ''
     show expression 'img/bg/special/village.png' as bg        
-    'Наложить дань':
-        return
+    menu:
+        'Наложить дань' if village_size > 0:
+            return
         
-    'Ограбить':
-        return 
+        'Ограбить' if village_size > 0:
+            return 
         
-    'Разорить':
-        return
+        'Разорить' if village_size > 0:
+            return
     
-    'Отступить' if game.dragon.bloodiness < 5:
-        $ game.dragon.gain_rage()
+        'Отступить' if bloodlust < 5 and village_size > 0:
+            $ game.dragon.gain_rage()
             
+        'Убраться прочь' if village_size == 0:
+            python:
+                if bloodlust < 5: 
+                    game.dragon.gain_rage()
+        
     return
     
