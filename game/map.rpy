@@ -86,7 +86,7 @@ screen status_bar:
             area(42,342,45,45)
             hovered status_bar_tooltip.Action("Запас сил")
 
-        text "%d" % game.dragon.reputation.points:
+        text "%d" % game.dragon.reputation.level:
             pos(160,365)
             anchor (0.5,0.5)
             size 30

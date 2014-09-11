@@ -270,6 +270,7 @@ thief_events = {
     "receive_item": None,
     "receive_no_item": None
     }
+
 #
 # Логово
 #
@@ -350,6 +351,34 @@ lair_upgrades = Container("lair_upgrades", {
                                             })
 attack_types = ['base', 'fire', 'ice', 'poison', 'sound', 'lightning']
 protection_types = ['base', 'scale', 'shield', 'armor']
+
+#
+# Дурная слава
+#
+
+reputation_levels = {
+    0: 0,
+    3: 1,
+    6: 2,
+    10: 3,
+    15: 4,
+    21: 5,
+    28: 6,
+    36: 7,
+    45: 8,
+    55: 9,
+    66: 10,
+    78: 11,
+    91: 12,
+    105: 13,
+    120: 14,
+    136: 15,
+    153: 16,
+    171: 17,
+    190: 18,
+    210: 19,
+    231: 20
+    }
 
 fighter_mods = {
     u"щит"      : FighterModifier(protection = ('base', (1, 0))),

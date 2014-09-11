@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 import math
+from data import reputation_levels
 import renpy.store as store
 
 class Mobilization(store.object):
@@ -86,3 +87,11 @@ class Reputation(store.object):
         Обнуляет прибавку к очкам дурной славы. Используется когда, например, дракон спит.
         '''
         self._gain = 0
+    
+    @property
+    def level(self):
+        key = 0
+        for i in sorted(reputation_levels.keys()):
+            if self._rp >= int(i):
+                key = int(i)
+        return reputation_levels[key]
