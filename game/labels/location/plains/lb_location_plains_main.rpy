@@ -28,6 +28,7 @@ label lb_location_plains_main:
     return
     
 label lb_encounter_plains:
+    $ nochance = 10*poverty
     $ choices = [("lb_enc_fair", 10),
                 ("lb_enc_berries", 10),
                 ("lb_enc_shrooms", 10),
@@ -39,7 +40,8 @@ label lb_encounter_plains:
                 ("lb_enc_sheepherd", 10),
                 ("lb_enc_pigs", 10),
                 ("lb_enc_cattle", 10),
-                ("lb_enc_gooze", 10)]
+                ("lb_enc_gooze", 10),
+                ("lb_enc_noting", nochance),]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
     return
@@ -380,7 +382,16 @@ label lb_enc_cattle:
             return    
     
     return
-    
+
+label lb_enc_noting:
+    show expression 'img/bg/special/village_burned.png' as bg          
+    'Здесь лишь запустение и разруха. Хотя когда-то тут можно было встретить людей или животных, сейчас их больше нету. Кругом лишь разрушенные дома да заросшие бурьяном пашни.'
+    python:
+        if bloodlust < 5: 
+            game.dragon.gain_rage()
+    return
+
+
 #разные деревни
 label lb_village:
     python:
