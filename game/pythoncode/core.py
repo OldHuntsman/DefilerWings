@@ -6,7 +6,7 @@ import data
 import battle
 import mob_data
 import girls
-from points import Mobilization, Reputation
+from points import Mobilization, Reputation, Poverty
 from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
@@ -25,6 +25,7 @@ class Game(store.object):
         from thief import Thief
         self.base_character = base_character
         self.mobilization = Mobilization()
+        self.poverty = Poverty()
         self._year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
           
@@ -66,12 +67,16 @@ class Game(store.object):
         Что-то ещё?
         '''
         self.year += 1
+        # Применяем разруху накопленную за год с учетом отстройки
+        self.poverty.value -= 1
+        self.poverty.apply_planned()
         # Действия с девушками каждый год
         self.girls_list.next_year()
-        # Повышаем уровень мобилизации
-        top_mobilization = math.floor(self.dragon.reputation.points_gained / 10)
-        if self.mobilization.level < top_mobilization:
-            self.mobilization.level += 1
+        # Изменяем уровень мобилизации
+        desired_mobilization = self.dragon.reputation.level - self.poverty.value # Желаемый уровень мобилизации
+        mobilization_delta = self.mobilization.level - desired_mobilization # Считаем есть ли разница с текущим уровнем мобилизации
+        if mobilization_delta != 0: # И если есть разница
+            self.mobilization.level += mobilization_delta/math.abs(mobilization_delta) # Увеличиваем  или  уменьшаем на единицу 
         
         # Если вора нет, то пробуем создать его
         if self.thief is None or self.thief.is_dead():
