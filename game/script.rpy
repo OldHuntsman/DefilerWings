@@ -42,19 +42,51 @@ label start:
     python:
         #Инициализируем game в начале игры, а не при инициализации. Для того чтобы 
         game = core.Game(NVLCharacter)
-        game.dragon.avatar = get_dragon_avatar('green')
+        game.dragon.avatar = get_dragon_avatar(game.dragon.color_eng())
         narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
         
-        reputation = game.dragon.reputation
-        arp = game.dragon.reputation.points
-        rp_gain = [1,3,5,10,25]
-        def gain_rep(gain = 1):
-            game.dragon.reputation.level += rp_gain[gain]        
+        mobilization = 0 #уровень мобилизации сил королевства на борьбу с драконом
+        poverty = 0 #уровень разрухи в королевстве вызванной действиями дракона
+        pov_gain = 0 #сколько разрухи прибавят действия дракона в текущем цикле
+        rpoints = 0 #ОЧКИ дурной славы
+        rlvl = 0 #текущий уровень дурной славы (растёт и отображается через фуенкцию "reputation()")
+        rp_gain = [0,1,3,5,10,25] #пять вариантов роста дурной славы
+        def gain_rep(gain = 1): #функция злого поступка с 1 по 5 уровень
+            global rep_text
+            global rpoints
+            rpoints += rp_gain[gain]        
             rep_text = reputation_rise[gain]
-            return rep_text
-        
-        mobilization = game.mobilization.level
-        poverty = 0
+            return
+
+        def reputation(): #демонстрируемый уровень дурной славы дракона
+            rp = 0
+            global rlvl
+            global rpoints
+            if rpoints >= 3: rp = 1
+            if rpoints >= 6: rp = 2
+            if rpoints >= 10: rp = 3
+            if rpoints >= 15: rp = 4
+            if rpoints >= 21: rp = 5
+            if rpoints >= 28: rp = 6
+            if rpoints >= 36: rp = 7
+            if rpoints >= 45: rp = 8
+            if rpoints >= 55: rp = 9
+            if rpoints >= 66: rp = 10
+            if rpoints >= 78: rp = 11
+            if rpoints >= 91: rp = 12
+            if rpoints >= 105: rp = 13
+            if rpoints >= 120: rp = 14
+            if rpoints >= 136: rp = 15
+            if rpoints >= 153: rp = 16
+            if rpoints >= 171: rp = 17
+            if rpoints >= 190: rp = 18
+            if rpoints >= 210: rp = 19
+            if rpoints >= 231: rp = 20
+            if rp > rlvl:
+                rpoints = 0
+                rlvl = rp
+            return rlvl
+            
         bloodlust = game.dragon.bloodiness
     
     # Прокручиваем заставку.

@@ -400,8 +400,8 @@ class Dragon(Fighter):
         self.hunger = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
         self.health = 2 # range 0..2, ресурс восстанавливается до 2 после каждого отдыха
 
-        self.anatomy = ['size', 'paws', 'size', 'wings', 'size', 'paws']
-        self.heads = ['green']  # головы дракона
+        self.anatomy = ['size', 'size', 'size', 'size', 'paws', 'paws', 'wings', 'cunning']
+        self.heads = ['red']  # головы дракона
         self.dead_heads = [] #мертвые головы дракона
         self.spells = []  # заклинания наложенные на дракона(обнуляются после сна)
         self.avatar = "img/avadragon/green/1.jpg"
@@ -507,6 +507,31 @@ class Dragon(Fighter):
             return u'белый'
         else:
             return u'зеленый'
+        
+    def color_eng(self):
+        """
+        :return: Текстовое представление базового цвета дракона
+        """
+        if self.heads[0] == 'red':
+            return u'red'
+        elif self.heads[0] == 'black':
+            return u'black'
+        elif self.heads[0] == 'blue':
+            return u'blue'
+        elif self.heads[0] == 'gold':
+            return u'gold'
+        elif self.heads[0] == 'silver':
+            return u'silver'
+        elif self.heads[0] == 'bronze':
+            return u'bronze'
+        elif self.heads[0] == 'iron':
+            return u'iron'
+        elif self.heads[0] == 'shadow':
+            return u'shadow'
+        elif self.heads[0] == 'white':
+            return u'white'
+        else:
+            return u'green'
 
     def kind(self):
         """
