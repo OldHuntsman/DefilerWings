@@ -76,7 +76,11 @@ class Game(store.object):
         desired_mobilization = self.dragon.reputation.level - self.poverty.value # Желаемый уровень мобилизации
         mobilization_delta = self.mobilization.level - desired_mobilization # Считаем есть ли разница с текущим уровнем мобилизации
         if mobilization_delta != 0: # И если есть разница
-            self.mobilization.level += mobilization_delta/math.abs(mobilization_delta) # Увеличиваем  или  уменьшаем на единицу 
+            # Увеличиваем  или  уменьшаем на единицу 
+            if mobilization_delta > 0:
+                self.mobilization.level += 1
+            else:
+                self.mobilization.level -= 1
         
         # Если вора нет, то пробуем создать его
         if self.thief is None or self.thief.is_dead():
@@ -132,7 +136,7 @@ class Game(store.object):
         """
         from thief import Thief
         if thief_level is None:
-            thief_level = Thief.start_level(self.reputation.points/10)
+            thief_level = Thief.start_level(self.dragon.reputation.level)
         if thief_level > 0:
             self.thief = Thief(level=thief_level,
                                treasury=self.lair.treasury,
@@ -405,8 +409,8 @@ class Dragon(Fighter):
         self.hunger = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
         self.health = 2 # range 0..2, ресурс восстанавливается до 2 после каждого отдыха
 
-        self.anatomy = ['size', 'paws', 'size', 'wings', 'size', 'paws']
-        self.heads = ['green']  # головы дракона
+        self.anatomy = ['size', 'size', 'size', 'size', 'paws', 'paws', 'wings', 'cunning']
+        self.heads = ['red']  # головы дракона
         self.dead_heads = [] #мертвые головы дракона
         self.spells = []  # заклинания наложенные на дракона(обнуляются после сна)
         self.avatar = "img/avadragon/green/1.jpg"
@@ -512,6 +516,31 @@ class Dragon(Fighter):
             return u'белый'
         else:
             return u'зеленый'
+        
+    def color_eng(self):
+        """
+        :return: Текстовое представление базового цвета дракона
+        """
+        if self.heads[0] == 'red':
+            return u'red'
+        elif self.heads[0] == 'black':
+            return u'black'
+        elif self.heads[0] == 'blue':
+            return u'blue'
+        elif self.heads[0] == 'gold':
+            return u'gold'
+        elif self.heads[0] == 'silver':
+            return u'silver'
+        elif self.heads[0] == 'bronze':
+            return u'bronze'
+        elif self.heads[0] == 'iron':
+            return u'iron'
+        elif self.heads[0] == 'shadow':
+            return u'shadow'
+        elif self.heads[0] == 'white':
+            return u'white'
+        else:
+            return u'green'
 
     def kind(self):
         """

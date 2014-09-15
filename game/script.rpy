@@ -11,7 +11,7 @@
         if persistent.encounter == None:
             persistent.encounter = False
     
-init:
+init:    
     transform bot_to_top:
         align(-2, -2)
         linear 100 yalign 3.0
@@ -42,9 +42,11 @@ label start:
     python:
         #Инициализируем game в начале игры, а не при инициализации. Для того чтобы 
         game = core.Game(NVLCharacter)
-        game.dragon.avatar = get_dragon_avatar('green')
+        game.dragon.avatar = get_dragon_avatar(game.dragon.color_eng())
         narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
-        
+            
+        bloodlust = game.dragon.bloodiness
+    
     # Прокручиваем заставку.
     call screen sc_intro
     show screen status_bar

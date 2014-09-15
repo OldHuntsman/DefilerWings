@@ -28,6 +28,7 @@ class Reputation(store.object):
     '''
     _rp = 0
     _gain = 0
+    _last_gain = 0
     
     @property
     def points(self):
@@ -40,10 +41,15 @@ class Reputation(store.object):
         if value >= 0:
             delta = int(value - self._rp)
             if delta in reputation_gain:
-                self._gain += value - self._rp
+                self._last_gain = delta
+                self._gain += delta
                 self._rp = int(value)
             else:
                 raise Exception("Cannot raise reputation. Invalid gain.")
+    @property
+    def gain_description(self):
+        if self._last_gain in reputation_gain:
+            return reputation_gain[self._last_gain]
             
     @property
     def points_gained(self):

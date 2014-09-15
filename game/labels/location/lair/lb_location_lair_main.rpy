@@ -8,7 +8,7 @@ label lb_location_lair_main:
         i = -1
         for head in game.dragon.heads:
             i += 1 
-            if game.dragon.heads[i] != 'green': ddescription += '\n  Его %s голова ' % womennum[i] + head_texts[dragon.heads[i]]
+            if game.dragon.heads[i] != 'green': ddescription += '\n  Его %s голова ' % womennum[i] + head_texts[game.dragon.heads[i]]
         if game.dragon.wings() == 0 and game.dragon.paws() == 0:
             ddescription += wingstxt[0]
         else:

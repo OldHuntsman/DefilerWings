@@ -271,7 +271,9 @@ class Girls_list(object):
         """
         Действия отродий на свободе
         """
-        self.game.mobilization.points -= power
+        #TODO: Что тут вообще имелось ввиду? Очков мобилизации теперь нет. Зато есть разруха.
+        #self.game.mobilization.points -= power
+        pass
       
     def army_of_darkness(self):
         """
