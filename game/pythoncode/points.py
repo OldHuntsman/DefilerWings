@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 import math
-from data import reputation_levels
+from data import reputation_levels, reputation_gain
 import renpy.store as store
 
 class Mobilization(store.object):
@@ -38,8 +38,12 @@ class Reputation(store.object):
     @points.setter
     def points(self, value):
         if value >= 0:
-            self._gain += value - self._rp
-            self._rp = int(value)
+            delta = int(value - self._rp)
+            if delta in reputation_gain:
+                self._gain += value - self._rp
+                self._rp = int(value)
+            else:
+                raise Exception("Cannot raise reputation. Invalid gain.")
             
     @property
     def points_gained(self):
@@ -76,7 +80,7 @@ class Poverty (store.object):
         return self._value
     
     @value.setter
-    def value(self, value)
+    def value(self, value):
         self._planned += self._value - value
     
     def apply_planned(self):
