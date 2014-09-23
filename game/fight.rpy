@@ -24,6 +24,7 @@ label lb_fight:
             jump lb_location_lair_main
             
         if 'foe_alive' in battle_status:
+            nvl clear
             menu:
                 'Продолжать бой':
                     pass

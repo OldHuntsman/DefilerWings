@@ -10,6 +10,15 @@ init python:
         filename = random.choice(os.listdir(absolute_path)) # получаем название файла
         return relative_path + "/" + filename # Возвращаем правильно отформатированно значение
 
+    def get_place_bg(type):
+        # config.basedir - директория где у нас лежит сама игра.
+        # "game" - директория относительно config.basedir где лежат собственно файлы игры и 
+        # относительно которой высчитываются все пути
+        relative_path = "img/bg/"+type # Относительный путь для движка ренпи
+        absolute_path = os.path.join(config.basedir, "game", relative_path) # Cоставляем абсолютный путь где искать
+        filename = random.choice(os.listdir(absolute_path)) # получаем название файла
+        return relative_path + "/" + filename # Возвращаем правильно отформатированно значение
+        
     class Avatars:
         def __init__(self):
             # Размер аватарки по высоте. TODO: нужно чтобы этот прараметр влилял на отображаемый размер аватарки.

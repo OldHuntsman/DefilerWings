@@ -1,6 +1,6 @@
 label lb_location_plains_main:
     $ place = 'plain'
-    show place as bg
+    show expression get_place_bg(place) as bg
     nvl clear
       
     menu:
@@ -89,6 +89,7 @@ label lb_enc_berries:
     'Девушки на опушке собирают ягоды. При появлении дракона поднимается дикий визг, девушки разбегаются. Одна не бросает корзину с ягодами. Ещё одна по запаху кажется невинной.'
     nvl clear
     $ description = game.girls_list.new_girl('peasant')
+    nvl clear
     menu:
         'Невинная девица':
             $ game.dragon.drain_energy()
@@ -164,6 +165,7 @@ label lb_enc_shrooms:
     'Девушки на опушке собирают грибы. При появлении дракона поднимается дикий визг, девушки разбегаются. Одна не бросает корзину с грибами. Ещё одна по запаху кажется невинной.'
     nvl clear
     $ description = game.girls_list.new_girl('peasant')
+    nvl clear
     menu:
         'Невинная девица':
             $ game.dragon.drain_energy()
@@ -186,10 +188,12 @@ label lb_enc_shrooms:
                     $ description = game.girls_list.rob_girl()
                     game.girl.third "Дракон раздевает девушку догола и забирает всё ценное."
                     game.girl 'Можно я теперь пойду?'
+                    nvl clear
                     menu:
                         'Поиграть с девицей' if game.dragon.lust > 0:
                             'Дракон заставляет девушку сделать ему минет.'
                             $ game.dragon.lust -= 1
+                            nvl clear
                             menu:
                                 'Сожрать девицу' if game.dragon.hunger > 0:
                                     'Дракон заставляет крестьянку нажарить грибов, затем потрошит её, фарширует грибами и пожирает.'
@@ -211,6 +215,7 @@ label lb_enc_shrooms:
                 'Поиграть с девицей' if game.dragon.lust > 0:
                     'Дракон заставляет девушку раздеться и сделать ему минет.'
                     $ game.dragon.lust -= 1
+                    nvl clear
                     menu:
                         'Сожрать девицу' if game.dragon.hunger > 0:
                             'Дракон заставляет крестьянку нажарить грибов, затем потрошит её, фарширует грибами и пожирает.'
@@ -239,6 +244,7 @@ label lb_enc_shrooms:
     
 label lb_enc_laundry:
     'Прачки. Одна из них по запаху кажется невинной девушкой.'
+    nvl clear
     menu:
         'Схватить невинную девицу':
             $ game.dragon.drain_energy()
@@ -256,7 +262,8 @@ label lb_enc_laundry:
     return
     
 label lb_enc_bath:
-    'Прачки. Одна из них по запаху кажется невинной девушкой.'
+    'Купальщицы. Одна из них по запаху кажется невинной девушкой.'
+    nvl clear
     menu:
         'Схватить невинную девицу':
             $ game.dragon.drain_energy()
@@ -267,15 +274,14 @@ label lb_enc_bath:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex      
-            return        
         'Оставить их в покое' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
-            return    
     return
     
 label lb_enc_militia:
     show expression 'img/scene/fight/militia.png' as bg
     'На поле тренируются ополченцы-новобранцы.'
+    nvl clear
     menu:
         'Напасть':
             $ game.dragon.drain_energy()
@@ -350,17 +356,21 @@ label lb_enc_granary:
 
 label lb_enc_goose:
     'Босоногая крестьянская девчёнка пасёт гусей. Слишком молода чтобы рожать.'
+    nvl clear
     menu:
         'Сожрать гусей' if game.dragon.hunger > 0:
             'Дракон ловит и проглатывает одного жирного гуся, но остальные разлетаются.'
+            $ game.dragon.drain_energy()
             $ if game.dragon.bloodiness > 0: game.dragon.bloodiness -= 1
         'Сожрать девчёнку' if game.dragon.hunger > 0:
             'Дракон хватает девчёнку и съедает её.'
+            $ game.dragon.drain_energy()
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
             $ game.dragon.hunger -= 1
         'Устрить побоище' if game.dragon.bloodiness => 5:
+            $ game.dragon.drain_energy()
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             'Дракон нападает, убивая девочку и всех гусей которых только может поймать, просто ради забавы.'    
@@ -371,6 +381,7 @@ label lb_enc_goose:
     
 label lb_enc_pigs:
     'Свиньи пасутся в дубовой роще. Свинопас убегает.'
+    nvl clear
     menu:
         'Напасть на стадо' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
@@ -396,6 +407,7 @@ label lb_enc_pigs:
 
 label lb_enc_sheepherd:
     'Овцы на выпасе. Пастух убегает, остаётся собака.'
+    nvl clear
     menu:
         'Напасть на стадо' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
@@ -422,6 +434,7 @@ label lb_enc_sheepherd:
 
 label lb_enc_cattle:
     'Коровы на выпасе. Пастух убегает, один из быков защищает стадо.'
+    nvl clear
     menu:
         'Напасть на стадо' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
@@ -463,6 +476,7 @@ label lb_village:
         txt1 = village['overview'][village_size]
     show expression 'img/bg/special/village.png' as bg     
     '[txt1]'
+    nvl clear
     menu:
         'Наложить дань' if village_size > 0:
             show expression 'img/bg/special/fear.png' as bg
@@ -478,6 +492,7 @@ label lb_village:
             'Поселение успешно разграблено.'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
+            'Очков репутации: [game.dragon.reputation.points]'
         
         'Разорить' if village_size > 0:
             $ game.dragon.drain_energy()

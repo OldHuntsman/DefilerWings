@@ -1,7 +1,8 @@
 label lb_location_sky_main:
     $ place = 'sky'
-    show place
+    show expression get_place_bg(place) as bg
       
-    'Небо. Появился случайный энакаунтер'
+    '[dragon.name] с тоской смотрит в небо. Если бы только он умел летать...'
         
     return
+    

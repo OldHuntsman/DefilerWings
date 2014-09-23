@@ -1,7 +1,7 @@
 label lb_location_sea_main:
     $ place = 'sea'
-    show place
+    show expression get_place_bg(place) as bg
       
-    'Море. Появился случайный энакаунтер'
+    '[dragon.name] порбует когтем солёную морскую влагу. Если бы только он умел дышать под водой...'
         
     return 

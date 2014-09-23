@@ -11,6 +11,10 @@
         if persistent.encounter == None:
             persistent.encounter = False
     
+    #Сокровища
+    klad_list = ['goblet', 'statue', 'band', 'diadem', 'tiara', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'gemring', 'seal', 'armbrace', 'legbrace', 'crown', 'scepter', 'chain', 'fibula', 'silver', 'gold', 'mithril', 'adamantine', 'jasper', 'turquoise', 'jade', 'malachite', 'corall', 'ivory', 'agate', 'shell', 'horn', 'amber', 'crystall', 'beryll', 'tigereye', 'granate', 'turmaline', 'aqua', 'pearl', 'elven_beryll', 'black_pearl', 'topaz', 'saphire', 'ruby', 'emerald', 'goodruby', 'goodemerald', 'star', 'diamond', 'black_diamond', 'rose_diamond', 'taller', 'dublon']
+
+
 init:    
     transform bot_to_top:
         align(-2, -2)
@@ -46,6 +50,7 @@ label start:
         narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
             
         bloodlust = game.dragon.bloodiness
+        dragon = game.dragon
     
     # Прокручиваем заставку.
     call screen sc_intro
