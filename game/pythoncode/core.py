@@ -200,7 +200,20 @@ class Treasury(store.object):
         :return: Суммарная стоимость всего, что есть в сокровищнице(Золотое ложе).
         """
         raise NotImplementedError
-
+        
+    def recieve_treasure(self, treasure_list):
+        """
+        Помещает сокровища в сокровищницу
+        :param abilities: Список сокровищ, помещаемых в сокровищницу
+        """
+        pass
+        
+    def treasures_description(self, treasure_list):
+        """
+        :param abilities: Список сокровищ, для которых требуется получить описание
+        :return: Возвращает список с описанием сокровищ
+        """
+        return [u"Тестовое сокровище в списке 1",u"Тестовое сокровище в списке 2"]
 
 class Lair(object):
     def __init__(self, type = "impassable_coomb"):
