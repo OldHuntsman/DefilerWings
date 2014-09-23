@@ -201,7 +201,7 @@ class Treasury(store.object):
         """
         raise NotImplementedError
         
-    def recieve_treasure(self, treasure_list):
+    def recieve_treasures(self, treasure_list):
         """
         Помещает сокровища в сокровищницу
         :param abilities: Список сокровищ, помещаемых в сокровищницу
