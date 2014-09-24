@@ -25,7 +25,14 @@ label lb_location_mountain_main:
     
     
 label lb_enc_miner:
-    
+    'Одинокий златоискатель.'
+    nvl clear
+    menu:
+        'Убить и ограбить':
+            'В мешке златоискателя обнаруживается почти фунт золотого песка и мелких самородков. Глупцы, вечно они всё богатсво с собой таскают.'
+            
+        'Пусть идёт' if bloodlust < 5:
+            return
     return
     
 label lb_enc_dklad:
