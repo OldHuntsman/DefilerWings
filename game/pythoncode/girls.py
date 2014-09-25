@@ -126,7 +126,10 @@ class Girls_list(object):
         Ограбить девушку.
         """
         #TODO реальное ограбление с описанием награбленного
-        return self.description('rob')
+        rob_description = self.description('rob')
+        self.game.lair.treasury.recieve_treasures(self.game.girl.treasure)
+        self.game.girl.treasure = []
+        return rob_description
         
     def prisoners_list(self):
         """
@@ -160,6 +163,10 @@ class Girls_list(object):
             insert_list = [self.game.girl.name, self.game.dragon.name]
             if status == 'birth':
                 insert_list.append(girls_data.spawn_info[self.spawn[-1]]['name'])
+            elif status == 'rob':
+                treas_description = self.game.lair.treasury.treasures_description(self.game.girl.treasure)
+                treas_description = ', '.join(treas_description)
+                insert_list.append(treas_description)
             text = text.format(*insert_list)
         else: 
             text = "Описание для действия '%s' девушки типа '%s' отсутствует" % (status, self.game.girl.type)

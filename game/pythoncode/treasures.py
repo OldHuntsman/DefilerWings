@@ -386,7 +386,7 @@ class Treasury(store.object):
             self.farting -= money_diff % 10
             money_diff = money_diff // 10
             if self.taller < money_diff % 10:
-                #число серебряную монет недостаточно для выплаты, меняем золотую
+                #число серебряных монет недостаточно для выплаты, меняем золотую
                 self.dublon -= 1
                 self.taller += 10
             self.taller -= money_diff % 10
