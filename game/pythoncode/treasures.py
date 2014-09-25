@@ -2,7 +2,9 @@
 # coding=utf-8
 import random
 import data
+import core
 import renpy.store as store
+import renpy.exports as renpy
 
 """Словарь , ключи - названия камней, значения - кортежи вида(шанс появления, ценность)"""
 gem_types = {}
@@ -382,7 +384,7 @@ class Treasury(store.object):
             if self.farting < money_diff % 10:
                 #медных монет недостаточно для выплаты, меняем серебряную
                 self.taller -= 1
-                self.farting += 10       
+                self.farting += 10
             self.farting -= money_diff % 10
             money_diff = money_diff // 10
             if self.taller < money_diff % 10:
@@ -415,7 +417,15 @@ class Treasury(store.object):
         Помещает сокровища в сокровищницу
         :param abilities: Список сокровищ, помещаемых в сокровищницу
         """
-        pass
+        for treas in treasure_list:
+            type_str = str(type(treas))
+            if type_str == "<class 'pythoncode.treasures.Coin'>":
+                if treas.name == 'farting':
+                    self.farting += treas.amount
+                elif treas.name == 'taller':
+                    self.taller += treas.amount
+                else:
+                    self.dublon += treas.amount
         
     def treasures_description(self, treasure_list):
         """
