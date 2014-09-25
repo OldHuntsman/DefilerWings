@@ -380,17 +380,29 @@ class Treasury(store.object):
             #разница отрицательна или ноль - производим вычитание
             money_diff = -money_diff #для удобства получаем число, которое необходимо вычесть
             if self.farting < money_diff % 10:
-                #число медных монет недостаточно для выплаты, меняем серебряную
+                #медных монет недостаточно для выплаты, меняем серебряную
                 self.taller -= 1
-                self.farting += 10
+                self.farting += 10       
             self.farting -= money_diff % 10
             money_diff = money_diff // 10
             if self.taller < money_diff % 10:
-                #число серебряных монет недостаточно для выплаты, меняем золотую
-                self.dublon -= 1
-                self.taller += 10
+                if (self.farting // 10 + self.taller) < money_diff % 10:
+                    #серебряных монет даже с учетом медных недостаточно для выплаты, меняем золотую
+                    self.dublon -= 1
+                    self.taller += 10
+                else:
+                    #серебряных монет с учетом медных достаточно для выплаты, меняем по максимуму медные на серебряные
+                    self.taller += self.farting // 10
+                    self.farting = self.farting % 10
             self.taller -= money_diff % 10
-            self.dublon -= money_diff // 10
+            money_diff = money_diff // 10
+            if self.taller < money_diff % 10:
+                #золотых монет недостаточно для выплаты 
+                self.taller += self.farting // 10 #меняем по максимуму медные на серебряные
+                self.farting = self.farting % 10
+                self.dublon += self.taller // 10 #меняем по максимуму серебряные на золотые
+                self.taller = self.taller % 10
+            self.dublon -= money_diff 
         else:
             #разница положительна - производим добавление монет по разрядам
             self.dublon += money_diff // 100
