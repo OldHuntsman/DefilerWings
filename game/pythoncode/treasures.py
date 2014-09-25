@@ -410,4 +410,7 @@ class Treasury(store.object):
         :param abilities: Список сокровищ, для которых требуется получить описание
         :return: Возвращает список с описанием сокровищ
         """
-        return treasure_list
+        description_list = []
+        for treas in treasure_list:
+            description_list.append(treas.__repr__())
+        return description_list
