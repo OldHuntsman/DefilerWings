@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
 import random
+import data
+import renpy.store as store
 
 """Словарь , ключи - названия камней, значения - кортежи вида(шанс появления, ценность)"""
 gem_types = {}
@@ -351,3 +353,61 @@ def gen_treas(count, t_list, alignment, min_cost, max_cost, obtained):
                 count += 1
         count -= 1
     return treasures_list
+
+
+class Treasury(store.object):
+    def __init__(self):
+        self.farting = 0 # медная монетка
+        self.taller = 0 # серебряная монетка
+        self.dublon = 0 # золотая монетка
+        # списки строк
+        self.materials = []
+        self.jewelry = []
+        self.equipment = []
+        self.gems = []
+        #TODO: multiple same equipment
+        self.thief_items = data.Container(id="equipment")
+    
+    @property
+    def money(self):
+        return self.farting + 10 * self.taller + 100 * self.dublon
+    @money.setter
+    def money(self, Value):
+        if Value < 0: #Защита от ухода денег в минус
+            raise NotImplementedError, u"Денег недостаточно для выполнения операции" 
+        money_diff = Value - self.money #считаем разницу между прошлым значением и новым
+        if money_diff < 0:
+            #разница отрицательна или ноль - производим вычитание
+            money_diff = -money_diff #для удобства получаем число, которое необходимо вычесть
+            if self.farting < money_diff % 10:
+                #число медных монет недостаточно для выплаты, меняем серебряную
+                self.taller -= 1
+                self.farting += 10
+            self.farting -= money_diff % 10
+            money_diff = money_diff // 10
+            if self.taller < money_diff % 10:
+                #число серебряную монет недостаточно для выплаты, меняем золотую
+                self.dublon -= 1
+                self.taller += 10
+            self.taller -= money_diff % 10
+            self.dublon -= money_diff // 10
+        else:
+            #разница положительна - производим добавление монет по разрядам
+            self.dublon += money_diff // 100
+            money_diff = money_diff % 100
+            self.taller += money_diff // 10
+            self.farting += money_diff % 10
+        
+    def recieve_treasures(self, treasure_list):
+        """
+        Помещает сокровища в сокровищницу
+        :param abilities: Список сокровищ, помещаемых в сокровищницу
+        """
+        pass
+        
+    def treasures_description(self, treasure_list):
+        """
+        :param abilities: Список сокровищ, для которых требуется получить описание
+        :return: Возвращает список с описанием сокровищ
+        """
+        return [u"Тестовое сокровище в списке 1",u"Тестовое сокровище в списке 2"]
