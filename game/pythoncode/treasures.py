@@ -92,6 +92,8 @@ class Ingot(object):#класс для генерации слитков
         return "%s pound %s ingot"%(self.weight, self.metal_type)
 class Coin(object):
     coin_types = {"farting":(1, 1), "taller":(1, 10), "dublon":(1, 100)}
+    coin_description = {"farting": u"фартинг", "taller": u"таллер", "dublon": u"дублон"}
+    coin_description_end = {'rus' : (u"", u"а", u"ов")}
     """
     Монеты.
     """
@@ -105,6 +107,16 @@ class Coin(object):
 
     def __repr__(self):
         return str(self.amount) +" " + "%s(s)" %(self.name)
+        
+    def description(self, language = 'rus'):
+        If language == 'rus':
+            if (self.amount % 10 == 1) and (self.amount % 100 <> 11):
+                description_end = 0
+            elif (self.amount % 10 > 1 and self.amount % 10 < 5) and (self.amount % 100 < 11 or self.amount % 100 > 21):
+                description_end = 1
+            else:
+                description_end = 2
+        return str(self.amount) + u" " + Coin.coin_description[self.name] + Coin.coin_description_end[language][description_end]
 class Gem(object):#класс для генерации драг.камней
     cut_dict = {" " : (0, 1), "polished":(50, 2), "rough":(30, 1), "faceted":(20, 3)}
     size_dict = {"small":(40, 1), "common":(50, 5), "large":(8, 25),\
@@ -454,16 +466,18 @@ class Treasury(store.object):
                     self.metals[treas.metal_type] = treas.weight
             elif type_str == "<class 'pythoncode.treasures.Material'>":
                 # сохраняется в словаре materials, где ключ - "название материала;размер материала", а значение - число материалов такого типа и размера
-                if treas.m_type + ';' + treas.size in self.materials:
-                    self.materials[treas.m_type + ';' + treas.size] += 1
+                type_str = treas.m_type + ';' + treas.size
+                if type_str in self.materials:
+                    self.materials[type_str] += 1
                 else:
-                    self.materials[treas.m_type + ';' + treas.size] = 1
+                    self.materials[type_str] = 1
             elif type_str == "<class 'pythoncode.treasures.Gem'>":
                 # сохраняется в словаре gems, где ключ - "название драгоценности;размер драгоценности;обработка драгоценности", а значение - число камней такого типа, размера и обработки
-                if (treas.g_type + ';' + treas.size + ';' + treas.cut) in self.gems:
-                    self.gems[treas.g_type + ';' + treas.size + ';' + treas.cut] += 1
+                type_str = treas.g_type + ';' + treas.size + ';' + treas.cut
+                if type_str in self.gems:
+                    self.gems[type_str] += 1
                 else:
-                    self.gems[treas.g_type + ';' + treas.size + ';' + treas.cut] = 1
+                    self.gems[type_str] = 1
             elif type_str == "<class 'pythoncode.treasures.Treasure'>":
                 self.jewelry.append(treas)
         
@@ -474,5 +488,9 @@ class Treasury(store.object):
         """
         description_list = []
         for treas in treasure_list:
-            description_list.append(treas.__repr__())
+            type_str = str(type(treas))
+            if type_str == "<class 'pythoncode.treasures.Coin'>":
+                description_list.append(treas.description())
+            else:
+                description_list.append(treas.__repr__())
         return description_list
