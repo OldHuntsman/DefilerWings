@@ -27,6 +27,23 @@ gem_types["star"] = (1,100)
 gem_types["diamond"] = (1,100)
 gem_types["black_diamond"] = (1,100)
 gem_types["rose_diamond"] = (1,100)
+"""словарь для типов материалов, ключи - названия материалов, значения - словарь для различных падежей русского названия материала"""
+material_description_rus = {}
+material_description_rus["jasper"] = {'nominative': u'яшма', 'genitive': u'яшмы'}
+material_description_rus["turquoise"] = {'nominative': u'бирюза', 'genitive': u'бирюзы'}
+material_description_rus["jade"] = {'nominative': u'нефрит', 'genitive': u'нефрита'}
+material_description_rus["malachite"] = {'nominative': u'малахит', 'genitive': u'малахита'}
+material_description_rus["corall"] = {'nominative': u'коралл', 'genitive': u'коралла'}
+material_description_rus["ivory"] = {'nominative': u'слоновая кость', 'genitive': u'слоновой кости'}
+material_description_rus["agate"] = {'nominative': u'агат', 'genitive': u'агата'}
+material_description_rus["shell"] = {'nominative': u'перламутр', 'genitive': u'перламутра'}
+material_description_rus["horn"] = {'nominative': u'драконий рог', 'genitive': u'драконьего рога'}
+"""словарь для типов материалов, ключи - названия размера материалов, значения - словарь для русского прилагательного, соответствующего размеру"""
+material_size_description_rus = {} 
+material_size_description_rus['small'] = u'мелкий '
+material_size_description_rus['common'] = u'' # этот размер не отображается
+material_size_description_rus['large'] = u'крупный '
+material_size_description_rus['exceptional'] = u'огромный '
 """словарь для типов материалов, ключи - названия материалов, значения - (шанс, ценность)"""
 material_types = {}
 material_types["jasper"] = (5,1)
@@ -157,6 +174,9 @@ class Gem(object):#класс для генерации драг.камней
             and self.size == other.size
         else:
             return
+            
+    def description(self, language = 'rus'):
+        return self.__repr__()
 
 def generate_gem(count, *args):
     """функция для генерации камней, 1 обязательный аргумент - количество камней
@@ -224,6 +244,12 @@ class Material(object):#класс для генерации материало�
             return other and self.m_type == other.m_type and self.size == other.size
         else:
             return
+            
+    def description(self, language = 'rus'):
+        if language == 'rus':
+            return u"%sкусок %s"%(material_size_description_rus[self.size], material_description_rus[self.m_type]['genitive'])
+        else:
+            return self.__repr__()
 def generate_mat(count, *args):
     """принцип работы такойже как для драг.камней"""
     mats = []
@@ -354,6 +380,9 @@ class Treasure(object):#класс для сокровищ
                self.incrustation_cost+self.random_mod
     def __repr__(self):
         return "%s%s" %(self.material, self.treasure_type)
+        
+    def description(self, language = 'rus'):
+        return self.__repr__()
         
 def gen_treas(count, t_list, alignment, min_cost, max_cost, obtained):
     """Генерируем рандомное сокровище
@@ -503,11 +532,5 @@ class Treasury(store.object):
         """
         description_list = []
         for treas in treasure_list:
-            type_str = str(type(treas))
-            if type_str == "<class 'pythoncode.treasures.Coin'>":
-                description_list.append(treas.description())
-            elif type_str == "<class 'pythoncode.treasures.Ingot'>":
-                description_list.append(treas.description())
-            else:
-                description_list.append(treas.__repr__())
+            description_list.append(treas.description())
         return description_list
