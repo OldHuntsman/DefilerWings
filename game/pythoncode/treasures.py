@@ -72,6 +72,18 @@ treasure_types["crown"] = (5, "she", True, False, False, True, False)
 treasure_types["scepter"] = (10, "he", True, False, False, True, False)
 treasure_types["chain"] = (3, "she", True, False, False, False, False)
 treasure_types["fibula"] = (2, "she", True, False, False, False, True)
+
+number_conjugation_end = {'nominative' : (u"", u"а", u"ов")}
+def number_conjugation_rus(number, add_name, word_form):
+    if word_form == 'nominative':
+        if (number % 10 == 1) and (number % 100 <> 11):
+            description_end = number_conjugation_end[word_form][0]
+        elif (number % 10 > 1 and number % 10 < 5) and (number % 100 < 11 or number % 100 > 21):
+            description_end = number_conjugation_end[word_form][1]
+        else:
+            description_end = number_conjugation_end[word_form][2]
+        return u"%s %s%s"%(number, add_name, description_end)
+    
 def weighted_select(d):
     weight = random.random()*sum(v[0] for k, v in d.items())
     for k, v in d.items():
@@ -81,6 +93,8 @@ def weighted_select(d):
     return d.keys()[random.randint(0,len(d.keys()))]
 class Ingot(object):#класс для генерации слитков
     weights = (1,2,4,8,16)
+    metal_description_rus = {"silver": u"серебряный слиток", "gold": u"золотой слиток", "mithril":u"мифрильный слиток", "adamantine":u"адамантиновый слиток"}
+    weights_description = {'rus' : (u"", u"а", u"ов")}
     def __init__(self, metal_type):
         self.metal_type = metal_type
         self.metal_cost = metal_types[metal_type]
@@ -90,10 +104,15 @@ class Ingot(object):#класс для генерации слитков
         return self.metal_cost*self.weight
     def __repr__(self):
         return "%s pound %s ingot"%(self.weight, self.metal_type)
+        
+    def description(self, language = 'rus'):
+        if language == 'rus':
+            return u"%s %s весом" % (Ingot.metal_description_rus[self.metal_type], number_conjugation_rus(self.weight, u"фунт", 'nominative'))
+        else:
+            return self.__repr__()
 class Coin(object):
     coin_types = {"farting":(1, 1), "taller":(1, 10), "dublon":(1, 100)}
-    coin_description = {"farting": u"фартинг", "taller": u"таллер", "dublon": u"дублон"}
-    coin_description_end = {'rus' : (u"", u"а", u"ов")}
+    coin_description_rus = {"farting": u"фартинг", "taller": u"таллер", "dublon": u"дублон"}
     """
     Монеты.
     """
@@ -109,14 +128,10 @@ class Coin(object):
         return str(self.amount) +" " + "%s(s)" %(self.name)
         
     def description(self, language = 'rus'):
-        If language == 'rus':
-            if (self.amount % 10 == 1) and (self.amount % 100 <> 11):
-                description_end = 0
-            elif (self.amount % 10 > 1 and self.amount % 10 < 5) and (self.amount % 100 < 11 or self.amount % 100 > 21):
-                description_end = 1
-            else:
-                description_end = 2
-        return str(self.amount) + u" " + Coin.coin_description[self.name] + Coin.coin_description_end[language][description_end]
+        if language == 'rus':
+            return number_conjugation_rus(self.amount, Coin.coin_description_rus[self.name], 'nominative')
+        else:
+            return self.__repr__()
 class Gem(object):#класс для генерации драг.камней
     cut_dict = {" " : (0, 1), "polished":(50, 2), "rough":(30, 1), "faceted":(20, 3)}
     size_dict = {"small":(40, 1), "common":(50, 5), "large":(8, 25),\
@@ -490,6 +505,8 @@ class Treasury(store.object):
         for treas in treasure_list:
             type_str = str(type(treas))
             if type_str == "<class 'pythoncode.treasures.Coin'>":
+                description_list.append(treas.description())
+            elif type_str == "<class 'pythoncode.treasures.Ingot'>":
                 description_list.append(treas.description())
             else:
                 description_list.append(treas.__repr__())
