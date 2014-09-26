@@ -2,7 +2,6 @@
 # coding=utf-8
 import random
 import data
-import core
 import renpy.store as store
 import renpy.exports as renpy
 
@@ -107,7 +106,7 @@ class Coin(object):
     def __repr__(self):
         return str(self.amount) +" " + "%s(s)" %(self.name)
 class Gem(object):#класс для генерации драг.камней
-    cut_dict = {"polished":(50, 2), "rough":(30, 1), "faceted":(20, 3)}
+    cut_dict = {" " : (0, 1), "polished":(50, 2), "rough":(30, 1), "faceted":(20, 3)}
     size_dict = {"small":(40, 1), "common":(50, 5), "large":(8, 25),\
              "exceptional":(2, 100)}
     def __init__(self, g_type, size,cut):
@@ -116,7 +115,7 @@ class Gem(object):#класс для генерации драг.камней
         self.size_mod = Gem.size_dict[size][1]#модификатор размера
         """степень обработки"""
         self.cut = " " if self.g_type == "pearl" or self.g_type == "black_pearl" else cut
-        self.cut_mod = 1 if self.cut == " " else Gem.cut_dict[cut][1]#модификатор обработки
+        self.cut_mod = Gem.cut_dict[cut][1]#модификатор обработки
         self.base = gem_types[self.g_type][1]#базовая ценность, зависит от типа
         self.can_be_incrusted = False if self.size==100 else True #проверяем возможность инкрустации
         self.amount = 1 if self.size_mod >= 25 else 5 if self.size_mod == 5 else 20
@@ -131,18 +130,19 @@ class Gem(object):#класс для генерации драг.камней
             and self.size == other.size
         else:
             return
-"""функция для генерации камней, 1 обязательный аргумент - количество камней
-которое нужно сгенерировать, чтобы задать размер и/или качество обработки
-вызываем с аргументом {"size":("размер", "размер", ...} или {"cut":("качество, "качество", ...)}
-число будет использоваться для определения ценности
-камня, чтобы задать типы камней, вызываем с аргументом "тип камня" или
-["тип камня", "тип камня", ...]
-на пример generate_gem(5, {"size":("common", "small")}, ["ruby", "star", "aqua"],
-                       "diamond")
-создаст 5 разных камней размера common или small случайного качества огранки, 
-тип каждого будет выбран из заданных, шансы появления которых относительно
-друг друга указанны в словаре gem_types"""
+
 def generate_gem(count, *args):
+    """функция для генерации камней, 1 обязательный аргумент - количество камней
+    которое нужно сгенерировать, чтобы задать размер и/или качество обработки
+    вызываем с аргументом {"size":("размер", "размер", ...} или {"cut":("качество, "качество", ...)}
+    число будет использоваться для определения ценности
+    камня, чтобы задать типы камней, вызываем с аргументом "тип камня" или
+    ["тип камня", "тип камня", ...]
+    на пример generate_gem(5, {"size":("common", "small")}, ["ruby", "star", "aqua"],
+                       "diamond")
+    создаст 5 разных камней размера common или small случайного качества огранки, 
+    тип каждого будет выбран из заданных, шансы появления которых относительно
+    друг друга указанны в словаре gem_types"""
     gems = []
     if len(args) != 0:
         cut = {}
@@ -197,8 +197,8 @@ class Material(object):#класс для генерации материало�
             return other and self.m_type == other.m_type and self.size == other.size
         else:
             return
-"""принцип работы такойже как для драг.камней"""
 def generate_mat(count, *args):
+    """принцип работы такойже как для драг.камней"""
     mats = []
     if len(args) != 0:
         size = {}
@@ -328,11 +328,11 @@ class Treasure(object):#класс для сокровищ
     def __repr__(self):
         return "%s%s" %(self.material, self.treasure_type)
         
-"""Генерируем рандомное сокровище
-функция генерации сокровищ,count - количество сокровищ, t_list - список строк-имен сокровищ, alignmet - принадлежность
-к определенной культуре(одно из: human, cleric, knight, merman, elf, dwarf), min_cost - минимальная цена сокровища,
-max_cost - максимальная цена сокровища"""
 def gen_treas(count, t_list, alignment, min_cost, max_cost, obtained):
+    """Генерируем рандомное сокровище
+    функция генерации сокровищ,count - количество сокровищ, t_list - список строк-имен сокровищ, alignmet - принадлежность
+    к определенной культуре(одно из: human, cleric, knight, merman, elf, dwarf), min_cost - минимальная цена сокровища,
+    max_cost - максимальная цена сокровища"""
     treasures_list = []
     while count != 0:
         treas_holder = random.choice(t_list)
@@ -363,10 +363,11 @@ class Treasury(store.object):
         self.taller = 0 # серебряная монетка
         self.dublon = 0 # золотая монетка
         # списки строк
-        self.materials = []
-        self.jewelry = []
+        self.materials = {} #словарь с количеством материала
+        self.metals = {} #словарь с количеством металла
+        self.jewelry = [] #список драгоценностей
         self.equipment = []
-        self.gems = []
+        self.gems = {} #словарь с количеством драгоценных камней
         #TODO: multiple same equipment
         self.thief_items = data.Container(id="equipment")
     
@@ -398,7 +399,7 @@ class Treasury(store.object):
                     self.farting = self.farting % 10
             self.taller -= money_diff % 10
             money_diff = money_diff // 10
-            if self.taller < money_diff % 10:
+            if self.dublon < money_diff % 10:
                 #золотых монет недостаточно для выплаты 
                 self.taller += self.farting // 10 #меняем по максимуму медные на серебряные
                 self.farting = self.farting % 10
@@ -411,6 +412,24 @@ class Treasury(store.object):
             money_diff = money_diff % 100
             self.taller += money_diff // 10
             self.farting += money_diff % 10
+    
+    @property
+    def wealth(self):
+        """
+        Стоимость всех сокровищ дракона
+        """
+        calc_wealth = self.money # деньги
+        for metal in self.metals.iterkeys(): # металлы
+            calc_wealth += self.metals[metal] * metal_types[metal]
+        for material_i in self.materials.iterkeys(): #материалы
+            material = material_i.split(';')
+            calc_wealth += self.materials[material_i] * material_types[material[0]][1] * Material.size_dict[material[1]][1]
+        for gem_i in self.gems.iterkeys(): # драгоценные камни
+            gem = gem_i.split(';')
+            calc_wealth += self.gems[gem_i] * gem_types[gem[0]][1] * Gem.size_dict[gem[1]][1] * Gem.cut_dict[gem[2]][1]
+        for treas_i in xrange(len(self.jewelry)): # украшения
+            calc_wealth += self.jewelry[treas_i].cost
+        return calc_wealth
         
     def recieve_treasures(self, treasure_list):
         """
@@ -420,12 +439,33 @@ class Treasury(store.object):
         for treas in treasure_list:
             type_str = str(type(treas))
             if type_str == "<class 'pythoncode.treasures.Coin'>":
+                # сохраняется число медных, серебряных и золотых монет в соответствующих переменных
                 if treas.name == 'farting':
                     self.farting += treas.amount
                 elif treas.name == 'taller':
                     self.taller += treas.amount
                 else:
                     self.dublon += treas.amount
+            elif type_str == "<class 'pythoncode.treasures.Ingot'>":
+                # сохраняется в словаре metals, где ключ - название металла, а значение - его вес в фунтах
+                if treas.metal_type in self.metals:
+                    self.metals[treas.metal_type] += treas.weight
+                else:
+                    self.metals[treas.metal_type] = treas.weight
+            elif type_str == "<class 'pythoncode.treasures.Material'>":
+                # сохраняется в словаре materials, где ключ - "название материала;размер материала", а значение - число материалов такого типа и размера
+                if treas.m_type + ';' + treas.size in self.materials:
+                    self.materials[treas.m_type + ';' + treas.size] += 1
+                else:
+                    self.materials[treas.m_type + ';' + treas.size] = 1
+            elif type_str == "<class 'pythoncode.treasures.Gem'>":
+                # сохраняется в словаре gems, где ключ - "название драгоценности;размер драгоценности;обработка драгоценности", а значение - число камней такого типа, размера и обработки
+                if (treas.g_type + ';' + treas.size + ';' + treas.cut) in self.gems:
+                    self.gems[treas.g_type + ';' + treas.size + ';' + treas.cut] += 1
+                else:
+                    self.gems[treas.g_type + ';' + treas.size + ';' + treas.cut] = 1
+            elif type_str == "<class 'pythoncode.treasures.Treasure'>":
+                self.jewelry.append(treas)
         
     def treasures_description(self, treasure_list):
         """
