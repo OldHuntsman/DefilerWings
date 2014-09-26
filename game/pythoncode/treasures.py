@@ -5,7 +5,7 @@ import data
 import renpy.store as store
 import renpy.exports as renpy
 
-"""Словарь , ключи - названия камней, значения - кортежи вида(шанс появления, ценность)"""
+"""Словарь для драгоценных камней, ключи - названия камней, значения - кортежи вида(шанс появления, ценность)"""
 gem_types = {}
 gem_types["amber"] = (5,3)
 gem_types["crystall"] = (5,3)
@@ -27,7 +27,7 @@ gem_types["star"] = (1,100)
 gem_types["diamond"] = (1,100)
 gem_types["black_diamond"] = (1,100)
 gem_types["rose_diamond"] = (1,100)
-"""словарь для типов материалов, ключи - названия материалов, значения - словарь для различных падежей русского названия материала"""
+"""словарь для описания типов материалов, ключи - названия материалов, значения - словарь для различных падежей русского названия материала"""
 material_description_rus = {}
 material_description_rus["jasper"] = {'nominative': u'яшма', 'genitive': u'яшмы'}
 material_description_rus["turquoise"] = {'nominative': u'бирюза', 'genitive': u'бирюзы'}
@@ -38,12 +38,40 @@ material_description_rus["ivory"] = {'nominative': u'слоновая кость
 material_description_rus["agate"] = {'nominative': u'агат', 'genitive': u'агата'}
 material_description_rus["shell"] = {'nominative': u'перламутр', 'genitive': u'перламутра'}
 material_description_rus["horn"] = {'nominative': u'драконий рог', 'genitive': u'драконьего рога'}
-"""словарь для типов материалов, ключи - названия размера материалов, значения - словарь для русского прилагательного, соответствующего размеру"""
+"""словарь для описания размеров материалов, ключи - названия размера материалов, значения - словарь для русского прилагательного, соответствующего размеру"""
 material_size_description_rus = {} 
 material_size_description_rus['small'] = u'мелкий '
 material_size_description_rus['common'] = u'' # этот размер не отображается
 material_size_description_rus['large'] = u'крупный '
 material_size_description_rus['exceptional'] = u'огромный '
+"""словарь для описания степени обработки драгоценных камней, ключи - названия степени обработки, значения - словарь для соответствующего русского прилагательного"""
+gem_cut_description_rus = {} 
+gem_cut_description_rus[' '] = u'' # эта полировка не отображается
+gem_cut_description_rus['polished'] = u'необработанный ' 
+gem_cut_description_rus['rough'] = u'полированный '
+gem_cut_description_rus['faceted'] = u'ограненный '
+"""Словарь для драгоценных камней, ключи - названия камней, значения - кортежи вида(шанс появления, ценность)"""
+gem_description_rus = {}
+gem_description_rus["amber"] = {'nominative': u'янтарь'}
+gem_description_rus["crystall"] = {'nominative': u'горный хрусталь'}
+gem_description_rus["beryll"] = {'nominative': u'берилл'}
+gem_description_rus["tigereye"] = {'nominative': u'тигровый глаз'}
+gem_description_rus["granate"] = {'nominative': u'гранат'}
+gem_description_rus["turmaline"] = {'nominative': u'турмалин'}
+gem_description_rus["aqua"] = {'nominative': u'аквамарин'}
+gem_description_rus["pearl"] = {'nominative': u'жемчуг'}
+gem_description_rus["black_pearl"] = {'nominative': u'янтарь'}
+gem_description_rus["elven_beryll"] = {'nominative': u'эльфийский берилл'}
+gem_description_rus["topaz"] = {'nominative': u'топаз'}
+gem_description_rus["saphire"] = {'nominative': u'сапфир'}
+gem_description_rus["ruby"] = {'nominative': u'рубин'}
+gem_description_rus["emerald"] = {'nominative': u'изумруд'}
+gem_description_rus["goodruby"] = {'nominative': u'яхонт'}
+gem_description_rus["goodemerald"] = {'nominative': u'смарагд'}
+gem_description_rus["star"] = {'nominative': u'звёздный сапфир'}
+gem_description_rus["diamond"] = {'nominative': u'алмаз'}
+gem_description_rus["black_diamond"] = {'nominative': u'черный алмаз'}
+gem_description_rus["rose_diamond"] = {'nominative': u'розовый алмаз'}
 """словарь для типов материалов, ключи - названия материалов, значения - (шанс, ценность)"""
 material_types = {}
 material_types["jasper"] = (5,1)
@@ -176,7 +204,10 @@ class Gem(object):#класс для генерации драг.камней
             return
             
     def description(self, language = 'rus'):
-        return self.__repr__()
+        if language == 'rus':
+            return u"%s%s%s"%(material_size_description_rus[self.size], gem_cut_description_rus[self.cut], gem_description_rus[self.g_type]['nominative'])
+        else:
+            return self.__repr__()
 
 def generate_gem(count, *args):
     """функция для генерации камней, 1 обязательный аргумент - количество камней
