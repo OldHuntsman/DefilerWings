@@ -164,6 +164,9 @@ image_types['elf'] =    ('floral_ornament', 'elegant_runes', 'running_deer', 'be
                         'two_songbirds',  'moon_and_stars',  'branched_oak', 'blooming_vine', 'spreading_maple',  'weeping_willow', 
                         'dancing_nymphs', 'nymph_with_cup', 'nymph_collecting_fruits', 'nymph_playing_harp', 'winged_maiden' 
                         'satyr_playing_flute', 'forest_guard_bow')
+image_types['dwarf'] =  ('geometric_pattern', 'runic_ligature',  'hammer_and_crown', 'dwarfs_holding_over_his_head_anvil', 
+                        'armed_dwarfs_tramples_goblin', 'crossed_axes', 'entwined_rings', 'helmet_with_horns',  
+                        'krotocherv', 'dwarfs', 'urist_makdvarf', 'dragon_smaug')
 """словарь для описания изображений, ключ - вариант изображения, значение - словарь из рода изображения и описания изображения в различных падежах"""
 image_description_rus = {}
 image_description_rus['abstract_ornament'] = {gender: 'he', 'nominative': u'абстрактный орнамент', 'accusative': u'абстрактный орнамент'}
@@ -223,8 +226,23 @@ image_description_rus['nymph_playing_harp'] = {gender: 'she', 'nominative': u'н
 image_description_rus['winged_maiden'] = {gender: 'she', 'nominative': u'крылатая дева', 'accusative': u'крылатую деву'}
 image_description_rus['satyr_playing_flute'] = {gender: 'he', 'nominative': u'сатир, играющий на дудочке', 'accusative': u'сатира, играющего на дудочке'}
 image_description_rus['forest_guard_bow'] = {gender: 'he', 'nominative': u'лесной страж, стреляющий из лука', 'accusative': u'лесного стража, стреляющего из лука'}
+image_description_rus['geometric_pattern'] = {gender: 'he', 'nominative': u'геометрический орнамент', 'accusative': u'геометрический орнамент'}
+image_description_rus['runic_ligature'] = {gender: 'she', 'nominative': u'руническая вязь', 'accusative': u'руническую вязь'}
+image_description_rus['hammer_and_crown'] = {gender: 'they', 'молот и корона': u'молот и корона', 'accusative': u'молот и корону'}
+image_description_rus['dwarfs_holding_over_his_head_anvil'] = {gender: 'he', 'nominative': u'цверг, держащий над головой наковальню', 'accusative': u'цверга, держащего над головой наковальню'}
+image_description_rus['armed_dwarfs_tramples_goblin'] = {gender: 'he', 'nominative': u'вооруженный цверг попирающий ногами гоблина', 'accusative': u'вооруженного цверга, попирающего ногами гоблина'}
+image_description_rus['crossed_axes'] = {gender: 'they', 'nominative': u'скрещённые топоры', 'accusative': u'скрещённые топоры'}
+image_description_rus['entwined_rings'] = {gender: 'they', 'nominative': u'переплетённые кольца', 'accusative': u'переплетённые кольца'}
+image_description_rus['helmet_with_horns'] = {gender: 'he', 'nominative': u'шлем с рогами', 'accusative': u'шлем с рогами'}
+image_description_rus['krotocherv'] = {gender: 'he', 'nominative': u'кроточервь', 'accusative': u'кроточервя'}
+image_description_rus['dwarfs'] = {gender: 'they', 'nominative': u'цверги. Цверги работают.', 'accusative': u'цвергов. Цверги работают.'}
+image_description_rus['urist_makdvarf'] = {gender: 'he', 
+'nominative': u'Урист МакДварф. Урист МакДварф ест мастерски сделанный ячий сыр. Изображение посвящено поеданию мастерски сделанного ячьего сыра цвергом Уристом МакДварфом ранней весной 1076 года.', 
+'accusative': u'Уриста МакДварфа. Урист МакДварф ест мастерски сделанный ячий сыр. Изображение посвящено поеданию мастерски сделанного ячьего сыра цвергом Уристом МакДварфом ранней весной 1076 года.'}
+image_description_rus['round_dance'] = {gender: 'they', 
+'nominative': u'Дракон Смауг и цверг Торин. Торин закрывается руками. Смауг стоит в угрожающей позе. Изображение посвящено убийству короля-под-горой в Эреборе поздним летом 2770 года.', 
+'accusative': u'Дракона Смауга и цверга Торина. Торин закрывается руками. Смауг стоит в угрожающей позе. Изображение посвящено убийству короля-под-горой в Эреборе поздним летом 2770 года.'}
 image_description_rus['round_dance'] = {gender: 'he', 'nominative': u'хоровод', 'accusative': u'хоровод'}
-
 
 
 number_conjugation_end = {'nominative' : (u"", u"а", u"ов")}
