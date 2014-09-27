@@ -13,7 +13,7 @@ label lb_location_forest_main:
                 ("lb_enc_shrooms", 10),
                 ("lb_enc_guardian", 10),
                 ("lb_enc_lumbermill", 10),
-                ("lb_enc_klad", 10000),
+                ("lb_enc_klad", 10),
                 ("lb_enc_noting", nochance),]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)

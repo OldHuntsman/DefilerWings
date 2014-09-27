@@ -307,6 +307,7 @@ def weighted_select(d):
     return d.keys()[random.randint(0,len(d.keys()))]
 class Ingot(object):#класс для генерации слитков
     weights = (1,2,4,8,16)
+    weights_description_rus = {1: u"однофунтовый", 2: u"двухфунтовый", 4: u"четырехфунтовый", 8: u"восьмифунтовый", 16: u"шестнадцатифунтовый"}
     def __init__(self, metal_type):
         self.metal_type = metal_type
         self.metal_cost = metal_types[metal_type]
@@ -319,7 +320,10 @@ class Ingot(object):#класс для генерации слитков
         
     def description(self, language = 'rus'):
         if language == 'rus':
-            return u"%s слиток %s весом" % (metal_description_rus[self.metal_type]['he'], number_conjugation_rus(self.weight, u"фунт", 'nominative'))
+            if self.weight in self.weights:
+                return u"%s %s слиток" % (self.weights_description_rus[self.weight], metal_description_rus[self.metal_type]['he'])
+            else:
+                return u"%s слиток %s весом" % (metal_description_rus[self.metal_type]['he'], number_conjugation_rus(self.weight, u"фунт", 'nominative'))
         else:
             return self.__repr__()
 class Coin(object):
