@@ -589,26 +589,27 @@ class Treasure(object):#класс для сокровищ
             else:
                 desc_str = u"%s%s из %s" % (quality_str, treasure_str, material_description_rus[self.material]['genitive'])
                 
-            if self.image:  # добавляем различные украшения
-                desc_str += u", изображающая %s"% image_description_rus[self.decoration_image]['accusative']
+            if self.image: 
+                desc_str += u", изображающая %s"% image_description_rus[self.decoration_image]['accusative'] # только изображение
             else:
+                # добавляем различные украшения
                 enchant_list = []
-                if self.spangled:
+                if self.spangled: # усыпанное камнями
                     enchant_list.append(u"%s %s" % (decoration_description_rus['spangled'][self.gender], self.spangled.description('ablative_multiple')))
-                if self.inlaid:
+                if self.inlaid: # инкрустированное камнями
                     enchant_list.append(u"%s %s" % (decoration_description_rus['inlaid'][self.gender], self.inlaid.description('ablative_multiple')))
-                if self.huge:
+                if self.huge: # с крупным камнем
                     enchant_list.append(u"с %s" % self.huge.description('ablative'))
-                if self.decoration:
+                if self.decoration: # украшенное чеканкой/гравировкой/травлением/резьбой
                     enchant_list.append(u"%s %s" % (decoration_description_rus['decoration'][self.gender], decorate_types_description_rus[self.decoration]))
-                if len(enchant_list) == 1:
-                    desc_str += u", %s" % enchant_list[0]
+                if len(enchant_list) == 1:  
+                    desc_str += u", %s" % enchant_list[0] # добавляем через запятую единственное украшение
                 elif len(enchant_list) > 1:
                     while len(enchant_list) > 1:
-                        desc_str += u", %s" % enchant_list[0]
+                        desc_str += u", %s" % enchant_list[0] # добавляем через запятую украшения
                         del enchant_list[0]
-                    desc_str += u" и %s" % enchant_list[0]
-                if self.decoration:
+                    desc_str += u" и %s" % enchant_list[0] # последнее добавляется союзом "и"
+                if self.decoration: # если естьизображение - ставим точку и описываем его
                     image_description = image_description_rus[self.decoration_image] # упрощение доступа к свойству
                     desc_str = u"%s. На %s %s %s" % (desc_str, treasure_description_rus[self.treasure_type]['ablative'], \
                                     decoration_description_rus['image'][image_description['gender']], image_description['nominative'])
