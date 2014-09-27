@@ -504,11 +504,13 @@ class Treasure(object):#класс для сокровищ
                             return ("carving")
                         else:
                             return (weighted_select(Treasure.decorate_types))
+                        self.decoration_image = random.choice(image_types[self.alignment])
                     else:
                         return None
                 else:
                     return None
         self.decoration = decorate()#выбираем орнамент
+        if self.image: self.decoration_image = random.choice(image_types[self.alignment]) 
         self.dec_mod = 1 if self.decoration == None else 2#равен двум если есть орнамент
         def q_choice():#прокидываем качество вещи
             if self.alignment == "human" or self.alignment ==  "cleric" or self.alignment == "knight":
