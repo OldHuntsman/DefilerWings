@@ -51,10 +51,14 @@ material_description_rus["shell"] = {'nominative': u'перламутр', 'genit
 material_description_rus["horn"] = {'nominative': u'драконий рог', 'genitive': u'драконьего рога'}
 """словарь для описания размеров материалов, ключи - названия размера материалов, значения - словарь для русского прилагательного, соответствующего размеру"""
 material_size_description_rus = {} 
-material_size_description_rus['small'] = {'nominative': u"мелкий ", 'ablative': u"мелкий ", 'ablative_multiple': u"мелкими "}
-material_size_description_rus['common'] = {'nominative': u"", 'ablative': u"", 'ablative_multiple': u""} # этот размер не отображается
-material_size_description_rus['large'] = {'nominative': u"крупный ", 'ablative': u"крупным ", 'ablative_multiple': u"крупными "}
-material_size_description_rus['exceptional'] = {'nominative': u"огромный ", 'ablative': u"огромным ", 'ablative_multiple': u"огромными "}
+material_size_description_rus['small'] = {'he' : {'nominative': u"мелкий ", 'ablative': u"мелким ", 'ablative_multiple': u"мелкими "}, 
+                                          'she': {'nominative': u"мелкая ", 'ablative': u"мелкой ", 'ablative_multiple': u"мелкими "}}
+material_size_description_rus['common'] = {'he' : {'nominative': u"", 'ablative': u"", 'ablative_multiple': u""}, # этот размер не отображается
+                                          'she' : {'nominative': u"", 'ablative': u"", 'ablative_multiple': u""}}
+material_size_description_rus['large'] = {'he' : {'nominative': u"крупный ", 'ablative': u"крупным ", 'ablative_multiple': u"крупными "},
+                                         'she' : {'nominative': u"крупная ", 'ablative': u"крупной ", 'ablative_multiple': u"крупными "}}
+material_size_description_rus['exceptional'] = {'he' : {'nominative': u"огромный ", 'ablative': u"огромным ", 'ablative_multiple': u"огромными "},
+                                               'she' : {'nominative': u"огромная ", 'ablative': u"огромной ", 'ablative_multiple': u"огромными "}}
 """словарь для описания степени обработки драгоценных камней, ключи - названия степени обработки, значения - словарь для соответствующего русского прилагательного"""
 gem_cut_description_rus = {} 
 gem_cut_description_rus[' '] = {'nominative': u'', 'ablative': u'', 'ablative_multiple': u''} # эта полировка не отображается
@@ -366,9 +370,9 @@ class Gem(object):#класс для генерации драг.камней
         else:
             return
             
-    def description(self, case = 'nominative', language = 'rus'):
+    def description(self, case = 'nominative', gender = 'he', language = 'rus'):
         if language == 'rus':
-            return u"%s%s%s"%(material_size_description_rus[self.size][case], gem_cut_description_rus[self.cut][case], gem_description_rus[self.g_type][case])
+            return u"%s%s%s"%(material_size_description_rus[self.size][gender][case], gem_cut_description_rus[self.cut][case], gem_description_rus[self.g_type][case])
         else:
             return self.__repr__()
 
@@ -441,7 +445,7 @@ class Material(object):#класс для генерации материало�
             
     def description(self, language = 'rus'):
         if language == 'rus':
-            return u"%sкусок %s"%(material_size_description_rus[self.size]['nominative'], material_description_rus[self.m_type]['genitive'])
+            return u"%sкусок %s"%(material_size_description_rus[self.size]['he']['nominative'], material_description_rus[self.m_type]['genitive'])
         else:
             return self.__repr__()
 def generate_mat(count, *args):
@@ -599,6 +603,7 @@ class Treasure(object):#класс для сокровищ
                 if self.inlaid: # инкрустированное камнями
                     enchant_list.append(u"%s %s" % (decoration_description_rus['inlaid'][self.gender], self.inlaid.description('ablative_multiple')))
                 if self.huge: # с крупным камнем
+                    gem_gender = 'she' if self.huge.g_type == 'pearl' or self.huge.g_type == 'black_pearl' else 'he'
                     enchant_list.append(u"с %s" % self.huge.description('ablative'))
                 if self.decoration: # украшенное чеканкой/гравировкой/травлением/резьбой
                     enchant_list.append(u"%s %s" % (decoration_description_rus['decoration'][self.gender], decorate_types_description_rus[self.decoration]))
@@ -606,7 +611,10 @@ class Treasure(object):#класс для сокровищ
                     desc_str += u", %s" % enchant_list[0] # добавляем через запятую единственное украшение
                 elif len(enchant_list) > 1:
                     while len(enchant_list) > 1:
-                        desc_str += u", %s" % enchant_list[0] # добавляем через запятую украшения
+                        if self.huge:
+                            desc_str += u" %s" % enchant_list[0] # добавляем "с крупным камнем" без запятой
+                        else:
+                            desc_str += u", %s" % enchant_list[0] # добавляем через запятую украшения
                         del enchant_list[0]
                     desc_str += u" и %s" % enchant_list[0] # последнее добавляется союзом "и"
                 if self.decoration: # если естьизображение - ставим точку и описываем его

@@ -13,7 +13,7 @@ label lb_location_forest_main:
                 ("lb_enc_shrooms", 10),
                 ("lb_enc_guardian", 10),
                 ("lb_enc_lumbermill", 10),
-                ("lb_enc_klad", 10),
+                ("lb_enc_klad", 10000),
                 ("lb_enc_noting", nochance),]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
@@ -197,11 +197,14 @@ label lb_enc_klad:
         t_list = klad_list
         obtained = "Это предмет из клада, зарытого кем-то в лесу."
         trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+        trs_list = game.lair.treasury.treasures_description(trs)
+        trs_descrptn = '. '.join(trs_list) + '.'
     menu:
         'Отыскать и раскопать':
             $ game.dragon.drain_energy()
             'Отыскал и раскопал. Внутри клада лежит:'
-            '[trs]'
+            '[trs_descrptn]'
+            $ game.lair.treasury.recieve_treasures(trs)
             
         'Пусть пока лежат'  if bloodlust < 5:
             'Конечно сокровища полезны, но то что тут могли закопать жалкие людишки вряд ли стоит драгоценного времени благородного змея.'
