@@ -51,38 +51,38 @@ material_description_rus["shell"] = {'nominative': u'перламутр', 'genit
 material_description_rus["horn"] = {'nominative': u'драконий рог', 'genitive': u'драконьего рога'}
 """словарь для описания размеров материалов, ключи - названия размера материалов, значения - словарь для русского прилагательного, соответствующего размеру"""
 material_size_description_rus = {} 
-material_size_description_rus['small'] = u'мелкий '
-material_size_description_rus['common'] = u'' # этот размер не отображается
-material_size_description_rus['large'] = u'крупный '
-material_size_description_rus['exceptional'] = u'огромный '
+material_size_description_rus['small'] = {'nominative': u"мелкий ", 'ablative': u"мелкий ", 'ablative_multiple': u"мелкими "}
+material_size_description_rus['common'] = {'nominative': u"", 'ablative': u"", 'ablative_multiple': u""} # этот размер не отображается
+material_size_description_rus['large'] = {'nominative': u"крупный ", 'ablative': u"крупным ", 'ablative_multiple': u"крупными "}
+material_size_description_rus['exceptional'] = {'nominative': u"огромный ", 'ablative': u"огромным ", 'ablative_multiple': u"огромными "}
 """словарь для описания степени обработки драгоценных камней, ключи - названия степени обработки, значения - словарь для соответствующего русского прилагательного"""
 gem_cut_description_rus = {} 
-gem_cut_description_rus[' '] = u'' # эта полировка не отображается
-gem_cut_description_rus['polished'] = u'необработанный ' 
-gem_cut_description_rus['rough'] = u'полированный '
-gem_cut_description_rus['faceted'] = u'ограненный '
+gem_cut_description_rus[' '] = {'nominative': u'', 'ablative': u'', 'ablative_multiple': u''} # эта полировка не отображается
+gem_cut_description_rus['polished'] = {'nominative': u'необработанный ', 'ablative': u'', 'ablative_multiple': u''}
+gem_cut_description_rus['rough'] = {'nominative': u'полированный ', 'ablative': u'полированным ', 'ablative_multiple': u'полированными '}
+gem_cut_description_rus['faceted'] = {'nominative': u'ограненный ', 'ablative': u'ограненным ', 'ablative_multiple': u'ограненными '}
 """Словарь для драгоценных камней, ключ - тип драгоценного камня, значение - словарь с русским названием драгоценного камня в разных падежах"""
 gem_description_rus = {}
-gem_description_rus["amber"] = {'nominative': u'янтарь'}
-gem_description_rus["crystall"] = {'nominative': u'горный хрусталь'}
-gem_description_rus["beryll"] = {'nominative': u'берилл'}
-gem_description_rus["tigereye"] = {'nominative': u'тигровый глаз'}
-gem_description_rus["granate"] = {'nominative': u'гранат'}
-gem_description_rus["turmaline"] = {'nominative': u'турмалин'}
-gem_description_rus["aqua"] = {'nominative': u'аквамарин'}
-gem_description_rus["pearl"] = {'nominative': u'жемчуг'}
-gem_description_rus["black_pearl"] = {'nominative': u'янтарь'}
-gem_description_rus["elven_beryll"] = {'nominative': u'эльфийский берилл'}
-gem_description_rus["topaz"] = {'nominative': u'топаз'}
-gem_description_rus["saphire"] = {'nominative': u'сапфир'}
-gem_description_rus["ruby"] = {'nominative': u'рубин'}
-gem_description_rus["emerald"] = {'nominative': u'изумруд'}
-gem_description_rus["goodruby"] = {'nominative': u'яхонт'}
-gem_description_rus["goodemerald"] = {'nominative': u'смарагд'}
-gem_description_rus["star"] = {'nominative': u'звёздный сапфир'}
-gem_description_rus["diamond"] = {'nominative': u'алмаз'}
-gem_description_rus["black_diamond"] = {'nominative': u'черный алмаз'}
-gem_description_rus["rose_diamond"] = {'nominative': u'розовый алмаз'}
+gem_description_rus["amber"] = {'nominative': u'янтарь', 'ablative': u'янтарём', 'ablative_multiple': u'янтарями'}
+gem_description_rus["crystall"] = {'nominative': u'горный хрусталь', 'ablative': u'горным хрусталём', 'ablative_multiple': u'горным хрусталём'}
+gem_description_rus["beryll"] = {'nominative': u'берилл', 'ablative': u'бериллом', 'ablative_multiple': u'бериллами'}
+gem_description_rus["tigereye"] = {'nominative': u'тигровый глаз', 'ablative': u'тигровым глазом', 'ablative_multiple': u'тигровыми глазами'}
+gem_description_rus["granate"] = {'nominative': u'гранат', 'ablative': u'гранатом', 'ablative_multiple': u'гранатами'}
+gem_description_rus["turmaline"] = {'nominative': u'турмалин', 'ablative': u'турмалином', 'ablative_multiple': u'турмалинами'}
+gem_description_rus["aqua"] = {'nominative': u'аквамарин', 'ablative': u'аквамарином', 'ablative_multiple': u'аквамаринами'}
+gem_description_rus["pearl"] = {'nominative': u'жемчуг', 'ablative': u'жемчужиной', 'ablative_multiple': u'жемчужинами'}
+gem_description_rus["black_pearl"] = {'nominative': u'чёрный жемчуг', 'ablative': u'чёрной жемчужиной', 'ablative_multiple': u'чёрными жемчужинами'}
+gem_description_rus["elven_beryll"] = {'nominative': u'эльфийский берилл', 'ablative': u'эльфийским бериллом', 'ablative_multiple': u'эльфийскими бериллами'}
+gem_description_rus["topaz"] = {'nominative': u'топаз', 'ablative': u'топазом', 'ablative_multiple': u'топазами'}
+gem_description_rus["saphire"] = {'nominative': u'сапфир', 'ablative': u'сапфиром', 'ablative_multiple': u'сапфирами'}
+gem_description_rus["ruby"] = {'nominative': u'рубин', 'ablative': u'рубином', 'ablative_multiple': u'рубинами'}
+gem_description_rus["emerald"] = {'nominative': u'изумруд', 'ablative': u'изумрудом', 'ablative_multiple': u'изумрудами'}
+gem_description_rus["goodruby"] = {'nominative': u'яхонт', 'ablative': u'яхонтом', 'ablative_multiple': u'яхонтами'}
+gem_description_rus["goodemerald"] = {'nominative': u'смарагд', 'ablative': u'смарагдом', 'ablative_multiple': u'смарагдами'}
+gem_description_rus["star"] = {'nominative': u'звёздный сапфир', 'ablative': u'звёздным сапфиром', 'ablative_multiple': u'звёздными сапфирами'}
+gem_description_rus["diamond"] = {'nominative': u'алмаз', 'ablative': u'алмазом', 'ablative_multiple': u'алмазами'}
+gem_description_rus["black_diamond"] = {'nominative': u'чёрный алмаз', 'ablative': u'чёрным алмазом', 'ablative_multiple': u'чёрными алмазами'}
+gem_description_rus["rose_diamond"] = {'nominative': u'розовый алмаз', 'ablative': u'розовым алмазом', 'ablative_multiple': u'розовыми алмазами'}
 """словарь для типов металлов, ключ - металл, значение - ценность"""
 metal_types = {"silver": 1, "gold":10, "mithril":50, "adamantine":50}
 """словарь для типов сокровищ, ключ - тип сокровища,
@@ -146,8 +146,12 @@ treasure_description_rus["crown"] = {'nominative': u'корона', 'ablative': 
 treasure_description_rus["scepter"] = {'nominative': u'скипетр', 'ablative': u'скипетре'}
 treasure_description_rus["chain"] = {'nominative': u'цепь', 'ablative': u'цепи'}
 treasure_description_rus["fibula"] = {'nominative': u'фибула', 'ablative': u'фибуле'}
-"""словарь для описания типов металлов, ключ - тип металла, значение - русское названия драгоценности в разных падежах"""
-metal_description_rus = {"silver": u"серебряный", "gold": u"золотой", "mithril":u"мифрильный", "adamantine":u"адамантиновый"}
+"""словарь для описания типов металлов, ключ - тип металла, значение - русское названия драгоценности в разных родах"""
+metal_description_rus = {}
+metal_description_rus['silver'] = {'he': u"серебряный", 'she': u"серебряная", 'it': u"серебряное", 'prepositional': u"серебряном"}
+metal_description_rus['gold'] = {'he': u"золотой", 'she': u"золотая", 'it': u"золотое", 'prepositional': u"золотом"}
+metal_description_rus['mithril'] = {'he': u"мифрильный", 'she': u"мифрильная", 'it': u"мифрильное", 'prepositional': u"мифрильном"}
+metal_description_rus['adamantine'] = {'he': u"адамантовый", 'she': u"адамантовая", 'it': u"адамантовое", 'prepositional': u"адамантовом"}
 """словарь для изображений, ключ - тип культуры, значение - кортеж из вариантов изображений"""
 image_types = {}
 image_types['human'] = ('abstract_ornament', 'concentric_circles', 'round_dance', 'fire-breathing_dragon', 'flying_dragon',
@@ -155,14 +159,14 @@ image_types['human'] = ('abstract_ornament', 'concentric_circles', 'round_dance'
                         'dragon_entwine_naked_girl', 'battle_dragon_with_knight', 'dancing_girls', 'bathing_girl',
                         'children_playing', 'rider_with_bow', 'horseman_with_spear_and_shield', 'dead_knight_with_sword')
 image_types['knight'] = ('proud_motto', 'battle_scene', 'coat_of_arms_with_rearing_unicorn', 'coat_of_arms_with_head_of_boar', 
-                        'coat_of_arms_with_three_lilies', 'coat_of_arms_with_roaring_lion', 'coat_of_arms_with_proud_eagle'
+                        'coat_of_arms_with_three_lilies', 'coat_of_arms_with_roaring_lion', 'coat_of_arms_with_proud_eagle',
                         'coat_of_arms_with_procession_kamelopardom', 'coat_of_arms_with_crossed_swords', 'coat_of_arms_with_shield_and_sword')
 image_types['cleric'] = ('saying_of_holy_scriptures', 'scene_of_holy_scriptures', 'saint_with_halo', 'angel_with_flaming_sword',
-                        'angel_winning_serpent', 'raising_hands_angel', 'six-winged_seraph', 'holy_maiden_and_child'
+                        'angel_winning_serpent', 'raising_hands_angel', 'six-winged_seraph', 'holy_maiden_and_child',
                         'holy_maiden_stretches_hands', 'weeping_maiden')
 image_types['elf'] =    ('floral_ornament', 'elegant_runes', 'running_deer', 'bear_with_raised_legs', 'wolf_hunting', 'sneaking_manul',
                         'two_songbirds',  'moon_and_stars',  'branched_oak', 'blooming_vine', 'spreading_maple',  'weeping_willow', 
-                        'dancing_nymphs', 'nymph_with_cup', 'nymph_collecting_fruits', 'nymph_playing_harp', 'winged_maiden' 
+                        'dancing_nymphs', 'nymph_with_cup', 'nymph_collecting_fruits', 'nymph_playing_harp', 'winged_maiden', 
                         'satyr_playing_flute', 'forest_guard_bow')
 image_types['dwarf'] =  ('geometric_pattern', 'runic_ligature',  'hammer_and_crown', 'dwarfs_holding_over_his_head_anvil', 
                         'armed_dwarfs_tramples_goblin', 'crossed_axes', 'entwined_rings', 'helmet_with_horns',  
@@ -258,6 +262,20 @@ image_description_rus['flying_seagull'] = {'gender': 'they', 'nominative': u'л�
 image_description_rus['wriggling_octopus'] = {'gender': 'he', 'nominative': u'извивающийся осьминог', 'accusative': u'извивающегося осьминога'}
 image_description_rus['kraken_drowning_sea_vessel'] = {'gender': 'he', 'nominative': u'кракен, топящий морское судно', 'accusative': u'кракена, топящего морское судно'}
 image_description_rus['sailing_ship'] = {'gender': 'he', 'nominative': u'плывущий по волнам корабль', 'accusative': u'плывущий по волнам корабль'}
+"""словарь для описания качества драгоценности, ключ - качество, значение - словарь с русским названием качества в разных родах"""
+quality_description_rus = {}
+quality_description_rus['rough'] = {'he': u"грубый ", 'she': u"грубая ", 'it': u"грубое "}
+quality_description_rus['common'] = {'he': u"", 'she': u"", 'it': u""} # у обычного описание опускается
+quality_description_rus['skillfully'] = {'he': u"искусно сделанный ", 'she': u"искусно сделанная ", 'it': u"искусно сделанное "}
+quality_description_rus['mastery'] = {'he': u"мастерски изготовленный ", 'she': u"мастерски изготовленная ", 'it': u"мастерски изготовленное "}
+"""словарь для описания украшения, ключ - тип украшения, значение - словарь с русским словом в разных родах"""
+decoration_description_rus = {}
+decoration_description_rus['decoration'] = {'he': u"украшенный", 'she': u"украшенная", 'it': u"украшенное"}
+decoration_description_rus['spangled'] = {'he': u"усыпанный", 'she': u"усыпанная", 'it': u"усыпанное"}
+decoration_description_rus['inlaid'] = {'he': u"инкрустированный", 'she': u"инкрустированная", 'it': u"инкрустированное"}
+decoration_description_rus['image'] = {'he': u"изображен", 'she': u"изображена", 'it': u"изображено", 'they': u"изображены"}
+"""словарь для описания типа украшения на русском"""
+decorate_types_description_rus = {'incuse': u"чеканкой", 'engrave': u"гравировкой", 'etching': u"травлением", 'carving': u"резьбой"}
 
 number_conjugation_end = {'nominative' : (u"", u"а", u"ов")}
 def number_conjugation_rus(number, add_name, word_form):
@@ -269,6 +287,12 @@ def number_conjugation_rus(number, add_name, word_form):
         else:
             description_end = number_conjugation_end[word_form][2]
         return u"%s %s%s"%(number, add_name, description_end)
+
+def capitalizeFirst (string):
+    if string:
+        return string[0].upper() + string[1:]
+    else:
+        return string[:]
     
 def weighted_select(d):
     weight = random.random()*sum(v[0] for k, v in d.items())
@@ -291,7 +315,7 @@ class Ingot(object):#класс для генерации слитков
         
     def description(self, language = 'rus'):
         if language == 'rus':
-            return u"%s слиток %s весом" % (metal_description_rus[self.metal_type], number_conjugation_rus(self.weight, u"фунт", 'nominative'))
+            return u"%s слиток %s весом" % (metal_description_rus[self.metal_type]['he'], number_conjugation_rus(self.weight, u"фунт", 'nominative'))
         else:
             return self.__repr__()
 class Coin(object):
@@ -342,9 +366,9 @@ class Gem(object):#класс для генерации драг.камней
         else:
             return
             
-    def description(self, language = 'rus'):
+    def description(self, case = 'nominative', language = 'rus'):
         if language == 'rus':
-            return u"%s%s%s"%(material_size_description_rus[self.size], gem_cut_description_rus[self.cut], gem_description_rus[self.g_type]['nominative'])
+            return u"%s%s%s"%(material_size_description_rus[self.size][case], gem_cut_description_rus[self.cut][case], gem_description_rus[self.g_type][case])
         else:
             return self.__repr__()
 
@@ -417,7 +441,7 @@ class Material(object):#класс для генерации материало�
             
     def description(self, language = 'rus'):
         if language == 'rus':
-            return u"%sкусок %s"%(material_size_description_rus[self.size], material_description_rus[self.m_type]['genitive'])
+            return u"%sкусок %s"%(material_size_description_rus[self.size]['nominative'], material_description_rus[self.m_type]['genitive'])
         else:
             return self.__repr__()
 def generate_mat(count, *args):
@@ -467,9 +491,9 @@ class Treasure(object):#класс для сокровищ
         self.alignment = alignment
         """дальше генерируем характеристики в зависимости от типа сокровища"""
         self.random_mod = random.randint(0, self.base_price*10)
-        self.spangled = generate_gem(1,{"size":("small",)})[0] if random.randint(1,100) <= 50 and self.incrustable != False else None
-        self.inlaid = generate_gem(1,{"size":("common",)})[0] if random.randint(1,100)  <=15 and self.incrustable != False  else None
-        self.huge = generate_gem(1,{"size":("large",)})[0] if random.randint(1,100) <= 5 and self.incrustable != False else None 
+        self.spangled = generate_gem(1,{"size":('common',)})[0] if random.randint(1,100) <= 50 and self.incrustable != False else None # размер 'common' - хак, чтобы не писалось "мелкими"
+        self.inlaid = generate_gem(1,{"size":('common',)})[0] if random.randint(1,100)  <=15 and self.incrustable != False  else None
+        self.huge = generate_gem(1,{"size":('large',)})[0] if random.randint(1,100) <= 5 and self.incrustable != False else None 
                 
         def metalls_available():#проверяем принадлежность к расе(из каких металов может быть сделано)
             if self.alignment == "human" or self.alignment ==  "cleric" or self.alignment == "knight":
@@ -500,11 +524,11 @@ class Treasure(object):#класс для сокровищ
                 if rnd <= 15:
                     rnd = random.randint(1,100)
                     if rnd <=50:
+                        self.decoration_image = random.choice(image_types[self.alignment])
                         if material_types.has_key(self.material):
                             return ("carving")
                         else:
                             return (weighted_select(Treasure.decorate_types))
-                        self.decoration_image = random.choice(image_types[self.alignment])
                     else:
                         return None
                 else:
@@ -540,9 +564,9 @@ class Treasure(object):#класс для сокровищ
     def incrustation_cost(self):
         holder = 0
         if self.spangled != None:
-            holder += self.spangled.cost
+            holder += 4 * self.spangled.cost # из-за хака с размерами вместо 20 мелких - 4 обычных
         if self.inlaid != None:
-            holder += self.inlaid.cost
+            holder += 5 * self.inlaid.cost
         if self.huge != None:
             holder += self.huge.cost
         return holder
@@ -555,7 +579,40 @@ class Treasure(object):#класс для сокровищ
         
     def description(self, language = 'rus'):
         if language == 'rus':
-            return self.__repr__()
+            quality_str = quality_description_rus[self.quality][self.gender] # мастерство исполнения
+            treasure_str = treasure_description_rus[self.treasure_type]['nominative'] # тип драгоценности
+            if self.material in metal_types.keys(): # совмещаем мастерство исполнения, тип и материал, из которого изготовлено
+                if self.treasure_type == 'icon' or self.treasure_type == 'tome': 
+                    desc_str = u"%s%s в %s окладе"%(quality_str, treasure_str, metal_description_rus[self.material]['prepositional']) 
+                else:
+                    desc_str = u"%s%s %s"%(quality_str, metal_description_rus[self.material][self.gender], treasure_str)
+            else:
+                desc_str = u"%s%s из %s" % (quality_str, treasure_str, material_description_rus[self.material]['genitive'])
+                
+            if self.image:  # добавляем различные украшения
+                desc_str += u", изображающая %s"% image_description_rus[self.decoration_image]['accusative']
+            else:
+                enchant_list = []
+                if self.spangled:
+                    enchant_list.append(u"%s %s" % (decoration_description_rus['spangled'][self.gender], self.spangled.description('ablative_multiple')))
+                if self.inlaid:
+                    enchant_list.append(u"%s %s" % (decoration_description_rus['inlaid'][self.gender], self.inlaid.description('ablative_multiple')))
+                if self.huge:
+                    enchant_list.append(u"с %s" % self.huge.description('ablative'))
+                if self.decoration:
+                    enchant_list.append(u"%s %s" % (decoration_description_rus['decoration'][self.gender], decorate_types_description_rus[self.decoration]))
+                if len(enchant_list) == 1:
+                    desc_str += u", %s" % enchant_list[0]
+                elif len(enchant_list) > 1:
+                    while len(enchant_list) > 1:
+                        desc_str += u", %s" % enchant_list[0]
+                        del enchant_list[0]
+                    desc_str += u" и %s" % enchant_list[0]
+                if self.decoration:
+                    image_description = image_description_rus[self.decoration_image] # упрощение доступа к свойству
+                    desc_str = u"%s. На %s %s %s" % (desc_str, treasure_description_rus[self.treasure_type]['ablative'], \
+                                    decoration_description_rus['image'][image_description['gender']], image_description['nominative'])
+            return desc_str
         else:
             return self.__repr__()
         
@@ -707,5 +764,5 @@ class Treasury(store.object):
         """
         description_list = []
         for treas in treasure_list:
-            description_list.append(treas.description())
+            description_list.append(capitalizeFirst(treas.description()))
         return description_list
