@@ -30,6 +30,10 @@ label lb_enc_miner:
     menu:
         'Убить и ограбить':
             'В мешке златоискателя обнаруживается почти фунт золотого песка и мелких самородков. Глупцы, вечно они всё богатсво с собой таскают.'
+            python:
+                gold_trs = treasures.Ingot('gold')
+                gold_trs.weight = 1
+                game.lair.treasury.recieve_treasures([gold_trs])
             
         'Пусть идёт' if bloodlust < 5:
             return
