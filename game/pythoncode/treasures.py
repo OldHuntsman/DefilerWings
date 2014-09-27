@@ -74,8 +74,8 @@ gem_description_rus["tigereye"] = {'nominative': u'тигровый глаз', '
 gem_description_rus["granate"] = {'nominative': u'гранат', 'ablative': u'гранатом', 'ablative_multiple': u'гранатами'}
 gem_description_rus["turmaline"] = {'nominative': u'турмалин', 'ablative': u'турмалином', 'ablative_multiple': u'турмалинами'}
 gem_description_rus["aqua"] = {'nominative': u'аквамарин', 'ablative': u'аквамарином', 'ablative_multiple': u'аквамаринами'}
-gem_description_rus["pearl"] = {'nominative': u'жемчуг', 'ablative': u'жемчужиной', 'ablative_multiple': u'жемчужинами'}
-gem_description_rus["black_pearl"] = {'nominative': u'чёрный жемчуг', 'ablative': u'чёрной жемчужиной', 'ablative_multiple': u'чёрными жемчужинами'}
+gem_description_rus["pearl"] = {'nominative': u'жемчуг', 'ablative': u'жемчужиной', 'ablative_multiple': u'жемчугом'}
+gem_description_rus["black_pearl"] = {'nominative': u'чёрный жемчуг', 'ablative': u'чёрной жемчужиной', 'ablative_multiple': u'чёрным жемчугом'}
 gem_description_rus["elven_beryll"] = {'nominative': u'эльфийский берилл', 'ablative': u'эльфийским бериллом', 'ablative_multiple': u'эльфийскими бериллами'}
 gem_description_rus["topaz"] = {'nominative': u'топаз', 'ablative': u'топазом', 'ablative_multiple': u'топазами'}
 gem_description_rus["saphire"] = {'nominative': u'сапфир', 'ablative': u'сапфиром', 'ablative_multiple': u'сапфирами'}
@@ -607,7 +607,7 @@ class Treasure(object):#класс для сокровищ
                 if self.inlaid: # инкрустированное камнями
                     enchant_list.append(u"%s %s" % (decoration_description_rus['inlaid'][self.gender], self.inlaid.description('ablative_multiple')))
                 if self.huge: # с крупным камнем
-                    gem_gender = 'she' if self.huge.g_type == 'pearl' or self.huge.g_type == 'black_pearl' else 'he'
+                    gem_gender = 'she' if self.huge.g_type == 'pearl' or self.huge.g_type == 'black_pearl' else 'he' # только ради "крупной (чёрной) жемчужины"
                     enchant_list.append(u"с %s" % self.huge.description('ablative'))
                 if self.decoration: # украшенное чеканкой/гравировкой/травлением/резьбой
                     enchant_list.append(u"%s %s" % (decoration_description_rus['decoration'][self.gender], decorate_types_description_rus[self.decoration]))
