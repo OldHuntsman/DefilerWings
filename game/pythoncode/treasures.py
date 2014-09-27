@@ -27,6 +27,17 @@ gem_types["star"] = (1,100)
 gem_types["diamond"] = (1,100)
 gem_types["black_diamond"] = (1,100)
 gem_types["rose_diamond"] = (1,100)
+"""словарь для типов материалов, ключи - названия материалов, значения - (шанс, ценность)"""
+material_types = {}
+material_types["jasper"] = (5,1)
+material_types["turquoise"] = (5,1)
+material_types["jade"] = (5,1)
+material_types["malachite"] = (5,1)
+material_types["corall"] = (4,2)
+material_types["ivory"] = (4,2)
+material_types["agate"] = (3,5)
+material_types["shell"] = (3,5)
+material_types["horn"] = (1,10)
 """словарь для описания типов материалов, ключи - названия материалов, значения - словарь для различных падежей русского названия материала"""
 material_description_rus = {}
 material_description_rus["jasper"] = {'nominative': u'яшма', 'genitive': u'яшмы'}
@@ -50,7 +61,7 @@ gem_cut_description_rus[' '] = u'' # эта полировка не отобра
 gem_cut_description_rus['polished'] = u'необработанный ' 
 gem_cut_description_rus['rough'] = u'полированный '
 gem_cut_description_rus['faceted'] = u'ограненный '
-"""Словарь для драгоценных камней, ключи - названия камней, значения - кортежи вида(шанс появления, ценность)"""
+"""Словарь для драгоценных камней, ключ - тип драгоценного камня, значение - словарь с русским названием драгоценного камня в разных падежах"""
 gem_description_rus = {}
 gem_description_rus["amber"] = {'nominative': u'янтарь'}
 gem_description_rus["crystall"] = {'nominative': u'горный хрусталь'}
@@ -72,17 +83,6 @@ gem_description_rus["star"] = {'nominative': u'звёздный сапфир'}
 gem_description_rus["diamond"] = {'nominative': u'алмаз'}
 gem_description_rus["black_diamond"] = {'nominative': u'черный алмаз'}
 gem_description_rus["rose_diamond"] = {'nominative': u'розовый алмаз'}
-"""словарь для типов материалов, ключи - названия материалов, значения - (шанс, ценность)"""
-material_types = {}
-material_types["jasper"] = (5,1)
-material_types["turquoise"] = (5,1)
-material_types["jade"] = (5,1)
-material_types["malachite"] = (5,1)
-material_types["corall"] = (4,2)
-material_types["ivory"] = (4,2)
-material_types["agate"] = (3,5)
-material_types["shell"] = (3,5)
-material_types["horn"] = (1,10)
 """словарь для типов металлов, ключ - металл, значение - ценность"""
 metal_types = {"silver": 1, "gold":10, "mithril":50, "adamantine":50}
 """словарь для типов сокровищ, ключ - тип сокровища,
@@ -117,6 +117,64 @@ treasure_types["crown"] = (5, "she", True, False, False, True, False)
 treasure_types["scepter"] = (10, "he", True, False, False, True, False)
 treasure_types["chain"] = (3, "she", True, False, False, False, False)
 treasure_types["fibula"] = (2, "she", True, False, False, False, True)
+"""словарь для описания типов драгоценностей, ключ - тип драгоценностей, значение - словарь с русским названием драгоценности в разных падежах"""
+treasure_description_rus = {}#допилить типы сокровищ
+treasure_description_rus["dish"] = {'nominative': u'блюдо', 'ablative': u'блюде'}
+treasure_description_rus["goblet"] = {'nominative': u'кубок', 'ablative': u'кубке'}
+treasure_description_rus["cup"] = {'nominative': u'чаша', 'ablative': u'чаше'}
+treasure_description_rus["casket"] = {'nominative': u'шкатулка', 'ablative': u'шкатулке'}
+treasure_description_rus["statue"] = {'nominative': u'статуэтка', 'ablative': u'статуэтке'}
+treasure_description_rus["tabernacle"] = {'nominative': u'дарохранительница', 'ablative': u'дарохранительнице'}
+treasure_description_rus["icon"] = {'nominative': u'икона', 'ablative': u'иконе'}
+treasure_description_rus["tome"] = {'nominative': u'фолиант', 'ablative': u'фолианте'}
+treasure_description_rus["comb"] = {'nominative': u'гребень', 'ablative': u'гребене'}
+treasure_description_rus["phallos"] = {'nominative': u'фаллос', 'ablative': u'фаллосе'}
+treasure_description_rus["mirror"] = {'nominative': u'зеркальце', 'ablative': u'зеркальце'}
+treasure_description_rus["band"] = {'nominative': u'обруч', 'ablative': u'обруче'}
+treasure_description_rus["diadem"] = {'nominative': u'диадема', 'ablative': u'диадеме'}
+treasure_description_rus["tiara"] = {'nominative': u'тиара', 'ablative': u'тиаре'}
+treasure_description_rus["earring"] = {'nominative': u'серьга', 'ablative': u'серьге'}
+treasure_description_rus["necklace"] = {'nominative': u'ожерелье', 'ablative': u'ожерелье'}
+treasure_description_rus["pendant"] = {'nominative': u'кулон', 'ablative': u'кулоне'}
+treasure_description_rus["ring"] = {'nominative': u'колечко', 'ablative': u'колечке'}
+treasure_description_rus["broch"] = {'nominative': u'брошь', 'ablative': u'броше'}
+treasure_description_rus["gemring"] = {'nominative': u'перстень', 'ablative': u'перстне'}
+treasure_description_rus["seal"] = {'nominative': u'перстень-печатка', 'ablative': u'перстне-печатке'}
+treasure_description_rus["armbrace"] = {'nominative': u'браслет', 'ablative': u'браслете'}
+treasure_description_rus["legbrace"] = {'nominative': u'ножной браслет', 'ablative': u'браслете'}
+treasure_description_rus["crown"] = {'nominative': u'корона', 'ablative': u'короне'}
+treasure_description_rus["scepter"] = {'nominative': u'скипетр', 'ablative': u'скипетре'}
+treasure_description_rus["chain"] = {'nominative': u'цепь', 'ablative': u'цепи'}
+treasure_description_rus["fibula"] = {'nominative': u'фибула', 'ablative': u'фибуле'}
+"""словарь для описания типов металлов, ключ - тип металла, значение - русское названия драгоценности в разных падежах"""
+metal_description_rus = {"silver": u"серебряный", "gold": u"золотой", "mithril":u"мифрильный", "adamantine":u"адамантиновый"}
+"""словарь для изображений, ключ - тип культуры, значение - кортеж из вариантов изображений"""
+image_types = {}
+image_types['human'] = ('abstract_ornament', 'concentric_circles', 'round_dance', 'fire-breathing_dragon', 'flying_dragon',
+                        'wingless_dragon', 'snake_with_a_crown',  'winged_serpent', 'kokatriks', 'basilisk', 
+                        'dragon_entwine_naked_girl', 'battle_dragon_with_knight', 'dancing_girls', 'bathing_girl',
+                        'children_playing', 'rider_with_bow', 'horseman_with_spear_and_shield', 'dead_knight_with_sword')
+"""словарь для описания изображений, ключ - вариант изображения, значение - словарь из рода изображения и описания изображения в различных падежах"""
+image_description_rus = {}
+image_description_rus['abstract_ornament'] = {gender: 'he', 'nominative': u'абстрактный орнамент', 'accusative': u'абстрактный орнамент'}
+image_description_rus['concentric_circles'] = {gender: 'they', 'nominative': u'концентрические круги', 'accusative': u'концентрические круги'}
+image_description_rus['round_dance'] = {gender: 'he', 'nominative': u'хоровод', 'accusative': u'хоровод'}
+image_description_rus['fire-breathing_dragon'] = {gender: 'he', 'nominative': u'огнедышащий дракон', 'accusative': u'огнедышащего дракона'}
+image_description_rus['flying_dragon'] = {gender: 'he', 'nominative': u'летящий дракон', 'accusative': u'летящего дракона'}
+image_description_rus['wingless_dragon'] = {gender: 'he', 'nominative': u'бескрылый дракон', 'accusative': u'бескрылого дракона'}
+image_description_rus['snake_with_a_crown'] = {gender: 'she', 'nominative': u'змея с короной на голове', 'accusative': u'змею с короной на голове'}
+image_description_rus['winged_serpent'] = {gender: 'she', 'nominative': u'крылатая змея', 'accusative': u'крылатую змею'}
+image_description_rus['kokatriks'] = {gender: 'he', 'nominative': u'кокатрикс', 'accusative': u'кокатрикса'}
+image_description_rus['basilisk'] = {gender: 'he', 'nominative': u'василиск', 'accusative': u'василиска'}
+image_description_rus['dragon_entwine_naked_girl'] = {gender: 'he', 'nominative': u'дракон, обвивающий обнаженную девушку', 'accusative': u'дракона, обвивающий обнаженную девушку'}
+image_description_rus['battle_dragon_with_knight'] = {gender: 'he', 'nominative': u'сражение дракона с рыцарем', 'accusative': u'сражение дракона с рыцарем'}
+image_description_rus['dancing_girls'] = {gender: 'they', 'nominative': u'танцующие девушки', 'accusative': u'танцующих девушек'}
+image_description_rus['bathing_girl'] = {gender: 'she', 'nominative': u'купающаяся девушка', 'accusative': u'купающуюся девушку'}
+image_description_rus['children_playing'] = {gender: 'they', 'nominative': u'играющие дети', 'accusative': u'играющих детей'}
+image_description_rus['rider_with_bow'] = {gender: 'he', 'nominative': u'всадник с луком', 'accusative': u'всадника с луком'}
+image_description_rus['horseman_with_spear_and_shield'] = {gender: 'he', 'nominative': u'всадник с копьём и щитом', 'accusative': u'всадника с копьём и щитом'}
+image_description_rus['dead_knight_with_sword'] = {gender: 'he', 'nominative': u'мертвый рыцарь с мечом, покоящимся на груди', 'accusative': u'мертвого рыцаря с мечом, покоящимся на груди'}
+
 
 number_conjugation_end = {'nominative' : (u"", u"а", u"ов")}
 def number_conjugation_rus(number, add_name, word_form):
@@ -138,8 +196,6 @@ def weighted_select(d):
     return d.keys()[random.randint(0,len(d.keys()))]
 class Ingot(object):#класс для генерации слитков
     weights = (1,2,4,8,16)
-    metal_description_rus = {"silver": u"серебряный слиток", "gold": u"золотой слиток", "mithril":u"мифрильный слиток", "adamantine":u"адамантиновый слиток"}
-    weights_description = {'rus' : (u"", u"а", u"ов")}
     def __init__(self, metal_type):
         self.metal_type = metal_type
         self.metal_cost = metal_types[metal_type]
@@ -152,7 +208,7 @@ class Ingot(object):#класс для генерации слитков
         
     def description(self, language = 'rus'):
         if language == 'rus':
-            return u"%s %s весом" % (Ingot.metal_description_rus[self.metal_type], number_conjugation_rus(self.weight, u"фунт", 'nominative'))
+            return u"%s слиток %s весом" % (metal_description_rus[self.metal_type], number_conjugation_rus(self.weight, u"фунт", 'nominative'))
         else:
             return self.__repr__()
 class Coin(object):
@@ -341,13 +397,13 @@ class Treasure(object):#класс для сокровищ
                 return {"gold":(70,), "adamantine":(30,)}
         
         def material():
-            if self.metall == True and self.nonmetall == True:
+            if self.metall and self.nonmetall:
                 rnd = random.randint(1,100)
                 if rnd > 50:
                     return weighted_select(material_types)
                 else:
                     return weighted_select(metalls_available())
-            elif self.metall == True:
+            elif self.metall:
                 return weighted_select(metalls_available())
             else:
                 return weighted_select(material_types)
@@ -356,7 +412,7 @@ class Treasure(object):#класс для сокровищ
         self.mat_price = material_types[self.material][1] if material_types.has_key(self.material) else metal_types[self.material]
         
         def decorate():
-            if self.decorable != False:#todo: словарь, откуда будем брать варианты орнаментов
+            if self.decorable:#todo: словарь, откуда будем брать варианты орнаментов
                 rnd = random.randint(1,100)
                 if rnd <= 15:
                     rnd = random.randint(1,100)
@@ -413,7 +469,10 @@ class Treasure(object):#класс для сокровищ
         return "%s%s" %(self.material, self.treasure_type)
         
     def description(self, language = 'rus'):
-        return self.__repr__()
+        if language == 'rus':
+            return self.__repr__()
+        else:
+            return self.__repr__()
         
 def gen_treas(count, t_list, alignment, min_cost, max_cost, obtained):
     """Генерируем рандомное сокровище
