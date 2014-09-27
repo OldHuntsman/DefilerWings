@@ -156,7 +156,10 @@ image_types['human'] = ('abstract_ornament', 'concentric_circles', 'round_dance'
                         'children_playing', 'rider_with_bow', 'horseman_with_spear_and_shield', 'dead_knight_with_sword')
 image_types['knight'] = ('proud_motto', 'battle_scene', 'coat_of_arms_with_rearing_unicorn', 'coat_of_arms_with_head_of_boar', 
                         'coat_of_arms_with_three_lilies', 'coat_of_arms_with_roaring_lion', 'coat_of_arms_with_proud_eagle'
-                        'coat_of_arms_with_procession_kamelopardom',  'coat_of_arms_with_crossed_swords', 'coat_of_arms_with_shield_and_sword')
+                        'coat_of_arms_with_procession_kamelopardom', 'coat_of_arms_with_crossed_swords', 'coat_of_arms_with_shield_and_sword')
+image_types['cleric'] = ('saying_of_holy_scriptures', 'scene_of_holy_scriptures', 'saint_with_halo', 'angel_with_flaming_sword',
+                        'angel_winning_serpent', 'raising_hands_angel', 'six-winged_seraph', 'holy_virgin_and_child'
+                        'holy_virgin_stretches_hands', 'weeping_virgin')
 """словарь для описания изображений, ключ - вариант изображения, значение - словарь из рода изображения и описания изображения в различных падежах"""
 image_description_rus = {}
 image_description_rus['abstract_ornament'] = {gender: 'he', 'nominative': u'абстрактный орнамент', 'accusative': u'абстрактный орнамент'}
@@ -187,9 +190,19 @@ image_description_rus['coat_of_arms_with_proud_eagle'] = {gender: 'he', 'nominat
 image_description_rus['coat_of_arms_with_procession_kamelopardom'] = {gender: 'he', 'nominative': u'герб с шествующим камелопардом', 'accusative': u'герб с шествующим камелопардом'}
 image_description_rus['coat_of_arms_with_crossed_swords'] = {gender: 'he', 'nominative': u'герб со скрещёнными мечами', 'accusative': u'герб со скрещёнными мечами'}
 image_description_rus['coat_of_arms_with_shield_and_sword'] = {gender: 'he', 'nominative': u'герб со щитом и мечом', 'accusative': u'герб со щитом и мечом'}
+image_description_rus['saying_of_holy_scriptures'] = {gender: 'it', 'nominative': u'изречение из святого писания', 'accusative': u'изречение из святого писания'}
+image_description_rus['scene_of_holy_scriptures'] = {gender: 'she', 'nominative': u'сцена из святого писания', 'accusative': u'сцену из святого писания'}
+image_description_rus['saint_with_halo'] = {gender: 'he', 'nominative': u'святой с нимбом', 'accusative': u'святого с нимбом'}
+image_description_rus['angel_with_flaming_sword'] = {gender: 'he', 'nominative': u'ангел с огненным мечом', 'accusative': u'ангела с огненным мечом'}
+image_description_rus['Angel_winning_serpent'] = {gender: 'he', 'nominative': u'ангел, побеждающий змия', 'accusative': u'ангела, побеждающего змия'}
+image_description_rus['raising_hands_angel'] = {gender: 'he', 'nominative': u'воздевший руки ангел', 'accusative': u'воздевшего руки ангела'}
+image_description_rus['six-winged_seraph'] = {gender: 'he', 'nominative': u'шестикрылый серафим', 'accusative': u'шестикрылого серафима'}
+image_description_rus['holy_virgin_and_child'] = {gender: 'she', 'nominative': u'святая дева с младенцем', 'accusative': u'святую деву с младенцем'}
+image_description_rus['holy_virgin_stretches_hands'] = {gender: 'she', 'nominative': u'святая дева, простирающая руки', 'accusative': u'святую деву, простирающую руки'}
+image_description_rus['weeping_virgin'] = {gender: 'she', 'nominative': u'плачущая дева', 'accusative': u'плачущую деву'}
 image_description_rus['round_dance'] = {gender: 'he', 'nominative': u'хоровод', 'accusative': u'хоровод'}
 image_description_rus['round_dance'] = {gender: 'he', 'nominative': u'хоровод', 'accusative': u'хоровод'}
-
+image_description_rus['round_dance'] = {gender: 'he', 'nominative': u'хоровод', 'accusative': u'хоровод'}
 
 number_conjugation_end = {'nominative' : (u"", u"а", u"ов")}
 def number_conjugation_rus(number, add_name, word_form):
