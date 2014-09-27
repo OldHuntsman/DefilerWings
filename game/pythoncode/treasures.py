@@ -154,6 +154,9 @@ image_types['human'] = ('abstract_ornament', 'concentric_circles', 'round_dance'
                         'wingless_dragon', 'snake_with_a_crown',  'winged_serpent', 'kokatriks', 'basilisk', 
                         'dragon_entwine_naked_girl', 'battle_dragon_with_knight', 'dancing_girls', 'bathing_girl',
                         'children_playing', 'rider_with_bow', 'horseman_with_spear_and_shield', 'dead_knight_with_sword')
+image_types['knight'] = ('proud_motto', 'battle_scene', 'coat_of_arms_with_rearing_unicorn', 'coat_of_arms_with_head_of_boar', 
+                        'coat_of_arms_with_three_lilies', 'coat_of_arms_with_roaring_lion', 'coat_of_arms_with_proud_eagle'
+                        'coat_of_arms_with_procession_kamelopardom',  'coat_of_arms_with_crossed_swords', 'coat_of_arms_with_shield_and_sword')
 """словарь для описания изображений, ключ - вариант изображения, значение - словарь из рода изображения и описания изображения в различных падежах"""
 image_description_rus = {}
 image_description_rus['abstract_ornament'] = {gender: 'he', 'nominative': u'абстрактный орнамент', 'accusative': u'абстрактный орнамент'}
@@ -174,6 +177,18 @@ image_description_rus['children_playing'] = {gender: 'they', 'nominative': u'и�
 image_description_rus['rider_with_bow'] = {gender: 'he', 'nominative': u'всадник с луком', 'accusative': u'всадника с луком'}
 image_description_rus['horseman_with_spear_and_shield'] = {gender: 'he', 'nominative': u'всадник с копьём и щитом', 'accusative': u'всадника с копьём и щитом'}
 image_description_rus['dead_knight_with_sword'] = {gender: 'he', 'nominative': u'мертвый рыцарь с мечом, покоящимся на груди', 'accusative': u'мертвого рыцаря с мечом, покоящимся на груди'}
+image_description_rus['proud_motto'] = {gender: 'he', 'nominative': u'гордый девиз', 'accusative': u'гордый девиз'}
+image_description_rus['battle_scene'] = {gender: 'she', 'nominative': u'сцена сражения', 'accusative': u'сцену сражения'}
+image_description_rus['coat_of_arms_with_rearing_unicorn'] = {gender: 'he', 'nominative': u'герб с единорогом, вставшим на дыбы', 'accusative': u'герб с единорогом, вставшим на дыбы'}
+image_description_rus['coat_of_arms_with_head_of_boar'] = {gender: 'he', 'nominative': u'герб с головой вепря', 'accusative': u'герб с головой вепря'}
+image_description_rus['coat_of_arms_with_three_lilies'] = {gender: 'he', 'nominative': u'герб с тремя лилиями', 'accusative': u'герб с тремя лилиями'}
+image_description_rus['coat_of_arms_with_roaring_lion'] = {gender: 'he', 'nominative': u'герб с рыкающим львом', 'accusative': u'герб с рыкающим львом'}
+image_description_rus['coat_of_arms_with_proud_eagle'] = {gender: 'he', 'nominative': u'герб с гордым орлом', 'accusative': u'герб с гордым орлом'}
+image_description_rus['coat_of_arms_with_procession_kamelopardom'] = {gender: 'he', 'nominative': u'герб с шествующим камелопардом', 'accusative': u'герб с шествующим камелопардом'}
+image_description_rus['coat_of_arms_with_crossed_swords'] = {gender: 'he', 'nominative': u'герб со скрещёнными мечами', 'accusative': u'герб со скрещёнными мечами'}
+image_description_rus['coat_of_arms_with_shield_and_sword'] = {gender: 'he', 'nominative': u'герб со щитом и мечом', 'accusative': u'герб со щитом и мечом'}
+image_description_rus['round_dance'] = {gender: 'he', 'nominative': u'хоровод', 'accusative': u'хоровод'}
+image_description_rus['round_dance'] = {gender: 'he', 'nominative': u'хоровод', 'accusative': u'хоровод'}
 
 
 number_conjugation_end = {'nominative' : (u"", u"а", u"ов")}
