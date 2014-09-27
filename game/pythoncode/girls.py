@@ -165,7 +165,7 @@ class Girls_list(object):
                 insert_list.append(girls_data.spawn_info[self.spawn[-1]]['name'])
             elif status == 'rob':
                 treas_description = self.game.lair.treasury.treasures_description(self.game.girl.treasure)
-                treas_description = ', '.join(treas_description)
+                treas_description = '. '.join(treas_description) + '.'
                 insert_list.append(treas_description)
             text = text.format(*insert_list)
         else: 
