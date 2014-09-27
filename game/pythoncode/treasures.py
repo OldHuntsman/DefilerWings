@@ -158,8 +158,12 @@ image_types['knight'] = ('proud_motto', 'battle_scene', 'coat_of_arms_with_reari
                         'coat_of_arms_with_three_lilies', 'coat_of_arms_with_roaring_lion', 'coat_of_arms_with_proud_eagle'
                         'coat_of_arms_with_procession_kamelopardom', 'coat_of_arms_with_crossed_swords', 'coat_of_arms_with_shield_and_sword')
 image_types['cleric'] = ('saying_of_holy_scriptures', 'scene_of_holy_scriptures', 'saint_with_halo', 'angel_with_flaming_sword',
-                        'angel_winning_serpent', 'raising_hands_angel', 'six-winged_seraph', 'holy_virgin_and_child'
-                        'holy_virgin_stretches_hands', 'weeping_virgin')
+                        'angel_winning_serpent', 'raising_hands_angel', 'six-winged_seraph', 'holy_maiden_and_child'
+                        'holy_maiden_stretches_hands', 'weeping_maiden')
+image_types['elf'] =    ('floral_ornament', 'elegant_runes', 'running_deer', 'bear_with_raised_legs', 'wolf_hunting', 'sneaking_manul',
+                        'two_songbirds',  'moon_and_stars',  'branched_oak', 'blooming_vine', 'spreading_maple',  'weeping_willow', 
+                        'dancing_nymphs', 'nymph_with_cup', 'nymph_collecting_fruits', 'nymph_playing_harp', 'winged_maiden' 
+                        'satyr_playing_flute', 'forest_guard_bow')
 """словарь для описания изображений, ключ - вариант изображения, значение - словарь из рода изображения и описания изображения в различных падежах"""
 image_description_rus = {}
 image_description_rus['abstract_ornament'] = {gender: 'he', 'nominative': u'абстрактный орнамент', 'accusative': u'абстрактный орнамент'}
@@ -197,12 +201,31 @@ image_description_rus['angel_with_flaming_sword'] = {gender: 'he', 'nominative':
 image_description_rus['Angel_winning_serpent'] = {gender: 'he', 'nominative': u'ангел, побеждающий змия', 'accusative': u'ангела, побеждающего змия'}
 image_description_rus['raising_hands_angel'] = {gender: 'he', 'nominative': u'воздевший руки ангел', 'accusative': u'воздевшего руки ангела'}
 image_description_rus['six-winged_seraph'] = {gender: 'he', 'nominative': u'шестикрылый серафим', 'accusative': u'шестикрылого серафима'}
-image_description_rus['holy_virgin_and_child'] = {gender: 'she', 'nominative': u'святая дева с младенцем', 'accusative': u'святую деву с младенцем'}
-image_description_rus['holy_virgin_stretches_hands'] = {gender: 'she', 'nominative': u'святая дева, простирающая руки', 'accusative': u'святую деву, простирающую руки'}
-image_description_rus['weeping_virgin'] = {gender: 'she', 'nominative': u'плачущая дева', 'accusative': u'плачущую деву'}
+image_description_rus['holy_maiden_and_child'] = {gender: 'she', 'nominative': u'святая дева с младенцем', 'accusative': u'святую деву с младенцем'}
+image_description_rus['holy_maiden_stretches_hands'] = {gender: 'she', 'nominative': u'святая дева, простирающая руки', 'accusative': u'святую деву, простирающую руки'}
+image_description_rus['weeping_maiden'] = {gender: 'she', 'nominative': u'плачущая дева', 'accusative': u'плачущую деву'}
+image_description_rus['floral_ornament'] = {gender: 'he', 'nominative': u'растительный орнамент', 'accusative': u'растительный орнамент'}
+image_description_rus['elegant_runes'] = {gender: 'they', 'nominative': u'изящные руны', 'accusative': u'изящные руны'}
+image_description_rus['running_deer'] = {gender: 'he', 'nominative': u'бегущий олень', 'accusative': u'бегущего оленя'}
+image_description_rus['bear_with_raised_legs'] = {gender: 'he', 'nominative': u'медведь с поднятыми вверх лапами', 'accusative': u'медведя с поднятыми вверх лапами'}
+image_description_rus['wolf_hunting'] = {gender: 'he', 'nominative': u'охотящийся волк', 'accusative': u'охотящегося волка'}
+image_description_rus['sneaking_manul'] = {gender: 'he', 'nominative': u'крадущийся манул', 'accusative': u'крадущегося манула'}
+image_description_rus['two_songbirds'] = {gender: 'they', 'nominative': u'две певчие птички', 'accusative': u'двух певчих птичек'}
+image_description_rus['moon_and_stars'] = {gender: 'they', 'nominative': u'луна и звёзды', 'accusative': u'луну и звёзды'}
+image_description_rus['branched_oak'] = {gender: 'he', 'nominative': u'ветвистый дуб', 'accusative': u'ветвистый дуб'}
+image_description_rus['blooming_vine'] = {gender: 'she', 'nominative': u'цветущая лоза', 'accusative': u'цветущую лозу'}
+image_description_rus['spreading_maple'] = {gender: 'he', 'nominative': u'раскидистый клён', 'accusative': u'раскидистый клён'}
+image_description_rus['weeping_willow'] = {gender: 'she', 'nominative': u'плакучая ива', 'accusative': u'плакучую иву'}
+image_description_rus['dancing_nymphs'] = {gender: 'they', 'nominative': u'танцующие нимфы', 'accusative': u'танцующих нимф'}
+image_description_rus['nymph_with_cup'] = {gender: 'she', 'nominative': u'нимфа с кубком', 'accusative': u'нимфу с кубком'}
+image_description_rus['nymph_collecting_fruits'] = {gender: 'she', 'nominative': u'нимфа, собирающая плоды', 'accusative': u'нимфу, собирающую плоды'}
+image_description_rus['nymph_playing_harp'] = {gender: 'she', 'nominative': u'нимфа, играющая на арфе', 'accusative': u'нимфу, играющую на арфе'}
+image_description_rus['winged_maiden'] = {gender: 'she', 'nominative': u'крылатая дева', 'accusative': u'крылатую деву'}
+image_description_rus['satyr_playing_flute'] = {gender: 'he', 'nominative': u'сатир, играющий на дудочке', 'accusative': u'сатира, играющего на дудочке'}
+image_description_rus['forest_guard_bow'] = {gender: 'he', 'nominative': u'лесной страж, стреляющий из лука', 'accusative': u'лесного стража, стреляющего из лука'}
 image_description_rus['round_dance'] = {gender: 'he', 'nominative': u'хоровод', 'accusative': u'хоровод'}
-image_description_rus['round_dance'] = {gender: 'he', 'nominative': u'хоровод', 'accusative': u'хоровод'}
-image_description_rus['round_dance'] = {gender: 'he', 'nominative': u'хоровод', 'accusative': u'хоровод'}
+
+
 
 number_conjugation_end = {'nominative' : (u"", u"а", u"ов")}
 def number_conjugation_rus(number, add_name, word_form):
