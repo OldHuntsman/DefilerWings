@@ -152,10 +152,10 @@ treasure_description_rus["chain"] = {'nominative': u'цепь', 'ablative': u'ц
 treasure_description_rus["fibula"] = {'nominative': u'фибула', 'ablative': u'фибуле'}
 """словарь для описания типов металлов, ключ - тип металла, значение - русское названия драгоценности в разных родах"""
 metal_description_rus = {}
-metal_description_rus['silver'] = {'he': u"серебряный", 'she': u"серебряная", 'it': u"серебряное", 'prepositional': u"серебряном"}
-metal_description_rus['gold'] = {'he': u"золотой", 'she': u"золотая", 'it': u"золотое", 'prepositional': u"золотом"}
-metal_description_rus['mithril'] = {'he': u"мифрильный", 'she': u"мифрильная", 'it': u"мифрильное", 'prepositional': u"мифрильном"}
-metal_description_rus['adamantine'] = {'he': u"адамантовый", 'she': u"адамантовая", 'it': u"адамантовое", 'prepositional': u"адамантовом"}
+metal_description_rus['silver'] = {'he': u"серебряный", 'she': u"серебряная", 'it': u"серебряное", 'prepositional': u"серебряном", 'they': u"серебряных"}
+metal_description_rus['gold'] = {'he': u"золотой", 'she': u"золотая", 'it': u"золотое", 'prepositional': u"золотом", 'they': u"золотых"}
+metal_description_rus['mithril'] = {'he': u"мифрильный", 'she': u"мифрильная", 'it': u"мифрильное", 'prepositional': u"мифрильном", 'they': u"мифрильных"}
+metal_description_rus['adamantine'] = {'he': u"адамантовый", 'she': u"адамантовая", 'it': u"адамантовое", 'prepositional': u"адамантовом", 'they': u"адамантовых"}
 """словарь для изображений, ключ - тип культуры, значение - кортеж из вариантов изображений"""
 image_types = {}
 image_types['human'] = ('abstract_ornament', 'concentric_circles', 'round_dance', 'fire-breathing_dragon', 'flying_dragon',
@@ -306,8 +306,8 @@ def weighted_select(d):
         weight -= v[0]
     return d.keys()[random.randint(0,len(d.keys()))]
 class Ingot(object):#класс для генерации слитков
-    weights = (1,2,4,8,16)
-    weights_description_rus = {1: u"однофунтовый", 2: u"двухфунтовый", 4: u"четырехфунтовый", 8: u"восьмифунтовый", 16: u"шестнадцатифунтовый"}
+    weights = (1,4,16)
+    weights_description_rus = {1: u"маленький", 4: u"небольшой", 16: u"огромный"}
     def __init__(self, metal_type):
         self.metal_type = metal_type
         self.metal_cost = metal_types[metal_type]
@@ -323,7 +323,7 @@ class Ingot(object):#класс для генерации слитков
             if self.weight in self.weights:
                 return u"%s %s слиток" % (self.weights_description_rus[self.weight], metal_description_rus[self.metal_type]['he'])
             else:
-                return u"%s слиток %s весом" % (metal_description_rus[self.metal_type]['he'], number_conjugation_rus(self.weight, u"фунт", 'nominative'))
+                return u"Несколько %s слитков общим весом %s" % (metal_description_rus[self.metal_type]['they'], number_conjugation_rus(self.weight, u"фунт", 'nominative'))
         else:
             return self.__repr__()
 class Coin(object):
