@@ -6,6 +6,7 @@ import data
 import battle
 import mob_data
 import girls
+import treasures
 from points import Mobilization, Reputation, Poverty
 from data import get_modifier
 from copy import deepcopy
@@ -181,46 +182,12 @@ class Game(store.object):
         return None
     
 
-
-class Treasury(store.object):
-    def __init__(self):
-        self.copper_coins = 0
-        self.silver_coins = 0
-        self.gold_coins = 0
-        # списки строк
-        self.materials = []
-        self.jewelry = []
-        self.equipment = []
-        self.gems = []
-        #TODO: multiple same equipment
-        self.thief_items = data.Container(id="equipment")
-
-    def money(self):
-        """
-        :return: Суммарная стоимость всего, что есть в сокровищнице(Золотое ложе).
-        """
-        raise NotImplementedError
-        
-    def recieve_treasures(self, treasure_list):
-        """
-        Помещает сокровища в сокровищницу
-        :param abilities: Список сокровищ, помещаемых в сокровищницу
-        """
-        pass
-        
-    def treasures_description(self, treasure_list):
-        """
-        :param abilities: Список сокровищ, для которых требуется получить описание
-        :return: Возвращает список с описанием сокровищ
-        """
-        return [u"Тестовое сокровище в списке 1",u"Тестовое сокровище в списке 2"]
-
 class Lair(object):
     def __init__(self, type = "impassable_coomb"):
         self.type = data.Container(type, data.lair_types[type])
         self.upgrades = data.Container('lair_upgrades')
         # Сокровищиница
-        self.treasury = Treasury()
+        self.treasury = treasures.Treasury()
         # Список модификаций(ловушки, стражи и.т.п.)
         self.modifiers = []
         
@@ -412,8 +379,8 @@ class Dragon(Fighter):
     def __init__(self, *args, **kwargs):
         super(Dragon, self).__init__(*args, **kwargs)
         # TODO: pretty screen for name input
-        self._first_name = renpy.input (u"Введите имя дракона", default=u"Старый")
-        self._last_name = renpy.input (u"Введите фамилию дракона", default=u"Охотник")
+        self._first_name = u"Старый"
+        self._last_name = u"Охотник"
         self.name = u"%s %s" % (self._first_name, self._last_name)
         self.reputation = Reputation()
         self._tiredness = 0  # увеличивается при каждом действии
