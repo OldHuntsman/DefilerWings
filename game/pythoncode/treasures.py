@@ -777,5 +777,5 @@ class Treasury(store.object):
         """
         description_list = []
         for treas in treasure_list:
-            description_list.append(capitalizeFirst(treas.description()))
+            description_list.append(capitalizeFirst(treas.description()) + '.')
         return description_list
