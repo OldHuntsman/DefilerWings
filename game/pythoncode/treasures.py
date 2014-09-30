@@ -845,7 +845,7 @@ class Treasury(store.object):
         if material_name in self.materials and self.materials[material_name] > 0: # проверяем есть ли такой материал в сокровищнице
             material_param = material_name.split(';') # парсим строку
             material = Material(*material_param) # получаем экземпляр класса с нужными параметрами
-            self.gems[material_name] -= 1 # вычитаем один материал из списка сокровищницы
+            self.materials[material_name] -= 1 # вычитаем один материал из списка сокровищницы
             return material
         else:
             return None
@@ -917,7 +917,7 @@ class Treasury(store.object):
             while update_list(self.take_ingot(metal_type, 8)): pass # пока в список добавляются слитки - добавляем
         for coin_type in Coin.coin_types.keys(): # аналогично, просматриваем список типов монет
             while update_list(self.take_coin(coin_type, 100)): pass # пока в список добавляются монеты - добавляем
-        for metal_type in self.metals.keys(): # аналогично, просматриваем список типов слитков
-            while update_list(self.take_ingot(metal_type, 8)): pass # пока в список добавляются слитки - добавляем
+        for material_type in self.materials.keys(): # аналогично, просматриваем список типов материалов
+            while update_list(self.take_material(material_type)): pass # пока в список добавляются материалы - добавляем
         self.recieve_treasures(treasure_list) # возвращаем сокровища в сокровищницу
         return abducted_list
