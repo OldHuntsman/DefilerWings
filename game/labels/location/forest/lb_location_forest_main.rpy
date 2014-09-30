@@ -198,7 +198,7 @@ label lb_enc_klad:
         obtained = "Это предмет из клада, зарытого кем-то в лесу."
         trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
         trs_list = game.lair.treasury.treasures_description(trs)
-        trs_descrptn = '. '.join(trs_list) + '.'
+        trs_descrptn = '\n'.join(trs_list)
     menu:
         'Отыскать и раскопать':
             $ game.dragon.drain_energy()
