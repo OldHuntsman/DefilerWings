@@ -363,7 +363,7 @@ class Coin(object):
     """
     Монеты.
     """
-    def __init__(self,name, amount):
+    def __init__(self, name, amount):
         self.amount = amount # количество монеток
         self.name = name
         self.value = Coin.coin_types[self.name][1]
@@ -657,16 +657,14 @@ class Treasure(object):#класс для сокровищ
                 if self.decoration: # украшенное чеканкой/гравировкой/травлением/резьбой
                     enchant_list.append(u"%s %s" % (decoration_description_rus['decoration'][self.gender], decorate_types_description_rus[self.decoration]))
                 if len(enchant_list) == 1:  
-                    if self.huge:
-                        desc_str += u" %s" % enchant_list[0] # добавляем "с крупным камнем" без запятой
-                    else:
-                        desc_str += u", %s" % enchant_list[0] # добавляем через запятую единственное украшение
+                    if not self.huge: desc_str += u"," # добавляем "с крупным камнем" без запятой
+                    desc_str += u" %s" % enchant_list[0] 
                 elif len(enchant_list) > 1:
                     while len(enchant_list) > 1:
                         desc_str += u", %s" % enchant_list[0] # добавляем через запятую украшения
                         del enchant_list[0]
                     desc_str += u" и %s" % enchant_list[0] # последнее добавляется союзом "и"
-                if self.decoration: # если естьизображение - ставим точку и описываем его
+                if self.decoration: # если есть изображение - ставим точку и описываем его
                     image_description = image_description_rus[self.decoration_image] # упрощение доступа к свойству
                     desc_str = u"%s. На %s %s %s" % (desc_str, treasure_description_rus[self.treasure_type]['ablative'], \
                                     decoration_description_rus['image'][image_description['gender']], image_description['nominative'])
@@ -780,7 +778,7 @@ class Treasury(store.object):
     def recieve_treasures(self, treasure_list):
         """
         Помещает сокровища в сокровищницу
-        :param abilities: Список сокровищ, помещаемых в сокровищницу
+        :param treasure_list: Список сокровищ, помещаемых в сокровищницу
         """
         for treas in treasure_list:
             type_str = str(type(treas))
@@ -817,10 +815,109 @@ class Treasury(store.object):
         
     def treasures_description(self, treasure_list):
         """
-        :param abilities: Список сокровищ, для которых требуется получить описание
+        :param treasure_list: Список сокровищ, для которых требуется получить описание
         :return: Возвращает список с описанием сокровищ
         """
         description_list = []
         for treas in treasure_list:
             description_list.append(capitalizeFirst(treas.description()) + '.')
         return description_list
+        
+    def take_ingot(self, ingot_type, weight):
+        """
+        :param ingot_type: название металла
+        :param weight: вес, который мы хотели бы взять 
+        :return: Возвращает тип Ingot с указанным весом или максимально возможным, либо None, если такого металла в сокровищнице нет
+        """
+        if ingot_type in self.metals and self.metals[ingot_type] > 0: # проверяем есть ли такой металл в сокровищнице
+            ingot = Ingot(ingot_type) # создаем слиток
+            ingot.weight = weight if weight < self.metals[ingot_type] else self.metals[ingot_type] # делаем вес слитка равным указанному весу или максимуму в сокровищнице
+            self.metals[ingot_type] -= ingot.weight # вычитаем вес слитка из сокровищницы
+            return ingot
+        else:
+            return None
+            
+    def take_material(self, material_name):
+        """
+        :param material_name: описание материала в формате 'тип;размер'
+        :return: Возвращает тип Material или None, если такого материала в сокровищнице нет
+        """
+        if material_name in self.materials and self.materials[material_name] > 0: # проверяем есть ли такой материал в сокровищнице
+            material_param = material_name.split(';') # парсим строку
+            material = Material(*material_param) # получаем экземпляр класса с нужными параметрами
+            self.gems[material_name] -= 1 # вычитаем один материал из списка сокровищницы
+            return material
+        else:
+            return None
+        
+    def take_gem(self, gem_name):
+        """
+        :param gem_name: описание камня в формате 'тип;размер;обработка'
+        :return: Возвращает тип Gem или None, если таких камней в сокровищнице нет
+        """
+        if gem_name in self.gems and self.gems[gem_name] > 0: # проверяем есть ли такой камень в сокровищнице
+            gem_param = gem_name.split(';') # парсим строку
+            gem = Gem(*gem_param) # получаем экземпляр класса с нужными параметрами
+            self.gems[gem_name] -= 1 # вычитаем один камень из списка сокровищницы
+            return gem
+        else:
+            return None
+            
+    def take_coin(self, coin_name, coin_count):  
+        """
+        :param coin_name: название монеты
+        :param coin_count: сколько монет нам бы хотелось взять
+        :return: Возвращает тип Coin с указанным числом монет или максимально возможным, либо None, если таких монет в сокровищнице нет
+        """
+        if coin_name == 'farting' and self.farting > 0:
+            coin_count = coin_count if coin_count < self.farting else self.farting
+            self.farting -= coin_count
+            return Coin(coin_name, coin_count)
+        elif coin_name == 'taller' and self.taller > 0:
+            coin_count = coin_count if coin_count < self.taller else self.taller
+            self.taller -= coin_count
+            return Coin(coin_name, coin_count)
+        elif coin_name == 'dublon' and self.dublon > 0:
+            coin_count = coin_count if coin_count < self.dublon else self.dublon
+            self.dublon -= coin_count
+            return Coin(coin_name, coin_count)
+        return None
+        
+    def rob_treasury(self, treasure_count = 1):
+        """
+        :param treasure_count: Количество сокровищ, которые необходимо взять из сокровищницы
+        :return: Список самых дорогих сокровищ, взятых из сокровищницы
+        """
+        treasure_list = [] # список сокровищ, которые не приглянулись вору
+        abducted_list = [] # список награбленного
+        threshold_value = 0 # минимальная стоимость, которая будет взята
+        
+        def update_list(test_treasure): # функция добавления награбленного в список, возвращает истину в случае успешного добавления      
+            if not test_treasure:
+                return False # попытка взять несуществующую вещь
+            elif threshold_value < test_treasure.cost: 
+                test_cost = test_treasure.cost # сохраняем цену для скорости
+                test_i = len(abducted_list) # новый индекс - последний в списке
+                while test_i > 0 and abducted_list[test_i - 1].cost < test_cost: test_i -= 1 # сортировка
+                abducted_list.insert(test_i, test_treasure) # вставляем в нужную позицию
+                if len(abducted_list) > treasure_count: # убираем из списка вещь с наименьшей ценой
+                    treasure_list.append(abducted_list.pop())
+                return True
+            else:
+                treasure_list.append(test_treasure) # стоимость добавляемого меньше пороговой, возвращаем сокровище обратно в сокровищницу
+                return False 
+          
+        for jewelry_i in reversed(xrange(len(self.jewelry))): # цикл по всем сокровищам, начиная с конца списка, для соответствия индекса количеству вещей в списке
+            update_list(self.jewelry.pop()) # достаем сокровище из конца списка - там должны быть более дорогие сокровища и пробуем добавить их в список награбленного
+        self.jewelry.extend(treasure_list) # возвращаем сокровища в сокровищницу после поиска самых дорогих
+        treasure_list = [] # очищаем список возвращаемого
+        for gem_type in self.gems.keys(): # просматриваем список типов камней
+            while update_list(self.take_gem(gem_type)): pass # пока в список добавляются камни - добавляем
+        for metal_type in self.metals.keys(): # аналогично, просматриваем список типов слитков
+            while update_list(self.take_ingot(metal_type, 8)): pass # пока в список добавляются слитки - добавляем
+        for coin_type in Coin.coin_types.keys(): # аналогично, просматриваем список типов монет
+            while update_list(self.take_coin(coin_type, 100)): pass # пока в список добавляются монеты - добавляем
+        for metal_type in self.metals.keys(): # аналогично, просматриваем список типов слитков
+            while update_list(self.take_ingot(metal_type, 8)): pass # пока в список добавляются слитки - добавляем
+        self.recieve_treasures(treasure_list) # возвращаем сокровища в сокровищницу
+        return abducted_list
