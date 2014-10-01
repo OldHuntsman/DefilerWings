@@ -85,7 +85,7 @@ label lb_enc_peasant_cart:
             'Дав волю своему гневу, [dragon.name] переворачивает повозку, убивает лошадь и разрывает крестьянина на куски. У жалкого смертного нет ничего ценного! Да как он посмел встретить дракона если с него и взять нечего?!'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Сохрать лошадь' if game.dragon.hunger > 0: 
+        'Сожрать лошадь' if game.dragon.hunger > 0: 
             $ game.dragon.drain_energy()
             'Пока [dragon.name] пожирает жилистую крестьянскую лошадку, хозяин повозки в ужасе убегает прочь. Ничего, пусть поведает жалким смертным о вашем величии.'
             $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
@@ -141,21 +141,62 @@ label lb_enc_qesting_knight:
     return
     
 label lb_enc_trader:
-    
+    'Фургон странствующего торговца.'
+    menu:
+        'Вымогать деньги':
+            python:
+                game.dragon.drain_energy()
+                gold_trs = treasures.Coin('taller', 10)
+                game.lair.treasury.recieve_treasures([gold_trs])
+            'Торговец с облегчением отдаёт дракону десять серебрянных таллеров, чтобы тот его не трогал и пропустил фургон.'
+            $ game.dragon.reputation.points += 1
+            '[game.dragon.reputation.gain_description]'
+        'Убить и ограбить' if dragon.bloodiness >= 5:
+            python:
+                game.dragon.drain_energy()
+                gold_trs = [treasures.Coin('farting', 100), treasures.Coin('taller', 10)]
+                game.lair.treasury.recieve_treasures([gold_trs])
+            'Дав волю своему гневу, [dragon.name] переворачивает фургон, убивает лошадь и разрывает торговца на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
+            $ game.dragon.reputation.points += 3
+            '[game.dragon.reputation.gain_description]'
+        'Пропустить' if dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()
+            
     return
     
 label lb_enc_caravan:
-    
+    'Торговый караван под охраной взвода наемных конных арбалетчиков.'
+    menu:
+        'Вымогать деньги':
+            python:
+                game.dragon.drain_energy()
+                gold_trs = treasures.Coin('dublon', 10)
+                game.lair.treasury.recieve_treasures([gold_trs])
+            'Караванщик с ворчанием отдаёт дракону десять золотых дублонов, чтобы тот не трогал повозки и пропустил из дальше.'
+            $ game.dragon.reputation.points += 1
+            '[game.dragon.reputation.gain_description]'
+        'Разграбить корован' if dragon.bloodiness >= 5:
+            $ game.dragon.drain_energy()
+            $ game.foe = core.Enemy('champion', gameRef=game, base_character=NVLCharacter)
+            call lb_fight
+            python:
+                gold_trs = [treasures.Coin('taller', 100), treasures.Coin('farting', 10)]
+                game.lair.treasury.recieve_treasures([gold_trs])
+            'Дав волю своему гневу, [dragon.name] переворачивает фургон, убивает лошадь и разрывает караванщика на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
+            $ game.dragon.reputation.points += 3
+            '[game.dragon.reputation.gain_description]'
+        'Пропустить' if dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()    
     return
    
 label lb_enc_lcaravan:
-    
+    'Большой караван. Плейсхолдер.'
     return
     
 label lb_enc_outpost:
-    
+    'Застава на дороге. Плейсхолдер.'
     return
     
 label lb_enc_fortification:
-    
+    'Найден замок. Плейсходлдер'
     return
