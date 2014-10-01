@@ -24,7 +24,7 @@ screen sc_gem_creator:
                 self.gemstore = gemstore
                 self.gem = gem
             def  __call__(self):
-                self.gemstore.append(self.gem)
+                self.gemstore.receive_treasures([self.gem])
                 renpy.restart_interaction()
     
     default type = treasures.gem_types.keys()[0]
@@ -34,7 +34,7 @@ screen sc_gem_creator:
     vbox:
         #xalign 1.0
         xpos 640
-        textbutton "Добавить" action add_gem(game.lair.treasury.gems,
+        textbutton "Добавить" action add_gem(game.lair.treasury,
                                              treasures.Gem(g_type=type, size=size, cut=cut))
         text "Type: %s"%type
         text "Cut: %s" %cut

@@ -30,7 +30,19 @@ label lb_location_lair_main:
         'Сотворить заклинание':
             $ pass
         'Чахнуть над златом':
-            $ pass
+            #TODO: заменить на вариант со склонением
+            "[game.dragon.name] собрал кучу сокровищ общей стоимостью [game.lair.treasury.wealth] фартингов"
+            menu:
+                'Драгоценные камни':
+                    pass
+                'Поделочные материалы':
+                    pass
+                'Монеты':
+                    "[game.lair.treasury.farting] фартингов"
+                    "[game.lair.treasury.taller] талеров"
+                    "[game.lair.treasury.dublon] дублонов"
+                'Безделушки':
+                    pass
         'Проведать пленниц' if game.girls_list.prisoners_count:
             $ game.girls_list.prison()
         'Лечь спать':

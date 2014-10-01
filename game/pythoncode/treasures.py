@@ -775,7 +775,7 @@ class Treasury(store.object):
             calc_wealth += self.jewelry[treas_i].cost
         return calc_wealth
         
-    def recieve_treasures(self, treasure_list):
+    def receive_treasures(self, treasure_list):
         """
         Помещает сокровища в сокровищницу
         :param treasure_list: Список сокровищ, помещаемых в сокровищницу
