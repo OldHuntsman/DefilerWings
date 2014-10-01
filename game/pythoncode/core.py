@@ -68,6 +68,7 @@ class Game(store.object):
         Что-то ещё?
         '''
         self.year += 1
+        self.dragon.age += 1
         # Применяем разруху накопленную за год с учетом отстройки
         self.poverty.value -= 1
         self.poverty.apply_planned()
@@ -382,6 +383,7 @@ class Dragon(Fighter):
         self._first_name = u"Старый"
         self._last_name = u"Охотник"
         self.name = u"%s %s" % (self._first_name, self._last_name)
+        self.age = 0
         self.reputation = Reputation()
         self._tiredness = 0  # увеличивается при каждом действии
         self.bloodiness = 0  # range 0..5
@@ -677,6 +679,20 @@ class Dragon(Fighter):
     @property
     def injuries(self):
         return 2 - self.health
+    
+    @property
+    def age(self):
+        """
+        Возраст дракона. integer
+        """
+        return self._age
+    @age.setter
+    def age(self, value):
+        assert value >= 0
+        if hasattr(self, '_age'):
+            if int(value) >= self._age:
+                self._age = int(value)
+        self._age = int(value)
         
 class Enemy(Fighter):
     """
