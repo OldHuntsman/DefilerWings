@@ -1,6 +1,6 @@
 label lb_location_lair_main:
     $ place = 'lair'
-    show place
+    show place as bg
     
     python:                
         ddescription = '  '

@@ -323,7 +323,6 @@ label lb_enc_mill:
             $ game.dragon.gain_rage()
     
     return
-
     
 label lb_enc_granary:
     show expression 'img/bg/plain/9.png' as bg    

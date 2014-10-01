@@ -337,8 +337,8 @@ def weighted_select(d):
         weight -= v[0]
     return d.keys()[random.randint(0,len(d.keys()))]
 class Ingot(object):#класс для генерации слитков
-    weights = (1,4,16)
-    weights_description_rus = {1: u"маленький", 4: u"небольшой", 16: u"огромный"}
+    weights = (1,4,8,16)
+    weights_description_rus = {1: u"крохотный", 4: u"небольшой", 8: u"полновесный", 16: u"массивный"}
     def __init__(self, metal_type):
         self.metal_type = metal_type
         self.metal_cost = metal_types[metal_type]

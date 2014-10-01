@@ -103,7 +103,7 @@ label lb_enc_boar:
     'Здоровенный волосатый вепрь.'
     nvl clear
     menu:
-        'Напасть на вепря':
+        'Сразиться с вепрем':
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('boar', gameRef=game, base_character=NVLCharacter)
             call lb_fight
@@ -115,7 +115,6 @@ label lb_enc_boar:
                 'Дракон торжествует победу.'
         'Отступить' if bloodlust < 5:
             $ game.dragon.gain_rage()
-            return    
     
     return
     
