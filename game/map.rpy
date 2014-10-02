@@ -56,6 +56,9 @@ screen main_map:
                 yalign 0.01
                 text map_tooltip.value: # Выводим собственно текст подсказки
                     xalign 0.5
+        
+        text "%d/%d" % (game.dragon.age, game.year)
+        
                     
     #Выходим из под действия fixed
     use status_bar
