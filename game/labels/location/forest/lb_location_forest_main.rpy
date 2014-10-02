@@ -203,7 +203,7 @@ label lb_enc_klad:
             $ game.dragon.drain_energy()
             'Отыскал и раскопал. Внутри клада лежит:'
             '[trs_descrptn]'
-            $ game.lair.treasury.recieve_treasures(trs)
+            $ game.lair.treasury.receive_treasures(trs)
             
         'Пусть пока лежат'  if bloodlust < 5:
             'Конечно сокровища полезны, но то что тут могли закопать жалкие людишки вряд ли стоит драгоценного времени благородного змея.'

@@ -34,7 +34,7 @@ label lb_enc_miner:
             python:
                 gold_trs = treasures.Ingot('gold')
                 gold_trs.weight = 1
-                game.lair.treasury.recieve_treasures([gold_trs])
+                game.lair.treasury.receive_treasures([gold_trs])
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             
@@ -62,7 +62,7 @@ label lb_enc_dklad:
             $ game.dragon.drain_energy()
             'Перевернув каждый камень и заглянув в каждую расселину по близости [dragon.name] находит наконец тщательно схороненный тайник. Внутри лежит:'
             '[trs_descrptn]'
-            $ game.lair.treasury.recieve_treasures(trs)
+            $ game.lair.treasury.receive_treasures(trs)
                         
         'Пусть пока лежат'  if bloodlust < 5:
             $ game.dragon.gain_rage()
@@ -114,7 +114,7 @@ label lb_enc_smuglers:
                 passing_tool = dragon.fear()*2 + 1 
                 gold_trs = treasures.Coin('taller', passing_tool)
                 # gold_trs.amount = dragon.fear()
-                game.lair.treasury.recieve_treasures([gold_trs])
+                game.lair.treasury.receive_treasures([gold_trs])
             'Контрабандисты скидываются по таллеру и отдают [passing_tool] чтобы откупиться и пройти мирно. С паршивой овцы хоть шерсти клок...'
             
         'Отнять весь товар':
@@ -131,7 +131,7 @@ label lb_enc_smuglers:
                 trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
                 trs_descrptn = '\n'.join(trs_list)
-                game.lair.treasury.recieve_treasures(trs)
+                game.lair.treasury.receive_treasures(trs)
                 
             'Обыскав тюки контрабандистов [dragon.name] находит кое-какие ценные вещи:'
             '[trs_descrptn]'
@@ -184,7 +184,7 @@ label lb_enc_mines:
             python:
                 gold_trs = treasures.Ingot('silver')
                 gold_trs.weight = 16
-                game.lair.treasury.recieve_treasures([gold_trs])
+                game.lair.treasury.receive_treasures([gold_trs])
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             
@@ -202,7 +202,7 @@ label lb_enc_mines:
                 trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
                 trs_descrptn = '\n'.join(trs_list)
-                game.lair.treasury.recieve_treasures(trs)
+                game.lair.treasury.receive_treasures(trs)
             'На складе дракон находит драгоценный металл, выплавленный и готовый к отправке в казну:'
             '[trs_descrptn]'
             $ game.dragon.reputation.points += 3

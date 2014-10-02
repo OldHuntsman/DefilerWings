@@ -147,7 +147,7 @@ label lb_enc_trader:
             python:
                 game.dragon.drain_energy()
                 gold_trs = treasures.Coin('taller', 10)
-                game.lair.treasury.recieve_treasures([gold_trs])
+                game.lair.treasury.receive_treasures([gold_trs])
             'Торговец с облегчением отдаёт дракону десять серебрянных таллеров, чтобы тот его не трогал и пропустил фургон.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
@@ -155,7 +155,7 @@ label lb_enc_trader:
             python:
                 game.dragon.drain_energy()
                 gold_trs = [treasures.Coin('farting', 100), treasures.Coin('taller', 10)]
-                game.lair.treasury.recieve_treasures([gold_trs])
+                game.lair.treasury.receive_treasures([gold_trs])
             'Дав волю своему гневу, [dragon.name] переворачивает фургон, убивает лошадь и разрывает торговца на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
@@ -171,7 +171,7 @@ label lb_enc_caravan:
             python:
                 game.dragon.drain_energy()
                 gold_trs = treasures.Coin('dublon', 10)
-                game.lair.treasury.recieve_treasures([gold_trs])
+                game.lair.treasury.receive_treasures([gold_trs])
             'Караванщик с ворчанием отдаёт дракону десять золотых дублонов, чтобы тот не трогал повозки и пропустил из дальше.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
@@ -181,7 +181,7 @@ label lb_enc_caravan:
             call lb_fight
             python:
                 gold_trs = [treasures.Coin('taller', 100), treasures.Coin('farting', 10)]
-                game.lair.treasury.recieve_treasures([gold_trs])
+                game.lair.treasury.receive_treasures([gold_trs])
             'Дав волю своему гневу, [dragon.name] переворачивает фургон, убивает лошадь и разрывает караванщика на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'

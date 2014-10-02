@@ -26,7 +26,6 @@ class Girls_list(object):
         """
         self.game.girl = core.Girl(gameRef=self.game, base_character=self.character)
         self.game.girl.type = type
-        self.game.girl.treasure = self.gen_tres()
         # создание аватарки
         relative_path = "img/avahuman/"+girls_data.girls_info[type]['avatar'] # Относительный путь для движка ренпи
         absolute_path = os.path.join(renpy_internal.config.basedir, "game", relative_path) # Cоставляем абсолютный путь где искать
@@ -40,6 +39,7 @@ class Girls_list(object):
                 self.game.girl.name = random.choice(girls_data.girls_names[type + '_first'])
             else:
                 self.game.girl.name = 'Неизвестная Красавица'
+        self.game.girl.treasure = self.gen_tres()
         return self.description('new')
 
     def gen_tres(self):
@@ -53,7 +53,7 @@ class Girls_list(object):
         alignment = girl_info['t_alignment']
         min_cost = girl_info['t_price_min']
         max_cost = girl_info['t_price_max']
-        obtained = "Принадлежало красавице по имени %s" % self.game.girl.name
+        obtained = u"Принадлежало красавице по имени %s" % self.game.girl.name
         return gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
         
     def impregnate(self):
@@ -127,7 +127,7 @@ class Girls_list(object):
         """
         #TODO реальное ограбление с описанием награбленного
         rob_description = self.description('rob')
-        self.game.lair.treasury.recieve_treasures(self.game.girl.treasure)
+        self.game.lair.treasury.receive_treasures(self.game.girl.treasure)
         self.game.girl.treasure = []
         return rob_description
         

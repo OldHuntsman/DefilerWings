@@ -313,7 +313,7 @@ decoration_description_rus['image'] = {'he': u"изображен", 'she': u"и�
 decorate_types_description_rus = {'incuse': u"чеканкой", 'engrave': u"гравировкой", 'etching': u"травлением", 'carving': u"резьбой"}
 
 number_conjugation_end = {'nominative' : (u"", u"а", u"ов")}
-def number_conjugation_rus(number, add_name, word_form):
+def number_conjugation_rus(number, add_name, word_form = 'nominative'):
     if word_form == 'nominative':
         if (number % 10 == 1) and (number % 100 <> 11):
             description_end = number_conjugation_end[word_form][0]
@@ -902,6 +902,7 @@ class Treasury(store.object):
                 abducted_list.insert(test_i, test_treasure) # вставляем в нужную позицию
                 if len(abducted_list) > treasure_count: # убираем из списка вещь с наименьшей ценой
                     treasure_list.append(abducted_list.pop())
+                    self.threshold_value = abducted_list[-1].cost
                 return True
             else:
                 treasure_list.append(test_treasure) # стоимость добавляемого меньше пороговой, возвращаем сокровище обратно в сокровищницу
@@ -919,5 +920,74 @@ class Treasury(store.object):
             while update_list(self.take_coin(coin_type, 100)): pass # пока в список добавляются монеты - добавляем
         for material_type in self.materials.keys(): # аналогично, просматриваем список типов материалов
             while update_list(self.take_material(material_type)): pass # пока в список добавляются материалы - добавляем
-        self.recieve_treasures(treasure_list) # возвращаем сокровища в сокровищницу
+        self.receive_treasures(treasure_list) # возвращаем сокровища в сокровищницу
         return abducted_list
+
+    def gem_name_count(self, gem_name):
+        """
+        :param gem_name: Тип драгоценных камней (в формате 'тип;размер;обработка'), для которого необходимо подсчитать количество камней в сокровищнице
+        :return: количество камней такого типа в сокровищнице с учетом того, что мелкие идут группами по 25, а обычные - по 5
+        """
+        gem_count = self.gems[gem_name] # берем данные о количестве из словаря
+        gem_param = gem_name.split(';') # парсим строку
+        if gem_param[1] == 'small':
+            gem_count *= 25
+        elif gem_param[1] == 'common':
+            gem_count *= 5
+        return gem_count
+        
+    @property
+    def gems_list(self):
+        """
+        :return: строка с описанием количества драгоценных камней в сокровищнице
+        """
+        gem_str = u"В сокровищнице находится:\n"
+        gem_list = sorted(self.gems.keys()) # список драгоценных камней, отсортированных по типу/размеру/огранке
+        for gem_name in gem_list:
+            gems_count = self.gem_name_count(gem_name)
+            if gems_count:
+                gem = Gem(*gem_name.split(';'))
+                gem_str += u"%s %s\n" % (gems_count, gem.description(custom = True, case = 'genitive', gender = 'they'))
+        return gem_str
+        
+    @property
+    def materials_list(self):
+        """
+        :return: строка с описанием количества материалов в сокровищнице
+        """
+        material_str = u"В сокровищнице находится:\n"
+        metal_list = sorted(self.metals.keys())
+        for metal_name in metal_list:
+            metal_weight = self.metals[metal_name]
+            if metal_weight:
+                metal = Ingot(metal_name)
+                metal.weight = metal_weight
+                material_str += u"%s.\n" % capitalizeFirst(metal.description())
+        mat_list = sorted(self.materials.keys())
+        for mat_name in mat_list:
+            mat_count = self.materials[mat_name]
+            if mat_count:
+                material = Material(*mat_name.split(';'))
+                material_str += capitalizeFirst(u"%s: %s штук(и).\n" % (material.description(), mat_count))
+        return material_str
+        
+    @property
+    def most_expensive_jewelry(self):
+        if len(self.jewelry):
+            most_expensive_i = 0
+            most_expensive_cost = self.jewelry[most_expensive_i].cost
+            for jewelry_i in xrange(len(self.jewelry)):
+                if self.jewelry[jewelry_i].cost > most_expensive_cost:
+                    most_expensive_cost = self.jewelry[jewelry_i].cost
+                    most_expensive_i = jewelry_i
+            return u"%s.\n%s" % (capitalizeFirst(self.jewelry[most_expensive_i].description()), self.jewelry[most_expensive_i].obtained) 
+        else:
+            return u""
+    
+    @property
+    def random_jewelry(self):
+        if len(self.jewelry):
+            random_jewelry = random.choice(self.jewelry)
+            return u"%s.\n%s" % (capitalizeFirst(random_jewelry.description()), random_jewelry.obtained)
+        else:
+            return u""
