@@ -8,11 +8,11 @@ label lb_location_road_main:
                 ("lb_enc_fortification", 10),
                 ("lb_enc_inn", 10),
                 ("lb_enc_peasant_cart", 10),
-                ("lb_enc_carriage", 10000),   
-                ("lb_enc_qesting_knight", 10000),
+                ("lb_enc_carriage", 10),   
+                ("lb_enc_qesting_knight", 10),
                 ("lb_enc_trader", 10),
                 ("lb_enc_caravan", 10),
-                ("lb_enc_lcaravan", 10),
+                ("lb_enc_lcaravan", 100000),
                 ("lb_enc_outpost", 10),
                 ("lb_enc_noting", nochance),]
     $ enc = core.Game.weighted_random(choices)
@@ -146,9 +146,10 @@ label lb_enc_trader:
         'Вымогать деньги':
             python:
                 game.dragon.drain_energy()
-                gold_trs = treasures.Coin('taller', 10)
-                game.lair.treasury.recieve_treasures([gold_trs])
-            'Торговец с облегчением отдаёт дракону десять серебрянных таллеров, чтобы тот его не трогал и пропустил фургон.'
+                passing_tool = random.randint(10,200) 
+                slvr_trs = [treasures.Coin('taller', passing_tool)]
+                game.lair.treasury.recieve_treasures(slvr_trs)
+            'Торговец с облегчением отдаёт дракону несколько серебрянных таллеров, чтобы тот его не трогал и пропустил фургон.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
         'Убить и ограбить' if dragon.bloodiness >= 5:
@@ -170,19 +171,20 @@ label lb_enc_caravan:
         'Вымогать деньги':
             python:
                 game.dragon.drain_energy()
-                gold_trs = treasures.Coin('dublon', 10)
+                passing_tool = random.randint(1,20) 
+                gold_trs = treasures.Coin('dublon', passing_tool)
                 game.lair.treasury.recieve_treasures([gold_trs])
-            'Караванщик с ворчанием отдаёт дракону десять золотых дублонов, чтобы тот не трогал повозки и пропустил из дальше.'
+            'Караванщик с ворчанием отдаёт дракону несколько золотых дублонов, чтобы тот не трогал повозки и пропустил из дальше.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
-        'Разграбить корован' if dragon.bloodiness >= 5:
+        'Разграбить корован':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('champion', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('xbow_rider', gameRef=game, base_character=NVLCharacter)
             call lb_fight
             python:
                 gold_trs = [treasures.Coin('taller', 100), treasures.Coin('farting', 10)]
                 game.lair.treasury.recieve_treasures([gold_trs])
-            'Дав волю своему гневу, [dragon.name] переворачивает фургон, убивает лошадь и разрывает караванщика на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
+            'Дав волю своему гневу, [dragon.name] переворачивает фургон, убивает лошадь и разрывает караванщика на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:.'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
         'Пропустить' if dragon.bloodiness < 5:
@@ -190,7 +192,40 @@ label lb_enc_caravan:
     return
    
 label lb_enc_lcaravan:
-    'Большой караван. Плейсхолдер.'
+    'Большой караван с тяжело вооруженной охраной.'
+    menu:
+        'Вымогать деньги':
+            python:
+                game.dragon.drain_energy()
+                passing_tool = random.randint(20,100) 
+                gold_trs = treasures.Coin('dublon', passing_tool)
+                game.lair.treasury.recieve_treasures([gold_trs])
+            'Караванщик с ворчанием отдаёт дракону увесистый кошель с золотыми дублонами, чтобы тот не трогал повозки и пропустил из дальше.'
+            $ game.dragon.reputation.points += 1
+            '[game.dragon.reputation.gain_description]'
+        'Разграбить корован':
+            $ game.dragon.drain_energy()
+            $ game.foe = core.Enemy('mounted_guard', gameRef=game, base_character=NVLCharacter)
+            call lb_fight
+            python:
+                gold_trs = [treasures.Coin('taller', 100), treasures.Coin('farting', 10)]
+                game.lair.treasury.recieve_treasures([gold_trs])
+            'Перебив охрану и караванщиков, [dragon.name] отыскивает в разбитых телегах всё ценное. В основном тут разные не нужные уважающему себя дракону товары - ткани, специи, оливковое масло и тому подобное, но у купцов и наемников есть в кошельках звонкие монеты:'
+            python:
+                count = random.randint(5,15)
+                alignment = 'human'
+                min_cost = 1
+                max_cost = 1000
+                obtained = "Просто монеты."
+                trs = treasures.gen_treas(count, ['taller', 'dublon'], alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+                game.lair.treasury.recieve_treasures(trs)
+            '[trs_descrptn]'
+            $ game.dragon.reputation.points += 3
+            '[game.dragon.reputation.gain_description]'
+        'Пропустить' if dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()        
     return
     
 label lb_enc_outpost:

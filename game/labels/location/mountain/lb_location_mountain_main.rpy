@@ -113,7 +113,6 @@ label lb_enc_smuglers:
                 game.dragon.drain_energy()
                 passing_tool = dragon.fear()*2 + 1 
                 gold_trs = treasures.Coin('taller', passing_tool)
-                # gold_trs.amount = dragon.fear()
                 game.lair.treasury.recieve_treasures([gold_trs])
             'Контрабандисты скидываются по таллеру и отдают [passing_tool] чтобы откупиться и пройти мирно. С паршивой овцы хоть шерсти клок...'
             
