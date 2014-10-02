@@ -30,19 +30,32 @@ label lb_location_lair_main:
         'Сотворить заклинание':
             $ pass
         'Чахнуть над златом':
-            #TODO: заменить на вариант со склонением
-            "[game.dragon.name] собрал кучу сокровищ общей стоимостью [game.lair.treasury.wealth] фартингов"
+            #TODO: заменить на адекватный вариант
+            $ description = u"%s собрал кучу сокровищ общей стоимостью %s" % (game.dragon.name, treasures.number_conjugation_rus(game.lair.treasury.wealth, u"фартинг"))
+            nvl clear
+            "[description]"
             menu:
                 'Драгоценные камни':
-                    pass
+                    nvl clear
+                    "[game.lair.treasury.gems_list]"
                 'Поделочные материалы':
-                    pass
+                    nvl clear
+                    "[game.lair.treasury.materials_list]"
                 'Монеты':
-                    "[game.lair.treasury.farting] фартингов"
-                    "[game.lair.treasury.taller] талеров"
-                    "[game.lair.treasury.dublon] дублонов"
+                    nvl clear
+                    $ description = u"В сокровищнице:\n"
+                    $ description += u"%s\n" % treasures.number_conjugation_rus(game.lair.treasury.farting, u"фартинг")
+                    $ description += u"%s\n" % treasures.number_conjugation_rus(game.lair.treasury.taller, u"талер")
+                    $ description += u"%s" %treasures.number_conjugation_rus(game.lair.treasury.dublon, u"дублон")
+                    "[description]"
                 'Безделушки':
-                    pass
+                    menu:
+                        'Самая дорогая в сокровищнице':
+                            nvl clear
+                            "[game.lair.treasury.most_expensive_jewelry]"
+                        'Случайная':
+                            nvl clear
+                            "[game.lair.treasury.random_jewelry]"
         'Проведать пленниц' if game.girls_list.prisoners_count:
             $ game.girls_list.prison()
         'Лечь спать':

@@ -148,7 +148,7 @@ label lb_enc_trader:
                 game.dragon.drain_energy()
                 passing_tool = random.randint(10,200) 
                 slvr_trs = [treasures.Coin('taller', passing_tool)]
-                game.lair.treasury.recieve_treasures(slvr_trs)
+                game.lair.treasury.receive_treasures(slvr_trs)
             'Торговец с облегчением отдаёт дракону несколько серебрянных таллеров, чтобы тот его не трогал и пропустил фургон.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
@@ -156,7 +156,7 @@ label lb_enc_trader:
             python:
                 game.dragon.drain_energy()
                 gold_trs = [treasures.Coin('farting', 100), treasures.Coin('taller', 10)]
-                game.lair.treasury.recieve_treasures([gold_trs])
+                game.lair.treasury.receive_treasures([gold_trs])
             'Дав волю своему гневу, [dragon.name] переворачивает фургон, убивает лошадь и разрывает торговца на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
@@ -173,7 +173,7 @@ label lb_enc_caravan:
                 game.dragon.drain_energy()
                 passing_tool = random.randint(1,20) 
                 gold_trs = treasures.Coin('dublon', passing_tool)
-                game.lair.treasury.recieve_treasures([gold_trs])
+                game.lair.treasury.receive_treasures([gold_trs])
             'Караванщик с ворчанием отдаёт дракону несколько золотых дублонов, чтобы тот не трогал повозки и пропустил из дальше.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
@@ -183,7 +183,7 @@ label lb_enc_caravan:
             call lb_fight
             python:
                 gold_trs = [treasures.Coin('taller', 100), treasures.Coin('farting', 10)]
-                game.lair.treasury.recieve_treasures([gold_trs])
+                game.lair.treasury.receive_treasures([gold_trs])
             'Дав волю своему гневу, [dragon.name] переворачивает фургон, убивает лошадь и разрывает караванщика на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:.'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
@@ -199,7 +199,7 @@ label lb_enc_lcaravan:
                 game.dragon.drain_energy()
                 passing_tool = random.randint(20,100) 
                 gold_trs = treasures.Coin('dublon', passing_tool)
-                game.lair.treasury.recieve_treasures([gold_trs])
+                game.lair.treasury.receive_treasures([gold_trs])
             'Караванщик с ворчанием отдаёт дракону увесистый кошель с золотыми дублонами, чтобы тот не трогал повозки и пропустил из дальше.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
@@ -209,7 +209,7 @@ label lb_enc_lcaravan:
             call lb_fight
             python:
                 gold_trs = [treasures.Coin('taller', 100), treasures.Coin('farting', 10)]
-                game.lair.treasury.recieve_treasures([gold_trs])
+                game.lair.treasury.receive_treasures([gold_trs])
             'Перебив охрану и караванщиков, [dragon.name] отыскивает в разбитых телегах всё ценное. В основном тут разные не нужные уважающему себя дракону товары - ткани, специи, оливковое масло и тому подобное, но у купцов и наемников есть в кошельках звонкие монеты:'
             python:
                 count = random.randint(5,15)
@@ -220,7 +220,7 @@ label lb_enc_lcaravan:
                 trs = treasures.gen_treas(count, ['taller', 'dublon'], alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
                 trs_descrptn = '\n'.join(trs_list)
-                game.lair.treasury.recieve_treasures(trs)
+                game.lair.treasury.receive_treasures(trs)
             '[trs_descrptn]'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
