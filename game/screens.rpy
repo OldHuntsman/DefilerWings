@@ -673,3 +673,43 @@ init -2:
         selected_hover_color "#cc0"
         insensitive_color "#4448"
 
+##############################################################################
+# Menu for girls in prison
+init python:
+        girls_rows = 3
+        girls_cols = 6
+        girls_cells = girls_rows * girls_cols
+        girl_page = 0
+screen girls_menu:
+    
+    # This ensures that any other menu screen is replaced.
+    tag menu
+    
+    frame background "img/scene/prison.png":
+        if girl_page * girls_cells > game.girls_list.prisoners_count:
+            $ girl_page = 0
+        $ next_girl_page = girl_page + 1
+        $ prev_girl_page = girl_page - 1
+    
+        grid girls_cols girls_rows:
+            spacing 14
+            $ max = game.girls_list.prisoners_count if game.girls_list.prisoners_count < next_girl_page * girls_cells else next_girl_page * girls_cells
+            for girl_i in xrange(girl_page * girls_cells, max):
+                imagebutton idle Image(im.Grayscale(game.girls_list.prisoners[girl_i].avatar)) hover game.girls_list.prisoners[girl_i].avatar action [Function(game.girls_list.set_active, girl_i), Jump('lb_nature_sex')]
+                
+            for null_i in xrange(max, next_girl_page * girls_cells): # Заполняем остаток сетки
+                null
+            
+        hbox:
+            xalign .5
+            yalign .95
+            spacing 30
+            if girl_page > 0:
+                textbutton _("Предыдущая страница") action [SetVariable('girl_page', prev_girl_page), Show("girls_menu")]
+            else:
+                textbutton _("Предыдущая страница") action None
+            textbutton _("Назад") action Return()
+            if next_girl_page * girls_cells - 1 < game.girls_list.prisoners_count:
+                textbutton _("Следующая страница") action [SetVariable('girl_page', next_girl_page), Show("girls_menu")]
+            else:
+                textbutton _("Следующая страница") action None
