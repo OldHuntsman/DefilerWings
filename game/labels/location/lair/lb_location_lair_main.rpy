@@ -57,7 +57,7 @@ label lb_location_lair_main:
                             nvl clear
                             "[game.lair.treasury.random_jewelry]"
         'Проведать пленниц' if game.girls_list.prisoners_count:
-            $ game.girls_list.prison()
+            call screen girls_menu
         'Лечь спать':
             nvl clear
             python:

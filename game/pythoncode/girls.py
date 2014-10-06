@@ -19,6 +19,7 @@ class Girls_list(object):
         self.prisoners = [] # список заключенных девушек
         self.free_list = [] # список свободных девушек
         self.spawn = []     # список отродий, приходящих после пробуждения 
+        self.active = 0 # номер текущей девушки
     
     def new_girl (self, type = 'peasant'):
         """
@@ -99,10 +100,11 @@ class Girls_list(object):
         """
         if self.game.girl.jailed:
             text = self.description('jailed')
+            self.prisoners.insert(self.active, self.game.girl)
         else:
             text = self.description('jail')
             self.game.girl.jailed = True
-        self.prisoners.append(self.game.girl)
+            self.prisoners.append(self.game.girl)
         return text
         
     def set_active(self, index):
@@ -110,6 +112,7 @@ class Girls_list(object):
         Достать девушку с номером index из темницы
         """
         self.game.girl = self.prisoners[index]
+        self.active = index
         del self.prisoners[index]
         
     def eat_girl(self):
@@ -125,7 +128,6 @@ class Girls_list(object):
         """
         Ограбить девушку.
         """
-        #TODO реальное ограбление с описанием награбленного
         rob_description = self.description('rob')
         self.game.lair.treasury.receive_treasures(self.game.girl.treasure)
         self.game.girl.treasure = []
@@ -314,39 +316,3 @@ class Girls_list(object):
                 girl_text = self.jail_girl()
             renpy.say(self.game.girl.third, girl_text)
             if not (menu_action == 'impregnate'): return
-        
-    def prison(self):
-        """
-        Реализация меню для девушек в заключении.
-        """
-        prison_index = 0
-        cell_capacity = 10 # вместимость клетки - сколько будет отображается девушек в одном меню
-        #пока кто-то есть в заключении, выполняем цикл
-        while self.prisoners_count:
-            girls_menu = [] #меню девушек
-            if prison_index > 0: #мы находимся не в первой клетке, добавляем переход к предыдущей
-                girls_menu.append((u"Предыдущая клетка", 'prev'))
-            if self.prisoners_count - prison_index - cell_capacity <= 0: #количество девушек в меню
-                menu_count = self.prisoners_count - prison_index
-            else:
-                menu_count = cell_capacity
-            for girl_i in xrange(menu_count): #заполняем меню именами девушек
-                girls_menu.append((self.prisoners[prison_index + girl_i].name, girl_i))
-            if prison_index + cell_capacity < self.prisoners_count: #мы находимся не в последней клетке, добавляем переход к следующей
-                girls_menu.append((u"Следующая клетка", 'next'))
-            girls_menu.append((u"Покинуть темницу", 'return')) #выход
-            
-            menu_action = renpy.display_menu(girls_menu)
-            
-            if menu_action == 'prev':
-                prison_index -= cell_capacity #отнимаем вместимость клетки
-                if prison_index < 0: prison_index = 0 #если получилось меньше 0, ставим 0. Вообще такого не должно быть
-            elif menu_action == 'next':
-                prison_index += cell_capacity #прибавляем вместимость клетки
-            elif menu_action == 'return':
-                return
-            else:
-                self.set_active(prison_index + menu_action)
-                self.description('prison', True)
-                self.inteructions()
-                if self.prisoners_count == prison_index: prison_index -= cell_capacity
