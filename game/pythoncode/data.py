@@ -420,7 +420,6 @@ spell_list = {
     'ice_protection'        : ['ice_immunity'],
     'poison_protection'     : ['poison_immunity'],
     'lightning_protection'  : ['lightning_immunity'],
-    'fire_protection'       : ['fire_immunity'],
     'sound_protection'      : ['sound_immunity'],
     # сердца -- дают дыхание нужного типа
     'fire_heart'            : ['fire_breath'],
@@ -431,7 +430,29 @@ spell_list = {
     # прочие
     'wings_of_wind'         : ['wings_of_wind'],
     'aura_of_horror'        : ['aura_of_horror'],
-    'unbreakable_scale'     : ['virtual_head']
+    'unbreakable_scale'     : ['virtual_head'],
+    'spellbound_trap'       : ['spellbound_trap']
+    }
+    
+# Русское название для отображения заклинания
+spell_list_rus = {
+    # заговоры -- дают иммунитет к атаке выбранного типа
+    'fire_protection'       : u"Заговор от огня",
+    'ice_protection'        : u"Заговор от льда",
+    'poison_protection'     : u"Заговор от яда",
+    'lightning_protection'  : u"Заговор от молнии",
+    'sound_protection'      : u"Заговор от грома",
+    # сердца -- дают дыхание нужного типа
+    'fire_heart'            : u"Огненное сердце",
+    'ice_heart'             : u"Ледяное сердце",
+    'poison_heart'          : u"Отравленное сердце",
+    'thunder_heart'         : u"Громовое сердце",
+    'lightning_heart'       : u"Сердце молнии",
+    # прочие
+    'wings_of_wind'         : u"Крылья ветра",
+    'aura_of_horror'        : u"Аура ужаса",
+    'unbreakable_scale'     : u"Второй шанс",
+    'spellbound_trap'       : u"Колдовская западня"
     }
 
 dragon_modifiers = {
