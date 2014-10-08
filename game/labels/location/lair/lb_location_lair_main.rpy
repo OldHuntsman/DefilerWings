@@ -1,7 +1,7 @@
 label lb_location_lair_main:
     $ place = 'lair'
     show place as bg
-    
+        
     python:                
         ddescription = '  '
         ddescription += size_texts[game.dragon.size()] + ' ' + game.dragon.color() + ' ' + game.dragon.kind()
@@ -21,7 +21,7 @@ label lb_location_lair_main:
     menu:
         'Сотворить заклинание':
             $ pass
-        'Чахнуть над златом':
+        'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             #TODO: заменить на адекватный вариант
             $ description = u"%s собрал кучу сокровищ общей стоимостью %s" % (game.dragon.name, treasures.number_conjugation_rus(game.lair.treasury.wealth, u"фартинг"))
             nvl clear
@@ -52,6 +52,7 @@ label lb_location_lair_main:
                             jump lb_location_lair_main   
                 'Вернуться в логово':
                     jump lb_location_lair_main                              
+
         'Проведать пленниц' if game.girls_list.prisoners_count:
             call screen girls_menu
         'Лечь спать':
@@ -74,4 +75,5 @@ label lb_location_lair_main:
                     del game_loaded
         'Покинуть логово':
             $ pass
+            
     return

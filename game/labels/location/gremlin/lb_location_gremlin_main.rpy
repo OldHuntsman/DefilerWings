@@ -2,6 +2,10 @@ label lb_location_gremlin_main:
     $ place = 'gremlins'
     show place
       
+    if dragon.energy() == 0:
+        'Даже драконам надо иногда спать. Особенно драконам!'
+        return
+        
     menu:
         'Нанять слуг' if 'gremlin' not in game.lair.modifiers:
             $ game.lair.modifiers.append('gremlin')

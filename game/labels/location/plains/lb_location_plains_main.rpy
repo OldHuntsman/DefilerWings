@@ -2,7 +2,11 @@ label lb_location_plains_main:
     $ place = 'plain'
     show expression get_place_bg(place) as bg
     nvl clear
-      
+    
+    if dragon.energy() == 0:
+        'Даже драконам надо иногда спать. Особенно драконам!'
+        return
+        
     menu:
         'Рыскать за околицей':
             call lb_encounter_plains
@@ -163,7 +167,6 @@ label lb_enc_berries:
     
 label lb_enc_shrooms:
     'Девушки на опушке собирают грибы. При появлении дракона поднимается дикий визг, девушки разбегаются. Одна не бросает корзину с грибами. Ещё одна по запаху кажется невинной.'
-    nvl clear
     $ description = game.girls_list.new_girl('peasant')
     nvl clear
     menu:
@@ -477,18 +480,76 @@ label lb_village:
     '[txt1]'
     nvl clear
     menu:
-        'Наложить дань' if village_size > 0:
+        'Наложить дань' if village_size > 0 and dragon.fear() > 0:
+            $ game.dragon.drain_energy()
             show expression 'img/bg/special/fear.png' as bg
-            'Переговоры о дани безуспешны (not implemented yet).'
-            # TODO: сделать систему наложения дани. Если у дракона достаточно страха чтобы защитники убежали то вознкает актив "дань" соотвествующий уровню деревни. 
-            # Пока этот актив у дракона есть, при каждом пробуждении он будет получать некую плюшку, в заивисмости от богатства деревни. 
-            # Если защиники не боятся, то можно начать сражение, однако деревня будет разорена и дани дракон не получит.
+            if village_size == 1:
+                'Хоторяне отдают дракону свою единственную корову. [dragon.name] съедает её.'
+                python:
+                    if game.dragon.bloodiness > 0 and dragon.hunger > 0: 
+                        game.dragon.bloodiness = 0
+                        game.dragon.hunger -= 1
+            elif village_size == 2:
+                'Жители деревни отдают дракону молодую крестьянку.'
+                $ description = game.girls_list.new_girl('peasant')
+                nvl clear
+                game.girl.third "[description]"
+                call lb_nature_sex                   
+            elif village_size == 3:
+                'Жена старосты отдаёт своё самое дорогое украшение:'
+                python:
+                    count = 1
+                    alignment = 'human'
+                    min_cost = 10
+                    max_cost = 250
+                    t_list = jewler_list
+                    obtained = "Часть дани, выплаченной одной из деревень."
+                    trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                    trs_list = game.lair.treasury.treasures_description(trs)
+                    trs_descrptn = '\n'.join(trs_list)
+                    game.lair.treasury.receive_treasures(trs)
+                '[trs_descrptn]'
+            elif village_size == 4:
+                'Селяне собирают с каждого двора деньги, чтобы выплатить дракону дань:'
+                python:
+                    count = 1
+                    alignment = 'human'
+                    min_cost = 100
+                    max_cost = 1000
+                    t_list = ['farting']
+                    obtained = "Часть дани, выплаченной одной из деревень."
+                    trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                    trs_list = game.lair.treasury.treasures_description(trs)
+                    trs_descrptn = '\n'.join(trs_list)
+                    game.lair.treasury.receive_treasures(trs)
+                '[trs_descrptn]'
+            else:
+                'Горожане отдают дракону свою первую красавицу.'
+                $ description = game.girls_list.new_girl('citizen')
+                nvl clear
+                game.girl.third "[description]"
+                call lb_nature_sex        
+            
+            $ game.dragon.reputation.points += 1
+            '[game.dragon.reputation.gain_description]'
 
         'Ограбить' if village_size > 0:
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy(village['deffence'][village_size], gameRef=game, base_character=NVLCharacter)
             call lb_fight
-            'Поселение успешно разграблено.'
+            'Поселение успешно разграблено. Добыча:'
+            python:
+                count = random.randint(3,7)
+                alignment = 'human'
+                min_cost = 10*village_size
+                max_cost = 100*village_size
+                t_list = klad_list
+                obtained = "Это предмет из разграбленного людского поселения."
+                trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+            '[trs_descrptn]'
+            $ game.lair.treasury.receive_treasures(trs)
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
             'Очков репутации: [game.dragon.reputation.points]'
@@ -497,7 +558,19 @@ label lb_village:
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy(village['deffence'][village_size], gameRef=game, base_character=NVLCharacter)
             call lb_fight
-            'Поселение разорено. Разруха в стране растёт.'
+            'Поселение разорено. Разруха в стране растёт. В разрушенных домах и на телах убитых нашлись кое-какие ценности:'
+            python:
+                count = random.randint(3,7)
+                alignment = 'human'
+                min_cost = 10*village_size
+                max_cost = 100*village_size
+                t_list = klad_list
+                obtained = "Это предмет из разграбленного людского поселения."
+                trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+            '[trs_descrptn]'
+            $ game.lair.treasury.receive_treasures(trs)
             $ game.poverty.value += 1            
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
