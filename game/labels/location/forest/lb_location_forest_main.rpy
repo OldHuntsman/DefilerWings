@@ -19,6 +19,7 @@ label lb_location_forest_main:
                 ("lb_enc_guardian", 10),
                 ("lb_enc_lumbermill", 10),
                 ("lb_enc_klad", 10),
+                ("lb_patrool_forest", 3*game.mobilization.level),
                 ("lb_enc_noting", nochance),]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
@@ -213,5 +214,30 @@ label lb_enc_klad:
         'Пусть пока лежат'  if bloodlust < 5:
             'Конечно сокровища полезны, но то что тут могли закопать жалкие людишки вряд ли стоит драгоценного времени благородного змея.'
 
+    
+    return
+
+label lb_patrool_forest:
+    python:
+        game.dragon.drain_energy()
+        chance = random.randint(0,game.mobilization.level)
+        if chance < 4:
+            patrool = 'jagger'
+            dtxt = 'Егерь.'
+        elif chance < 7:
+            patrool = 'footman'
+            dtxt = 'Пехотинцы.'
+        elif chance < 11:
+            patrool = 'heavy_infantry'
+            dtxt = 'Латники.'
+        elif chance < 16:
+            patrool = 'griffin_rider'
+            dtxt = 'Всадник на грифоне.'
+        else:
+            patrool = 'angel'
+            dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
+    '[dtxt]'
+    $ game.foe = core.Enemy(patrool, gameRef=game, base_character=NVLCharacter)
+    call lb_fight
     
     return

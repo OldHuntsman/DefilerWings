@@ -441,7 +441,7 @@ dragon_modifiers = {
     'lightning_immunity': DragonModifier(),
     'sound_immunity'    : DragonModifier(),
     
-    'can_swim'          :  DragonModifier(),
+    'can_swim'          : DragonModifier(),
     'can_dig'           : DragonModifier(),
     'greedy'            : DragonModifier(),
 

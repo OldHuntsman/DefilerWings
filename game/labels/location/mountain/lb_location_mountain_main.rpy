@@ -10,19 +10,16 @@ label lb_location_mountain_main:
     $ nochance = game.poverty.value*10      
     $ choices = [("lb_enc_miner", 10),
                 ("lb_enc_dklad", 10),
-                ("lb_enc_lowmines", 10),
                 ("lb_enc_mines", 10),
-                ("lb_enc_highmines", 10),   
-                ("lb_enc_dmines", 10),                
                 ("lb_enc_ram", 10),
                 ("lb_enc_bear", 10),   
                 ("lb_enc_jotun", 10),
                 ("lb_enc_ifrit", 10),
-                ("lb_enc_highpass", 10),
                 ("lb_enc_smuglers", 10),
                 ("lb_enc_slavers", 10),                
                 ("lb_enc_frontgates", 10),
                 ("lb_enc_cavegates", 10),
+                ("lb_patrool_mountain", 3*game.mobilization.level),                
                 ("lb_enc_noting", nochance),]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
@@ -235,3 +232,29 @@ label lb_enc_cavegates:
     'Потайной вход в подгорное царство. Плейсхолдер.'
     
     return
+    
+label lb_patrool_mountain:
+    python:
+        game.dragon.drain_energy()
+        chance = random.randint(0,game.mobilization.level)
+        if chance < 4:
+            patrool = 'jagger'
+            dtxt = 'В заросшей низким кустарником седловине %s нарывается на засаду, устроенную горным егерем, патрулирующим эти места.' % game.dragon.name
+        elif chance < 7:
+            patrool = 'footman'
+            dtxt = 'На перевале %s сталкивается с хорошо вооруженным отрядом пехоты. Они настроены весьма серьёзно.' % game.dragon.name
+        elif chance < 11:
+            patrool = 'heavy_infantry'
+            dtxt = '%s попадает в хитроумную ловушку, накрывающую его огромной сетью из толстой веревки. Такая сеть не удержит дракона надолго, однако из-за поворота слышится оглушительный зов рога и тяжелые шаги отряда панцирной пехоты.' % game.dragon.name
+        elif chance < 16:
+            patrool = 'griffin_rider'
+            dtxt = '%s Громкий клёкот эхом отражается от горных склонов. Сверху пикирует грифон, с вооруженным всадником на спине!' % game.dragon.name
+        else:
+            patrool = 'angel'
+            dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
+    '[dtxt]'
+    $ game.foe = core.Enemy(patrool, gameRef=game, base_character=NVLCharacter)
+    call lb_fight
+    
+    return
+    

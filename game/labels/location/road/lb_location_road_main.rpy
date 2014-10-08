@@ -19,6 +19,7 @@ label lb_location_road_main:
                 ("lb_enc_caravan", 10000),
                 ("lb_enc_lcaravan", 10),
                 ("lb_enc_outpost", 10),
+                ("lb_patrool_road", 3*game.mobilization.level),                   
                 ("lb_enc_noting", nochance),]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
@@ -244,4 +245,30 @@ label lb_enc_outpost:
     
 label lb_enc_fortification:
     'Найден замок. Плейсходлдер'
+    return
+    
+
+label lb_patrool_plains:
+    python:
+        game.dragon.drain_energy()
+        chance = random.randint(0,game.mobilization.level)
+        if chance < 4:
+            patrool = 'archer'
+            dtxt = 'Стрелок шерифа.'
+        elif chance < 7:
+            patrool = 'xbow_rider'
+            dtxt = 'Конный разъезд.'
+        elif chance < 11:
+            patrool = 'heavy_cavalry'
+            dtxt = 'Тяжелая кавалерия.'
+        elif chance < 16:
+            patrool = 'griffin_rider'
+            dtxt = 'Всадник на грифоне.'
+        else:
+            patrool = 'angel'
+            dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
+    '[dtxt]'
+    $ game.foe = core.Enemy(patrool, gameRef=game, base_character=NVLCharacter)
+    call lb_fight
+    
     return
