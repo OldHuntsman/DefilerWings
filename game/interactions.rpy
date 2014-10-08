@@ -1,6 +1,9 @@
 #локация взаимодействий
 
 label lb_nature_sex:
+    if game.girl.jailed: 
+        $ place = 'prison'
+        show place as bg
     nvl clear
     menu:
         'Надругаться' if game.girl.virgin and game.dragon.lust > 0:

@@ -40,6 +40,7 @@ init:
         "place == 'gremlins'", "img/bg/special/gremlins.png",
         "place == 'smuglers'", "img/bg/special/smuglers.png",
         "place == 'mordor'", "img/bg/special/mordor.png",
+        "place == 'prison'", "img/scene/prison.png",
         )
     define narrator = Character(None, kind=nvl)
 

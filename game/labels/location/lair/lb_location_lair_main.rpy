@@ -19,10 +19,7 @@ label lb_location_lair_main:
                 ddescription += '\n  ' +pawstxt[game.dragon.paws()]
     
     menu:
-        'Осмотреть дракона':
-            #чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
-            game.dragon "[ddescription]"
-        'Сотворить заклинание' if dragon.energy() > 0:
+        'Сотворить заклинание':
             $ pass
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             #TODO: заменить на адекватный вариант
@@ -51,7 +48,11 @@ label lb_location_lair_main:
                         'Случайная':
                             nvl clear
                             "[game.lair.treasury.random_jewelry]"
-                
+                        'Вернуться в логово':
+                            jump lb_location_lair_main   
+                'Вернуться в логово':
+                    jump lb_location_lair_main                              
+
         'Проведать пленниц' if game.girls_list.prisoners_count:
             call screen girls_menu
         'Лечь спать':

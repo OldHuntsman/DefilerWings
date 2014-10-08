@@ -677,9 +677,12 @@ init -2:
 # Menu for girls in prison
 init python:
         girls_rows = 3
-        girls_cols = 6
+        girls_cols = 4
         girls_cells = girls_rows * girls_cols
         girl_page = 0
+        girl_position_priority = (6,  7,  8,  9, 
+                                  5,  0,  1, 10, 
+                                  4,  3,  2, 11)
 screen girls_menu:
     
     # This ensures that any other menu screen is replaced.
@@ -690,26 +693,31 @@ screen girls_menu:
             $ girl_page = 0
         $ next_girl_page = girl_page + 1
         $ prev_girl_page = girl_page - 1
-    
-        grid girls_cols girls_rows:
-            spacing 14
-            $ max = game.girls_list.prisoners_count if game.girls_list.prisoners_count < next_girl_page * girls_cells else next_girl_page * girls_cells
-            for girl_i in xrange(girl_page * girls_cells, max):
-                imagebutton idle Image(im.Grayscale(game.girls_list.prisoners[girl_i].avatar)) hover game.girls_list.prisoners[girl_i].avatar action [Function(game.girls_list.set_active, girl_i), Jump('lb_nature_sex')]
-                
-            for null_i in xrange(max, next_girl_page * girls_cells): # Заполняем остаток сетки
-                null
-            
+        $ position_i = -1
+        
+        for row_i in xrange(girls_rows):
+            grid girls_cols 1:
+                spacing 50
+                ypos row_i * 230
+                xsize 200
+                for col_i in xrange(girls_cols):
+                    $ position_i += 1
+                    $ girl_i = girl_page * girls_cells + girl_position_priority[position_i]
+                    if girl_i < game.girls_list.prisoners_count:
+                        imagebutton idle Image(im.Grayscale(game.girls_list.prisoners[girl_i].avatar)) hover game.girls_list.prisoners[girl_i].avatar action [Function(game.girls_list.set_active, girl_i), Jump('lb_nature_sex')]
+                    else:
+                        null       
+        
         hbox:
-            xalign .5
-            yalign .95
-            spacing 30
+            ypos 680
+            xpos 60
+            spacing 50
             if girl_page > 0:
                 textbutton _("Предыдущая страница") action [SetVariable('girl_page', prev_girl_page), Show("girls_menu")]
             else:
-                textbutton _("Предыдущая страница") action None
-            textbutton _("Назад") action Return()
-            if next_girl_page * girls_cells - 1 < game.girls_list.prisoners_count:
+                textbutton _("Предыдущая страница") action None 
+            textbutton _("Вернуться") action Return()
+            if next_girl_page * girls_cells < game.girls_list.prisoners_count:
                 textbutton _("Следующая страница") action [SetVariable('girl_page', next_girl_page), Show("girls_menu")]
             else:
                 textbutton _("Следующая страница") action None
