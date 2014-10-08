@@ -1,7 +1,7 @@
 label lb_location_lair_main:
     $ place = 'lair'
     show place as bg
-    
+        
     python:                
         ddescription = '  '
         ddescription += size_texts[game.dragon.size()] + ' ' + game.dragon.color() + ' ' + game.dragon.kind()
@@ -19,17 +19,12 @@ label lb_location_lair_main:
                 ddescription += '\n  ' +pawstxt[game.dragon.paws()]
     
     menu:
-        'Отладка дракона':
+        'Осмотреть дракона':
             #чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
             game.dragon "[ddescription]"
-        'Осмотреть сокровищницу':
-            python hide:
-                for i in game.lair.treasury.thief_items:
-                    item_name = game.lair.treasury.thief_items[i].name
-                    game.dragon("Я вижу %s" % item_name)
-        'Сотворить заклинание':
+        'Сотворить заклинание' if dragon.energy() > 0:
             $ pass
-        'Чахнуть над златом':
+        'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             #TODO: заменить на адекватный вариант
             $ description = u"%s собрал кучу сокровищ общей стоимостью %s" % (game.dragon.name, treasures.number_conjugation_rus(game.lair.treasury.wealth, u"фартинг"))
             nvl clear
@@ -56,6 +51,7 @@ label lb_location_lair_main:
                         'Случайная':
                             nvl clear
                             "[game.lair.treasury.random_jewelry]"
+                
         'Проведать пленниц' if game.girls_list.prisoners_count:
             call screen girls_menu
         'Лечь спать':
@@ -78,4 +74,5 @@ label lb_location_lair_main:
                     del game_loaded
         'Покинуть логово':
             $ pass
+            
     return

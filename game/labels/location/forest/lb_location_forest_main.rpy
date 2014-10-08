@@ -2,6 +2,11 @@ label lb_location_forest_main:
     $ place = 'forest'
     show expression get_place_bg(place) as bg
     nvl clear
+    
+    if dragon.energy() == 0:
+        'Даже драконам надо иногда спать. Особенно драконам!'
+        return
+        
     $ nochance = game.poverty.value*10      
     $ choices = [("lb_enc_lumberjack", 10),
                 ("lb_enc_onegirl", 10),

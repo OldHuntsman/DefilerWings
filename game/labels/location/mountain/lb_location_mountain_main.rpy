@@ -2,6 +2,11 @@ label lb_location_mountain_main:
     $ place = 'mountain'
     show expression get_place_bg(place) as bg
     nvl clear
+    
+    if dragon.energy() == 0:
+        'Даже драконам надо иногда спать. Особенно драконам!'
+        return
+        
     $ nochance = game.poverty.value*10      
     $ choices = [("lb_enc_miner", 10),
                 ("lb_enc_dklad", 10),
