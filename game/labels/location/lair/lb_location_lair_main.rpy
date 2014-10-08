@@ -19,8 +19,11 @@ label lb_location_lair_main:
                 ddescription += '\n  ' +pawstxt[game.dragon.paws()]
     
     menu:
+        'Осмотреть дракона':
+            #чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
+            game.dragon "[ddescription]"
         'Сотворить заклинание':
-            $ pass
+            pass    
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             #TODO: заменить на адекватный вариант
             $ description = u"%s собрал кучу сокровищ общей стоимостью %s" % (game.dragon.name, treasures.number_conjugation_rus(game.lair.treasury.wealth, u"фартинг"))
