@@ -248,7 +248,7 @@ label lb_enc_fortification:
     return
     
 
-label lb_patrool_plains:
+label lb_patrool_road:
     python:
         game.dragon.drain_energy()
         chance = random.randint(0,game.mobilization.level)

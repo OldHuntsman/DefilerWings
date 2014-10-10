@@ -18,7 +18,7 @@
     smuggler_list = ['silver', 'gold', 'mithril', 'adamantine', 'jasper', 'turquoise', 'jade', 'malachite', 'corall', 'ivory', 'agate', 'shell', 'horn', 'amber', 'crystall', 'beryll', 'tigereye', 'granate', 'turmaline', 'aqua', 'pearl', 'elven_beryll', 'black_pearl', 'topaz', 'saphire', 'ruby', 'emerald', 'goodruby', 'goodemerald', 'star', 'diamond', 'black_diamond', 'rose_diamond', 'taller', 'dublon', 'taller', 'dublon']
     knight_list = ['goblet', 'statue', 'tome', 'band', 'pendant', 'ring', 'gemring', 'seal', 'armbrace', 'chain', 'fibula', 'taller', 'dublon']
     jewler_list = ['casket', 'phallos', 'band', 'diadem', 'tiara', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'gemring', 'armbrace', 'legbrace', 'chain', 'fibula']
-
+    
 
 init:    
     transform bot_to_top:

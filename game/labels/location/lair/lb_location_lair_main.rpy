@@ -19,8 +19,23 @@ label lb_location_lair_main:
                 ddescription += '\n  ' +pawstxt[game.dragon.paws()]
     
     menu:
-        'Сотворить заклинание':
-            $ pass
+        'Осмотреть дракона':
+            #чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
+            game.dragon "[ddescription]"
+        'Сотворить заклинание'  if dragon.energy() > 0:
+            python:
+                spells_menu = []
+                for spell in data.spell_list.keys():
+                    if spell not in game.dragon.spells:
+                        spells_menu.append((data.spell_list_rus[spell], spell))
+                spells_menu.append(('Вернуться в логово', 'back'))
+                spell_name = renpy.display_menu(spells_menu)
+                
+            if spell_name == 'back':
+                jump lb_location_lair_main
+            else:
+                $ game.dragon.spells.append(spell_name)
+                
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             #TODO: заменить на адекватный вариант
             $ description = u"%s собрал кучу сокровищ общей стоимостью %s" % (game.dragon.name, treasures.number_conjugation_rus(game.lair.treasury.wealth, u"фартинг"))
