@@ -57,7 +57,8 @@ screen main_map:
                 text map_tooltip.value: # Выводим собственно текст подсказки
                     xalign 0.5
         
-        text "%d/%d" % (game.dragon.age, game.year)
+        if game.dragon is not None:
+            text "%d/%d" % (game.dragon.age, game.year)
         
                     
     #Выходим из под действия fixed
@@ -79,66 +80,75 @@ screen status_bar:
         
         add "img/bg/status-bar.png"
         
-        text "%d" % game.dragon.energy():
-            pos(65,365)
-            anchor (0.5,0.5)
-            size 30
-            color "a7926d"      #Цвет взял с шаблона, но тут он почему-то выглядит по-другому.
-            outlines [(2, "#0004", 0, 0),(4, "#0003", 0, 0),(6, "#0002", 0, 0),(8, "#0001", 0, 0)]
+        if game.dragon is not None:
+            text "%d" % game.dragon.energy():
+                pos(65,365)
+                anchor (0.5,0.5)
+                size 30
+                color "a7926d"      #Цвет взял с шаблона, но тут он почему-то выглядит по-другому.
+                outlines [(2, "#0004", 0, 0),(4, "#0003", 0, 0),(6, "#0002", 0, 0),(8, "#0001", 0, 0)]
         mousearea:              #Зона при наведении на которую всплывет подсказка
             area(42,342,45,45)
             hovered status_bar_tooltip.Action("Запас сил")
 
-        text "%d" % game.dragon.reputation.level:
-            pos(160,365)
-            anchor (0.5,0.5)
-            size 30
-            color "a7926d"     
-            outlines [(2, "#0004", 0, 0),(4, "#0003", 0, 0),(6, "#0002", 0, 0),(8, "#0001", 0, 0)]
+        if game.dragon is not None:
+            text "%d" % game.dragon.reputation.level:
+                pos(160,365)
+                anchor (0.5,0.5)
+                size 30
+                color "a7926d"     
+                outlines [(2, "#0004", 0, 0),(4, "#0003", 0, 0),(6, "#0002", 0, 0),(8, "#0001", 0, 0)]
         mousearea:              #Зона при наведении на которую всплывет подсказка
             area(140,342,45,45)
             hovered status_bar_tooltip.Action("Дурная слава")
-            
-        add '%s' % game.dragon.avatar:
-            pos(160,155)
-            anchor (0.5,0.5)
-            
-        text "{font=fonts/AnticvarShadow.ttf}%s{/font}" % game.dragon.name:
-            pos(160,315)
-            anchor (0.5,0.5)
-            size 25
-            color "a7926d"     
-            outlines [(2, "#0004", 0, 0),(4, "#0003", 0, 0),(6, "#0002", 0, 0),(8, "#0001", 0, 0)]
-            
-        text "%d" % game.dragon.magic():
-            pos(260,365)
-            anchor (0.5,0.5)
-            size 30
-            color "a7926d"     
-            outlines [(2, "#0004", 0, 0),(4, "#0003", 0, 0),(6, "#0002", 0, 0),(8, "#0001", 0, 0)]
+           
+        if game.dragon is not None:
+            add '%s' % game.dragon.avatar:
+                pos(160,155)
+                anchor (0.5,0.5)
+        
+        if game.dragon is not None:   
+            text "{font=fonts/AnticvarShadow.ttf}%s{/font}" % game.dragon.name:
+                pos(160,315)
+                anchor (0.5,0.5)
+                size 25
+                color "a7926d"     
+                outlines [(2, "#0004", 0, 0),(4, "#0003", 0, 0),(6, "#0002", 0, 0),(8, "#0001", 0, 0)]
+        
+        if game.dragon is not None:
+            text "%d" % game.dragon.magic():
+                pos(260,365)
+                anchor (0.5,0.5)
+                size 30
+                color "a7926d"     
+                outlines [(2, "#0004", 0, 0),(4, "#0003", 0, 0),(6, "#0002", 0, 0),(8, "#0001", 0, 0)]
         mousearea:              #Зона при наведении на которую всплывет подсказка
             area(240,342,45,45)
             hovered status_bar_tooltip.Action("Коварство")
+        
+        if game.dragon is not None:
+            text "%s" % hunger_texts[game.dragon.hunger]:
+                pos(160,447)
+                anchor (0.5,0.5)
+                size 23
+                
+        if game.dragon is not None:
+            text "%s" % lust_texts[game.dragon.lust]:
+                pos(160,477)
+                anchor (0.5,0.5)
+                size 23
             
-        text "%s" % hunger_texts[game.dragon.hunger]:
-            pos(160,447)
-            anchor (0.5,0.5)
-            size 23
-
-        text "%s" % lust_texts[game.dragon.lust]:
-            pos(160,477)
-            anchor (0.5,0.5)
-            size 23
-            
-        text "%s" % bloodlust_texts[game.dragon.bloodiness]:
-            pos(160,503)
-            anchor (0.5,0.5)
-            size 23
-            
-        text "%s" % health_texts[game.dragon.health]:
-            pos(160,530)
-            anchor (0.5,0.5)
-            size 23
+        if game.dragon is not None:
+            text "%s" % bloodlust_texts[game.dragon.bloodiness]:
+                pos(160,503)
+                anchor (0.5,0.5)
+                size 23
+                
+        if game.dragon is not None:
+            text "%s" % health_texts[game.dragon.health]:
+                pos(160,530)
+                anchor (0.5,0.5)
+                size 23
         
         if status_bar_tooltip.value != "None": #см. map_tooltip на экране main_map
             frame:
