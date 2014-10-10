@@ -400,20 +400,20 @@ class Dragon(Fighter):
             self.heads = deepcopy(parent.heads) #Копируем живые говловы родителя
             self.heads.extend(parent.dead_heads) #И прибавляем к ним мертвые
         else:
-            self.heads = ['red']  # головы дракона
+            self.heads = ['green']  # головы дракона
         self.dead_heads = [] #мертвые головы дракона
         
         #Анатомия
         if parent is None:
-            self.anatomy = ['size', 'size', 'size', 'size', 'paws', 'paws', 'wings', 'cunning']
+            self.anatomy = []
         else:
             self.anatomy = deepcopy(parent.anatomy)
-            new_ability = self._get_ability()
-            self(new_ability)
-            if new_ability == 'head':
-                self.heads.append('green')
-            else:
-                self.anatomy.append(new_ability)
+        new_ability = self._get_ability()
+        self(new_ability)
+        if new_ability == 'head':
+            self.heads.append('green')
+        else:
+            self.anatomy.append(new_ability)
         
           # заклинания наложенные на дракона(обнуляются после сна)
         self.avatar = self._get_dragon_avatar(self.color_eng()) #Назначаем аватарку
