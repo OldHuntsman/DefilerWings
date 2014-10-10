@@ -30,7 +30,7 @@ class Game(store.object):
         self._year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
           
-        self.dragon = Dragon(gameRef=self, base_character=base_character)
+        self.dragon = None
         self.knight = Knight(gameRef=self, base_character=base_character)
         self.thief = None #Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
         
@@ -377,12 +377,15 @@ class Dragon(Fighter):
     Класс дракона.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, parent=None, *args, **kwargs):
+        '''
+        parent - родитель дракона, если есть.
+        '''
         super(Dragon, self).__init__(*args, **kwargs)
         # TODO: pretty screen for name input
-        self._first_name = u"Старый"
-        self._last_name = u"Охотник"
-        self.name = u"%s %s" % (self._first_name, self._last_name)
+        #self._first_name = u"Старый"
+        #self._last_name = u"Охотник"
+        self.name = random.choice(data.dragon_names)
         self.age = 0
         self.reputation = Reputation()
         self._tiredness = 0  # увеличивается при каждом действии
@@ -390,13 +393,49 @@ class Dragon(Fighter):
         self.lust = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
         self.hunger = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
         self.health = 2 # range 0..2, ресурс восстанавливается до 2 после каждого отдыха
-
-        self.anatomy = ['size', 'size', 'size', 'size', 'paws', 'paws', 'wings', 'cunning']
-        self.heads = ['red']  # головы дракона
+        self.spells = []
+        
+        # Головы
+        if parent is not None:
+            self.heads = deepcopy(parent.heads) #Копируем живые говловы родителя
+            self.heads.extend(parent.dead_heads) #И прибавляем к ним мертвые
+        else:
+            self.heads = ['red']  # головы дракона
         self.dead_heads = [] #мертвые головы дракона
-        self.spells = []  # заклинания наложенные на дракона(обнуляются после сна)
-        self.avatar = "img/avadragon/green/1.jpg"
-
+        
+        #Анатомия
+        if parent is None:
+            self.anatomy = ['size', 'size', 'size', 'size', 'paws', 'paws', 'wings', 'cunning']
+        else:
+            self.anatomy = deepcopy(parent.anatomy)
+            new_ability = self._get_ability()
+            self(new_ability)
+            if new_ability == 'head':
+                self.heads.append('green')
+            else:
+                self.anatomy.append(new_ability)
+        
+          # заклинания наложенные на дракона(обнуляются после сна)
+        self.avatar = self._get_dragon_avatar(self.color_eng()) #Назначаем аватарку
+    
+    @property
+    def description(self):
+        ddescription = '  '
+        ddescription += data.dragon_size[self.size()-1] + u' ' + self.color() + u' ' + self.kind()
+        i = -1
+        for head in self.heads:
+            i += 1 
+            if self.heads[i] != 'green':
+                ddescription += u'\n  Его %s голова ' % data.head_num[i] + data.head_description[self.heads[i]]
+        if self.wings() == 0 and self.paws() == 0:
+            ddescription += data.wings_description[0]
+        else:
+            if self.wings() > 0:
+                ddescription += '\n  ' + data.wings_description[self.wings()]
+                
+            if self.paws() > 0:
+                ddescription += '\n  ' + data.paws_description[self.paws()]
+        return ddescription
     def _debug_print(self):
         # self(u'Дракон по имени {0}'.format(self.name))
         # self(u'Список всех модификаторов {0}'.format(', '.join(self.modifiers())))
@@ -413,7 +452,16 @@ class Dragon(Fighter):
         children = self.children()
         for child in children:
             self(u'Ребенок {0}'.format(', '.join(child.anatomy[-3:] + child.heads)))
-
+    
+    def _get_dragon_avatar(self, type):
+        import os
+        # config.basedir - директория где у нас лежит сама игра.
+        # "game" - директория относительно config.basedir где лежат собственно файлы игры и 
+        # относительно которой высчитываются все пути
+        relative_path = "img/avadragon/"+type # Относительный путь для движка ренпи
+        absolute_path = os.path.join(renpy.config.basedir, "game", relative_path) # Cоставляем абсолютный путь где искать
+        filename = random.choice(os.listdir(absolute_path)) # получаем название файла
+        return relative_path + "/" + filename # Возвращаем правильно отформатированно значение
 
     def modifiers(self):
         """
@@ -647,6 +695,34 @@ class Dragon(Fighter):
                 children[i].anatomy += [new_abilities[i]]
         return children
         
+    def _get_ability(self):
+        '''
+        Возврощает способность которую может получить дракон при рождении
+        '''
+        dragon_leveling = ['head']
+        if self.size() < 6:
+            dragon_leveling += ['size']
+        if self.paws() < 3:
+            dragon_leveling += ['paws']
+        if self.wings() < 3:
+            dragon_leveling += ['wings']
+        if 'tough_scale' not in self.modifiers():
+            dragon_leveling += ['tough_scale']
+        if 'clutches' not in self.modifiers():
+            dragon_leveling += ['clutches']
+        if 'fangs' not in self.modifiers() and self.paws() > 0:
+            dragon_leveling += ['fangs']
+        if 'horns' not in self.modifiers():
+            dragon_leveling += ['horns']
+        if 'ugly' not in self.modifiers():
+            dragon_leveling += ['ugly']
+        if 'poisoned_sting' not in self.modifiers():
+            dragon_leveling += ['poisoned_sting']
+        if self.modifiers().count('cunning') < 3:
+            dragon_leveling += ['cunning']
+        new_ability = random.choice(dragon_leveling)
+        return new_ability
+        
     def struck(self):
         """
         вызывается при получении удара, наносит урон, отрубает головы и выдает описание произошедшего
@@ -670,7 +746,7 @@ class Dragon(Fighter):
             else:
                 return ['dragon_dead']
                 
-    def deepcopy(self):
+    def deepcopy(self):#TODO: Выпилить deepcopy
         child = Dragon(gameRef=self._gameRef, base_character=self._base_character)
         child.heads = deepcopy(self.heads)
         child.anatomy = deepcopy(self.anatomy)
@@ -693,7 +769,7 @@ class Dragon(Fighter):
             if int(value) >= self._age:
                 self._age = int(value)
         self._age = int(value)
-        
+
 class Enemy(Fighter):
     """
     Класс одноразового противника для энкаунтера.
