@@ -405,7 +405,7 @@ class Dragon(Fighter):
         
         #Анатомия
         if parent is None:
-            self.anatomy = []
+            self.anatomy = ['size']
         else:
             self.anatomy = deepcopy(parent.anatomy)
         new_ability = self._get_ability()
