@@ -34,8 +34,11 @@ label lb_location_lair_main:
             if spell_name == 'back':
                 jump lb_location_lair_main
             else:
-                $ game.dragon.spells.append(spell_name)
-                
+                python: 
+                    game.dragon.spells.append(spell_name)
+                    game.dragon.drain_energy()
+                    game.dragon.gain_rage()
+
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             #TODO: заменить на адекватный вариант
             $ description = u"%s собрал кучу сокровищ общей стоимостью %s" % (game.dragon.name, treasures.number_conjugation_rus(game.lair.treasury.wealth, u"фартинг"))
