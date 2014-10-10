@@ -52,15 +52,13 @@ label start:
     python:
         #Инициализируем game в начале игры, а не при инициализации. Для того чтобы 
         game = core.Game(NVLCharacter)
-        game.dragon.avatar = get_dragon_avatar(game.dragon.color_eng())
         narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
-            
-        bloodlust = game.dragon.bloodiness
-        dragon = game.dragon
     
     # Прокручиваем заставку.
     call screen sc_intro
     show screen status_bar
+    # Выбираем дракона
+    call lb_choose_dragon
     $ win = False
     while not win:
         $ renpy.block_rollback()
