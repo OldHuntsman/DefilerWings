@@ -412,6 +412,8 @@ class Dragon(Fighter):
         self(new_ability)
         if new_ability == 'head':
             self.heads.append('green')
+        elif new_ability == 'color':
+            self._colorize_head()
         else:
             self.anatomy.append(new_ability)
         
@@ -720,9 +722,17 @@ class Dragon(Fighter):
             dragon_leveling += ['poisoned_sting']
         if self.modifiers().count('cunning') < 3:
             dragon_leveling += ['cunning']
+        if self.heads.count('green') > 0:
+            dragon_leveling += ['color']
         new_ability = random.choice(dragon_leveling)
         return new_ability
-        
+    
+    def _colorize_head(self):
+        #Считаем достпуные цвета
+        available_colors = [ color for color in data.dragon_heads if color not in self.heads ] 
+        #Заменяем зеленую голову на один из доступных цветов
+        self.heads[self.heads.index('green')] = random.choice(available_colors)
+    
     def struck(self):
         """
         вызывается при получении удара, наносит урон, отрубает головы и выдает описание произошедшего
