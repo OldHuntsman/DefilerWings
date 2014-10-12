@@ -262,7 +262,6 @@ class Sayer(store.object):
         self._gameRef.currentCharacter = self # Делаем вид, что сказали сами
         self._gameRef.narrator._real_character(*args, **kwargs) # Говорим о лица нарратора. Грязный хак.
         
-
 class Girl(Sayer):
     """
     Базовый класс для всего, с чем можно заниматься сексом.
@@ -536,7 +535,7 @@ class Dragon(Fighter):
     @property
     def mana(self):
         """
-        :return: Количество текущей маны (магическая сила - использованная магия, целое число)
+        :return: Количество текущей маны (магическая сила - использованная мана, целое число)
         """
         return self.magic() - self._mana_used
         
@@ -562,7 +561,7 @@ class Dragon(Fighter):
         self.lust = 3  # range 0..3
         self.hunger = 3  # range 0..3
         self.spells = []  # заклинания сбрасываются
-        self._mana_used = 0 # используемая мана сбрасывается
+        self._mana_used = 0 # использованная мана сбрасывается
         self.health = 2
 
     def color(self):
@@ -789,10 +788,9 @@ class Dragon(Fighter):
             else:
                 return ['dragon_wounded', 'dragon_heavily_wounded']
         else:
-            # жизни закончились, рубим случайную голову
-            lost_head = random.choice(self.heads)
-            self.heads.remove(lost_head)
-            self.dead_heads.append(lost_head)
+            # жизни закончились, рубим последнюю голову
+            lost_head = self.heads.pop()
+            self.dead_heads.insert(0, lost_head)
             # потеря головы, если головы закончились - значит смертушка пришла
             if self.heads:
                 return ['lost_head', 'lost_' + lost_head]
