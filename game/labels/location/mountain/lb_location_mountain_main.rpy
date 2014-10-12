@@ -3,7 +3,7 @@ label lb_location_mountain_main:
     show expression get_place_bg(place) as bg
     nvl clear
     
-    if dragon.energy() == 0:
+    if game.dragon.energy() == 0:
         'Даже драконам надо иногда спать. Особенно драконам!'
         return
         
@@ -113,7 +113,7 @@ label lb_enc_smuglers:
         'Вымогать деньги':
             python:
                 game.dragon.drain_energy()
-                passing_tool = dragon.fear()*2 + 1 
+                passing_tool = game.dragon.fear()*2 + 1 
                 gold_trs = treasures.Coin('taller', passing_tool)
                 game.lair.treasury.receive_treasures([gold_trs])
             'Контрабандисты скидываются по таллеру и отдают [passing_tool] чтобы откупиться и пройти мирно. С паршивой овцы хоть шерсти клок...'
