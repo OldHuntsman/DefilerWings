@@ -428,17 +428,37 @@ class Dragon(Fighter):
         i = -1
         for head in self.heads:
             i += 1 
-            if self.heads[i] != 'green':
-                ddescription += u'\n  Его %s голова ' % data.head_num[i] + data.head_description[self.heads[i]]
+            ddescription += u'\n  Его %s голова ' % data.head_num[i] + data.head_description[self.heads[i]]
         if self.wings() == 0 and self.paws() == 0:
-            ddescription += data.wings_description[0]
+            ddescription += '\n  ' + data.wings_description[0]
         else:
             if self.wings() > 0:
                 ddescription += '\n  ' + data.wings_description[self.wings()]
                 
             if self.paws() > 0:
                 ddescription += '\n  ' + data.paws_description[self.paws()]
+                
+        if 'tough_scale' in self.modifiers():
+            ddescription += '\n  ' + data.special_description[0]
+        if 'poisoned_sting' in self.modifiers():
+            ddescription += '\n  ' + data.special_description[1]
+        if 'clutches' in self.modifiers():
+            ddescription += '\n  ' + data.special_description[2]
+        if 'horns' in self.modifiers():
+            ddescription += '\n  ' + data.special_description[3]
+        if 'fangs' in self.modifiers():
+            ddescription += '\n  ' + data.special_description[4]
+        if 'ugly' in self.modifiers():
+            ddescription += '\n  ' + data.special_description[5]
+        if self.modifiers().count('сunning') == 1:
+            ddescription += '\n  ' + data.special_description[6]
+        elif self.modifiers().count('сunning') == 2:
+            ddescription += '\n  ' + data.special_description[7]
+        elif self.modifiers().count('сunning') == 3:
+            ddescription += '\n  ' + data.special_description[8]
+            
         return ddescription
+    
     def _debug_print(self):
         # self(u'Дракон по имени {0}'.format(self.name))
         # self(u'Список всех модификаторов {0}'.format(', '.join(self.modifiers())))
