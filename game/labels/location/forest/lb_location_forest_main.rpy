@@ -3,7 +3,7 @@ label lb_location_forest_main:
     show expression get_place_bg(place) as bg
     nvl clear
     
-    if dragon.energy() == 0:
+    if game.dragon.energy() == 0:
         'Даже драконам надо иногда спать. Особенно драконам!'
         return
         
@@ -30,7 +30,7 @@ label lb_location_forest_main:
 label lb_enc_lumberjack:
     'В лесу раздаётся топор дровосека. Дракон пытается подкрасться.'
     python:
-        if dragon.size() > 2: 
+        if game.dragon.size() > 2: 
             succes = True
         else:
             succes = False

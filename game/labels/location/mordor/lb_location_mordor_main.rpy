@@ -2,7 +2,7 @@ label lb_location_mordor_main:
     $ place = 'mordor' 
     show place as bg
     
-    if dragon.energy() == 0:
+    if game.dragon.energy() == 0:
         'Даже драконам надо иногда спать. Особенно драконам!'
         return
         
@@ -10,7 +10,12 @@ label lb_location_mordor_main:
         'Армия Тьмы':
             $ pass
         'Аудиенция с владычицей':
-            $ pass
+            menu:
+                "Продолжить род?"
+                "Да":
+                    call lb_choose_dragon
+                "Нет":
+                    pass
         'Назад':
             $ pass
         

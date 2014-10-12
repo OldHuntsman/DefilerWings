@@ -394,6 +394,7 @@ class Dragon(Fighter):
         self.hunger = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
         self.health = 2 # range 0..2, ресурс восстанавливается до 2 после каждого отдыха
         self.spells = []
+        self._base_energy = 3 #Базовая энергия дракона, не зависящая от модификторов
         
         # Головы
         if parent is not None:
@@ -412,6 +413,8 @@ class Dragon(Fighter):
         self(new_ability)
         if new_ability == 'head':
             self.heads.append('green')
+        elif new_ability == 'color':
+            self._colorize_head()
         else:
             self.anatomy.append(new_ability)
         
@@ -425,17 +428,37 @@ class Dragon(Fighter):
         i = -1
         for head in self.heads:
             i += 1 
-            if self.heads[i] != 'green':
-                ddescription += u'\n  Его %s голова ' % data.head_num[i] + data.head_description[self.heads[i]]
+            ddescription += u'\n  Его %s голова ' % data.head_num[i] + data.head_description[self.heads[i]]
         if self.wings() == 0 and self.paws() == 0:
-            ddescription += data.wings_description[0]
+            ddescription += '\n  ' + data.wings_description[0]
         else:
             if self.wings() > 0:
                 ddescription += '\n  ' + data.wings_description[self.wings()]
                 
             if self.paws() > 0:
                 ddescription += '\n  ' + data.paws_description[self.paws()]
+                
+        if 'tough_scale' in self.modifiers():
+            ddescription += '\n  ' + data.special_description[0]
+        if 'poisoned_sting' in self.modifiers():
+            ddescription += '\n  ' + data.special_description[1]
+        if 'clutches' in self.modifiers():
+            ddescription += '\n  ' + data.special_description[2]
+        if 'horns' in self.modifiers():
+            ddescription += '\n  ' + data.special_description[3]
+        if 'fangs' in self.modifiers():
+            ddescription += '\n  ' + data.special_description[4]
+        if 'ugly' in self.modifiers():
+            ddescription += '\n  ' + data.special_description[5]
+        if self.modifiers().count('сunning') == 1:
+            ddescription += '\n  ' + data.special_description[6]
+        elif self.modifiers().count('сunning') == 2:
+            ddescription += '\n  ' + data.special_description[7]
+        elif self.modifiers().count('сunning') == 3:
+            ddescription += '\n  ' + data.special_description[8]
+            
         return ddescription
+    
     def _debug_print(self):
         # self(u'Дракон по имени {0}'.format(self.name))
         # self(u'Список всех модификаторов {0}'.format(', '.join(self.modifiers())))
@@ -475,7 +498,7 @@ class Dragon(Fighter):
         """
         :return: Максимальная энергия(целое число)
         """
-        return sum([get_modifier(mod).max_energy for mod in self.modifiers()])
+        return self._base_energy + sum([get_modifier(mod).max_energy for mod in self.modifiers()])
 
     def energy(self):
         """
@@ -720,9 +743,19 @@ class Dragon(Fighter):
             dragon_leveling += ['poisoned_sting']
         if self.modifiers().count('cunning') < 3:
             dragon_leveling += ['cunning']
+        if self.heads.count('green') > 0:
+            dragon_leveling += ['color']
         new_ability = random.choice(dragon_leveling)
         return new_ability
-        
+    
+    def _colorize_head(self):
+        #На всякий случай проверяем есть ли зеленые головы.
+        assert self.heads.count('green') > 0
+        #Считаем достпуные цвета
+        available_colors = [ color for color in data.dragon_heads if color not in self.heads ] 
+        #Заменяем зеленую голову на один из доступных цветов
+        self.heads[self.heads.index('green')] = random.choice(available_colors)
+    
     def struck(self):
         """
         вызывается при получении удара, наносит урон, отрубает головы и выдает описание произошедшего

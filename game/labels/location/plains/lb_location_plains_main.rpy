@@ -3,7 +3,7 @@ label lb_location_plains_main:
     show expression get_place_bg(place) as bg
     nvl clear
     
-    if dragon.energy() == 0:
+    if game.dragon.energy() == 0:
         'Даже драконам надо иногда спать. Особенно драконам!'
         return
         
@@ -481,13 +481,13 @@ label lb_village:
     '[txt1]'
     nvl clear
     menu:
-        'Наложить дань' if village_size > 0 and dragon.fear() > 0:
+        'Наложить дань' if village_size > 0 and game.dragon.fear() > 0:
             $ game.dragon.drain_energy()
             show expression 'img/bg/special/fear.png' as bg
             if village_size == 1:
                 'Хоторяне отдают дракону свою единственную корову. [dragon.name] съедает её.'
                 python:
-                    if game.dragon.bloodiness > 0 and dragon.hunger > 0: 
+                    if game.dragon.bloodiness > 0 and game.dragon.hunger > 0: 
                         game.dragon.bloodiness = 0
                         game.dragon.hunger -= 1
             elif village_size == 2:

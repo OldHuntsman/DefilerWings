@@ -4,7 +4,7 @@ label lb_location_road_main:
     show expression get_place_bg(place) as bg
     nvl clear
     
-    if dragon.energy() == 0:
+    if game.dragon.energy() == 0:
         'Даже драконам надо иногда спать. Особенно драконам!'
         return
         
@@ -44,7 +44,7 @@ label lb_enc_tornament:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex      
-        'Не ввязываться' if dragon.bloodiness < 5:
+        'Не ввязываться' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             'Осторожность не повредит. Если этот рыцарь действительно лучше в округе, он может быть опасен. А девицу и кусок золота можно найти где-нибудь ещё...'
     return
@@ -75,10 +75,10 @@ label lb_enc_inn:
             $ game.dragon.drain_energy()
             "[dragon.name] получает от испуганного хозяина трактира целую бочку лучшего эля. После такой выпивки так и тянет на приключения и хорошую закуску!"
             python:
-                if bloodlust < 5: dragon.bloodiness += 1
-                if dragon.lust < 3: draon.lust += 1
-                if dragon.hunger < 3: draon.hunger += 1
-        'Пройти мимо' if dragon.bloodiness < 5:
+                if game.bloodlust < 5: game.dragon.bloodiness += 1
+                if game.dragon.lust < 3: game.dragon.lust += 1
+                if game.dragon.hunger < 3: game.dragon.hunger += 1
+        'Пройти мимо' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             
     return
@@ -86,7 +86,7 @@ label lb_enc_inn:
 label lb_enc_peasant_cart:
     'Телега с сеном.'
     menu:
-        'Убить крестьянина' if dragon.bloodiness >= 5:
+        'Убить крестьянина' if game.dragon.bloodiness >= 5:
             $ game.dragon.drain_energy()
             'Дав волю своему гневу, [dragon.name] переворачивает повозку, убивает лошадь и разрывает крестьянина на куски. У жалкого смертного нет ничего ценного! Да как он посмел встретить дракона если с него и взять нечего?!'
             $ game.dragon.reputation.points += 3
@@ -97,7 +97,7 @@ label lb_enc_peasant_cart:
             $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
-        'Пропустить' if dragon.bloodiness < 5:
+        'Пропустить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
     
@@ -116,7 +116,7 @@ label lb_enc_carriage:
             game.girl.third "[description]"
             call lb_nature_sex      
         
-        'Пропустить' if dragon.bloodiness < 5:
+        'Пропустить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()        
     return
     
@@ -141,7 +141,7 @@ label lb_enc_qesting_knight:
                 trs_list = game.lair.treasury.treasures_description(trs)
                 trs_descrptn = '\n'.join(trs_list)
             '[trs_descrptn]'
-        'Пропустить' if dragon.bloodiness < 5:
+        'Пропустить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()   
             
     return
@@ -158,7 +158,7 @@ label lb_enc_trader:
             'Торговец с облегчением отдаёт дракону несколько серебрянных таллеров, чтобы тот его не трогал и пропустил фургон.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
-        'Убить и ограбить' if dragon.bloodiness >= 5:
+        'Убить и ограбить' if game.dragon.bloodiness >= 5:
             python:
                 game.dragon.drain_energy()
                 gold_trs = [treasures.Coin('farting', 100), treasures.Coin('taller', 10)]
@@ -166,7 +166,7 @@ label lb_enc_trader:
             'Дав волю своему гневу, [dragon.name] переворачивает фургон, убивает лошадь и разрывает торговца на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Пропустить' if dragon.bloodiness < 5:
+        'Пропустить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             
     return
@@ -174,7 +174,7 @@ label lb_enc_trader:
 label lb_enc_caravan:
     'Торговый караван под охраной взвода наемных конных арбалетчиков.'
     menu:
-        'Вымогать деньги' if dragon.fear() > 3:
+        'Вымогать деньги' if game.dragon.fear() > 3:
             python:
                 game.dragon.drain_energy()
                 passing_tool = random.randint(1,20) 
@@ -201,14 +201,14 @@ label lb_enc_caravan:
             '[trs_descrptn]'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Пропустить' if dragon.bloodiness < 5:
+        'Пропустить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()    
     return
    
 label lb_enc_lcaravan:
     'Большой караван с тяжело вооруженной охраной.'
     menu:
-        'Вымогать деньги' if dragon.fear() > 6:
+        'Вымогать деньги' if game.dragon.fear() > 6:
             python:
                 game.dragon.drain_energy()
                 passing_tool = random.randint(20,100) 
@@ -235,7 +235,7 @@ label lb_enc_lcaravan:
             '[trs_descrptn]'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Пропустить' if dragon.bloodiness < 5:
+        'Пропустить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()        
     return
     
