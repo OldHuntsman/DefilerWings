@@ -394,6 +394,7 @@ class Dragon(Fighter):
         self.hunger = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
         self.health = 2 # range 0..2, ресурс восстанавливается до 2 после каждого отдыха
         self.spells = []
+        self._base_energy = 3 #Базовая энергия дракона, не зависящая от модификторов
         
         # Головы
         if parent is not None:
@@ -477,7 +478,7 @@ class Dragon(Fighter):
         """
         :return: Максимальная энергия(целое число)
         """
-        return sum([get_modifier(mod).max_energy for mod in self.modifiers()])
+        return self._base_energy + sum([get_modifier(mod).max_energy for mod in self.modifiers()])
 
     def energy(self):
         """
@@ -728,6 +729,8 @@ class Dragon(Fighter):
         return new_ability
     
     def _colorize_head(self):
+        #На всякий случай проверяем есть ли зеленые головы.
+        assert self.heads.count('green') > 0
         #Считаем достпуные цвета
         available_colors = [ color for color in data.dragon_heads if color not in self.heads ] 
         #Заменяем зеленую голову на один из доступных цветов
