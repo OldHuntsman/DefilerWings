@@ -396,6 +396,7 @@ class Dragon(Fighter):
         self._mana_used = 0 # количество использованной маны
         self.spells = []
         self._base_energy = 3 #Базовая энергия дракона, не зависящая от модификторов
+        self._gift = None # Дар Владычицы
         
         # Головы
         if parent is not None:
@@ -410,14 +411,14 @@ class Dragon(Fighter):
             self.anatomy = ['size']
         else:
             self.anatomy = deepcopy(parent.anatomy)
-        new_ability = self._get_ability()
-        self(new_ability)
-        if new_ability == 'head':
+        self._gift = self._get_ability()
+        self(self._gift)
+        if self._gift == 'head':
             self.heads.append('green')
-        elif new_ability == 'color':
+        elif self._gift == 'color':
             self._colorize_head()
         else:
-            self.anatomy.append(new_ability)
+            self.anatomy.append(self._gift)
         
           # заклинания наложенные на дракона(обнуляются после сна)
         self.avatar = self._get_dragon_avatar(self.color_eng()) #Назначаем аватарку
