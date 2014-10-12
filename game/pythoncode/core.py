@@ -397,7 +397,7 @@ class Dragon(Fighter):
         
         # Головы
         if parent is not None:
-            self.heads = deepcopy(parent.heads) #Копируем живые говловы родителя
+            self.heads = deepcopy(parent.heads) #Копируем живые головы родителя
             self.heads.extend(parent.dead_heads) #И прибавляем к ним мертвые
         else:
             self.heads = ['green']  # головы дракона
@@ -697,7 +697,7 @@ class Dragon(Fighter):
         
     def _get_ability(self):
         '''
-        Возврощает способность которую может получить дракон при рождении
+        Возвращает способность, которую может получить дракон при рождении
         '''
         dragon_leveling = ['head']
         if self.size() < 6:
