@@ -1,9 +1,15 @@
 label lb_choose_dragon:
     #Хардкод на трех драконов.
-    python:
-        dragons = []
-        for i in range(3):
-            dragons.append(core.Dragon(parent=game.dragon, gameRef=game,base_character=game.base_character))
+    $ dragons = []
+    python hide:
+        used_gifts = []
+        used_avatars = []
+        
+        while len(dragons) < 3:
+            child = core.Dragon(parent=game.dragon, gameRef=game,base_character=game.base_character)
+            if child._gift not in used_gifts and child.avatar not in used_avatars:
+                dragons.append(child)
+    
     while True:
         nvl clear
         menu:
