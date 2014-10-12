@@ -6,7 +6,7 @@ label lb_location_lair_main:
         'Осмотреть дракона':
             #чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
             game.dragon "[game.dragon.description]"
-        'Сотворить заклинание'  if game.dragon.energy() > 0:
+        'Сотворить заклинание'  if game.dragon.energy() > 0 and game.dragon.mana > 0:
             python:
                 spells_menu = []
                 for spell in data.spell_list.keys():
@@ -20,7 +20,7 @@ label lb_location_lair_main:
             else:
                 python: 
                     game.dragon.spells.append(spell_name)
-                    game.dragon.drain_energy()
+                    game.dragon.drain_mana()
                     game.dragon.gain_rage()
 
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
