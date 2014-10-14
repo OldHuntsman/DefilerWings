@@ -451,11 +451,11 @@ class Dragon(Fighter):
             ddescription += '\n  ' + data.special_description[4]
         if 'ugly' in self.modifiers():
             ddescription += '\n  ' + data.special_description[5]
-        if self.modifiers().count('сunning') == 1:
+        if self.modifiers().count('cunning') == 1:
             ddescription += '\n  ' + data.special_description[6]
-        elif self.modifiers().count('сunning') == 2:
+        elif self.modifiers().count('cunning') == 2:
             ddescription += '\n  ' + data.special_description[7]
-        elif self.modifiers().count('сunning') == 3:
+        elif self.modifiers().count('cunning') == 3:
             ddescription += '\n  ' + data.special_description[8]
             
         return ddescription
