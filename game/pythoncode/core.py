@@ -262,7 +262,6 @@ class Sayer(store.object):
         self._gameRef.currentCharacter = self # Делаем вид, что сказали сами
         self._gameRef.narrator._real_character(*args, **kwargs) # Говорим о лица нарратора. Грязный хак.
         
-
 class Girl(Sayer):
     """
     Базовый класс для всего, с чем можно заниматься сексом.
@@ -393,13 +392,14 @@ class Dragon(Fighter):
         self.lust = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
         self.hunger = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
         self.health = 2 # range 0..2, ресурс восстанавливается до 2 после каждого отдыха
+        self._mana_used = 0 # количество использованной маны
         self.spells = []
         self._base_energy = 3 #Базовая энергия дракона, не зависящая от модификторов
         self._gift = None # Дар Владычицы
         
         # Головы
         if parent is not None:
-            self.heads = deepcopy(parent.heads) #Копируем живые говловы родителя
+            self.heads = deepcopy(parent.heads) #Копируем живые головы родителя
             self.heads.extend(parent.dead_heads) #И прибавляем к ним мертвые
         else:
             self.heads = ['green']  # головы дракона
@@ -532,6 +532,23 @@ class Dragon(Fighter):
         """
         return sum([get_modifier(mod).magic for mod in self.modifiers()])
         
+    @property
+    def mana(self):
+        """
+        :return: Количество текущей маны (магическая сила - использованная мана, целое число)
+        """
+        return self.magic() - self._mana_used
+        
+    def drain_mana(self, drain=1):
+        """
+        :param drain: количество отнимаемой у дракона маны.
+        :return: True если успешно, иначе False.
+        """
+        if self.mana - drain >= 0:
+            self._mana_used += drain
+            return True
+        return False    
+        
     def fear(self):
         """
         :return: Значение чудовищности(целое число)
@@ -544,6 +561,7 @@ class Dragon(Fighter):
         self.lust = 3  # range 0..3
         self.hunger = 3  # range 0..3
         self.spells = []  # заклинания сбрасываются
+        self._mana_used = 0 # использованная мана сбрасывается
         self.health = 2
 
     def color(self):
@@ -721,7 +739,7 @@ class Dragon(Fighter):
         
     def _get_ability(self):
         '''
-        Возврощает способность которую может получить дракон при рождении
+        Возвращает способность, которую может получить дракон при рождении
         '''
         dragon_leveling = ['head']
         if self.size() < 6:
@@ -770,10 +788,9 @@ class Dragon(Fighter):
             else:
                 return ['dragon_wounded', 'dragon_heavily_wounded']
         else:
-            # жизни закончились, рубим случайную голову
-            lost_head = random.choice(self.heads)
-            self.heads.remove(lost_head)
-            self.dead_heads.append(lost_head)
+            # жизни закончились, рубим последнюю голову
+            lost_head = self.heads.pop()
+            self.dead_heads.insert(0, lost_head)
             # потеря головы, если головы закончились - значит смертушка пришла
             if self.heads:
                 return ['lost_head', 'lost_' + lost_head]

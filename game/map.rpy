@@ -116,7 +116,7 @@ screen status_bar:
                 outlines [(2, "#0004", 0, 0),(4, "#0003", 0, 0),(6, "#0002", 0, 0),(8, "#0001", 0, 0)]
         
         if game.dragon is not None:
-            text "%d" % game.dragon.magic():
+            text "%d" % game.dragon.mana:
                 pos(260,365)
                 anchor (0.5,0.5)
                 size 30
