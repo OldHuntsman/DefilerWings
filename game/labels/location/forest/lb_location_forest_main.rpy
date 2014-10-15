@@ -117,7 +117,7 @@ label lb_enc_boar:
                 'Дракон съедает вепря.'
                 $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
                 $ game.dragon.hunger -= 1
-                $ game.dragon.spells.append('boar_meat')
+                $ game.dragon.add_effect('boar_meat')
             else:
                 'Дракон торжествует победу.'
         'Отступить' if game.dragon.bloodiness < 5:

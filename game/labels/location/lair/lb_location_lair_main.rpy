@@ -19,7 +19,7 @@ label lb_location_lair_main:
                 jump lb_location_lair_main
             else:
                 python: 
-                    game.dragon.spells.append(spell_name)
+                    game.dragon.add_effect(spell_name)
                     game.dragon.drain_mana()
                     game.dragon.gain_rage()
 

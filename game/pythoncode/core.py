@@ -827,6 +827,13 @@ class Dragon(Fighter):
             if int(value) >= self._age:
                 self._age = int(value)
         self._age = int(value)
+        
+    def add_effect(self, effect_name):
+        if effect_name not in self.spells:
+            if effect_name in data.spell_list or effect_name in data.effects_list:
+                self.spells.append(effect_name)
+            else:
+                raise Exception("Unknown effect: %s" % effect_name)
 
 class Enemy(Fighter):
     """
