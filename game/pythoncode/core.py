@@ -496,7 +496,8 @@ class Dragon(Fighter):
         """
         return self.anatomy + \
                [mod for head_color in self.heads for mod in data.dragon_heads[head_color]] + \
-               [mod for spell in self.spells for mod in data.spell_list[spell]]
+               [mod for spell in self.spells if spell in data.spell_list for mod in data.spell_list[spell]] + \
+               [mod for effect in self.spells if spell in data.effects_list for mod in data.effects_list[spell]] 
 
     def max_energy(self):
         """
@@ -791,14 +792,19 @@ class Dragon(Fighter):
             else:
                 return ['dragon_wounded', 'dragon_heavily_wounded']
         else:
-            # жизни закончились, рубим последнюю голову
-            lost_head = self.heads.pop()
-            self.dead_heads.insert(0, lost_head)
-            # потеря головы, если головы закончились - значит смертушка пришла
-            if self.heads:
-                return ['lost_head', 'lost_' + lost_head]
+            if 'unbreakable_scale' in self.spells:
+                # потеря заклинания защиты головы
+                self.spells.remove('unbreakable_scale')
+                return ['lost_head', 'lost_virtual']
             else:
-                return ['dragon_dead']
+                # жизни закончились, рубим голову (последнюю в списке)
+                lost_head = self.heads.pop()
+                self.dead_heads.insert(0, lost_head) # ставим на первое место, чтобы после объединения списков порядок голов не изменился
+                # потеря головы, если головы закончились - значит смертушка пришла
+                if self.heads:
+                    return ['lost_head', 'lost_' + lost_head]
+                else:
+                    return ['dragon_dead']
                 
     def deepcopy(self):#TODO: Выпилить deepcopy
         child = Dragon(gameRef=self._gameRef, base_character=self._base_character)
@@ -823,6 +829,13 @@ class Dragon(Fighter):
             if int(value) >= self._age:
                 self._age = int(value)
         self._age = int(value)
+        
+    def add_effect(self, effect_name):
+        if effect_name not in self.spells:
+            if effect_name in data.spell_list or effect_name in data.effects_list:
+                self.spells.append(effect_name)
+            else:
+                raise Exception("Unknown effect: %s" % effect_name)
 
 class Enemy(Fighter):
     """
