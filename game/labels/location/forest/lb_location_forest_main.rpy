@@ -11,7 +11,7 @@ label lb_location_forest_main:
     $ choices = [("lb_enc_lumberjack", 10),
                 ("lb_enc_onegirl", 10),
                 ("lb_enc_wandergirl", 10),
-                ("lb_enc_ogre", 10),
+                ("lb_enc_ogre", 10000),
                 ("lb_enc_deer", 10),   
                 ("lb_enc_boar", 10),
                 ("lb_enc_berries", 10),
@@ -115,11 +115,11 @@ label lb_enc_boar:
             call lb_fight
             if game.dragon.hunger > 0:
                 'Дракон съедает вепря.'
-                $ if bloodlust > 0: bloodlust = 0
+                $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
                 $ game.dragon.hunger -= 1
             else:
                 'Дракон торжествует победу.'
-        'Отступить' if bloodlust < 5:
+        'Отступить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     
     return
@@ -136,7 +136,7 @@ label lb_enc_guardian:
             call lb_fight
             'Дракон торжествует победу. Но найти тайную тропу что охранял эльф никак не получается...'
             #TODO: Трижды победив эльфийских стражей, дракон открывает себе доступ к волшебным лесам
-        'Отступить' if bloodlust < 5:
+        'Отступить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             return            
     return
@@ -154,10 +154,27 @@ label lb_enc_ogre:
         'Вызвать великана на бой':
             $ game.dragon.drain_energy()
             call lb_fight
-            #TODO: Логово великана и великанша.
-        'Запомнить место и уйти' if bloodlust < 5:
+            '[game.dragon.name] победил.'
+            menu:
+                'Обследовать пещеру':
+                    'В пещере прячется испуганная великанша. То ли дочь, то ли жена того огра труп которого валяется снаружи.'
+                    $ description = game.girls_list.new_girl('ogre')
+                    nvl clear
+                    game.girl.third "[description]"
+                    call lb_nature_sex     
+                    'Пещера в которой жил огр теперь пуста. Но тут можно устроить своё логово, не слишком раскошное но всё же получше чем открытый овраг в буреломной чащобе.'
+                    menu:
+                        'Переместить логово':
+                             $ game.create_lair('ogre_den')
+                        'Покинуть пещеру':
+                            return                            
+                'Запомнить место и уйти':
+                    return
+        'Запомнить место и уйти' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
-            return     
+    return
+ 
+label ogre_lair:
     return
 
 label lb_enc_lumbermill:
@@ -175,8 +192,9 @@ label lb_enc_lumbermill:
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Наколдовать синее пламя' if game.dragon.magic() > 0:
+        'Наколдовать синее пламя' if game.dragon.mana > 0:
             $ game.dragon.drain_energy()
+            $ game.dragon.drain_mana()
             "Лесопилка сгорает синим пламенем."
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 3
@@ -185,7 +203,7 @@ label lb_enc_lumbermill:
             $ game.dragon.drain_energy()
             "[game.dragon.name] тщательно обследует необычное строение на предмет важности и уязвимых мест. Вращаемое потоком воды колесо приводит в движение скрытые внутри здания пилы, при помощи которых люди изготавливают из брёвен доски. Огромный штабель готовой продукции сложен неподалёку. Если бы только было чем это всё поджечь..."
             'Только время зря потерял. Придётся уйти несолоно хлебавши.'
-        'Пройти мимо' if bloodlust < 5:
+        'Пройти мимо' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     
     return
@@ -211,7 +229,7 @@ label lb_enc_klad:
             '[trs_descrptn]'
             $ game.lair.treasury.receive_treasures(trs)
             
-        'Пусть пока лежат'  if bloodlust < 5:
+        'Пусть пока лежат'  if game.dragon.bloodiness < 5:
             'Конечно сокровища полезны, но то что тут могли закопать жалкие людишки вряд ли стоит драгоценного времени благородного змея.'
 
     

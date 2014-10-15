@@ -425,7 +425,7 @@ class Dragon(Fighter):
     @property
     def description(self):
         ddescription = '  '
-        ddescription += data.dragon_size[self.size()-1] + u' ' + self.color() + u' ' + self.kind()
+        ddescription += data.dragon_size[self.size()-1] + u' ' + self.color() + u' ' + self.kind() + u'. ' + data.dragon_size_description[self.size()-1] 
         i = -1
         for head in self.heads:
             i += 1 

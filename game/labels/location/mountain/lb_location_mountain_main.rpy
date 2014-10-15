@@ -40,7 +40,7 @@ label lb_enc_miner:
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             
-        'Пусть идёт' if bloodlust < 5:
+        'Пусть идёт' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             return
     return
@@ -66,7 +66,7 @@ label lb_enc_dklad:
             '[trs_descrptn]'
             $ game.lair.treasury.receive_treasures(trs)
                         
-        'Пусть пока лежат'  if bloodlust < 5:
+        'Пусть пока лежат'  if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             'Конечно сокровища полезны, но то что тут могли спрятать жалкие смертные вряд ли стоит драгоценного времени благородного змея.'    
     return
@@ -97,12 +97,12 @@ label lb_enc_bear:
             call lb_fight
             if game.dragon.hunger > 0:
                 'Дракон съедает медведя.'
-                $ if bloodlust > 0: bloodlust = 0
+                $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
                 $ game.dragon.hunger -= 1
             else:
                 'Дракон торжествует победу.'
                 
-        'Отступить' if bloodlust < 5:
+        'Отступить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     
     return
@@ -137,7 +137,7 @@ label lb_enc_smuglers:
             'Обыскав тюки контрабандистов [dragon.name] находит кое-какие ценные вещи:'
             '[trs_descrptn]'
             
-        'Отпустить их с миром' if bloodlust < 5:    
+        'Отпустить их с миром' if game.dragon.bloodiness < 5:    
             'Пусть налаживают торговлю, чем богаче станет страна тем больше можно будет нажиться ограбляя её!'
             $ game.dragon.gain_rage()
     
@@ -150,7 +150,7 @@ label lb_enc_slavers:
             'Для работорговцев это не слишком большая потеря - они соглашаются отдать самого заморенного раба, чтобы [dragon.name] пропустил их без боя. Они даже жалеают дракону приятного аппетита.'
             $ game.dragon.drain_energy()
             'Дракон пожирает измождённого раба. Не самая лучшая закуска на свете, но голод не тётка...'
-            $ if bloodlust > 0: bloodlust = 0
+            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
             $ game.dragon.hunger -= 1
         
         'Потребовать невинную девушку' if game.dragon.lust > 0:
@@ -170,7 +170,7 @@ label lb_enc_slavers:
             $ game.foe = core.Enemy('band', gameRef=game, base_character=NVLCharacter)
             call lb_fight
         
-        'Отпустить их с миром' if bloodlust < 5:
+        'Отпустить их с миром' if game.dragon.bloodiness < 5:
             'Пусть налаживают торговлю, чем богаче станет страна тем больше можно будет нажиться ограбляя её!'        
             $ game.dragon.gain_rage()
     
@@ -209,7 +209,7 @@ label lb_enc_mines:
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
             
-        'Пройти мимо' if bloodlust < 5:
+        'Пройти мимо' if game.dragon.bloodiness < 5:
             'Человеческое серебро не стоит того чтобы получить в глаз их железо!'       
             $ game.dragon.gain_rage()
     return

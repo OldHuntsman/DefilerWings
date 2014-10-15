@@ -16,7 +16,7 @@ label lb_location_road_main:
                 ("lb_enc_carriage", 10),   
                 ("lb_enc_qesting_knight", 10),
                 ("lb_enc_trader", 10),
-                ("lb_enc_caravan", 10000),
+                ("lb_enc_caravan", 10),
                 ("lb_enc_lcaravan", 10),
                 ("lb_enc_outpost", 10),
                 ("lb_patrool_road", 3*game.mobilization.level),                   
@@ -75,7 +75,7 @@ label lb_enc_inn:
             $ game.dragon.drain_energy()
             "[dragon.name] получает от испуганного хозяина трактира целую бочку лучшего эля. После такой выпивки так и тянет на приключения и хорошую закуску!"
             python:
-                if game.bloodlust < 5: game.dragon.bloodiness += 1
+                if game.game.dragon.bloodiness < 5: game.dragon.bloodiness += 1
                 if game.dragon.lust < 3: game.dragon.lust += 1
                 if game.dragon.hunger < 3: game.dragon.hunger += 1
         'Пройти мимо' if game.dragon.bloodiness < 5:
