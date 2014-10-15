@@ -23,7 +23,7 @@ label lb_nature_sex:
         'Утащить в логово' if not game.girl.jailed:
             $ description = game.girls_list.steal_girl()
             game.girl.third "[description]"
-            $ place = game.lair.type_name
+            $ place = 'lair'
             show place
             nvl clear
             $ description = game.girls_list.jail_girl()
