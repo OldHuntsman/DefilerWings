@@ -185,6 +185,7 @@ class Game(store.object):
 
 class Lair(object):
     def __init__(self, type = "impassable_coomb"):
+        self.type_name = type
         self.type = data.Container(type, data.lair_types[type])
         self.upgrades = data.Container('lair_upgrades')
         # Сокровищиница
