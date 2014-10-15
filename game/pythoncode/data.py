@@ -588,6 +588,13 @@ spell_list_rus = {
     'spellbound_trap'       : u"Колдовская западня"
     }
 
+effects_list = {
+    # спецеффекты от еды и других прокачек дракона помимо собственных заклинаний
+    'boar_meat'         : ['atk_up'],
+    'bear_meat'         : ['def_up'],
+    'griffin_meat'      : ['mg_up'],
+                }
+
 dragon_modifiers = {
     'fire_immunity'     : DragonModifier(),
     'ice_immunity'      : DragonModifier(),
@@ -624,7 +631,11 @@ dragon_modifiers = {
     'horns'         : DragonModifier(protection=('base', (2, 0)), fear=1),
     'ugly'          : DragonModifier(fear=2),
     'poisoned_sting': DragonModifier(attack=('poison', (1, 1))),
-    'cunning'       : DragonModifier(magic=1)
+    'cunning'       : DragonModifier(magic=1),
+    #
+    'atk_up'        : DragonModifier(attack=('base', (1, 0))),
+    'def_up'        : DragonModifier(protection=('base', (1, 0))),
+    'mg_up'         : DragonModifier(magic=1),
     }
 
 knight_items = dict()

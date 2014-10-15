@@ -30,7 +30,7 @@ init:
     image bg main = "img/bg/main.jpg"  # заставка главного меню
     image place = ConditionSwitch(              
         "place == 'city_gates'", "img/bg/city/outside.png",    # определение фонов для разных мест (потребует доработки)  
-        "place == 'impassable_coomb'", "img/bg/lair/cave.png",
+        "place == 'impassable_coomb'", "img/bg/lair/ravine.png",
         "place == 'impregnable_peak'", "img/bg/lair/cave.png",
         "place == 'solitude_сitadel'", "img/bg/lair/cave.png",
         "place == 'vulcano_chasm'", "img/bg/lair/cave.png",
@@ -38,7 +38,7 @@ init:
         "place == 'underground_burrow'", "img/bg/lair/cave.png",
         "place == 'dragon_castle'", "img/bg/lair/cave.png",
         "place == 'castle'", "img/bg/lair/cave.png",
-        "place == 'cannibal_den'", "img/bg/lair/cave.png",
+        "place == 'ogre_den'", "img/bg/lair/cave.png",
         "place == 'broad_cave'", "img/bg/lair/cave.png",
         "place == 'tower_ruin'", "img/bg/lair/cave.png",
         "place == 'monastery_ruin'", "img/bg/lair/cave.png",
