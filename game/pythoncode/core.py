@@ -789,14 +789,19 @@ class Dragon(Fighter):
             else:
                 return ['dragon_wounded', 'dragon_heavily_wounded']
         else:
-            # жизни закончились, рубим последнюю голову
-            lost_head = self.heads.pop()
-            self.dead_heads.insert(0, lost_head)
-            # потеря головы, если головы закончились - значит смертушка пришла
-            if self.heads:
-                return ['lost_head', 'lost_' + lost_head]
+            if 'unbreakable_scale' in self.spells:
+                # потеря заклинания защиты головы
+                self.spells.remove('unbreakable_scale')
+                return ['lost_head', 'lost_virtual']
             else:
-                return ['dragon_dead']
+                # жизни закончились, рубим голову (последнюю в списке)
+                lost_head = self.heads.pop()
+                self.dead_heads.insert(0, lost_head) # ставим на первое место, чтобы после объединения списков порядок голов не изменился
+                # потеря головы, если головы закончились - значит смертушка пришла
+                if self.heads:
+                    return ['lost_head', 'lost_' + lost_head]
+                else:
+                    return ['dragon_dead']
                 
     def deepcopy(self):#TODO: Выпилить deepcopy
         child = Dragon(gameRef=self._gameRef, base_character=self._base_character)
