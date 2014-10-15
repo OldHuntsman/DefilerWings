@@ -8,6 +8,7 @@ label lb_location_gremlin_main:
         
     menu:
         'Нанять слуг' if 'gremlin' not in game.lair.modifiers:
+            'Гремлины будут служить в логове, приглядывать за пленницами и охранять их.'
             $ game.lair.modifiers.append('gremlin')
             # TODO: платные гремлины
         'Ловушки для логова' if (not game.lair.type.provide or 'mechanic_traps' not in game.lair.type.provide) and 'mechanic_traps' not in game.lair.upgrades:

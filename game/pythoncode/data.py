@@ -299,7 +299,7 @@ lair_types = Container("lair_types", {
                                 "castle"            : { "name": u"Драконий замок",
                                                         "inaccessability" : 1,
                                                         "require" : [ ] },
-                                "cannibal_den"      : { "name": u"Берлога людоеда",
+                                "ogre_den"          : { "name": u"Берлога людоеда",
                                                         "inaccessability" : 1,
                                                         "require" : [ ] },
                                 "broad_cave"        : { "name": u"Просторная пещера",
@@ -472,9 +472,18 @@ dragon_size = [
     u'Огромный',
     u'Исполинский',
     ]
+
+dragon_size_description = [
+    u'Его размеры вряд ли кого-то впечатлят. Хотя и сильно вытянутый в длинну, змей весит не больше чем крупная крестьянская собака.',
+    u'Он весит примерно столько же сколько и взрослый, здоровый мужчина. Ничего поразительного.',
+    u'Достаточно велик чтобы пококнурировать размерами с небольшой лошадью или откормленным годовалым бычком.',
+    u'В местных лесах вряд ли найдётся зверь способный потягаться с ним в размерах. Разве что самые откормленные быки или пещерные медведи смогут с ним сравниться.',
+    u'Пожалуй по своему весу и размеру он заткнёт за пояс даже африканского слона. Не говоря уже об обитателях лесов и полей этого королевства. Тут ему равных нет.',
+    u'На его фоне даже титаны смотрятся бледно, разве что кашалот или кракен весит примерно столько же. Но могут ли они быть столь же ловкими и смертносными на суше и в воздухе?',
+    ]
     
 head_description = {
-    'green': u'покрыта зелёной чешуёй',
+    'green': u'не имеет особых способностей',
     'red': u'изрыгает дымное плямя',
     'white': u'обладает леденящим дыханием',
     'blue': u'оснащена жабрами и плавниками',
@@ -482,7 +491,7 @@ head_description = {
     'iron': u'щетинится стальными пластинами',
     'bronze': u'способна рыть землю как бронзовый ковш',
     'silver': u'украшена гребнем по которому струятся молнии',
-    'gold': u'изрыгает имеет способность видеть невидимое',
+    'gold': u'способна видеть невидимое',
     'shadow': u'повелевает жуткой некромантией'
     }
     
@@ -579,6 +588,13 @@ spell_list_rus = {
     'spellbound_trap'       : u"Колдовская западня"
     }
 
+effects_list = {
+    # спецеффекты от еды и других прокачек дракона помимо собственных заклинаний
+    'boar_meat'         : ['atk_up'],
+    'bear_meat'         : ['def_up'],
+    'griffin_meat'      : ['mg_up'],
+                }
+
 dragon_modifiers = {
     'fire_immunity'     : DragonModifier(),
     'ice_immunity'      : DragonModifier(),
@@ -615,7 +631,11 @@ dragon_modifiers = {
     'horns'         : DragonModifier(protection=('base', (2, 0)), fear=1),
     'ugly'          : DragonModifier(fear=2),
     'poisoned_sting': DragonModifier(attack=('poison', (1, 1))),
-    'cunning'       : DragonModifier(magic=1)
+    'cunning'       : DragonModifier(magic=1),
+    #
+    'atk_up'        : DragonModifier(attack=('base', (1, 0))),
+    'def_up'        : DragonModifier(protection=('base', (1, 0))),
+    'mg_up'         : DragonModifier(magic=1),
     }
 
 knight_items = dict()
@@ -627,3 +647,10 @@ def get_modifier(name):
     elif name in fighter_mods:
         return fighter_mods[name]
     raise NotImplementedError, name
+
+#логова, картинки
+lair_image = {
+              'ravine' : 'ravine'
+              }
+
+

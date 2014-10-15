@@ -323,7 +323,7 @@ label lb_enc_mill:
             $ game.dragon.drain_energy()
             "[game.dragon.name] тщательно обследует необычное строение на предмет важности и уязвимых мест. Эту четырёхкрылую башню с каменным основанием люди используют чтобы делать из зерна муку. Очень хочется её разрушить, но стоит она прочно. Нужно либо размер иметь побольше чтобы расшатать её собственным телом, либо наслать гнилостное заклятье на внутренние деревянные механизмы."
             'Только время зря потерял. Придётся уйти несолоно хлебавши.'
-        'Пройти мимо' if bloodlust < 5:
+        'Пройти мимо' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     
     return
@@ -352,12 +352,12 @@ label lb_enc_granary:
         'Обследовать здание' if not doit and game.dragon.magic() == 0:
             $ game.dragon.drain_energy()
             "[game.dragon.name] тщательно обследует огромный амбар. Зерна тут хватит чтобы целыый городо прокормить. Эх сжечь бы это всё до тла и люди начали бы голодать, только вот огонька нет..."
-        'Пройти мимо' if bloodlust < 5:
+        'Пройти мимо' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     
     return
 
-label lb_enc_goose:
+label lb_enc_gooze:
     'Босоногая крестьянская девчёнка пасёт гусей. Слишком молода чтобы рожать.'
     nvl clear
     menu:
@@ -372,7 +372,7 @@ label lb_enc_goose:
             '[game.dragon.reputation.gain_description]'
             $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
             $ game.dragon.hunger -= 1
-        'Устрить побоище' if game.dragon.bloodiness => 5:
+        'Устрить побоище' if game.dragon.bloodiness >= 5:
             $ game.dragon.drain_energy()
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
@@ -383,7 +383,7 @@ label lb_enc_goose:
     return
     
 label lb_enc_pigs:
-    'Свиньи пасутся в дубовой роще. Свинопас убегает.'
+    'Свиньи пасутся в дубовой роще. Свинопас убегает, стадо охраняет злая собака.'
     nvl clear
     menu:
         'Напасть на стадо' if game.dragon.hunger > 0:
@@ -465,7 +465,7 @@ label lb_enc_noting:
     show expression 'img/bg/special/village_burned.png' as bg          
     'Здесь лишь запустение и разруха. Хотя когда-то тут можно было встретить людей или животных, сейчас их больше нету. Кругом лишь разрушенные дома да заросшие бурьяном пашни.'
     python:
-        if bloodlust < 5: 
+        if game.dragon.bloodiness < 5: 
             game.dragon.gain_rage()
     return
 
@@ -576,12 +576,12 @@ label lb_village:
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
     
-        'Отступить' if bloodlust < 5 and village_size > 0:
+        'Отступить' if game.dragon.bloodiness < 5 and village_size > 0:
             $ game.dragon.gain_rage()
             
         'Убраться прочь' if village_size == 0:
             python:
-                if bloodlust < 5: 
+                if game.dragon.bloodiness < 5: 
                     game.dragon.gain_rage()
         
     return

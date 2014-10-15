@@ -1,4 +1,4 @@
-﻿label lb_location_forest_main:
+label lb_location_forest_main:
     $ place = 'forest'
     show expression get_place_bg(place) as bg
     nvl clear
@@ -11,9 +11,9 @@
     $ choices = [("lb_enc_lumberjack", 10),
                 ("lb_enc_onegirl", 10),
                 ("lb_enc_wandergirl", 10),
-                ("lb_enc_ogre", 10),
+                ("lb_enc_ogre", 10000),
                 ("lb_enc_deer", 10),   
-                ("lb_enc_boar", 10000),
+                ("lb_enc_boar", 10),
                 ("lb_enc_berries", 10),
                 ("lb_enc_shrooms", 10),
                 ("lb_enc_guardian", 10),
@@ -117,7 +117,6 @@ label lb_enc_boar:
                 'Дракон съедает вепря.'
                 $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
                 $ game.dragon.hunger -= 1
-                $ game.dragon.spells.append('boar_meat')
             else:
                 'Дракон торжествует победу.'
         'Отступить' if game.dragon.bloodiness < 5:
@@ -155,6 +154,7 @@ label lb_enc_ogre:
         'Вызвать великана на бой':
             $ game.dragon.drain_energy()
             call lb_fight
+<<<<<<< HEAD
             '[game.dragon.name] победил.'
             menu:
                 'Обследовать пещеру':
@@ -171,6 +171,9 @@ label lb_enc_ogre:
                             return                            
                 'Запомнить место и уйти':
                     return
+=======
+            #TODO: Логово великана и великанша.
+>>>>>>> origin/treasury
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
