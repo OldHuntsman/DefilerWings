@@ -20,11 +20,7 @@
     jewler_list = ['casket', 'phallos', 'band', 'diadem', 'tiara', 'earring', 'necklace', 'pendant', 'ring', 'broch', 'gemring', 'armbrace', 'legbrace', 'chain', 'fibula']
     
 
-init:    
-    transform bot_to_top:
-        align(-2, -2)
-        linear 100 yalign 3.0
-        repeat
+init:
     image side dragon = "dragon ava"
     image blur = "img/intro/blur.png"
     image bg main = "img/bg/main.jpg"  # заставка главного меню
@@ -69,7 +65,7 @@ label start:
     
     python:
         #Инициализируем game в начале игры, а не при инициализации. Для того чтобы 
-        game = core.Game(NVLCharacter)
+        game = core.Game(adv_character=ADVCharacter, nvl_character=NVLCharacter)
         narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
     
     # Прокручиваем заставку.

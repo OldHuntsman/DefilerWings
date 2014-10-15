@@ -8,7 +8,7 @@ label lb_choose_dragon:
             used_avatars.append(game.dragon.avatar)
         
         while len(dragons) < 3:
-            child = core.Dragon(parent=game.dragon, gameRef=game,base_character=game.base_character)
+            child = core.Dragon(parent=game.dragon, gameRef=game,base_character=game.adv_character)
             if child._gift not in used_gifts and child.avatar not in used_avatars:
                 dragons.append(child)
                 used_gifts.append(child._gift)
