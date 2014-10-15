@@ -1,4 +1,4 @@
-label lb_location_forest_main:
+﻿label lb_location_forest_main:
     $ place = 'forest'
     show expression get_place_bg(place) as bg
     nvl clear

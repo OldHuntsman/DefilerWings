@@ -1,5 +1,5 @@
 label lb_location_lair_main:
-    $ place = 'lair'
+    $ place = game.lair.type_name
     show place as bg
     
     menu:
