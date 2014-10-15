@@ -494,7 +494,8 @@ class Dragon(Fighter):
         """
         return self.anatomy + \
                [mod for head_color in self.heads for mod in data.dragon_heads[head_color]] + \
-               [mod for spell in self.spells for mod in data.spell_list[spell]]
+               [mod for spell in self.spells if spell in data.spell_list for mod in data.spell_list[spell]] + \
+               [mod for effect in self.spells if spell in data.effects_list for mod in data.effects_list[spell]] 
 
     def max_energy(self):
         """
