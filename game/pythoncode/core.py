@@ -525,7 +525,7 @@ class Dragon(Fighter):
         """
         Увеличивает раздражение дракона на :gain:
         """
-        if self.bloodiness < 5:
+        if self.bloodiness + gain <= 5:
             self.bloodiness += gain
             return True
         return False

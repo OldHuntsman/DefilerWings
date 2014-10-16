@@ -1,8 +1,9 @@
 screen sc_dialog(name='', avatar=None, what=''):
     add "img/style/dialog.png":
         ypos 120
-    add avatar:
-        pos (99,195)
+    if avatar:
+        add avatar:
+            pos (99,195)
     text name:
         pos (310,370)
     viewport:
