@@ -54,15 +54,14 @@ label lb_enc_dklad:
         alignment = 'human'
         min_cost = 1*tr_lvl
         max_cost = 10*tr_lvl
-        t_list = klad_list
         obtained = "Это предмет из клада, спрятанного в горной расщелине."
-        trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+        trs = treasures.gen_treas(count, data.loot['klad'], alignment, min_cost, max_cost, obtained)
         trs_list = game.lair.treasury.treasures_description(trs)
         trs_descrptn = '\n'.join(trs_list)
     menu:
         'Отыскать и забрать':
             $ game.dragon.drain_energy()
-            'Перевернув каждый камень и заглянув в каждую расселину по близости [dragon.name] находит наконец тщательно схороненный тайник. Внутри лежит:'
+            'Перевернув каждый камень и заглянув в каждую расселину по близости [game.dragon.name] находит наконец тщательно схороненный тайник. Внутри лежит:'
             '[trs_descrptn]'
             $ game.lair.treasury.receive_treasures(trs)
                         
@@ -78,11 +77,11 @@ label lb_enc_ram:
     menu:
         'Сожрать барана' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
-            '[dragon.name] ловит и пожирает барана.'
+            '[game.dragon.name] ловит и пожирает барана.'
             $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
         'Разорвать оленя' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
-            '[dragon.name] жестоко задирает барана просто ради забавы.'    
+            '[game.dragon.name] жестоко задирает барана просто ради забавы.'    
         'Просто шугануть' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
@@ -129,7 +128,7 @@ label lb_enc_smuglers:
                 max_cost = 100
                 t_list = smuggler_list
                 obtained = "Это часть груза контрабандистов, которых дракон ограбил на тайном перевале в северных горах."
-                trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                trs = treasures.gen_treas(count, data.loot['smuggler'], alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
                 trs_descrptn = '\n'.join(trs_list)
                 game.lair.treasury.receive_treasures(trs)
@@ -147,7 +146,7 @@ label lb_enc_slavers:
     'Караван работорговцев. Они ведут несколько рабов на веревке, среди рабынь есть одна невинная девушка.'
     menu:
         'Потребовать бесполезного раба' if game.dragon.hunger > 0:
-            'Для работорговцев это не слишком большая потеря - они соглашаются отдать самого заморенного раба, чтобы [dragon.name] пропустил их без боя. Они даже жалеают дракону приятного аппетита.'
+            'Для работорговцев это не слишком большая потеря - они соглашаются отдать самого заморенного раба, чтобы [game.dragon.name] пропустил их без боя. Они даже жалеают дракону приятного аппетита.'
             $ game.dragon.drain_energy()
             'Дракон пожирает измождённого раба. Не самая лучшая закуска на свете, но голод не тётка...'
             $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0

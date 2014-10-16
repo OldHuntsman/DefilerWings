@@ -37,7 +37,7 @@ label lb_enc_tornament:
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('champion', gameRef=game, base_character=NVLCharacter)
             call lb_fight
-            'Увидев что их чемпион повержен, гости турнира в панике разбегаются бросая вещи и вопя от ужаса. [dragon.name] не обращает на них внимания, он забирает свой приз - "королеву любви и красоты" и её золотой венец.'
+            'Увидев что их чемпион повержен, гости турнира в панике разбегаются бросая вещи и вопя от ужаса. [game.dragon.name] не обращает на них внимания, он забирает свой приз - "королеву любви и красоты" и её золотой венец.'
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
             $ description = game.girls_list.new_girl('princess')
@@ -73,7 +73,7 @@ label lb_enc_inn:
         'Потребовать бочку эля':
             show expression 'img/bg/special/fear.png' as bg  
             $ game.dragon.drain_energy()
-            "[dragon.name] получает от испуганного хозяина трактира целую бочку лучшего эля. После такой выпивки так и тянет на приключения и хорошую закуску!"
+            "[game.dragon.name] получает от испуганного хозяина трактира целую бочку лучшего эля. После такой выпивки так и тянет на приключения и хорошую закуску!"
             python:
                 if game.game.dragon.bloodiness < 5: game.dragon.bloodiness += 1
                 if game.dragon.lust < 3: game.dragon.lust += 1
@@ -88,12 +88,12 @@ label lb_enc_peasant_cart:
     menu:
         'Убить крестьянина' if game.dragon.bloodiness >= 5:
             $ game.dragon.drain_energy()
-            'Дав волю своему гневу, [dragon.name] переворачивает повозку, убивает лошадь и разрывает крестьянина на куски. У жалкого смертного нет ничего ценного! Да как он посмел встретить дракона если с него и взять нечего?!'
+            'Дав волю своему гневу, [game.dragon.name] переворачивает повозку, убивает лошадь и разрывает крестьянина на куски. У жалкого смертного нет ничего ценного! Да как он посмел встретить дракона если с него и взять нечего?!'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
         'Сожрать лошадь' if game.dragon.hunger > 0: 
             $ game.dragon.drain_energy()
-            'Пока [dragon.name] пожирает жилистую крестьянскую лошадку, хозяин повозки в ужасе убегает прочь. Ничего, пусть поведает жалким смертным о вашем величии.'
+            'Пока [game.dragon.name] пожирает жилистую крестьянскую лошадку, хозяин повозки в ужасе убегает прочь. Ничего, пусть поведает жалким смертным о вашем величии.'
             $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
@@ -129,15 +129,14 @@ label lb_enc_qesting_knight:
             call lb_fight
             $ game.dragon.reputation.points += 5
             'Рыцарь повержен. [game.dragon.reputation.gain_description]'
-            '[dragon.name] находит на трупе кое-что ценное:'
+            '[game.dragon.name] находит на трупе кое-что ценное:'
             python:
                 count = random.randint(1,5)
                 alignment = 'knight'
                 min_cost = 10
                 max_cost = 100
-                t_list = knight_list
                 obtained = "Это предмет принадлежал когда-то беззвестному странствующему рыцарю."
-                trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                trs = treasures.gen_treas(count, data.loot['knight'], alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
                 trs_descrptn = '\n'.join(trs_list)
             '[trs_descrptn]'
@@ -163,7 +162,7 @@ label lb_enc_trader:
                 game.dragon.drain_energy()
                 gold_trs = [treasures.Coin('farting', 100), treasures.Coin('taller', 10)]
                 game.lair.treasury.receive_treasures([gold_trs])
-            'Дав волю своему гневу, [dragon.name] переворачивает фургон, убивает лошадь и разрывает торговца на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
+            'Дав волю своему гневу, [game.dragon.name] переворачивает фургон, убивает лошадь и разрывает торговца на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
         'Пропустить' if game.dragon.bloodiness < 5:
@@ -187,7 +186,7 @@ label lb_enc_caravan:
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('xbow_rider', gameRef=game, base_character=NVLCharacter)
             call lb_fight
-            'Дав волю своему гневу, [dragon.name] переворачивает фургон, убивает лошадь и разрывает караванщика на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
+            'Дав волю своему гневу, [game.dragon.name] переворачивает фургон, убивает лошадь и разрывает караванщика на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
             python:
                 count = random.randint(5,15)
                 alignment = 'human'
@@ -221,7 +220,7 @@ label lb_enc_lcaravan:
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('mounted_guard', gameRef=game, base_character=NVLCharacter)
             call lb_fight
-            'Перебив охрану и караванщиков, [dragon.name] отыскивает в разбитых телегах всё ценное. В основном тут разные не нужные уважающему себя дракону товары - ткани, специи, оливковое масло и тому подобное, но у купцов и наемников есть в кошельках звонкие монеты:'
+            'Перебив охрану и караванщиков, [game.dragon.name] отыскивает в разбитых телегах всё ценное. В основном тут разные не нужные уважающему себя дракону товары - ткани, специи, оливковое масло и тому подобное, но у купцов и наемников есть в кошельках звонкие монеты:'
             python:
                 count = random.randint(5,15)
                 alignment = 'human'

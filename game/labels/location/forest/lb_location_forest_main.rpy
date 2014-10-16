@@ -96,11 +96,11 @@ label lb_enc_deer:
     menu:
         'Сожрать оленя' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
-            '[dragon.name] ловит и пожирает оленя.'
+            '[game.dragon.name] ловит и пожирает оленя.'
             $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
         'Разорвать оленя' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
-            '[dragon.name] жестоко задирает оленя просто ради забавы.'    
+            '[game.dragon.name] жестоко задирает оленя просто ради забавы.'    
         'Просто шугануть' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
@@ -218,9 +218,8 @@ label lb_enc_klad:
         alignment = 'human'
         min_cost = 1*tr_lvl
         max_cost = 10*tr_lvl
-        t_list = klad_list
         obtained = "Это предмет из клада, зарытого кем-то в лесу."
-        trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+        trs = treasures.gen_treas(count, data.loot['klad'], alignment, min_cost, max_cost, obtained)
         trs_list = game.lair.treasury.treasures_description(trs)
         trs_descrptn = '\n'.join(trs_list)
     menu:
