@@ -6,10 +6,10 @@
     from copy import deepcopy
     
     #Заряжаем пасхалки. Их можно будет встретить в игре лишь однажды
-    one_time_encounters = ['enc_redcape']
-    for encounter in one_time_encounters:
-        if persistent.encounter == None:
-            persistent.encounter = False
+    #Встреченную пасхалку следует добавить в persistent.seen_encounters
+    #Проверить была ли встречена пасхалка: if <encounter> (not) in persistent.seen_encounters
+    if not hasattr(persistent, 'seen_encounters'):
+        persistent.seen_encounters = []
 
 # Начало игры
     

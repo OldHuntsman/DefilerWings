@@ -1,4 +1,4 @@
-screen disclaimer:
+screen sc_disclaimer:
     frame:
         text "Внимание!":           # Отдельно так как нужно спозиционировать по центру.
             color "#f00"            # Текст красного цвета
