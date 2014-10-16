@@ -414,7 +414,6 @@ class Dragon(Fighter):
         else:
             self.anatomy = deepcopy(parent.anatomy)
         self._gift = self._get_ability()
-        self(self._gift)
         if self._gift == 'head':
             self.heads.append('green')
         elif self._gift == 'color':
@@ -424,6 +423,7 @@ class Dragon(Fighter):
         
           # заклинания наложенные на дракона(обнуляются после сна)
         self.avatar = self._get_dragon_avatar(self.color_eng()) #Назначаем аватарку
+        self(self._gift)
     
     @property
     def description(self):
