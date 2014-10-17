@@ -187,19 +187,19 @@ class Girls_list(object):
             self.game.girl = self.prisoners[girl_i]
             #попытка побега
             if (random.randint(1,2) == 1) and self.game.lair.reachable([]) and \
-               'regular_guards' not in self.game.lair.modifiers and \
-               'elite_guards' not in self.game.lair.modifiers:
+               'regular_guards' not in self.game.lair.upgrades and \
+               'elite_guards' not in self.game.lair.upgrades:
                 #девушка сбежала из камеры
                 del self.prisoners[girl_i]
-                if 'mechanic_traps' in self.game.lair.modifiers or \
-                   'magic_traps' in self.game.lair.modifiers:
+                if 'mechanic_traps' in self.game.lair.upgrades or \
+                   'magic_traps' in self.game.lair.upgrades:
                     self.description('traps', True) #описание гибели в ловушке
                 else:
                     self.description('escape', True)#описание чудесного спасения
                     if self.game.girl.pregnant: self.free_list.append(self.game.girl)
             else:
                 #девушка не убежала
-                if ('servant' in self.game.lair.modifiers) or ('gremlin' in self.game.lair.modifiers):
+                if ('servant' in self.game.lair.upgrades) or ('gremlin_servant' in self.game.lair.upgrades):
                     if self.game.girl.pregnant:
                         if self.game.girl.pregnant == 1:
                             self.spawn.append(girls_data.girls_info[self.game.girl.type]['regular_spawn'])
@@ -247,13 +247,13 @@ class Girls_list(object):
             spawn_menu = [] #меню отродий
             spawn_menu.append((u"К Вам приходит %s и просит назначения" % spawn['name'], None)) #заголовок меню
             #Возможные пункты меню
-            if ('poisonous' in spawn_mod) and ('poison_guards' not in self.game.lair.modifiers) and marine_check:
+            if ('poisonous' in spawn_mod) and ('poison_guards' not in self.game.lair.upgrades) and marine_check:
                 spawn_menu.append((u"Выпустить в логово", 'poison_guards')) 
-            if ('servant' in spawn_mod) and ('servant' not in self.game.lair.modifiers) and marine_check:
+            if ('servant' in spawn_mod) and ('servant' not in self.game.lair.upgrades) and marine_check:
                 spawn_menu.append((u"Сделать слугой", 'servant'))
-            if ('warrior' in spawn_mod) and ('regular_guards' not in self.game.lair.modifiers) and marine_check:
+            if ('warrior' in spawn_mod) and ('regular_guards' not in self.game.lair.upgrades) and marine_check:
                 spawn_menu.append((u"Сделать охранником", 'regular_guards'))
-            if ('elite' in spawn_mod) and ('elite_guards' not in self.game.lair.modifiers) and marine_check:
+            if ('elite' in spawn_mod) and ('elite_guards' not in self.game.lair.upgrades) and marine_check:
                 spawn_menu.append((u"Сделать элитным охранником", 'elite_guards'))
             spawn_menu.append((u"Выпустить в королевство", 'free'))
             if (('servant' in spawn_mod) or ('warrior' in spawn_mod) or ('elite' in spawn_mod)) and ('marine' not in spawn_mod):
@@ -268,13 +268,11 @@ class Girls_list(object):
                 renpy.say(self.game.narrator, u"%s отправляется в армию тьмы" % spawn['name'])
                 self.army_of_darkness()
             else:
-                self.game.lair.modifiers.append(menu_action) #добавление в модификатор логова
+                self.game.lair.upgrades.append(menu_action) #добавление в модификатор логова
                 renpy.say(self.game.narrator, u"%s приступает к выполнению обязанностей" % spawn['name']) #выдача сообщения
                 if menu_action <> 'servant':
                     self.game.lair.upgrades.add(menu_action, deepcopy(data.lair_upgrades[menu_action])) #добавление в улучшение логова
         self.spawn = []
-        if 'gremlin' in self.game.lair.modifiers:
-            self.game.lair.modifiers.remove('gremlin')
       
     def free_spawn(self, power):
         """

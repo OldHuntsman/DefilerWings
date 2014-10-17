@@ -76,6 +76,13 @@ class Game(store.object):
         self.poverty.apply_planned()
         # Действия с девушками каждый год
         self.girls_list.next_year()
+        # Уменьшаем срок всех наймов
+        for upgrade in self.lair.upgrades.keys():
+            if type(self.lair.upgrades) == type(self.lair.upgrades[upgrade]) and \
+               'recruitment_time' in self.lair.upgrades[upgrade].keys():
+                self.lair.upgrades[upgrade]['recruitment_time'] -= 1
+                if self.lair.upgrades[upgrade]['recruitment_time'] == 0:
+                    del self.lair.upgrades[upgrade]
         # Изменяем уровень мобилизации
         desired_mobilization = self.dragon.reputation.level - self.poverty.value # Желаемый уровень мобилизации
         mobilization_delta = self.mobilization.level - desired_mobilization # Считаем есть ли разница с текущим уровнем мобилизации
@@ -189,11 +196,10 @@ class Lair(object):
     def __init__(self, type = "impassable_coomb"):
         self.type_name = type
         self.type = data.Container(type, data.lair_types[type])
+        # Список модификаций(ловушки, стражи и.т.п.)
         self.upgrades = data.Container('lair_upgrades')
         # Сокровищиница
         self.treasury = treasures.Treasury()
-        # Список модификаций(ловушки, стражи и.т.п.)
-        self.modifiers = []
         
     def reachable(self, abilities):
         '''
