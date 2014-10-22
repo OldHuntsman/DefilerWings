@@ -980,7 +980,8 @@ class Treasury(store.object):
                 if self.jewelry[jewelry_i].cost > most_expensive_cost:
                     most_expensive_cost = self.jewelry[jewelry_i].cost
                     most_expensive_i = jewelry_i
-            return u"%s.\n%s" % (capitalizeFirst(self.jewelry[most_expensive_i].description()), self.jewelry[most_expensive_i].obtained) 
+            return u"%s.\nСтоимость украшения: %s.\n%s" % (capitalizeFirst(self.jewelry[most_expensive_i].description()), \
+                        number_conjugation_rus(self.jewelry[most_expensive_i].cost, u"фартинг"), self.jewelry[most_expensive_i].obtained) 
         else:
             return u""
     
@@ -988,6 +989,7 @@ class Treasury(store.object):
     def random_jewelry(self):
         if len(self.jewelry):
             random_jewelry = random.choice(self.jewelry)
-            return u"%s.\n%s" % (capitalizeFirst(random_jewelry.description()), random_jewelry.obtained)
+            return u"%s.\nСтоимость украшения: %s.\n%s" % (capitalizeFirst(random_jewelry.description()), \
+                        number_conjugation_rus(random_jewelry.cost, u"фартинг"), random_jewelry.obtained)
         else:
             return u""
