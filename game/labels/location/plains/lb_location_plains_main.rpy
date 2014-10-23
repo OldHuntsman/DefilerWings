@@ -485,7 +485,7 @@ label lb_village:
             $ game.dragon.drain_energy()
             show expression 'img/bg/special/fear.png' as bg
             if village_size == 1:
-                'Хоторяне отдают дракону свою единственную корову. [dragon.name] съедает её.'
+                'Хоторяне отдают дракону свою единственную корову. [game.dragon.name] съедает её.'
                 python:
                     if game.dragon.bloodiness > 0 and game.dragon.hunger > 0: 
                         game.dragon.bloodiness = 0
@@ -503,9 +503,8 @@ label lb_village:
                     alignment = 'human'
                     min_cost = 10
                     max_cost = 250
-                    t_list = jewler_list
                     obtained = "Часть дани, выплаченной одной из деревень."
-                    trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                    trs = treasures.gen_treas(count, data.loot['jeweler'], alignment, min_cost, max_cost, obtained)
                     trs_list = game.lair.treasury.treasures_description(trs)
                     trs_descrptn = '\n'.join(trs_list)
                     game.lair.treasury.receive_treasures(trs)
@@ -544,9 +543,8 @@ label lb_village:
                 alignment = 'human'
                 min_cost = 10*village_size
                 max_cost = 100*village_size
-                t_list = klad_list
                 obtained = "Это предмет из разграбленного людского поселения."
-                trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                trs = treasures.gen_treas(count, data.loot['klad'], alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
                 trs_descrptn = '\n'.join(trs_list)
             '[trs_descrptn]'
@@ -565,9 +563,8 @@ label lb_village:
                 alignment = 'human'
                 min_cost = 10*village_size
                 max_cost = 100*village_size
-                t_list = klad_list
                 obtained = "Это предмет из разграбленного людского поселения."
-                trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                trs = treasures.gen_treas(count, data.loot['klad'], alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
                 trs_descrptn = '\n'.join(trs_list)
             '[trs_descrptn]'
