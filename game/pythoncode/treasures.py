@@ -324,7 +324,7 @@ def number_conjugation_type(number):
     else:
         return 2
  
-def number_conjugation_rus(number, add_name, word_type = 1, word_form = 'nominative'):
+def number_conjugation_rus(number, add_name, word_form = 'nominative', word_type = 1):
     description_end = number_conjugation_end[word_type][word_form][number_conjugation_type(number)]
     return u"%s %s%s"%(number, add_name, description_end)
 
@@ -1058,3 +1058,59 @@ class Treasury(store.object):
                         number_conjugation_rus(random_jewelry.cost, u"фартинг"), random_jewelry.obtained)
         else:
             return u"Украшений в сокровищнице нет"
+            
+    @property
+    def coin_count(self):
+        """
+        :return: число монет в сокровищнице
+        """
+        return self.farting + self.taller + self.dublon
+        
+    @property
+    def metal_count(self):
+        """
+        :return: вес металла в сокровищнице
+        """
+        metal_weight = 0
+        for metal_i in self.metals.values():
+            metal_weight += metal_i
+        return metal_weight
+            
+    @property
+    def gem_count(self):
+        """
+        :return: число драгоценных камней в сокровищнице
+        """
+        gem_summ = 0
+        for gem_i in self.gems.keys():
+            gem_size = gem_i.split(';')
+            gem_size = gem_size[1]
+            if gem_size == 'small':
+                gem_summ += 25
+            elif gem_size == 'common':
+                gem_summ += 5
+            else:
+                gem_summ += 1
+        return gem_summ
+    
+    @property
+    def material_count(self):
+        """
+        :return: масса материала в сокровищнице
+        """
+        mat_summ = 0
+        for mat_i in self.materials.keys():
+            mat_size = mat_i.split(';')
+            mat_size = mat_size[1]
+            mat_summ += Material.size_dict[mat_size][1]
+        return mat_summ
+        
+    @property
+    def treasure_count(self):
+        """
+        :return: масса украшений в сокровищнице
+        """
+        jewelry_summ = 0
+        for jewelry_i in self.jewelry:
+            jewelry_summ += jewelry_i.base_price
+        return jewelry_summ

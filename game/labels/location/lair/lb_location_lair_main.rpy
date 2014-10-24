@@ -32,20 +32,20 @@ label lb_location_lair_main:
             nvl clear
             "[description]"
             menu:
-                'Драгоценные камни':
+                'Драгоценные камни' if game.lair.treasury.gem_count > 0:
                     nvl clear
                     "[game.lair.treasury.gems_list]"
-                'Поделочные материалы':
+                'Поделочные материалы' if game.lair.treasury.metal_count + game.lair.treasury.material_count > 0:
                     nvl clear
                     "[game.lair.treasury.materials_list]"
-                'Монеты':
+                'Монеты' if game.lair.treasury.coin_count > 0:
                     nvl clear
                     $ description = u"В сокровищнице:\n"
                     $ description += u"%s\n" % treasures.number_conjugation_rus(game.lair.treasury.farting, u"фартинг")
                     $ description += u"%s\n" % treasures.number_conjugation_rus(game.lair.treasury.taller, u"талер")
                     $ description += u"%s" %treasures.number_conjugation_rus(game.lair.treasury.dublon, u"дублон")
                     "[description]"
-                'Безделушки':
+                'Безделушки' if game.lair.treasury.treasure_count > 0:
                     menu:
                         'Самая дорогая в сокровищнице':
                             nvl clear
