@@ -198,6 +198,9 @@ class Lair(object):
         self.type = data.Container(type, data.lair_types[type])
         # Список модификаций(ловушки, стражи и.т.п.)
         self.upgrades = data.Container('lair_upgrades')
+        if 'provide' in self.type:
+            for upgrade in self.type['provide']:
+                self.upgrades.add(upgrade, deepcopy(data.lair_upgrades[upgrade]))
         # Сокровищиница
         self.treasury = treasures.Treasury()
         

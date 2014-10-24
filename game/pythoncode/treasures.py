@@ -76,47 +76,47 @@ gem_cut_description_rus['faceted'] = {'he': {'nominative': u'ограненны�
                                       'they': {'nominative': u'ограненные ', 'genitive': u'ограненных ', 'ablative': u'ограненными '}}
 """Словарь для драгоценных камней, ключ - тип драгоценного камня, значение - словарь с русским названием драгоценного камня в разных падежах"""
 gem_description_rus = {}
-gem_description_rus["amber"] = {'he': {'nominative': u'янтарь', 'ablative': u'янтарём'}, 
-                                'they': {'genitive': u"янтарей", 'ablative': u'янтарями'}}
-gem_description_rus["crystall"] = {'he': {'nominative': u'горный хрусталь', 'ablative': u'горным хрусталём'},
+gem_description_rus["amber"] = {'he': {'nominative': u"янтарь", 'genitive': u"янтаря", 'ablative': u"янтарём"}, 
+                                'they': {'genitive': u"янтарей", 'ablative': u"янтарями"}}
+gem_description_rus["crystall"] = {'he': {'nominative': u'горный хрусталь', 'genitive': u"горных хрусталя", 'ablative': u'горным хрусталём'},
                                    'they': {'genitive': u"горных хрусталей", 'ablative': u'горными хрусталями'}}
-gem_description_rus["beryll"] = {'he': {'nominative': u'берилл', 'ablative': u'бериллом'},
+gem_description_rus["beryll"] = {'he': {'nominative': u'берилл', 'genitive': u"берилла",  'ablative': u'бериллом'},
                                  'they': {'genitive': u"бериллов",  'ablative': u'бериллами'}}
-gem_description_rus["tigereye"] = {'he': {'nominative': u'тигровый глаз', 'ablative': u'тигровым глазом'},
+gem_description_rus["tigereye"] = {'he': {'nominative': u'тигровый глаз', 'genitive': u"тигровых глаза", 'ablative': u'тигровым глазом'},
                                    'they': {'genitive': u"тигровых глазов", 'ablative': u'тигровыми глазами'}}
-gem_description_rus["granate"] = {'he': {'nominative': u'гранат', 'ablative': u'гранатом'},
+gem_description_rus["granate"] = {'he': {'nominative': u'гранат', 'genitive': u"граната", 'ablative': u'гранатом'},
                                    'they': {'genitive': u"гранатов", 'ablative': u'гранатами'}}
-gem_description_rus["turmaline"] = {'he': {'nominative': u'турмалин', 'ablative': u'турмалином'},
+gem_description_rus["turmaline"] = {'he': {'nominative': u'турмалин', 'genitive': u"турмалина", 'ablative': u'турмалином'},
                                     'they': {'genitive': u"турмалинов", 'ablative': u'турмалинами'}}
-gem_description_rus["aqua"] = {'he': {'nominative': u'аквамарин', 'ablative': u'аквамарином'},
+gem_description_rus["aqua"] = {'he': {'nominative': u'аквамарин', 'genitive': u"аквамарина", 'ablative': u'аквамарином'},
                                'they': {'genitive': u"аквамаринов", 'ablative': u'аквамаринами'}}
-gem_description_rus["pearl"] = {'he': {'nominative': u'жемчуг', 'ablative': u'жемчугом'},
-                               'she': {'nominative': u'жемчужина', 'ablative': u'жемчужиной'}, 
+gem_description_rus["pearl"] = {'he': {'nominative': u'жемчуг', 'genitive': u"жемчуга", 'ablative': u'жемчугом'},
+                               'she': {'nominative': u'жемчужина', 'genitive': u"жемчужины", 'ablative': u'жемчужиной'}, 
                                'they': {'genitive': u"жемчужин", 'ablative': u'жемчугами'}}
-gem_description_rus["black_pearl"] = {'he': {'nominative': u'чёрный жемчуг', 'ablative': u'чёрным жемчугом'},
-                                      'she': {'nominative': u'чёрная жемчужина', 'ablative': u'чёрной жемчужиной'}, 
+gem_description_rus["black_pearl"] = {'he': {'nominative': u'чёрный жемчуг', 'genitive': u'чёрных жемчуга', 'ablative': u'чёрным жемчугом'},
+                                      'she': {'nominative': u'чёрная жемчужина', 'genitive': u'чёрных жемчужины', 'ablative': u'чёрной жемчужиной'}, 
                                       'they': {'genitive': u"чёрных жемчужин", 'ablative': u'чёрными жемчугами'}}
-gem_description_rus["elven_beryll"] = {'he': {'nominative': u'эльфийский берилл', 'ablative': u'эльфийским бериллом'},
+gem_description_rus["elven_beryll"] = {'he': {'nominative': u'эльфийский берилл', 'genitive': u"эльфийских берилла",  'ablative': u'эльфийским бериллом'},
                                        'they': {'genitive': u"эльфийских бериллов",  'ablative': u'эльфийскими бериллами'}}
-gem_description_rus["topaz"] = {'he': {'nominative': u'топаз', 'ablative': u'топазом'},
+gem_description_rus["topaz"] = {'he': {'nominative': u'топаз', 'genitive': u"топаза",  'ablative': u'топазом'},
                                 'they': {'genitive': u"топазов",  'ablative': u'топазами'}}
-gem_description_rus["saphire"] = {'he': {'nominative': u'сапфир', 'ablative': u'сапфиром'},
+gem_description_rus["saphire"] = {'he': {'nominative': u'сапфир', 'genitive': u"сапфира", 'ablative': u'сапфиром'},
                                   'they': {'genitive': u"сапфиров", 'ablative': u'сапфирами'}}
-gem_description_rus["ruby"] = {'he': {'nominative': u'рубин', 'ablative': u'рубином'}, 
+gem_description_rus["ruby"] = {'he': {'nominative': u'рубин', 'genitive': u"рубина", 'ablative': u'рубином'}, 
                                'they': {'genitive': u"рубинов", 'ablative': u'рубинами'}}
-gem_description_rus["emerald"] = {'he': {'nominative': u'изумруд', 'ablative': u'изумрудом'},
+gem_description_rus["emerald"] = {'he': {'nominative': u'изумруд', 'genitive': u"изумруда", 'ablative': u'изумрудом'},
                                   'they': {'genitive': u"изумрудов", 'ablative': u'изумрудами'}}
-gem_description_rus["goodruby"] = {'he': {'nominative': u'яхонт', 'ablative': u'яхонтом'},
+gem_description_rus["goodruby"] = {'he': {'nominative': u'яхонт', 'genitive': u"яхонта", 'ablative': u'яхонтом'},
                                    'they': {'genitive': u"яхонтов", 'ablative': u'яхонтами'}}
-gem_description_rus["goodemerald"] = {'he': {'nominative': u'смарагд', 'ablative': u'смарагдом'},
+gem_description_rus["goodemerald"] = {'he': {'nominative': u'смарагд', 'genitive': u"смарагда", 'ablative': u'смарагдом'},
                                       'they': {'genitive': u"смарагдов", 'ablative': u'смарагдами'}}
-gem_description_rus["star"] = {'he': {'nominative': u'звёздный сапфир', 'ablative': u'звёздным сапфиром'},
+gem_description_rus["star"] = {'he': {'nominative': u'звёздный сапфир', 'genitive': u"звёздных сапфира", 'ablative': u'звёздным сапфиром'},
                                'they': {'genitive': u"звёздных сапфиров", 'ablative': u'звёздными сапфирами'}}
-gem_description_rus["diamond"] = {'he': {'nominative': u'алмаз', 'ablative': u'алмазом'},
+gem_description_rus["diamond"] = {'he': {'nominative': u'алмаз', 'genitive': u"алмаза", 'ablative': u'алмазом'},
                                   'they': {'genitive': u"алмазов", 'ablative': u'алмазами'}}
-gem_description_rus["black_diamond"] = {'he': {'nominative': u'чёрный алмаз', 'ablative': u'чёрным алмазом'},
+gem_description_rus["black_diamond"] = {'he': {'nominative': u'чёрный алмаз', 'genitive': u"чёрных алмаза", 'ablative': u'чёрным алмазом'},
                                         'they': {'genitive': u"чёрных алмазов", 'ablative': u'чёрными алмазами'}}
-gem_description_rus["rose_diamond"] = {'he': {'nominative': u'розовый алмаз', 'ablative': u'розовым алмазом'}, 
+gem_description_rus["rose_diamond"] = {'he': {'nominative': u'розовый алмаз', 'genitive': u"розовых алмаза", 'ablative': u'розовым алмазом'}, 
                                        'they': {'genitive': u"розовых алмазов", 'ablative': u'розовыми алмазами'}}
 """словарь для типов металлов, ключ - металл, значение - ценность"""
 metal_types = {"silver": 1, "gold":10, "mithril":50, "adamantine":50}
@@ -312,16 +312,21 @@ decoration_description_rus['image'] = {'he': u"изображен", 'she': u"и�
 """словарь для описания типа украшения на русском"""
 decorate_types_description_rus = {'incuse': u"чеканкой", 'engrave': u"гравировкой", 'etching': u"травлением", 'carving': u"резьбой"}
 
-number_conjugation_end = {'nominative' : (u"", u"а", u"ов")}
-def number_conjugation_rus(number, add_name, word_form = 'nominative'):
-    if word_form == 'nominative':
-        if (number % 10 == 1) and (number % 100 <> 11):
-            description_end = number_conjugation_end[word_form][0]
-        elif (number % 10 > 1 and number % 10 < 5) and (number % 100 < 11 or number % 100 > 21):
-            description_end = number_conjugation_end[word_form][1]
-        else:
-            description_end = number_conjugation_end[word_form][2]
-        return u"%s %s%s"%(number, add_name, description_end)
+number_conjugation_end = {1 : {'nominative' : (u"", u"а", u"ов")},
+                          2 : {'nominative' : (u"ок", u"ка", u"ков")},
+                          }
+ 
+def number_conjugation_type(number):
+    if (number % 10 == 1) and (number % 100 <> 11):
+        return 0
+    elif (number % 10 > 1 and number % 10 < 5) and (number % 100 < 11 or number % 100 > 21):
+        return 1
+    else:
+        return 2
+ 
+def number_conjugation_rus(number, add_name, word_form = 'nominative', word_type = 1):
+    description_end = number_conjugation_end[word_type][word_form][number_conjugation_type(number)]
+    return u"%s %s%s"%(number, add_name, description_end)
 
 def capitalizeFirst (string):
     if string:
@@ -354,9 +359,18 @@ class Ingot(object):#класс для генерации слитков
             if self.weight in self.weights:
                 return u"%s %s слиток" % (self.weights_description_rus[self.weight], metal_description_rus[self.metal_type]['he'])
             else:
-                return u"Несколько %s слитков общим весом %s" % (metal_description_rus[self.metal_type]['they'], number_conjugation_rus(self.weight, u"фунт", 'nominative'))
+                return u"Несколько %s слитков общим весом %s" % (metal_description_rus[self.metal_type]['they'], number_conjugation_rus(self.weight, u"фунт"))
         else:
             return self.__repr__()
+            
+    def number_conjugation(self, metal_type, metal_weight):
+        """
+        Функция для вывода описания слитков металла по типу металла и его количеству
+        """
+        if metal_weight in self.weights:
+            return u"%s %s слиток" % (self.weights_description_rus[metal_weight], metal_description_rus[metal_type]['he'])
+        else:
+            return u"несколько %s слитков общим весом %s" % (metal_description_rus[metal_type]['they'], number_conjugation_rus(metal_weight, u"фунт"))
 class Coin(object):
     coin_types = {"farting":(1, 1), "taller":(1, 10), "dublon":(1, 100)}
     coin_description_rus = {"farting": u"фартинг", "taller": u"таллер", "dublon": u"дублон"}
@@ -379,6 +393,11 @@ class Coin(object):
             return number_conjugation_rus(self.amount, Coin.coin_description_rus[self.name], 'nominative')
         else:
             return self.__repr__()
+    def number_conjugation(self, coin_type, coin_count):
+        """
+        Функция для вывода описания монет по типу и количеству монет
+        """
+        return number_conjugation_rus(coin_count, Coin.coin_description_rus[coin_type])
 class Gem(object):#класс для генерации драг.камней
     cut_dict = {" " : (0, 1), "polished":(50, 2), "rough":(30, 1), "faceted":(20, 3)}
     size_dict = {"small":(40, 1), "common":(50, 5), "large":(8, 25),\
@@ -424,7 +443,35 @@ class Gem(object):#класс для генерации драг.камней
                 return u"%s%s%s"%(material_size_description_rus[self.size][gender][case], gem_cut_description_rus[self.cut][gender][case], gem_description_rus[self.g_type][gender][case])
         else:
             return self.__repr__()
-
+    
+    def number_conjugation(self, gem_type, gem_count):
+        """
+        Функция для вывода описания камней по типу (в формате тип/размер/огранка) и количеству (без учета умножения мелких/обычных камней)
+        """
+        gem_param = gem_type.split(';')
+        if gem_param[1] == 'small' or gem_param[1] == 'common': # умножаем мелкие/обычные камни
+            if gem_param[1] == 'small':
+                gem_count *= 25
+            else:
+                gem_count *= 5
+        conjugation_type = number_conjugation_type(gem_count) # определяем тип сопряжения
+        gender = 'he' if gem_param[0] <> 'pearl' and gem_param[0] <> 'black_pearl' else 'she' # определяем род, некрасивый вариант - лучше использовать словарь
+        # выводим результат для каждого типа сопряжения
+        if conjugation_type == 0: # единственное число - именительный падеж, род копируется
+            if gem_count <> 1: # если камень один - не ставим число
+                return u"%s %s%s%s"%(gem_count, material_size_description_rus[gem_param[1]][gender]['nominative'], \
+                        gem_cut_description_rus[gem_param[2]][gender]['nominative'], gem_description_rus[gem_param[0]][gender]['nominative'])
+            else:
+                return u"%s%s%s"%(material_size_description_rus[gem_param[1]][gender]['nominative'], \
+                        gem_cut_description_rus[gem_param[2]][gender]['nominative'], gem_description_rus[gem_param[0]][gender]['nominative'])
+        elif conjugation_type == 1: # маломножественная форма - родительный падеж, тип в единственном числе, прилагательные - во множественном
+            return u"%s %s%s%s"%(gem_count, material_size_description_rus[gem_param[1]]['they']['genitive'], \
+                    gem_cut_description_rus[gem_param[2]]['they']['genitive'], gem_description_rus[gem_param[0]][gender]['genitive'])
+        elif conjugation_type == 2: # множественное число - родительный падеж множественного числа
+            gender = 'they'
+            return u"%s %s%s%s"%(gem_count, material_size_description_rus[gem_param[1]][gender]['genitive'], \
+                    gem_cut_description_rus[gem_param[2]][gender]['genitive'], gem_description_rus[gem_param[0]][gender]['genitive'])
+        
 def generate_gem(count, *args):
     """функция для генерации камней, 1 обязательный аргумент - количество камней
     которое нужно сгенерировать, чтобы задать размер и/или качество обработки
@@ -497,6 +544,27 @@ class Material(object):#класс для генерации материало�
             return u"%sкусок %s"%(material_size_description_rus[self.size]['he']['nominative'], material_description_rus[self.m_type]['genitive'])
         else:
             return self.__repr__()
+            
+    def number_conjugation(self, material_type, material_count):
+        """
+        Функция для вывода описания камней по типу (в формате тип/размер) и количеству
+        """
+        material_param = material_type.split(';')
+        conjugation_type = number_conjugation_type(material_count) # определяем тип сопряжения
+        # выводим результат для каждого типа сопряжения
+        if conjugation_type == 0: # единственное число - именительный падеж, род копируется
+            if material_count <> 1: # если материал один - не ставим число
+                return u"%s %sкусок %s"%(material_count, material_size_description_rus[material_param[1]]['he']['nominative'], \
+                        material_description_rus[material_param[0]]['genitive'])
+            else:
+                return u"%sкусок %s"%(material_size_description_rus[material_param[1]]['he']['nominative'], \
+                        material_description_rus[material_param[0]]['genitive'])
+        elif conjugation_type == 1: 
+            return u"%s %sкуска %s"%(material_count, material_size_description_rus[material_param[1]]['they']['genitive'], \
+                    material_description_rus[material_param[0]]['genitive'])
+        elif conjugation_type == 2: 
+            return u"%s %sкусков %s"%(material_count, material_size_description_rus[material_param[1]]['they']['genitive'], \
+                    material_description_rus[material_param[0]]['genitive'])
 def generate_mat(count, *args):
     """принцип работы такойже как для драг.камней"""
     mats = []
@@ -943,11 +1011,10 @@ class Treasury(store.object):
         """
         gem_str = u"В сокровищнице находится:\n"
         gem_list = sorted(self.gems.keys()) # список драгоценных камней, отсортированных по типу/размеру/огранке
+        gem = Gem('amber', 'small', ' ') # создаем экземпляр класса Gem для доступа к его функции number_conjugation
         for gem_name in gem_list:
-            gems_count = self.gem_name_count(gem_name)
-            if gems_count:
-                gem = Gem(*gem_name.split(';'))
-                gem_str += u"%s %s\n" % (gems_count, gem.description(custom = True, case = 'genitive', gender = 'they'))
+            if self.gems[gem_name]: # проверка наличия камней такого типа в сокровищнице
+                gem_str += u"%s.\n" % capitalizeFirst(gem.number_conjugation(gem_name, self.gems[gem_name]))
         return gem_str
         
     @property
@@ -957,18 +1024,16 @@ class Treasury(store.object):
         """
         material_str = u"В сокровищнице находится:\n"
         metal_list = sorted(self.metals.keys())
+        ingot = Ingot('gold') # создаем экземпляр класса Слиток для доступа к его функции number_conjugation
         for metal_name in metal_list:
             metal_weight = self.metals[metal_name]
             if metal_weight:
-                metal = Ingot(metal_name)
-                metal.weight = metal_weight
-                material_str += u"%s.\n" % capitalizeFirst(metal.description())
+                material_str += u"%s.\n" % capitalizeFirst(ingot.number_conjugation(metal_name, metal_weight))
         mat_list = sorted(self.materials.keys())
+        material = Material('jasper', 'small') # создаем экземпляр класса Material для доступа к его функции number_conjugation
         for mat_name in mat_list:
-            mat_count = self.materials[mat_name]
-            if mat_count:
-                material = Material(*mat_name.split(';'))
-                material_str += capitalizeFirst(u"%s: %s штук(и).\n" % (material.description(), mat_count))
+            if self.materials[mat_name]:
+                material_str += u"%s.\n" % capitalizeFirst(material.number_conjugation(mat_name, self.materials[mat_name]))
         return material_str
         
     @property
@@ -980,14 +1045,72 @@ class Treasury(store.object):
                 if self.jewelry[jewelry_i].cost > most_expensive_cost:
                     most_expensive_cost = self.jewelry[jewelry_i].cost
                     most_expensive_i = jewelry_i
-            return u"%s.\n%s" % (capitalizeFirst(self.jewelry[most_expensive_i].description()), self.jewelry[most_expensive_i].obtained) 
+            return u"%s.\nСтоимость украшения: %s.\n%s" % (capitalizeFirst(self.jewelry[most_expensive_i].description()), \
+                        number_conjugation_rus(self.jewelry[most_expensive_i].cost, u"фартинг"), self.jewelry[most_expensive_i].obtained) 
         else:
-            return u""
+            return u"Украшений в сокровищнице нет"
     
     @property
     def random_jewelry(self):
         if len(self.jewelry):
             random_jewelry = random.choice(self.jewelry)
-            return u"%s.\n%s" % (capitalizeFirst(random_jewelry.description()), random_jewelry.obtained)
+            return u"%s.\nСтоимость украшения: %s.\n%s" % (capitalizeFirst(random_jewelry.description()), \
+                        number_conjugation_rus(random_jewelry.cost, u"фартинг"), random_jewelry.obtained)
         else:
-            return u""
+            return u"Украшений в сокровищнице нет"
+            
+    @property
+    def coin_count(self):
+        """
+        :return: число монет в сокровищнице
+        """
+        return self.farting + self.taller + self.dublon
+        
+    @property
+    def metal_count(self):
+        """
+        :return: вес металла в сокровищнице
+        """
+        metal_weight = 0
+        for metal_i in self.metals.values():
+            metal_weight += metal_i
+        return metal_weight
+            
+    @property
+    def gem_count(self):
+        """
+        :return: число драгоценных камней в сокровищнице
+        """
+        gem_summ = 0
+        for gem_i in self.gems.keys():
+            gem_size = gem_i.split(';')
+            gem_size = gem_size[1]
+            if gem_size == 'small':
+                gem_summ += 25
+            elif gem_size == 'common':
+                gem_summ += 5
+            else:
+                gem_summ += 1
+        return gem_summ
+    
+    @property
+    def material_count(self):
+        """
+        :return: масса материала в сокровищнице
+        """
+        mat_summ = 0
+        for mat_i in self.materials.keys():
+            mat_size = mat_i.split(';')
+            mat_size = mat_size[1]
+            mat_summ += Material.size_dict[mat_size][1]
+        return mat_summ
+        
+    @property
+    def treasure_count(self):
+        """
+        :return: масса украшений в сокровищнице
+        """
+        jewelry_summ = 0
+        for jewelry_i in self.jewelry:
+            jewelry_summ += jewelry_i.base_price
+        return jewelry_summ

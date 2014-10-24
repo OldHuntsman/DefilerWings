@@ -38,7 +38,7 @@ init:
         "place == 'sea'", "img/bg/sea/1.png",
         "place == 'sky'", "img/bg/sky/1.png",
         "place == 'gremlins'", "img/bg/special/gremlins.png",
-        "place == 'smuglers'", "img/bg/special/smuglers.png",
+        "place == 'smugglers'", "img/bg/special/smugglers.png",
         "place == 'mordor'", "img/bg/special/mordor.png",
         "place == 'prison'", "img/scene/prison.png",
         )

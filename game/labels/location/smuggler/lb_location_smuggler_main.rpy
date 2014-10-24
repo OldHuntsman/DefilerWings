@@ -1,5 +1,5 @@
-label lb_location_smugler_main:
-    $ place = 'smuglers'
+label lb_location_smuggler_main:
+    $ place = 'smugglers'
     show place
     
     if game.dragon.energy() == 0:

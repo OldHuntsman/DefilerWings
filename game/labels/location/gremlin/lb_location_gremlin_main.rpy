@@ -8,10 +8,14 @@ label lb_location_gremlin_main:
         
     # Стоимость года работы гремлинов-слуг
     $ servant_cost = 100
+    # Стоимость установки механических ловушек
+    $ mechanic_traps_cost = 100
+    # Стоимость строительства укреплений
+    $ fortification_cost = 100
+    nvl clear
         
     menu:
         'Нанять слуг' if 'servant' not in game.lair.upgrades:
-            nvl clear
             "Гремлины будут служить в логове, приглядывать за пленницами и охранять их. Всего за [servant_cost] фартингов в год"
             if 'gremlin_servant' not in game.lair.upgrades:
                 if servant_cost > game.lair.treasury.money:
@@ -51,12 +55,22 @@ label lb_location_gremlin_main:
                         $ game.lair.treasury.money -= 5 * servant_cost
                     "Уйти":
                         pass
-            # TODO: платные гремлины
         'Ловушки для логова' if (not game.lair.type.provide or 'mechanic_traps' not in game.lair.type.provide) and 'mechanic_traps' not in game.lair.upgrades:
-            $ game.lair.upgrades.add('mechanic_traps', deepcopy(data.lair_upgrades['mechanic_traps']))
-            # TODO: платные ловушки
+            menu:
+                "Стоимость установки ловушек: [mechanic_traps_cost] фартингов"
+                "Установить ловушки" if mechanic_traps_cost <= game.lair.treasury.money:
+                    $ game.lair.upgrades.add('mechanic_traps', deepcopy(data.lair_upgrades['mechanic_traps']))
+                    $ game.lair.treasury.money -= mechanic_traps_cost
+                "Уйти":
+                    pass
         'Укрепления для логова':
-            $ pass
+            menu:
+                "Стоимость возведения укреплений: [fortification_cost] фартингов"
+                "Укрепить логово" if fortification_cost <= game.lair.treasury.money:
+                    $ game.lair.upgrades.add('gremlin_fortification', deepcopy(data.lair_upgrades['gremlin_fortification']))
+                    $ game.lair.treasury.money -= fortification_cost
+                "Уйти":
+                    pass
         'Уйти':
             $ pass
         
