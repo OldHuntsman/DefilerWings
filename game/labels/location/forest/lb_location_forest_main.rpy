@@ -13,7 +13,7 @@
                 ("lb_enc_wandergirl", 10),
                 ("lb_enc_ogre", 10),
                 ("lb_enc_deer", 10),   
-                ("lb_enc_boar", 10000),
+                ("lb_enc_boar", 10),
                 ("lb_enc_berries", 10),
                 ("lb_enc_shrooms", 10),
                 ("lb_enc_guardian", 10),
