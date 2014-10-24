@@ -15,7 +15,7 @@ label lb_location_mountain_main:
                 ("lb_enc_bear", 10),   
                 ("lb_enc_jotun", 10),
                 ("lb_enc_ifrit", 10),
-                ("lb_enc_smuglers", 10),
+                ("lb_enc_smugglers", 10),
                 ("lb_enc_slavers", 10),                
                 ("lb_enc_frontgates", 10),
                 ("lb_enc_cavegates", 10),
@@ -106,7 +106,7 @@ label lb_enc_bear:
     
     return
     
-label lb_enc_smuglers:
+label lb_enc_smugglers:
     'Отряд контрабандистов.'
     menu:
         'Вымогать деньги':
