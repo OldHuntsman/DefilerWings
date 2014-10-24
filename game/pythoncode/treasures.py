@@ -78,7 +78,7 @@ gem_cut_description_rus['faceted'] = {'he': {'nominative': u'ограненны�
 gem_description_rus = {}
 gem_description_rus["amber"] = {'he': {'nominative': u"янтарь", 'genitive': u"янтаря", 'ablative': u"янтарём"}, 
                                 'they': {'genitive': u"янтарей", 'ablative': u"янтарями"}}
-gem_description_rus["crystall"] = {'he': {'nominative': u'горный хрусталь', 'genitive': u"горного хрусталя", 'ablative': u'горным хрусталём'},
+gem_description_rus["crystall"] = {'he': {'nominative': u'горный хрусталь', 'genitive': u"горных хрусталя", 'ablative': u'горным хрусталём'},
                                    'they': {'genitive': u"горных хрусталей", 'ablative': u'горными хрусталями'}}
 gem_description_rus["beryll"] = {'he': {'nominative': u'берилл', 'genitive': u"берилла",  'ablative': u'бериллом'},
                                  'they': {'genitive': u"бериллов",  'ablative': u'бериллами'}}

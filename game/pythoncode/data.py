@@ -609,6 +609,7 @@ dragon_modifiers = {
     'can_dig'           : DragonModifier(),
     'greedy'            : DragonModifier(),
     'virtual_head'      : DragonModifier(),
+    'spellbound_trap'   : DragonModifier(),
 
     'fire_breath'       : DragonModifier(attack=('fire', (0, 1))),
     'ice_breath'        : DragonModifier(attack=('ice', (0, 1))),

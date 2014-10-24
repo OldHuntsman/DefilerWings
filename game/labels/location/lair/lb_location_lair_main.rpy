@@ -10,7 +10,8 @@ label lb_location_lair_main:
             python:
                 spells_menu = []
                 for spell in data.spell_list.keys():
-                    if spell not in game.dragon.spells:
+                    # добавляем в список только актуальные заклинания
+                    if spell not in game.dragon.spells and (spell is not 'spellbound_trap' or 'magic_traps' not in game.lair.upgrades):
                         spells_menu.append((data.spell_list_rus[spell], spell))
                 spells_menu.append(('Вернуться в логово', 'back'))
                 spell_name = renpy.display_menu(spells_menu)
@@ -22,6 +23,8 @@ label lb_location_lair_main:
                     game.dragon.add_effect(spell_name)
                     game.dragon.drain_mana()
                     game.dragon.gain_rage()
+                if spell_name == 'spellbound_trap':
+                    $ game.lair.upgrades.add('magic_traps', deepcopy(data.lair_upgrades['magic_traps']))
 
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             #TODO: заменить на адекватный вариант
