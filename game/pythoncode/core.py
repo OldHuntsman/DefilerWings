@@ -845,6 +845,14 @@ class Dragon(Fighter):
                 self.spells.append(effect_name)
             else:
                 raise Exception("Unknown effect: %s" % effect_name)
+                
+    @property
+    def can_fly(self):
+        return 'wings' in self.modifiers() or 'wings_of_wind' in self.modifiers()
+        
+    @property
+    def can_swim(self):
+        return 'can_swim' in self.modifiers()
 
 class Enemy(Fighter):
     """
