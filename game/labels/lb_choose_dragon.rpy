@@ -1,11 +1,15 @@
 label lb_choose_dragon:
     #Хардкод на трех драконов.
+    $ child_choose = None
     $ dragons = []
+    $ child_selected = None
+    $ togle_dragonchoose_button = None
     python hide:
         used_gifts = []
         used_avatars = []
         if game.dragon is not None:
             used_avatars.append(game.dragon.avatar)
+            
         
         while len(dragons) < 3:
             child = core.Dragon(parent=game.dragon, gameRef=game,base_character=game.adv_character)
@@ -13,37 +17,48 @@ label lb_choose_dragon:
                 dragons.append(child)
                 used_gifts.append(child._gift)
                 used_avatars.append(child.avatar)
-    
+        renpy.childimg1 = ui.image(dragons[0].avatar)
+        renpy.childimg2 = ui.image(dragons[1].avatar)
+        renpy.childimg3 = ui.image(dragons[2].avatar)
+        def get_breedbg():
+            import os
+            rel_path = "img/scene/hatch"
+            abs_path = os.path.join(renpy.config.basedir, "game", rel_path)
+            if game.dragon is not None and game.dragon.color_eng() in os.listdir(abs_path):
+                color_filename = random.choice(os.listdir(os.path.join(abs_path, game.dragon.color_eng())))
+                return rel_path + "/" + game.dragon.color_eng() + "/" + color_filename
+            else:
+                return "img/scene/hatch/78.png"
+        renpy.breedbg = ui.image(get_breedbg())
+    screen ava_screen:
+        add renpy.breedbg
+        add renpy.childimg1 xalign 0.0 yalign 0.0
+        add renpy.childimg2 xalign 0.0 yalign 0.5
+        add renpy.childimg3 xalign 0.0 yalign 1.0
+        imagebutton idle "img/bg/frame.png" hover "img/bg/frame_light.png" selected_idle "img/bg/frame_light.png" xalign 0.0 yalign 0.0 action SetVariable("child_choose",dragons[0]),SetVariable("togle_dragonchoose_button", True),Show("text_screen"), SelectedIf(child_choose == dragons[0])
+        imagebutton idle "img/bg/frame.png" hover "img/bg/frame_light.png" selected_idle "img/bg/frame_light.png" xalign 0.0 yalign 0.5 action SetVariable("child_choose",dragons[1]),SetVariable("togle_dragonchoose_button", True),Show("text_screen"), SelectedIf(child_choose == dragons[1])
+        imagebutton idle "img/bg/frame.png" hover "img/bg/frame_light.png" selected_idle "img/bg/frame_light.png" xalign 0.0 yalign 1.0 action SetVariable("child_choose",dragons[2]),SetVariable("togle_dragonchoose_button", True),Show("text_screen"), SelectedIf(child_choose == dragons[2])
+    screen text_screen:
+        $renpy.childtext = child_choose.description
+        window:
+            xsize 760
+            xpos 200
+            align (0.0,0.0)
+            text renpy.childtext
+        if togle_dragonchoose_button is True:
+            fixed:
+                xalign 1.0
+                xmaximum 320
+                textbutton "Выбрать":
+                    pos(72,649)
+                    xysize(174,36)
+                    text_xalign 0.5
+                    text_yalign 0.5
+                    background "img/bg/logovo.png"
+                    text_size 22
+                    action SetVariable("child_selected",child_choose),SetVariable("togle_dragonchoose_button", False), Show("main_map"), Hide("ava_screen"), Hide("text_screen"), Return("return")
     while True:
         nvl clear
-        menu:
-            "Выберите дракона"
-            "[dragons[0].name]":
-                "[dragons[0].description]"
-                menu:
-                    " " #Костыль чтобы не скрывалось описание дракона
-                    "Выбрать этого":
-                        $ game.dragon = dragons[0]
-                        return
-                    "Вернуться":
-                        pass
-            "[dragons[1].name]":
-                "[dragons[1].description]"
-                menu:
-                    " "
-                    "Выбрать этого":
-                        $ game.dragon = dragons[1]
-                        return
-                    "Вернуться":
-                        pass
-            "[dragons[2].name]":
-                "[dragons[2].description]"
-                menu:
-                    " "
-                    "Выбрать этого":
-                        $ game.dragon = dragons[2]
-                        return
-                    "Вернуться":
-                        pass
-            
-    return
+        call screen ava_screen
+        $ game.dragon = child_selected
+        return
