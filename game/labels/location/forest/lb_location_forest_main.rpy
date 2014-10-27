@@ -7,7 +7,7 @@
         'Даже драконам надо иногда спать. Особенно драконам!'
         return
         
-    $ nochance = game.poverty.value*10      
+    $ nochance = game.poverty.value*3      
     $ choices = [("lb_enc_lumberjack", 10),
                 ("lb_enc_onegirl", 10),
                 ("lb_enc_wandergirl", 10),

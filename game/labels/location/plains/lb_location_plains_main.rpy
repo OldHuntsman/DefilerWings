@@ -32,7 +32,7 @@ label lb_location_plains_main:
     return
     
 label lb_encounter_plains:
-    $ nochance = game.poverty.value*10
+    $ nochance = game.poverty.value*3
     $ choices = [("lb_enc_fair", 10),
                 ("lb_enc_berries", 10),
                 ("lb_enc_shrooms", 10),

@@ -8,7 +8,7 @@ label lb_location_road_main:
         'Даже драконам надо иногда спать. Особенно драконам!'
         return
         
-    $ nochance = game.poverty.value*10      
+    $ nochance = game.poverty.value*3      
     $ choices = [("lb_enc_tornament", 10),
                 ("lb_enc_fortification", 10),
                 ("lb_enc_inn", 10),
