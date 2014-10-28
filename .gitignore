@@ -224,7 +224,7 @@ traceback.txt
 errors.txt
 game/cache
 game/version
-game/labels/test
+#game/labels/test #Возвращение нужных файлов 1
 
 # PyCharm
 .idea
