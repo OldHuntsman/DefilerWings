@@ -1,9 +1,21 @@
 label lb_choose_dragon:
     #Хардкод на трех драконов.
-    $ child_choose = None
-    $ dragons = []
-    $ child_selected = None
-    $ togle_dragonchoose_button = None
+    python:
+        lost = False
+        if game.dragon is None:
+            dragons = []
+            dragons_choosed = []
+        if game.dragon is not None and game.dragon.heads:
+            dragons = []
+            dragons_choosed = []
+        child_choose = None
+        child_selected = None
+        togle_dragonchoose_button = None
+        if game.dragon and len(game.dragon.heads)==0 and len(dragons_choosed)==3:
+            lost = True
+    if lost:#TODO: приделать что-то что происходит при поражении
+        "Вы проиграли"
+        
     python hide:
         used_gifts = []
         used_avatars = []
@@ -17,16 +29,19 @@ label lb_choose_dragon:
                 dragons.append(child)
                 used_gifts.append(child._gift)
                 used_avatars.append(child.avatar)
-        renpy.childimg1 = ui.image(dragons[0].avatar)
-        renpy.childimg2 = ui.image(dragons[1].avatar)
-        renpy.childimg3 = ui.image(dragons[2].avatar)
+        renpy.childimg1 = ui.image(dragons[0].avatar) if dragons[0] not in dragons_choosed else ui.image(im.Grayscale(dragons[0].avatar))
+        renpy.childimg2 = ui.image(dragons[1].avatar) if dragons[1] not in dragons_choosed else ui.image(im.Grayscale(dragons[1].avatar))
+        renpy.childimg3 = ui.image(dragons[2].avatar) if dragons[2] not in dragons_choosed else ui.image(im.Grayscale(dragons[2].avatar))
         def get_breedbg():
             import os
             rel_path = "img/scene/hatch"
             abs_path = os.path.join(renpy.config.basedir, "game", rel_path)
-            if game.dragon is not None and game.dragon.color_eng() in os.listdir(abs_path):
-                color_filename = random.choice(os.listdir(os.path.join(abs_path, game.dragon.color_eng())))
-                return rel_path + "/" + game.dragon.color_eng() + "/" + color_filename
+            if game.dragon is not None:
+                if game.dragon.heads and game.dragon.color_eng() in os.listdir(abs_path):
+                    color_filename = random.choice(os.listdir(os.path.join(abs_path, game.dragon.color_eng())))
+                    return rel_path + "/" + game.dragon.color_eng() + "/" + color_filename
+                else:
+                    return "img/scene/hatch/78.png"
             else:
                 return "img/scene/hatch/78.png"
         renpy.breedbg = ui.image(get_breedbg())
@@ -35,9 +50,9 @@ label lb_choose_dragon:
         add renpy.childimg1 xalign 0.0 yalign 0.0
         add renpy.childimg2 xalign 0.0 yalign 0.5
         add renpy.childimg3 xalign 0.0 yalign 1.0
-        imagebutton idle "img/bg/frame.png" hover "img/bg/frame_light.png" selected_idle "img/bg/frame_light.png" xalign 0.0 yalign 0.0 action SetVariable("child_choose",dragons[0]),SetVariable("togle_dragonchoose_button", True),Show("text_screen"), SelectedIf(child_choose == dragons[0])
-        imagebutton idle "img/bg/frame.png" hover "img/bg/frame_light.png" selected_idle "img/bg/frame_light.png" xalign 0.0 yalign 0.5 action SetVariable("child_choose",dragons[1]),SetVariable("togle_dragonchoose_button", True),Show("text_screen"), SelectedIf(child_choose == dragons[1])
-        imagebutton idle "img/bg/frame.png" hover "img/bg/frame_light.png" selected_idle "img/bg/frame_light.png" xalign 0.0 yalign 1.0 action SetVariable("child_choose",dragons[2]),SetVariable("togle_dragonchoose_button", True),Show("text_screen"), SelectedIf(child_choose == dragons[2])
+        imagebutton idle "img/bg/frame.png" hover "img/bg/frame_light.png" selected_idle "img/bg/frame_light.png" xalign 0.0 yalign 0.0 action SetVariable("child_choose",dragons[0]),SetVariable("togle_dragonchoose_button", True),Show("text_screen"), SelectedIf(child_choose == dragons[0]), SensitiveIf(dragons[0] not in dragons_choosed)
+        imagebutton idle "img/bg/frame.png" hover "img/bg/frame_light.png" selected_idle "img/bg/frame_light.png" xalign 0.0 yalign 0.5 action SetVariable("child_choose",dragons[1]),SetVariable("togle_dragonchoose_button", True),Show("text_screen"), SelectedIf(child_choose == dragons[1]), SensitiveIf(dragons[1] not in dragons_choosed)
+        imagebutton idle "img/bg/frame.png" hover "img/bg/frame_light.png" selected_idle "img/bg/frame_light.png" xalign 0.0 yalign 1.0 action SetVariable("child_choose",dragons[2]),SetVariable("togle_dragonchoose_button", True),Show("text_screen"), SelectedIf(child_choose == dragons[2]), SensitiveIf(dragons[2] not in dragons_choosed)
     screen text_screen:
         $renpy.childtext = child_choose.description
         window:
@@ -61,4 +76,5 @@ label lb_choose_dragon:
         nvl clear
         call screen ava_screen
         $ game.dragon = child_selected
+        $ dragons_choosed.append(game.dragon)
         return
