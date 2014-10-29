@@ -33,6 +33,7 @@ label lb_choose_dragon:
         renpy.childimg2 = ui.image(dragons[1].avatar) if dragons[1] not in dragons_choosed else ui.image(im.Grayscale(dragons[1].avatar))
         renpy.childimg3 = ui.image(dragons[2].avatar) if dragons[2] not in dragons_choosed else ui.image(im.Grayscale(dragons[2].avatar))
         def get_breedbg():
+            import random
             import os
             rel_path = "img/scene/hatch"
             abs_path = os.path.join(renpy.config.basedir, "game", rel_path)
