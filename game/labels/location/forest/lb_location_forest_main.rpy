@@ -11,7 +11,7 @@
     $ choices = [("lb_enc_lumberjack", 10),
                 ("lb_enc_onegirl", 10),
                 ("lb_enc_wandergirl", 10),
-                ("lb_enc_ogre", 10),
+                ("lb_enc_ogre", 1000),
                 ("lb_enc_deer", 10),   
                 ("lb_enc_boar", 10),
                 ("lb_enc_berries", 10),
@@ -145,7 +145,10 @@ label lb_enc_guardian:
 label lb_enc_ogre:
     'Дракон некоторое время бродит по лесу...'
     show expression 'img/bg/special/cave_enter.png' as bg
-    'И натыкается на вход в лесную пещеру, достаточно просторную чтобы устроить внутри логово. Судя по запаху, логово себе там уже успел устроить великан-людоед.'
+    'И натыкается на вход в лесную пещеру, достаточно просторную, чтобы устроить внутри логово. Судя по запаху, логово себе там уже успел устроить великан-людоед.'
+    jump lb_enc_fight_ogre
+    
+label lb_enc_fight_ogre:   
     $ game.foe = core.Enemy('ogre', gameRef=game, base_character=NVLCharacter)
     $ chance_win = battle.victory_chance(game.dragon, game.foe)
     $ chance_wound = battle.victory_chance(game.foe, game.dragon)
@@ -156,27 +159,35 @@ label lb_enc_ogre:
             $ game.dragon.drain_energy()
             call lb_fight
             '[game.dragon.name] победил.'
-            menu:
-                'Обследовать пещеру':
-                    'В пещере прячется испуганная великанша. То ли дочь, то ли жена того огра труп которого валяется снаружи.'
-                    $ description = game.girls_list.new_girl('ogre')
-                    nvl clear
-                    game.girl.third "[description]"
-                    call lb_nature_sex     
-                    'Пещера в которой жил огр теперь пуста. Но тут можно устроить своё логово, не слишком раскошное но всё же получше чем открытый овраг в буреломной чащобе.'
-                    menu:
-                        'Переместить логово':
-                             $ game.create_lair('ogre_den')
-                        'Покинуть пещеру':
-                            return                            
-                'Запомнить место и уйти':
-                    return
+            jump lb_enc_explore_ogre_den
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
+            $ game.dragon.add_special_place('ogre', 'enc_ogre')
             $ game.dragon.gain_rage()
     return
+    
+label lb_enc_explore_ogre_den:
+    menu:
+        'Обследовать пещеру':
+            'В пещере прячется испуганная великанша. То ли дочь, то ли жена того огра, труп которого валяется снаружи.'
+            $ description = game.girls_list.new_girl('ogre')
+            nvl clear
+            game.girl.third "[description]"
+            call lb_nature_sex     
+            'Пещера, в которой жил огр, теперь пуста. Но тут можно устроить своё логово, не слишком раскошное, но всё же получше, чем открытый овраг в буреломной чащобе.'
+            jump lb_enc_create_ogre_lair
+                                        
+        'Запомнить место и уйти':
+            $ game.dragon.add_special_place('ogre', 'explore_ogre_den')
+            return
  
-label ogre_lair:
-    return
+label lb_enc_create_ogre_lair:
+    menu:
+        'Переместить логово':
+            $ game.create_lair('ogre_den')
+            return
+        'Покинуть пещеру':
+            $ game.dragon.add_special_place('ogre', 'create_ogre_lair')
+            return
 
 label lb_enc_lumbermill:
     show expression 'img/bg/special/lumbermill.png' as bg

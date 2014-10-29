@@ -656,6 +656,14 @@ def get_modifier(name):
 lair_image = {
               'ravine' : 'ravine'
               }
+              
+# Словарь с "достопримечательностями", ключ - название этапа, значение - кортеж из названия этапа для меню и названия метки, к которой нужно совершить переход
+special_places = {
+    # лесная пещера с огром
+    'enc_ogre' : (u"Пещера людоеда", 'lb_enc_fight_ogre'),   
+    'explore_ogre_den': (u"Исследовать пещеру людоеда", 'lb_enc_explore_ogre_den'), 
+    'create_ogre_lair': (u"Поселиться в пещере людоеда", 'lb_enc_create_ogre_lair'), 
+    }
 
 # Различный лут
 loot = {
