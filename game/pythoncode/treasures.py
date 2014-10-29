@@ -362,13 +362,14 @@ class Ingot(object):#класс для генерации слитков
                 return u"Несколько %s слитков общим весом %s" % (metal_description_rus[self.metal_type]['they'], number_conjugation_rus(self.weight, u"фунт"))
         else:
             return self.__repr__()
-            
-    def number_conjugation(self, metal_type, metal_weight):
+       
+    @staticmethod
+    def number_conjugation(metal_type, metal_weight):
         """
         Функция для вывода описания слитков металла по типу металла и его количеству
         """
-        if metal_weight in self.weights:
-            return u"%s %s слиток" % (self.weights_description_rus[metal_weight], metal_description_rus[metal_type]['he'])
+        if metal_weight in Ingot.weights:
+            return u"%s %s слиток" % (Ingot.weights_description_rus[metal_weight], metal_description_rus[metal_type]['he'])
         else:
             return u"несколько %s слитков общим весом %s" % (metal_description_rus[metal_type]['they'], number_conjugation_rus(metal_weight, u"фунт"))
 class Coin(object):
@@ -393,7 +394,8 @@ class Coin(object):
             return number_conjugation_rus(self.amount, Coin.coin_description_rus[self.name], 'nominative')
         else:
             return self.__repr__()
-    def number_conjugation(self, coin_type, coin_count):
+    @staticmethod
+    def number_conjugation(coin_type, coin_count):
         """
         Функция для вывода описания монет по типу и количеству монет
         """
@@ -443,8 +445,9 @@ class Gem(object):#класс для генерации драг.камней
                 return u"%s%s%s"%(material_size_description_rus[self.size][gender][case], gem_cut_description_rus[self.cut][gender][case], gem_description_rus[self.g_type][gender][case])
         else:
             return self.__repr__()
-    
-    def number_conjugation(self, gem_type, gem_count):
+            
+    @staticmethod
+    def number_conjugation(gem_type, gem_count):
         """
         Функция для вывода описания камней по типу (в формате тип/размер/огранка) и количеству (без учета умножения мелких/обычных камней)
         """
@@ -544,8 +547,9 @@ class Material(object):#класс для генерации материало�
             return u"%sкусок %s"%(material_size_description_rus[self.size]['he']['nominative'], material_description_rus[self.m_type]['genitive'])
         else:
             return self.__repr__()
-            
-    def number_conjugation(self, material_type, material_count):
+    
+    @staticmethod
+    def number_conjugation(material_type, material_count):
         """
         Функция для вывода описания камней по типу (в формате тип/размер) и количеству
         """
@@ -1011,10 +1015,9 @@ class Treasury(store.object):
         """
         gem_str = u"В сокровищнице находится:\n"
         gem_list = sorted(self.gems.keys()) # список драгоценных камней, отсортированных по типу/размеру/огранке
-        gem = Gem('amber', 'small', ' ') # создаем экземпляр класса Gem для доступа к его функции number_conjugation
         for gem_name in gem_list:
             if self.gems[gem_name]: # проверка наличия камней такого типа в сокровищнице
-                gem_str += u"%s.\n" % capitalizeFirst(gem.number_conjugation(gem_name, self.gems[gem_name]))
+                gem_str += u"%s.\n" % capitalizeFirst(Gem.number_conjugation(gem_name, self.gems[gem_name]))
         return gem_str
         
     @property
@@ -1024,16 +1027,14 @@ class Treasury(store.object):
         """
         material_str = u"В сокровищнице находится:\n"
         metal_list = sorted(self.metals.keys())
-        ingot = Ingot('gold') # создаем экземпляр класса Слиток для доступа к его функции number_conjugation
         for metal_name in metal_list:
             metal_weight = self.metals[metal_name]
             if metal_weight:
-                material_str += u"%s.\n" % capitalizeFirst(ingot.number_conjugation(metal_name, metal_weight))
+                material_str += u"%s.\n" % capitalizeFirst(Ingot.number_conjugation(metal_name, metal_weight))
         mat_list = sorted(self.materials.keys())
-        material = Material('jasper', 'small') # создаем экземпляр класса Material для доступа к его функции number_conjugation
         for mat_name in mat_list:
             if self.materials[mat_name]:
-                material_str += u"%s.\n" % capitalizeFirst(material.number_conjugation(mat_name, self.materials[mat_name]))
+                material_str += u"%s.\n" % capitalizeFirst(Material.number_conjugation(mat_name, self.materials[mat_name]))
         return material_str
         
     @property

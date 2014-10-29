@@ -23,7 +23,7 @@ label lb_fight:
             hide foeimg
             nvl clear
             $ renpy.pop_return()
-            jump lb_location_lair_main
+            return
             
         if 'foe_alive' in battle_status:
             nvl clear
