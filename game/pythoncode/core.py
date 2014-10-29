@@ -405,8 +405,9 @@ class Dragon(Fighter):
         self.hunger = 3  # range 0..3, ресурс восстанавливается до 3 после каждого отдыха
         self.health = 2 # range 0..2, ресурс восстанавливается до 2 после каждого отдыха
         self._mana_used = 0 # количество использованной маны
-        self.spells = []
+        self.spells = [] # заклинания наложенные на дракона(обнуляются после сна)
         self._base_energy = 3 #Базовая энергия дракона, не зависящая от модификторов
+        self.special_places = {} # Список разведанных "достопримечательностей"
         self._gift = None # Дар Владычицы
         
         # Головы
@@ -430,9 +431,8 @@ class Dragon(Fighter):
         else:
             self.anatomy.append(self._gift)
         
-          # заклинания наложенные на дракона(обнуляются после сна)
         self.avatar = self._get_dragon_avatar(self.color_eng()) #Назначаем аватарку
-        self(self._gift)
+        #self(self._gift)
     
     @property
     def description(self):
@@ -853,6 +853,20 @@ class Dragon(Fighter):
     @property
     def can_swim(self):
         return 'can_swim' in self.modifiers()
+    
+    @property
+    def special_places_count(self):
+        return len (self.special_places)
+        
+    def add_special_place(self, place_name, stage):
+        """
+        :param place_name: название достопримечательности для добавления - ключ для словаря.
+        :param      stage: на каком этапе достопримечательность, ключ для словаря data.special_places, из которого берется надпись в списке и название локации для перехода.
+        """
+        assert stage in data.special_places, "Unknown stage: %s" % stage
+        self.special_places[place_name] = stage
+        
+        
 
 class Enemy(Fighter):
     """

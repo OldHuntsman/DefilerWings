@@ -19,9 +19,11 @@ label lb_fight:
         if 'dragon_dead' in battle_status:
             #TODO замена текущего дракона с возможностью выбора потомка
             "Дракон умер - да здравствует Дракон!"
-            $ game.dragon = game.dragon.children()[0]
-            $ game.dragon.avatar = get_dragon_avatar(game.dragon.heads[0])
-            jump lb_location_lair_main
+            call lb_choose_dragon
+            hide foeimg
+            nvl clear
+            $ renpy.pop_return()
+            return
             
         if 'foe_alive' in battle_status:
             nvl clear

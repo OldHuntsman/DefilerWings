@@ -65,6 +65,9 @@ screen main_map:
     use status_bar
     if game.lair is not None:
         use to_lair_button
+    
+    if game.dragon is not None and game.dragon.special_places_count > 0:
+        use special_places 
 
 # Составляем стиль для подсказки.
 # TODO: выпилить, сделав нормальный стиль для prompt
@@ -161,13 +164,26 @@ screen status_bar:
         
         if config.developer:
             textbutton "{font=fonts/Tchekhonin2.ttf}О{/font}{font=fonts/times.ttf}тладка{/font}":
-                pos (72,599)
+                pos (72,549)
                 xysize (174,36)
                 text_xalign 0.5
                 text_yalign 0.5
                 background "img/bg/logovo.png"
                 text_size 22
                 action ShowMenu("lb_test_main")
+                
+screen special_places:
+    fixed:
+        xalign 1.0
+        xmaximum 320
+        textbutton "{font=fonts/Tchekhonin2.ttf}М{/font} {font=fonts/times.ttf}еста{/font}":
+            pos (72,599)
+            xysize (174,36)
+            text_xalign 0.5
+            text_yalign 0.5
+            background "img/bg/logovo.png"
+            text_size 22
+            action Return("lb_special_places")
         
 screen to_lair_button:
     fixed:
