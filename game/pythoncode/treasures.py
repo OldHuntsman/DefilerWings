@@ -311,6 +311,36 @@ decoration_description_rus['inlaid'] = {'he': u"инкрустированный
 decoration_description_rus['image'] = {'he': u"изображен", 'she': u"изображена", 'it': u"изображено", 'they': u"изображены"}
 """словарь для описания типа украшения на русском"""
 decorate_types_description_rus = {'incuse': u"чеканкой", 'engrave': u"гравировкой", 'etching': u"травлением", 'carving': u"резьбой"}
+"""словарь для вывода описаний массы сокровищ на русском"""
+treasures_mass_description_rus = {}
+treasures_mass_description_rus['coin'] = {
+    0     : u"Монеты",
+    100   : u"Кучка монет",
+    1000  : u"Куча монет",
+    10000 : u"Гора монет",
+    100000: u"Горы монет",
+    }
+treasures_mass_description_rus['material'] = {
+    0     : u"Материалы",
+    100   : u"Кучка материалов",
+    1000  : u"Куча материалов",
+    10000 : u"Гора материалов",
+    100000: u"Горы материалов",
+    }
+treasures_mass_description_rus['gem'] = {
+    0     : u"Драгоценные камни",
+    100   : u"Кучка драгоценных камней",
+    1000  : u"Куча драгоценных камней",
+    10000 : u"Гора драгоценных камней",
+    100000: u"Горы драгоценных камней",
+    }
+treasures_mass_description_rus['jewelry'] = {
+    0     : u"Безделушки",
+    100   : u"Кучка безделушек",
+    1000  : u"Куча безделушек",
+    10000 : u"Гора безделушек",
+    100000: u"Горы безделушек",
+    }
 
 number_conjugation_end = {1 : {'nominative' : (u"", u"а", u"ов")},
                           2 : {'nominative' : (u"ок", u"ка", u"ков")},
@@ -1060,15 +1090,38 @@ class Treasury(store.object):
         else:
             return u"Украшений в сокровищнице нет"
             
-    @property
-    def coin_count(self):
+    @staticmethod
+    def get_mass_description(description_key, mass):
         """
-        :return: число монет в сокровищнице
+        :param description_key: ключ для словаря treasures_mass_description_rus
+        :param mass: масса, для которой нужно подобрать описание
+        :return: описание массы монет в сокровищнице
+        """
+        if mass > 0:
+            mass_list = reversed(sorted(treasures_mass_description_rus[description_key].keys()))
+            for mass_i in mass_list:
+                if mass >= mass_i:
+                    return treasures_mass_description_rus[description_key][mass_i]
+        else:
+            return u""
+            
+            
+    @property
+    def coin_mass(self):
+        """
+        :return: масса монет в сокровищнице
         """
         return self.farting + self.taller + self.dublon
         
     @property
-    def metal_count(self):
+    def coin_mass_description(self):
+        """
+        :return: описание массы монет в сокровищнице
+        """
+        return Treasury.get_mass_description('coin', self.coin_mass)
+        
+    @property
+    def metal_mass(self):
         """
         :return: вес металла в сокровищнице
         """
@@ -1076,11 +1129,18 @@ class Treasury(store.object):
         for metal_i in self.metals.values():
             metal_weight += metal_i
         return metal_weight
+        
+    @property
+    def materials_mass_description(self):
+        """
+        :return: описание массы материалов и металлов в сокровищнице
+        """
+        return Treasury.get_mass_description('material', self.metal_mass + self.material_mass)
             
     @property
-    def gem_count(self):
+    def gem_mass(self):
         """
-        :return: число драгоценных камней в сокровищнице
+        :return: масса драгоценных камней в сокровищнице
         """
         gem_summ = 0
         for gem_i in self.gems.keys():
@@ -1089,13 +1149,22 @@ class Treasury(store.object):
             if gem_size == 'small':
                 gem_summ += 25
             elif gem_size == 'common':
+                gem_summ += 15
+            elif gem_size == 'large':
                 gem_summ += 5
             else:
-                gem_summ += 1
+                gem_summ += 7
         return gem_summ
+        
+    @property
+    def gems_mass_description(self):
+        """
+        :return: описание массы драгоценных камней в сокровищнице
+        """
+        return Treasury.get_mass_description('gem', self.gem_mass)
     
     @property
-    def material_count(self):
+    def material_mass(self):
         """
         :return: масса материала в сокровищнице
         """
@@ -1107,7 +1176,7 @@ class Treasury(store.object):
         return mat_summ
         
     @property
-    def treasure_count(self):
+    def jewelry_mass(self):
         """
         :return: масса украшений в сокровищнице
         """
@@ -1115,3 +1184,10 @@ class Treasury(store.object):
         for jewelry_i in self.jewelry:
             jewelry_summ += jewelry_i.base_price
         return jewelry_summ
+        
+    @property
+    def jewelry_mass_description(self):
+        """
+        :return: описание массы драгоценных камней в сокровищнице
+        """
+        return Treasury.get_mass_description('jewelry', self.jewelry_mass)
