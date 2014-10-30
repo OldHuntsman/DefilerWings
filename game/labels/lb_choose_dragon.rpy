@@ -41,9 +41,9 @@ label lb_choose_dragon:
                     color_filename = random.choice(os.listdir(os.path.join(abs_path, game.dragon.color_eng())))
                     return rel_path + "/" + game.dragon.color_eng() + "/" + color_filename
                 else:
-                    return "img/scene/hatch/78.png"
+                    return "img/scene/hatch/base.png"
             else:
-                return "img/scene/hatch/78.png"
+                return "img/scene/hatch/base.png"
         renpy.breedbg = ui.image(get_breedbg())
     screen ava_screen:
         add renpy.breedbg
