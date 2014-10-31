@@ -6,9 +6,8 @@ import data
 import battle
 import mob_data
 import girls
-import girls_data
 import treasures
-from points import Mobilization, Reputation, Poverty
+from points import Mobilization, Reputation, Poverty, Army
 from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
@@ -30,6 +29,7 @@ class Game(store.object):
         self.nvl_character = nvl_character
         self.mobilization = Mobilization()
         self.poverty = Poverty()
+        self.army = Army()
         self._year = 0  # текущий год
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
           
@@ -42,12 +42,6 @@ class Game(store.object):
         self.create_lair() # TODO: первоначальное создание логова
         self.foe = None
         self.girl = None
-        
-        # переменные для армии Тьмы
-        self._grunts = {'goblin' : 1} # словарь для хранения рядовых войск
-        self._elites = {} # словарь для хранения элитных войск
-        self.money   = 0  # деньги в казне Владычицы
-        self._force_residue = 100 # процент оставшейся силы армии - мощь армии
 
     @property
     def year(self):
@@ -171,108 +165,6 @@ class Game(store.object):
         self.girls_list.free_all_girls()
         # Создаем новое логово
         self.lair = Lair(lair_type)
-        
-    def add_warrior_to_army(self, warrior_type):
-        """
-        Добавляет воина  в армию тьмы. warrior_type - название типа добавляемого воина из словаря girls_data.spawn_info
-        """
-        if 'elite' in girls_data.spawn_info[warrior_type]['modifier']:
-            # воин элитный, добавляется в список элитных 
-            warriors_list = self._elites
-        else:
-            # рядовой воин, добавляется в список рядовых 
-            warriors_list = self._grunts
-        if warrior_type in warriors_list:
-            # такой тип воина уже в списке, просто увеличиваем их число
-            warriors_list[warrior_type] += 1
-        else:
-            # такого типа воина нет в списке, добавляем
-            warriors_list[warrior_type] = 1
-        
-    @property
-    def army_grunts(self):
-        """
-        Возвращает число рядовых войск в армии тьмы
-        """
-        grunts_count = 0
-        for grunts_i in self._grunts.values():
-            grunts_count += grunts_i
-        return grunts_count
-        
-    @property
-    def army_grunts_list(self):
-        """
-        Возвращает список рядовых войск в армии тьмы
-        """
-        grunts_list = u""
-        for grunt_name, grunt_count in self._grunts.iteritems():
-            grunts_list += u"%s: %s. " % (girls_data.spawn_info[grunt_name]['name'], grunt_count)
-        return grunts_list
-    
-    @property
-    def army_elites(self):
-        """
-        Возвращает число элитных войск в армии тьмы
-        """
-        elites_count = 0
-        for elites_i in self._elites.values():
-            elites_count += elites_i
-        return elites_count
-        
-    @property
-    def army_elites_list(self):
-        """
-        Возвращает список элитных войск в армии тьмы
-        """
-        elites_list = u""
-        for elite_name, elite_count in self._elites.iteritems():
-            elites_list += u"%s: %s. " % (girls_data.spawn_info[elite_name]['name'], elite_count)
-        return elites_list
-        
-    @property
-    def army_diversity(self):
-        """
-        Возвращает разнообразие армии тьмы
-        """
-        diversity = len(self._elites)
-        dominant_number = sorted(self._grunts.values())[-1] // 2
-        for number_i in self._grunts.values():
-            if dominant_number <= number_i:
-                diversity += 1
-        return diversity
-        
-    @property
-    def army_equipment(self):
-        """
-        Возвращает уровень экипировки армии тьмы
-        """
-        equipment = 0
-        AoD_money = self.money
-        AoD_cost = (self.army_grunts + self.army_elites) * 1000
-        while AoD_money >= AoD_cost:
-            AoD_money //= 2
-            equipment += 1
-        return equipment
-        
-    @property
-    def army_force(self):
-        """
-        Возвращает суммарную силу армии тьмы по формуле (force) = (grunts + 3 * elites) * diversity * equipment * текущий процент мощи 
-        """
-        return (self.army_grunts + 3 * self.army_elites) * self.army_diversity * self.army_equipment * self._force_residue // 100
-        
-    @property
-    def army_power_percentage(self):
-        """
-        Возвращает текущий процент мощи армии тьмы
-        """
-        return self._force_residue
-    @army_power_percentage.setter
-    def army_power_percentage(self, value):
-        """
-        Устанавливает текущий процент мощи армии тьмы
-        """
-        self._force_residue = value
 
     @staticmethod
     def weighted_random(data):

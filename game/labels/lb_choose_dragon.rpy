@@ -9,9 +9,9 @@ label lb_choose_dragon:
             dragons = []
             dragons_choosed = []
             # добавляем 1 гоблина в армию тьмы
-            game.add_warrior_to_army('goblin')
+            game.army.add_warrior('goblin')
             # добавляем всё неправедно нажитое богатство в казну Владычицы
-            game.money += game.lair.treasury.wealth
+            game.army.money += game.lair.treasury.wealth
             # создаем новое логово
             game.create_lair()
         child_choose = None

@@ -18,11 +18,11 @@ label lb_test_main:
                     for type in data.protection_types:
                         tmp+= "\n  %s: %s" % (str(type), str(game.dragon.protection()[type]))
                     tmp+= "\nАрмия Тьмы:"
-                    tmp+= "\n  Рядовые войска: [game.army_grunts]. [game.army_grunts_list]"
-                    tmp+= "\n  Элитные войска: [game.army_elites]. [game.army_elites_list]"
-                    tmp+= "\n  Разнообразие войск: [game.army_diversity]. "
-                    tmp+= "\n  Денег в казне: [game.money]. Уровень экипировки: [game.army_equipment]"
-                    tmp+= "\n  Сила армии Тьмы: [game.army_force] (армия сильна на [game.army_power_percentage] %)."
+                    tmp+= "\n  Рядовые войска: [game.army.grunts]. [game.army.grunts_list]"
+                    tmp+= "\n  Элитные войска: [game.army.elites]. [game.army.elites_list]"
+                    tmp+= "\n  Разнообразие войск: [game.army.diversity]. "
+                    tmp+= "\n  Денег в казне: [game.army.money]. Уровень экипировки: [game.equipment]"
+                    tmp+= "\n  Сила армии Тьмы: [game.army.force] (армия сильна на [game.army.power_percentage] %)."
                     narrator(tmp)
                 return
             "Примеры":
@@ -60,7 +60,7 @@ label lb_test_debug:
     menu:
         "Отладка"
         "Ослабить армию Тьмы":
-            $ game.army_power_percentage -= 10
+            $ game.army.power_percentage -= 10
         "Работа с сокровищницей":
             call lb_test_debug_treasury
         "Добавить девушку":
