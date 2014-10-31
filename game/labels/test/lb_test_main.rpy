@@ -1,5 +1,6 @@
 init python:
     from pythoncode import core
+    from pythoncode import girls_data
 
 label lb_test_main:
     nvl clear
@@ -16,6 +17,12 @@ label lb_test_main:
                     tmp+= "\nЗащита дракона:"
                     for type in data.protection_types:
                         tmp+= "\n  %s: %s" % (str(type), str(game.dragon.protection()[type]))
+                    tmp+= "\nАрмия Тьмы:"
+                    tmp+= "\n  Рядовые войска: [game.army_grunts]. [game.army_grunts_list]"
+                    tmp+= "\n  Элитные войска: [game.army_elites]. [game.army_elites_list]"
+                    tmp+= "\n  Разнообразие войск: [game.army_diversity]. "
+                    tmp+= "\n  Денег в казне: [game.money]. Уровень экипировки: [game.army_equipment]"
+                    tmp+= "\n  Сила армии Тьмы: [game.army_force]."
                     narrator(tmp)
                 return
             "Примеры":
@@ -54,6 +61,14 @@ label lb_test_debug:
         "Отладка"
         "Работа с сокровищницей":
             call lb_test_debug_treasury
+        "Добавить девушку":
+            python:
+                girls_menu = []
+                for girl_type in girls_data.girls_info.keys():
+                    girls_menu.append((girl_type, girl_type))
+                girl_type = renpy.display_menu(girls_menu)
+                game.girls_list.new_girl(girl_type)
+                game.girls_list.jail_girl()
         "Потратить одну энергию":
             $ res = game.dragon.drain_energy()
             if res:

@@ -8,6 +8,12 @@ label lb_choose_dragon:
         if game.dragon is not None and game.dragon.heads:
             dragons = []
             dragons_choosed = []
+            # добавляем 1 гоблина в армию тьмы
+            game.add_warrior_to_army('goblin')
+            # добавляем всё неправедно нажитое богатство в казну Владычицы
+            game.money += game.lair.treasury.wealth
+            # создаем новое логово
+            game.create_lair()
         child_choose = None
         child_selected = None
         togle_dragonchoose_button = None
