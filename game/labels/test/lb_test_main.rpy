@@ -1,20 +1,34 @@
 init python:
     from pythoncode import core
+    from pythoncode import girls_data
 
 label lb_test_main:
     nvl clear
     while True:
         menu:
+            "Краткая сводка":
+                python hide:
+                    tmp = "Уровень мобилизации: [game.mobilization.level]"
+                    tmp+= "\nУровень разрухи: [game.poverty.value]"
+                    tmp+= "\nОчки/уровень дурной славы: [game.dragon.reputation.points]/[game.dragon.reputation.level]"
+                    tmp+= "\nМощь дракона:"
+                    for type in data.attack_types:
+                        tmp+= "\n  %s: %s" % (str(type), str(game.dragon.attack()[type]))
+                    tmp+= "\nЗащита дракона:"
+                    for type in data.protection_types:
+                        tmp+= "\n  %s: %s" % (str(type), str(game.dragon.protection()[type]))
+                    tmp+= "\nАрмия Тьмы:"
+                    tmp+= "\n  Рядовые войска: [game.army_grunts]. [game.army_grunts_list]"
+                    tmp+= "\n  Элитные войска: [game.army_elites]. [game.army_elites_list]"
+                    tmp+= "\n  Разнообразие войск: [game.army_diversity]. "
+                    tmp+= "\n  Денег в казне: [game.money]. Уровень экипировки: [game.army_equipment]"
+                    tmp+= "\n  Сила армии Тьмы: [game.army_force]."
+                    narrator(tmp)
+                return
             "Примеры":
                 call lb_test_examples
             "Отладка":
                 call lb_test_debug
-            "Работа с деньгами":
-                "[game.lair.treasury.money]: [game.lair.treasury.dublon], [game.lair.treasury.taller], [game.lair.treasury.farting]"
-                $ game.lair.treasury.money +=305
-                "[game.lair.treasury.money]: [game.lair.treasury.dublon], [game.lair.treasury.taller], [game.lair.treasury.farting]"
-                $ game.lair.treasury.money -=179
-                "[game.lair.treasury.money]: [game.lair.treasury.dublon], [game.lair.treasury.taller], [game.lair.treasury.farting]"
             "Назад":
                 return
     return
@@ -45,18 +59,16 @@ label lb_test_debug:
     nvl clear
     menu:
         "Отладка"
-        "Краткая сводка":
-            python hide:
-                tmp = "Уровень мобилизации: [game.mobilization.level]"
-                tmp+= "\nУровень разрухи: [game.poverty.value]"
-                tmp+= "\nОчки/уровень дурной славы: [game.dragon.reputation.points]/[game.dragon.reputation.level]"
-                tmp+= "\nМощь дракона:"
-                for type in data.attack_types:
-                    tmp+= "\n  %s: %s" % (str(type), str(game.dragon.attack()[type]))
-                tmp+= "\nЗащита дракона:"
-                for type in data.protection_types:
-                    tmp+= "\n  %s: %s" % (str(type), str(game.dragon.protection()[type]))
-                narrator(tmp)
+        "Работа с сокровищницей":
+            call lb_test_debug_treasury
+        "Добавить девушку":
+            python:
+                girls_menu = []
+                for girl_type in girls_data.girls_info.keys():
+                    girls_menu.append((girl_type, girl_type))
+                girl_type = renpy.display_menu(girls_menu)
+                game.girls_list.new_girl(girl_type)
+                game.girls_list.jail_girl()
         "Потратить одну энергию":
             $ res = game.dragon.drain_energy()
             if res:
@@ -135,5 +147,60 @@ label lb_test_debug_create_lair:
             menu_options.append((data.lair_types[a].name,a, True, True))
         type = renpy.call_screen("dw_choice", menu_options)
         game.create_lair(type)
+    return
+    
+    
+label lb_test_debug_treasury:  
+    while True: 
+        menu:
+            "Добавление денег":
+                "Стоимость сокровищ до добавления: [game.lair.treasury.wealth]"
+                $ treasure_list = treasures.gen_treas(10, ['farting', 'farting', 'dublon'], 'elf', 1, 1000, "")
+                $ game.lair.treasury.receive_treasures(treasure_list)
+                $ treasure_list = game.lair.treasury.treasures_description(treasure_list)
+                $ treasure_list = '\n'.join(treasure_list)
+                "Список добавленных монет:\n[treasure_list]"
+                "Стоимость сокровищ после добавления: [game.lair.treasury.wealth]"
+            "Добавление слитков":
+                "Стоимость сокровищ до добавления: [game.lair.treasury.wealth]"
+                $ test_list = treasures.gen_treas(10, ["silver", "gold", "mithril", "adamantine"], 'elf', 1, 1000000, "")
+                $ treasure_list = game.lair.treasury.treasures_description(test_list)
+                $ treasure_list = '\n'.join(treasure_list)
+                "Список добавленных слитков:\n[treasure_list]"
+                $ game.lair.treasury.receive_treasures(test_list)
+                "Стоимость сокровищ после добавления: [game.lair.treasury.wealth]"
+            "Добавление материалов":
+                "Стоимость сокровищ до добавления: [game.lair.treasury.wealth]"
+                $ test_list = treasures.gen_treas(10, treasures.material_types.keys(), 'elf', 1, 1000000, "")
+                $ treasure_list = game.lair.treasury.treasures_description(test_list)
+                $ treasure_list = '\n'.join(treasure_list)
+                "Список добавленных материалов:\n[treasure_list]"
+                $ game.lair.treasury.receive_treasures(test_list)
+                "Стоимость сокровищ после добавления: [game.lair.treasury.wealth]"
+            "Добавление камней":
+                "Стоимость сокровищ до добавления: [game.lair.treasury.wealth]"
+                $ test_list = treasures.gen_treas(10, treasures.gem_types.keys(), 'elf', 1, 1000000, "")
+                $ treasure_list = game.lair.treasury.treasures_description(test_list)
+                $ treasure_list = '\n'.join(treasure_list)
+                "Список добавленных камней:\n[treasure_list]"
+                $ game.lair.treasury.receive_treasures(test_list)
+                "Стоимость сокровищ после добавления: [game.lair.treasury.wealth]"
+            "Добавление сокровищ":
+                "Стоимость сокровищ до добавления: [game.lair.treasury.wealth]"
+                $ test_list = treasures.gen_treas(10, treasures.treasure_types.keys(), 'elf', 1, 1000000, "")
+                $ treasure_list = game.lair.treasury.treasures_description(test_list)
+                $ treasure_list = '\n'.join(treasure_list)
+                "Список добавленных сокровищ:\n[treasure_list]"
+                $ game.lair.treasury.receive_treasures(test_list)
+                "Стоимость сокровищ после добавления: [game.lair.treasury.wealth]"
+            "Ограбление":
+                "Стоимость сокровищ до ограбления: [game.lair.treasury.wealth]"
+                $ abducted_list = game.lair.treasury.rob_treasury(10)
+                $ abducted_list = game.lair.treasury.treasures_description(abducted_list)
+                $ abducted_list = '\n'.join(abducted_list)
+                "Список украденного: [abducted_list]"
+                "Стоимость сокровищ после ограбления: [game.lair.treasury.wealth]"
+            "Назад":
+                return
     return
         

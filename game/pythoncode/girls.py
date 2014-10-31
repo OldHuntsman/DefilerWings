@@ -266,12 +266,10 @@ class Girls_list(object):
                 self.free_spawn(spawn['power'])
             elif menu_action == 'army_of_darkness':
                 renpy.say(self.game.narrator, u"%s отправляется в армию тьмы" % spawn['name'])
-                self.army_of_darkness()
+                self.army_of_darkness(spawn_type)
             else:
-                self.game.lair.upgrades.append(menu_action) #добавление в модификатор логова
                 renpy.say(self.game.narrator, u"%s приступает к выполнению обязанностей" % spawn['name']) #выдача сообщения
-                if menu_action <> 'servant':
-                    self.game.lair.upgrades.add(menu_action, deepcopy(data.lair_upgrades[menu_action])) #добавление в улучшение логова
+                self.game.lair.upgrades.add(menu_action, deepcopy(data.lair_upgrades[menu_action])) #добавление в улучшение логова
         self.spawn = []
       
     def free_spawn(self, power):
@@ -282,12 +280,11 @@ class Girls_list(object):
         #self.game.mobilization.points -= power
         pass
       
-    def army_of_darkness(self):
+    def army_of_darkness(self, warrior_type):
         """
         Отправка в армию тьмы
-        # TODO: реализовать отправку в армию тьмы, когда будет понятно что это такое
         """
-        pass
+        self.game.add_warrior_to_army(warrior_type)
         
     def inteructions(self):
         """
