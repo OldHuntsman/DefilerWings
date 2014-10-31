@@ -22,7 +22,7 @@ label lb_test_main:
                     tmp+= "\n  Элитные войска: [game.army_elites]. [game.army_elites_list]"
                     tmp+= "\n  Разнообразие войск: [game.army_diversity]. "
                     tmp+= "\n  Денег в казне: [game.money]. Уровень экипировки: [game.army_equipment]"
-                    tmp+= "\n  Сила армии Тьмы: [game.army_force]."
+                    tmp+= "\n  Сила армии Тьмы: [game.army_force] (армия сильна на [game.army_power_percentage] %)."
                     narrator(tmp)
                 return
             "Примеры":
@@ -59,6 +59,8 @@ label lb_test_debug:
     nvl clear
     menu:
         "Отладка"
+        "Ослабить армию Тьмы":
+            $ game.army_power_percentage -= 10
         "Работа с сокровищницей":
             call lb_test_debug_treasury
         "Добавить девушку":

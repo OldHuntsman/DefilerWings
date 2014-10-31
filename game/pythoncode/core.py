@@ -47,6 +47,7 @@ class Game(store.object):
         self._grunts = {'goblin' : 1} # словарь для хранения рядовых войск
         self._elites = {} # словарь для хранения элитных войск
         self.money   = 0  # деньги в казне Владычицы
+        self._force_residue = 100 # процент оставшейся силы армии - мощь армии
 
     @property
     def year(self):
@@ -256,9 +257,22 @@ class Game(store.object):
     @property
     def army_force(self):
         """
-        Возвращает суммарную силу армии тьмы по формуле (force) = (grunts + 3 * elites) * diversity * equipment
+        Возвращает суммарную силу армии тьмы по формуле (force) = (grunts + 3 * elites) * diversity * equipment * текущий процент мощи 
         """
-        return (self.army_grunts + 3 * self.army_elites) * self.army_diversity * self.army_equipment
+        return (self.army_grunts + 3 * self.army_elites) * self.army_diversity * self.army_equipment * self._force_residue // 100
+        
+    @property
+    def army_power_percentage(self):
+        """
+        Возвращает текущий процент мощи армии тьмы
+        """
+        return self._force_residue
+    @army_power_percentage.setter
+    def army_power_percentage(self, value):
+        """
+        Устанавливает текущий процент мощи армии тьмы
+        """
+        self._force_residue = value
 
     @staticmethod
     def weighted_random(data):
