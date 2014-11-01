@@ -31,6 +31,7 @@ class Game(store.object):
         self.poverty = Poverty()
         self.army = Army()
         self._year = 0  # текущий год
+        self._quest_time = 0 # год окончания квеста
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
           
         self.dragon = None
@@ -131,10 +132,13 @@ class Game(store.object):
         # Спим
         for i in xrange(time_to_sleep):
             self.next_year()
-	# Обнуляем накопленные за бодрствование очки мобилизации
+        # Обнуляем накопленные за бодрствование очки мобилизации
         self.dragon.reputation.reset_gain()
         # Действия с девушками после конца сна    
         self.girls_list.after_awakening()
+        # Проверка срока выполнения квеста
+        if self.quest_time <= 0:
+            call('lb_location_mordor_questtime')
 
     def _create_knight(self):
         """
@@ -165,6 +169,60 @@ class Game(store.object):
         self.girls_list.free_all_girls()
         # Создаем новое логово
         self.lair = Lair(lair_type)
+        
+    def set_quest(self):
+        # определяем уровень дракона
+        if self.dragon == None:
+            lvl = 1
+        else:
+            lvl = 1 + self.dragon.level
+        # проходим весь список квестов
+        quests = []
+        for quest_i in xrange(len(data.quest_list)):
+            quest = data.quest_list[quest_i]
+            # находим квест, подходящий по уровню
+            if lvl >= quest['min_lvl'] and lvl <= quest['max_lvl']:
+                quests.append(quest)
+        quest = random.choice(quests)
+        self._quest_text = quest['text']
+        self.quest_time = quest['fixed_time'] + lvl * quest['lvlscale_time']
+                
+    
+    @property
+    def is_quest_complete(self):
+        """
+        Проверяет выполнен ли квест
+        TODO: проверки на выполнение квестов. Сразу после добавления квестов.
+        """
+        return True
+        
+    @property
+    def quest_text(self):
+        return self._quest_text
+        
+    @property
+    def quest_time(self):
+        """
+        Сколько лет осталось до конца квеста
+        """
+        return self._quest_time - self._year
+    @quest_time.setter
+    def quest_time(self, value):
+        self._quest_time = self._year + value
+        
+    @property
+    def quest_time_text(self):
+        number = self.quest_time
+        if number == 1:
+            return u"Последний год на выполнение задания!"
+        elif (number > 1 and number < 5):
+            return u"Тебе нужно выполнить задание за %s года!" % str(number)
+        elif (number % 100 > 20) and (number % 10 == 1):
+            return u"Задание нужно выполнить за %s год." % str(number)
+        elif (number % 100 > 20) and (number % 10 > 1 and number % 10 < 5):
+            return u"Задание нужно выполнить за %s года." % str(number)
+        else:
+            return u"Задание нужно выполнить за %s лет." % str(number)
 
     @staticmethod
     def weighted_random(data):
@@ -414,8 +472,10 @@ class Dragon(Fighter):
         if parent is not None:
             self.heads = deepcopy(parent.heads) #Копируем живые головы родителя
             self.heads.extend(parent.dead_heads) #И прибавляем к ним мертвые
+            self.level = parent.level + 1 # Уровень дракона
         else:
             self.heads = ['green']  # головы дракона
+            self.level = 1 # Начальный уровень дракона 
         self.dead_heads = [] #мертвые головы дракона
         
         #Анатомия

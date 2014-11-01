@@ -11,6 +11,7 @@ label lb_test_main:
                     tmp = "Уровень мобилизации: [game.mobilization.level]"
                     tmp+= "\nУровень разрухи: [game.poverty.value]"
                     tmp+= "\nОчки/уровень дурной славы: [game.dragon.reputation.points]/[game.dragon.reputation.level]"
+                    tmp+= "\nУровень дракона: [game.dragon.level]"
                     tmp+= "\nМощь дракона:"
                     for type in data.attack_types:
                         tmp+= "\n  %s: %s" % (str(type), str(game.dragon.attack()[type]))

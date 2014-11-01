@@ -14,6 +14,9 @@ label lb_choose_dragon:
             game.army.money += game.lair.treasury.wealth
             # создаем новое логово
             game.create_lair()
+        if game.dragon is None or game.dragon.heads:
+            # задаем квест
+            game.set_quest()
         child_choose = None
         child_selected = None
         togle_dragonchoose_button = None
