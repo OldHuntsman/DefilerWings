@@ -7,7 +7,7 @@ label lb_location_sea_main:
         'Даже драконам надо иногда спать. Особенно драконам!'
         return
         
-    if not game.dragon.can_swim(): 
+    if not game.dragon.can_swim: 
         '[game.dragon.name] пробует когтем солёную морскую влагу. Если бы только он умел дышать под водой...'
         return
     
