@@ -172,7 +172,7 @@ label lb_enc_explore_ogre_den:
             $ description = game.girls_list.new_girl('ogre')
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex     
+            call lb_gigant_sex     
             'Пещера, в которой жил огр, теперь пуста. Но тут можно устроить своё логово, не слишком раскошное, но всё же получше, чем открытый овраг в буреломной чащобе.'
             jump lb_enc_create_ogre_lair
                                         
