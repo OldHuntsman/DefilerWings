@@ -920,10 +920,35 @@ class Treasury(store.object):
         :param treasure_list: Список сокровищ, для которых требуется получить описание
         :return: Возвращает список с описанием сокровищ
         """
+        from copy import deepcopy
+        treas_list = deepcopy(treasure_list)
         description_list = []
-        for treas in treasure_list:
+        #Группируем монеты и слитки
+        coin_list = {}
+        ingot_list = {}
+        for treas_i in reversed(xrange(len(treasure_list))):
+            treas = treas_list[treas_i]
+            if isinstance(treas, Coin):
+                if treas.name in coin_list:
+                    coin_list[treas.name] += treas.amount
+                else:
+                    coin_list[treas.name] = treas.amount
+                del treas_list[treas_i]
+            elif isinstance(treas, Ingot):
+                if treas.metal_type in ingot_list:
+                    ingot_list[treas.metal_type] += treas.weight
+                else:
+                    ingot_list[treas.metal_type] = treas.weight
+                del treas_list[treas_i]
+        for treas in coin_list.iterkeys():
+            description_list.append(Coin.number_conjugation(treas, coin_list[treas]) + '.')
+        for treas in ingot_list.iterkeys():
+            description_list.append(capitalizeFirst(Ingot.number_conjugation(treas, ingot_list[treas])) + '.')    
+        #Выодим остальное
+        for treas in treas_list:
             description_list.append(capitalizeFirst(treas.description()) + '.')
         return description_list
+        
         
     def take_ingot(self, ingot_type, weight):
         """
