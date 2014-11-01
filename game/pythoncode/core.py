@@ -634,42 +634,29 @@ class Dragon(Fighter):
         wings = self.wings()
         paws = self.paws()
         heads = len(self.heads)
-        if wings == 0 and paws == 0:
-            return u"ползучий гад"
-        if wings > 0 and paws == 0:
-            return u'летучий гад'
-        if wings == 0 and paws >= 0:
-            return u'линдвурм'
-        if wings > 0 and paws == 1:
-            return u'вирвен'
-        if wings == 0 and heads > 1:
-            if heads == 2:
-                return u'двуглавый гидра'
-            if heads == 3:
-                return u'трехглавый гидра'
-            if heads == 4:
-                return u'четырёхглавый гидра'
-            if heads == 5:
-                return u'пятиглавый гидра'
-            if heads == 6:
-                return u'шестиглавый гидра'
-            if heads == 7:
-                return u'семиглавый гидрус'
-        if wings == 1 and paws == 2 and heads == 1:
-            return u'дракон'
-        if wings > 0 and paws >= 1 and heads > 1:
-            if heads == 2:
-                return u'двуглавый дракон'
-            if heads == 3:
-                return u'трехглавый дракон'
-            if heads == 4:
-                return u'четырёхглавый дракон'
-            if heads == 5:
-                return u'пятиглавый дракон'
-            if heads == 6:
-                return u'шестиглавый дракон'
-            if heads == 7:
-                return u'семиглавый дракон'
+        if wings == 0:
+            if heads == 1:
+                if paws == 0:
+                    return u"ползучий гад"
+                else:
+                    return u"линдвурм"
+            else:
+                return u"%s гидрус" % data.head_count[heads]
+        else:
+            if paws == 0 and heads == 1:
+                return u"летучий гад"
+            elif paws == 0 and heads > 1: 
+                return u"%s летучий гад" % data.head_count[heads]
+            elif paws == 1 and heads == 1:
+                return u"виверн"
+            elif paws == 1 and heads > 1:
+                return u"%s виверн" % data.head_count[heads] 
+            elif paws == 2 and heads == 1:
+                return u"дракон"
+            elif paws > 1 and heads > 1:
+                return u"%s дракон" % data.head_count[heads]
+            else:
+                return u"шестилапый дракон" # название для дракона с paws == 3 and heads == 1
 
     def size(self):
         """

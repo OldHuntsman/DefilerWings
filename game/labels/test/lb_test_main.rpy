@@ -21,7 +21,7 @@ label lb_test_main:
                     tmp+= "\n  Рядовые войска: [game.army.grunts]. [game.army.grunts_list]"
                     tmp+= "\n  Элитные войска: [game.army.elites]. [game.army.elites_list]"
                     tmp+= "\n  Разнообразие войск: [game.army.diversity]. "
-                    tmp+= "\n  Денег в казне: [game.army.money]. Уровень экипировки: [game.equipment]"
+                    tmp+= "\n  Денег в казне: [game.army.money]. Уровень экипировки: [game.army.equipment]"
                     tmp+= "\n  Сила армии Тьмы: [game.army.force] (армия сильна на [game.army.power_percentage] %)."
                     narrator(tmp)
                 return

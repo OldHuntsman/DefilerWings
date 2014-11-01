@@ -104,10 +104,11 @@ class Army (store.object):
     '''
     Класс для армии Тьмы
     '''
-    self._grunts = {'goblin' : 1} # словарь для хранения рядовых войск
-    self._elites = {} # словарь для хранения элитных войск
-    self.money   = 0  # деньги в казне Владычицы
-    self._force_residue = 100 # процент оставшейся силы армии - мощь армии
+    def __init__(self):
+        self._grunts = {'goblin' : 1} # словарь для хранения рядовых войск
+        self._elites = {} # словарь для хранения элитных войск
+        self.money   = 0  # деньги в казне Владычицы
+        self._force_residue = 100 # процент оставшейся силы армии - мощь армии
     
     def add_warrior(self, warrior_type):
         """
