@@ -173,15 +173,15 @@ label lb_enc_explore_ogre_den:
             nvl clear
             game.girl.third "[description]"
             call lb_gigant_sex     
-            'Пещера, в которой жил огр, теперь пуста. Но тут можно устроить своё логово, не слишком раскошное, но всё же получше, чем открытый овраг в буреломной чащобе.'
             jump lb_enc_create_ogre_lair
                                         
         'Запомнить место и уйти':
-            $ game.dragon.add_special_place('ogre', 'explore_ogre_den')
+            $ game.dragon.add_special_place('ogre', 'create_ogre_lair')
             return
  
 label lb_enc_create_ogre_lair:
     menu:
+        'Пещера, в которой жил огр, теперь пуста. Но тут можно устроить своё логово, не слишком раскошное, но всё же получше, чем открытый овраг в буреломной чащобе.'
         'Переместить логово':
             $ game.create_lair('ogre_den')
             return

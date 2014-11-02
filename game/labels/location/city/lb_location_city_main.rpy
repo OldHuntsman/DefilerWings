@@ -8,13 +8,11 @@ label lb_location_city_main:
         return      
         
     menu:
-        'Тайный визит':
+        'Тайный визит' if game.dragon.mana > 0:
             $ pass
         'Ворваться в город':
             $ pass
-        'Осадить город':
-            $ pass
         'Отступить':
-            $ pass
+            return
             
     return

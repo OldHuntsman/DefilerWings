@@ -10,7 +10,11 @@ label lb_location_sky_main:
     if not game.dragon.can_fly: 
         '[game.dragon.name] с тоской смотрит в небо. Если бы только он умел летать...'
         return
+        
+    return
+    # call lb_encounter_sky
     
+label lb_encounter_sky:
     $ choices = [("lb_enc_", 10),
                 ("lb_enc_", 10),
                 ("lb_enc_", 10),
@@ -32,10 +36,11 @@ label lb_location_sky_main:
                 ("lb_enc_", 10),
                 ("lb_enc_", 10),
                 ("lb_enc_", 10),
-                ("lb_patrool_sky", 3*game.mobilization.level),
+                ("lb_patrool_sea", 3*game.mobilization.level),
+                
                 ]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
-    
+
     return
     
