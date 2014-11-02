@@ -1,9 +1,6 @@
 label lb_location_sky_main:
     $ place = 'sky'
     show expression get_place_bg(place) as bg    
-    
-    $ place = 'sky'
-    show expression get_place_bg(place) as bg
     nvl clear
     
     if game.dragon.energy() == 0:

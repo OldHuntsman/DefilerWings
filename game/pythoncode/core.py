@@ -6,9 +6,8 @@ import data
 import battle
 import mob_data
 import girls
-import girls_data
 import treasures
-from points import Mobilization, Reputation, Poverty
+from points import Mobilization, Reputation, Poverty, Army
 from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
@@ -30,7 +29,9 @@ class Game(store.object):
         self.nvl_character = nvl_character
         self.mobilization = Mobilization()
         self.poverty = Poverty()
+        self.army = Army()
         self._year = 0  # текущий год
+        self._quest_time = 0 # год окончания квеста
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
           
         self.dragon = None
@@ -42,11 +43,6 @@ class Game(store.object):
         self.create_lair() # TODO: первоначальное создание логова
         self.foe = None
         self.girl = None
-        
-        # переменные для армии Тьмы
-        self._grunts = {'goblin' : 1} # словарь для хранения рядовых войск
-        self._elites = {} # словарь для хранения элитных войск
-        self.money   = 0  # деньги в казне Владычицы
 
     @property
     def year(self):
@@ -136,10 +132,13 @@ class Game(store.object):
         # Спим
         for i in xrange(time_to_sleep):
             self.next_year()
-	# Обнуляем накопленные за бодрствование очки мобилизации
+        # Обнуляем накопленные за бодрствование очки мобилизации
         self.dragon.reputation.reset_gain()
         # Действия с девушками после конца сна    
         self.girls_list.after_awakening()
+        # Проверка срока выполнения квеста
+        if self.quest_time <= 0:
+            call('lb_location_mordor_questtime')
 
     def _create_knight(self):
         """
@@ -171,94 +170,59 @@ class Game(store.object):
         # Создаем новое логово
         self.lair = Lair(lair_type)
         
-    def add_warrior_to_army(self, warrior_type):
-        """
-        Добавляет воина  в армию тьмы. warrior_type - название типа добавляемого воина из словаря girls_data.spawn_info
-        """
-        if 'elite' in girls_data.spawn_info[warrior_type]['modifier']:
-            # воин элитный, добавляется в список элитных 
-            warriors_list = self._elites
+    def set_quest(self):
+        # определяем уровень дракона
+        if self.dragon == None:
+            lvl = 1
         else:
-            # рядовой воин, добавляется в список рядовых 
-            warriors_list = self._grunts
-        if warrior_type in warriors_list:
-            # такой тип воина уже в списке, просто увеличиваем их число
-            warriors_list[warrior_type] += 1
-        else:
-            # такого типа воина нет в списке, добавляем
-            warriors_list[warrior_type] = 1
-        
-    @property
-    def army_grunts(self):
-        """
-        Возвращает число рядовых войск в армии тьмы
-        """
-        grunts_count = 0
-        for grunts_i in self._grunts.values():
-            grunts_count += grunts_i
-        return grunts_count
-        
-    @property
-    def army_grunts_list(self):
-        """
-        Возвращает список рядовых войск в армии тьмы
-        """
-        grunts_list = u""
-        for grunt_name, grunt_count in self._grunts.iteritems():
-            grunts_list += u"%s: %s. " % (girls_data.spawn_info[grunt_name]['name'], grunt_count)
-        return grunts_list
+            lvl = 1 + self.dragon.level
+        # проходим весь список квестов
+        quests = []
+        for quest_i in xrange(len(data.quest_list)):
+            quest = data.quest_list[quest_i]
+            # находим квест, подходящий по уровню
+            if lvl >= quest['min_lvl'] and lvl <= quest['max_lvl']:
+                quests.append(quest)
+        quest = random.choice(quests)
+        self._quest_text = quest['text']
+        self.quest_time = quest['fixed_time'] + lvl * quest['lvlscale_time']
+                
     
     @property
-    def army_elites(self):
+    def is_quest_complete(self):
         """
-        Возвращает число элитных войск в армии тьмы
+        Проверяет выполнен ли квест
+        TODO: проверки на выполнение квестов. Сразу после добавления квестов.
         """
-        elites_count = 0
-        for elites_i in self._elites.values():
-            elites_count += elites_i
-        return elites_count
+        return True
         
     @property
-    def army_elites_list(self):
-        """
-        Возвращает список элитных войск в армии тьмы
-        """
-        elites_list = u""
-        for elite_name, elite_count in self._elites.iteritems():
-            elites_list += u"%s: %s. " % (girls_data.spawn_info[elite_name]['name'], elite_count)
-        return elites_list
+    def quest_text(self):
+        return self._quest_text
         
     @property
-    def army_diversity(self):
+    def quest_time(self):
         """
-        Возвращает разнообразие армии тьмы
+        Сколько лет осталось до конца квеста
         """
-        diversity = len(self._elites)
-        dominant_number = sorted(self._grunts.values())[-1] // 2
-        for number_i in self._grunts.values():
-            if dominant_number <= number_i:
-                diversity += 1
-        return diversity
+        return self._quest_time - self._year
+    @quest_time.setter
+    def quest_time(self, value):
+        self._quest_time = self._year + value
         
     @property
-    def army_equipment(self):
-        """
-        Возвращает уровень экипировки армии тьмы
-        """
-        equipment = 0
-        AoD_money = self.money
-        AoD_cost = (self.army_grunts + self.army_elites) * 1000
-        while AoD_money >= AoD_cost:
-            AoD_money //= 2
-            equipment += 1
-        return equipment
-        
-    @property
-    def army_force(self):
-        """
-        Возвращает суммарную силу армии тьмы по формуле (force) = (grunts + 3 * elites) * diversity * equipment
-        """
-        return (self.army_grunts + 3 * self.army_elites) * self.army_diversity * self.army_equipment
+    def quest_time_text(self):
+        number = self.quest_time
+        if number == 1:
+            return u"Последний год на выполнение задания!"
+        elif (number > 1 and number < 5):
+            return u"Тебе нужно выполнить задание за %s года!" % str(number)
+        elif (number % 100 > 20) and (number % 10 == 1):
+            return u"Задание нужно выполнить за %s год." % str(number)
+        elif (number % 100 > 20) and (number % 10 > 1 and number % 10 < 5):
+            return u"Задание нужно выполнить за %s года." % str(number)
+        else:
+            return u"Задание нужно выполнить за %s лет." % str(number)
 
     @staticmethod
     def weighted_random(data):
@@ -508,8 +472,10 @@ class Dragon(Fighter):
         if parent is not None:
             self.heads = deepcopy(parent.heads) #Копируем живые головы родителя
             self.heads.extend(parent.dead_heads) #И прибавляем к ним мертвые
+            self.level = parent.level + 1 # Уровень дракона
         else:
             self.heads = ['green']  # головы дракона
+            self.level = 1 # Начальный уровень дракона 
         self.dead_heads = [] #мертвые головы дракона
         
         #Анатомия
@@ -728,42 +694,29 @@ class Dragon(Fighter):
         wings = self.wings()
         paws = self.paws()
         heads = len(self.heads)
-        if wings == 0 and paws == 0:
-            return u"ползучий гад"
-        if wings > 0 and paws == 0:
-            return u'летучий гад'
-        if wings == 0 and paws >= 0:
-            return u'линдвурм'
-        if wings > 0 and paws == 1:
-            return u'вирвен'
-        if wings == 0 and heads > 1:
-            if heads == 2:
-                return u'двуглавый гидра'
-            if heads == 3:
-                return u'трехглавый гидра'
-            if heads == 4:
-                return u'четырёхглавый гидра'
-            if heads == 5:
-                return u'пятиглавый гидра'
-            if heads == 6:
-                return u'шестиглавый гидра'
-            if heads == 7:
-                return u'семиглавый гидрус'
-        if wings == 1 and paws == 2 and heads == 1:
-            return u'дракон'
-        if wings > 0 and paws >= 1 and heads > 1:
-            if heads == 2:
-                return u'двуглавый дракон'
-            if heads == 3:
-                return u'трехглавый дракон'
-            if heads == 4:
-                return u'четырёхглавый дракон'
-            if heads == 5:
-                return u'пятиглавый дракон'
-            if heads == 6:
-                return u'шестиглавый дракон'
-            if heads == 7:
-                return u'семиглавый дракон'
+        if wings == 0:
+            if heads == 1:
+                if paws == 0:
+                    return u"ползучий гад"
+                else:
+                    return u"линдвурм"
+            else:
+                return u"%s гидрус" % data.head_count[heads]
+        else:
+            if paws == 0 and heads == 1:
+                return u"летучий гад"
+            elif paws == 0 and heads > 1: 
+                return u"%s летучий гад" % data.head_count[heads]
+            elif paws == 1 and heads == 1:
+                return u"виверн"
+            elif paws == 1 and heads > 1:
+                return u"%s виверн" % data.head_count[heads] 
+            elif paws == 2 and heads == 1:
+                return u"дракон"
+            elif paws > 1 and heads > 1:
+                return u"%s дракон" % data.head_count[heads]
+            else:
+                return u"шестилапый дракон" # название для дракона с paws == 3 and heads == 1
 
     def size(self):
         """

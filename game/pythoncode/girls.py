@@ -284,7 +284,7 @@ class Girls_list(object):
         """
         Отправка в армию тьмы
         """
-        self.game.add_warrior_to_army(warrior_type)
+        self.game.army.add_warrior(warrior_type)
         
     def inteructions(self):
         """

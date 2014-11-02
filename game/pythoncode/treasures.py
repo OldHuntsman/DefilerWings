@@ -883,8 +883,7 @@ class Treasury(store.object):
         :param treasure_list: Список сокровищ, помещаемых в сокровищницу
         """
         for treas in treasure_list:
-            type_str = str(type(treas))
-            if type_str == "<class 'pythoncode.treasures.Coin'>":
+            if isinstance(treas, Coin):
                 # сохраняется число медных, серебряных и золотых монет в соответствующих переменных
                 if treas.name == 'farting':
                     self.farting += treas.amount
@@ -892,27 +891,27 @@ class Treasury(store.object):
                     self.taller += treas.amount
                 else:
                     self.dublon += treas.amount
-            elif type_str == "<class 'pythoncode.treasures.Ingot'>":
+            elif isinstance(treas, Ingot):
                 # сохраняется в словаре metals, где ключ - название металла, а значение - его вес в фунтах
                 if treas.metal_type in self.metals:
                     self.metals[treas.metal_type] += treas.weight
                 else:
                     self.metals[treas.metal_type] = treas.weight
-            elif type_str == "<class 'pythoncode.treasures.Material'>":
+            elif isinstance(treas, Material):
                 # сохраняется в словаре materials, где ключ - "название материала;размер материала", а значение - число материалов такого типа и размера
                 type_str = treas.m_type + ';' + treas.size
                 if type_str in self.materials:
                     self.materials[type_str] += 1
                 else:
                     self.materials[type_str] = 1
-            elif type_str == "<class 'pythoncode.treasures.Gem'>":
+            elif isinstance(treas, Gem):
                 # сохраняется в словаре gems, где ключ - "название драгоценности;размер драгоценности;обработка драгоценности", а значение - число камней такого типа, размера и обработки
                 type_str = treas.g_type + ';' + treas.size + ';' + treas.cut
                 if type_str in self.gems:
                     self.gems[type_str] += 1
                 else:
                     self.gems[type_str] = 1
-            elif type_str == "<class 'pythoncode.treasures.Treasure'>":
+            elif isinstance(treas, Treasure):
                 self.jewelry.append(treas)
         
     def treasures_description(self, treasure_list):
@@ -920,8 +919,32 @@ class Treasury(store.object):
         :param treasure_list: Список сокровищ, для которых требуется получить описание
         :return: Возвращает список с описанием сокровищ
         """
+        from copy import deepcopy
+        treas_list = deepcopy(treasure_list)
         description_list = []
-        for treas in treasure_list:
+        #Группируем монеты и слитки
+        coin_list = {}
+        ingot_list = {}
+        for treas_i in reversed(xrange(len(treasure_list))):
+            treas = treas_list[treas_i]
+            if isinstance(treas, Coin):
+                if treas.name in coin_list:
+                    coin_list[treas.name] += treas.amount
+                else:
+                    coin_list[treas.name] = treas.amount
+                del treas_list[treas_i]
+            elif isinstance(treas, Ingot):
+                if treas.metal_type in ingot_list:
+                    ingot_list[treas.metal_type] += treas.weight
+                else:
+                    ingot_list[treas.metal_type] = treas.weight
+                del treas_list[treas_i]
+        for treas in coin_list.iterkeys():
+            description_list.append(Coin.number_conjugation(treas, coin_list[treas]) + '.')
+        for treas in ingot_list.iterkeys():
+            description_list.append(capitalizeFirst(Ingot.number_conjugation(treas, ingot_list[treas])) + '.')    
+        #Выводим остальное
+        for treas in treas_list:
             description_list.append(capitalizeFirst(treas.description()) + '.')
         return description_list
         
