@@ -283,6 +283,7 @@ label lb_enc_bath:
     return
     
 label lb_enc_militia:
+    $ if game.mobilization.level <= 0: renpy.jump('lb_encounter_plains')
     show expression 'img/scene/fight/militia.png' as bg
     'На поле тренируются ополченцы-новобранцы.'
     nvl clear
@@ -294,7 +295,7 @@ label lb_enc_militia:
             '  Отряд ополченцев готовившийся пополнить армию больше не существует. Немногие выжившие новобранцы разбежались в ужасе. Теперь королю будет сложнее собирать свои патрульные отряды.'
             $game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-            $ game.mobilization -= 1
+            $ game.mobilization.level -= 1
                         
         'Убраться прочь' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
@@ -313,13 +314,13 @@ label lb_enc_mill:
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Заклятье гнили' if game.dragon.magic() > 0:
+        'Заклятье гнили' if game.dragon.mana > 0:
             $ game.dragon.drain_energy()
             "Амбар сгорает синим пламенем."
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Обследовать здание' if game.dragon.size() <= 3 and game.dragon.magic() == 0:
+        'Обследовать здание' if game.dragon.size() <= 3 and game.dragon.mana == 0:
             $ game.dragon.drain_energy()
             "[game.dragon.name] тщательно обследует необычное строение на предмет важности и уязвимых мест. Эту четырёхкрылую башню с каменным основанием люди используют чтобы делать из зерна муку. Очень хочется её разрушить, но стоит она прочно. Нужно либо размер иметь побольше чтобы расшатать её собственным телом, либо наслать гнилостное заклятье на внутренние деревянные механизмы."
             'Только время зря потерял. Придётся уйти несолоно хлебавши.'
@@ -343,13 +344,13 @@ label lb_enc_granary:
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
-        'Наколдовать синее пламя' if game.dragon.magic() > 0:
+        'Наколдовать синее пламя' if game.dragon.mana > 0:
             $ game.dragon.drain_energy()
             "Амбар сгорает синим пламенем."
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
-        'Обследовать здание' if not doit and game.dragon.magic() == 0:
+        'Обследовать здание' if not doit and game.dragon.mana == 0:
             $ game.dragon.drain_energy()
             "[game.dragon.name] тщательно обследует огромный амбар. Зерна тут хватит чтобы целыый городо прокормить. Эх сжечь бы это всё до тла и люди начали бы голодать, только вот огонька нет..."
         'Пройти мимо' if game.dragon.bloodiness < 5:

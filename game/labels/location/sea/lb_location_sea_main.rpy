@@ -10,7 +10,11 @@ label lb_location_sea_main:
     if not game.dragon.can_swim: 
         '[game.dragon.name] пробует когтем солёную морскую влагу. Если бы только он умел дышать под водой...'
         return
+        
+    return
+    # call lb_encounter_sea
     
+label lb_encounter_sea:
     $ choices = [("lb_enc_", 10),
                 ("lb_enc_", 10),
                 ("lb_enc_", 10),
@@ -37,5 +41,5 @@ label lb_location_sea_main:
                 ]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
-    
+
     return 
