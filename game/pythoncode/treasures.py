@@ -1103,6 +1103,20 @@ class Treasury(store.object):
                         number_conjugation_rus(self.jewelry[most_expensive_i].cost, u"фартинг"), self.jewelry[most_expensive_i].obtained) 
         else:
             return u"Украшений в сокровищнице нет"
+            
+    @property
+    def cheapest_jewelry(self):
+        if len(self.jewelry):
+            most_cheapest_i = 0
+            most_cheapest_cost = self.jewelry[most_cheapest_i].cost
+            for jewelry_i in xrange(len(self.jewelry)):
+                if self.jewelry[jewelry_i].cost < most_cheapest_cost:
+                    most_cheapest_cost = self.jewelry[jewelry_i].cost
+                    most_cheapest_i = jewelry_i
+            return u"%s.\nСтоимость украшения: %s.\n%s" % (capitalizeFirst(self.jewelry[most_cheapest_i].description()), \
+                        number_conjugation_rus(self.jewelry[most_cheapest_i].cost, u"фартинг"), self.jewelry[most_cheapest_i].obtained) 
+        else:
+            return u"Украшений в сокровищнице нет"
     
     @property
     def random_jewelry(self):

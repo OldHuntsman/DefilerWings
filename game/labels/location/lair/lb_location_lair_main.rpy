@@ -50,6 +50,9 @@ label lb_location_lair_main:
                         'Самая дорогая в сокровищнице':
                             nvl clear
                             "[game.lair.treasury.most_expensive_jewelry]"
+                        'Самая дешёвая в сокровищнице':
+                            nvl clear
+                            "[game.lair.treasury.cheapest_jewelry]"
                         'Случайная':
                             nvl clear
                             "[game.lair.treasury.random_jewelry]"
