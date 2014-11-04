@@ -85,6 +85,8 @@ label lb_choose_dragon:
     while True:
         nvl clear
         call screen ava_screen
+        if not dragons_choosed:
+            "Нужно выполнить задание:\n[game.quest_text]"
         $ game.dragon = child_selected
         $ dragons_choosed.append(game.dragon)
         return

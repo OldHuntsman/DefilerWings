@@ -13,7 +13,7 @@ label lb_location_mordor_main:
         'Аудиенция с владычицей':
             if game.is_quest_complete:
                 menu:
-                    "Продолжить род?"
+                    "Задание выполнено! Продолжить род?"
                     "Да":
                         call lb_choose_dragon
                     "Нет":
@@ -29,8 +29,8 @@ label lb_location_mordor_questtime:
     $ place = 'mordor' 
     show place as bg
     show screen status_bar
-    "Ты выполнил задание и за это положена награда."
     if game.is_quest_complete:
+        "Ты выполнил задание и за это положена награда."
         call lb_choose_dragon
     else:
         "Ты проиграл. Какая досада."

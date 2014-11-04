@@ -183,18 +183,33 @@ class Game(store.object):
             # находим квест, подходящий по уровню
             if lvl >= quest['min_lvl'] and lvl <= quest['max_lvl']:
                 quests.append(quest)
-        quest = random.choice(quests)
-        self._quest_text = quest['text']
-        self.quest_time = quest['fixed_time'] + lvl * quest['lvlscale_time']
-                
-    
+        self._quest = random.choice(quests)
+        # Задание года окончания выполнения квеста
+        self._quest_time = self._year
+        if 'fixed_time' in self._quest:
+            self._quest_time += self._quest['fixed_time']
+        if 'lvlscale_time' in self._quest:
+            self._quest_time += lvl * self._quest['lvlscale_time']
+        # Задание порогового значения, если это необходимо
+        self._quest_threshold = 0
+        if 'fixed_threshold' in self._quest:
+            self._quest_threshold += self._quest['fixed_threshold']
+        if 'lvlscale_threshold' in self._quest:
+            self._quest_threshold += lvl * self._quest['lvlscale_threshold']
+        self._quest_text = self._quest['text'].format(*[self._quest_threshold])
+                   
     @property
     def is_quest_complete(self):
         """
         Проверяет выполнен ли квест
         TODO: проверки на выполнение квестов. Сразу после добавления квестов.
         """
-        return True
+        task_name = self._quest['task']
+        if task_name == 'autocomplete': # задача всегда выполнена
+            return True
+        elif task_name == 'reputation': # проверка уровня репутации
+            return self.dragon.reputation.points >= self._quest_threshold
+        
         
     @property
     def quest_text(self):
