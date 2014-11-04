@@ -209,6 +209,8 @@ class Game(store.object):
             return True
         elif task_name == 'reputation': # проверка уровня репутации
             return self.dragon.reputation.points >= self._quest_threshold
+        elif task_name == 'wealth': # проверка стоимости всех сокровищ
+            return self.lair.treasury.wealth >= self._quest_threshold
         
         
     @property
