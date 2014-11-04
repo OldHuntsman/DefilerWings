@@ -285,29 +285,17 @@ class Girls_list(object):
         Отправка в армию тьмы
         """
         self.game.army.add_warrior(warrior_type)
-        
-    def inteructions(self):
+    
+    @property
+    def is_mating_possible(self):
         """
-        Реализация меню для взаимодействий с девушками
+        Возвращает возможность совокупления - истину или ложь.
+        # TODO: проверка на превращение в человека
         """
-        while self.game.girl:
-            girls_menu = [] #меню взаимодействий с девушками
-            if self.game.girl.virgin and self.game.dragon.lust > 0:
-                girls_menu.append((u"Надругаться", 'impregnate'))
-            if self.game.dragon.hunger > 0:
-                girls_menu.append((u"Сожрать", 'eat_girl'))
-            girls_menu.append((u"Отпустить", 'free_prison'))
-            girls_menu.append((u"Вернуть в клетку", 'jail_girl'))
-            
-            menu_action = renpy.display_menu(girls_menu)
-            
-            if menu_action == 'impregnate':
-                girl_text = self.impregnate()
-            elif menu_action == 'eat_girl':
-                girl_text = self.eat_girl()
-            elif menu_action == 'free_prison':
-                girl_text = self.free_girl()
-            else:
-                girl_text = self.jail_girl()
-            renpy.say(self.game.girl.third, girl_text)
-            if not (menu_action == 'impregnate'): return
+        assert self.game.girl, "Girl not found"
+        mating_possible = self.game.girl.virgin and self.game.dragon.lust > 0
+        if girls_data.girls_info[self.game.girl.type]['giantess']:
+            mating_possible = self.game.dragon.size() > 3 and mating_possible
+        else:
+            mating_possible = self.game.dragon.size() < 5 and mating_possible
+        return mating_possible

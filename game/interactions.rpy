@@ -6,7 +6,7 @@ label lb_nature_sex:
         show place as bg
     nvl clear
     menu:
-        'Надругаться' if game.girl.virgin and game.dragon.lust > 0:
+        'Надругаться' if game.girls_list.is_mating_possible:
             $ description = game.girls_list.impregnate()
             game.girl.third "[description]"
         'Ограбить' if game.girl.treasure != []:
@@ -41,7 +41,7 @@ label lb_gigant_sex:
         show place as bg
     nvl clear
     menu:
-        'Надругаться' if game.girl.virgin and game.dragon.lust > 0:
+        'Надругаться' if game.girls_list.is_mating_possible:
             $ description = game.girls_list.impregnate()
             game.girl.third "[description]"
         'Ограбить' if game.girl.treasure != []:

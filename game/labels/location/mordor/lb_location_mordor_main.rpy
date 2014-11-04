@@ -12,8 +12,11 @@ label lb_location_mordor_main:
             $ pass
         'Аудиенция с владычицей':
             if game.is_quest_complete:
+                # Если делаем подарок - удаляем его из списка сокровищ
+                if game.quest_task == 'gift' and len(game.lair.treasury.jewelry) > 0:
+                    $ del game.lair.treasury.jewelry[game.lair.treasury.most_expensive_jewelry_index]
                 menu:
-                    "Продолжить род?"
+                    "Задание выполнено! Продолжить род?"
                     "Да":
                         call lb_choose_dragon
                     "Нет":
@@ -29,8 +32,8 @@ label lb_location_mordor_questtime:
     $ place = 'mordor' 
     show place as bg
     show screen status_bar
-    "Ты выполнил задание и за это положена награда."
     if game.is_quest_complete:
+        "Ты выполнил задание и за это положена награда."
         call lb_choose_dragon
     else:
         "Ты проиграл. Какая досада."

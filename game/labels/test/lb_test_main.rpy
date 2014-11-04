@@ -66,9 +66,10 @@ label lb_test_debug:
             call lb_test_debug_treasury
         "Добавить девушку":
             python:
+                from pythoncode import treasures
                 girls_menu = []
                 for girl_type in girls_data.girls_info.keys():
-                    girls_menu.append((girl_type, girl_type))
+                    girls_menu.append((treasures.capitalizeFirst(girl_type), girl_type))
                 girl_type = renpy.display_menu(girls_menu)
                 game.girls_list.new_girl(girl_type)
                 game.girls_list.jail_girl()

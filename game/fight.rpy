@@ -32,15 +32,11 @@ label lb_fight:
                     pass
                     
                 'Отступить':
-                    if type(game.foe) == core.Knight:
-                        #TODO потеря логова, магнитофона импортного, куртки замшевой. Двух!
-                        jump lb_location_lair_main
-                    else:
-                        "Вы бежали в логово"
-                        hide foeimg
-                        nvl clear
-                        $ renpy.pop_return()
-                        jump lb_location_lair_main
+                    "Вы бежали в логово"
+                    hide foeimg
+                    nvl clear
+                    $ renpy.pop_return()
+                    jump lb_location_lair_main
     hide foeimg
     nvl clear
     return
