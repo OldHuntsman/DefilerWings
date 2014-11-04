@@ -211,8 +211,13 @@ class Game(store.object):
             return self.dragon.reputation.points >= self._quest_threshold
         elif task_name == 'wealth': # проверка стоимости всех сокровищ
             return self.lair.treasury.wealth >= self._quest_threshold
-        
-        
+        elif task_name == 'gift': # проверка стоимости самого дорогого сокровища
+            return self.lair.treasury.most_expensive_jewelry_cost >= self._quest_threshold
+    
+    @property
+    def quest_task(self):
+        return self._quest['task']
+    
     @property
     def quest_text(self):
         return self._quest_text

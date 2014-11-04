@@ -12,6 +12,9 @@ label lb_location_mordor_main:
             $ pass
         'Аудиенция с владычицей':
             if game.is_quest_complete:
+                # Если делаем подарок - удаляем его из списка сокровищ
+                if game.quest_task == 'gift' and len(game.lair.treasury.jewelry) > 0:
+                    $ del game.lair.treasury.jewelry[game.lair.treasury.most_expensive_jewelry_index]
                 menu:
                     "Задание выполнено! Продолжить род?"
                     "Да":

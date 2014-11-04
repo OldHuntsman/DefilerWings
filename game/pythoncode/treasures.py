@@ -1091,7 +1091,10 @@ class Treasury(store.object):
         return material_str
         
     @property
-    def most_expensive_jewelry(self):
+    def most_expensive_jewelry_index(self):
+        """
+        Индекс самого дорогого украшения в сокровищнице
+        """
         if len(self.jewelry):
             most_expensive_i = 0
             most_expensive_cost = self.jewelry[most_expensive_i].cost
@@ -1099,6 +1102,27 @@ class Treasury(store.object):
                 if self.jewelry[jewelry_i].cost > most_expensive_cost:
                     most_expensive_cost = self.jewelry[jewelry_i].cost
                     most_expensive_i = jewelry_i
+            return most_expensive_i
+        else:
+            return -1
+        
+    @property
+    def most_expensive_jewelry_cost(self):
+        """
+        Стоимость самого дорогого украшения в сокровищнице
+        """
+        if len(self.jewelry):
+            return self.jewelry[self.most_expensive_jewelry_index].cost
+        else:
+            return 0
+        
+    @property
+    def most_expensive_jewelry(self):
+        """
+        Описание самого дорогого украшения в сокровищнице
+        """
+        if len(self.jewelry):
+            most_expensive_i = self.most_expensive_jewelry_index
             return u"%s.\nСтоимость украшения: %s.\n%s" % (capitalizeFirst(self.jewelry[most_expensive_i].description()), \
                         number_conjugation_rus(self.jewelry[most_expensive_i].cost, u"фартинг"), self.jewelry[most_expensive_i].obtained) 
         else:
@@ -1106,6 +1130,9 @@ class Treasury(store.object):
             
     @property
     def cheapest_jewelry(self):
+        """
+        Описание самого дешёвого украшения в сокровищнице
+        """
         if len(self.jewelry):
             most_cheapest_i = 0
             cheapest_cost = self.jewelry[most_cheapest_i].cost
