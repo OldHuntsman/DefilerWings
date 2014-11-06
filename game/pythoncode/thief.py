@@ -160,7 +160,9 @@ class Thief(Sayer):
                 for i in range(attempts):
                     if "sleep_dust" in thief.items or "trickster" in thief.abilities or random.choice(range(10)) in range(5 - thief.skill):
                         #Берем шмотку
-                        #TODO: Thief grabs items
+                        stolen_items = lair.treasury.rob_treasury()
+                        for stolen_item in stolen_items: #Вор что-то украл
+                            self.event('receive_item', stolen_item)
                         thief(u"Взял бы шмотку, но ленивому хикке не написать сокровищницу")
                     else:
                         #Мы разбудили дракона

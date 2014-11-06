@@ -2,6 +2,8 @@
 # coding=utf-8
 
 from core import Fighter
+import random
+import data
 
 class Knight(Fighter):
     """
@@ -16,6 +18,7 @@ class Knight(Fighter):
         """
         super(Knight, self).__init__(*args, **kwargs)
         self.name = u"Сер Ланселот Озёрный"
+        self.name = "Сэр %s %s" % (random.choice(data.knight_first_names), random.choice(data.knight_last_names))
         self.power = 1
         self.abilities = []
         self.equipment = [u"щит", u"меч", u"броня", u"копьё", u"скакун", u"спутник"]
@@ -44,20 +47,10 @@ class Knight(Fighter):
         """
         :return: Текстовое представление 'звания' рыцаря.
         """
-        if self.power == 1:
-            return u"Бедный рыцарь"
-        elif self.power == 2:
-            return u"Странствующий рыцарь"
-        elif self.power == 3:
-            return u"Межевой рыцарь"
-        elif self.power == 4:
-            return u"Благородный рыцарь"
-        elif self.power == 5:
-            return u"Паладин рыцарь"
-        elif self.power == 6:
-            return u"Прекрасный принц"
-        else:
-            assert False, u"Недопустимое значение поля power"
+        try:
+            return data.knight_titles[self.power - 1]
+        except:
+            raise Exception(u"Недопустимое значение поля power")
 
     def upgrade(self):
         """
@@ -65,3 +58,12 @@ class Knight(Fighter):
         Добавляет новое снаряжение.
         """
         raise NotImplementedError
+        
+    def event(self, event_type, *args, **kwargs):
+        if event_type in data.knight_events and data.knight_events[event_type] is not None:
+            if type(data.knight_events[event_type]) is str:
+                call(data.knight_events[event_type], *args, knight=self, **kwargs)
+            elif type(data.knight_events[event_type]) is list:
+                for i in data.knight_events[event_type]:
+                    call(i, *args, knight=self, **kwargs)
+        return
