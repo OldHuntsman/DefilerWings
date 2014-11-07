@@ -108,7 +108,7 @@ class Game(store.object):
             if random.choice(range(6)) in range(1+len(self.thief.items)): # Шанс 1 + количество шмота на воре, что он пойдет на дело
                 # Идем на дело
                 if renpy.config.debug: self.narrator(u"Вор идет на дело")
-                #self.thief.steal(self.lair)
+                self.thief.steal(self.lair)
             else:
                 if renpy.config.debug: self.thief(u"Что-то ссыкотно, надо бы подготовиться.")
                 self.thief.event("prepare")
