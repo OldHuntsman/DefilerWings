@@ -12,11 +12,6 @@ label lb_choose_dragon:
             game.army.add_warrior('goblin')
             # добавляем всё неправедно нажитое богатство в казну Владычицы
             game.army.money += game.lair.treasury.wealth
-            # создаем новое логово
-            game.create_lair()
-        if game.dragon is None or game.dragon.heads:
-            # задаем квест
-            game.set_quest()
         child_choose = None
         child_selected = None
         togle_dragonchoose_button = None
@@ -87,9 +82,9 @@ label lb_choose_dragon:
         call screen ava_screen
         $ game.dragon = child_selected
         $ dragons_choosed.append(game.dragon)
-        if len(dragons_choosed) == 1:
-            show expression 'img/scene/mistress.png' as bg
-            "Нужно выполнить задание:\n[game.quest_text]"
-            jump lb_location_mordor_main
-        else:
-            return
+        show expression 'img/scene/mistress.png' as bg
+        $ game.set_quest()
+        "Нужно выполнить задание:\n[game.quest_text]"
+        # создаем новое логово
+        $ game.create_lair()
+        jump lb_location_mordor_main
