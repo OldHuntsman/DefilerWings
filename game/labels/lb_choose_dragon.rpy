@@ -81,12 +81,15 @@ label lb_choose_dragon:
                     text_yalign 0.5
                     background "img/bg/logovo.png"
                     text_size 22
-                    action SetVariable("child_selected",child_choose),SetVariable("togle_dragonchoose_button", False), Show("main_map"), Hide("ava_screen"), Hide("text_screen"), Return("return")
+                    action SetVariable("child_selected",child_choose),SetVariable("togle_dragonchoose_button", False), Hide("ava_screen"), Hide("text_screen"), Return("return")
     while True:
         nvl clear
         call screen ava_screen
-        if not dragons_choosed:
-            "Нужно выполнить задание:\n[game.quest_text]"
         $ game.dragon = child_selected
         $ dragons_choosed.append(game.dragon)
-        return
+        if len(dragons_choosed) == 1:
+            show expression 'img/scene/mistress.png' as bg
+            "Нужно выполнить задание:\n[game.quest_text]"
+            jump lb_location_mordor_main
+        else:
+            return
