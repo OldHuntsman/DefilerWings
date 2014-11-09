@@ -35,12 +35,12 @@ class Game(store.object):
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
           
         self.dragon = None
-        self.knight = Knight(gameRef=self, base_character=adv_character)
         self.thief = None #Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
+        self.knight = None #Рыцаря не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
         
         self.narrator = Sayer(gameRef=self, base_character=nvl_character)
         self.girls_list = girls.Girls_list(gameRef=self, base_character=adv_character)
-        self.create_lair() # TODO: первоначальное создание логова
+        self.create_lair()
         self.foe = None
         self.girl = None
 
@@ -110,14 +110,33 @@ class Game(store.object):
                 if renpy.config.debug: self.narrator(u"Вор идет на дело")
                 self.thief.steal(self.lair)
             else:
-                if renpy.config.debug: self.thief(u"Что-то ссыкотно, надо бы подготовиться.")
+                if renpy.config.debug: self.thief(u"Вору ссыкотно, надо бы подготовиться.")
                 self.thief.event("prepare")
                 if random.choice(range(2)) == 0:    # C 50% шансом получаем шмотку
                     self.thief.event("prepare_usefull")
                     self.thief.receive_item()
                 else:
                     if renpy.config.debug: self.narrator(u"Но вместо этого вор весь год бухает.")
-                    self.thief.event("prepare_usefull")
+                    self.thief.event("prepare_useless")
+        # Если рыцаря нет, то пробуем создать его
+        if self.knight is None or self.knight.is_dead():
+            if renpy.config.debug: self.narrator(u"Рыцаря не было или он был мертв, попробуем его создать.")
+            self._create_knight()
+            if self.knight is None:
+                if renpy.config.debug: self.narrator(u"Рыцарь не появился.")
+            else:
+                if renpy.config.debug: self.narrator(u"Рыцарь появился.")
+                self.knight.event("spawn")
+        else: # Иначе пробуем его пустить на дело
+            if random.choice(range(7)) in range(1+len([i for i in self.knight.items if not self.knight.items[i].basic])): # Шанс 1 + количество небазового шмота на рыцаре из 7, что он пойдет на дело
+                # Идем на дело
+                if renpy.config.debug: self.narrator(u"Рыцарь вызывает дракона на бой")
+                #TODO: Схватка рыцаря с драконом
+                #renpy.call("lb_fight", foe=self.knight)
+            else:
+                if renpy.config.debug: self.thief(u"Рыцарю ссыкотно, надо бы подготовиться.")
+                self.knight.event("start_prepare")
+                
 
     def sleep(self):
         """
@@ -160,6 +179,20 @@ class Game(store.object):
                                base_character=self.adv_character)
         else:
             self.thief = None
+    
+    def _create_knight(self, knight_level=None):
+        """
+        Проверка на появление рыцаря.
+        """
+        from knight import Knight
+        if knight_level is None:
+            knight_level = Knight.start_level(self.dragon.reputation.level)
+        if knight_level > 0:
+            self.knight = Knight(level=knight_level,
+                               gameRef=self, 
+                               base_character=self.adv_character)
+        else:
+            self.knight = None
             
     def create_lair(self, lair_type = "impassable_coomb"):
         """
@@ -381,10 +414,16 @@ class Fighter(Sayer):
         """
         super(Fighter, self).__init__(*args, **kwargs)
         self._modifiers = []
+        self._equip_slots = [] #Список слотов обмундирования.
+        self.items = data.Container("fighter_items") #Словарь с тем что надето
         self.descriptions = [] #По умолчанию список описаний пуст
         self.avatar = None # По умолчанию аватарки нет, нужно выбрать в потомках.
         self.name = u""
+        self.bg = None #Бекграунд для драк
 
+    def modifiers(self):
+        raise Exception("Need to be reimplemented in derived class")
+    
     def protection(self):
         """
         :rtype : dict
@@ -462,6 +501,28 @@ class Fighter(Sayer):
             return desc[0]
         else:
             return status #список описаний пуст, возвращаем информацию для дебага
+    
+    def equip (self, item):
+        #Предполагается что все подо что есть слот можно надеть без ограничений
+        #И двух слотов с одинаковым типом не существует
+        if item["type"] in self._equip_slots:
+            self.items[item["type"]] = item
+        else:
+            #Пытаемся одеть под что нет слота
+            raise Exception("Can't equip, no such slot. Trying to equip %s in slot %s" % (item.id, item["type"]))
+    def unequip (self, type):
+        #Снимаем все что в указанном слоте
+        if type in self._equip_slots:
+            self.items[type] = None
+        else:
+            #Пытаемся снять из того слота которого не существует
+            raise Exception("Can't unequip, no such slot. Trying to unequip slot %s" % (type))
+    def _add_equip_slots(self, slot_list):
+        #slot_list - список слотов которые нужно добавить
+        for s in slot_list:
+            if s not in self._equip_slots:
+                self._equip_slots.append(s)
+                self.items[s] = None
         
 class Dragon(Fighter):
     """
@@ -757,67 +818,6 @@ class Dragon(Fighter):
         :return: Количество пар лап
         """
         return self.modifiers().count('paws')
-
-    def children(self):
-        """
-        Сгенерировать список потомков.
-        Вызывается при отставке дракона.
-        :return: list of Dragons
-        """
-        # Обнуляем заклинания, они уже не понадобятся
-        self.spells = []
-        # копируем мертвые головы в список живых для наследования
-        self.heads.extend(self.dead_heads)
-        # Формируем список возможных улучшений
-        dragon_leveling = ['head']
-        if self.size() < 6:
-            dragon_leveling += ['size']
-        if self.paws() < 3:
-            dragon_leveling += ['paws']
-        if self.wings() < 3:
-            dragon_leveling += ['wings']
-        if 'tough_scale' not in self.modifiers():
-            dragon_leveling += ['tough_scale']
-        if 'clutches' not in self.modifiers():
-            dragon_leveling += ['clutches']
-        if 'fangs' not in self.modifiers() and self.paws() > 0:
-            dragon_leveling += ['fangs']
-        if 'horns' not in self.modifiers():
-            dragon_leveling += ['horns']
-        if 'ugly' not in self.modifiers():
-            dragon_leveling += ['ugly']
-        if 'poisoned_sting' not in self.modifiers():
-            dragon_leveling += ['poisoned_sting']
-        if self.modifiers().count('cunning') < 3:
-            dragon_leveling += ['cunning']
-        if self.heads.count('green') > 0:
-            dragon_leveling += ['color']
-        # Выбираем три случайных способности
-        number_of_abilities = 3
-        while len(dragon_leveling) < number_of_abilities:
-            dragon_leveling += ['head']
-        new_abilities = random.sample(dragon_leveling, number_of_abilities)
-        children = [self.deepcopy() for i in range(0, number_of_abilities)]
-        for i in range(0, number_of_abilities):
-            if new_abilities[i] == 'color':
-                # список всех цветов голов
-                colors = data.dragon_heads.keys()
-                # список возможных цветов 
-                available_colors = []
-                for head_color in colors:
-                    # проходим список всех цветов, добавляем только отсутствующие цвета
-                    if head_color not in self.heads:
-                        available_colors += head_color
-                # если список доступных цветов не пуст - добавляем случайный цвет из списка, иначе добавляем зеленую голову
-                if available_colors:
-                    children[i].heads[self.heads.index('green')] = random.choice(colors)
-                else:
-                    children[i].heads += ['green']
-            elif new_abilities[i] == 'head':
-                children[i].heads += ['green']
-            else:
-                children[i].anatomy += [new_abilities[i]]
-        return children
         
     def _get_ability(self):
         '''
@@ -883,12 +883,6 @@ class Dragon(Fighter):
                     return ['lost_head', 'lost_' + lost_head]
                 else:
                     return ['dragon_dead']
-                
-    def deepcopy(self):#TODO: Выпилить deepcopy
-        child = Dragon(gameRef=self._gameRef, base_character=self._base_character)
-        child.heads = deepcopy(self.heads)
-        child.anatomy = deepcopy(self.anatomy)
-        return child
     
     @property
     def injuries(self):
@@ -921,7 +915,7 @@ class Dragon(Fighter):
         
     @property
     def can_swim(self):
-        return 'can_swim' in self.modifiers()
+        return 'swimming' in self.modifiers()
     
     @property
     def special_places_count(self):
@@ -954,7 +948,7 @@ class Enemy(Fighter):
         self._modifiers = mob_data.mob[kind]['modifiers']
         self.abilities = []
         self.equipment = []
-        self.img = '' "img/scene/fight/%s.png" % mob_data.mob[kind]['image']
+        self.bg = '' "img/scene/fight/%s.png" % mob_data.mob[kind]['image']
 
     def modifiers(self):
         return self._modifiers
