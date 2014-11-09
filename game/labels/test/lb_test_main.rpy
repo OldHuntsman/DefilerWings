@@ -60,6 +60,8 @@ label lb_test_debug:
     nvl clear
     menu:
         "Отладка"
+        "Включить дебаговывод":
+            $ config.debug = True
         "Ослабить армию Тьмы":
             $ game.army.power_percentage -= 10
         "Работа с сокровищницей":
@@ -110,7 +112,6 @@ label lb_test_debug:
                         "Вора нет"
                 "Редактировать умения":
                     if game.thief is not None:
-                        $ value = "ololo" #Хз зачем эта строчка
                         call screen sc_container_editor(game.thief.abilities, [data.thief_abilities])
                     else:
                         "Вора нет"
@@ -124,6 +125,23 @@ label lb_test_debug:
                         $ game.thief.steal(game.lair)
                     else:
                         "Вора нет или он мертв."
+        "Рыцарь":
+            menu:
+                "Описать рыцаря":
+                    if game.knight is not None:
+                        $ narrator(game.knight.description())
+                    else:
+                        "Рыцаря нет"
+                "Редактировать умения":
+                    if game.knight is not None:
+                        call screen sc_container_editor(game.knight.abilities, [data.knight_abilities])
+                    else:
+                        "Рыцаря нет"
+                "Редактировать предметы":
+                    if game.knight is not None:
+                        call screen sc_equip_editor(game.knight, [data.knight_items])
+                    else:
+                        "Вора нет"
     return
     
 label lb_test_example_inaccessible_menu:

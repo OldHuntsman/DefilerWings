@@ -176,7 +176,7 @@ screen special_places:
     fixed:
         xalign 1.0
         xmaximum 320
-        textbutton "{font=fonts/Tchekhonin2.ttf}М{/font} {font=fonts/times.ttf}еста{/font}":
+        textbutton "{font=fonts/Tchekhonin2.ttf}М{/font}{font=fonts/times.ttf}еста{/font}":
             pos (72,599)
             xysize (174,36)
             text_xalign 0.5

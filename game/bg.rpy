@@ -1,4 +1,6 @@
 init python:
+    import os
+    import random
     def get_place_bg(type):
         # config.basedir - директория где у нас лежит сама игра.
         # "game" - директория относительно config.basedir где лежат собственно файлы игры и 
