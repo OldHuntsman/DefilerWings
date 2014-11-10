@@ -921,13 +921,23 @@ class Dragon(Fighter):
     def special_places_count(self):
         return len (self.special_places)
         
-    def add_special_place(self, place_name, stage):
+    def add_special_place(self, place_name, stage = None):
         """
         :param place_name: название достопримечательности для добавления - ключ для словаря.
-        :param      stage: на каком этапе достопримечательность, ключ для словаря data.special_places, из которого берется надпись в списке и название локации для перехода.
+        :param      stage: на каком этапе достопримечательность, ключ для словаря data.special_places, из которого берется надпись в списке и название локации для перехода. 
+        Если стадия не указана (None), то ключ удаляется из словаря.
         """
-        assert stage in data.special_places, "Unknown stage: %s" % stage
-        self.special_places[place_name] = stage
+        assert stage is None or stage in data.special_places, "Unknown stage: %s" % stage
+        if stage:
+            self.special_places[place_name] = stage
+        else:
+            if place_name in self.special_places: del self.special_places[place_name]
+            
+    def del_special_place(self, place_name):
+        """
+        :param place_name: название достопримечательности для удаления - ключ для словаря.
+        """
+        self.add_special_place(place_name)
         
         
 

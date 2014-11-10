@@ -184,6 +184,7 @@ label lb_enc_create_ogre_lair:
         'Пещера, в которой жил огр, теперь пуста. Но тут можно устроить своё логово, не слишком раскошное, но всё же получше, чем открытый овраг в буреломной чащобе.'
         'Переместить логово':
             $ game.create_lair('ogre_den')
+            $ game.dragon.del_special_place('ogre')
             return
         'Покинуть пещеру':
             $ game.dragon.add_special_place('ogre', 'create_ogre_lair')

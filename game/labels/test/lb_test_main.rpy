@@ -5,7 +5,7 @@ init python:
 label lb_test_main:
     nvl clear
     while True:
-        menu:
+        menu:              
             "Краткая сводка":
                 python hide:
                     tmp = "Уровень мобилизации: [game.mobilization.level]"
