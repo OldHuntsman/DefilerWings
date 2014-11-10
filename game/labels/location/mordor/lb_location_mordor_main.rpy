@@ -23,7 +23,7 @@ label lb_location_mordor_main:
                         pass
             else:
                 "Текущее задание:\n[game.quest_text]\n[game.quest_time_text]"
-        'Назад':
+        'В земли Вольных Народов':
             $ pass
         
     return
@@ -37,4 +37,5 @@ label lb_location_mordor_questtime:
         call lb_choose_dragon
     else:
         "Ты проиграл. Какая досада."
+        
     return

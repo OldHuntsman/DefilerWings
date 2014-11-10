@@ -48,7 +48,7 @@ label lb_fight2(foe = game.foe):
     
     
     if 'foe_alive' in battle_status:
-        $ narrator("Шанс победы дракона: %s %%, шанс ранения дракона: %s %%" % (battle.victory_chance(game.dragon, foe), battle.victory_chance(foe, game.dragon))
+        $ narrator("Шанс победы дракона: %s %%, шанс ранения дракона: %s %%" % (battle.victory_chance(game.dragon, foe), battle.victory_chance(foe, game.dragon)))
 
     while 'foe_alive' in battle_status:
         $ battle_status = battle.battle_action(game.dragon, foe)

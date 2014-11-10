@@ -541,7 +541,7 @@ lair_types = Container("lair_types", {
                                 "dragon_castle"     : { "name": u"Драконий замок",
                                                         "inaccessability" : 1,
                                                         "require" : [ ] },
-                                "castle"            : { "name": u"Драконий замок",
+                                "castle"            : { "name": u"Старые руины",
                                                         "inaccessability" : 1,
                                                         "require" : [ ] },
                                 "ogre_den"          : { "name": u"Берлога людоеда",
@@ -904,6 +904,9 @@ special_places = {
     'enc_ogre' : (u"Пещера людоеда", 'lb_enc_fight_ogre'),   
     'explore_ogre_den': (u"Исследовать пещеру людоеда", 'lb_enc_explore_ogre_den'), 
     'create_ogre_lair': (u"Поселиться в пещере людоеда", 'lb_enc_create_ogre_lair'), 
+    # рыцарский манор
+    'manor_full' : (u"Укреплённая усадьба", 'lb_manor'),
+    'manor_empty' : (u"Заброшенная усадьба", 'lb_manor_empty'),
     }
 
 quest_list = ( #TODO: внести все выполнимые на сегодня квесты
@@ -977,6 +980,52 @@ knigth_modifiers = {
 
 # Различный лут
 loot = {
+    'palace': [
+        'taller', 
+        'taller', 
+        'taller', 
+        'taller', 
+        'dublon', 
+        'dublon', 
+        'dublon', 
+        'dish', 
+        'dish', 
+        'goblet',
+        'goblet', 
+        'cup',
+        'cup', 
+        'casket', 
+        'statue', 
+        'tabernacle', 
+        'icon', 
+        'tome', 
+        'mirror', 
+        'band', 
+        'pendant', 
+        'broch', 
+        'gemring', 
+        'seal', 
+        'crown', 
+        'scepter', 
+        'chain', 
+        'fibula', 
+        'silver', 
+        'gold', 
+        'ivory', 
+        'agate', 
+        'shell', 
+        'horn', 
+        'amber', 
+        'granate', 
+        'turmaline', 
+        'aqua', 
+        'black_pearl', 
+        'topaz', 
+        'saphire', 
+        'ruby', 
+        'emerald', 
+        ],
+
     'knight': [
         'goblet', 
         'statue', 
@@ -989,8 +1038,11 @@ loot = {
         'armbrace', 
         'chain', 
         'fibula', 
+        'taller',
+        'taller',
         'taller', 
-        'dublon'
+        'dublon',
+        'dublon',
         ],
     'jeweler': [
         'casket', 
@@ -1174,3 +1226,12 @@ loot = {
         'rose_diamond'
         ]
     }
+
+#список специальных мест людей
+human_special_places = [
+                        'lb_manor_found',
+                        'lb_wooden_fort_found',
+                        'lb_abbey_found',
+                        'lb_castle_found',
+                        'lb_palace_found',
+                        ]
