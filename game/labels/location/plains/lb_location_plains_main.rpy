@@ -39,7 +39,7 @@ label lb_encounter_plains:
                 ("lb_enc_laundry", 10),
                 ("lb_enc_bath", 10),   
                 ("lb_enc_militia", 10),
-                ("lb_enc_mill", 10),
+                ("lb_enc_mill", 10000),
                 ("lb_enc_granary", 10),
                 ("lb_enc_sheepherd", 10),
                 ("lb_enc_pigs", 10),
