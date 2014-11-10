@@ -3,33 +3,23 @@
 
 import collections
 
-class FighterModifier(object):
+class Modifier(object):
     """
-    Базовый класс для разнообразных модификаторов.
+    Класс разнообразных модификаторов.
     К примеру: даров владычицы, снаряжения рыцарей, заклинаний и.т.д.
     """
-
-    def __init__(self, attack=('base', (0, 0)), protection=('base', (0, 0))):
+    def __init__(self, attack=('base', (0, 0)), protection=('base', (0, 0)), magic=0, fear=0, energy=0):
         self.attack = attack
         self.protection = protection
+        self.magic = magic
+        self.fear = fear
+        self.max_energy = energy
 
     def __contains__(self, item):
         return item in self.__dict__
 
     def attack_filter(self, attack):
         return attack
-
-class DragonModifier(FighterModifier):
-    """
-    Класс для разнообразных модификаторов.
-    К примеру: даров владычицы, снаряжения рыцарей, заклинаний и.т.д.
-    """
-
-    def __init__(self, attack=('base', (0, 0)), protection=('base', (0, 0)), magic=0, fear=0, energy=0):
-        super(DragonModifier, self).__init__(attack=attack, protection=protection)
-        self.magic = magic
-        self.fear = fear
-        self.max_energy = energy
 
 class Container(collections.defaultdict):
     '''
@@ -851,46 +841,66 @@ effects_list = {
     'griffin_meat'      : ['mg_up'],
                 }
 
-dragon_modifiers = {
-    'can_dig'           : DragonModifier(),
-    'greedy'            : DragonModifier(),
-    'virtual_head'      : DragonModifier(),
-    'spellbound_trap'   : DragonModifier(),
+modifiers = {
+    #global
+    'fire_immunity'     : Modifier(),
+    'ice_immunity'      : Modifier(),
+    'poison_immunity'   : Modifier(),
+    'lightning_immunity': Modifier(),
+    'sound_immunity'    : Modifier(),
+    'magic_immunity'    : Modifier(),
+    
+    'flight'        : Modifier(),
+    'alpinism'      : Modifier(),
+    'swimming'      : Modifier(),
+    
+    'atk_up'        : Modifier(attack=('base', (1, 0))), # 1 простая атака
+    'satk_up'       : Modifier(attack=('base', (0, 1))), # 1 верная атака
+    'sfatk_up'      : Modifier(attack=('fire', (0, 1))), # 1 верная атака огнем
+    'siatk_up'      : Modifier(attack=('ice', (0, 1))), # 1 верная атака льдом
+    'slatk_up'      : Modifier(attack=('lightning', (0, 1))), # 1 верная атака молнией
+    'def_up'        : Modifier(protection=('base', (1, 0))), # 1 защита
+    'sdef_up'       : Modifier(protection=('base', (0, 1))), # 1 верная защита
+    #Knight-specific
+    'fearless'      : Modifier(),
+    #Dragon-specific
+    'can_dig'           : Modifier(),
+    'greedy'            : Modifier(),
+    'virtual_head'      : Modifier(),
+    'spellbound_trap'   : Modifier(),
 
-    'fire_breath'       : DragonModifier(attack=('fire', (0, 1))),
-    'ice_breath'        : DragonModifier(attack=('ice', (0, 1))),
-    'poison_breath'     : DragonModifier(attack=('poison', (0, 1))),
-    'sound_breath'      : DragonModifier(attack=('sound', (0, 1))),
-    'lightning_breath'  : DragonModifier(attack=('lightning', (0, 1))),
-    'black_power'       : DragonModifier(attack=('base', (1, 0))),
-    'iron_scale'        : DragonModifier(protection=('scale', (1, 0))),
-    'bronze_scale'      : DragonModifier(protection=('scale', (1, 0))),
-    'silver_magic'      : DragonModifier(magic=1),
-    'gold_magic'        : DragonModifier(magic=1),
-    'shadow_magic'      : DragonModifier(magic=1),
-    'fear_of_dark'      : DragonModifier(fear=2),
-    'aura_of_horror'    : DragonModifier(fear=1),
-    'wings_of_wind'     : DragonModifier(energy=1),
+    'fire_breath'       : Modifier(attack=('fire', (0, 1))),
+    'ice_breath'        : Modifier(attack=('ice', (0, 1))),
+    'poison_breath'     : Modifier(attack=('poison', (0, 1))),
+    'sound_breath'      : Modifier(attack=('sound', (0, 1))),
+    'lightning_breath'  : Modifier(attack=('lightning', (0, 1))),
+    'black_power'       : Modifier(attack=('base', (1, 0))),
+    'iron_scale'        : Modifier(protection=('scale', (1, 0))),
+    'bronze_scale'      : Modifier(protection=('scale', (1, 0))),
+    'silver_magic'      : Modifier(magic=1),
+    'gold_magic'        : Modifier(magic=1),
+    'shadow_magic'      : Modifier(magic=1),
+    'fear_of_dark'      : Modifier(fear=2),
+    'aura_of_horror'    : Modifier(fear=1),
+    'wings_of_wind'     : Modifier(energy=1),
     #
-    'size'          : DragonModifier(attack=('base', (1, 0)), protection=('base', (1, 0)), fear=1),
-    'paws'          : DragonModifier(attack=('base', (1, 0)), energy=1),
-    'wings'         : DragonModifier(protection=('base', (1, 0)), energy=1),
-    'tough_scale'   : DragonModifier(protection=('scale', (0, 1))),
-    'clutches'      : DragonModifier(attack=('base', (0, 1))),
-    'fangs'         : DragonModifier(attack=('base', (2, 0)), fear=1),
-    'horns'         : DragonModifier(protection=('base', (2, 0)), fear=1),
-    'ugly'          : DragonModifier(fear=2),
-    'poisoned_sting': DragonModifier(attack=('poison', (1, 1))),
-    'cunning'       : DragonModifier(magic=1),
+    'size'          : Modifier(attack=('base', (1, 0)), protection=('base', (1, 0)), fear=1),
+    'paws'          : Modifier(attack=('base', (1, 0)), energy=1),
+    'wings'         : Modifier(protection=('base', (1, 0)), energy=1),
+    'tough_scale'   : Modifier(protection=('scale', (0, 1))),
+    'clutches'      : Modifier(attack=('base', (0, 1))),
+    'fangs'         : Modifier(attack=('base', (2, 0)), fear=1),
+    'horns'         : Modifier(protection=('base', (2, 0)), fear=1),
+    'ugly'          : Modifier(fear=2),
+    'poisoned_sting': Modifier(attack=('poison', (1, 1))),
+    'cunning'       : Modifier(magic=1),
     #
-    'mg_up'         : DragonModifier(magic=1),
+    'mg_up'         : Modifier(magic=1),
     }
 
 def get_modifier(name):
-    if name in global_modifiers:
-        return global_modifiers[name]
-    if name in dragon_modifiers:
-        return dragon_modifiers[name]
+    if name in modifiers:
+        return modifiers[name]
     raise NotImplementedError, name
 
 #логова, картинки
@@ -949,31 +959,6 @@ quest_list = ( #TODO: внести все выполнимые на сегодн
             'lvlscale_threshold' : 100, # число, на которое нужно умножить уровень дракона, чтобы получить необходимый уровень 
         },
     )
-
-global_modifiers = {
-    'fire_immunity'     : FighterModifier(),
-    'ice_immunity'      : FighterModifier(),
-    'poison_immunity'   : FighterModifier(),
-    'lightning_immunity': FighterModifier(),
-    'sound_immunity'    : FighterModifier(),
-    'magic_immunity'    : FighterModifier(),
-    
-    'flight'        : FighterModifier(),
-    'alpinism'      : FighterModifier(),
-    'swimming'      : FighterModifier(),
-    
-    'atk_up'        : FighterModifier(attack=('base', (1, 0))), # 1 простая атака
-    'satk_up'       : FighterModifier(attack=('base', (0, 1))), # 1 верная атака
-    'sfatk_up'      : FighterModifier(attack=('fire', (0, 1))), # 1 верная атака огнем
-    'siatk_up'      : FighterModifier(attack=('ice', (0, 1))), # 1 верная атака льдом
-    'slatk_up'      : FighterModifier(attack=('lightning', (0, 1))), # 1 верная атака молнией
-    'def_up'        : FighterModifier(protection=('base', (1, 0))), # 1 защита
-    'sdef_up'       : FighterModifier(protection=('base', (0, 1))), # 1 верная защита
-    }
-
-knigth_modifiers = {
-    'fearless'      : FighterModifier(),
-    }
 
 # Различный лут
 loot = {
