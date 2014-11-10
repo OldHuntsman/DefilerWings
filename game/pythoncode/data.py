@@ -3,33 +3,23 @@
 
 import collections
 
-class FighterModifier(object):
+class Modifier(object):
     """
-    Базовый класс для разнообразных модификаторов.
+    Класс разнообразных модификаторов.
     К примеру: даров владычицы, снаряжения рыцарей, заклинаний и.т.д.
     """
-
-    def __init__(self, attack=('base', (0, 0)), protection=('base', (0, 0))):
+    def __init__(self, attack=('base', (0, 0)), protection=('base', (0, 0)), magic=0, fear=0, energy=0):
         self.attack = attack
         self.protection = protection
+        self.magic = magic
+        self.fear = fear
+        self.max_energy = energy
 
     def __contains__(self, item):
         return item in self.__dict__
 
     def attack_filter(self, attack):
         return attack
-
-class DragonModifier(FighterModifier):
-    """
-    Класс для разнообразных модификаторов.
-    К примеру: даров владычицы, снаряжения рыцарей, заклинаний и.т.д.
-    """
-
-    def __init__(self, attack=('base', (0, 0)), protection=('base', (0, 0)), magic=0, fear=0, energy=0):
-        super(DragonModifier, self).__init__(attack=attack, protection=protection)
-        self.magic = magic
-        self.fear = fear
-        self.max_energy = energy
 
 class Container(collections.defaultdict):
     '''
@@ -90,19 +80,43 @@ class Container(collections.defaultdict):
                 result += self[i].list(key)
         return result
     
-    def contains(self, key):
+    def contains(self, key, value = None):
         '''
-        Возвращает список айдишников, которые содержат заданный ключ
+        Возвращает список айдишников, которые содержат заданный ключ и, если указано, значение.
         :param key: Ключ который должен содержать элемент
         :retuкn: список элеметов содержащих ключ, если таких элементов нет, то пустой список
         '''
         result = []
         if key in self:
-            result += [ self.id ]
+            if value is None:
+                result += [ self.id ]
+            else:
+                if self[key] == value:
+                    result += [ self.id ]
         for i in self:
             if type(self[i]) == type(self):
-                result += self[i].contains(key)
+                result += self[i].contains(key, value)
         return result
+    
+    def select(self, query):
+        '''
+        Возвращает список айдишников которые подходят под условия указанные в query. Нерекурсивно.
+        :param query: cписок кортежей (ключ, значение) которым должен удовлетворять объект поиска
+        :return: спискок удовлетворяюищих элементво
+        '''
+        result = []
+        for (key, value) in query:
+            if key in self and self[key] == value:
+                continue
+            else:
+                break
+        else:
+            result.append(self.id)
+        for i in self:
+            if type(self[i]) == type(self):
+                result += self[i].select(query)
+        return result
+            
     
     def type(self):
         '''
@@ -301,106 +315,197 @@ knight_abilities = Container("knight_abilities",
                             { 
                               "brave":        { "name": u"Отважный",
                                                 "description": u"Не боится дракона, как бы страшен он ни был",
-                                                "provide": [ "fearless" ] },
+                                                "modifiers": [ "fearless" ] },
                               "charmed":      { "name": u"Зачарованный",
                                                 "description": u"Способен атаковать логово с любыми условиями доступа",
-                                                "provide": [ "swimming", "flight", "alpinism" ] },
-                              "liberator":       { "name": u"Освободитель",
+                                                "modifiers": [ "swimming", "flight", "alpinism" ] },
+                              "liberator":       { "name": u"Освободитель", #TODO: implement
                                                 "description": u"+1 к защите за каждую крестьянку, +1 к атаке за каждую богатую и +1 к атаке и защите за любую другую не великаншу томящуюся в логове дракона",
-                                                "provide": [ ] },
-                              "firstborn":     { "name": u"Первенец",
+                                                "modifiers": [ ] },
+                              "firstborn":     { "name": u"Первенец", #TODO: implement
                                                 "description": u"Получает 2 шмотки сразу со старта",
-                                                "provide": [ ] },
+                                                "modifiers": [ ] },
                               "fiery":   { "name": u"Вспыльчивый",
                                                 "description": u"+2 к атаке",
-                                                "provide": [ ] },
+                                                "modifiers": [ 'atk_up', 'atk_up' ] },
                               "cautious":     { "name": u"Осторожный",
                                                 "description": u"+2 к защите",
-                                                "provide": [ ] }
+                                                "modifiers": [ 'def_up', 'def_up' ] }
                             }
                            )
 
-knigth_items = Container("knight_items",
+knight_items = Container("knight_items",
                         {
                             #TODO: implement
-                            "vest":{
-                                "basic":      { "name": u"Дубовая броня",
-                                                "description": u"Не дает преимуществ" },
-                                "glittering": { "name": u"Сверкающий доспех",
-                                                "description": u"+2 к защите" },
-                                "gold":       { "name": u"Золочёный доспех",
-                                                "description": u"1 верная защита" },
-                                "magic":      { "name": u"Волшебный доспех",
-                                                "description": u"защита от одного типа элементов" }
-                            },
-                            "spear":{
-                                "basic":          { "name": u"Деревянное копье",
-                                                    "description": u"Не дает преимуществ" },
-                                "blued":          { "name": u"Вороненое копье",
-                                                    "description": u"+2 к атаке" },
-                                "with_scarf":     { "name": u"Копье с шарфом",
-                                                    "description": u"1 верная атака" },
-                                "dragonslayer":   { "name": u"Копьё-драконобой",
-                                                    "description": u"+1 к атаке, если дракон ранен он вместо этого сразу теряет голову" }
-                            },
-                            "sword":{
-                                "basic":      { "name": u"Деревянный меч",
-                                                "description": u"Не дает преимуществ" },
-                                "glittering": { "name": u"Сияющий клинок",
-                                                "description": u"+2 к атаке" },
-                                "lake_woman": { "name": u"Клинок озёрной девы",
-                                                "description": u"1 верная атака" },
-                                "flameberg":  { "name": u"Пылающий фламберг",
-                                                "description": u"2 верных атаки огнём" },
-                                "icecracker": { "name": u"Ледоруб-жыдобой ^_^",
-                                                "description": u"2 верных атаки льдом" },
-                                "thunderer":  { "name": u"Меч-громобой",
-                                                "description": u"(2 верных атаки молнией" }
-                            },
-                            "shield":{
-                                "basic":      { "name": u"Деревянный щит",
-                                                "description": u"Не дает преимуществ" },
-                                "polished":   { "name": u"Полированный щит",
-                                                "description": u"+2 к защите" },
-                                "mirror":     { "name": u"Зерцальный щит",
-                                                "description": u"2 верных защиты, если у дракона есть дыхание" }
-                            },
-                            "horse":{
-                                "basic":          { "name": u"Деревянная лошадка",
-                                                    "description": u"Не дает преимуществ" },
-                                "white_horse":    { "name": u"Белый конь",
-                                                    "description": u"+1 к атаке, +1 к защите" },
-                                "pegasus":        { "name": u"Пегас",
-                                                    "description": u"даёт полёт" },
-                                "firehorse":      { "name": u"Конь-огонь",
-                                                    "description": u"даёт альпинизм и защиту от огня" },
-                                "sivka":          { "name": u"Сивка-Бурка",
-                                                    "description": u"даёт альпинизм и защиту от холода" },
-                                "kelpie":         { "name": u"Келпи",
-                                                    "description": u"игнорирует недоступность морского логова" },
-                                "griffon":        { "name": u"Боевой грифон",
-                                                    "description": u"+1 к атаке, +1 к защите, даёт полёт" }
-                            },
-                            "follower":{
-                                "basic":          { "name": u"Деревянный спутник",
-                                                    "description": u"Не дает преимуществ" },
-                                "squire":         { "name": u"Ловкий оруженосец",
-                                                    "description": u"даёт \"альпинизм\"" },
-                                "veteran":        { "name": u"Старый ветеран",
-                                                    "description": u"даёт 1 верную защиту" },
-                                "pythoness":      { "name": u"Прорицательница",
-                                                    "description": u"даёт 1 верную атаку" },
-                                "thaumaturge":    { "name": u"Кудесник",
-                                                    "description": u"даёт 1 верную атаку и 1 верную защиту" }
-                            }
+                            # Нагрудники
+                            "basic_vest":         { "name": u"Дубовая броня",
+                                                    "description": u"Не дает преимуществ",
+                                                    "type": "vest",
+                                                    "basic": True,
+                                                    "modifiers": [] },
+                            "glittering_vest":     { "name": u"Сверкающий доспех",
+                                                    "description": u"+2 к защите",
+                                                    "type": "vest",
+                                                    "basic": False,
+                                                    "modifiers": [ 'def_up', 'def_up' ] },
+                            "gold_vest":          { "name": u"Золочёный доспех",
+                                                    "description": u"1 верная защита",
+                                                    "type": "vest",
+                                                    "basic": False,
+                                                    "modifiers": [ 'sdef_up' ] },
+                            "magic_vest":         { "name": u"Волшебный доспех", #TODO: implement
+                                                    "description": u"защита от одного типа элементов",
+                                                    "type": "vest",
+                                                    "basic": False,
+                                                    "modifiers": [] },
+                            # Копья
+                            "basic_spear":        { "name": u"Деревянное копье",
+                                                    "description": u"Не дает преимуществ",
+                                                    "type": "spear",
+                                                    "basic": True,
+                                                    "modifiers": [] },
+                            "blued_spear":        { "name": u"Вороненое копье",
+                                                    "description": u"+2 к атаке",
+                                                    "type": "spear",
+                                                    "basic": False,
+                                                    "modifiers": [ 'atk_up', 'atk_up' ] },
+                            "spear_with_scarf":   { "name": u"Копье с шарфом",
+                                                    "description": u"1 верная атака",
+                                                    "type": "spear",
+                                                    "basic": False,
+                                                    "modifiers": [ 'satk_up' ] },
+                            "dragonslayer_spear": { "name": u"Копьё-драконобой", #TODO: implement
+                                                    "description": u"+1 к атаке, если дракон ранен он вместо этого сразу теряет голову",
+                                                    "type": "spear",
+                                                    "basic": False,
+                                                    "modifiers": [] },
+                            # Мечи
+                            "basic_sword":        { "name": u"Деревянный меч",
+                                                    "description": u"Не дает преимуществ",
+                                                    "type": "sword",
+                                                    "basic": True,
+                                                    "modifiers": [] },
+                            "glittering_sword":   { "name": u"Сияющий клинок",
+                                                    "description": u"+2 к атаке",
+                                                    "type": "sword",
+                                                    "basic": False,
+                                                    "modifiers": [ 'atk_up', 'atk_up' ] },
+                            "lake_woman_sword":   { "name": u"Клинок озёрной девы",
+                                                    "description": u"1 верная атака",
+                                                    "type": "sword",
+                                                    "basic": False,
+                                                    "modifiers": [ 'satk_up' ] },
+                            "flameberg_sword":    { "name": u"Пылающий фламберг",
+                                                    "description": u"2 верных атаки огнём",
+                                                    "type": "sword",
+                                                    "basic": False,
+                                                    "modifiers": [ 'sfatk_up', 'sfatk_up' ] },
+                            "icecracker_sword":   { "name": u"Ледоруб-жыдобой ^_^",
+                                                    "description": u"2 верных атаки льдом",
+                                                    "type": "sword",
+                                                    "basic": False,
+                                                    "modifiers": [ 'siatk_up', 'siatk_up' ] },
+                            "thunderer_sword":    { "name": u"Меч-громобой",
+                                                    "description": u"2 верных атаки молнией",
+                                                    "type": "sword",
+                                                    "basic": False,
+                                                    "modifiers": [ 'slatk_up', 'slatk_up' ] },
+                            # Щиты
+                            "basic_shield":       { "name": u"Деревянный щит",
+                                                    "description": u"Не дает преимуществ",
+                                                    "type": "shield",
+                                                    "basic": True,
+                                                    "modifiers": [] },
+                            "polished_shield":    { "name": u"Полированный щит",
+                                                    "description": u"+2 к защите",
+                                                    "type": "shield",
+                                                    "basic": False,
+                                                    "modifiers": [ 'def_up', 'def_up' ] },
+                            "mirror_shield":      { "name": u"Зерцальный щит", #TODO: Implement
+                                                    "description": u"2 верных защиты, если у дракона есть дыхание",
+                                                    "type": "shield",
+                                                    "basic": False,
+                                                    "modifiers": [] },
+                            # Кони
+                            "basic_horse":        { "name": u"Деревянная лошадка",
+                                                    "description": u"Не дает преимуществ",
+                                                    "type": "horse",
+                                                    "basic": True,
+                                                    "modifiers": [] },
+                            "white_horse":        { "name": u"Белый конь",
+                                                    "description": u"+1 к атаке, +1 к защите",
+                                                    "type": "horse",
+                                                    "basic": False,
+                                                    "modifiers": [ 'atk_up', 'def_up' ] },
+                            "pegasus":            { "name": u"Пегас",
+                                                    "description": u"даёт полёт",
+                                                    "type": "horse",
+                                                    "basic": False,
+                                                    "modifiers": [ 'flight' ] },
+                            "firehorse":          { "name": u"Конь-огонь",
+                                                    "description": u"даёт альпинизм и защиту от огня",
+                                                    "type": "horse",
+                                                    "basic": False,
+                                                    "modifiers": [ 'alpinism', 'fire_immunity' ] },
+                            "sivka":              { "name": u"Сивка-Бурка",
+                                                    "description": u"даёт альпинизм и защиту от холода",
+                                                    "type": "horse",
+                                                    "basic": False,
+                                                    "modifiers": [] },
+                            "kelpie":             { "name": u"Келпи",
+                                                    "description": u"игнорирует недоступность морского логова",
+                                                    "type": "horse",
+                                                    "basic": False,
+                                                    "modifiers": [ 'swimming' ] },
+                            "griffon":           { "name": u"Боевой грифон",
+                                                    "description": u"+1 к атаке, +1 к защите, даёт полёт",
+                                                    "type": "horse",
+                                                    "basic": False,
+                                                    "modifiers": [ 'atk_up', 'def_up', 'flight' ] },
+                            # Спутники
+                            "basic_follower":     { "name": u"Деревянный спутник",
+                                                    "description": u"Не дает преимуществ",
+                                                    "type": "follower",
+                                                    "basic": True,
+                                                    "modifiers": [] },
+                            "squire":             { "name": u"Ловкий оруженосец",
+                                                    "description": u"даёт \"альпинизм\"",
+                                                    "type": "follower",
+                                                    "basic": False,
+                                                    "modifiers": [ 'alpinism' ] },
+                            "veteran":            { "name": u"Старый ветеран",
+                                                    "description": u"даёт 1 верную защиту",
+                                                    "type": "follower",
+                                                    "basic": False,
+                                                    "modifiers": [ 'sdef_up' ] },
+                            "pythoness":          { "name": u"Прорицательница",
+                                                    "description": u"даёт 1 верную атаку",
+                                                    "type": "follower",
+                                                    "basic": False,
+                                                    "modifiers": [ 'satk_up' ] },
+                            "thaumaturge":        { "name": u"Кудесник",
+                                                    "description": u"даёт 1 верную атаку и 1 верную защиту",
+                                                    "type": "follower",
+                                                    "basic": False,
+                                                    "modifiers": [ 'satk_up', 'sdef_up' ] }
                         })
-                                
-knight_titles=[ u"Бедный рыцарь",
+
+knight_titles = [ 
+                u"Бедный рыцарь",
                 u"Странствующий рыцарь",
                 u"Межевой рыцарь",
                 u"Благородный рыцарь",
                 u"Паладин рыцарь",
                 u"Прекрасный принц"]
+
+knight_events = {
+    "spawn": None,
+    "prepare": None,
+    "prepare_usefull": None,
+    "prepare_unusefull": None,
+    "receive_item": None,
+    }
+
 #
 # Логово
 #
@@ -519,15 +624,6 @@ reputation_gain = {
     5: u"Сегодня вы стяжали немалую дурную славу.",
     10: u"Об этом деянии услышат  жители всего королевства. И ужаснутся." ,
     25: u"О деянии столь ужасном будут сложены легенды, которые не забудутся и через сотни лет"
-    }
-
-fighter_mods = {
-    u"щит"      : FighterModifier(protection = ('base', (1, 0))),
-    u"меч"      : FighterModifier(attack = ('base', (2,1))),
-    u"броня"    : FighterModifier(protection = ('base', (0,1))),
-    u"копьё"    : FighterModifier(attack = ('base', (1,1))),
-    u"спутник"  : FighterModifier(attack = ('base', (1,0)), protection = ('base', (1,0))),
-    u"скакун"   : FighterModifier(attack = ('base', (1,0)))
     }
 
 #
@@ -685,7 +781,7 @@ dragon_heads = {
     'green' : [],
     'red'   : ['fire_breath', 'fire_immunity'],
     'white' : ['ice_breath', 'ice_immunity'],
-    'blue'  : ['can_swim'],
+    'blue'  : ['swimming'],
     'black' : ['black_power', 'poison_breath'],  # black_power -- +1 атака
     'iron'  : ['iron_scale', 'sound_breath'],  # iron_scale -- +1 защита
     'bronze': ['bronze_scale', 'can_dig'],  # bronze_scale -- +1 защита
@@ -745,58 +841,66 @@ effects_list = {
     'griffin_meat'      : ['mg_up'],
                 }
 
-dragon_modifiers = {
-    'fire_immunity'     : DragonModifier(),
-    'ice_immunity'      : DragonModifier(),
-    'poison_immunity'   : DragonModifier(),
-    'lightning_immunity': DragonModifier(),
-    'sound_immunity'    : DragonModifier(),
+modifiers = {
+    #global
+    'fire_immunity'     : Modifier(),
+    'ice_immunity'      : Modifier(),
+    'poison_immunity'   : Modifier(),
+    'lightning_immunity': Modifier(),
+    'sound_immunity'    : Modifier(),
+    'magic_immunity'    : Modifier(),
+    
+    'flight'        : Modifier(),
+    'alpinism'      : Modifier(),
+    'swimming'      : Modifier(),
+    
+    'atk_up'        : Modifier(attack=('base', (1, 0))), # 1 простая атака
+    'satk_up'       : Modifier(attack=('base', (0, 1))), # 1 верная атака
+    'sfatk_up'      : Modifier(attack=('fire', (0, 1))), # 1 верная атака огнем
+    'siatk_up'      : Modifier(attack=('ice', (0, 1))), # 1 верная атака льдом
+    'slatk_up'      : Modifier(attack=('lightning', (0, 1))), # 1 верная атака молнией
+    'def_up'        : Modifier(protection=('base', (1, 0))), # 1 защита
+    'sdef_up'       : Modifier(protection=('base', (0, 1))), # 1 верная защита
+    #Knight-specific
+    'fearless'      : Modifier(),
+    #Dragon-specific
+    'can_dig'           : Modifier(),
+    'greedy'            : Modifier(),
+    'virtual_head'      : Modifier(),
+    'spellbound_trap'   : Modifier(),
 
-    'can_swim'          : DragonModifier(),
-    'can_dig'           : DragonModifier(),
-    'greedy'            : DragonModifier(),
-    'virtual_head'      : DragonModifier(),
-    'spellbound_trap'   : DragonModifier(),
-
-    'fire_breath'       : DragonModifier(attack=('fire', (0, 1))),
-    'ice_breath'        : DragonModifier(attack=('ice', (0, 1))),
-    'poison_breath'     : DragonModifier(attack=('poison', (0, 1))),
-    'sound_breath'      : DragonModifier(attack=('sound', (0, 1))),
-    'lightning_breath'  : DragonModifier(attack=('lightning', (0, 1))),
-    'black_power'       : DragonModifier(attack=('base', (1, 0))),
-    'iron_scale'        : DragonModifier(protection=('scale', (1, 0))),
-    'bronze_scale'      : DragonModifier(protection=('scale', (1, 0))),
-    'silver_magic'      : DragonModifier(magic=1),
-    'gold_magic'        : DragonModifier(magic=1),
-    'shadow_magic'      : DragonModifier(magic=1),
-    'fear_of_dark'      : DragonModifier(fear=2),
-    'aura_of_horror'    : DragonModifier(fear=1),
-    'wings_of_wind'     : DragonModifier(energy=1),
+    'fire_breath'       : Modifier(attack=('fire', (0, 1))),
+    'ice_breath'        : Modifier(attack=('ice', (0, 1))),
+    'poison_breath'     : Modifier(attack=('poison', (0, 1))),
+    'sound_breath'      : Modifier(attack=('sound', (0, 1))),
+    'lightning_breath'  : Modifier(attack=('lightning', (0, 1))),
+    'black_power'       : Modifier(attack=('base', (1, 0))),
+    'iron_scale'        : Modifier(protection=('scale', (1, 0))),
+    'bronze_scale'      : Modifier(protection=('scale', (1, 0))),
+    'silver_magic'      : Modifier(magic=1),
+    'gold_magic'        : Modifier(magic=1),
+    'shadow_magic'      : Modifier(magic=1),
+    'fear_of_dark'      : Modifier(fear=2),
+    'aura_of_horror'    : Modifier(fear=1),
+    'wings_of_wind'     : Modifier(energy=1),
     #
-    'size'          : DragonModifier(attack=('base', (1, 0)), protection=('base', (1, 0)), fear=1),
-    'paws'          : DragonModifier(attack=('base', (1, 0)), energy=1),
-    'wings'         : DragonModifier(protection=('base', (1, 0)), energy=1),
-    'tough_scale'   : DragonModifier(protection=('scale', (0, 1))),
-    'clutches'      : DragonModifier(attack=('base', (0, 1))),
-    'fangs'         : DragonModifier(attack=('base', (2, 0)), fear=1),
-    'horns'         : DragonModifier(protection=('base', (2, 0)), fear=1),
-    'ugly'          : DragonModifier(fear=2),
-    'poisoned_sting': DragonModifier(attack=('poison', (1, 1))),
-    'cunning'       : DragonModifier(magic=1),
+    'size'          : Modifier(attack=('base', (1, 0)), protection=('base', (1, 0)), fear=1),
+    'paws'          : Modifier(attack=('base', (1, 0)), energy=1),
+    'wings'         : Modifier(protection=('base', (1, 0)), energy=1),
+    'tough_scale'   : Modifier(protection=('scale', (0, 1))),
+    'clutches'      : Modifier(attack=('base', (0, 1))),
+    'fangs'         : Modifier(attack=('base', (2, 0)), fear=1),
+    'horns'         : Modifier(protection=('base', (2, 0)), fear=1),
+    'ugly'          : Modifier(fear=2),
+    'poisoned_sting': Modifier(attack=('poison', (1, 1))),
+    'cunning'       : Modifier(magic=1),
     #
-    'atk_up'        : DragonModifier(attack=('base', (1, 0))),
-    'def_up'        : DragonModifier(protection=('base', (1, 0))),
-    'mg_up'         : DragonModifier(magic=1),
+    'mg_up'         : Modifier(magic=1),
     }
 
-knight_items = dict()
-knight_abilities = dict()
-
 def get_modifier(name):
-    if name in dragon_modifiers:
-        return dragon_modifiers[name]
-    elif name in fighter_mods:
-        return fighter_mods[name]
+    if name in modifiers:
+        return modifiers[name]
     raise NotImplementedError, name
 
 #логова, картинки

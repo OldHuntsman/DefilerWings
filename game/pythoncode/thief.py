@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
 
+#TODO: реврайт вора через modifiers 
+
 import random
 import data
 import renpy.exports as renpy
