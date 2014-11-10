@@ -12,11 +12,6 @@ label lb_choose_dragon:
             game.army.add_warrior('goblin')
             # добавляем всё неправедно нажитое богатство в казну Владычицы
             game.army.money += game.lair.treasury.wealth
-            # создаем новое логово
-            game.create_lair()
-        if game.dragon is None or game.dragon.heads:
-            # задаем квест
-            game.set_quest()
         child_choose = None
         child_selected = None
         togle_dragonchoose_button = None
@@ -81,12 +76,15 @@ label lb_choose_dragon:
                     text_yalign 0.5
                     background "img/bg/logovo.png"
                     text_size 22
-                    action SetVariable("child_selected",child_choose),SetVariable("togle_dragonchoose_button", False), Show("main_map"), Hide("ava_screen"), Hide("text_screen"), Return("return")
+                    action SetVariable("child_selected",child_choose),SetVariable("togle_dragonchoose_button", False), Hide("ava_screen"), Hide("text_screen"), Return("return")
     while True:
         nvl clear
         call screen ava_screen
-        if not dragons_choosed:
-            "Нужно выполнить задание:\n[game.quest_text]"
         $ game.dragon = child_selected
         $ dragons_choosed.append(game.dragon)
-        return
+        show expression 'img/scene/mistress.png' as bg
+        $ game.set_quest()
+        "Нужно выполнить задание:\n[game.quest_text]"
+        # создаем новое логово
+        $ game.create_lair()
+        jump lb_location_mordor_main
