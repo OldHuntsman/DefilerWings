@@ -20,6 +20,7 @@ class Girls_list(object):
         self.free_list = [] # список свободных девушек
         self.spawn = []     # список отродий, приходящих после пробуждения 
         self.active = 0 # номер текущей девушки
+        self.offspring = [] # типы потомков для выполнения квеста
     
     def new_girl (self, type = 'peasant'):
         """
@@ -201,10 +202,14 @@ class Girls_list(object):
                 #девушка не убежала
                 if ('servant' in self.game.lair.upgrades) or ('gremlin_servant' in self.game.lair.upgrades):
                     if self.game.girl.pregnant:
-                        if self.game.girl.pregnant == 1:
-                            self.spawn.append(girls_data.girls_info[self.game.girl.type]['regular_spawn'])
-                        else:
-                            self.spawn.append(girls_data.girls_info[self.game.girl.type]['advanced_spawn'])
+                        girl_type = girls_data.girls_info[self.game.girl.type]
+                        
+                        spawn_class = 'regular_spawn' if self.game.girl.pregnant == 1 else 'advanced_spawn' 
+                        if 'educated_spawn' not in self.offspring: self.offspring.append('educated_spawn')
+                        girl_size = 'giantess' if girl_type['giantess'] else 'usual_size'
+                        if girl_size not in self.offspring: self.offspring.append(girl_size)
+                        
+                        self.spawn.append(girl_type[spawn_class])
                         self.description('birth', True)  #описание родов
                         self.game.girl.pregnant = 0
                 else:
@@ -216,10 +221,14 @@ class Girls_list(object):
             if (random.randint(1,3) == 1) and not girls_data.girls_info[self.game.girl.type]['giantess']:
                 self.description('kill', True) #убивают из-за беременности
             else:
-                if self.game.girl.pregnant == 1:
-                    spawn_type = girls_data.girls_info[self.game.girl.type]['regular_spawn']
-                else:
-                    spawn_type = girls_data.girls_info[self.game.girl.type]['advanced_spawn']
+                girl_type = girls_data.girls_info[self.game.girl.type]
+                
+                spawn_class = 'regular_spawn' if self.game.girl.pregnant == 1 else 'advanced_spawn' 
+                if 'free_spawn' not in self.offspring: self.offspring.append('free_spawn')
+                girl_size = 'giantess' if girl_type['giantess'] else 'usual_size'
+                if girl_size not in self.offspring: self.offspring.append(girl_size) 
+                
+                spawn_type = girls_data.girls_info[self.game.girl.type][spawn_class]
                 spawn = girls_data.spawn_info[spawn_type] 
                 self.description('free_birth', True) #рожает на свободе
                 self.free_spawn(spawn['power'])
