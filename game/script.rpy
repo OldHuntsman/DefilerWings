@@ -22,7 +22,6 @@ label start:
     
     # Прокручиваем заставку.
     call screen sc_intro
-    show screen status_bar
     # Выбираем дракона
     call lb_choose_dragon
     $ win = False

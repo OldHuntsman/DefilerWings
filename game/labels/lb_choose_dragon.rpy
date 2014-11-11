@@ -58,6 +58,7 @@ label lb_choose_dragon:
         imagebutton idle "img/bg/frame.png" hover "img/bg/frame_light.png" selected_idle "img/bg/frame_light.png" xalign 0.0 yalign 0.0 action SetVariable("child_choose",dragons[0]),SetVariable("togle_dragonchoose_button", True),Show("text_screen"), SelectedIf(child_choose == dragons[0]), SensitiveIf(dragons[0] not in dragons_choosed)
         imagebutton idle "img/bg/frame.png" hover "img/bg/frame_light.png" selected_idle "img/bg/frame_light.png" xalign 0.0 yalign 0.5 action SetVariable("child_choose",dragons[1]),SetVariable("togle_dragonchoose_button", True),Show("text_screen"), SelectedIf(child_choose == dragons[1]), SensitiveIf(dragons[1] not in dragons_choosed)
         imagebutton idle "img/bg/frame.png" hover "img/bg/frame_light.png" selected_idle "img/bg/frame_light.png" xalign 0.0 yalign 1.0 action SetVariable("child_choose",dragons[2]),SetVariable("togle_dragonchoose_button", True),Show("text_screen"), SelectedIf(child_choose == dragons[2]), SensitiveIf(dragons[2] not in dragons_choosed)
+        use status_bar
     screen text_screen:
         $renpy.childtext = child_choose.description
         window:

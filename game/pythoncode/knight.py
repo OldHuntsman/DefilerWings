@@ -2,6 +2,7 @@
 # coding=utf-8
 
 from core import Fighter
+import renpy.exports as renpy
 import random
 import os
 import data
