@@ -10,8 +10,8 @@ label lb_choose_dragon:
             dragons_choosed = []
             # добавляем 1 гоблина в армию тьмы
             game.army.add_warrior('goblin')
-            # добавляем всё неправедно нажитое богатство в казну Владычицы
-            game.army.money += game.lair.treasury.wealth
+            # без выполненного квеста сюда попасть нельзя
+            game.complete_quest()
         child_choose = None
         child_selected = None
         togle_dragonchoose_button = None

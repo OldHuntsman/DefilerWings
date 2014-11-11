@@ -33,6 +33,7 @@ class Game(store.object):
         self._year = 0  # текущий год
         self._quest_time = 0 # год окончания квеста
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
+        self.unique = [] # список уникальных действий для квестов
           
         self.dragon = None
         self.thief = None #Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
@@ -208,8 +209,9 @@ class Game(store.object):
         quests = []
         for quest_i in xrange(len(data.quest_list)):
             quest = data.quest_list[quest_i]
-            # находим квест, подходящий по уровню
-            if lvl >= quest['min_lvl'] and lvl <= quest['max_lvl']:
+            # находим квест, подходящий по уровню, не уникальный или ещё не выполненный за текущую игру
+            if lvl >= quest['min_lvl'] and lvl <= quest['max_lvl'] and \
+                ('unique' not in quest or quest['unique'] not in self.unique):
                 quests.append(quest)
         self._quest = random.choice(quests)
         # Задание года окончания выполнения квеста
@@ -254,13 +256,22 @@ class Game(store.object):
                     if type(require) is str:
                         reached_requirements = require in reached_list
                     else:
-                        # при этом варианте нужно удовлетворить списку требований
+                        # при этом варианте нужно выполнить список требований
                         reached_requirements = True
                         for sub_require in require:
                             reached_requirements = reached_requirements and sub_require in reached_list
                     quest_complete = quest_complete or reached_requirements 
         quest_complete = quest_complete and current_level >= self._quest_threshold
         return quest_complete
+    
+    def complete_quest(self):
+        """
+        Посчитать текущий квест выполненным
+        """
+        # добавляем всё неправедно нажитое богатство в казну Владычицы
+        self.army.money += self.lair.treasury.wealth
+        # указываем, что уникальный квест уже выполнялся
+        if 'unique' in self._quest: self.unique.append(quest['unique'])
     
     @property
     def quest_task(self):
