@@ -56,12 +56,12 @@ label lb_manor_rob:
     menu:
         'Разграбить поместье':
             show expression 'img/bg/lair/ruins_inside.png' as bg
-            $ txt = random.choice(txt_place_manor[2]) % game.dragon.name
+            $ txt = game.interpolate(random.choice(txt_place_manor[2]))
             '[txt]'    
             '[trs_descrptn]'
             nvl clear
             show expression 'img/bg/special/bedroom.png' as bg
-            $ txt = random.choice(txt_place_manor[3])
+            $ txt = random.choice(txt_place_manor[3]) % game.format_data
             '[txt]'    
             nvl clear
             $ description = game.girls_list.new_girl('princess')

@@ -330,6 +330,19 @@ class Game(store.object):
             return data[bisect.bisect(accumulated, r)][0]
         return None
     
+    def interpolate(self, str):
+        '''
+        Функция заменяющая переменные в строке на актуальные данные игры
+        '''
+        return str % self.format_data
+    
+    @property
+    def format_data(self):
+        data = {
+            "dragon_name": self.dragon.name,
+            }
+        return data
+    
 
 class Lair(object):
     def __init__(self, type = "impassable_coomb"):
