@@ -21,7 +21,7 @@ init:
         "place == 'underwater_grot'", "img/bg/lair/cave.png",
         "place == 'underground_burrow'", "img/bg/lair/cave.png",
         "place == 'dragon_castle'", "img/bg/lair/cave.png",
-        "place == 'castle'", "img/bg/lair/castle_ruin.png",
+        "place == 'castle'", "img/bg/lair/ruins_inside.png",
         "place == 'ogre_den'", "img/bg/lair/cave.png",
         "place == 'broad_cave'", "img/bg/lair/cave.png",
         "place == 'tower_ruin'", "img/bg/lair/cave.png",
