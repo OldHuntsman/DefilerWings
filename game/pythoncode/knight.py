@@ -7,7 +7,6 @@ import random
 import os
 import data
 from copy import deepcopy
-import renpy.exports as renpy
 
 class Knight(Fighter):
     """
