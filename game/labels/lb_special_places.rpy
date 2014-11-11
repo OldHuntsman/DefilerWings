@@ -56,7 +56,7 @@ label lb_manor_rob:
     menu:
         'Разграбить поместье':
             show expression 'img/bg/lair/ruins_inside.png' as bg
-            $ txt = random.choice(txt_place_manor[2])
+            $ txt = random.choice(txt_place_manor[2]) % game.dragon.name
             '[txt]'    
             '[trs_descrptn]'
             nvl clear
