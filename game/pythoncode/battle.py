@@ -183,12 +183,3 @@ def check_fear(dragon, foe):
     else:
         return ['foe_intro', 'foe_alive']
 
-def test_dragon_gen(test_game, test_character, level):  
-    """
-    Тестовая функция для генерации случайного дракона с уровнем level 
-    """
-    test_dragon = core.Dragon(gameRef=test_game, base_character=test_character)
-    for lvl_i in range(1, level - 1):
-        #TODO: Перепилить через конструктор дракона
-        test_dragon = test_dragon.children()[0] #Сломал Хикка, children больше не используются 
-    return test_dragon
