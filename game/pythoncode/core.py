@@ -33,6 +33,7 @@ class Game(store.object):
         self._year = 0  # текущий год
         self._quest_time = 0 # год окончания квеста
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
+        self.unique = [] # список уникальных действий для квестов
           
         self.dragon = None
         self.thief = None #Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
@@ -137,7 +138,6 @@ class Game(store.object):
                 if renpy.config.debug: self.thief(u"Рыцарю ссыкотно, надо бы подготовиться.")
                 self.knight.event("start_prepare")
                 
-
     def sleep(self):
         """
         Рассчитывается количество лет которое дракон проспит.
@@ -204,17 +204,14 @@ class Game(store.object):
         self.lair = Lair(lair_type)
         
     def set_quest(self):
-        # определяем уровень дракона
-        if self.dragon == None:
-            lvl = 1
-        else:
-            lvl = 1 + self.dragon.level
+        lvl = self.dragon.level
         # проходим весь список квестов
         quests = []
         for quest_i in xrange(len(data.quest_list)):
             quest = data.quest_list[quest_i]
-            # находим квест, подходящий по уровню
-            if lvl >= quest['min_lvl'] and lvl <= quest['max_lvl']:
+            # находим квест, подходящий по уровню, не уникальный или ещё не выполненный за текущую игру
+            if lvl >= quest['min_lvl'] and lvl <= quest['max_lvl'] and \
+                ('unique' not in quest or quest['unique'] not in self.unique):
                 quests.append(quest)
         self._quest = random.choice(quests)
         # Задание года окончания выполнения квеста
@@ -238,14 +235,43 @@ class Game(store.object):
         TODO: проверки на выполнение квестов. Сразу после добавления квестов.
         """
         task_name = self._quest['task']
+        current_level = 0
+        reached_list = []
         if task_name == 'autocomplete': # задача всегда выполнена
             return True
         elif task_name == 'reputation': # проверка уровня репутации
-            return self.dragon.reputation.points >= self._quest_threshold
+            current_level = self.dragon.reputation.points
         elif task_name == 'wealth': # проверка стоимости всех сокровищ
-            return self.lair.treasury.wealth >= self._quest_threshold
+            current_level =  self.lair.treasury.wealth
         elif task_name == 'gift': # проверка стоимости самого дорогого сокровища
-            return self.lair.treasury.most_expensive_jewelry_cost >= self._quest_threshold
+            current_level =  self.lair.treasury.most_expensive_jewelry_cost
+        elif task_name == 'offspring': # проверка рождения потомка
+            reached_list.extend(self.girls_list.offspring)
+        # проверка требований
+        quest_complete = True
+        if 'task_requirements' in self._quest:
+                quest_complete = False
+                # проходим все варианты выполнения квеста
+                for require in self._quest['task_requirements']:
+                    if type(require) is str:
+                        reached_requirements = require in reached_list
+                    else:
+                        # при этом варианте нужно выполнить список требований
+                        reached_requirements = True
+                        for sub_require in require:
+                            reached_requirements = reached_requirements and sub_require in reached_list
+                    quest_complete = quest_complete or reached_requirements 
+        quest_complete = quest_complete and current_level >= self._quest_threshold
+        return quest_complete
+    
+    def complete_quest(self):
+        """
+        Посчитать текущий квест выполненным
+        """
+        # добавляем всё неправедно нажитое богатство в казну Владычицы
+        self.army.money += self.lair.treasury.wealth
+        # указываем, что уникальный квест уже выполнялся
+        if 'unique' in self._quest: self.unique.append(quest['unique'])
     
     @property
     def quest_task(self):
@@ -303,6 +329,19 @@ class Game(store.object):
             r = random.random() * accumulated[-1]
             return data[bisect.bisect(accumulated, r)][0]
         return None
+    
+    def interpolate(self, str):
+        '''
+        Функция заменяющая переменные в строке на актуальные данные игры
+        '''
+        return str % self.format_data
+    
+    @property
+    def format_data(self):
+        data = {
+            "dragon_name": self.dragon.name,
+            }
+        return data
     
 
 class Lair(object):
@@ -921,13 +960,23 @@ class Dragon(Fighter):
     def special_places_count(self):
         return len (self.special_places)
         
-    def add_special_place(self, place_name, stage):
+    def add_special_place(self, place_name, stage = None):
         """
         :param place_name: название достопримечательности для добавления - ключ для словаря.
-        :param      stage: на каком этапе достопримечательность, ключ для словаря data.special_places, из которого берется надпись в списке и название локации для перехода.
+        :param      stage: на каком этапе достопримечательность, ключ для словаря data.special_places, из которого берется надпись в списке и название локации для перехода. 
+        Если стадия не указана (None), то ключ удаляется из словаря.
         """
-        assert stage in data.special_places, "Unknown stage: %s" % stage
-        self.special_places[place_name] = stage
+        assert stage is None or stage in data.special_places, "Unknown stage: %s" % stage
+        if stage:
+            self.special_places[place_name] = stage
+        else:
+            if place_name in self.special_places: del self.special_places[place_name]
+            
+    def del_special_place(self, place_name):
+        """
+        :param place_name: название достопримечательности для удаления - ключ для словаря.
+        """
+        self.add_special_place(place_name)
         
         
 

@@ -33,7 +33,7 @@ label lb_location_plains_main:
     
 label lb_encounter_plains:
     $ nochance = game.poverty.value*3
-    $ choices = [("lb_enc_fair", 10),
+    $ choices = [("lb_enc_fair", 10000),
                 ("lb_enc_berries", 10),
                 ("lb_enc_shrooms", 10),
                 ("lb_enc_laundry", 10),
@@ -53,13 +53,15 @@ label lb_encounter_plains:
     
     
 label lb_enc_fair:
-    'Ярмарка. Тут юноши присматривают невест из окрестных деревень, а крестьяне демонстрируют свой лучший скот.'
+    $ txt = toptxt[place] + random.choice(txt_enc_fair[0])
+    '[txt]'
     nvl clear
     menu:
         'Первая красавица':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('peasant')
-            'Сцена погони. Все разбегаются, дракон остаётся с пойманной девушкой.'
+            $ txt = random.choice(txt_enc_fair[1])
+            '[txt]'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             nvl clear

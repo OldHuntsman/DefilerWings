@@ -3,19 +3,15 @@ init python:
 
 label lb_fight(foe = game.foe):
     show expression foe.bg as foeimg
+    nvl clear
     $ battle_status = battle.check_fear(game.dragon, foe)
     $ narrator(foe.battle_description(battle_status, game.dragon))
-    
-    
-    if 'foe_alive' in battle_status:
-        $ chance_win = battle.victory_chance(game.dragon, foe)
-        $ chance_wound = battle.victory_chance(foe, game.dragon)
-        "Шанс победы дракона: [chance_win] %%, шанс ранения дракона: [chance_wound] %%"
 
     while 'foe_alive' in battle_status:
         $ battle_status = battle.battle_action(game.dragon, foe)
         $ description = foe.battle_description(battle_status, game.dragon)
         "[description]" 
+        
         if 'dragon_dead' in battle_status:
             #TODO замена текущего дракона с возможностью выбора потомка
             "Дракон умер - да здравствует Дракон!"
@@ -24,6 +20,9 @@ label lb_fight(foe = game.foe):
             nvl clear
             $ renpy.pop_return()
             return
+        elif 'foe_alive' in battle_status:
+            $ chances = show_chances()
+            '[chances]'
             
         if 'foe_alive' in battle_status:
             nvl clear

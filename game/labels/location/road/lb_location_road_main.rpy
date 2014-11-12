@@ -1,6 +1,5 @@
 label lb_location_road_main:
     $ place = 'road'
-    show place
     show expression get_place_bg(place) as bg
     nvl clear
     
@@ -10,7 +9,7 @@ label lb_location_road_main:
         
     $ nochance = game.poverty.value*3      
     $ choices = [("lb_enc_tornament", 10),
-                ("lb_enc_fortification", 10),
+                ("lb_enc_fortification", 1000),
                 ("lb_enc_inn", 10),
                 ("lb_enc_peasant_cart", 10),
                 ("lb_enc_carriage", 10),   
@@ -243,9 +242,10 @@ label lb_enc_outpost:
     return
     
 label lb_enc_fortification:
-    'Найден замок. Плейсходлдер'
-    return
+    'Путешествуя вдоль торговых путей, [game.dragon.name] натыкается на интересное место...'
+    $renpy.call(random.choice(data.human_special_places))
     
+    return
 
 label lb_patrool_road:
     python:
