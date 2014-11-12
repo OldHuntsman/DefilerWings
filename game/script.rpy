@@ -24,6 +24,7 @@ label start:
     call screen sc_intro
     # Выбираем дракона
     call lb_choose_dragon
+    #TODO: перенести победу в Game
     $ win = False
     while not win:
         $ renpy.block_rollback()

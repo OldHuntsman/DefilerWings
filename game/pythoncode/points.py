@@ -6,6 +6,9 @@ from data import reputation_levels, reputation_gain
 import renpy.store as store
 
 class Mobilization(store.object):
+    gain=0
+    max=0
+    _lvl=0
     
     def __getinitargs__(self):
         return (self.level)
@@ -21,7 +24,17 @@ class Mobilization(store.object):
         return self._lvl
     @level.setter
     def level(self, value):
-        self._lvl = int(value)
+        value = int(value)
+        if value >= 0:
+            self.gain += value - self._lvl
+            if value > self._lvl:
+                self.max = value
+            self._lvl = value
+        
+    def reset_gain(self):
+        self.gain = 0
+    def reset_max(self):
+        self.max = self._lvl
 
 class Reputation(store.object):
     '''
