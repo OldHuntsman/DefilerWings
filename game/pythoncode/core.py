@@ -50,8 +50,7 @@ class Game(store.object):
         return self._dragon
     @dragon.setter
     def dragon(self, new_dragon):
-        self.mobilization.reset_gain()
-        self.mobilization.reset_max()
+        self.mobilization.reset()
         self._dragon = new_dragon
     
     @property
