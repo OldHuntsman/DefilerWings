@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-from core import Fighter
+from core import Fighter, call
 import renpy.exports as renpy
 import random
 import os
@@ -146,3 +146,6 @@ class Knight(Fighter):
             if random.choice(range(3)) == 0:
                 skill += 1
         return skill
+    
+    def fight_dragon(self):
+        call("lb_fight_dragon_by_knigth")

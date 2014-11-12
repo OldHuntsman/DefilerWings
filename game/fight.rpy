@@ -40,7 +40,7 @@ label lb_fight(foe = game.foe):
     nvl clear
     return
 
-label lb_fight2(foe = game.foe):
+label lb_fight_dragon_by_knigth(foe=game.knight):
     show expression foe.bg as foeimg
     $ battle_status = battle.check_fear(game.dragon, foe)
     $ narrator(foe.battle_description(battle_status, game.dragon))

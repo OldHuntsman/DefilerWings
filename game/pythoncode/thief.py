@@ -50,7 +50,7 @@ class Thief(Sayer, Mortal):
         item_list = [ i for i in data.thief_items if i not in self.items ]
         if len(item_list) > 0:
             new_item = data.thief_items[random.choice(item_list)]
-            self.items.add(item, new_item)
+            self.items.add(new_item.id, new_item)
             self.last_received_item = new_item
             self.event('receive_item', item=new_item)
             return True

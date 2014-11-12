@@ -27,7 +27,7 @@ class Game(store.object):
         from knight import Knight
         self.adv_character = adv_character
         self.nvl_character = nvl_character
-        self.mobilization = Mobilization()
+        self.mobilization = Mobilization() #Мобилизацию нужно ввести до того как появится первый дракон
         self.poverty = Poverty()
         self.army = Army()
         self._year = 0  # текущий год
@@ -45,6 +45,15 @@ class Game(store.object):
         self.foe = None
         self.girl = None
 
+    @property
+    def dragon(self):
+        return self._dragon
+    @dragon.setter
+    def dragon(self, new_dragon):
+        self.mobilization.reset_gain()
+        self.mobilization.reset_max()
+        self._dragon = new_dragon
+    
     @property
     def year(self):
         return self._year
@@ -134,6 +143,7 @@ class Game(store.object):
                 # Идем на дело
                 if renpy.config.debug: self.narrator(u"Рыцарь вызывает дракона на бой")
                 #TODO: Схватка рыцаря с драконом
+                self.knight.fight_dragon()
                 #renpy.call("lb_fight", foe=self.knight)
             else:
                 if renpy.config.debug: self.knight(u"Рыцарю ссыкотно, надо бы подготовиться.")
