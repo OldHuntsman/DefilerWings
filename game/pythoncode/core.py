@@ -116,6 +116,7 @@ class Game(store.object):
                 if random.choice(range(2)) == 0:    # C 50% шансом получаем шмотку
                     self.thief.event("prepare_usefull")
                     self.thief.receive_item()
+                    if renpy.config.debug: self.narrator(u"Вор получил %s" % self.thief.last_received_item.name)
                 else:
                     if renpy.config.debug: self.narrator(u"Но вместо этого вор весь год бухает.")
                     self.thief.event("prepare_useless")
@@ -135,9 +136,16 @@ class Game(store.object):
                 #TODO: Схватка рыцаря с драконом
                 #renpy.call("lb_fight", foe=self.knight)
             else:
-                if renpy.config.debug: self.thief(u"Рыцарю ссыкотно, надо бы подготовиться.")
+                if renpy.config.debug: self.knight(u"Рыцарю ссыкотно, надо бы подготовиться.")
                 self.knight.event("start_prepare")
-                
+                if random.choice(range(2)) == 0:    # C 50% шансом получаем шмотку
+                    self.knight.event("prepare_usefull")
+                    self.knight.enchant_equip()
+                    if renpy.config.debug: self.narrator(u"Рыцарь получил %s" % self.knight.last_received_item.name)
+                else:
+                    if renpy.config.debug: self.narrator(u"Но вместо этого рыцарь весь год бухает.")
+                    self.knight.event("prepare_useless")
+                    
     def sleep(self):
         """
         Рассчитывается количество лет которое дракон проспит.
@@ -439,8 +447,24 @@ class Girl(Sayer):
         self.name = ''
         self.jailed = False # была ли уже в тюрьме, пригодится для описания
         self.treasure = []
-            
-class Fighter(Sayer):
+
+class Mortal:
+    _alive = True #По умолчанию все живые
+    
+    def is_alive(self):
+        if self._alive:
+            return True
+        return False
+    
+    def is_dead(self):
+        if not self._alive:
+            return True
+        return False
+    
+    def die(self):
+        self._alive = False
+    
+class Fighter(Sayer, Mortal):
     """
     Базовый класс для всего, что способно драться.
     Декоратор нужен чтобы реализовывать эффекты вроде иммунитета или ядовитого дыхания.

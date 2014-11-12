@@ -11,9 +11,8 @@ from copy import deepcopy
 class Knight(Fighter):
     """
     Класс рыцаря.
-    Набросок для тестирования боя.
-    Спутников, особенности и снаряжение предпологается засовывать в переменную _modifiers
     """
+    last_received_item = None
 
     def __init__(self, level = 1, *args, **kwargs):
         """
@@ -22,7 +21,7 @@ class Knight(Fighter):
         super(Knight, self).__init__(*args, **kwargs)
         self._alive = True
         self.name = u"Сер Ланселот Озёрный"
-        self.name = "Сэр %s %s" % (random.choice(data.knight_first_names), random.choice(data.knight_last_names))
+        self.name = u"Сэр %s %s" % (random.choice(data.knight_first_names), random.choice(data.knight_last_names))
         self.lelel = level
         self.power = level
         self.abilities = data.Container("knight_abilities")
@@ -40,17 +39,7 @@ class Knight(Fighter):
         self.equip(data.knight_items.basic_horse)
         self.equip(data.knight_items.basic_follower)
         self.bg = "game/img/scene/fight/knight/" + random.choice(os.listdir(os.path.join(renpy.config.basedir, "game/img/scene/fight/knight"))) # получаем название файла
-    
-    def is_alive(self):
-        if self._alive:
-            return True
-        return False
-    
-    def is_dead(self):
-        if not self._alive:
-            return True
-        return False
-    
+            
     def description(self):
         '''
         Описание рыцаря, возвращает строку с описанием.
@@ -145,8 +134,9 @@ class Knight(Fighter):
         basic_types = [ i for i in self.items if self.items[i].basic ] #Какой шмот у рыцаря базового типа
         if len(basic_types) > 0: #У рыцаря есть не улучшенный шмот
             enchanted_type = random.choice(basic_types)
-            new_item = random.choice(data.knight_items.select([('type',enchanted_type),("basic", False)]))
-            self.equip(data.knight_items[new_item])
+            new_item = data.knight_items[random.choice(data.knight_items.select([('type',enchanted_type),("basic", False)]))]
+            self.equip(new_item)
+            self.last_received_item = new_item
             self.event("receive_item", item=new_item)
     
     @staticmethod

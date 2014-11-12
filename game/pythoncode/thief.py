@@ -6,14 +6,15 @@
 import random
 import data
 import renpy.exports as renpy
-from core import Sayer
+from core import Sayer, Mortal
 from core import call
 from copy import deepcopy
 
-class Thief(Sayer):
+class Thief(Sayer, Mortal):
     """
     Класс вора.
     """
+    last_received_item = None
     
     def __init__(self, level = 1, treasury = None, *args, **kwargs):
         super(Thief, self).__init__(*args, **kwargs)
@@ -36,16 +37,6 @@ class Thief(Sayer):
     def skill(self):
         return self._skill + self.items.sum("level")
     
-    def is_alive(self):
-        if self._alive:
-            return True
-        return False
-    
-    def is_dead(self):
-        if not self._alive:
-            return True
-        return False
-    
     def title(self):
         """
         :return: Текстовое представление 'звания' вора.
@@ -58,9 +49,10 @@ class Thief(Sayer):
     def receive_item(self):
         item_list = [ i for i in data.thief_items if i not in self.items ]
         if len(item_list) > 0:
-            item = random.choice(item_list)
-            self.items.add(item, data.thief_items[item])
-            self.event('receive_item', item=data.thief_items[item])
+            new_item = data.thief_items[random.choice(item_list)]
+            self.items.add(item, new_item)
+            self.last_received_item = new_item
+            self.event('receive_item', item=new_item)
             return True
         else:
             return False
