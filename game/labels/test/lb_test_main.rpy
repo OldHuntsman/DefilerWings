@@ -87,6 +87,15 @@ label lb_test_debug:
             menu:
                 "Создать логово":
                     call lb_test_debug_create_lair
+                "Описать логово":
+                    nvl clear
+                    $ lair_description = u"Логово: %s.\n" % game.lair.type.name
+                    python:
+                        if len(game.lair.upgrades) > 0: 
+                            lair_description += u"Улучшения:\n"
+                            for upgrade in game.lair.upgrades.values():   
+                                lair_description += u" %s\n" % upgrade.name
+                        narrator(lair_description)
                 "Редактировать гемы в сокровищнице":
                     call screen sc_treasury_gems
                 "Редактировать воровские предметы":

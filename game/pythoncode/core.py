@@ -247,6 +247,9 @@ class Game(store.object):
             current_level =  self.lair.treasury.most_expensive_jewelry_cost
         elif task_name == 'offspring': # проверка рождения потомка
             reached_list.extend(self.girls_list.offspring)
+        elif task_name == 'lair': # проверка типа логова и его улучшений
+            reached_list.extend(self.lair.upgrades.keys())
+            reached_list.append(self.lair.type_name)
         # проверка требований
         quest_complete = True
         if 'task_requirements' in self._quest:
@@ -256,11 +259,22 @@ class Game(store.object):
                     if type(require) is str:
                         reached_requirements = require in reached_list
                     else:
-                        # при этом варианте нужно выполнить список требований
+                        # для этого варианта нужно выполнить целый список требований
                         reached_requirements = True
                         for sub_require in require:
-                            reached_requirements = reached_requirements and sub_require in reached_list
+                            if type(sub_require) is str:
+                                reached_requirements = reached_requirements and sub_require in reached_list
+                            else:
+                                # для этого требования в списке достаточно выполнить один из нескольких вариантов
+                                variant_reached = False
+                                for var_sub_require in sub_require:
+                                    variant_reached = variant_reached or var_sub_require in reached_list
+                                reached_requirements = reached_requirements and variant_reached
                     quest_complete = quest_complete or reached_requirements 
+        # проверка препятствий выполнения квеста
+        if 'task_obstruction' in self._quest:
+            for obstruction in self._quest['task_obstruction']:
+                quest_complete = quest_complete and obstruction not in reached_list
         quest_complete = quest_complete and current_level >= self._quest_threshold
         return quest_complete
     
@@ -271,7 +285,7 @@ class Game(store.object):
         # добавляем всё неправедно нажитое богатство в казну Владычицы
         self.army.money += self.lair.treasury.wealth
         # указываем, что уникальный квест уже выполнялся
-        if 'unique' in self._quest: self.unique.append(quest['unique'])
+        if 'unique' in self._quest: self.unique.append(self._quest['unique'])
     
     @property
     def quest_task(self):

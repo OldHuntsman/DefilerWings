@@ -150,9 +150,7 @@ label lb_enc_ogre:
     
 label lb_enc_fight_ogre:   
     $ game.foe = core.Enemy('ogre', gameRef=game, base_character=NVLCharacter)
-    $ chance_win = battle.victory_chance(game.dragon, game.foe)
-    $ chance_wound = battle.victory_chance(game.foe, game.dragon)
-    "Шанс победы дракона: [chance_win] %%, шанс ранения дракона: [chance_wound] %%"
+    $ narrator(show_chances())
     nvl clear
     menu:
         'Вызвать великана на бой':

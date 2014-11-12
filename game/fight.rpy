@@ -23,8 +23,6 @@ label lb_fight(foe = game.foe):
         elif 'foe_alive' in battle_status:
             $ chances = show_chances()
             '[chances]'
-            
-        if 'foe_alive' in battle_status:
             nvl clear
             menu:
                 'Продолжать бой':
