@@ -1,5 +1,24 @@
 #здесь хранятся тексты для игры
 python early:
+    
+    def show_chances():
+        """
+        Вывод шансов победы и ранения дракона для игрока 
+        """
+        chance = battle.victory_chance(game.dragon, game.foe)
+        chance_win = '{color=#ff0000}призрачные{/color}'
+        if chance > 10: chance_win = '{color=#ff00ff}невысокие{/color}'
+        if chance > 30: chance_win = '{color=#0000ff}приемлемые {/color}'
+        if chance > 60: chance_win = '{color=#EAC117}значительные{/color}'
+        if chance > 90: chance_win = '{color=#00ff00}отличные{/color}'
+        chance = battle.victory_chance(game.foe, game.dragon)
+        chance_wound = '{color=#00ff00}минимальная{/color}'
+        if chance > 10: chance_wound = '{color=#EAC117}допустимая{/color}'
+        if chance > 30: chance_wound = '{color=#0000ff}средняя{/color}'
+        if chance > 60: chance_wound = '{color=#ff00ff}значительная{/color}'
+        if chance > 90: chance_wound = '{color=#ff0000}катастрофическая{/color}'
+        
+        return " Шансы на победу: %s \n Опасность ранения: %s" % (chance_win, chance_wound)
 
     #Описания дракона
     hunger_texts = {}
@@ -84,6 +103,9 @@ python early:
         ],
         
         ['Укрепления не спасли эту ныне уже безлюдную усадьбу от разграбления, однако крепкие стены могут послужить хорошей защитой для драконьих сокровищ. Не слишком крупный ящер мог бы устроить в винном погребе уютное логово, надо только протиснуться в узкие двери.',
+        ],
+        
+        ['%(dragon_name)s издаёт победный рык. Больше никто не стоит у него на пути и рыцарская усадьба беззащитна.',
         ],
         ]
     

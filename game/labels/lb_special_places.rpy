@@ -17,25 +17,26 @@ label lb_special_places:
     
 label lb_manor_found:
     show expression 'img/bg/special/castle1.png' as bg
-    $ txt = random.choice(txt_place_manor[0])
+    $ txt = game.interpolate(random.choice(txt_place_manor[0]))
     '[txt]'
     jump lb_manor
     
 label lb_manor:
     show expression 'img/bg/special/castle1.png' as bg
     nvl clear
-    $ txt = random.choice(txt_place_manor[1])
+    $ txt = game.interpolate(random.choice(txt_place_manor[1]))
     '[txt]'    
     $ game.foe = core.Enemy('dog', gameRef=game, base_character=NVLCharacter)
-    $ chance_win = battle.victory_chance(game.dragon, game.foe)
-    $ chance_wound = battle.victory_chance(game.foe, game.dragon)
-    "Шанс победы дракона: [chance_win] %%, шанс ранения дракона: [chance_wound] %%"
+    $ chances = show_chances()
+    '[chances]'
     nvl clear
     menu:
         'Вызвать рыцаря на бой':
             $ game.dragon.drain_energy()
             call lb_fight
-            '[game.dragon.name] победил.'
+            $ txt = game.interpolate(random.choice(txt_place_manor[5]))
+            '[txt]' 
+            nvl clear
             call lb_manor_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
             $ game.dragon.add_special_place('manor', 'manor_full')
@@ -61,7 +62,7 @@ label lb_manor_rob:
             '[trs_descrptn]'
             nvl clear
             show expression 'img/bg/special/bedroom.png' as bg
-            $ txt = random.choice(txt_place_manor[3]) % game.format_data
+            $ txt = game.interpolate(random.choice(txt_place_manor[3]))
             '[txt]'    
             nvl clear
             $ description = game.girls_list.new_girl('princess')
@@ -77,7 +78,7 @@ label lb_manor_rob:
             
 label lb_manor_empty:
     show expression 'img/bg/lair/ruins_inside.png' as bg
-    $ txt = random.choice(txt_place_manor[4])
+    $ txt = game.interpolate(random.choice(txt_place_manor[4]))
     '[txt]'   
     nvl clear
     menu:

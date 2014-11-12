@@ -192,4 +192,3 @@ def test_dragon_gen(test_game, test_character, level):
         #TODO: Перепилить через конструктор дракона
         test_dragon = test_dragon.children()[0] #Сломал Хикка, children больше не используются 
     return test_dragon
-
