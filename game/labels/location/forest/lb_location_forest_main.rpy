@@ -131,17 +131,19 @@ label lb_enc_guardian:
     show expression 'img/scene/fight/elf_ranger.png' as bg
     $ txt = game.interpolate(random.choice(txt_enc_forest_guardian[1]))
     '[txt]'
+    $ game.foe = core.Enemy('elf_ranger', gameRef=game, base_character=NVLCharacter)
+    $ chances = show_chances()
+    '[chances]'
     nvl clear
     menu:
         'Атаковать стража':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('elf_ranger', gameRef=game, base_character=NVLCharacter)
             call lb_fight
             python:
                 txt = game.interpolate(random.choice(txt_enc_forest_guardian[2]))
                 if game.dragon.magic > 0:
                     txt = game.interpolate(random.choice(txt_enc_forest_guardian[3]))
-                    $ game.dragon.add_special_place('enchanted_forest', 'enchanted_forest')
+                    game.dragon.add_special_place('enchanted_forest', 'enter_ef')
             '[txt]'
         'Отступить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()

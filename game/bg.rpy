@@ -24,6 +24,7 @@ init:
         "place == 'castle'", "img/bg/lair/ruins_inside.png",
         "place == 'ogre_den'", "img/bg/lair/cave.png",
         "place == 'broad_cave'", "img/bg/lair/cave.png",
+        "place == 'forest_heart'", "img/bg/lair/elfruin.png",
         "place == 'tower_ruin'", "img/bg/lair/cave.png",
         "place == 'monastery_ruin'", "img/bg/lair/cave.png",
         "place == 'fortress_ruin'", "img/bg/lair/cave.png",

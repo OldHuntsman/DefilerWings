@@ -558,6 +558,9 @@ lair_types = Container("lair_types", {
                                 "vulcanic_forge"    : { "name": u"Вулканическая кузница",
                                                         "inaccessability" : 1,
                                                         "require" : [ "aplinism", "fireproof" ] },
+                                "forest_heart"        : { "name": u"Дупло Великого Древа",
+                                                        "inaccessability" : 2,
+                                                        "provide": [ "magic_traps" ]},
                                 "cloud_castle"      : { "name": u"Замок в облаках",
                                                         "inaccessability" : 2,
                                                         "require": [ "flight" ] },
@@ -935,6 +938,9 @@ special_places = {
     # рыцарский манор
     'manor_full' : (u"Укреплённая усадьба", 'lb_manor'),
     'manor_empty' : (u"Заброшенная усадьба", 'lb_manor_empty'),
+    # зачарованный лес
+    'enter_ef': (u"Зачарованный лес", 'lb_enchanted_forest'), 
+    'dead_grove': (u"Заброшенная роща альвов", 'lb_dead_grove'), 
     }
 
 quest_list = ( #TODO: внести все выполнимые на сегодня квесты
