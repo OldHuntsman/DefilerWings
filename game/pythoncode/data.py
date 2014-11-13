@@ -740,6 +740,8 @@ paws_description = [
     u'У него четыре когтистые лапы.', 
     u'Три пары мощных когтистых лап дают ему невероятную подвижность и устойчивость.'
     ]
+    
+special_features = ('tough_scale', 'poisoned_sting', 'clutches', 'horns', 'fangs', 'ugly')
 
 special_description = [
     u'Его чешуя крепче чем закалённая цвергами сталь.',
@@ -791,6 +793,19 @@ dragon_heads = {
     'silver': ['silver_magic', 'lightning_immunity'],
     'gold'  : ['gold_magic', 'greedy'],  # greedy -- -2 к шансам вора
     'shadow': ['shadow_magic', 'fear_of_dark'], # fear_of_dark -- +2 к страху
+    }
+    
+heads_name_rus = {
+    'red' : u"красный",
+    'black' : u"чёрный",
+    'blue' : u"синий",
+    'gold' : u"золотой",
+    'silver' : u"серебряный",
+    'bronze' : u"бронзовый",
+    'iron' : u"стальной",
+    'shadow' : u"фантомный",
+    'white' : u"белый",
+    'green' : u"зеленый"
     }
 
 dragon_gifts = dict()

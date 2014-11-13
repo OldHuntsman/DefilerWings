@@ -35,7 +35,7 @@ class Game(store.object):
         self.currentCharacter = None # Последний говоривший персонаж. Используется для поиска аватарки.
         self.unique = [] # список уникальных действий для квестов
           
-        self.dragon = None
+        self._dragon = None
         self.thief = None #Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
         self.knight = None #Рыцаря не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
         
@@ -51,7 +51,10 @@ class Game(store.object):
     @dragon.setter
     def dragon(self, new_dragon):
         self.mobilization.reset()
+        new_dragon._gift = None
         self._dragon = new_dragon
+        self.set_quest()
+        self.create_lair()
     
     @property
     def year(self):
@@ -657,68 +660,53 @@ class Dragon(Fighter):
         self._gift = self._get_ability()
         if self._gift == 'head':
             self.heads.append('green')
-        elif self._gift == 'color':
-            self._colorize_head()
+        elif self._gift in data.dragon_heads.keys():
+            self.heads[self.heads.index('green')] = self._gift
         else:
             self.anatomy.append(self._gift)
         
-        self.avatar = self._get_dragon_avatar(self.color_eng()) #Назначаем аватарку
-        #self(self._gift)
+        self.avatar = self._get_dragon_avatar(self.color_eng) #Назначаем аватарку
     
     @property
     def description(self):
-        ddescription = '  '
-        ddescription += data.dragon_size[self.size()-1] + u' ' + self.color() + u' ' + self.kind() + u'. ' + data.dragon_size_description[self.size()-1] 
-        i = -1
-        for head in self.heads:
-            i += 1 
-            ddescription += u'\n  Его %s голова ' % data.head_num[i] + data.head_description[self.heads[i]]
+        ddescription = u'  '
+        mods = self.modifiers()
+        ddescription += self._accentuation(data.dragon_size[self.size()-1], self._gift == 'size') + u' ' 
+        ddescription += self._accentuation(self.color, self.color_eng == self._gift) + u' ' 
+        ddescription += self.kind() + u'. ' 
+        ddescription += self._accentuation(data.dragon_size_description[self.size()-1], self._gift == 'size')
+        for i in xrange(len(self.heads)):
+            dscrptn = u"Его %s голова " % data.head_num[i] + data.head_description[self.heads[i]]
+            dscrptn = self._accentuation(dscrptn, self.heads[i] == self._gift)
+            if self._gift == 'head':
+                dscrptn = self._accentuation(dscrptn, i == len(self.heads) - 1)
+            ddescription += u"\n  " + dscrptn
+                
         if self.wings() == 0 and self.paws() == 0:
             ddescription += '\n  ' + data.wings_description[0]
         else:
             if self.wings() > 0:
-                ddescription += '\n  ' + data.wings_description[self.wings()]
+                ddescription += '\n  ' + self._accentuation(data.wings_description[self.wings()], self._gift == 'wings')
                 
             if self.paws() > 0:
-                ddescription += '\n  ' + data.paws_description[self.paws()]
-                
-        if 'tough_scale' in self.modifiers():
-            ddescription += '\n  ' + data.special_description[0]
-        if 'poisoned_sting' in self.modifiers():
-            ddescription += '\n  ' + data.special_description[1]
-        if 'clutches' in self.modifiers():
-            ddescription += '\n  ' + data.special_description[2]
-        if 'horns' in self.modifiers():
-            ddescription += '\n  ' + data.special_description[3]
-        if 'fangs' in self.modifiers():
-            ddescription += '\n  ' + data.special_description[4]
-        if 'ugly' in self.modifiers():
-            ddescription += '\n  ' + data.special_description[5]
-        if self.modifiers().count('cunning') == 1:
-            ddescription += '\n  ' + data.special_description[6]
-        elif self.modifiers().count('cunning') == 2:
-            ddescription += '\n  ' + data.special_description[7]
-        elif self.modifiers().count('cunning') == 3:
-            ddescription += '\n  ' + data.special_description[8]
+                ddescription += '\n  ' + self._accentuation(data.paws_description[self.paws()], self._gift == 'paws')
+        
+        for i in xrange(len(data.special_features)):
+            if data.special_features[i] in mods:
+                ddescription += '\n  ' + self._accentuation(data.special_description[i], self._gift == data.special_features[i])
+        if self.modifiers().count('cunning') > 0:
+            dscrptn = data.special_description[len(data.special_features) - 1 + self.modifiers().count('cunning')]
+            ddescription += '\n  ' + self._accentuation(dscrptn, self._gift == 'cunning')
             
         return ddescription
     
-    def _debug_print(self):
-        # self(u'Дракон по имени {0}'.format(self.name))
-        # self(u'Список всех модификаторов {0}'.format(', '.join(self.modifiers())))
-        # self(u'Вид дракона {0}'.format(self.kind()))
-        # self(u'Размер {0}'.format(data.size_texts[self.size()]))
-        # self(u'Анатомия дракона {0}'.format(', '.join(self.anatomy)))
-        # self(u'Наложенная на дракона магия {0}'.format(' '.join(self.spells)))
-        # self(u'Цвета голов дракона {0}'.format(', '.join(self.heads)))
-        # self(u'Энергия {0} из {1}'.format(self.energy(), self.max_energy()))
-        # self(u'Могущество {0}'.format(', '.join(['{0} {1}'.format(k, v) for k, v in self.attack().items()])))
-        # self(u'Несокрушимость {0}'.format(', '.join(['{0} {1}'.format(k, v) for k, v in self.protection().items()])))
-        # self(u'Коварство {0}'.format(self.magic()))
-        # self(u'Чудовищиность {0}'.format(self.fear()))
-        children = self.children()
-        for child in children:
-            self(u'Ребенок {0}'.format(', '.join(child.anatomy[-3:] + child.heads)))
+    @staticmethod
+    def _accentuation(text, condition):
+        if condition:
+            return '{color=#ff0000}' + text + '{/color}'
+        else:
+            return text
+        
     
     def _get_dragon_avatar(self, type):
         import os
@@ -808,55 +796,19 @@ class Dragon(Fighter):
         self._mana_used = 0 # использованная мана сбрасывается
         self.health = 2
 
+    @property
     def color(self):
         """
         :return: Текстовое представление базового цвета дракона
         """
-        if self.heads[0] == 'red':
-            return u'красный'
-        elif self.heads[0] == 'black':
-            return u'черный'
-        elif self.heads[0] == 'blue':
-            return u'синий'
-        elif self.heads[0] == 'gold':
-            return u'золотой'
-        elif self.heads[0] == 'silver':
-            return u'серебряный'
-        elif self.heads[0] == 'bronze':
-            return u'бронзовый'
-        elif self.heads[0] == 'iron':
-            return u'стальной'
-        elif self.heads[0] == 'shadow':
-            return u'фантомный'
-        elif self.heads[0] == 'white':
-            return u'белый'
-        else:
-            return u'зеленый'
-        
+        return data.heads_name_rus[self.color_eng]
+    
+    @property
     def color_eng(self):
         """
         :return: Текстовое представление базового цвета дракона
         """
-        if self.heads[0] == 'red':
-            return u'red'
-        elif self.heads[0] == 'black':
-            return u'black'
-        elif self.heads[0] == 'blue':
-            return u'blue'
-        elif self.heads[0] == 'gold':
-            return u'gold'
-        elif self.heads[0] == 'silver':
-            return u'silver'
-        elif self.heads[0] == 'bronze':
-            return u'bronze'
-        elif self.heads[0] == 'iron':
-            return u'iron'
-        elif self.heads[0] == 'shadow':
-            return u'shadow'
-        elif self.heads[0] == 'white':
-            return u'white'
-        else:
-            return u'green'
+        return self.heads[0]
 
     def kind(self):
         """
@@ -913,16 +865,16 @@ class Dragon(Fighter):
         '''
         dragon_leveling = ['head']
         if self.size() < 6:
-            dragon_leveling += ['size']
+            dragon_leveling += (6 - self.size()) * ['size']
         if self.paws() < 3:
-            dragon_leveling += ['paws']
+            dragon_leveling += 2 * ['paws']
         if self.wings() < 3:
-            dragon_leveling += ['wings']
+            dragon_leveling += 2 * ['wings']
         if 'tough_scale' not in self.modifiers():
             dragon_leveling += ['tough_scale']
-        if 'clutches' not in self.modifiers():
+        if 'clutches' not in self.modifiers() and self.paws() > 0:
             dragon_leveling += ['clutches']
-        if 'fangs' not in self.modifiers() and self.paws() > 0:
+        if 'fangs' not in self.modifiers():
             dragon_leveling += ['fangs']
         if 'horns' not in self.modifiers():
             dragon_leveling += ['horns']
@@ -931,19 +883,19 @@ class Dragon(Fighter):
         if 'poisoned_sting' not in self.modifiers():
             dragon_leveling += ['poisoned_sting']
         if self.modifiers().count('cunning') < 3:
-            dragon_leveling += ['cunning']
+            dragon_leveling += 2 * ['cunning']
         if self.heads.count('green') > 0:
-            dragon_leveling += ['color']
+            dragon_leveling += [self._colorize_head()]
         new_ability = random.choice(dragon_leveling)
         return new_ability
     
     def _colorize_head(self):
         #На всякий случай проверяем есть ли зеленые головы.
         assert self.heads.count('green') > 0
-        #Считаем достпуные цвета
+        #Считаем доступные цвета
         available_colors = [ color for color in data.dragon_heads if color not in self.heads ] 
-        #Заменяем зеленую голову на один из доступных цветов
-        self.heads[self.heads.index('green')] = random.choice(available_colors)
+        #Возвращаем один из доступных цветов
+        return random.choice(available_colors)
     
     def struck(self):
         """

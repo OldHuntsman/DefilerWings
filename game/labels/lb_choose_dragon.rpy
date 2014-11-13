@@ -42,9 +42,9 @@ label lb_choose_dragon:
             rel_path = "img/scene/hatch"
             abs_path = os.path.join(renpy.config.basedir, "game", rel_path)
             if game.dragon is not None:
-                if game.dragon.heads and game.dragon.color_eng() in os.listdir(abs_path):
-                    color_filename = random.choice(os.listdir(os.path.join(abs_path, game.dragon.color_eng())))
-                    return rel_path + "/" + game.dragon.color_eng() + "/" + color_filename
+                if game.dragon.heads and game.dragon.color_eng in os.listdir(abs_path):
+                    color_filename = random.choice(os.listdir(os.path.join(abs_path, game.dragon.color_eng)))
+                    return rel_path + "/" + game.dragon.color_eng + "/" + color_filename
                 else:
                     return "img/scene/hatch/base.png"
             else:
@@ -84,8 +84,5 @@ label lb_choose_dragon:
         $ game.dragon = child_selected
         $ dragons_choosed.append(game.dragon)
         show expression 'img/scene/mistress.png' as bg
-        $ game.set_quest()
         "Нужно выполнить задание:\n[game.quest_text]"
-        # создаем новое логово
-        $ game.create_lair()
         jump lb_location_mordor_main
