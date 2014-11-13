@@ -24,6 +24,7 @@ label lb_enchanted_forest:
             $ pass
         'Напасть на Древо Жизни':
             'Дерево жизни разрушено.'
+            $ game.dragon.add_event('ravage_sacred_grove')
             call lb_dead_grove
             #TODO сделать нормальный энкаунтер
     return
