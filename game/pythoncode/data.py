@@ -1035,7 +1035,9 @@ quest_list = ( #TODO: внести все выполнимые на сегодн
     )
 
 #Список всех доступных для дракона событий
-dragon_events = ['ravage_sacred_grove']
+dragon_events = (
+    'ravage_sacred_grove', # Добавляется при уничтожении священной рощи альвов
+    )
 
 # Различный лут
 loot = {
