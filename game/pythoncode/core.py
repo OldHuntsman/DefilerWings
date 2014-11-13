@@ -19,6 +19,7 @@ def tuples_sum(tuple_list):
 
 
 class Game(store.object):
+    _sleep_lvl = 0
     def __init__(self, adv_character=None, nvl_character=None):
         """
         :param base_character: Базовый класс для персонажа. Скорее всего NVLCharacter.
@@ -122,7 +123,7 @@ class Game(store.object):
                 if renpy.config.debug: self.narrator(u"Вор идет на дело")
                 self.thief.steal(self.lair)
             else:
-                if renpy.config.debug: self.thief(u"Вору ссыкотно, надо бы подготовиться.")
+                if renpy.config.debug: self.narrator(u"Вору ссыкотно, надо бы подготовиться.")
                 self.thief.event("prepare")
                 if random.choice(range(2)) == 0:    # C 50% шансом получаем шмотку
                     self.thief.event("prepare_usefull")
@@ -148,7 +149,7 @@ class Game(store.object):
                 self.knight.fight_dragon()
                 #renpy.call("lb_fight", foe=self.knight)
             else:
-                if renpy.config.debug: self.knight(u"Рыцарю ссыкотно, надо бы подготовиться.")
+                if renpy.config.debug: self.narrator(u"Рыцарю ссыкотно, надо бы подготовиться.")
                 self.knight.event("start_prepare")
                 if random.choice(range(2)) == 0:    # C 50% шансом получаем шмотку
                     self.knight.event("prepare_usefull")
@@ -163,6 +164,7 @@ class Game(store.object):
         Рассчитывается количество лет которое дракон проспит.
         Сброс характеристик дракона.
         """
+        self._sleep_lvl +=1
         time_to_sleep = self.dragon.injuries + 1
         # Сбрасываем характеристики дракона
         self.dragon.rest()
@@ -178,6 +180,7 @@ class Game(store.object):
         # Проверка срока выполнения квеста
         if self.quest_time <= 0:
             call('lb_location_mordor_questtime')
+        self._sleep_lvl -=1
 
     def _create_knight(self):
         """

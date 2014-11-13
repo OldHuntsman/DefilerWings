@@ -156,8 +156,9 @@ class Thief(Sayer, Mortal):
                         #Берем шмотку
                         stolen_items = lair.treasury.rob_treasury()
                         for stolen_item in stolen_items: #Вор что-то украл
+                            if renpy.config.debug: thief(u"Взял шмотку %s" % stolen_item) 
                             self.event('receive_item', stolen_item)
-                        thief(u"Взял бы шмотку, но ленивому хикке не написать сокровищницу")
+                        
                     else:
                         #Мы разбудили дракона
                         if renpy.config.debug: thief(u"Разбудил дракона")
