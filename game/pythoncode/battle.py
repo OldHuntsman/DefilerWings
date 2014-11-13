@@ -46,6 +46,7 @@ def battle_action(dragon, foe):
     dragon_hit = calc_hit_def(power)
     foe_defence = calc_hit_def(foe.protection())
     if dragon_hit > foe_defence:
+        foe.die()
         status.append('foe_dead')
     else:
         status.append('foe_alive')

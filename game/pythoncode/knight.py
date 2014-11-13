@@ -6,6 +6,7 @@ import renpy.exports as renpy
 import random
 import os
 import data
+import mob_data
 from copy import deepcopy
 
 class Knight(Fighter):
@@ -38,7 +39,8 @@ class Knight(Fighter):
         self.equip(data.knight_items.basic_shield)
         self.equip(data.knight_items.basic_horse)
         self.equip(data.knight_items.basic_follower)
-        self.bg = "game/img/scene/fight/knight/" + random.choice(os.listdir(os.path.join(renpy.config.basedir, "game/img/scene/fight/knight"))) # получаем название файла
+        self.bg = "img/scene/fight/knight/" + random.choice(os.listdir(os.path.join(renpy.config.basedir, "game/img/scene/fight/knight"))) # получаем название файла
+        self.descriptions = mob_data.mob['knight']['descriptions']
             
     def description(self):
         '''
@@ -149,3 +151,4 @@ class Knight(Fighter):
     
     def fight_dragon(self):
         call("lb_fight_dragon_by_knigth")
+        if renpy.config.debug: self("knight post fight")
