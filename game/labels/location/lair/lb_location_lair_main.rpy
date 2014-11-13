@@ -5,7 +5,7 @@ label lb_location_lair_main:
     menu:
         'Осмотреть дракона':
             #чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
-            game.dragon "[game.dragon.description]"
+            game.dragon.third "[game.dragon.description]"
         'Сотворить заклинание'  if game.dragon.energy() > 0 and game.dragon.mana > 0:
             python:
                 spells_menu = []
@@ -28,6 +28,7 @@ label lb_location_lair_main:
 
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             #TODO: заменить на адекватный вариант
+            show expression 'img/bg/hoard/base.png' as bg
             $ description = u"%s собрал кучу сокровищ общей стоимостью %s" % (game.dragon.name, treasures.number_conjugation_rus(game.lair.treasury.wealth, u"фартинг"))
             nvl clear
             "[description]"
@@ -59,7 +60,8 @@ label lb_location_lair_main:
                         'Вернуться в логово':
                             jump lb_location_lair_main   
                 'Вернуться в логово':
-                    jump lb_location_lair_main                              
+                    jump lb_location_lair_main        
+            call lb_location_lair_main
 
         'Проведать пленниц' if game.girls_list.prisoners_count:
             call screen girls_menu

@@ -33,7 +33,7 @@ label lb_location_plains_main:
     
 label lb_encounter_plains:
     $ nochance = game.poverty.value*3
-    $ choices = [("lb_enc_fair", 10000),
+    $ choices = [("lb_enc_fair", 10),
                 ("lb_enc_berries", 10),
                 ("lb_enc_shrooms", 10),
                 ("lb_enc_laundry", 10),
@@ -53,14 +53,14 @@ label lb_encounter_plains:
     
     
 label lb_enc_fair:
-    $ txt = toptxt[place] + random.choice(txt_enc_fair[0])
+    $ txt = game.interpolate(random.choice(txt_enc_fair[0]))
     '[txt]'
     nvl clear
     menu:
         'Первая красавица':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('peasant')
-            $ txt = random.choice(txt_enc_fair[1])
+            $ txt = game.interpolate(random.choice(txt_enc_fair[1]))
             '[txt]'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
