@@ -231,7 +231,8 @@ class Game(store.object):
             quest = data.quest_list[quest_i]
             # находим квест, подходящий по уровню, не уникальный или ещё не выполненный за текущую игру
             if lvl >= quest['min_lvl'] and lvl <= quest['max_lvl'] and \
-                ('unique' not in quest or quest['unique'] not in self.unique):
+                ('unique' not in quest or quest['unique'] not in self.unique) and \
+                ('prerequisite' not in quest or quest['prerequisite'] in self.unique):
                 quests.append(quest)
         self._quest = random.choice(quests)
         # Задание года окончания выполнения квеста
@@ -272,6 +273,8 @@ class Game(store.object):
         elif task_name == 'lair': # проверка типа логова и его улучшений
             reached_list.extend(self.lair.upgrades.keys())
             reached_list.append(self.lair.type_name)
+        elif task_name == 'event': # проверка событий    
+            reached_list.extend(self.dragon.events)
         # проверка требований
         quest_complete = True
         if 'task_requirements' in self._quest:
@@ -640,6 +643,7 @@ class Dragon(Fighter):
         self.spells = [] # заклинания наложенные на дракона(обнуляются после сна)
         self._base_energy = 3 #Базовая энергия дракона, не зависящая от модификторов
         self.special_places = {} # Список разведанных "достопримечательностей"
+        self.events = [] # список событий с этим драконом
         self._gift = None # Дар Владычицы
         
         # Головы
@@ -978,8 +982,11 @@ class Dragon(Fighter):
         :param place_name: название достопримечательности для удаления - ключ для словаря.
         """
         self.add_special_place(place_name)
-        
-        
+    
+    def add_event(self, event):
+        assert event in data.dragon_events, "Unknown event: %s" % event
+        if event not in self.events:
+            self.events.append(event)
 
 class Enemy(Fighter):
     """
