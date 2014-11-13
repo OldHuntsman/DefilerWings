@@ -141,7 +141,7 @@ label lb_enc_guardian:
                 txt = game.interpolate(random.choice(txt_enc_forest_guardian[2]))
                 if game.dragon.magic > 0:
                     txt = game.interpolate(random.choice(txt_enc_forest_guardian[3]))
-                    $ game.dragon.add_special_place('enchanted_forest', 'enchanted_forest')
+                    game.dragon.add_special_place('enchanted_forest', 'enchanted_forest')
             '[txt]'
         'Отступить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()

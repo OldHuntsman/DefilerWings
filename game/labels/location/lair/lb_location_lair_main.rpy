@@ -28,7 +28,20 @@ label lb_location_lair_main:
 
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             #TODO: заменить на адекватный вариант
-            show expression 'img/bg/hoard/base.png' as bg
+            python:
+                def get_bg():
+                    import random
+                    import os
+                    rel_path = "img/bg/hoard"
+                    abs_path = os.path.join(renpy.config.basedir, "game", rel_path)
+                    if game.dragon.color_eng in os.listdir(abs_path):
+                        color_filename = random.choice(os.listdir(os.path.join(abs_path, game.dragon.color_eng)))
+                        return rel_path + "/" + game.dragon.color_eng + "/" + color_filename
+                    else:
+                        return "img/bg/hoard/base.png"
+                renpy.treasurybg = ui.image(get_bg())
+                    
+            show image renpy.treasurybg as bg
             $ description = u"%s собрал кучу сокровищ общей стоимостью %s" % (game.dragon.name, treasures.number_conjugation_rus(game.lair.treasury.wealth, u"фартинг"))
             nvl clear
             "[description]"

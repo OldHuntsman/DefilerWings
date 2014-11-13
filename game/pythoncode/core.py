@@ -703,7 +703,7 @@ class Dragon(Fighter):
     @staticmethod
     def _accentuation(text, condition):
         if condition:
-            return '{color=#ff0000}' + text + '{/color}'
+            return '{b}' + text + '{/b}'
         else:
             return text
         
