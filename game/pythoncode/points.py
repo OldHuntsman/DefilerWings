@@ -34,19 +34,19 @@ class Mobilization(store.object):
             self._lvl = value
         
     def reset_base(self):
-        self.gain = self._lvl
+        self.base = self._lvl
     def reset_max(self):
         self.max = self._lvl
     def reset_decrease(self):
         self.decrease = 0
     
-    def reset(self)
+    def reset(self):
         self.reset_base()
         self.reset_max()
         self.reset_decrease()
     
     @property
-    def gain(self) #Изменение текущей мобилизации от базовой
+    def gain(self): #Изменение текущей мобилизации от базовой
         return self._lvl - self.base
 
 class Reputation(store.object):
