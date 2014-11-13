@@ -863,7 +863,7 @@ class Dragon(Fighter):
         '''
         Возвращает способность, которую может получить дракон при рождении
         '''
-        dragon_leveling = ['head']
+        dragon_leveling = 2 * ['head']
         if self.size() < 6:
             dragon_leveling += (6 - self.size()) * ['size']
         if self.paws() < 3:
