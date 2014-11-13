@@ -11,12 +11,12 @@
     $ choices = [("lb_enc_lumberjack", 10),
                 ("lb_enc_onegirl", 10),
                 ("lb_enc_wandergirl", 10),
-                ("lb_enc_ogre", 1000),
+                ("lb_enc_ogre", 10),
                 ("lb_enc_deer", 10),   
                 ("lb_enc_boar", 10),
                 ("lb_enc_berries", 10),
                 ("lb_enc_shrooms", 10),
-                ("lb_enc_guardian", 10),
+                ("lb_enc_guardian", 1000),
                 ("lb_enc_lumbermill", 10),
                 ("lb_enc_klad", 10),
                 ("lb_patrool_forest", 3*game.mobilization.level),
@@ -126,17 +126,23 @@ label lb_enc_boar:
     return
     
 label lb_enc_guardian:
-    'Дракон некоторое время бродит по лесу.'
+    $ txt = game.interpolate(random.choice(txt_enc_forest_guardian[0]))
+    '[txt]'
     show expression 'img/scene/fight/elf_ranger.png' as bg
-    'Появляется эльфийский страж границ.'
+    $ txt = game.interpolate(random.choice(txt_enc_forest_guardian[1]))
+    '[txt]'
     nvl clear
     menu:
         'Атаковать стража':
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('elf_ranger', gameRef=game, base_character=NVLCharacter)
             call lb_fight
-            'Дракон торжествует победу. Но найти тайную тропу что охранял эльф никак не получается...'
-            #TODO: Трижды победив эльфийских стражей, дракон открывает себе доступ к волшебным лесам
+            python:
+                txt = game.interpolate(random.choice(txt_enc_forest_guardian[2]))
+                if game.dragon.magic > 0:
+                    txt = game.interpolate(random.choice(txt_enc_forest_guardian[3]))
+                    game.dragon.add_special_place('enchanted_forest', 'enchanted_forest')
+            '[txt]'
         'Отступить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             return            

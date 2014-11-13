@@ -26,7 +26,7 @@ label lb_manor:
     nvl clear
     $ txt = game.interpolate(random.choice(txt_place_manor[1]))
     '[txt]'    
-    $ game.foe = core.Enemy('dog', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('old_knight', gameRef=game, base_character=NVLCharacter)
     $ chances = show_chances()
     '[chances]'
     nvl clear

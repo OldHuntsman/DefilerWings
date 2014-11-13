@@ -9,7 +9,6 @@ label lb_location_road_main:
         
     $ nochance = game.poverty.value*3      
     $ choices = [("lb_enc_tornament", 10),
-                ("lb_enc_fortification", 1000),
                 ("lb_enc_inn", 10),
                 ("lb_enc_peasant_cart", 10),
                 ("lb_enc_carriage", 10),   
@@ -18,6 +17,7 @@ label lb_location_road_main:
                 ("lb_enc_caravan", 10),
                 ("lb_enc_lcaravan", 10),
                 ("lb_enc_outpost", 10),
+                ("lb_manor_found", 1000),
                 ("lb_patrool_road", 3*game.mobilization.level),                   
                 ("lb_enc_noting", nochance),]
     $ enc = core.Game.weighted_random(choices)
@@ -241,12 +241,6 @@ label lb_enc_outpost:
     'Застава на дороге. Плейсхолдер.'
     return
     
-label lb_enc_fortification:
-    'Путешествуя вдоль торговых путей, [game.dragon.name] натыкается на интересное место...'
-    $renpy.call(random.choice(data.human_special_places))
-    
-    return
-
 label lb_patrool_road:
     python:
         game.dragon.drain_energy()
