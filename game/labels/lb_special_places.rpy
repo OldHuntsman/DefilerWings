@@ -15,6 +15,31 @@ label lb_special_places:
             renpy.call(data.special_places[special_stage][1])
     return
     
+label lb_enchanted_forest:
+    show expression 'img/bg/special/enchanted_forest.png' as bg
+    'Дракон входит под сень колдовских древ.'
+    menu:
+        'Рыскать кругом':
+            #TODO добавить энкаунтеры зачарованного леса
+            $ pass
+        'Напасть на Древо Жизни':
+            'Дерево жизни разрушено.'
+            call lb_dead_grove
+            #TODO сделать нормальный энкаунтер
+    return
+
+label lb_dead_grove:
+    'Тут можно поселиться.'
+    nvl clear
+    menu:
+        'Обустроить тут новое логово':
+            $ game.create_lair('forest_heart')
+        
+        'Уйти прочь':
+            $ game.dragon.add_special_place('enchanted_forest', 'dead_grove')
+    
+    return
+
 label lb_manor_found:
     show expression 'img/bg/special/castle1.png' as bg
     $ txt = game.interpolate(random.choice(txt_place_manor[0]))
