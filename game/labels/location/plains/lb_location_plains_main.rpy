@@ -484,7 +484,7 @@ label lb_village:
     '[txt1]'
     nvl clear
     menu:
-        'Наложить дань' if village_size > 0 and game.dragon.fear() > 0:
+        'Наложить дань' if village_size > 0 and game.dragon.fear > 0:
             $ game.dragon.drain_energy()
             show expression 'img/bg/special/fear.png' as bg
             if village_size == 1:

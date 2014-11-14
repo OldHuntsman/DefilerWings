@@ -768,7 +768,8 @@ class Dragon(Fighter):
             self.bloodiness += gain
             return True
         return False
-                
+
+    @property
     def magic(self):
         """
         :return: Магическая сила(целое число)
@@ -780,7 +781,7 @@ class Dragon(Fighter):
         """
         :return: Количество текущей маны (магическая сила - использованная мана, целое число)
         """
-        return self.magic() - self._mana_used
+        return self.magic - self._mana_used
         
     def drain_mana(self, drain=1):
         """
@@ -791,7 +792,8 @@ class Dragon(Fighter):
             self._mana_used += drain
             return True
         return False    
-        
+    
+    @property
     def fear(self):
         """
         :return: Значение чудовищности(целое число)

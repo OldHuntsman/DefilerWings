@@ -169,7 +169,7 @@ def check_fear(dragon, foe):
     :param foe: текущий противник дракона
     :return: ['foe_intro', 'foe_alive'] если противник преодолел страх, если не смог - ['foe_fear', 'foe_dead']
     """
-    fear = dragon.fear()
+    fear = dragon.fear
     power = foe.attack()
     total = 0
     for key in power:

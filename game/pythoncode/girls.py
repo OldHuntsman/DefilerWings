@@ -63,7 +63,7 @@ class Girls_list(object):
         Осеменение женщины.
         """
         self.game.girl.virgin = False
-        if self.game.girl.quality < self.game.dragon.magic():
+        if self.game.girl.quality < self.game.dragon.magic:
             self.game.girl.pregnant = 2
         else:
             self.game.girl.pregnant = 1
