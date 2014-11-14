@@ -223,8 +223,12 @@ class Game(store.object):
         """
         # Выпускаем всех женщин в прошлом логове на свободу. 
         self.girls_list.free_all_girls()
+        # Если меняется логово на лучшее - сохраняем сокровищницу
+        if lair_type <> "impassable_coomb": save_treas = self.lair.treasury
         # Создаем новое логово
         self.lair = Lair(lair_type)
+        # Если меняется логово на лучшее - копируем сокровищницу из прошлого логова
+        if lair_type <> "impassable_coomb": self.lair.treasury = save_treas
         
     def set_quest(self):
         lvl = self.dragon.level
