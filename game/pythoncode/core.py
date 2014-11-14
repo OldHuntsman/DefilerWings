@@ -270,7 +270,7 @@ class Game(store.object):
         elif task_name == 'gift': # проверка стоимости самого дорогого сокровища
             current_level =  self.lair.treasury.most_expensive_jewelry_cost
         elif task_name == 'poverty': # проверка понижения уровня мобилизации из-за разрухи
-            current_level =  self.lair.mobilization.decrease
+            current_level =  self.mobilization.decrease
         elif task_name == 'offspring': # проверка рождения потомка
             reached_list.extend(self.girls_list.offspring)
         elif task_name == 'lair': # проверка типа логова и его улучшений
