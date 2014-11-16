@@ -106,11 +106,13 @@ class Game(store.object):
                     del self.lair.upgrades[upgrade]
         # Изменяем уровень мобилизации
         desired_mobilization = self.dragon.reputation.level - self.poverty.value # Желаемый уровень мобилизации
-        mobilization_delta = self.mobilization.level - desired_mobilization # Считаем есть ли разница с текущим уровнем мобилизации
+        mobilization_delta = desired_mobilization - self.mobilization.level # Считаем есть ли разница с текущим уровнем мобилизации
+        if renpy.config.debug: self.narrator(u"Дельта мобилизации: %s" % str(mobilization_delta))
         if mobilization_delta != 0: # И если есть разница
             # Увеличиваем  или  уменьшаем на единицу 
             if mobilization_delta > 0:
                 self.mobilization.level += 1
+                if renpy.config.debug: self.narrator(u"Рост мобилизации")
             else:
                 self.mobilization.level -= 1
         
@@ -272,7 +274,7 @@ class Game(store.object):
         if task_name == 'autocomplete': # задача всегда выполнена
             return True
         elif task_name == 'reputation': # проверка уровня репутации
-            current_level = self.dragon.reputation.points
+            current_level = self.dragon.reputation.level
         elif task_name == 'wealth': # проверка стоимости всех сокровищ
             current_level =  self.lair.treasury.wealth
         elif task_name == 'gift': # проверка стоимости самого дорогого сокровища
