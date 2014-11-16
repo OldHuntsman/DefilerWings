@@ -153,4 +153,6 @@ class Knight(Fighter):
     def fight_dragon(self):
         retval = call("lb_fight", foe=self)
         if renpy.config.debug: self("knight post fight %s" % retval)
+        if retval == "win":
+            self._gameRef.dragon.add_event('knight_killer')
         return retval
