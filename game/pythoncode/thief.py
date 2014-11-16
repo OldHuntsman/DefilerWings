@@ -151,19 +151,20 @@ class Thief(Sayer, Mortal):
                         attempts *= 2
                     else:
                         attempts = 0
+                stolen_items = [] #То что вор успел украсть.
                 for i in range(attempts):
                     if lair.treasury.wealth > 0: #Если в сокровищнице хоть что-нибудь есть
                         if "sleep_dust" in thief.items or "trickster" in thief.abilities or random.choice(range(10)) in range(5 - thief.skill):
                             #Берем шмотку
-                            stolen_items = lair.treasury.rob_treasury()
-                            for stolen_item in stolen_items: #Вор что-то украл
-                                if renpy.config.debug: thief(u"Взял шмотку %s" % stolen_item) 
-                                self.event('receive_item', stolen_item)
-                            
+                            stolen_item = lair.treasury.rob_treasury()[0] #Вор что-то украл
+                            stolen_items.append(stolen_item)
+                            if renpy.config.debug: thief(u"Взял шмотку %s" % stolen_item) 
+                            self.event('receive_item', stolen_item)
                         else:
                             #Мы разбудили дракона
                             if renpy.config.debug: thief(u"Разбудил дракона")
                             self._gameRef.dragon.add_event('thief_killer')
+                            lair.treasury.receive_treasures(stolen_items)#Дракон возвращает что награбил вор.
                             thief.die("wake_up")
                     else:
                         if renpy.config.debug: thief(u"В сокровищнице нечего брать. Сваливаю.") 
