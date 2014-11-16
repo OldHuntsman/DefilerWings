@@ -22,11 +22,10 @@ label start:
     
     # Прокручиваем заставку.
     call screen sc_intro
-    # Выбираем дракона
-    call lb_choose_dragon
-    #TODO: перенести победу в Game
-    $ win = False
-    while not win:
+    while not game.is_won or not game.is_lost:
+        # Если даркона нет выбираем его
+        if game.dragon is None or game.dragon.is_dead:
+            call lb_choose_dragon
         $ renpy.block_rollback()
         $ target_label = renpy.call_screen("main_map")
         if renpy.has_label(target_label):

@@ -1,17 +1,17 @@
 #здесь хранятся тексты для игры
 python early:
     
-    def show_chances():
+    def show_chances(foe):
         """
         Вывод шансов победы и ранения дракона для игрока 
         """
-        chance = battle.victory_chance(game.dragon, game.foe)
+        chance = battle.victory_chance(game.dragon, foe)
         chance_win = '{color=#ff0000}призрачные{/color}'
         if chance > 10: chance_win = '{color=#ff00ff}невысокие{/color}'
         if chance > 30: chance_win = '{color=#0000ff}приемлемые {/color}'
         if chance > 60: chance_win = '{color=#EAC117}значительные{/color}'
         if chance > 90: chance_win = '{color=#00ff00}отличные{/color}'
-        chance = battle.victory_chance(game.foe, game.dragon)
+        chance = battle.victory_chance(foe, game.dragon)
         chance_wound = '{color=#00ff00}минимальная{/color}'
         if chance > 10: chance_wound = '{color=#EAC117}допустимая{/color}'
         if chance > 30: chance_wound = '{color=#0000ff}средняя{/color}'

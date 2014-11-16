@@ -36,6 +36,7 @@ label lb_location_mordor_questtime:
         "Ты выполнил задание и за это положена награда."
         call lb_choose_dragon
     else:
-        "Ты проиграл. Какая досада."
+        $ game.defeat()
+        "Квест провален. Ты проиграл. Какая досада."
         
     return

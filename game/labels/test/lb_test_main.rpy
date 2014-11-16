@@ -75,14 +75,18 @@ label lb_test_debug:
                 girl_type = renpy.display_menu(girls_menu)
                 game.girls_list.new_girl(girl_type)
                 game.girls_list.jail_girl()
-        "Потратить одну энергию":
-            $ res = game.dragon.drain_energy()
-            if res:
-                game.dragon "Силы покинули меня."
-            else:
-                game.dragon "Я и так истощен."
-        "Создать потомство":
-            call lb_choose_dragon
+        "Дракон":
+            menu:
+                "Потратить одно очко здоровья":
+                    $ game.dragon.struck()
+                "Потратить одну энергию":
+                    $ res = game.dragon.drain_energy()
+                    if res:
+                        game.dragon "Силы покинули меня."
+                    else:
+                        game.dragon "Я и так истощен."
+                "Создать потомство":
+                    call lb_choose_dragon
         "Логово":
             menu:
                 "Создать логово":
@@ -136,6 +140,10 @@ label lb_test_debug:
                         "Вора нет или он мертв."
         "Рыцарь":
             menu:
+                "(пере)Создать рыцаря":
+                    $ game._create_knight()
+                "Cоздать рыцаря 1-го уровня":
+                    $ game._create_knight(knight_level=1)
                 "Описать рыцаря":
                     if game.knight is not None:
                         $ narrator(game.knight.description())
@@ -150,7 +158,7 @@ label lb_test_debug:
                     if game.knight is not None:
                         call screen sc_equip_editor(game.knight, [data.knight_items])
                     else:
-                        "Вора нет"
+                        "Рыцаря нет"
     return
     
 label lb_test_example_inaccessible_menu:

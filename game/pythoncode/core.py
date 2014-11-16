@@ -16,10 +16,13 @@ import renpy.store as store
 
 def tuples_sum(tuple_list):
     return sum([first for first, _ in tuple_list]), sum([second for _, second in tuple_list])
-
-
+    
 class Game(store.object):
     _sleep_lvl = 0
+    _win = False
+    _defeat = False
+    _dragons_used = 0 #Количество использованных за игру драконво
+    
     def __init__(self, adv_character=None, nvl_character=None):
         """
         :param base_character: Базовый класс для персонажа. Скорее всего NVLCharacter.
@@ -54,6 +57,9 @@ class Game(store.object):
         self.mobilization.reset()
         new_dragon._gift = None
         self._dragon = new_dragon
+        if self._dragons_used > 0:  # Если это не первый дракон, то
+            self.year += 10         # накидываем 10 лет на вылупление и прочие взращивание-ботву
+        self._dragons_used +=1
         self.set_quest()
         self.create_lair()
     
@@ -109,7 +115,7 @@ class Game(store.object):
                 self.mobilization.level -= 1
         
         # Если вора нет, то пробуем создать его
-        if self.thief is None or self.thief.is_dead():
+        if self.thief is None or self.thief.is_dead:
             if renpy.config.debug: self.narrator(u"Вора не было или он был мертв, попробуем его создать.")
             self._create_thief()
             if self.thief is None:
@@ -133,7 +139,7 @@ class Game(store.object):
                     if renpy.config.debug: self.narrator(u"Но вместо этого вор весь год бухает.")
                     self.thief.event("prepare_useless")
         # Если рыцаря нет, то пробуем создать его
-        if self.knight is None or self.knight.is_dead():
+        if self.knight is None or self.knight.is_dead:
             if renpy.config.debug: self.narrator(u"Рыцаря не было или он был мертв, попробуем его создать.")
             self._create_knight()
             if self.knight is None:
@@ -146,7 +152,10 @@ class Game(store.object):
                 # Идем на дело
                 if renpy.config.debug: self.narrator(u"Рыцарь вызывает дракона на бой")
                 #TODO: Схватка рыцаря с драконом
-                self.knight.fight_dragon()
+                fight_result = self.knight.fight_dragon()
+                if renpy.config.debug: self.narrator(u"После схватки рыцаря")
+                if fight_result in ["defeat", "retreat"]:
+                    return fight_result
                 #renpy.call("lb_fight", foe=self.knight)
             else:
                 if renpy.config.debug: self.narrator(u"Рыцарю ссыкотно, надо бы подготовиться.")
@@ -172,7 +181,8 @@ class Game(store.object):
         self.girls_list.before_sleep()
         # Спим
         for i in xrange(time_to_sleep):
-            self.next_year()
+            if self.next_year() in ["defeat", "retreat"]:
+                break
         # Обнуляем накопленные за бодрствование очки мобилизации
         self.dragon.reputation.reset_gain()
         # Действия с девушками после конца сна    
@@ -181,12 +191,6 @@ class Game(store.object):
         if self.quest_time <= 0:
             call('lb_location_mordor_questtime')
         self._sleep_lvl -=1
-
-    def _create_knight(self):
-        """
-        Проверка на появление рыцаря.
-        """
-        raise NotImplementedError
 
     def _create_thief(self, thief_level=None):
         """
@@ -389,7 +393,34 @@ class Game(store.object):
             }
         return data
     
-
+    @property
+    def is_won(self):
+        #Проверка параметров выиграна уже игра или нет
+        if not self._win:
+            #Проверяем выиграли ли мы
+            pass
+        return self._win
+    
+    def win(self):
+        '''
+        Форсируем выгирать игру
+        '''
+        self._win = True
+    
+    @property
+    def is_lost(self):
+        ##Проверка параметров проиграна уже игра или нет
+        if not self._defeat:
+            #Проверяем проиграли ли мы
+            pass
+        return self._defeat
+    
+    def defeat(self):
+        '''
+        Форсируем проиграть игру
+        '''
+        self._defeat = True
+        
 class Lair(object):
     def __init__(self, type = "impassable_coomb"):
         self.type_name = type
@@ -489,11 +520,13 @@ class Girl(Sayer):
 class Mortal:
     _alive = True #По умолчанию все живые
     
+    @property
     def is_alive(self):
         if self._alive:
             return True
         return False
     
+    @property
     def is_dead(self):
         if not self._alive:
             return True
@@ -935,6 +968,7 @@ class Dragon(Fighter):
                 if self.heads:
                     return ['lost_head', 'lost_' + lost_head]
                 else:
+                    self.die()
                     return ['dragon_dead']
     
     @property
@@ -1007,6 +1041,7 @@ class Enemy(Fighter):
         Создание врага.
         """
         super(Enemy, self).__init__(*args, **kwargs)
+        self.kind = kind
         self.name = mob_data.mob[kind]['name']
         self.power = mob_data.mob[kind]['power']
         self.defence = mob_data.mob[kind]['defence']
@@ -1027,8 +1062,7 @@ class Enemy(Fighter):
 
 def call(label, *args, **kwargs):
     if renpy.has_label(label):
-        renpy.call_in_new_context(label, *args, **kwargs)
+        return renpy.call_in_new_context(label, *args, **kwargs)
     else:
-        renpy.call_in_new_context("lb_missed", label=label)
-    return
+        return renpy.call_in_new_context("lb_missed", label=label)
 
