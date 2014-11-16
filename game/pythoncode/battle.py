@@ -183,4 +183,3 @@ def check_fear(dragon, foe):
         return ['foe_fear', 'foe_dead']
     else:
         return ['foe_intro', 'foe_alive']
-

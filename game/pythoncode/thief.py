@@ -62,7 +62,7 @@ class Thief(Sayer, Mortal):
         Описание вора, возвращает строку с описанием.
         '''
         d = []
-        if self.is_dead():
+        if self.is_dead:
             d.append (u"Вор мёртв")
             return u"\n".join(d)
         d.append(u"Мастерство: %s (%d)" % (self.title(), self.skill))
@@ -152,17 +152,21 @@ class Thief(Sayer, Mortal):
                     else:
                         attempts = 0
                 for i in range(attempts):
-                    if "sleep_dust" in thief.items or "trickster" in thief.abilities or random.choice(range(10)) in range(5 - thief.skill):
-                        #Берем шмотку
-                        stolen_items = lair.treasury.rob_treasury()
-                        for stolen_item in stolen_items: #Вор что-то украл
-                            if renpy.config.debug: thief(u"Взял шмотку %s" % stolen_item) 
-                            self.event('receive_item', stolen_item)
-                        
+                    if lair.treasury.wealth > 0: #Если в сокровищнице хоть что-нибудь есть
+                        if "sleep_dust" in thief.items or "trickster" in thief.abilities or random.choice(range(10)) in range(5 - thief.skill):
+                            #Берем шмотку
+                            stolen_items = lair.treasury.rob_treasury()
+                            for stolen_item in stolen_items: #Вор что-то украл
+                                if renpy.config.debug: thief(u"Взял шмотку %s" % stolen_item) 
+                                self.event('receive_item', stolen_item)
+                            
+                        else:
+                            #Мы разбудили дракона
+                            if renpy.config.debug: thief(u"Разбудил дракона")
+                            self._gameRef.dragon.add_event('thief_killer')
+                            thief.die("wake_up")
                     else:
-                        #Мы разбудили дракона
-                        if renpy.config.debug: thief(u"Разбудил дракона")
-                        thief.die("wake_up")
+                        if renpy.config.debug: thief(u"В сокровищнице нечего брать. Сваливаю.") 
         else: #До логова добраться не получилось, получаем предмет c 50%м шансом
             if renpy.config.debug: thief(u"Не добрался до логова")
             thief.event("lair_unreachable")
