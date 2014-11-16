@@ -107,12 +107,10 @@ class Game(store.object):
         # Изменяем уровень мобилизации
         desired_mobilization = self.dragon.reputation.level - self.poverty.value # Желаемый уровень мобилизации
         mobilization_delta = desired_mobilization - self.mobilization.level # Считаем есть ли разница с текущим уровнем мобилизации
-        if renpy.config.debug: self.narrator(u"Дельта мобилизации: %s" % str(mobilization_delta))
         if mobilization_delta != 0: # И если есть разница
             # Увеличиваем  или  уменьшаем на единицу 
             if mobilization_delta > 0:
                 self.mobilization.level += 1
-                if renpy.config.debug: self.narrator(u"Рост мобилизации")
             else:
                 self.mobilization.level -= 1
         
