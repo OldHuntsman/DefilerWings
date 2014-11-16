@@ -41,7 +41,7 @@ girls_info = { #Информация о всех типах девушек
                 'peasant' : {
                         'magic_rating' : 0, #магический рейтинг
                         'regular_spawn' : 'poisonous_asp', #идентификатор обычного отродья
-                        'advanced_spawn' : 'winged_asp', #идентификатор продвинутого отродья
+                        'advanced_spawn' : 'basilisk', #идентификатор продвинутого отродья
                         'giantess' : False, #является ли великаншей
                         'avatar' : 'peasant', #аватарка
                         't_count_min' : 0, #количество сокровищ минимальное
@@ -54,8 +54,8 @@ girls_info = { #Информация о всех типах девушек
                     },
                 'citizen' : {
                         'magic_rating' : 0,
-                        'regular_spawn' : 'kokatriks',
-                        'advanced_spawn' : 'basilisk',
+                        'regular_spawn' : 'winged_asp',
+                        'advanced_spawn' : 'kobold',
                         'giantess' : False,
                         'avatar' : 'citizen',
                         't_count_min' : 2,
@@ -67,8 +67,8 @@ girls_info = { #Информация о всех типах девушек
                     },
                 'thief' : {
                         'magic_rating' : 0,
-                        'regular_spawn' : 'kokatriks',
-                        'advanced_spawn' : 'basilisk',
+                        'regular_spawn' : 'winged_asp',
+                        'advanced_spawn' : 'kobold',
                         'giantess' : False,
                         'avatar' : 'thief',
                         't_count_min' : 2,
@@ -80,8 +80,8 @@ girls_info = { #Информация о всех типах девушек
                     }, 
                 'knight' : {
                         'magic_rating' : 1,
-                        'regular_spawn' : 'kobold',
-                        'advanced_spawn' : 'raptor',
+                        'regular_spawn' : 'krokk',
+                        'advanced_spawn' : 'lizardman',
                         'giantess' : False,
                         'avatar' : 'knight',
                         't_count_min' : 2,
@@ -93,8 +93,8 @@ girls_info = { #Информация о всех типах девушек
                     },
                 'princess' : {
                         'magic_rating' : 1,
-                        'regular_spawn' : 'kobold',
-                        'advanced_spawn' : 'raptor',
+                        'regular_spawn' : 'krokk',
+                        'advanced_spawn' : 'lizardman',
                         'giantess' : False,
                         'avatar' : 'princess',
                         't_count_min' : 4,
@@ -106,8 +106,8 @@ girls_info = { #Информация о всех типах девушек
                     },
                 'elf' : { 
                         'magic_rating' : 2,
-                        'regular_spawn' : 'dragonborn',
-                        'advanced_spawn' : 'gargoyle',
+                        'regular_spawn' : 'gargoyle',
+                        'advanced_spawn' : 'dragonborn',
                         'giantess' : False,
                         'avatar' : 'elf',
                         't_count_min' : 3,
@@ -119,8 +119,8 @@ girls_info = { #Информация о всех типах девушек
                     },
                 'mermaid' : {
                         'magic_rating' : 2,
-                        'regular_spawn' : 'sea_bastard',
-                        'advanced_spawn' : 'poisonous_octopus',
+                        'regular_spawn' : 'octopus',
+                        'advanced_spawn' : 'sea_bastard',
                         'giantess' : False,
                         'avatar' : 'mermaid',
                         't_count_min' : 2,
@@ -132,7 +132,7 @@ girls_info = { #Информация о всех типах девушек
                     },               
                 'ogre' : {  
                         'magic_rating' : 2,
-                        'regular_spawn' : 'troglodyte',
+                        'regular_spawn' : 'strigg',
                         'advanced_spawn' : 'minotaur',
                         'giantess' : True,
                         'avatar' : 'ogre',
@@ -158,8 +158,8 @@ girls_info = { #Информация о всех типах девушек
                     },
                 'ice' : {  
                         'magic_rating' : 3,
-                        'regular_spawn' : 'yettie',
-                        'advanced_spawn' : 'troll',
+                        'regular_spawn' : 'ice_worm',
+                        'advanced_spawn' : 'yetti',
                         'giantess' : True,
                         'avatar' : 'ice',
                         't_count_min' : 3,
@@ -171,7 +171,7 @@ girls_info = { #Информация о всех типах девушек
                     },
                 'fire' : {  
                         'magic_rating' : 3,
-                        'regular_spawn' : 'devas',
+                        'regular_spawn' : 'hell_hound',
                         'advanced_spawn' : 'barlog',
                         'giantess' : True,
                         'avatar' : 'fire',
@@ -185,7 +185,7 @@ girls_info = { #Информация о всех типах девушек
                 'titan' : {  
                         'magic_rating' : 4,
                         'regular_spawn' : 'chimera',
-                        'advanced_spawn' : 'typhon',
+                        'advanced_spawn' : 'troll',
                         'giantess' : True,
                         'avatar' : 'titan',
                         't_count_min' : 3,
@@ -213,10 +213,10 @@ spawn_info = { #Информация о всех типах отродий
                         'modifier' : ['poisonous'], 
                         'name' : u'Крылатый аспид', 
                     },
-            'kokatriks' : {
-                        'power' : 2, 
-                        'modifier' : ['poisonous'], 
-                        'name' : u'Кокатрикс',
+            'krokk' : {
+                        'power' : 1, 
+                        'modifier' : ['servant'], 
+                        'name' : u'Крокк',
                     },
             'basilisk' : {
                         'power' : 3,  
@@ -228,14 +228,14 @@ spawn_info = { #Информация о всех типах отродий
                         'modifier' : ['servant'],
                         'name' : u'Кобольд',
                     }, 
-            'raptor' : {
+            'lizardman' : {
                         'power' : 3,  
-                        'modifier' : ['servant'],
+                        'modifier' : ['warrior'],
                         'name' : u'Ящерик',
                     },     
             'dragonborn' : {
                         'power' : 3,  
-                        'modifier' : ['warrior'],
+                        'modifier' : ['elite'],
                         'name' : u'Драконорождённый',
                     }, 
             'gargoyle' : {
@@ -246,17 +246,17 @@ spawn_info = { #Информация о всех типах отродий
             'sea_bastard' : {
                         'power' : 3,  
                         'modifier' : ['poisonous', 'marine'],
-                        'name' : u'Морской гад',
+                        'name' : u'Рыбоглаз',
                     }, 
-            'poisonous_octopus' : {
+            'octopus' : {
                         'power' : 5,  
                         'modifier' : ['poisonous', 'marine'],
                         'name' : u'Ядовитый спрут',
                     },      
-            'troglodyte' : {
+            'hell_hound' : {
                         'power' : 4,  
-                        'modifier' : ['warrior'],
-                        'name' : u'Троглодит',
+                        'modifier' : ['poisonous'],
+                        'name' : u'Адская гончая',
                     }, 
             'minotaur' : {
                         'power' : 5,  
@@ -265,7 +265,7 @@ spawn_info = { #Информация о всех типах отродий
                     },     
             'murloc' : {
                         'power' : 3,  
-                        'modifier' : ['servant', 'warrior', 'marine'],
+                        'modifier' : ['warrior', 'marine'],
                         'name' : u'Мурлок',
                     }, 
             'naga' : {
@@ -283,26 +283,21 @@ spawn_info = { #Информация о всех типах отродий
                         'modifier' : ['elite'],
                         'name' : u'Тролль',
                     },      
-            'devas' : {
+            'strigg' : {
                         'power' : 6,  
-                        'modifier' : ['warrior'],
-                        'name' : u'Дэв',
+                        'modifier' : ['poisonous'],
+                        'name' : u'Стригой',
                     }, 
             'barlog' : {
                         'power' : 7,  
                         'modifier' : ['elite'],
-                        'name' : u'Барлог',
+                        'name' : u'Дэв',
                     },          
             'chimera' : {
                         'power' : 10,  
                         'modifier' : ['poisonous'],
                         'name' : u'Химера',
                     }, 
-            'typhon' : {
-                        'power' : 10,  
-                        'modifier' : ['elite'],
-                        'name' : u'Тифон',
-                    },                    
         }
 
 girls_texts = { #Подстановки: {0} - имя девушки, {1} - имя дракона, {2} - ситуативные описания - что украли, кого родила и прочее

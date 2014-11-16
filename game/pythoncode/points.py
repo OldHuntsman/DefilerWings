@@ -114,7 +114,7 @@ class Poverty (store.object):
     
     @value.setter
     def value(self, value):
-        self._planned += self._value - value
+        self._planned += value - self._value
     
     def apply_planned(self):
         '''
