@@ -40,6 +40,7 @@ class Knight(Fighter):
         self.equip(data.knight_items.basic_horse)
         self.equip(data.knight_items.basic_follower)
         self.bg = "img/scene/fight/knight/" + random.choice(os.listdir(os.path.join(renpy.config.basedir, "game/img/scene/fight/knight"))) # получаем название файла
+        self.kind = 'knight'
         self.descriptions = mob_data.mob['knight']['descriptions']
             
     def description(self):
@@ -47,7 +48,7 @@ class Knight(Fighter):
         Описание рыцаря, возвращает строку с описанием.
         '''
         d = []
-        if self.is_dead():
+        if self.is_dead:
             d.append (u"Рыцарь мёртв")
             return u"\n".join(d)
         d.append(u"Сила: %s (%d)" % (self.title(), self.power))
@@ -150,5 +151,8 @@ class Knight(Fighter):
         return skill
     
     def fight_dragon(self):
-        call("lb_fight_dragon_by_knigth")
-        if renpy.config.debug: self("knight post fight")
+        retval = call("lb_fight", foe=self)
+        if renpy.config.debug: self("knight post fight %s" % retval)
+        if retval == "win":
+            self._gameRef.dragon.add_event('knight_killer')
+        return retval
