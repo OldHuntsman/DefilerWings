@@ -63,7 +63,7 @@ class Girls_list(object):
         Осеменение женщины.
         """
         self.game.girl.virgin = False
-        if self.game.girl.quality < self.game.dragon.magic():
+        if self.game.girl.quality < self.game.dragon.magic:
             self.game.girl.pregnant = 2
         else:
             self.game.girl.pregnant = 1
@@ -129,10 +129,9 @@ class Girls_list(object):
         """
         Ограбить девушку.
         """
-        rob_description = self.description('rob')
         self.game.lair.treasury.receive_treasures(self.game.girl.treasure)
         self.game.girl.treasure = []
-        return rob_description
+        return self.description('rob')
         
     def prisoners_list(self):
         """
@@ -175,7 +174,7 @@ class Girls_list(object):
             text = "Описание для действия '%s' девушки типа '%s' отсутствует" % (status, self.game.girl.type)
         if say:
             store.nvl_list = [ ] #вариант nvl clear на питоне
-            renpy.say(self.game.girl.third, text) #выдача сообщения
+            self.game.girl.third(text) #выдача сообщения
         else:
             return text
         

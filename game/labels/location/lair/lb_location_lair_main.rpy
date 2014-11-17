@@ -89,7 +89,7 @@ label lb_location_lair_main:
                     del game_loaded
                     game.narrator("game loaded")
                     renpy.restart_interaction()
-                else:
+              else:
                     game_loaded = True
                     renpy.retain_after_load()
                     if not freeplay:

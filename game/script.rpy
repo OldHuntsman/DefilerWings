@@ -19,14 +19,12 @@ label start:
         narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
     # Прокручиваем заставку.
     call screen sc_intro
-    # Выбираем дракона
-    if not freeplay:
-        call lb_choose_dragon
-    else:
-        call lb_dragon_creator
-    #TODO: перенести победу в Game
-    $ win = False
-    while not win:
+    while not game.is_won or not game.is_lost:
+        # Если даркона нет выбираем его
+        if game.dragon is None or game.dragon.is_dead:
+            call lb_choose_dragon
+        elif game.dragon is None and freeplay:
+            call lb_dragon_creator
         $ renpy.block_rollback()
         $ target_label = renpy.call_screen("main_map")
         if renpy.has_label(target_label):

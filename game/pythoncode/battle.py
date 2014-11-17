@@ -46,6 +46,7 @@ def battle_action(dragon, foe):
     dragon_hit = calc_hit_def(power)
     foe_defence = calc_hit_def(foe.protection())
     if dragon_hit > foe_defence:
+        foe.die()
         status.append('foe_dead')
     else:
         status.append('foe_alive')
@@ -168,7 +169,7 @@ def check_fear(dragon, foe):
     :param foe: текущий противник дракона
     :return: ['foe_intro', 'foe_alive'] если противник преодолел страх, если не смог - ['foe_fear', 'foe_dead']
     """
-    fear = dragon.fear()
+    fear = dragon.fear
     power = foe.attack()
     total = 0
     for key in power:
@@ -182,4 +183,3 @@ def check_fear(dragon, foe):
         return ['foe_fear', 'foe_dead']
     else:
         return ['foe_intro', 'foe_alive']
-

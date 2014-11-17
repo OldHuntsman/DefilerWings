@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # coding=utf-8
+from core import call
 import math
 import girls_data
-from data import reputation_levels, reputation_gain
+from data import reputation_levels, reputation_gain, game_events
 import renpy.store as store
 
 class Mobilization(store.object):
@@ -29,9 +30,12 @@ class Mobilization(store.object):
         if value >= 0:
             if value > self._lvl:
                 self.max = value
+                self._lvl = value
+                if game_events["mobilization_increased"] is not None:
+                    call(game_events["mobilization_increased"])
             if value < self._lvl:
                 self.decrease += self._lvl - value
-            self._lvl = value
+                self._lvl = value
         
     def reset_base(self):
         self.base = self._lvl
@@ -114,17 +118,22 @@ class Poverty (store.object):
     
     @value.setter
     def value(self, value):
-        self._planned += self._value - value
+        self._planned += value - self._value
     
     def apply_planned(self):
         '''
         Применяем запланированные изменения в разрухе
         '''
+        callback = False
+        if self._planned > 0:
+            callback = True
         if self._value + self._planned >= 0: 
             self._value = self._value + self._planned
         else:
             self._value = 0
         self._planned = 0
+        if callback and game_events["poverty_increased"] is not None:
+            call(game_events["poverty_increased"])
         
 class Army (store.object):
     '''

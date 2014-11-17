@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-from core import Fighter, call
+from core import Fighter, call, get_avatar
 import renpy.exports as renpy
 import random
 import os
 import data
+import mob_data
 from copy import deepcopy
 
 class Knight(Fighter):
@@ -38,17 +39,20 @@ class Knight(Fighter):
         self.equip(data.knight_items.basic_shield)
         self.equip(data.knight_items.basic_horse)
         self.equip(data.knight_items.basic_follower)
-        self.bg = "game/img/scene/fight/knight/" + random.choice(os.listdir(os.path.join(renpy.config.basedir, "game/img/scene/fight/knight"))) # получаем название файла
+        self.bg = "img/scene/fight/knight/" + random.choice(os.listdir(os.path.join(renpy.config.basedir, "game/img/scene/fight/knight"))) # получаем название файла
+        self.kind = 'knight'
+        self.descriptions = mob_data.mob['knight']['descriptions']
+        self.avatar = get_avatar(u"img/avahuman/knight")
             
     def description(self):
         '''
         Описание рыцаря, возвращает строку с описанием.
         '''
         d = []
-        if self.is_dead():
+        if self.is_dead:
             d.append (u"Рыцарь мёртв")
             return u"\n".join(d)
-        d.append(u"Сила: %s (%d)" % (self.title(), self.power))
+        d.append(u"Сила: %s (%d)" % (self.title, self.power))
         if self.abilities:
             d.append(u"Способности: ")
             for ability in self.abilities:
@@ -102,6 +106,7 @@ class Knight(Fighter):
         p['base'][0] + self.power
         return p
 
+    @property
     def title(self):
         """
         :return: Текстовое представление 'звания' рыцаря.
@@ -120,11 +125,7 @@ class Knight(Fighter):
         
     def event(self, event_type, *args, **kwargs):
         if event_type in data.knight_events and data.knight_events[event_type] is not None:
-            if type(data.knight_events[event_type]) is str:
-                call(data.knight_events[event_type], *args, knight=self, **kwargs)
-            elif type(data.knight_events[event_type]) is list:
-                for i in data.knight_events[event_type]:
-                    call(i, *args, knight=self, **kwargs)
+            call(data.knight_events[event_type], *args, knight=self, **kwargs)
         return
     
     def enchant_equip(self):
@@ -148,4 +149,8 @@ class Knight(Fighter):
         return skill
     
     def fight_dragon(self):
-        call("lb_fight_dragon_by_knigth")
+        retval = call("lb_fight", foe=self)
+        if renpy.config.debug: self("knight post fight %s" % retval)
+        if retval == "win":
+            self._gameRef.dragon.add_event('knight_killer')
+        return retval

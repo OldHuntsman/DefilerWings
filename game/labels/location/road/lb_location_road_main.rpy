@@ -63,7 +63,7 @@ label lb_enc_inn:
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
-        'Наколдовать синее пламя' if game.dragon.magic() > 0:
+        'Наколдовать синее пламя' if game.dragon.magic > 0:
             $ game.dragon.drain_energy()
             "Трактир сгорает синим пламенем вместе с забаррикадировавшимися внутри людьми."
             $ game.poverty.value += 1
@@ -172,7 +172,7 @@ label lb_enc_trader:
 label lb_enc_caravan:
     'Торговый караван под охраной взвода наемных конных арбалетчиков.'
     menu:
-        'Вымогать деньги' if game.dragon.fear() > 3:
+        'Вымогать деньги' if game.dragon.fear > 3:
             python:
                 game.dragon.drain_energy()
                 passing_tool = random.randint(1,20) 
@@ -206,7 +206,7 @@ label lb_enc_caravan:
 label lb_enc_lcaravan:
     'Большой караван с тяжело вооруженной охраной.'
     menu:
-        'Вымогать деньги' if game.dragon.fear() > 6:
+        'Вымогать деньги' if game.dragon.fear > 6:
             python:
                 game.dragon.drain_energy()
                 passing_tool = random.randint(20,100) 

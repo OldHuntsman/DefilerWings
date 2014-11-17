@@ -19,12 +19,14 @@ label lb_fight(foe = game.foe):
                 $ renpy.unlink_save("1-3")
                 $ renpy.full_restart()
             call lb_choose_dragon
+            #Не вызываем дракона, потому что он вызвовется перед тем как нас выкинет на карту
             hide foeimg
             nvl clear
-            $ renpy.pop_return()
-            return
+            if foe.kind != 'knight':
+                $ renpy.pop_return()
+            return "defeat"
         elif 'foe_alive' in battle_status:
-            $ chances = show_chances()
+            $ chances = show_chances(foe=foe)
             '[chances]'
             nvl clear
             menu:
@@ -32,11 +34,18 @@ label lb_fight(foe = game.foe):
                     pass
                     
                 'Отступить':
-                    "Вы бежали в логово"
+                    if foe.kind == 'knight':
+                        # Отступаем в новое логово
+                        "Позорно бежав дракон укрылся в буреломном овраге"
+                        $ game.create_lair()
+                    else:
+                        "Вы бежали в логово"
                     hide foeimg
                     nvl clear
-                    $ renpy.pop_return()
-                    jump lb_location_lair_main
+                    if foe.kind != 'knight':
+                        $ renpy.pop_return()
+                        jump lb_location_lair_main
+                    return "retreat"
     hide foeimg
     nvl clear
     return
@@ -81,3 +90,4 @@ label lb_fight_dragon_by_knigth(foe=game.knight):
     hide foeimg
     nvl clear
     return
+    return "win"

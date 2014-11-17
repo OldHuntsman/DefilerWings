@@ -6,8 +6,7 @@
 import random
 import data
 import renpy.exports as renpy
-from core import Sayer, Mortal
-from core import call
+from core import Sayer, Mortal, call, get_avatar
 from copy import deepcopy
 
 class Thief(Sayer, Mortal):
@@ -32,11 +31,13 @@ class Thief(Sayer, Mortal):
                 self.abilities.add(ab, deepcopy(data.thief_abilities[ab]))
         # прочее
         self.treasury = treasury # Ссылка на сокровищницу.
+        self.avatar = get_avatar(u"img/avahuman/thief")
 
     @property # Read-Only
     def skill(self):
         return self._skill + self.items.sum("level")
     
+    @property
     def title(self):
         """
         :return: Текстовое представление 'звания' вора.
@@ -62,10 +63,10 @@ class Thief(Sayer, Mortal):
         Описание вора, возвращает строку с описанием.
         '''
         d = []
-        if self.is_dead():
+        if self.is_dead:
             d.append (u"Вор мёртв")
             return u"\n".join(d)
-        d.append(u"Мастерство: %s (%d)" % (self.title(), self.skill))
+        d.append(u"Мастерство: %s (%d)" % (self.title, self.skill))
         if self.abilities:
             d.append(u"Способности: ")
             for ability in self.abilities:
@@ -117,6 +118,7 @@ class Thief(Sayer, Mortal):
                 if renpy.config.debug: thief(u"Погиб из-за неприступности")
                 thief.die ("inaccessability")
                 thief.event("die_inaccessability")
+                return
             # Проверка ловушек и стражей
             if renpy.config.debug: thief(u"Пробую обойти ловушки и стражей")
             for upgrade in lair.upgrades:
@@ -135,6 +137,7 @@ class Thief(Sayer, Mortal):
                     if luck < 0:
                         if renpy.config.debug: thief("Не сумел обойти %s" % upgrade)
                         thief.die(upgrade)
+                        return
             if luck == 0:
                 # Отступаем
                 if renpy.config.debug: thief(u"Ниосилить, попробую в следущем году")
@@ -151,17 +154,25 @@ class Thief(Sayer, Mortal):
                         attempts *= 2
                     else:
                         attempts = 0
+                stolen_items = [] #То что вор успел украсть.
                 for i in range(attempts):
-                    if "sleep_dust" in thief.items or "trickster" in thief.abilities or random.choice(range(10)) in range(5 - thief.skill):
-                        #Берем шмотку
-                        stolen_items = lair.treasury.rob_treasury()
-                        for stolen_item in stolen_items: #Вор что-то украл
+                    if lair.treasury.wealth > 0: #Если в сокровищнице хоть что-нибудь есть
+                        if "sleep_dust" in thief.items or "trickster" in thief.abilities or random.choice(range(10)) in range(5 - thief.skill):
+                            #Берем шмотку
+                            stolen_item = lair.treasury.rob_treasury()[0] #Вор что-то украл
+                            stolen_items.append(stolen_item)
+                            if renpy.config.debug: thief(u"Взял шмотку %s" % stolen_item) 
                             self.event('receive_item', stolen_item)
-                        thief(u"Взял бы шмотку, но ленивому хикке не написать сокровищницу")
+                        else:
+                            #Мы разбудили дракона
+                            if renpy.config.debug: thief(u"Разбудил дракона")
+                            self._gameRef.dragon.add_event('thief_killer')
+                            lair.treasury.receive_treasures(stolen_items)#Дракон возвращает что награбил вор.
+                            thief.die("wake_up")
+                            return
                     else:
-                        #Мы разбудили дракона
-                        if renpy.config.debug: thief(u"Разбудил дракона")
-                        thief.die("wake_up")
+                        if renpy.config.debug: thief(u"В сокровищнице нечего брать. Сваливаю.")
+                        return
         else: #До логова добраться не получилось, получаем предмет c 50%м шансом
             if renpy.config.debug: thief(u"Не добрался до логова")
             thief.event("lair_unreachable")
@@ -182,7 +193,7 @@ class Thief(Sayer, Mortal):
         Вор умирает
         '''
         for i in self.items:
-            self.treasury.thief_items.add(self.items[i].id, deepcopy(self.items[i]))
+            self.treasury.thief_items.append(deepcopy(self.items[i]))
         if renpy.config.debug: self(u"Я погиб!")
         self._alive = False
     
@@ -196,9 +207,5 @@ class Thief(Sayer, Mortal):
     
     def event(self, event_type, *args, **kwargs):
         if event_type in data.thief_events and data.thief_events[event_type] is not None:
-            if type(data.thief_events[event_type]) is str:
-                call(data.thief_events[event_type], *args, thief=self, **kwargs)
-            elif type(data.thief_events[event_type]) is list:
-                for i in data.thief_events[event_type]:
-                    call(i, *args, thief=self, **kwargs)
+            call(data.thief_events[event_type], *args, thief=self, **kwargs)
         return

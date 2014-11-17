@@ -141,7 +141,7 @@ label lb_enc_guardian:
                 txt = game.interpolate(random.choice(txt_enc_forest_guardian[2]))
                 if game.dragon.magic > 0:
                     txt = game.interpolate(random.choice(txt_enc_forest_guardian[3]))
-                    game.dragon.add_special_place('enchanted_forest', 'enchanted_forest')
+                    game.dragon.add_special_place('enchanted_forest', 'enter_ef')
             '[txt]'
         'Отступить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
@@ -216,7 +216,7 @@ label lb_enc_lumbermill:
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Обследовать здание' if game.dragon.size() <= 3 and game.dragon.magic() == 0:
+        'Обследовать здание' if game.dragon.size() <= 3 and game.dragon.magic == 0:
             $ game.dragon.drain_energy()
             "[game.dragon.name] тщательно обследует необычное строение на предмет важности и уязвимых мест. Вращаемое потоком воды колесо приводит в движение скрытые внутри здания пилы, при помощи которых люди изготавливают из брёвен доски. Огромный штабель готовой продукции сложен неподалёку. Если бы только было чем это всё поджечь..."
             'Только время зря потерял. Придётся уйти несолоно хлебавши.'

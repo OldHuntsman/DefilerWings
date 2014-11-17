@@ -7,7 +7,6 @@ import battle
 import mob_data
 import girls
 import treasures
-from points import Mobilization, Reputation, Poverty, Army
 from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
@@ -16,13 +15,18 @@ import renpy.store as store
 
 def tuples_sum(tuple_list):
     return sum([first for first, _ in tuple_list]), sum([second for _, second in tuple_list])
-
-
+    
 class Game(store.object):
+    _sleep_lvl = 0
+    _win = False
+    _defeat = False
+    _dragons_used = 0 #Количество использованных за игру драконво
+    
     def __init__(self, adv_character=None, nvl_character=None):
         """
         :param base_character: Базовый класс для персонажа. Скорее всего NVLCharacter.
         """
+        from points import Mobilization, Poverty, Army
         from thief import Thief
         from knight import Knight
         self.adv_character = adv_character
@@ -41,7 +45,6 @@ class Game(store.object):
         
         self.narrator = Sayer(gameRef=self, base_character=nvl_character)
         self.girls_list = girls.Girls_list(gameRef=self, base_character=adv_character)
-        self.create_lair()
         self.foe = None
         self.girl = None
 
@@ -53,6 +56,9 @@ class Game(store.object):
         self.mobilization.reset()
         new_dragon._gift = None
         self._dragon = new_dragon
+        if self._dragons_used > 0:  # Если это не первый дракон, то
+            self.year += 10         # накидываем 10 лет на вылупление и прочие взращивание-ботву
+        self._dragons_used +=1
         self.set_quest()
         self.create_lair()
     
@@ -103,7 +109,7 @@ class Game(store.object):
                     del self.lair.upgrades[upgrade]
         # Изменяем уровень мобилизации
         desired_mobilization = self.dragon.reputation.level - self.poverty.value # Желаемый уровень мобилизации
-        mobilization_delta = self.mobilization.level - desired_mobilization # Считаем есть ли разница с текущим уровнем мобилизации
+        mobilization_delta = desired_mobilization - self.mobilization.level # Считаем есть ли разница с текущим уровнем мобилизации
         if mobilization_delta != 0: # И если есть разница
             # Увеличиваем  или  уменьшаем на единицу 
             if mobilization_delta > 0:
@@ -112,7 +118,7 @@ class Game(store.object):
                 self.mobilization.level -= 1
         
         # Если вора нет, то пробуем создать его
-        if self.thief is None or self.thief.is_dead():
+        if self.thief is None or self.thief.is_dead:
             if renpy.config.debug: self.narrator(u"Вора не было или он был мертв, попробуем его создать.")
             self._create_thief()
             if self.thief is None:
@@ -126,7 +132,7 @@ class Game(store.object):
                 if renpy.config.debug: self.narrator(u"Вор идет на дело")
                 self.thief.steal(self.lair)
             else:
-                if renpy.config.debug: self.thief(u"Вору ссыкотно, надо бы подготовиться.")
+                if renpy.config.debug: self.narrator(u"Вору ссыкотно, надо бы подготовиться.")
                 self.thief.event("prepare")
                 if random.choice(range(2)) == 0:    # C 50% шансом получаем шмотку
                     self.thief.event("prepare_usefull")
@@ -136,7 +142,7 @@ class Game(store.object):
                     if renpy.config.debug: self.narrator(u"Но вместо этого вор весь год бухает.")
                     self.thief.event("prepare_useless")
         # Если рыцаря нет, то пробуем создать его
-        if self.knight is None or self.knight.is_dead():
+        if self.knight is None or self.knight.is_dead:
             if renpy.config.debug: self.narrator(u"Рыцаря не было или он был мертв, попробуем его создать.")
             self._create_knight()
             if self.knight is None:
@@ -149,10 +155,13 @@ class Game(store.object):
                 # Идем на дело
                 if renpy.config.debug: self.narrator(u"Рыцарь вызывает дракона на бой")
                 #TODO: Схватка рыцаря с драконом
-                self.knight.fight_dragon()
+                fight_result = self.knight.fight_dragon()
+                if renpy.config.debug: self.narrator(u"После схватки рыцаря")
+                if fight_result in ["defeat", "retreat"]:
+                    return fight_result
                 #renpy.call("lb_fight", foe=self.knight)
             else:
-                if renpy.config.debug: self.knight(u"Рыцарю ссыкотно, надо бы подготовиться.")
+                if renpy.config.debug: self.narrator(u"Рыцарю ссыкотно, надо бы подготовиться.")
                 self.knight.event("start_prepare")
                 if random.choice(range(2)) == 0:    # C 50% шансом получаем шмотку
                     self.knight.event("prepare_usefull")
@@ -167,6 +176,7 @@ class Game(store.object):
         Рассчитывается количество лет которое дракон проспит.
         Сброс характеристик дракона.
         """
+        self._sleep_lvl +=1
         time_to_sleep = self.dragon.injuries + 1
         # Сбрасываем характеристики дракона
         self.dragon.rest()
@@ -174,7 +184,8 @@ class Game(store.object):
         self.girls_list.before_sleep()
         # Спим
         for i in xrange(time_to_sleep):
-            self.next_year()
+            if self.next_year() in ["defeat", "retreat"]:
+                break
         # Обнуляем накопленные за бодрствование очки мобилизации
         self.dragon.reputation.reset_gain()
         # Действия с девушками после конца сна    
@@ -182,12 +193,7 @@ class Game(store.object):
         # Проверка срока выполнения квеста
         if self.quest_time <= 0:
             call('lb_location_mordor_questtime')
-
-    def _create_knight(self):
-        """
-        Проверка на появление рыцаря.
-        """
-        raise NotImplementedError
+        self._sleep_lvl -=1
 
     def _create_thief(self, thief_level=None):
         """
@@ -218,14 +224,40 @@ class Game(store.object):
         else:
             self.knight = None
             
-    def create_lair(self, lair_type = "impassable_coomb"):
+    def create_lair(self, lair_type = None):
         """
         Создание нового логова.
         """
         # Выпускаем всех женщин в прошлом логове на свободу. 
         self.girls_list.free_all_girls()
-        # Создаем новое логово
-        self.lair = Lair(lair_type)
+        
+        if lair_type is not None:
+            # Если меняется логово на лучшее - сохраняем сокровищницу
+            save_treas = self.lair.treasury
+            # Создаем новое логово
+            self.lair = Lair(lair_type)
+            # Копируем сокровищницу из прошлого логова
+            self.lair.treasury = save_treas
+        else:
+            # определяем логово по умолчанию
+            lair_list = []
+            mods = self.dragon.modifiers()
+            for lair in data.lair_types.iterkeys():
+                if 'prerequisite' in data.lair_types[lair]: # просматриваем логова, выдаваемые автоматически при выполнении требований
+                    prerequisite_list = data.lair_types[lair]['prerequisite'] # получаем список требований к дракону
+                    prerequisite_exists = True # временная переменная для требований
+                    for prerequisite in prerequisite_list: # просматриваем список требований
+                        prerequisite_exists = prerequisite_exists and prerequisite in mods # удостоверяемся, что список требований выполнен
+                    if prerequisite_exists: 
+                        lair_list.append((data.lair_types[lair].name, lair)) # если список требований выполнен, добавляем логово к списку
+            if len(lair_list) == 0:
+                lair_type = 'impassable_coomb' # список логов пуст, выбираем начальное
+            elif len(lair_list) == 1:
+                lair_type = lair_list[0][1] # в списке одно логово, выбираем его автоматически
+            else:
+                lair_list.insert(0, (u"Выберите логово:", None))
+                lair_type = renpy.display_menu(lair_list) # в списке больше одного логова, даём список на выбор
+            self.lair = Lair(lair_type)
         
     def set_quest(self):
         lvl = self.dragon.level
@@ -235,7 +267,8 @@ class Game(store.object):
             quest = data.quest_list[quest_i]
             # находим квест, подходящий по уровню, не уникальный или ещё не выполненный за текущую игру
             if lvl >= quest['min_lvl'] and lvl <= quest['max_lvl'] and \
-                ('unique' not in quest or quest['unique'] not in self.unique):
+                ('unique' not in quest or quest['unique'] not in self.unique) and \
+                ('prerequisite' not in quest or quest['prerequisite'] in self.unique):
                 quests.append(quest)
         self._quest = random.choice(quests)
         # Задание года окончания выполнения квеста
@@ -264,18 +297,20 @@ class Game(store.object):
         if task_name == 'autocomplete': # задача всегда выполнена
             return True
         elif task_name == 'reputation': # проверка уровня репутации
-            current_level = self.dragon.reputation.points
+            current_level = self.dragon.reputation.level
         elif task_name == 'wealth': # проверка стоимости всех сокровищ
             current_level =  self.lair.treasury.wealth
         elif task_name == 'gift': # проверка стоимости самого дорогого сокровища
             current_level =  self.lair.treasury.most_expensive_jewelry_cost
         elif task_name == 'poverty': # проверка понижения уровня мобилизации из-за разрухи
-            current_level =  self.lair.mobilization.decrease
+            current_level =  self.mobilization.decrease
         elif task_name == 'offspring': # проверка рождения потомка
             reached_list.extend(self.girls_list.offspring)
         elif task_name == 'lair': # проверка типа логова и его улучшений
             reached_list.extend(self.lair.upgrades.keys())
             reached_list.append(self.lair.type_name)
+        elif task_name == 'event': # проверка событий    
+            reached_list.extend(self.dragon.events)
         # проверка требований
         quest_complete = True
         if 'task_requirements' in self._quest:
@@ -383,7 +418,34 @@ class Game(store.object):
             }
         return data
     
-
+    @property
+    def is_won(self):
+        #Проверка параметров выиграна уже игра или нет
+        if not self._win:
+            #Проверяем выиграли ли мы
+            pass
+        return self._win
+    
+    def win(self):
+        '''
+        Форсируем выгирать игру
+        '''
+        self._win = True
+    
+    @property
+    def is_lost(self):
+        ##Проверка параметров проиграна уже игра или нет
+        if not self._defeat:
+            #Проверяем проиграли ли мы
+            pass
+        return self._defeat
+    
+    def defeat(self):
+        '''
+        Форсируем проиграть игру
+        '''
+        self._defeat = True
+        
 class Lair(object):
     def __init__(self, type = "impassable_coomb"):
         self.type_name = type
@@ -483,11 +545,13 @@ class Girl(Sayer):
 class Mortal:
     _alive = True #По умолчанию все живые
     
+    @property
     def is_alive(self):
         if self._alive:
             return True
         return False
     
+    @property
     def is_dead(self):
         if not self._alive:
             return True
@@ -628,6 +692,7 @@ class Dragon(Fighter):
         '''
         parent - родитель дракона, если есть.
         '''
+        from points import Reputation
         super(Dragon, self).__init__(*args, **kwargs)
         # TODO: pretty screen for name input
         #self._first_name = u"Старый"
@@ -644,6 +709,7 @@ class Dragon(Fighter):
         self.spells = [] # заклинания наложенные на дракона(обнуляются после сна)
         self._base_energy = 3 #Базовая энергия дракона, не зависящая от модификторов
         self.special_places = {} # Список разведанных "достопримечательностей"
+        self.events = [] # список событий с этим драконом
         self._gift = None # Дар Владычицы
         
         # Головы
@@ -669,7 +735,7 @@ class Dragon(Fighter):
         else:
             self.anatomy.append(self._gift)
         
-        self.avatar = self._get_dragon_avatar(self.color_eng) #Назначаем аватарку
+        self.avatar = get_avatar("img/avadragon/"+self.color_eng) #Назначаем аватарку
     
     @property
     def description(self):
@@ -711,17 +777,6 @@ class Dragon(Fighter):
         else:
             return text
         
-    
-    def _get_dragon_avatar(self, type):
-        import os
-        # config.basedir - директория где у нас лежит сама игра.
-        # "game" - директория относительно config.basedir где лежат собственно файлы игры и 
-        # относительно которой высчитываются все пути
-        relative_path = "img/avadragon/"+type # Относительный путь для движка ренпи
-        absolute_path = os.path.join(renpy.config.basedir, "game", relative_path) # Cоставляем абсолютный путь где искать
-        filename = random.choice(os.listdir(absolute_path)) # получаем название файла
-        return relative_path + "/" + filename # Возвращаем правильно отформатированно значение
-
     def modifiers(self):
         """
         :return: Список модификаторов дракона
@@ -761,7 +816,8 @@ class Dragon(Fighter):
             self.bloodiness += gain
             return True
         return False
-                
+
+    @property
     def magic(self):
         """
         :return: Магическая сила(целое число)
@@ -773,7 +829,7 @@ class Dragon(Fighter):
         """
         :return: Количество текущей маны (магическая сила - использованная мана, целое число)
         """
-        return self.magic() - self._mana_used
+        return self.magic - self._mana_used
         
     def drain_mana(self, drain=1):
         """
@@ -784,7 +840,8 @@ class Dragon(Fighter):
             self._mana_used += drain
             return True
         return False    
-        
+    
+    @property
     def fear(self):
         """
         :return: Значение чудовищности(целое число)
@@ -867,7 +924,7 @@ class Dragon(Fighter):
         '''
         Возвращает способность, которую может получить дракон при рождении
         '''
-        dragon_leveling = ['head']
+        dragon_leveling = 2 * ['head']
         if self.size() < 6:
             dragon_leveling += (6 - self.size()) * ['size']
         if self.paws() < 3:
@@ -926,6 +983,7 @@ class Dragon(Fighter):
                 if self.heads:
                     return ['lost_head', 'lost_' + lost_head]
                 else:
+                    self.die()
                     return ['dragon_dead']
     
     @property
@@ -982,8 +1040,11 @@ class Dragon(Fighter):
         :param place_name: название достопримечательности для удаления - ключ для словаря.
         """
         self.add_special_place(place_name)
-        
-        
+    
+    def add_event(self, event):
+        assert event in data.dragon_events, "Unknown event: %s" % event
+        if event not in self.events:
+            self.events.append(event)
 
 class Enemy(Fighter):
     """
@@ -995,6 +1056,7 @@ class Enemy(Fighter):
         Создание врага.
         """
         super(Enemy, self).__init__(*args, **kwargs)
+        self.kind = kind
         self.name = mob_data.mob[kind]['name']
         self.power = mob_data.mob[kind]['power']
         self.defence = mob_data.mob[kind]['defence']
@@ -1013,10 +1075,27 @@ class Enemy(Fighter):
     def protection(self):
         return self.defence
 
-def call(label, *args, **kwargs):
+def _call(label, *args, **kwargs):
     if renpy.has_label(label):
-        renpy.call_in_new_context(label, *args, **kwargs)
+        return renpy.call_in_new_context(label, *args, **kwargs)
     else:
-        renpy.call_in_new_context("lb_missed", label=label)
-    return
+        return renpy.call_in_new_context("lb_missed", label=label)
 
+def call(label, *args, **kwargs):
+    if type(label) is str:
+        return _call(label, *args, **kwargs)
+    elif type(label) is list:
+        for i in label:
+            return _call(i, *args, **kwargs)
+
+def get_avatar(folder, regex='.*'):
+    '''
+    Возвращает строку-путь с случайной картинкой подходящей под регекспу regex
+    '''
+    import re,os
+    absolute_path = os.path.join(renpy.config.basedir, "game", folder) # Cоставляем абсолютный путь где искать
+    regex = re.compile(regex, re.IGNORECASE)
+    filename = random.choice(filter(regex.search, os.listdir(absolute_path))) # получаем название файла
+    return folder + "/" + filename # Возвращаем правильно отформатированно значение
+
+get_img = get_avatar
