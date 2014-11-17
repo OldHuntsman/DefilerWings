@@ -515,19 +515,24 @@ lair_types = Container("lair_types", {
                                                         "inaccessability" : 0},
                                 "impregnable_peak"  : { "name": u"Неприступная вершина",
                                                         "inaccessability" : 0,
-                                                        "require" : [ "aplinism" ] },
+                                                        "require" : [ "aplinism" ],
+                                                        'prerequisite' : ['wings'] },
                                 "solitude_сitadel"  : { "name": u"Цитадель одиночества",
                                                         "inaccessability" : 0,
-                                                        "require" : [ "aplinism", "coldproof" ] },
+                                                        "require" : [ "aplinism", "coldproof" ],
+                                                        'prerequisite' : ['wings', 'ice_immunity'] },
                                 "vulcano_chasm"     : { "name": u"Вулканическая расселина",
                                                         "inaccessability" : 0,
-                                                        "require" : [ "aplinism", "fireproof" ] },
+                                                        "require" : [ "aplinism", "fireproof" ],
+                                                        'prerequisite' : ['wings', 'fire_immunity'] },
                                 "underwater_grot"   : { "name": u"Подводный грот",
                                                         "inaccessability" : 0,
-                                                        "require" : [ "swimming" ] },
+                                                        "require" : [ "swimming" ], 
+                                                        'prerequisite' : ['swimming'] },
                                 "underground_burrow": { "name": u"Подземная нора",
                                                         "inaccessability": 1,
-                                                        "require" : [ ] },
+                                                        "require" : [ ], 
+                                                        'prerequisite' : ['can_dig'] },
                                 "dragon_castle"     : { "name": u"Драконий замок",
                                                         "inaccessability" : 1,
                                                         "require" : [ ] },
@@ -944,9 +949,9 @@ special_places = {
     }
 
 quest_list = ( #TODO: внести все выполнимые на сегодня квесты
-        {
-            'min_lvl' : 5,  # минимальный уровень дракона для получения квеста
-            'max_lvl' : 5, # максимальный уровень дракона для получения квеста
+        { # только для дебага, не используется
+            'min_lvl' : 25,  # минимальный уровень дракона для получения квеста
+            'max_lvl' : 25, # максимальный уровень дракона для получения квеста
             'text'    : u"Проживи 5 лет.", # текст квеста
             'fixed_time': 25, # количество лет на выполнение квеста, не зависящее от уровня дракона
             'task'  : 'autocomplete', # ключевое слово для описания задачи, 'autocomplete' - задача выполняется автоматически 
@@ -986,6 +991,14 @@ quest_list = ( #TODO: внести все выполнимые на сегодн
             'task_requirements' : ((('mechanic_traps', 'magic_traps', 'gremlin_fortification'),('gremlin_servant', 'servant'),('poison_guards','regular_guards','elite_guards')),), 
             # кортеж с требованиями, для выполнения задания нужно выполнить любое из них, чтобы потребовать список требований - нужно использовать кортеж внутри кортежа
             # а для вариантов среди списка требований - нужно использовать котреж, который будет внутри кортежа для списка, который уже внутри кортежа
+        },
+        {
+            'min_lvl' : 5, # минимальный уровень дракона для получения квеста
+            'max_lvl' : 5, # максимальный уровень дракона для получения квеста
+            'text'    : u"Поймать вора или одолеть рыцаря в собственном логове.", # текст квеста
+            'fixed_time': 25, # количество лет на выполнение квеста, не зависящее от уровня дракона
+            'task'  : 'event', # ключевое слово для описания задачи, 'event' - должно произойти какое-то событие
+            'task_requirements' : ('thief_killer', 'knight_killer',),  # кортеж с требованиями, нужно либо 'thief_killer' - поймать вора, либо 'knight_killer' - убить рыцаря
         },
         {
             'min_lvl' : 6, # минимальный уровень дракона для получения квеста

@@ -84,6 +84,12 @@ label lb_test_debug:
                         game.dragon "Силы покинули меня."
                     else:
                         game.dragon "Я и так истощен."
+                "Тип дракона":
+                    python:
+                        head_menu = []
+                        for head_type in data.dragon_heads.iterkeys():
+                            head_menu.append((data.heads_name_rus[head_type], head_type))
+                        game.dragon.heads[0] = renpy.display_menu(head_menu)
                 "Создать потомство":
                     call lb_choose_dragon
         "Логово":

@@ -35,6 +35,7 @@ label lb_dead_grove:
     menu:
         'Обустроить тут новое логово':
             $ game.create_lair('forest_heart')
+            $ game.dragon.del_special_place('enchanted_forest')
         
         'Уйти прочь':
             $ game.dragon.add_special_place('enchanted_forest', 'dead_grove')
@@ -110,6 +111,7 @@ label lb_manor_empty:
     menu:
         'Обустроить тут новое логово':
             $ game.create_lair('castle')
+            $ game.dragon.del_special_place('manor')
         
         'Покинуть заброшенную усадьбу':
             $ game.dragon.add_special_place('manor', 'manor_empty')
