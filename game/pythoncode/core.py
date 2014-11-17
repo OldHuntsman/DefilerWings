@@ -45,7 +45,6 @@ class Game(store.object):
         
         self.narrator = Sayer(gameRef=self, base_character=nvl_character)
         self.girls_list = girls.Girls_list(gameRef=self, base_character=adv_character)
-        self.create_lair()
         self.foe = None
         self.girl = None
 
@@ -221,18 +220,40 @@ class Game(store.object):
         else:
             self.knight = None
             
-    def create_lair(self, lair_type = "impassable_coomb"):
+    def create_lair(self, lair_type = None):
         """
         Создание нового логова.
         """
         # Выпускаем всех женщин в прошлом логове на свободу. 
         self.girls_list.free_all_girls()
-        # Если меняется логово на лучшее - сохраняем сокровищницу
-        if lair_type <> "impassable_coomb": save_treas = self.lair.treasury
-        # Создаем новое логово
-        self.lair = Lair(lair_type)
-        # Если меняется логово на лучшее - копируем сокровищницу из прошлого логова
-        if lair_type <> "impassable_coomb": self.lair.treasury = save_treas
+        
+        if lair_type is not None:
+            # Если меняется логово на лучшее - сохраняем сокровищницу
+            save_treas = self.lair.treasury
+            # Создаем новое логово
+            self.lair = Lair(lair_type)
+            # Копируем сокровищницу из прошлого логова
+            self.lair.treasury = save_treas
+        else:
+            # определяем логово по умолчанию
+            lair_list = []
+            mods = self.dragon.modifiers()
+            for lair in data.lair_types.iterkeys():
+                if 'prerequisite' in data.lair_types[lair]: # просматриваем логова, выдаваемые автоматически при выполнении требований
+                    prerequisite_list = data.lair_types[lair]['prerequisite'] # получаем список требований к дракону
+                    prerequisite_exists = True # временная переменная для требований
+                    for prerequisite in prerequisite_list: # просматриваем список требований
+                        prerequisite_exists = prerequisite_exists and prerequisite in mods # удостоверяемся, что список требований выполнен
+                    if prerequisite_exists: 
+                        lair_list.append((data.lair_types[lair].name, lair)) # если список требований выполнен, добавляем логово к списку
+            if len(lair_list) == 0:
+                lair_type = 'impassable_coomb' # список логов пуст, выбираем начальное
+            elif len(lair_list) == 1:
+                lair_type = lair_list[0][1] # в списке одно логово, выбираем его автоматически
+            else:
+                lair_list.insert(0, (u"Выберите логово:", None))
+                lair_type = renpy.display_menu(lair_list) # в списке больше одного логова, даём список на выбор
+            self.lair = Lair(lair_type)
         
     def set_quest(self):
         lvl = self.dragon.level
