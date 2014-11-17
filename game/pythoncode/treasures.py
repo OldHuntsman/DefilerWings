@@ -1254,7 +1254,7 @@ class Treasury(store.object):
         self.equipment = []
         self.gems = {} #словарь с количеством драгоценных камней
         #TODO: multiple same equipment
-        self.thief_items = data.Container(id="equipment")
+        self.thief_items = []
     
     @property
     def money(self):

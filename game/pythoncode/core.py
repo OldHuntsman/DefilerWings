@@ -709,7 +709,7 @@ class Dragon(Fighter):
         else:
             self.anatomy.append(self._gift)
         
-        self.avatar = self._get_dragon_avatar(self.color_eng) #Назначаем аватарку
+        self.avatar = get_avatar("img/avadragon/"+self.color_eng) #Назначаем аватарку
     
     @property
     def description(self):
@@ -751,17 +751,6 @@ class Dragon(Fighter):
         else:
             return text
         
-    
-    def _get_dragon_avatar(self, type):
-        import os
-        # config.basedir - директория где у нас лежит сама игра.
-        # "game" - директория относительно config.basedir где лежат собственно файлы игры и 
-        # относительно которой высчитываются все пути
-        relative_path = "img/avadragon/"+type # Относительный путь для движка ренпи
-        absolute_path = os.path.join(renpy.config.basedir, "game", relative_path) # Cоставляем абсолютный путь где искать
-        filename = random.choice(os.listdir(absolute_path)) # получаем название файла
-        return relative_path + "/" + filename # Возвращаем правильно отформатированно значение
-
     def modifiers(self):
         """
         :return: Список модификаторов дракона
@@ -1066,3 +1055,12 @@ def call(label, *args, **kwargs):
     else:
         return renpy.call_in_new_context("lb_missed", label=label)
 
+def get_avatar(folder, regex='.*'):
+    '''
+    Возвращает строку-путь с случайной картинкой подходящей под регекспу regex
+    '''
+    import re,os
+    absolute_path = os.path.join(renpy.config.basedir, "game", folder) # Cоставляем абсолютный путь где искать
+    regex = re.compile(regex, re.IGNORECASE)
+    filename = random.choice(filter(regex.search, os.listdir(absolute_path))) # получаем название файла
+    return folder + "/" + filename # Возвращаем правильно отформатированно значение

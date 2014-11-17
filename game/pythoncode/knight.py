@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-from core import Fighter, call
+from core import Fighter, call, get_avatar
 import renpy.exports as renpy
 import random
 import os
@@ -42,6 +42,7 @@ class Knight(Fighter):
         self.bg = "img/scene/fight/knight/" + random.choice(os.listdir(os.path.join(renpy.config.basedir, "game/img/scene/fight/knight"))) # получаем название файла
         self.kind = 'knight'
         self.descriptions = mob_data.mob['knight']['descriptions']
+        self.avatar = get_avatar(u"img/avahuman/knight")
             
     def description(self):
         '''
@@ -51,7 +52,7 @@ class Knight(Fighter):
         if self.is_dead:
             d.append (u"Рыцарь мёртв")
             return u"\n".join(d)
-        d.append(u"Сила: %s (%d)" % (self.title(), self.power))
+        d.append(u"Сила: %s (%d)" % (self.title, self.power))
         if self.abilities:
             d.append(u"Способности: ")
             for ability in self.abilities:
@@ -105,6 +106,7 @@ class Knight(Fighter):
         p['base'][0] + self.power
         return p
 
+    @property
     def title(self):
         """
         :return: Текстовое представление 'звания' рыцаря.
