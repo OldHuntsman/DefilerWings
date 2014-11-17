@@ -74,6 +74,10 @@ class Game(store.object):
         renpy.take_screenshot() # Делаем скриншот для отображения в сейве
         renpy.save("1-1")               # Сохраняем игру
         return True
+    def save_freegame(self):
+        renpy.rename_save("1-3", "1-4")
+        renpy.take_screenshot()
+        renpy.save("1-3")
 
     def next_year(self):
         '''

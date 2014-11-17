@@ -15,6 +15,9 @@ label lb_fight(foe = game.foe):
         if 'dragon_dead' in battle_status:
             #TODO замена текущего дракона с возможностью выбора потомка
             "Дракон умер - да здравствует Дракон!"
+            if freeplay:
+                $ renpy.unlink_save("1-3")
+                $ renpy.full_restart()
             call lb_choose_dragon
             hide foeimg
             nvl clear
@@ -54,6 +57,9 @@ label lb_fight_dragon_by_knigth(foe=game.knight):
         if 'dragon_dead' in battle_status:
             #TODO замена текущего дракона с возможностью выбора потомка
             "Дракон умер - да здравствует Дракон!"
+            if freeplay:
+                $ renpy.unlink_save("1-3")
+                $ renpy.full_restart()
             call lb_choose_dragon
             hide foeimg
             nvl clear
