@@ -95,7 +95,9 @@ class Knight(Fighter):
             # TODO: подумать как получаем ссылку на логово
             # Увеличиваем атаку в соответствии со списком женщин в логове
             raise NotImplementedError
-        a['base'][0] + self.power
+        a_base = list(a['base'])
+        a_base[0] += self.power
+        a['base'] = tuple(a_base)
         return a
 
     def protection(self):
@@ -103,7 +105,9 @@ class Knight(Fighter):
         if "liberator" in self.modifiers():
             # Увеличиваем защиту в соответствии со списком женщин в логове
             raise NotImplementedError
-        p['base'][0] + self.power
+        p_base = list(p['base'])
+        p_base[0] += self.power
+        p['base'] = tuple(p_base)
         return p
 
     @property
