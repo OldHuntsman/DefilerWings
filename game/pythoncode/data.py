@@ -270,18 +270,17 @@ obj - улучшение которое вор обошел или умер
 obj - вещь, которую получил вор
 '''
 thief_events = {
-    "spawn": None,
+    "spawn": "lb_event_thief_spawn",
     "lair_unreachable": None,
     "prepare": None,
     "prepare_usefull": None,
-    "prepare_unusefull": None,
+    "prepare_useless": None,
     "lair_enter": None,
     "die_item": None,
     "die_inaccessability": None,
     "die_trap": None,
     "pass_trap": None,
-    "receive_item": None,
-    "receive_no_item": None
+    "receive_item": "lb_event_thief_receive_item",
     }
 
 #
@@ -499,11 +498,11 @@ knight_titles = [
                 u"Прекрасный принц"]
 
 knight_events = {
-    "spawn": None,
+    "spawn": "lb_event_knight_spawn",
     "prepare": None,
     "prepare_usefull": None,
-    "prepare_unusefull": None,
-    "receive_item": None,
+    "prepare_useless": None,
+    "receive_item": "lb_event_knight_receive_item",
     }
 
 #

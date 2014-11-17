@@ -158,7 +158,7 @@ class Game(store.object):
                 #renpy.call("lb_fight", foe=self.knight)
             else:
                 if renpy.config.debug: self.narrator(u"Рыцарю ссыкотно, надо бы подготовиться.")
-                self.knight.event("start_prepare")
+                self.knight.event("prepare")
                 if random.choice(range(2)) == 0:    # C 50% шансом получаем шмотку
                     self.knight.event("prepare_usefull")
                     self.knight.enchant_equip()

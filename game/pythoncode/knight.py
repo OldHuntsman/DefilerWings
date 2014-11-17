@@ -124,8 +124,11 @@ class Knight(Fighter):
         raise NotImplementedError
         
     def event(self, event_type, *args, **kwargs):
-        if event_type in data.knight_events and data.knight_events[event_type] is not None:
-            call(data.knight_events[event_type], *args, knight=self, **kwargs)
+        if event_type in data.knight_events:
+            if data.knight_events[event_type] is not None:
+                call(data.knight_events[event_type], *args, knight=self, **kwargs)
+        else:
+            raise Exception("Unknown event: %s" % event_type)
         return
     
     def enchant_equip(self):

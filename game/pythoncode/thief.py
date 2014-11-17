@@ -206,6 +206,9 @@ class Thief(Sayer, Mortal):
         return skill
     
     def event(self, event_type, *args, **kwargs):
-        if event_type in data.thief_events and data.thief_events[event_type] is not None:
-            call(data.thief_events[event_type], *args, thief=self, **kwargs)
+        if event_type in data.thief_events:
+            if data.thief_events[event_type] is not None:
+                call(data.thief_events[event_type], *args, thief=self, **kwargs)
+        else:
+            raise Exception("Unknown event: %s" % event_type)
         return
