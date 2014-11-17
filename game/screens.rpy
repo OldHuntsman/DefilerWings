@@ -215,15 +215,25 @@ screen main_menu:
         style_group "mm"
         xalign .966
         yalign .89
+        xmaximum 200
 
         #has vbox
-
-        textbutton _("Новая игра") action Start():
-            xalign .966
-            yalign .465
-        textbutton _("Загрузить игру") action ShowMenu("load"):
-            xalign .966
-            yalign .580
+        if not renpy.can_load("1-1"):
+            textbutton _("Начать сюжет") action Start():
+                xalign .966
+                yalign .465
+        else:
+            textbutton _("Продолжить сюжет") action FileLoad("1",confirm=False,page="1"):
+                xalign .966
+                yalign .465
+        if not renpy.can_load("1-3"):
+            textbutton _("Свободная игра") action SetVariable("freeplay", True), Start():
+                xalign .966
+                yalign .580
+        else:
+            textbutton _("Продолжить свободную")action FileLoad("3",confirm=False,page="1"):
+                xalign .966
+                yalign .580
         textbutton _("Настройки") action ShowMenu("preferences"):
             xalign .966
             yalign .695
@@ -577,8 +587,18 @@ screen yesno_prompt:
         hbox:
             xalign 0.5
             spacing 100
-
-            textbutton _("Да") action yes_action
+            if message == layout.QUIT and not main_menu:
+                if not freeplay:
+                    textbutton _("Да") action FileSave("1",confirm=False,page="1"), yes_action
+                else:
+                    textbutton _("Да") action FileSave("3",confirm=False,page="1"), yes_action
+            elif message == layout.MAIN_MENU:
+                if not freeplay:
+                    textbutton _("Да") action FileSave("1",confirm=False,page="1"), yes_action
+                else:
+                    textbutton _("Да") action FileSave("3",confirm=False,page="1"), yes_action
+            else:
+                textbutton _("Да") action yes_action
             textbutton _("Нет") action no_action
 
     # Right-click and escape answer "no".
