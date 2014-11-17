@@ -1306,3 +1306,9 @@ human_special_places = [
                         'lb_castle_found',
                         'lb_palace_found',
                         ]
+
+game_events = {
+    "mobilization_increased": "lb_event_mobilization_increase",
+    "poverty_increased": "lb_event_poverty_increase",
+    "creatures_spawn": None,
+    }

@@ -6,8 +6,7 @@
 import random
 import data
 import renpy.exports as renpy
-from core import Sayer, Mortal
-from core import call, get_avatar
+from core import Sayer, Mortal, call, get_avatar
 from copy import deepcopy
 
 class Thief(Sayer, Mortal):
@@ -208,9 +207,5 @@ class Thief(Sayer, Mortal):
     
     def event(self, event_type, *args, **kwargs):
         if event_type in data.thief_events and data.thief_events[event_type] is not None:
-            if type(data.thief_events[event_type]) is str:
-                call(data.thief_events[event_type], *args, thief=self, **kwargs)
-            elif type(data.thief_events[event_type]) is list:
-                for i in data.thief_events[event_type]:
-                    call(i, *args, thief=self, **kwargs)
+            call(data.thief_events[event_type], *args, thief=self, **kwargs)
         return

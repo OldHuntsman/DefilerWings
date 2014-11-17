@@ -125,11 +125,7 @@ class Knight(Fighter):
         
     def event(self, event_type, *args, **kwargs):
         if event_type in data.knight_events and data.knight_events[event_type] is not None:
-            if type(data.knight_events[event_type]) is str:
-                call(data.knight_events[event_type], *args, knight=self, **kwargs)
-            elif type(data.knight_events[event_type]) is list:
-                for i in data.knight_events[event_type]:
-                    call(i, *args, knight=self, **kwargs)
+            call(data.knight_events[event_type], *args, knight=self, **kwargs)
         return
     
     def enchant_equip(self):

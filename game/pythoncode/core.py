@@ -7,7 +7,6 @@ import battle
 import mob_data
 import girls
 import treasures
-from points import Mobilization, Reputation, Poverty, Army
 from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
@@ -27,6 +26,7 @@ class Game(store.object):
         """
         :param base_character: Базовый класс для персонажа. Скорее всего NVLCharacter.
         """
+        from points import Mobilization, Poverty, Army
         from thief import Thief
         from knight import Knight
         self.adv_character = adv_character
@@ -667,6 +667,7 @@ class Dragon(Fighter):
         '''
         parent - родитель дракона, если есть.
         '''
+        from points import Reputation
         super(Dragon, self).__init__(*args, **kwargs)
         # TODO: pretty screen for name input
         #self._first_name = u"Старый"
@@ -1049,11 +1050,18 @@ class Enemy(Fighter):
     def protection(self):
         return self.defence
 
-def call(label, *args, **kwargs):
+def _call(label, *args, **kwargs):
     if renpy.has_label(label):
         return renpy.call_in_new_context(label, *args, **kwargs)
     else:
         return renpy.call_in_new_context("lb_missed", label=label)
+
+def call(label, *args, **kwargs):
+    if type(label) is str:
+        return _call(label, *args, **kwargs)
+    elif type(label) is list:
+        for i in label:
+            return _call(i, *args, **kwargs)
 
 def get_avatar(folder, regex='.*'):
     '''
@@ -1064,3 +1072,5 @@ def get_avatar(folder, regex='.*'):
     regex = re.compile(regex, re.IGNORECASE)
     filename = random.choice(filter(regex.search, os.listdir(absolute_path))) # получаем название файла
     return folder + "/" + filename # Возвращаем правильно отформатированно значение
+
+get_img = get_avatar
