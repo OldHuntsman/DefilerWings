@@ -1694,3 +1694,15 @@ class Treasury(store.object):
         :return: описание массы драгоценных камней в сокровищнице
         """
         return Treasury.get_mass_description('jewelry', self.jewelry_mass)
+        
+    def get_salary(self, amount):
+        """
+        :param amount: требуемая сумма, фартингов
+        :return: список того, что взяли, чтобы получить сумму, либо None, если денег недостаточно
+        """
+        salary_list = []
+        if self.wealth >= amount:
+            if self.money >= amount:
+                self.money -= amount
+                salary_list.append(Coin('farting', amount))
+        return salary_list

@@ -100,12 +100,16 @@ class Game(store.object):
         self.poverty.apply_planned()
         # Действия с девушками каждый год
         self.girls_list.next_year()
-        # Уменьшаем срок всех наймов
+        # Платим за службу
         for upgrade in self.lair.upgrades.keys():
             if type(self.lair.upgrades) == type(self.lair.upgrades[upgrade]) and \
-               'recruitment_time' in self.lair.upgrades[upgrade].keys():
-                self.lair.upgrades[upgrade]['recruitment_time'] -= 1
-                if self.lair.upgrades[upgrade]['recruitment_time'] == 0:
+               'cost' in self.lair.upgrades[upgrade].keys():
+                salary = self.lair.treasury.get_salary(self.lair.upgrades[upgrade]['cost'])
+                if salary:
+                    salary = self.lair.treasury.treasures_description(salary)
+                    self.narrator(u"%s в качестве платы за год получают:\n %s" % (self.lair.upgrades[upgrade]['name'], ' '.join(salary)))
+                else:
+                    self.narrator(u"%s не получили обещанной платы и уходят." % self.lair.upgrades[upgrade]['name'])
                     del self.lair.upgrades[upgrade]
         # Изменяем уровень мобилизации
         desired_mobilization = self.dragon.reputation.level - self.poverty.value # Желаемый уровень мобилизации
