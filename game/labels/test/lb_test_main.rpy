@@ -64,17 +64,16 @@ label lb_test_debug:
             $ config.debug = True
         "Ослабить армию Тьмы":
             $ game.army.power_percentage -= 10
-        "Работа с сокровищницей":
-            call lb_test_debug_treasury
-        "Добавить девушку":
-            python:
-                from pythoncode import treasures
-                girls_menu = []
-                for girl_type in girls_data.girls_info.keys():
-                    girls_menu.append((treasures.capitalizeFirst(girl_type), girl_type))
-                girl_type = renpy.display_menu(girls_menu)
-                game.girls_list.new_girl(girl_type)
-                game.girls_list.jail_girl()
+        "Королевство":
+            menu:
+                "Повысить мобилизацию":
+                    $ game.mobilization.level += 1
+                "Понизить мобилизацию":
+                    $ game.mobilization.level -= 1
+                "Повысить разруху":
+                    $ game.poverty.value += 1
+                "Понизить разруху":
+                    $ game.poverty.value -= 1
         "Дракон":
             menu:
                 "Потратить одно очко здоровья":
@@ -85,6 +84,12 @@ label lb_test_debug:
                         game.dragon "Силы покинули меня."
                     else:
                         game.dragon "Я и так истощен."
+                "Тип дракона":
+                    python:
+                        head_menu = []
+                        for head_type in data.dragon_heads.iterkeys():
+                            head_menu.append((data.heads_name_rus[head_type], head_type))
+                        game.dragon.heads[0] = renpy.display_menu(head_menu)
                 "Создать потомство":
                     call lb_choose_dragon
         "Логово":
@@ -100,6 +105,17 @@ label lb_test_debug:
                             for upgrade in game.lair.upgrades.values():   
                                 lair_description += u" %s\n" % upgrade.name
                         narrator(lair_description)
+                "Работа с сокровищницей":
+                    call lb_test_debug_treasury
+                "Добавить девушку":
+                    python:
+                        from pythoncode import treasures
+                        girls_menu = []
+                        for girl_type in girls_data.girls_info.keys():
+                            girls_menu.append((treasures.capitalizeFirst(girl_type), girl_type))
+                        girl_type = renpy.display_menu(girls_menu)
+                        game.girls_list.new_girl(girl_type)
+                        game.girls_list.jail_girl()
                 "Редактировать гемы в сокровищнице":
                     call screen sc_treasury_gems
                 "Редактировать воровские предметы":
@@ -242,4 +258,6 @@ label lb_test_debug_treasury:
             "Назад":
                 return
     return
-        
+
+label lb_mob_inc:
+    "Оророро"

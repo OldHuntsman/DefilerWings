@@ -7,7 +7,6 @@ import battle
 import mob_data
 import girls
 import treasures
-from points import Mobilization, Reputation, Poverty, Army
 from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
@@ -27,6 +26,7 @@ class Game(store.object):
         """
         :param base_character: Базовый класс для персонажа. Скорее всего NVLCharacter.
         """
+        from points import Mobilization, Poverty, Army
         from thief import Thief
         from knight import Knight
         self.adv_character = adv_character
@@ -45,7 +45,6 @@ class Game(store.object):
         
         self.narrator = Sayer(gameRef=self, base_character=nvl_character)
         self.girls_list = girls.Girls_list(gameRef=self, base_character=adv_character)
-        self.create_lair()
         self.foe = None
         self.girl = None
 
@@ -81,6 +80,10 @@ class Game(store.object):
         renpy.take_screenshot() # Делаем скриншот для отображения в сейве
         renpy.save("1-1")               # Сохраняем игру
         return True
+    def save_freegame(self):
+        renpy.rename_save("1-3", "1-4")
+        renpy.take_screenshot()
+        renpy.save("1-3")
 
     def next_year(self):
         '''
@@ -97,22 +100,24 @@ class Game(store.object):
         self.poverty.apply_planned()
         # Действия с девушками каждый год
         self.girls_list.next_year()
-        # Уменьшаем срок всех наймов
+        # Платим за службу
         for upgrade in self.lair.upgrades.keys():
             if type(self.lair.upgrades) == type(self.lair.upgrades[upgrade]) and \
-               'recruitment_time' in self.lair.upgrades[upgrade].keys():
-                self.lair.upgrades[upgrade]['recruitment_time'] -= 1
-                if self.lair.upgrades[upgrade]['recruitment_time'] == 0:
+               'cost' in self.lair.upgrades[upgrade].keys():
+                salary = self.lair.treasury.get_salary(self.lair.upgrades[upgrade]['cost'])
+                if salary:
+                    salary = self.lair.treasury.treasures_description(salary)
+                    self.narrator(u"%s в качестве платы за год получают:\n %s" % (self.lair.upgrades[upgrade]['name'], ' '.join(salary)))
+                else:
+                    self.narrator(u"%s не получили обещанной платы и уходят." % self.lair.upgrades[upgrade]['name'])
                     del self.lair.upgrades[upgrade]
         # Изменяем уровень мобилизации
         desired_mobilization = self.dragon.reputation.level - self.poverty.value # Желаемый уровень мобилизации
         mobilization_delta = desired_mobilization - self.mobilization.level # Считаем есть ли разница с текущим уровнем мобилизации
-        if renpy.config.debug: self.narrator(u"Дельта мобилизации: %s" % str(mobilization_delta))
         if mobilization_delta != 0: # И если есть разница
             # Увеличиваем  или  уменьшаем на единицу 
             if mobilization_delta > 0:
                 self.mobilization.level += 1
-                if renpy.config.debug: self.narrator(u"Рост мобилизации")
             else:
                 self.mobilization.level -= 1
         
@@ -161,7 +166,7 @@ class Game(store.object):
                 #renpy.call("lb_fight", foe=self.knight)
             else:
                 if renpy.config.debug: self.narrator(u"Рыцарю ссыкотно, надо бы подготовиться.")
-                self.knight.event("start_prepare")
+                self.knight.event("prepare")
                 if random.choice(range(2)) == 0:    # C 50% шансом получаем шмотку
                     self.knight.event("prepare_usefull")
                     self.knight.enchant_equip()
@@ -223,18 +228,40 @@ class Game(store.object):
         else:
             self.knight = None
             
-    def create_lair(self, lair_type = "impassable_coomb"):
+    def create_lair(self, lair_type = None):
         """
         Создание нового логова.
         """
         # Выпускаем всех женщин в прошлом логове на свободу. 
         self.girls_list.free_all_girls()
-        # Если меняется логово на лучшее - сохраняем сокровищницу
-        if lair_type <> "impassable_coomb": save_treas = self.lair.treasury
-        # Создаем новое логово
-        self.lair = Lair(lair_type)
-        # Если меняется логово на лучшее - копируем сокровищницу из прошлого логова
-        if lair_type <> "impassable_coomb": self.lair.treasury = save_treas
+        
+        if lair_type is not None:
+            # Если меняется логово на лучшее - сохраняем сокровищницу
+            save_treas = self.lair.treasury
+            # Создаем новое логово
+            self.lair = Lair(lair_type)
+            # Копируем сокровищницу из прошлого логова
+            self.lair.treasury = save_treas
+        else:
+            # определяем логово по умолчанию
+            lair_list = []
+            mods = self.dragon.modifiers()
+            for lair in data.lair_types.iterkeys():
+                if 'prerequisite' in data.lair_types[lair]: # просматриваем логова, выдаваемые автоматически при выполнении требований
+                    prerequisite_list = data.lair_types[lair]['prerequisite'] # получаем список требований к дракону
+                    prerequisite_exists = True # временная переменная для требований
+                    for prerequisite in prerequisite_list: # просматриваем список требований
+                        prerequisite_exists = prerequisite_exists and prerequisite in mods # удостоверяемся, что список требований выполнен
+                    if prerequisite_exists: 
+                        lair_list.append((data.lair_types[lair].name, lair)) # если список требований выполнен, добавляем логово к списку
+            if len(lair_list) == 0:
+                lair_type = 'impassable_coomb' # список логов пуст, выбираем начальное
+            elif len(lair_list) == 1:
+                lair_type = lair_list[0][1] # в списке одно логово, выбираем его автоматически
+            else:
+                lair_list.insert(0, (u"Выберите логово:", None))
+                lair_type = renpy.display_menu(lair_list) # в списке больше одного логова, даём список на выбор
+            self.lair = Lair(lair_type)
         
     def set_quest(self):
         lvl = self.dragon.level
@@ -669,6 +696,7 @@ class Dragon(Fighter):
         '''
         parent - родитель дракона, если есть.
         '''
+        from points import Reputation
         super(Dragon, self).__init__(*args, **kwargs)
         # TODO: pretty screen for name input
         #self._first_name = u"Старый"
@@ -711,7 +739,7 @@ class Dragon(Fighter):
         else:
             self.anatomy.append(self._gift)
         
-        self.avatar = self._get_dragon_avatar(self.color_eng) #Назначаем аватарку
+        self.avatar = get_avatar("img/avadragon/"+self.color_eng) #Назначаем аватарку
     
     @property
     def description(self):
@@ -753,17 +781,6 @@ class Dragon(Fighter):
         else:
             return text
         
-    
-    def _get_dragon_avatar(self, type):
-        import os
-        # config.basedir - директория где у нас лежит сама игра.
-        # "game" - директория относительно config.basedir где лежат собственно файлы игры и 
-        # относительно которой высчитываются все пути
-        relative_path = "img/avadragon/"+type # Относительный путь для движка ренпи
-        absolute_path = os.path.join(renpy.config.basedir, "game", relative_path) # Cоставляем абсолютный путь где искать
-        filename = random.choice(os.listdir(absolute_path)) # получаем название файла
-        return relative_path + "/" + filename # Возвращаем правильно отформатированно значение
-
     def modifiers(self):
         """
         :return: Список модификаторов дракона
@@ -1062,9 +1079,27 @@ class Enemy(Fighter):
     def protection(self):
         return self.defence
 
-def call(label, *args, **kwargs):
+def _call(label, *args, **kwargs):
     if renpy.has_label(label):
         return renpy.call_in_new_context(label, *args, **kwargs)
     else:
         return renpy.call_in_new_context("lb_missed", label=label)
 
+def call(label, *args, **kwargs):
+    if type(label) is str:
+        return _call(label, *args, **kwargs)
+    elif type(label) is list:
+        for i in label:
+            return _call(i, *args, **kwargs)
+
+def get_avatar(folder, regex='.*'):
+    '''
+    Возвращает строку-путь с случайной картинкой подходящей под регекспу regex
+    '''
+    import re,os
+    absolute_path = os.path.join(renpy.config.basedir, "game", folder) # Cоставляем абсолютный путь где искать
+    regex = re.compile(regex, re.IGNORECASE)
+    filename = random.choice(filter(regex.search, os.listdir(absolute_path))) # получаем название файла
+    return folder + "/" + filename # Возвращаем правильно отформатированно значение
+
+get_img = get_avatar

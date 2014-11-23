@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-from core import Fighter, call
+from core import Fighter, call, get_avatar
 import renpy.exports as renpy
 import random
 import os
@@ -42,6 +42,7 @@ class Knight(Fighter):
         self.bg = "img/scene/fight/knight/" + random.choice(os.listdir(os.path.join(renpy.config.basedir, "game/img/scene/fight/knight"))) # получаем название файла
         self.kind = 'knight'
         self.descriptions = mob_data.mob['knight']['descriptions']
+        self.avatar = get_avatar(u"img/avahuman/knight")
             
     def description(self):
         '''
@@ -51,7 +52,7 @@ class Knight(Fighter):
         if self.is_dead:
             d.append (u"Рыцарь мёртв")
             return u"\n".join(d)
-        d.append(u"Сила: %s (%d)" % (self.title(), self.power))
+        d.append(u"Сила: %s (%d)" % (self.title, self.power))
         if self.abilities:
             d.append(u"Способности: ")
             for ability in self.abilities:
@@ -94,7 +95,9 @@ class Knight(Fighter):
             # TODO: подумать как получаем ссылку на логово
             # Увеличиваем атаку в соответствии со списком женщин в логове
             raise NotImplementedError
-        a['base'][0] + self.power
+        a_base = list(a['base'])
+        a_base[0] += self.power
+        a['base'] = tuple(a_base)
         return a
 
     def protection(self):
@@ -102,9 +105,12 @@ class Knight(Fighter):
         if "liberator" in self.modifiers():
             # Увеличиваем защиту в соответствии со списком женщин в логове
             raise NotImplementedError
-        p['base'][0] + self.power
+        p_base = list(p['base'])
+        p_base[0] += self.power
+        p['base'] = tuple(p_base)
         return p
 
+    @property
     def title(self):
         """
         :return: Текстовое представление 'звания' рыцаря.
@@ -122,12 +128,11 @@ class Knight(Fighter):
         raise NotImplementedError
         
     def event(self, event_type, *args, **kwargs):
-        if event_type in data.knight_events and data.knight_events[event_type] is not None:
-            if type(data.knight_events[event_type]) is str:
+        if event_type in data.knight_events:
+            if data.knight_events[event_type] is not None:
                 call(data.knight_events[event_type], *args, knight=self, **kwargs)
-            elif type(data.knight_events[event_type]) is list:
-                for i in data.knight_events[event_type]:
-                    call(i, *args, knight=self, **kwargs)
+        else:
+            raise Exception("Unknown event: %s" % event_type)
         return
     
     def enchant_equip(self):

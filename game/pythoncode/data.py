@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 # coding=utf-8
 
 import collections
@@ -270,18 +270,17 @@ obj - улучшение которое вор обошел или умер
 obj - вещь, которую получил вор
 '''
 thief_events = {
-    "spawn": None,
+    "spawn": "lb_event_thief_spawn",
     "lair_unreachable": None,
     "prepare": None,
     "prepare_usefull": None,
-    "prepare_unusefull": None,
+    "prepare_useless": None,
     "lair_enter": None,
     "die_item": None,
     "die_inaccessability": None,
     "die_trap": None,
     "pass_trap": None,
-    "receive_item": None,
-    "receive_no_item": None
+    "receive_item": "lb_event_thief_receive_item",
     }
 
 #
@@ -499,11 +498,11 @@ knight_titles = [
                 u"Прекрасный принц"]
 
 knight_events = {
-    "spawn": "lb_knight_new",
+    "spawn": "lb_event_knight_spawn",
     "prepare": None,
     "prepare_usefull": None,
-    "prepare_unusefull": None,
-    "receive_item": None,
+    "prepare_useless": None,
+    "receive_item": "lb_event_knight_receive_item",
     }
 
 #
@@ -515,19 +514,24 @@ lair_types = Container("lair_types", {
                                                         "inaccessability" : 0},
                                 "impregnable_peak"  : { "name": u"Неприступная вершина",
                                                         "inaccessability" : 0,
-                                                        "require" : [ "aplinism" ] },
+                                                        "require" : [ "aplinism" ],
+                                                        'prerequisite' : ['wings'] },
                                 "solitude_сitadel"  : { "name": u"Цитадель одиночества",
                                                         "inaccessability" : 0,
-                                                        "require" : [ "aplinism", "coldproof" ] },
+                                                        "require" : [ "aplinism", "coldproof" ],
+                                                        'prerequisite' : ['wings', 'ice_immunity'] },
                                 "vulcano_chasm"     : { "name": u"Вулканическая расселина",
                                                         "inaccessability" : 0,
-                                                        "require" : [ "aplinism", "fireproof" ] },
+                                                        "require" : [ "aplinism", "fireproof" ],
+                                                        'prerequisite' : ['wings', 'fire_immunity'] },
                                 "underwater_grot"   : { "name": u"Подводный грот",
                                                         "inaccessability" : 0,
-                                                        "require" : [ "swimming" ] },
+                                                        "require" : [ "swimming" ], 
+                                                        'prerequisite' : ['swimming'] },
                                 "underground_burrow": { "name": u"Подземная нора",
                                                         "inaccessability": 1,
-                                                        "require" : [ ] },
+                                                        "require" : [ ], 
+                                                        'prerequisite' : ['can_dig'] },
                                 "dragon_castle"     : { "name": u"Драконий замок",
                                                         "inaccessability" : 1,
                                                         "require" : [ ] },
@@ -582,13 +586,16 @@ lair_upgrades = Container("lair_upgrades", {
                                                                  "protection": 1 },
                                             "regular_guards" : { "name": u"Обычные стражи",
                                                                  "protection": 2 },
+                                            "smuggler_guards" : { "name": u"Охранники",
+                                                                 "cost": 100,
+                                                                 "protection": 2 },
                                             "elite_guards" : { "name": u"Элитные стражи",
                                                                  "protection": 3 },
                                             "gremlin_fortification" : {"name": u"Укрепления",
                                                                          "inaccessability": 1,
                                                                          "protection": 0},
                                             "gremlin_servant" : {"name": u"Слуги-гремлины",
-                                                                 "recruitment_time": 0,
+                                                                 "cost": 100,
                                                                  "protection": 0},     
                                             "servant" : {"name": u"Слуги",
                                                          "protection": 0},                               
@@ -1314,3 +1321,9 @@ human_special_places = [
                         'lb_castle_found',
                         'lb_palace_found',
                         ]
+
+game_events = {
+    "mobilization_increased": "lb_event_mobilization_increase",
+    "poverty_increased": "lb_event_poverty_increase",
+    "creatures_spawn": None,
+    }
