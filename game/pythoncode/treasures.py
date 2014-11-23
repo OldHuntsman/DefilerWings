@@ -1598,7 +1598,7 @@ class Treasury(store.object):
         """
         :param description_key: ключ для словаря treasures_mass_description_rus
         :param mass: масса, для которой нужно подобрать описание
-        :return: описание массы монет в сокровищнице
+        :return: описание массы в сокровищнице
         """
         if mass > 0:
             mass_list = reversed(sorted(treasures_mass_description_rus[description_key].keys()))
@@ -1607,8 +1607,7 @@ class Treasury(store.object):
                     return treasures_mass_description_rus[description_key][mass_i]
         else:
             return u""
-            
-            
+    
     @property
     def coin_mass(self):
         """
