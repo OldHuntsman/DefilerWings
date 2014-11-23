@@ -499,7 +499,7 @@ knight_titles = [
                 u"Прекрасный принц"]
 
 knight_events = {
-    "spawn": None,
+    "spawn": "lb_knight_new",
     "prepare": None,
     "prepare_usefull": None,
     "prepare_unusefull": None,

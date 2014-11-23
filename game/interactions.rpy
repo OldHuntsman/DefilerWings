@@ -89,3 +89,9 @@ label lb_gigant_sex:
             game.girl.third "[description]"
             return      
     jump lb_nature_sex
+    
+    
+label lb_knight_new:
+    show expression 'img/bg/special/oath.png' as bg
+    'Рыцарь дал клятву убить дракона.'
+    return
