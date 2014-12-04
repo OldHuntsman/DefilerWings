@@ -35,7 +35,7 @@ label lb_dragon_creator:
                     textbutton "размер" action SetVariable("mods_left", mods_left-1), add_modifier("size", game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
                     for i in special_features_rus.keys():
                         textbutton special_features_rus[i] action SetVariable("mods_left", mods_left-1), add_modifier(i, game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
-                showif game.dragon.heads.count("green") > 0:
+                if game.dragon.heads.count("green") > 0: 
                     vbox:
                         text "Цветные головы"
                         for i in colored_heads:
