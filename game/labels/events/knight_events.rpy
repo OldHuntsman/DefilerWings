@@ -8,5 +8,6 @@ label lb_event_knight_spawn(knight):
 label lb_event_knight_receive_item(knight, item):
     show expression "img/scene/quest_knight.png" as bg
     nvl clear
-    "[item.name]"
+    "Рыцарь выполняет квест и получает [item.name]"
+    knight "Теперь дракону не уйти от моего возмездия!"
     return
