@@ -252,8 +252,7 @@ class Girls_list(object):
             spawn = girls_data.spawn_info[spawn_type] #упрощение обращения к данным отродий
             spawn_mod = spawn['modifier'] #упрощение обращения к списку модификаторов отродий
             marine_check = ('marine' not in spawn_mod) or (self.game.lair.type.require and 'swimming' in self.game.lair.type.require) #истина, если не морское отродье или морское в подводном логове
-            spawn_menu = [] #меню отродий
-            spawn_menu.append((u"К Вам приходит %s и просит назначения" % spawn['name'], None)) #заголовок меню
+            spawn_menu = [(u"К Вам приходит %s и просит назначения" % spawn['name'], None)]  #меню отродий
             #Возможные пункты меню
             if ('poisonous' in spawn_mod) and ('poison_guards' not in self.game.lair.upgrades) and marine_check:
                 spawn_menu.append((u"Выпустить в логово", 'poison_guards')) 
