@@ -1,7 +1,7 @@
 init python:
     from pythoncode import battle
 
-label lb_fight(foe = game.foe):
+label lb_fight(foe=game.foe):
     show expression foe.bg as foeimg
     nvl clear
     $ battle_status = battle.check_fear(game.dragon, foe)

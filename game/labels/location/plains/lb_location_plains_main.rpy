@@ -32,21 +32,21 @@ label lb_location_plains_main:
     return
     
 label lb_encounter_plains:
-    $ nochance = game.poverty.value*3
+    $ nochance = game.poverty.value * 3
     $ choices = [("lb_enc_fair", 10),
-                ("lb_enc_berries", 10),
-                ("lb_enc_shrooms", 10),
-                ("lb_enc_laundry", 10),
-                ("lb_enc_bath", 10),   
-                ("lb_enc_militia", 10),
-                ("lb_enc_mill", 10),
-                ("lb_enc_granary", 10),
-                ("lb_enc_sheepherd", 10),
-                ("lb_enc_pigs", 10),
-                ("lb_enc_cattle", 10),
-                ("lb_enc_gooze", 10),
-                ("lb_patrool_plains", 3*game.mobilization.level),                   
-                ("lb_enc_noting", nochance),]
+                 ("lb_enc_berries", 10),
+                 ("lb_enc_shrooms", 10),
+                 ("lb_enc_laundry", 10),
+                 ("lb_enc_bath", 10),
+                 ("lb_enc_militia", 10),
+                 ("lb_enc_mill", 10),
+                 ("lb_enc_granary", 10),
+                 ("lb_enc_sheepherd", 10),
+                 ("lb_enc_pigs", 10),
+                 ("lb_enc_cattle", 10),
+                 ("lb_enc_gooze", 10),
+                 ("lb_patrool_plains", 3 * game.mobilization.level),
+                 ("lb_enc_noting", nochance)]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
     return

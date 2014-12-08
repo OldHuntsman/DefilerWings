@@ -73,7 +73,7 @@ label lb_manor:
     
 label lb_manor_rob:
     python:
-        count = random.randint(4,12)
+        count = random.randint(4, 12)
         alignment = 'knight'
         min_cost = 10
         max_cost = 500

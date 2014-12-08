@@ -12,20 +12,20 @@ label lb_test_example_encounter_static:
     "Cлучайный взвешенный энкаунтер"
     python:
         # Для начала определяем энкаунтеры:
-        choices = [ ("Location 1", 2),
-                    ("Location 2", 1),
-                    ("Location 3", 1)]
+        choices = [("Location 1", 2),
+                   ("Location 2", 1),
+                   ("Location 3", 1)]
         # У нас есть три варианта с распределением 2:1:1, т.е. если переводить в проценты, то:
         # 50%:25%:25%
         # Проверим это
         distribution = {}                   # Cделаем словарь distribution
         for (option, weight) in choices:    # Затем в него занесем варианты из списка choices
             distribution[option] = 0        # Проставив количество выпавших варинтов
-        for i in range(0,1000):             # И в цикле считам распределение на 1000 попыток
+        for i in range(0, 1000):             # И в цикле считам распределение на 1000 попыток
             option = core.Game.weighted_random(choices)
-            distribution[option] +=1
+            distribution[option] += 1
         for key, value in distribution.items():        # Затем выводим получившийся результат на экран
-            narrator( "%s : %d" % (key, value))
+            narrator("%s : %d" % (key, value))
     "Конец"
     return
 
@@ -39,7 +39,7 @@ label lb_test_example_encounter_dynamic:
         location3_seen = False  # Определям переменную, по которй будем определять доступна ли
                                 # третья локация для выбора.
 
-        for i in range(0,1000):
+        for i in range(0, 1000):
             choices = [("Location 1", 20),
                        ("Location 2", 10)]  # Создаем список вариантов
             if not location3_seen:      # Если мы не видели третью локацию, то добавляем ее в список
@@ -47,7 +47,7 @@ label lb_test_example_encounter_dynamic:
 
             # Проверяем распределение:
             result = core.Game.weighted_random(choices)
-            if result in distribution: # Проверяем занесли ли мы этот вариант в распределение
+            if result in distribution:  # Проверяем занесли ли мы этот вариант в распределение
                 distribution[result] += 1
             else:
                 distribution[result] = 1
@@ -56,9 +56,9 @@ label lb_test_example_encounter_dynamic:
                                         # третья локация в него не попала.
                                         # В реальном случае стоит использовать persistent и
                                         # выставлять ее уже где-то внутри этой локации.
-                narrator("Третья локация выпала на %d-й попытке" % (i)) # Информативно
+                narrator("Третья локация выпала на %d-й попытке" % i)  # Информативно
 
         # Выводим получившийся результат
         for key, value in distribution.items():
-            narrator( "%s : %d" % (key, value))
+            narrator("%s : %d" % (key, value))
     return

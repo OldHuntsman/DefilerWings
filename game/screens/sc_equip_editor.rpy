@@ -34,8 +34,8 @@ screen sc_equip_editor(object, equip_variants):
                 viewport:
                     scrollbars "vertical"
                     vbox:
-                        text "%s:" % (d.id)
+                        text "%s:" % d.id
                         for type in object._equip_slots:
-                            text "%s:" % (type)
+                            text "%s:" % type
                             for i in d.contains("type", type):
                                 textbutton d[i].name action Equip(object, d[i])

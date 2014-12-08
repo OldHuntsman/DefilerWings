@@ -7,19 +7,19 @@ label lb_location_road_main:
         'Даже драконам надо иногда спать. Особенно драконам!'
         return
         
-    $ nochance = game.poverty.value*3      
+    $ nochance = game.poverty.value * 3
     $ choices = [("lb_enc_tornament", 10),
-                ("lb_enc_inn", 10),
-                ("lb_enc_peasant_cart", 10),
-                ("lb_enc_carriage", 10),   
-                ("lb_enc_qesting_knight", 10),
-                ("lb_enc_trader", 10),
-                ("lb_enc_caravan", 10),
-                ("lb_enc_lcaravan", 10),
-                ("lb_enc_outpost", 10),
-                ("lb_manor_found", 1000),
-                ("lb_patrool_road", 3*game.mobilization.level),                   
-                ("lb_enc_noting", nochance),]
+                 ("lb_enc_inn", 10),
+                 ("lb_enc_peasant_cart", 10),
+                 ("lb_enc_carriage", 10),
+                 ("lb_enc_qesting_knight", 10),
+                 ("lb_enc_trader", 10),
+                 ("lb_enc_caravan", 10),
+                 ("lb_enc_lcaravan", 10),
+                 ("lb_enc_outpost", 10),
+                 ("lb_manor_found", 1000),
+                 ("lb_patrool_road", 3 * game.mobilization.level),
+                 ("lb_enc_noting", nochance)]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
         
@@ -74,9 +74,12 @@ label lb_enc_inn:
             $ game.dragon.drain_energy()
             "[game.dragon.name] получает от испуганного хозяина трактира целую бочку лучшего эля. После такой выпивки так и тянет на приключения и хорошую закуску!"
             python:
-                if game.game.dragon.bloodiness < 5: game.dragon.bloodiness += 1
-                if game.dragon.lust < 3: game.dragon.lust += 1
-                if game.dragon.hunger < 3: game.dragon.hunger += 1
+                if game.game.dragon.bloodiness < 5:
+                    game.dragon.bloodiness += 1
+                if game.dragon.lust < 3:
+                    game.dragon.lust += 1
+                if game.dragon.hunger < 3:
+                    game.dragon.hunger += 1
         'Пройти мимо' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             
@@ -130,7 +133,7 @@ label lb_enc_qesting_knight:
             'Рыцарь повержен. [game.dragon.reputation.gain_description]'
             '[game.dragon.name] находит на трупе кое-что ценное:'
             python:
-                count = random.randint(1,5)
+                count = random.randint(1, 5)
                 alignment = 'knight'
                 min_cost = 10
                 max_cost = 100
@@ -150,7 +153,7 @@ label lb_enc_trader:
         'Вымогать деньги':
             python:
                 game.dragon.drain_energy()
-                passing_tool = random.randint(10,200) 
+                passing_tool = random.randint(10, 200)
                 slvr_trs = [treasures.Coin('taller', passing_tool)]
                 game.lair.treasury.receive_treasures(slvr_trs)
             'Торговец с облегчением отдаёт дракону несколько серебрянных таллеров, чтобы тот его не трогал и пропустил фургон.'
@@ -175,7 +178,7 @@ label lb_enc_caravan:
         'Вымогать деньги' if game.dragon.fear > 3:
             python:
                 game.dragon.drain_energy()
-                passing_tool = random.randint(1,20) 
+                passing_tool = random.randint(1, 20)
                 gold_trs = treasures.Coin('dublon', passing_tool)
                 game.lair.treasury.receive_treasures([gold_trs])
             'Караванщик с ворчанием отдаёт дракону несколько золотых дублонов, чтобы тот не трогал повозки и пропустил из дальше.'
@@ -187,7 +190,7 @@ label lb_enc_caravan:
             call lb_fight
             'Дав волю своему гневу, [game.dragon.name] переворачивает фургон, убивает лошадь и разрывает караванщика на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
             python:
-                count = random.randint(5,15)
+                count = random.randint(5, 15)
                 alignment = 'human'
                 min_cost = 1
                 max_cost = 1000

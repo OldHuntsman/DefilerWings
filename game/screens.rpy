@@ -7,10 +7,10 @@
 # Screen that's used to display adv-mode dialogue.
 # http://www.renpy.org/doc/html/screen_special.html#say
 screen say:
-    
+
     use sc_dialog(who, game.currentCharacter.avatar, what)
 
-    
+
 
     use status_bar
     # Use the quick menu.
@@ -46,7 +46,7 @@ screen choice:
 
                 else:
                     text caption style "menu_caption"
-    
+
     use status_bar
 
 init -2:
@@ -60,7 +60,7 @@ init -2:
     style menu_choice_button is button:
         xminimum int(config.screen_width * 0.75)
         xmaximum int(config.screen_width * 0.75)
-        
+
     python:
         style.menu_choice_button.background = Frame("img/bg/button-idle.png", 5,5)
         style.menu_choice_button.hover_background = Frame("img/bg/button-hovered.png", 5,5)
@@ -92,7 +92,7 @@ screen dw_choice(items):
         vbox:
             style "menu"
             spacing 2
-            
+
             for caption, value, visible, condition in items:
 
                 if visible and condition:
@@ -102,13 +102,13 @@ screen dw_choice(items):
                         style "menu_choice_button"
 
                         text caption style "menu_choice"
-                        
+
                 if visible and not condition:
-                    
+
                     button:
                         action NullAction()
                         style "menu_choice_button"
-                        
+
                         text caption style "menu_choice_inactive"
     use status_bar
 
@@ -146,16 +146,16 @@ screen nvl:
         style "nvl_window"
         xpos 200
         xsize 760
-        align (0.0,0.0) 
-        
+        align (0.0,0.0)
+
         viewport:
             mousewheel True
             scrollbars "vertical"
             yinitial 1.0
-            
+
             has vbox:
                 style "nvl_vbox"
-            
+
             # Display dialogue.
             for who, what, who_id, what_id, window_id in dialogue:
                 window:
@@ -244,7 +244,7 @@ screen main_menu:
             xalign .966
             yalign .925
 
-     
+
     #text "{font=fonts/Lombardina лого.ttf}Крылья":
      #   xalign 0.94
       #  yalign 0.11
@@ -259,7 +259,7 @@ screen main_menu:
         #size 60
         #bold False
         #color "#607080"
-    text "{font=fonts/PFMonumentaPro-Regular кнопки.ttf}Версия: %s"%(config.version):
+    text "{font=fonts/PFMonumentaPro-Regular кнопки.ttf}Версия: %s" % config.version:
         xalign 0.96
         yalign 0.29
         text_align 0.5
@@ -269,14 +269,14 @@ screen main_menu:
 
 init -2 python:
     style.mm_button.size_group = "mm"
-    
+
 init python:
     style.mm_button.background = Frame("img/menu/button/idle.png",10,10)
     style.mm_button.hover_background = Frame("img/menu/button/hover.png",10,10)
     style.mm_button.selected_background = Frame("img/menu/button/selected.png",10,10)
     style.mm_button.selected_hover_background = Frame("img/menu/button/selected.png",10,10)
     style.mm_frame.background = Frame("img/menu/frame.png",125,25)
-    
+
     style.mm_button_text.size = 22
     style.mm_button_text.font = "fonts/PFMonumentaPro-Regular кнопки.ttf"
 
@@ -550,7 +550,7 @@ init -2:
 
     style soundtest_button:
         xalign 1.0
-    
+
     #style pref_root:
     #    background img/menu/gmenu.png
 
@@ -658,21 +658,21 @@ init python:
         girls_cols = 4
         girls_cells = girls_rows * girls_cols
         girl_page = 0
-        girl_position_priority = (6,  7,  8,  9, 
-                                  5,  0,  1, 10, 
+        girl_position_priority = (6,  7,  8,  9,
+                                  5,  0,  1, 10,
                                   4,  3,  2, 11)
 screen girls_menu:
-    
+
     # This ensures that any other menu screen is replaced.
     tag menu
-    
+
     frame background "img/scene/prison.png":
         if girl_page * girls_cells > game.girls_list.prisoners_count:
             $ girl_page = 0
         $ next_girl_page = girl_page + 1
         $ prev_girl_page = girl_page - 1
         $ position_i = -1
-        
+
         for row_i in xrange(girls_rows):
             grid girls_cols 1:
                 spacing 50
@@ -684,8 +684,8 @@ screen girls_menu:
                     if girl_i < game.girls_list.prisoners_count:
                         imagebutton idle Image(im.Grayscale(game.girls_list.prisoners[girl_i].avatar)) hover game.girls_list.prisoners[girl_i].avatar action [Function(game.girls_list.set_active, girl_i), Jump('lb_nature_sex')]
                     else:
-                        null       
-        
+                        null
+
         hbox:
             ypos 680
             xpos 60
@@ -693,7 +693,7 @@ screen girls_menu:
             if girl_page > 0:
                 textbutton _("Предыдущая страница") action [SetVariable('girl_page', prev_girl_page), Show("girls_menu")]
             else:
-                textbutton _("Предыдущая страница") action None 
+                textbutton _("Предыдущая страница") action None
             textbutton _("Вернуться") action Return()
             if next_girl_page * girls_cells < game.girls_list.prisoners_count:
                 textbutton _("Следующая страница") action [SetVariable('girl_page', next_girl_page), Show("girls_menu")]

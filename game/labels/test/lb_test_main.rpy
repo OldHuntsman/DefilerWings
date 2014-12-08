@@ -9,21 +9,21 @@ label lb_test_main:
             "Краткая сводка":
                 python hide:
                     tmp = "Уровень мобилизации: [game.mobilization.level]"
-                    tmp+= "\nУровень разрухи: [game.poverty.value]"
-                    tmp+= "\nОчки/уровень дурной славы: [game.dragon.reputation.points]/[game.dragon.reputation.level]"
-                    tmp+= "\nУровень дракона: [game.dragon.level]"
-                    tmp+= "\nМощь дракона:"
+                    tmp += "\nУровень разрухи: [game.poverty.value]"
+                    tmp += "\nОчки/уровень дурной славы: [game.dragon.reputation.points]/[game.dragon.reputation.level]"
+                    tmp += "\nУровень дракона: [game.dragon.level]"
+                    tmp += "\nМощь дракона:"
                     for type in data.attack_types:
-                        tmp+= "\n  %s: %s" % (str(type), str(game.dragon.attack()[type]))
-                    tmp+= "\nЗащита дракона:"
+                        tmp += "\n  %s: %s" % (str(type), str(game.dragon.attack()[type]))
+                    tmp += "\nЗащита дракона:"
                     for type in data.protection_types:
-                        tmp+= "\n  %s: %s" % (str(type), str(game.dragon.protection()[type]))
-                    tmp+= "\nАрмия Тьмы:"
-                    tmp+= "\n  Рядовые войска: [game.army.grunts]. [game.army.grunts_list]"
-                    tmp+= "\n  Элитные войска: [game.army.elites]. [game.army.elites_list]"
-                    tmp+= "\n  Разнообразие войск: [game.army.diversity]. "
-                    tmp+= "\n  Денег в казне: [game.army.money]. Уровень экипировки: [game.army.equipment]"
-                    tmp+= "\n  Сила армии Тьмы: [game.army.force] (армия сильна на [game.army.power_percentage] %)."
+                        tmp += "\n  %s: %s" % (str(type), str(game.dragon.protection()[type]))
+                    tmp += "\nАрмия Тьмы:"
+                    tmp += "\n  Рядовые войска: [game.army.grunts]. [game.army.grunts_list]"
+                    tmp += "\n  Элитные войска: [game.army.elites]. [game.army.elites_list]"
+                    tmp += "\n  Разнообразие войск: [game.army.diversity]. "
+                    tmp += "\n  Денег в казне: [game.army.money]. Уровень экипировки: [game.army.equipment]"
+                    tmp += "\n  Сила армии Тьмы: [game.army.force] (армия сильна на [game.army.power_percentage] %)."
                     narrator(tmp)
                 return
             "Примеры":
@@ -181,8 +181,8 @@ label lb_test_example_inaccessible_menu:
     nvl clear
     python:
         # Составляем список параметров для выбора.
-        menu_options = [("Делать что-нибудь (Заблокировано:нужен остаток энергии меньше 2)", 1, game.dragon.energy()>=2, game.dragon.energy()<2),
-                        ("Делать что-нибудь", 2, game.dragon.energy()<2, game.dragon.energy()<2),
+        menu_options = [("Делать что-нибудь (Заблокировано:нужен остаток энергии меньше 2)", 1, game.dragon.energy() >= 2, game.dragon.energy() < 2),
+                        ("Делать что-нибудь", 2, game.dragon.energy() < 2, game.dragon.energy() < 2),
                         ("Назад", 3, True, True)]
         # Для описания параметров см описание экрана "dw_choice", в данный момент он находится в screens.rpy
         result = renpy.call_screen("dw_choice", menu_options)
@@ -199,7 +199,7 @@ label lb_test_debug_create_lair:
     python:
         menu_options = []
         for a in data.lair_types:
-            menu_options.append((data.lair_types[a].name,a, True, True))
+            menu_options.append((data.lair_types[a].name, a, True, True))
         type = renpy.call_screen("dw_choice", menu_options)
         game.create_lair(type)
     return

@@ -26,12 +26,12 @@ python early:
                     2: '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Заморил червячка{/color}{/font}',
                     3: '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Голодный{/color}{/font}'}
 
-lust_texts = {0: '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Вялый{/color}{/font}',
-              1: '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Возбужден{/color}{/font}',
-              2: '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Осеменитель{/color}{/font}',
-              3: '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Сосуд похоти{/color}{/font}'}
+    lust_texts = {0: '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Вялый{/color}{/font}',
+                  1: '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Возбужден{/color}{/font}',
+                  2: '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Осеменитель{/color}{/font}',
+                  3: '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Сосуд похоти{/color}{/font}'}
 
-bloodlust_texts = ['{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Умиротворен{/color}{/font}',
+    bloodlust_texts = ['{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Умиротворен{/color}{/font}',
                       '{font=fonts/AnticvarShadow.ttf}{color=#ccccff}Спокоен{/color}{/font}',
                       '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Напряжен{/color}{/font}',
                       '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Раздражен{/color}{/font}',
@@ -42,7 +42,7 @@ bloodlust_texts = ['{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Умиротв
                     1: '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Раненый{/color}{/font}',
                     2: '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Цел и невредим{/color}{/font}'}
 
-womennum = ['основная', 'вторая', 'третья', 'четвёртая', 'пятая', 'шестая', 'седьмая']
+    womennum = ['основная', 'вторая', 'третья', 'четвёртая', 'пятая', 'шестая', 'седьмая']
     
     #Описания эффекта события на дурную славу
     reputation_rise = ['Этот дурной поступок люди наверняка заметят.',
