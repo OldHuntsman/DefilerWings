@@ -1032,8 +1032,7 @@ def generate_gem(count, *args):
 
 
 class Material(object):  # класс для генерации материалов
-    size_dict = {"small": (40, 1), "common": (50, 5), "large": (8, 25), \
-                 "exceptional": (2, 100)}
+    size_dict = {"small": (40, 1), "common": (50, 5), "large": (8, 25), "exceptional": (2, 100)}
 
     def __init__(self, m_type, size):
         self.m_type = m_type  # название
@@ -1072,18 +1071,18 @@ class Material(object):  # класс для генерации материал
         if conjugation_type == 0:  # единственное число - именительный падеж, род копируется
             if material_count != 1:  # если материал один - не ставим число
                 return u"%s %sкусок %s" % (
-                    material_count, material_size_description_rus[material_param[1]]['he']['nominative'], \
+                    material_count, material_size_description_rus[material_param[1]]['he']['nominative'],
                     material_description_rus[material_param[0]]['genitive'])
             else:
-                return u"%sкусок %s" % (material_size_description_rus[material_param[1]]['he']['nominative'], \
+                return u"%sкусок %s" % (material_size_description_rus[material_param[1]]['he']['nominative'],
                                         material_description_rus[material_param[0]]['genitive'])
         elif conjugation_type == 1:
             return u"%s %sкуска %s" % (
-                material_count, material_size_description_rus[material_param[1]]['they']['genitive'], \
+                material_count, material_size_description_rus[material_param[1]]['they']['genitive'],
                 material_description_rus[material_param[0]]['genitive'])
         elif conjugation_type == 2:
             return u"%s %sкусков %s" % (
-                material_count, material_size_description_rus[material_param[1]]['they']['genitive'], \
+                material_count, material_size_description_rus[material_param[1]]['they']['genitive'],
                 material_description_rus[material_param[0]]['genitive'])
 
 
@@ -1121,8 +1120,7 @@ def generate_mat(count, *args):
 
 class Treasure(object):  # класс для сокровищ
     decorate_types = {"incuse": (33,), "engrave": (33,), "etching": (33,), "carving": (0,)}
-    quality_types = {"common": (60, 2), "skillfully": (20, 3), \
-                     "rough": (10, 1), "mastery": (10, 5)}
+    quality_types = {"common": (60, 2), "skillfully": (20, 3), "rough": (10, 1), "mastery": (10, 5)}
 
     def __init__(self, treasure_type, alignment):
         """все значения заносятся из словаря treasure_types"""
@@ -1281,7 +1279,7 @@ class Treasure(object):  # класс для сокровищ
                     desc_str += u" и %s" % enchant_list[0]  # последнее добавляется союзом "и"
                 if self.decoration:  # если есть изображение - ставим точку и описываем его
                     image_description = image_description_rus[self.decoration_image]  # упрощение доступа к свойству
-                    desc_str = u"%s. На %s %s %s" % (desc_str, treasure_description_rus[self.treasure_type]['ablative'], \
+                    desc_str = u"%s. На %s %s %s" % (desc_str, treasure_description_rus[self.treasure_type]['ablative'],
                                                      decoration_description_rus['image'][image_description['gender']],
                                                      image_description['nominative'])
             return desc_str

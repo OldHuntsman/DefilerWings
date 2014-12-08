@@ -33,19 +33,18 @@ label lb_test_example_encounter_dynamic:
     nvl clear
     python:
         # Тут весь трюк в динамическом формирование списка
-        # Поэтому чтобы правильно все посчитать мы будем формировать список перед каждым 
+        # Поэтому чтобы правильно все посчитать мы будем формировать список перед каждым
         # случайным выбором
         distribution = {}       # Cделаем словарь distribution для подсчета результатов
-        location3_seen = False  # Определям переменную, по которй будем определять доступна ли 
+        location3_seen = False  # Определям переменную, по которй будем определять доступна ли
                                 # третья локация для выбора.
-        
+
         for i in range(0,1000):
-            choices = [] # Создаем список вариантов
-            choices.append(("Location 1", 20))   # Внезависиомсти о всего добавляем первую и вторую
-            choices.append(("Location 2", 10))   # локации
+            choices = [("Location 1", 20),
+                       ("Location 2", 10)]  # Создаем список вариантов
             if not location3_seen:      # Если мы не видели третью локацию, то добавляем ее в список
                 choices.append(("Location 3", 1))
-        
+
             # Проверяем распределение:
             result = core.Game.weighted_random(choices)
             if result in distribution: # Проверяем занесли ли мы этот вариант в распределение
@@ -58,7 +57,7 @@ label lb_test_example_encounter_dynamic:
                                         # В реальном случае стоит использовать persistent и
                                         # выставлять ее уже где-то внутри этой локации.
                 narrator("Третья локация выпала на %d-й попытке" % (i)) # Информативно
-        
+
         # Выводим получившийся результат
         for key, value in distribution.items():
             narrator( "%s : %d" % (key, value))

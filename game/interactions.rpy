@@ -1,7 +1,7 @@
-#локация взаимодействий
+# локация взаимодействий
 
 label lb_nature_sex:
-    if game.girl.jailed: 
+    if game.girl.jailed:
         $ place = 'prison'
         show place as bg
     nvl clear
@@ -32,12 +32,12 @@ label lb_nature_sex:
         'Отпустить восвояси':
             $ description = game.girls_list.free_girl()
             game.girl.third "[description]"
-            return      
+            return
     jump lb_nature_sex
-    
+
 
 label lb_lair_sex:
-    if game.girl.jailed: 
+    if game.girl.jailed:
         $ place = 'prison'
         show place as bg
     nvl clear
@@ -68,7 +68,7 @@ label lb_lair_sex:
         'Отпустить восвояси':
             $ description = game.girls_list.free_girl()
             game.girl.third "[description]"
-            return      
+            return
     jump lb_nature_sex
 
 label lb_gigant_sex:
@@ -87,10 +87,10 @@ label lb_gigant_sex:
         'Отпустить восвояси':
             $ description = game.girls_list.free_girl()
             game.girl.third "[description]"
-            return      
+            return
     jump lb_nature_sex
-    
-    
+
+
 label lb_knight_new:
     show expression 'img/bg/special/oath.png' as bg
     'Рыцарь дал клятву убить дракона.'
