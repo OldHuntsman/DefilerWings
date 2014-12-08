@@ -70,7 +70,7 @@ class Knight(Fighter):
         if len(self.modifiers()) > 0:
             d.append(u"Модификаторы: ")
             for i in self.modifiers():
-                d.append(u"    %s" % (i))
+                d.append(u"    %s" % i)
         return u"\n".join(d)
 
     def modifiers(self):

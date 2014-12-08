@@ -876,7 +876,7 @@ class Coin(object):
         return self.amount * self.value
 
     def __repr__(self):
-        return str(self.amount) + " " + "%s(s)" % (self.name)
+        return str(self.amount) + " " + "%s(s)" % self.name
 
     def description(self, language='rus'):
         if language == 'rus':
@@ -1177,9 +1177,9 @@ class Treasure(object):  # класс для сокровищ
                     if rnd <= 50:
                         self.decoration_image = random.choice(image_types[self.alignment])
                         if material_types.has_key(self.material):
-                            return ("carving")
+                            return "carving"
                         else:
-                            return (weighted_select(Treasure.decorate_types))
+                            return weighted_select(Treasure.decorate_types)
                     else:
                         return None
                 else:

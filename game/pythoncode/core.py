@@ -403,7 +403,7 @@ class Game(store.object):
         number = self.quest_time
         if number == 1:
             return u"Последний год на выполнение задания!"
-        elif (1 < number < 5):
+        elif 1 < number < 5:
             return u"Тебе нужно выполнить задание за %s года!" % str(number)
         elif (number % 100 > 20) and (number % 10 == 1):
             return u"Задание нужно выполнить за %s год." % str(number)
@@ -714,7 +714,7 @@ class Fighter(Sayer, Mortal):
             self.items[type] = None
         else:
             #Пытаемся снять из того слота которого не существует
-            raise Exception("Can't unequip, no such slot. Trying to unequip slot %s" % (type))
+            raise Exception("Can't unequip, no such slot. Trying to unequip slot %s" % type)
 
     def _add_equip_slots(self, slot_list):
         # slot_list - список слотов которые нужно добавить

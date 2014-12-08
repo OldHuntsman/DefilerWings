@@ -37,7 +37,7 @@ class Girls_list(object):
         self.game.girl.avatar = relative_path + "/" + filename  # Возвращаем правильно отформатированное значение
         # генерация имени
         if type + '_last' in girls_data.girls_names:
-            self.game.girl.name = (u"%s %s") % (random.choice(girls_data.girls_names[type + '_first']),
+            self.game.girl.name = u"%s %s" % (random.choice(girls_data.girls_names[type + '_first']),
                                                 random.choice(girls_data.girls_names[type + '_last']))
         else:
             if type + '_first' in girls_data.girls_names:

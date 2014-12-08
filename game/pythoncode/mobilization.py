@@ -6,7 +6,7 @@ class Mobilization(store.object):
     _points = 1
 
     def __getinitargs__(self):
-        return (self.level, self.points)
+        return self.level, self.points
 
     def __init__(self, level=0, points=1):
         '''

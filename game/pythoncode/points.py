@@ -14,7 +14,7 @@ class Mobilization(store.object):
     decrease = 0  # Уменьшение мобилизации
 
     def __getinitargs__(self):
-        return (self.level)
+        return self.level
 
     def __init__(self, level=0):
         '''
