@@ -20,13 +20,13 @@ label lb_enchanted_forest:
     'Дракон входит под сень колдовских древ.'
     menu:
         'Рыскать кругом':
-            #TODO добавить энкаунтеры зачарованного леса
+            # TODO добавить энкаунтеры зачарованного леса
             $ pass
         'Напасть на Древо Жизни':
             'Дерево жизни разрушено.'
             $ game.dragon.add_event('ravage_sacred_grove')
             call lb_dead_grove
-            #TODO сделать нормальный энкаунтер
+            # TODO сделать нормальный энкаунтер
     return
 
 label lb_dead_grove:

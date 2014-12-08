@@ -132,7 +132,7 @@ label lb_test_debug:
                 "Cоздать вора 1-го уровня":
                     $ game._create_thief(thief_level=1)
                 "Изменить уровнень вора":
-                    #TODO: implement change of thief level
+                    # TODO: implement change of thief level
                     pass
                 "Описать вора":
                     if game.thief is not None:

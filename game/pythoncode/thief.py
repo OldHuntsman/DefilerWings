@@ -133,14 +133,13 @@ class Thief(Sayer, Mortal):
                 if upgrade in thief.items.list("fails"):  # Если для апгрейда есть испорченный предмет
                     if renpy.config.debug:
                         thief(u"Предмет для %s подвел меня" % upgrade)
-                    die(upgrade)  #Умираем
+                    die(upgrade)  # Умираем
                     thief.event("die_trap", trap=upgrade)
                     return
-                if (upgrade in thief.abilities.list("avoids")  # Если у нас есть шмотка или скилл для
-                     or upgrade in thief.items.list("avoids")):  # Обхода ловушки
+                if (upgrade in thief.abilities.list("avoids") or upgrade in thief.items.list("avoids")): # Если у нас есть шмотка или скилл для обхода ловушки
                     if renpy.config.debug:
                         thief(u"Я хорошо подготовился и предметы помогли обойти мне %s" % upgrade)
-                    continue  #Переходим к следущей
+                    continue  # Переходим к следущей
                 for i in range(data.lair_upgrades[upgrade].protection):
                     if random.choice(range(3)) == 0:
                         luck -= 1
@@ -172,18 +171,18 @@ class Thief(Sayer, Mortal):
                     if lair.treasury.wealth > 0:  # Если в сокровищнице хоть что-нибудь есть
                         if "sleep_dust" in thief.items or "trickster" in thief.abilities or random.choice(
                                 range(10)) in range(5 - thief.skill):
-                            #Берем шмотку
-                            stolen_item = lair.treasury.rob_treasury()[0]  #Вор что-то украл
+                            # Берем шмотку
+                            stolen_item = lair.treasury.rob_treasury()[0]  # Вор что-то украл
                             stolen_items.append(stolen_item)
                             if renpy.config.debug:
                                 thief(u"Взял шмотку %s" % stolen_item)
                             self.event('receive_item', stolen_item)
                         else:
-                            #Мы разбудили дракона
+                            # Мы разбудили дракона
                             if renpy.config.debug:
                                 thief(u"Разбудил дракона")
                             self._gameRef.dragon.add_event('thief_killer')
-                            lair.treasury.receive_treasures(stolen_items)  #Дракон возвращает что награбил вор.
+                            lair.treasury.receive_treasures(stolen_items)  # Дракон возвращает что награбил вор.
                             thief.die("wake_up")
                             return
                     else:

@@ -4,7 +4,7 @@ label lb_location_lair_main:
     
     menu:
         'Осмотреть дракона':
-            #чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
+            # чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
             game.dragon.third "[game.dragon.description]"
         'Сотворить заклинание' if game.dragon.energy() > 0 and game.dragon.mana > 0:
             python:
@@ -27,7 +27,7 @@ label lb_location_lair_main:
                     $ game.lair.upgrades.add('magic_traps', deepcopy(data.lair_upgrades['magic_traps']))
 
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
-            #TODO: заменить на адекватный вариант
+            # TODO: заменить на адекватный вариант
             python:
                 def get_bg():
                     import random

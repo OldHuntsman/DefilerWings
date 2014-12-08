@@ -38,7 +38,7 @@ class Girls_list(object):
         # генерация имени
         if type + '_last' in girls_data.girls_names:
             self.game.girl.name = u"%s %s" % (random.choice(girls_data.girls_names[type + '_first']),
-                                                random.choice(girls_data.girls_names[type + '_last']))
+                                              random.choice(girls_data.girls_names[type + '_last']))
         else:
             if type + '_first' in girls_data.girls_names:
                 self.game.girl.name = random.choice(girls_data.girls_names[type + '_first'])
@@ -189,21 +189,21 @@ class Girls_list(object):
         # плененные девушки
         for girl_i in reversed(xrange(self.prisoners_count)):
             self.game.girl = self.prisoners[girl_i]
-            #попытка побега
+            # попытка побега
             if (random.randint(1, 2) == 1) and self.game.lair.reachable([]) and \
                             'regular_guards' not in self.game.lair.upgrades and \
                             'elite_guards' not in self.game.lair.upgrades:
-                #девушка сбежала из камеры
+                # девушка сбежала из камеры
                 del self.prisoners[girl_i]
                 if 'mechanic_traps' in self.game.lair.upgrades or \
                                 'magic_traps' in self.game.lair.upgrades:
-                    self.description('traps', True)  #описание гибели в ловушке
+                    self.description('traps', True)  # описание гибели в ловушке
                 else:
-                    self.description('escape', True)  #описание чудесного спасения
+                    self.description('escape', True)  # описание чудесного спасения
                     if self.game.girl.pregnant:
                         self.free_list.append(self.game.girl)
             else:
-                #девушка не убежала
+                # девушка не убежала
                 if ('servant' in self.game.lair.upgrades) or ('gremlin_servant' in self.game.lair.upgrades):
                     if self.game.girl.pregnant:
                         girl_type = girls_data.girls_info[self.game.girl.type]
@@ -216,16 +216,16 @@ class Girls_list(object):
                             self.offspring.append(girl_size)
 
                         self.spawn.append(girl_type[spawn_class])
-                        self.description('birth', True)  #описание родов
+                        self.description('birth', True)  # описание родов
                         self.game.girl.pregnant = 0
                 else:
-                    self.description('hunger', True)  #описание смерти от голода      
+                    self.description('hunger', True)  # описание смерти от голода
                     del self.prisoners[girl_i]
-        #свободные, в том числе только что сбежавшие. Отслеживаются только беременные
+        # свободные, в том числе только что сбежавшие. Отслеживаются только беременные
         for girl_i in xrange(len(self.free_list)):
             self.game.girl = self.free_list[girl_i]
             if (random.randint(1, 3) == 1) and not girls_data.girls_info[self.game.girl.type]['giantess']:
-                self.description('kill', True)  #убивают из-за беременности
+                self.description('kill', True)  # убивают из-за беременности
             else:
                 girl_type = girls_data.girls_info[self.game.girl.type]
 
@@ -238,9 +238,9 @@ class Girls_list(object):
 
                 spawn_type = girls_data.girls_info[self.game.girl.type][spawn_class]
                 spawn = girls_data.spawn_info[spawn_type]
-                self.description('free_birth', True)  #рожает на свободе
+                self.description('free_birth', True)  # рожает на свободе
                 self.free_spawn(spawn['power'])
-        self.free_list = []  #очистка списка - либо родила, либо убили - отслеживать дальше не имеет смысла
+        self.free_list = []  # очистка списка - либо родила, либо убили - отслеживать дальше не имеет смысла
 
     def before_sleep(self):
         """
@@ -286,9 +286,9 @@ class Girls_list(object):
                 self.army_of_darkness(spawn_type)
             else:
                 renpy.say(self.game.narrator,
-                          u"%s приступает к выполнению обязанностей" % spawn['name'])  #выдача сообщения
+                          u"%s приступает к выполнению обязанностей" % spawn['name'])  # выдача сообщения
                 self.game.lair.upgrades.add(menu_action,
-                                            deepcopy(data.lair_upgrades[menu_action]))  #добавление в улучшение логова
+                                            deepcopy(data.lair_upgrades[menu_action]))  # добавление в улучшение логова
         self.spawn = []
 
     def free_spawn(self, power):
@@ -296,7 +296,7 @@ class Girls_list(object):
         Действия отродий на свободе
         """
         # TODO: Что тут вообще имелось ввиду? Очков мобилизации теперь нет. Зато есть разруха.
-        #self.game.mobilization.points -= power
+        # self.game.mobilization.points -= power
         pass
 
     def army_of_darkness(self, warrior_type):

@@ -62,8 +62,8 @@ init -2:
         xmaximum int(config.screen_width * 0.75)
 
     python:
-        style.menu_choice_button.background = Frame("img/bg/button-idle.png", 5,5)
-        style.menu_choice_button.hover_background = Frame("img/bg/button-hovered.png", 5,5)
+        style.menu_choice_button.background = Frame("img/bg/button-idle.png", 5, 5)
+        style.menu_choice_button.hover_background = Frame("img/bg/button-hovered.png", 5, 5)
         style.menu_choice_button.ypadding = 4
 
 
@@ -146,7 +146,7 @@ screen nvl:
         style "nvl_window"
         xpos 200
         xsize 760
-        align (0.0,0.0)
+        align (0.0, 0.0)
 
         viewport:
             mousewheel True
@@ -223,7 +223,7 @@ screen main_menu:
                 xalign .966
                 yalign .465
         else:
-            textbutton _("Продолжить сюжет") action FileLoad("1",confirm=False,page="1"):
+            textbutton _("Продолжить сюжет") action FileLoad("1", confirm=False, page="1"):
                 xalign .966
                 yalign .465
         if not renpy.can_load("1-3"):
@@ -231,7 +231,7 @@ screen main_menu:
                 xalign .966
                 yalign .580
         else:
-            textbutton _("Продолжить свободную")action FileLoad("3",confirm=False,page="1"):
+            textbutton _("Продолжить свободную")action FileLoad("3", confirm=False, page="1"):
                 xalign .966
                 yalign .580
         textbutton _("Настройки") action ShowMenu("preferences"):
@@ -244,18 +244,17 @@ screen main_menu:
             xalign .966
             yalign .925
 
-
     #text "{font=fonts/Lombardina лого.ttf}Крылья":
-     #   xalign 0.94
-      #  yalign 0.11
-       # text_align 1
+        #xalign 0.94
+        #yalign 0.11
+        #text_align 1
         #size 90
         #bold False
         #color "#607080"
     #text "{font=fonts/Lombardina лого.ttf}Осквернителя":
-     #   xalign 0.95
-      #  yalign 0.22
-       # text_align 1
+        #xalign 0.95
+        #yalign 0.22
+        #text_align 1
         #size 60
         #bold False
         #color "#607080"
@@ -271,19 +270,17 @@ init -2 python:
     style.mm_button.size_group = "mm"
 
 init python:
-    style.mm_button.background = Frame("img/menu/button/idle.png",10,10)
-    style.mm_button.hover_background = Frame("img/menu/button/hover.png",10,10)
-    style.mm_button.selected_background = Frame("img/menu/button/selected.png",10,10)
-    style.mm_button.selected_hover_background = Frame("img/menu/button/selected.png",10,10)
-    style.mm_frame.background = Frame("img/menu/frame.png",125,25)
+    style.mm_button.background = Frame("img/menu/button/idle.png", 10, 10)
+    style.mm_button.hover_background = Frame("img/menu/button/hover.png", 10, 10)
+    style.mm_button.selected_background = Frame("img/menu/button/selected.png", 10, 10)
+    style.mm_button.selected_hover_background = Frame("img/menu/button/selected.png", 10, 10)
+    style.mm_frame.background = Frame("img/menu/frame.png", 125, 25)
 
     style.mm_button_text.size = 22
     style.mm_button_text.font = "fonts/PFMonumentaPro-Regular кнопки.ttf"
 
     style.mm_button.yminimum = 70
     style.mm_button.xminimum = 280
-
-
 
 ##############################################################################
 # Navigation
@@ -463,7 +460,6 @@ screen preferences:
 
                 textbutton _("Джостик...") action Preference("joystick")
 
-
         vbox:
             frame:
                 style_group "pref"
@@ -589,14 +585,14 @@ screen yesno_prompt:
             spacing 100
             if message == layout.QUIT and not main_menu:
                 if not freeplay:
-                    textbutton _("Да") action FileSave("1",confirm=False,page="1"), yes_action
+                    textbutton _("Да") action FileSave("1", confirm=False, page="1"), yes_action
                 else:
-                    textbutton _("Да") action FileSave("3",confirm=False,page="1"), yes_action
+                    textbutton _("Да") action FileSave("3", confirm=False, page="1"), yes_action
             elif message == layout.MAIN_MENU:
                 if not freeplay:
-                    textbutton _("Да") action FileSave("1",confirm=False,page="1"), yes_action
+                    textbutton _("Да") action FileSave("1", confirm=False, page="1"), yes_action
                 else:
-                    textbutton _("Да") action FileSave("3",confirm=False,page="1"), yes_action
+                    textbutton _("Да") action FileSave("3", confirm=False, page="1"), yes_action
             else:
                 textbutton _("Да") action yes_action
             textbutton _("Нет") action no_action
@@ -658,9 +654,9 @@ init python:
         girls_cols = 4
         girls_cells = girls_rows * girls_cols
         girl_page = 0
-        girl_position_priority = (6,  7,  8,  9,
-                                  5,  0,  1, 10,
-                                  4,  3,  2, 11)
+        girl_position_priority = (6, 7, 8, 9,
+                                  5, 0, 1, 10,
+                                  4, 3, 2, 11)
 screen girls_menu:
 
     # This ensures that any other menu screen is replaced.

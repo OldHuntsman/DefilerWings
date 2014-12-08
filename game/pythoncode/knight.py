@@ -78,7 +78,7 @@ class Knight(Fighter):
 
     def _ability_modifiers(self):
         # Возвращает список модификторов из способностей
-        #TODO: implement
+        # TODO: implement
         result = []
         for i in self.abilities:
             result.extend(self.abilities[i].modifiers)

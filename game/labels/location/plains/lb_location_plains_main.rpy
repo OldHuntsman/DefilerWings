@@ -449,7 +449,7 @@ label lb_enc_cattle:
             $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
             $ game.dragon.hunger -= 1
             'Дракон съедает корову.'
-            $ game.dragon.reputation.points +=1
+            $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
         'Напасть на стадо' if game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
@@ -473,11 +473,11 @@ label lb_enc_noting:
     return
 
 
-#разные деревни
+# разные деревни
 label lb_village:
     python:
         a = 10 + game.poverty.value - village_size
-        chance = random.randint(1,a)
+        chance = random.randint(1, a)
         if chance > 10: village_size = 0
         txt1 = village['overview'][village_size]
     show expression 'img/bg/special/village.png' as bg     
@@ -542,10 +542,10 @@ label lb_village:
             call lb_fight
             'Поселение успешно разграблено. Добыча:'
             python:
-                count = random.randint(3,7)
+                count = random.randint(3, 7)
                 alignment = 'human'
-                min_cost = 10*village_size
-                max_cost = 100*village_size
+                min_cost = 10 * village_size
+                max_cost = 100 * village_size
                 obtained = "Это предмет из разграбленного людского поселения."
                 trs = treasures.gen_treas(count, data.loot['klad'], alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
@@ -562,10 +562,10 @@ label lb_village:
             call lb_fight
             'Поселение разорено. Разруха в стране растёт. В разрушенных домах и на телах убитых нашлись кое-какие ценности:'
             python:
-                count = random.randint(3,7)
+                count = random.randint(3, 7)
                 alignment = 'human'
-                min_cost = 10*village_size
-                max_cost = 100*village_size
+                min_cost = 10 * village_size
+                max_cost = 100 * village_size
                 obtained = "Это предмет из разграбленного людского поселения."
                 trs = treasures.gen_treas(count, data.loot['klad'], alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
@@ -589,7 +589,7 @@ label lb_village:
 label lb_patrool_plains:
     python:
         game.dragon.drain_energy()
-        chance = random.randint(0,game.mobilization.level)
+        chance = random.randint(0, game.mobilization.level)
         if chance < 4:
             patrool = 'archer'
             dtxt = 'Стрелок шерифа.'
@@ -610,4 +610,3 @@ label lb_patrool_plains:
     call lb_fight
     
     return
-    

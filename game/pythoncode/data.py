@@ -121,7 +121,6 @@ class Container(collections.defaultdict):
                 result += self[i].select(query)
         return result
 
-
     def type(self):
         '''
         For test uses
@@ -224,34 +223,34 @@ thief_items = Container("thief_items",
 thief_items_cursed = Container(
     "thief_items_cursed",
     {
-        "plan": {"name": u"Плохой план",  #Applied
+        "plan": {"name": u"Плохой план",  # Applied
                  "level": -1,
                  "cursed": True,
                  "description": u"-1 к уровню вора",
                  "fails": []},
-        "bottomless_sac": {"name": u"Дырявый мешок",  #Applied
+        "bottomless_sac": {"name": u"Дырявый мешок",  # Applied
                            "cursed": True,
                            "description": u"Вор не уносит никаких сокровищ",
                            "fails": []},
-        "enchanted_dagger": {"name": u"Проклятый кинжал",  #Applied
+        "enchanted_dagger": {"name": u"Проклятый кинжал",  # Applied
                              "cursed": True,
                              "description": u"Автоматический успех обычных стражей",
                              "fails": ["regular_guards"]},
-        "ring_of_invisibility": {"name": u"Кольцо мерцания",  #Applied
+        "ring_of_invisibility": {"name": u"Кольцо мерцания",  # Applied
                                  "cursed": True,
                                  "description": u"Автоматический успех элитных стражей",
                                  "fails": ["elite_guards"]},
-        "flying_boots": {"name": u"Ощипанные сандалии",  #Applied
+        "flying_boots": {"name": u"Ощипанные сандалии",  # Applied
                          "cursed": True,
                          "description": u"Вор автоматически разбивается насмерть, если идет в логово требующее полета",
                          "fails": ["flight"],
                          "provide": ["flight"]},
-        "cooling_amulet": {"name": u"Морозильный амулет",  #Applied
+        "cooling_amulet": {"name": u"Морозильный амулет",  # Applied
                            "cursed": True,
                            "description": u"Вор замораживается насмерть, если идет в огненное логово",
                            "fails": ["fireproof"],
                            "provide": ["fireproof"]},
-        "warming_amulet": {"name": u"Шашлычный амулет",  #Applied
+        "warming_amulet": {"name": u"Шашлычный амулет",  # Applied
                            "cursed": True,
                            "description": u"Вор зажаривается насмерть, если идет в ледяное логово",
                            "fails": ["coldproof"],
@@ -323,10 +322,10 @@ knight_abilities = Container("knight_abilities",
                                  "charmed": {"name": u"Зачарованный",
                                              "description": u"Способен атаковать логово с любыми условиями доступа",
                                              "modifiers": ["swimming", "flight", "alpinism"]},
-                                 "liberator": {"name": u"Освободитель",  #TODO: implement
+                                 "liberator": {"name": u"Освободитель",  # TODO: implement
                                                "description": u"+1 к защите за каждую крестьянку, +1 к атаке за каждую богатую и +1 к атаке и защите за любую другую не великаншу томящуюся в логове дракона",
                                                "modifiers": []},
-                                 "firstborn": {"name": u"Первенец",  #TODO: implement
+                                 "firstborn": {"name": u"Первенец",  # TODO: implement
                                                "description": u"Получает 2 шмотки сразу со старта",
                                                "modifiers": []},
                                  "fiery": {"name": u"Вспыльчивый",
@@ -340,7 +339,7 @@ knight_abilities = Container("knight_abilities",
 
 knight_items = Container("knight_items",
                          {
-                             #TODO: implement
+                             # TODO: implement
                              # Нагрудники
                              "basic_vest": {"name": u"Дубовая броня",
                                             "description": u"Не дает преимуществ",
@@ -357,7 +356,7 @@ knight_items = Container("knight_items",
                                            "type": "vest",
                                            "basic": False,
                                            "modifiers": ['sdef_up']},
-                             "magic_vest": {"name": u"Волшебный доспех",  #TODO: implement
+                             "magic_vest": {"name": u"Волшебный доспех",  # TODO: implement
                                             "description": u"защита от одного типа элементов",
                                             "type": "vest",
                                             "basic": False,
@@ -378,7 +377,7 @@ knight_items = Container("knight_items",
                                                   "type": "spear",
                                                   "basic": False,
                                                   "modifiers": ['satk_up']},
-                             "dragonslayer_spear": {"name": u"Копьё-драконобой",  #TODO: implement
+                             "dragonslayer_spear": {"name": u"Копьё-драконобой",  # TODO: implement
                                                     "description": u"+1 к атаке, если дракон ранен он вместо этого сразу теряет голову",
                                                     "type": "spear",
                                                     "basic": False,
@@ -425,7 +424,7 @@ knight_items = Container("knight_items",
                                                  "type": "shield",
                                                  "basic": False,
                                                  "modifiers": ['def_up', 'def_up']},
-                             "mirror_shield": {"name": u"Зерцальный щит",  #TODO: Implement
+                             "mirror_shield": {"name": u"Зерцальный щит",  # TODO: Implement
                                                "description": u"2 верных защиты, если у дракона есть дыхание",
                                                "type": "shield",
                                                "basic": False,
@@ -770,7 +769,7 @@ special_description = [
     u'Взгляд дракона светится нечеловеческим коварством. Сила его колдовских чар просто невероятна.'
 ]
 
-head_num = [  #TODO: Текстовый модуль с числительными
+head_num = [  # TODO: Текстовый модуль с числительными
               u'основная',
               u'вторая',
               u'третья',
@@ -875,7 +874,7 @@ effects_list = {
 }
 
 modifiers = {
-    #global
+    # global
     'fire_immunity': Modifier(),
     'ice_immunity': Modifier(),
     'poison_immunity': Modifier(),
@@ -894,9 +893,9 @@ modifiers = {
     'slatk_up': Modifier(attack=('lightning', (0, 1))),  # 1 верная атака молнией
     'def_up': Modifier(protection=('base', (1, 0))),  # 1 защита
     'sdef_up': Modifier(protection=('base', (0, 1))),  # 1 верная защита
-    #Knight-specific
+    # Knight-specific
     'fearless': Modifier(),
-    #Dragon-specific
+    # Dragon-specific
     'can_dig': Modifier(),
     'greedy': Modifier(),
     'virtual_head': Modifier(),
@@ -937,7 +936,7 @@ def get_modifier(name):
         return modifiers[name]
     raise NotImplementedError, name
 
-#логова, картинки
+# логова, картинки
 lair_image = {
     'ravine': 'ravine'
 }
@@ -956,7 +955,7 @@ special_places = {
     'dead_grove': (u"Заброшенная роща альвов", 'lb_dead_grove'),
 }
 
-quest_list = (  #TODO: внести все выполнимые на сегодня квесты
+quest_list = (  # TODO: внести все выполнимые на сегодня квесты
                 {  # только для дебага, не используется
                    'min_lvl': 25,  # минимальный уровень дракона для получения квеста
                    'max_lvl': 25,  # максимальный уровень дракона для получения квеста
@@ -1086,7 +1085,7 @@ quest_list = (  #TODO: внести все выполнимые на сегод�
                 },
 )
 
-#Список всех доступных для дракона событий
+# Список всех доступных для дракона событий
 dragon_events = (
     'ravage_sacred_grove',  # Добавляется при уничтожении священной рощи альвов
     'thief_killer',  # Убил вора
@@ -1342,7 +1341,7 @@ loot = {
     ]
 }
 
-#список специальных мест людей
+# список специальных мест людей
 human_special_places = [
     'lb_manor_found',
     'lb_wooden_fort_found',

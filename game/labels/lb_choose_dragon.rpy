@@ -1,5 +1,5 @@
 label lb_choose_dragon:
-    #Хардкод на трех драконов.
+    # Хардкод на трех драконов.
     python:
         lost = False
         if game.dragon is None:

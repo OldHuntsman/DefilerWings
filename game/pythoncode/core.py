@@ -114,7 +114,7 @@ class Game(store.object):
                 if salary:
                     salary = self.lair.treasury.treasures_description(salary)
                     self.narrator(u"%s в качестве платы за год получают:\n %s" % (
-                    self.lair.upgrades[upgrade]['name'], ' '.join(salary)))
+                                  self.lair.upgrades[upgrade]['name'], ' '.join(salary)))
                 else:
                     self.narrator(u"%s не получили обещанной платы и уходят." % self.lair.upgrades[upgrade]['name'])
                     del self.lair.upgrades[upgrade]
@@ -173,8 +173,7 @@ class Game(store.object):
                     self.narrator(u"Рыцарь появился.")
                 self.knight.event("spawn")
         else:  # Иначе пробуем его пустить на дело
-            if random.choice(range(7)) in range(1 + len([i for i in self.knight.items if not self.knight.items[
-                i].basic])):  # Шанс 1 + количество небазового шмота на рыцаре из 7, что он пойдет на дело
+            if random.choice(range(7)) in range(1 + len([i for i in self.knight.items if not self.knight.items[i].basic])):  # Шанс 1 + количество небазового шмота на рыцаре из 7, что он пойдет на дело
                 # Идем на дело
                 if renpy.config.debug:
                     self.narrator(u"Рыцарь вызывает дракона на бой")
@@ -184,7 +183,7 @@ class Game(store.object):
                     self.narrator(u"После схватки рыцаря")
                 if fight_result in ["defeat", "retreat"]:
                     return fight_result
-                    #renpy.call("lb_fight", foe=self.knight)
+                    # renpy.call("lb_fight", foe=self.knight)
             else:
                 if renpy.config.debug:
                     self.narrator(u"Рыцарю ссыкотно, надо бы подготовиться.")
@@ -430,7 +429,7 @@ class Game(store.object):
                 assert weight >= 0
                 accumulated.append(weight + total)
                 total += weight
-            #Проверяем, что суммарный вес не равен нулю.
+            # Проверяем, что суммарный вес не равен нулю.
             if total == 0:
                 return None
             r = random.random() * accumulated[-1]
@@ -454,7 +453,7 @@ class Game(store.object):
     def is_won(self):
         # Проверка параметров выиграна уже игра или нет
         if not self._win:
-            #Проверяем выиграли ли мы
+            # Проверяем выиграли ли мы
             pass
         return self._win
 
@@ -466,7 +465,7 @@ class Game(store.object):
 
     @property
     def is_lost(self):
-        ##Проверка параметров проиграна уже игра или нет
+        # Проверка параметров проиграна уже игра или нет
         if not self._defeat:
             # Проверяем проиграли ли мы
             pass
@@ -670,17 +669,17 @@ class Fighter(Sayer, Mortal):
         curr_round = 100  # переменная для определения наимее использовавшегося описания
         # цикл по всем индексам списка self.descriptions
         for desc_i in range(len(self.descriptions)):
-            #получаем список переменных для строки описания из списка
+            # получаем список переменных для строки описания из списка
             (require, desc_str, insertion, round) = self.descriptions[desc_i]
-            #определяем подходит ли описание для текущего статуса
-            desc_need = round <= curr_round  #предварительно проверяем на количество использований
+            # определяем подходит ли описание для текущего статуса
+            desc_need = round <= curr_round  # предварительно проверяем на количество использований
             for req in require:
                 desc_need = (req in status) and desc_need
             if desc_need:
                 if round < curr_round:
-                    curr_round = round  #выбираем наименьшее число использований описания
-                    desc_list = []  #все предыдущие описания использовались чаще, очищаем список
-                #вставляем необходимые данные в описание 
+                    curr_round = round  # выбираем наименьшее число использований описания
+                    desc_list = []  # все предыдущие описания использовались чаще, очищаем список
+                # вставляем необходимые данные в описание
                 insert_list = []
                 for ins in insertion:
                     if ins == 'foe_name':
@@ -688,24 +687,24 @@ class Fighter(Sayer, Mortal):
                     elif ins == 'dragon_name':
                         insert_list.append(dragon.name)
                 desc_str = desc_str.format(*insert_list)
-                #добавляем в список для описаний            
+                # добавляем в список для описаний
                 desc_list.append([desc_str, desc_i])
         if desc_list:
-            #выбираем случайное описание
+            # выбираем случайное описание
             dice = random.randint(0, len(desc_list) - 1)
             desc = desc_list[dice]
-            self.descriptions[desc[1]][3] += 1  #увеличиваем число использований этого описания
+            self.descriptions[desc[1]][3] += 1  # увеличиваем число использований этого описания
             return desc[0]
         else:
-            return status  #список описаний пуст, возвращаем информацию для дебага
+            return status  # список описаний пуст, возвращаем информацию для дебага
 
     def equip(self, item):
         # Предполагается что все подо что есть слот можно надеть без ограничений
-        #И двух слотов с одинаковым типом не существует
+        # И двух слотов с одинаковым типом не существует
         if item["type"] in self._equip_slots:
             self.items[item["type"]] = item
         else:
-            #Пытаемся одеть под что нет слота
+            # Пытаемся одеть под что нет слота
             raise Exception("Can't equip, no such slot. Trying to equip %s in slot %s" % (item.id, item["type"]))
 
     def unequip(self, type):
@@ -713,7 +712,7 @@ class Fighter(Sayer, Mortal):
         if type in self._equip_slots:
             self.items[type] = None
         else:
-            #Пытаемся снять из того слота которого не существует
+            # Пытаемся снять из того слота которого не существует
             raise Exception("Can't unequip, no such slot. Trying to unequip slot %s" % type)
 
     def _add_equip_slots(self, slot_list):
@@ -738,7 +737,7 @@ class Dragon(Fighter):
         super(Dragon, self).__init__(*args, **kwargs)
         # TODO: pretty screen for name input
         # self._first_name = u"Старый"
-        #self._last_name = u"Охотник"
+        # self._last_name = u"Охотник"
         self.name = random.choice(data.dragon_names)
         self.age = 0
         self.reputation = Reputation()
@@ -749,22 +748,22 @@ class Dragon(Fighter):
         self.health = 2  # range 0..2, ресурс восстанавливается до 2 после каждого отдыха
         self._mana_used = 0  # количество использованной маны
         self.spells = []  # заклинания наложенные на дракона(обнуляются после сна)
-        self._base_energy = 3  #Базовая энергия дракона, не зависящая от модификторов
+        self._base_energy = 3  # Базовая энергия дракона, не зависящая от модификторов
         self.special_places = {}  # Список разведанных "достопримечательностей"
         self.events = []  # список событий с этим драконом
         self._gift = None  # Дар Владычицы
 
         # Головы
         if parent is not None:
-            self.heads = deepcopy(parent.heads)  #Копируем живые головы родителя
-            self.heads.extend(parent.dead_heads)  #И прибавляем к ним мертвые
+            self.heads = deepcopy(parent.heads)  # Копируем живые головы родителя
+            self.heads.extend(parent.dead_heads)  # И прибавляем к ним мертвые
             self.level = parent.level + 1  # Уровень дракона
         else:
             self.heads = ['green']  # головы дракона
             self.level = 1  # Начальный уровень дракона
-        self.dead_heads = []  #мертвые головы дракона
+        self.dead_heads = []  # мертвые головы дракона
 
-        #Анатомия
+        # Анатомия
         if parent is None:
             self.anatomy = ['size']
         else:
@@ -777,7 +776,7 @@ class Dragon(Fighter):
         else:
             self.anatomy.append(self._gift)
 
-        self.avatar = get_avatar("img/avadragon/" + self.color_eng)  #Назначаем аватарку
+        self.avatar = get_avatar("img/avadragon/" + self.color_eng)  # Назначаем аватарку
 
     @property
     def description(self):
@@ -996,9 +995,9 @@ class Dragon(Fighter):
     def _colorize_head(self):
         # На всякий случай проверяем есть ли зеленые головы.
         assert self.heads.count('green') > 0
-        #Считаем доступные цвета
+        # Считаем доступные цвета
         available_colors = [color for color in data.dragon_heads if color not in self.heads]
-        #Возвращаем один из доступных цветов
+        # Возвращаем один из доступных цветов
         return random.choice(available_colors)
 
     def struck(self):
@@ -1078,7 +1077,8 @@ class Dragon(Fighter):
         if stage:
             self.special_places[place_name] = stage
         else:
-            if place_name in self.special_places: del self.special_places[place_name]
+            if place_name in self.special_places:
+                del self.special_places[place_name]
 
     def del_special_place(self, place_name):
         """

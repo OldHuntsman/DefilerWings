@@ -35,16 +35,16 @@ def battle_action(dragon, foe):
     # проверяем атаку дракона
     power = dragon.attack()
     immun = foe.immunity()
-    #пробегаем все ключи словаря атаки дракона
+    # пробегаем все ключи словаря атаки дракона
     for key in power.keys():
         (r, p) = power[key]
         if (not (r + p)) or (key in immun):
-            #удаляем нулевые атаки и те, к которым у противника иммунитет
+            # удаляем нулевые атаки и те, к которым у противника иммунитет
             del power[key]
         else:
-            #записываем чем дракон мог ударить в статус раунда боя
+            # записываем чем дракон мог ударить в статус раунда боя
             status.append('dragon_' + key)
-            #проверяем, если атака больше защиты - противника съели, иначе он еще жив
+            # проверяем, если атака больше защиты - противника съели, иначе он еще жив
     dragon_hit = calc_hit_def(power)
     foe_defence = calc_hit_def(foe.protection())
     if dragon_hit > foe_defence:
@@ -52,19 +52,19 @@ def battle_action(dragon, foe):
         status.append('foe_dead')
     else:
         status.append('foe_alive')
-    #полностью зеркальная ситуация для атаки противника
+    # полностью зеркальная ситуация для атаки противника
     power = foe.attack()
     immun = dragon.immunity()
-    #пробегаем все ключи словаря атаки противника
+    # пробегаем все ключи словаря атаки противника
     for key in power.keys():
         (r, p) = power[key]
         if (not (r + p)) or (key in immun):
-            #удаляем нулевые атаки и те, к которым у дракона иммунитет
+            # удаляем нулевые атаки и те, к которым у дракона иммунитет
             del power[key]
         else:
-            #записываем чем противник мог ударить в статус раунда боя
+            # записываем чем противник мог ударить в статус раунда боя
             status.append('foe_' + key)
-            #проверяем, если атака противника больше защиты дракона - дракон ранен
+            # проверяем, если атака противника больше защиты дракона - дракон ранен
     foe_hit = calc_hit_def(power)
     dragon_defence = calc_hit_def(dragon.protection())
     if foe_hit > dragon_defence:

@@ -83,17 +83,17 @@ girls_info = {  # Информация о всех типах девушек
                 'peasant': {
                     'magic_rating': 0,  # магический рейтинг
                     'regular_spawn': 'poisonous_asp',  # идентификатор обычного отродья
-                    'advanced_spawn': 'basilisk',  #идентификатор продвинутого отродья
-                    'giantess': False,  #является ли великаншей
-                    'avatar': 'peasant',  #аватарка
-                    't_count_min': 0,  #количество сокровищ минимальное
-                    't_count_max': 2,  #количество сокровищ максимальное
-                    't_price_min': 1,  #минимальная цена предмета
-                    't_price_max': 50,  #максимальная цена предмета
-                    't_alignment': 'human',  #тип украшений
+                    'advanced_spawn': 'basilisk',  # идентификатор продвинутого отродья
+                    'giantess': False,  # является ли великаншей
+                    'avatar': 'peasant',  # аватарка
+                    't_count_min': 0,  # количество сокровищ минимальное
+                    't_count_max': 2,  # количество сокровищ максимальное
+                    't_price_min': 1,  # минимальная цена предмета
+                    't_price_max': 50,  # максимальная цена предмета
+                    't_alignment': 'human',  # тип украшений
                     't_list': ['casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'earring', 'necklace',
                                'pendant', 'ring', 'broch', 'armbrace', 'legbrace', 'fibula', 'farting'],
-                    #список возможных предметов в сокровищах
+                    # список возможных предметов в сокровищах
 
                 },
                 'citizen': {
@@ -265,12 +265,12 @@ spawn_info = {  # Информация о всех типах отродий
                 'goblin': {
                     'power': 1,  # сила
                     'modifier': [],  # возможные роли
-                    'name': u'Гоблин',  #название
+                    'name': u'Гоблин',  # название
                 },
                 'poisonous_asp': {
                     'power': 1,  # сила
                     'modifier': ['poisonous'],  # возможные роли
-                    'name': u'Ядовитый аспид',  #название
+                    'name': u'Ядовитый аспид',  # название
                 },
                 'winged_asp': {
                     'power': 2,

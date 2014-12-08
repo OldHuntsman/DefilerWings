@@ -235,7 +235,7 @@ label lb_enc_cavegates:
 label lb_patrool_mountain:
     python:
         game.dragon.drain_energy()
-        chance = random.randint(0,game.mobilization.level)
+        chance = random.randint(0, game.mobilization.level)
         if chance < 4:
             patrool = 'jagger'
             dtxt = 'В заросшей низким кустарником седловине %s нарывается на засаду, устроенную горным егерем, патрулирующим эти места.' % game.dragon.name
@@ -256,4 +256,3 @@ label lb_patrool_mountain:
     call lb_fight
     
     return
-    

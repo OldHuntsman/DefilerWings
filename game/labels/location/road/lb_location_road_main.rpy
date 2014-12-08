@@ -212,7 +212,7 @@ label lb_enc_lcaravan:
         'Вымогать деньги' if game.dragon.fear > 6:
             python:
                 game.dragon.drain_energy()
-                passing_tool = random.randint(20,100) 
+                passing_tool = random.randint(20, 100)
                 gold_trs = treasures.Coin('dublon', passing_tool)
                 game.lair.treasury.receive_treasures([gold_trs])
             'Караванщик с ворчанием отдаёт дракону увесистый кошель с золотыми дублонами, чтобы тот не трогал повозки и пропустил из дальше.'
@@ -224,7 +224,7 @@ label lb_enc_lcaravan:
             call lb_fight
             'Перебив охрану и караванщиков, [game.dragon.name] отыскивает в разбитых телегах всё ценное. В основном тут разные не нужные уважающему себя дракону товары - ткани, специи, оливковое масло и тому подобное, но у купцов и наемников есть в кошельках звонкие монеты:'
             python:
-                count = random.randint(5,15)
+                count = random.randint(5, 15)
                 alignment = 'human'
                 min_cost = 1
                 max_cost = 1000
@@ -247,7 +247,7 @@ label lb_enc_outpost:
 label lb_patrool_road:
     python:
         game.dragon.drain_energy()
-        chance = random.randint(0,game.mobilization.level)
+        chance = random.randint(0, game.mobilization.level)
         if chance < 4:
             patrool = 'archer'
             dtxt = 'Стрелок шерифа.'
