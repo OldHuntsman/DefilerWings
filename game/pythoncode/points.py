@@ -128,7 +128,7 @@ class Poverty (store.object):
         if self._planned > 0:
             callback = True
         if self._value + self._planned >= 0: 
-            self._value = self._value + self._planned
+            self._value += self._planned
         else:
             self._value = 0
         self._planned = 0

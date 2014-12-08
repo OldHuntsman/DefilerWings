@@ -966,18 +966,18 @@ def generate_gem(count, *args):
             if type(i) == dict:
                 if i.keys()[0] == "size":
                     for v in i["size"]:
-                        if Gem.size_dict.has_key(v) != False:
+                        if Gem.size_dict.has_key(v):
                             size[v] = Gem.size_dict[v]
                 elif i.keys()[0] == "cut":
                     for v in i["cut"]:
-                        if cut_dict.has_key(v) != False:
+                        if cut_dict.has_key(v):
                             cut[v] = cut_dict[v]
             elif type(i) == list:
                 for item in i:
-                    if gem_types.has_key(item) != False:
+                    if gem_types.has_key(item):
                         new_dict[item] = gem_types[item]
             elif type(i) == str:
-                if gem_types.has_key(i) != False:
+                if gem_types.has_key(i):
                     new_dict[i] = gem_types[i]              
         while count != 0:
             if len(cut) == 0:
@@ -1049,14 +1049,14 @@ def generate_mat(count, *args):
             if type(i) == dict:
                 if i.keys()[0] == "size":
                     for v in i["size"]:
-                        if Material.size_dict.has_key(v) != False:
+                        if Material.size_dict.has_key(v):
                             size[v] = Material.size_dict[v]
             elif type(i) == list:
                 for item in i:
-                    if material_types.has_key(item) != False:
+                    if material_types.has_key(item):
                         new_dict[item] = material_types[item]
             elif type(i) == str:
-                if material_types.has_key(i) != False:
+                if material_types.has_key(i):
                     new_dict[i] = material_types[i]
         for i in xrange(count):
             if len(size) == 0:
@@ -1140,7 +1140,7 @@ class Treasure(object):#класс для сокровищ
         self.quality =  q_choice()
         self.quality_mod = Treasure.quality_types[self.quality][1]
     def incrustation(self, gem):#метод для икрустации камней
-        if self.incrustable == False:
+        if not self.incrustable:
             return "Can't be incrusted"
         if gem.size == "small":
             if self.spangled == None:
@@ -1272,7 +1272,7 @@ class Treasury(store.object):
                 self.taller -= 1
                 self.farting += 10
             self.farting -= money_diff % 10
-            money_diff = money_diff // 10
+            money_diff //= 10
             if self.taller < money_diff % 10:
                 if (self.farting // 10 + self.taller) < money_diff % 10:
                     #серебряных монет даже с учетом медных недостаточно для выплаты, меняем золотую
@@ -1281,20 +1281,20 @@ class Treasury(store.object):
                 else:
                     #серебряных монет с учетом медных достаточно для выплаты, меняем по максимуму медные на серебряные
                     self.taller += self.farting // 10
-                    self.farting = self.farting % 10
+                    self.farting %= 10
             self.taller -= money_diff % 10
-            money_diff = money_diff // 10
+            money_diff //= 10
             if self.dublon < money_diff % 10:
                 #золотых монет недостаточно для выплаты 
                 self.taller += self.farting // 10 #меняем по максимуму медные на серебряные
-                self.farting = self.farting % 10
+                self.farting %= 10
                 self.dublon += self.taller // 10 #меняем по максимуму серебряные на золотые
-                self.taller = self.taller % 10
+                self.taller %= 10
             self.dublon -= money_diff 
         else:
             #разница положительна - производим добавление монет по разрядам
             self.dublon += money_diff // 100
-            money_diff = money_diff % 100
+            money_diff %= 100
             self.taller += money_diff // 10
             self.farting += money_diff % 10
     

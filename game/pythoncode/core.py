@@ -808,7 +808,7 @@ class Dragon(Fighter):
         :return: True если успешно, иначе False.
         """
         if self.energy() - drain >= 0:
-            self._tiredness = self._tiredness + drain
+            self._tiredness += drain
             return True
         return False
             
