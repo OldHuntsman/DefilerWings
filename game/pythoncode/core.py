@@ -270,7 +270,7 @@ class Game(store.object):
         for quest_i in xrange(len(data.quest_list)):
             quest = data.quest_list[quest_i]
             # находим квест, подходящий по уровню, не уникальный или ещё не выполненный за текущую игру
-            if lvl >= quest['min_lvl'] and lvl <= quest['max_lvl'] and \
+            if quest['min_lvl'] <= lvl <= quest['max_lvl'] and \
                 ('unique' not in quest or quest['unique'] not in self.unique) and \
                 ('prerequisite' not in quest or quest['prerequisite'] in self.unique):
                 quests.append(quest)
@@ -375,11 +375,11 @@ class Game(store.object):
         number = self.quest_time
         if number == 1:
             return u"Последний год на выполнение задания!"
-        elif (number > 1 and number < 5):
+        elif ( 1 < number < 5):
             return u"Тебе нужно выполнить задание за %s года!" % str(number)
         elif (number % 100 > 20) and (number % 10 == 1):
             return u"Задание нужно выполнить за %s год." % str(number)
-        elif (number % 100 > 20) and (number % 10 > 1 and number % 10 < 5):
+        elif (number % 100 > 20) and (1 < number % 10 < 5):
             return u"Задание нужно выполнить за %s года." % str(number)
         else:
             return u"Задание нужно выполнить за %s лет." % str(number)

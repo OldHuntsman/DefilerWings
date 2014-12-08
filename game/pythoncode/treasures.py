@@ -788,7 +788,7 @@ number_conjugation_end = {1 : {'nominative' : (u"", u"а", u"ов")},
 def number_conjugation_type(number):
     if (number % 10 == 1) and (number % 100 <> 11):
         return 0
-    elif (number % 10 > 1 and number % 10 < 5) and (number % 100 < 11 or number % 100 > 21):
+    elif (1 < number % 10 < 5) and (number % 100 < 11 or number % 100 > 21):
         return 1
     else:
         return 2
@@ -1129,7 +1129,7 @@ class Treasure(object):#класс для сокровищ
                     return None
         self.decoration = decorate()#выбираем орнамент
         if self.image: self.decoration_image = random.choice(image_types[self.alignment]) 
-        self.dec_mod = 1 if self.decoration == None else 2#равен двум если есть орнамент
+        self.dec_mod = 1 if self.decoration is None else 2#равен двум если есть орнамент
         def q_choice():#прокидываем качество вещи
             if self.alignment == "human" or self.alignment ==  "cleric" or self.alignment == "knight":
                 return weighted_select(Treasure.quality_types)
@@ -1143,25 +1143,25 @@ class Treasure(object):#класс для сокровищ
         if not self.incrustable:
             return "Can't be incrusted"
         if gem.size == "small":
-            if self.spangled == None:
+            if self.spangled is None:
                 self.spangled = gem
             return
         if gem.size[1] == "common":
-            if self.inlaid == None:
+            if self.inlaid is None:
                 self.inlaid = gem
             return
         if gem.size[1] == "huge":
-            if self.huge == None:
+            if self.huge is None:
                 self.huge = gem
             return
     @property#цена вставленных камней
     def incrustation_cost(self):
         holder = 0
-        if self.spangled != None:
+        if self.spangled is not None:
             holder += self.spangled.cost * Gem.size_dict['small'][1] // Gem.size_dict['common'][1] # из-за хака с размерами
-        if self.inlaid != None:
+        if self.inlaid is not None:
             holder += self.inlaid.cost
-        if self.huge != None:
+        if self.huge is not None:
             holder += self.huge.cost
         return holder
     @property
