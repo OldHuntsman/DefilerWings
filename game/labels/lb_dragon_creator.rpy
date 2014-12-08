@@ -7,7 +7,7 @@ label lb_dragon_creator:
                                 "clutches": "когти", "horns": "рога", "fangs": "клыки", "ugly": "уродство"}
         colored_heads = ["red", "white", "blue", "black", "iron", "bronze", "silver", "gold", "shadow"]
     init python:
-        class add_modifier:
+        class AddModifier:
             def __init__(self, mod, dragon):
                 self.mod = mod
                 self.dragon = dragon
@@ -30,17 +30,17 @@ label lb_dragon_creator:
             hbox:
                 vbox:
                     text "Анатомия"
-                    textbutton "голова" action SetVariable("mods_left", mods_left - 1), add_modifier("green", game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
-                    textbutton "лапы" action SetVariable("mods_left", mods_left - 1), add_modifier("paws", game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
-                    textbutton "крылья" action SetVariable("mods_left", mods_left - 1), add_modifier("wings", game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
-                    textbutton "размер" action SetVariable("mods_left", mods_left - 1), add_modifier("size", game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
+                    textbutton "голова" action SetVariable("mods_left", mods_left - 1), AddModifier("green", game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
+                    textbutton "лапы" action SetVariable("mods_left", mods_left - 1), AddModifier("paws", game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
+                    textbutton "крылья" action SetVariable("mods_left", mods_left - 1), AddModifier("wings", game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
+                    textbutton "размер" action SetVariable("mods_left", mods_left - 1), AddModifier("size", game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
                     for i in special_features_rus.keys():
-                        textbutton special_features_rus[i] action SetVariable("mods_left", mods_left - 1), add_modifier(i, game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
+                        textbutton special_features_rus[i] action SetVariable("mods_left", mods_left - 1), AddModifier(i, game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
                 if game.dragon.heads.count("green") > 0: 
                     vbox:
                         text "Цветные головы"
                         for i in colored_heads:
-                                textbutton data.heads_name_rus[i] action SetVariable("mods_left", mods_left - 1), add_modifier(i, game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
+                                textbutton data.heads_name_rus[i] action SetVariable("mods_left", mods_left - 1), AddModifier(i, game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
             use status_bar
             fixed:
                 xalign 1.0

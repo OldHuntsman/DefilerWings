@@ -136,7 +136,7 @@ class Thief(Sayer, Mortal):
                     die(upgrade)  # Умираем
                     thief.event("die_trap", trap=upgrade)
                     return
-                if (upgrade in thief.abilities.list("avoids") or upgrade in thief.items.list("avoids")): # Если у нас есть шмотка или скилл для обхода ловушки
+                if upgrade in thief.abilities.list("avoids") or upgrade in thief.items.list("avoids"): # Если у нас есть шмотка или скилл для обхода ловушки
                     if renpy.config.debug:
                         thief(u"Я хорошо подготовился и предметы помогли обойти мне %s" % upgrade)
                     continue  # Переходим к следущей

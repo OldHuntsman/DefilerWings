@@ -9,7 +9,7 @@ label lb_nature_sex:
         'Надругаться' if game.girls_list.is_mating_possible:
             $ description = game.girls_list.impregnate()
             game.girl.third "[description]"
-        'Ограбить' if game.girl.treasure != []:
+        'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"
         'Сожрать' if game.dragon.hunger > 0:
@@ -45,7 +45,7 @@ label lb_lair_sex:
         'Надругаться' if game.girls_list.is_mating_possible:
             $ description = game.girls_list.impregnate()
             game.girl.third "[description]"
-        'Ограбить' if game.girl.treasure != []:
+        'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"
         'Сожрать' if game.dragon.hunger > 0:
@@ -77,7 +77,7 @@ label lb_gigant_sex:
         'Надругаться' if game.girls_list.is_mating_possible:
             $ description = game.girls_list.impregnate()
             game.girl.third "[description]"
-        'Ограбить' if game.girl.treasure != []:
+        'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"
         'Сожрать' if game.dragon.hunger > 0:

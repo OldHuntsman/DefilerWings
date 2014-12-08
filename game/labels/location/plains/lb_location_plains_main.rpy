@@ -115,7 +115,7 @@ label lb_enc_berries:
             '[game.dragon.reputation.gain_description]'
             game.girl 'Ой только не ешьте меня пожалуйста.'
             menu:
-                'Ограбить девицу' if game.girl.treasure != []:
+                'Ограбить девицу' if game.girl.treasure:
                     $ description = game.girls_list.rob_girl()
                     game.girl.third "Дракон раздевает девушку догола и забирает всё ценное."
                     game.girl 'Можно я теперь пойду?'
@@ -190,7 +190,7 @@ label lb_enc_shrooms:
             '[game.dragon.reputation.gain_description]'
             game.girl 'Ой только не ешьте меня пожалуйста.'
             menu:
-                'Ограбить девицу' if game.girl.treasure != []:
+                'Ограбить девицу' if game.girl.treasure:
                     $ description = game.girls_list.rob_girl()
                     game.girl.third "Дракон раздевает девушку догола и забирает всё ценное."
                     game.girl 'Можно я теперь пойду?'
