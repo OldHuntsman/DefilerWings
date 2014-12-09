@@ -1,9 +1,9 @@
 label splashscreen:
     python:
-        if not persistent.disclaimer_accepted:                     # Проверяем был ли принят дисклеймер. Если нет, то:
-            disclaimer_status = renpy.call_screen("sc_disclaimer") # Показываем экран с дисклеймером.
-            if disclaimer_status:                                  # И если дисклеймер приняли, то 
-                persistent.disclaimer_accepted = True              # Сохраняем этот факт на будущее
+        if not persistent.disclaimer_accepted:                      # Проверяем был ли принят дисклеймер. Если нет, то:
+            disclaimer_status = renpy.call_screen("sc_disclaimer")  # Показываем экран с дисклеймером.
+            if disclaimer_status:                                   # И если дисклеймер приняли, то
+                persistent.disclaimer_accepted = True               # Сохраняем этот факт на будущее
     
     scene black
     with Pause(1)

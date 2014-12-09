@@ -4,6 +4,7 @@ screen sc_treasury_gems:
             def __init__(self, gem_store, gem_index):
                 self.gem_store = gem_store
                 self.gem_index = gem_index
+
             def __call__(self):
                 self.gem_store.pop(self.gem_index)
                 renpy.restart_interaction()

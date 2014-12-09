@@ -28,13 +28,13 @@ init -1 python hide:
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
     config.name = "Defiler Wings"
-    
+
     def get_version():
         '''
         Функция для поиска текущей версии.
-        Читает версию из неотслеживаемого файла game/version. Его можно заполнять и ручками, но 
+        Читает версию из неотслеживаемого файла game/version. Его можно заполнять и ручками, но
         можно и используя автоматически выполняемые скрипты post-commit (чтобы версия писалась после
-        каждого коммита) и post-checkout (чтобы был корректный номер после смены ревизии). Оба эти 
+        каждого коммита) и post-checkout (чтобы был корректный номер после смены ревизии). Оба эти
         файла должны находиться в .git/hooks/. Пример содержания такого скрипта:
         #### FILE START ####
         #!/bin/sh
@@ -54,13 +54,13 @@ init -1 python hide:
         удалось возвращает "Unknown".
         '''
         import os
-        version_file = os.path.join(config.basedir, "game/version") # Получаем путь до файла с версией
+        version_file = os.path.join(config.basedir, "game/version")  # Получаем путь до файла с версией
         if os.path.isfile(version_file):    # Проверяем есть ли такой файл
             f = open(version_file)          # и если есть
             return f.read()                 # возвращаем его содержание
         else:                               # Если это не получилось, то пробуем получить версию файла самостоятельно
-            from subprocess import Popen, PIPE, STDOUT, STARTUPINFO, STARTF_USESHOWWINDOW # Импортирует все немобходимое
-            cmd_ops =  ["--git-dir=%s"%os.path.join(config.basedir, ".git"), # Составляем список опций.
+            from subprocess import Popen, PIPE, STDOUT  # Импортирует все немобходимое
+            cmd_ops = ["--git-dir=%s" % os.path.join(config.basedir, ".git"),  # Составляем список опций.
                         "describe",
                         "--tags",
                         "--long",
@@ -68,26 +68,28 @@ init -1 python hide:
             # Для винды делаем там чтобы не выскакивало окно консоли.
             startupinfo = None
             if os.name == 'nt':
+                from subprocess import STARTUPINFO, STARTF_USESHOWWINDOW
                 startupinfo = STARTUPINFO()
                 startupinfo.dwFlags |= STARTF_USESHOWWINDOW
+                cmd = os.path.join(os.environ["PROGRAMFILES"], "Git", "bin", "git")
+            else:
+                cmd = "git"
             # Выполняем эту команду
-            for cmd in ["git",
-                        os.path.join(os.environ["PROGRAMFILES"], "Git", "bin", "git")]:
-                try: #Пробуем выполнить один из этих бинаринков
-                    p = Popen([cmd] + cmd_ops, stdout=PIPE, stderr=PIPE, startupinfo=startupinfo)
-                    if p.wait() == 0:           # Проверяем удачно ли она завершилась
-                        return p.stdout.read()  # Возвращаем ее результат
-                except:     #Поймали эксепшен, скорее всего из-за того OS не нашла такой файл, пробуем следущий
-                    pass
+            try:  #Пробуем выполнить один из этих бинаринков
+                p = Popen(cmd + cmd_ops, stdout=PIPE, stderr=PIPE, startupinfo=startupinfo)
+                if p.wait() == 0:           # Проверяем удачно ли она завершилась
+                    return p.stdout.read()  # Возвращаем ее результат
+            except:     #Поймали эксепшен, скорее всего из-за того OS не нашла такой файл, пробуем следущий
+                pass
         return "Unknown"                # Возвращаем "Unknown", если ничего не получилось.
-    
+
     config.version = get_version()
 
     #########################################
     # Themes
 
     ## We then want to call a theme function. theme.roundrect is
-    ## a theme that features the use of rounded rectangles. 
+    ## a theme that features the use of rounded rectangles.
     ##
     ## The theme function takes a number of parameters that can
     ## customize the color scheme.
@@ -97,49 +99,48 @@ init -1 python hide:
         ## Color scheme: Mocha Latte
 
         ## The color of an idle widget face.
-        widget = "#4D3B29",
+        widget="#4D3B29",
 
         ## The color of a focused widget face.
-        widget_hover = "#996E45",
+        widget_hover="#996E45",
 
         ## The color of the text in a widget.
-        widget_text = "#B99D83",
+        widget_text="#B99D83",
 
         ## The color of the text in a selected widget. (For
         ## example, the current value of a preference.)
-        widget_selected = "#ffffff",
+        widget_selected="#ffffff",
 
         ## The color of a disabled widget face.
-        disabled = "#614D3A",
+        disabled="#614D3A",
 
         ## The color of disabled widget text.
-        disabled_text = "#80654D",
+        disabled_text="#80654D",
 
         ## The color of informational labels.
-        label = "#F1EBE5",
+        label="#F1EBE5",
 
         ## The color of a frame containing widgets.
-        frame = "#926841",
+        frame="#926841",
 
         ## The background of the main menu. This can be a color
         ## beginning with '#', or an image filename. The latter
         ## should take up the full height and width of the screen.
-        mm_root = "img/menu/mmenu.png", # фон главного экрана
+        mm_root="img/menu/mmenu.png",  # фон главного экрана
 
         ## The background of the game menu. This can be a color
         ## beginning with '#', or an image filename. The latter
         ## should take up the full height and width of the screen.
-        gm_root = "img/menu/gm.png",# фон менюшек (настройки, пауза и пр.)
+        gm_root="img/menu/gm.png",# фон менюшек (настройки, пауза и пр.)
 
         ## If this is True, the in-game window is rounded. If False,
         ## the in-game window is square.
-        rounded_window = False,
+        rounded_window=False,
 
         ## And we're done with the theme. The theme will customize
         ## various styles, so if we want to change them, we should
         ## do so below.
         )
-
 
     #########################################
     ## These settings let you customize the window containing the
@@ -172,7 +173,6 @@ init -1 python hide:
 
     style.window.yminimum = 720
 
-
     #########################################
     ## This lets you change the placement of the main menu.
 
@@ -192,7 +192,6 @@ init -1 python hide:
     ## style.mm_menu_frame.ypos = 0.75
     ## style.mm_menu_frame.yanchor = 0.5
 
-
     #########################################
     ## These let you customize the default font used for text in Ren'Py.
 
@@ -206,7 +205,6 @@ init -1 python hide:
 
     ## Note that these only change the size of some of the text. Other
     ## buttons have their own styles.
-
 
     #########################################
     ## These settings let you change some of the sounds that are used by
@@ -254,7 +252,6 @@ init -1 python hide:
     ##   web browser.
     ## - None, to disable help.
     config.help = "readme.txt"
-
 
     #########################################
     ## Transitions.
@@ -338,11 +335,11 @@ init -1 python hide:
 
     #########################################
     ## More customizations can go here.
-    
+
     # Определяем изображения автоматически
-    config.automatic_images = [ '_', '/' ]
+    config.automatic_images = ['_', '/']
     config.automatic_images_strip = ['img', 'avadragon', 'avahuman', 'bg', 'map']
-    
+
 ## This section contains information about how to build your project into
 ## distribution files.
 init python:
@@ -405,11 +402,11 @@ init python:
 
     build.documentation('*.html')
     build.documentation('*.txt')
-    
+
     # Улучшаем вывод ошибок Pickle
     if config.developer:
         config.use_cpickle = False
-    
+
     config.save_dump = True
 
     # Дополнительная переменная для вывода всякой дополнительной инфы.

@@ -7,20 +7,20 @@
         'Даже драконам надо иногда спать. Особенно драконам!'
         return
         
-    $ nochance = game.poverty.value*3      
+    $ nochance = game.poverty.value * 3
     $ choices = [("lb_enc_lumberjack", 10),
-                ("lb_enc_onegirl", 10),
-                ("lb_enc_wandergirl", 10),
-                ("lb_enc_ogre", 10),
-                ("lb_enc_deer", 10),   
-                ("lb_enc_boar", 10),
-                ("lb_enc_berries", 10),
-                ("lb_enc_shrooms", 10),
-                ("lb_enc_guardian", 1000),
-                ("lb_enc_lumbermill", 10),
-                ("lb_enc_klad", 10),
-                ("lb_patrool_forest", 3*game.mobilization.level),
-                ("lb_enc_noting", nochance),]
+                 ("lb_enc_onegirl", 10),
+                 ("lb_enc_wandergirl", 10),
+                 ("lb_enc_ogre", 10),
+                 ("lb_enc_deer", 10),
+                 ("lb_enc_boar", 10),
+                 ("lb_enc_berries", 10),
+                 ("lb_enc_shrooms", 10),
+                 ("lb_enc_guardian", 1000),
+                 ("lb_enc_lumbermill", 10),
+                 ("lb_enc_klad", 10),
+                 ("lb_patrool_forest", 3 * game.mobilization.level),
+                 ("lb_enc_noting", nochance)]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
     
@@ -229,11 +229,11 @@ label lb_enc_klad:
     'Дракон учуял зарытые сокровища.'
     nvl clear
     python:
-        tr_lvl = random.randint(1,100)
-        count = random.randint(1,10)
+        tr_lvl = random.randint(1, 100)
+        count = random.randint(1, 10)
         alignment = 'human'
-        min_cost = 1*tr_lvl
-        max_cost = 10*tr_lvl
+        min_cost = 1 * tr_lvl
+        max_cost = 10 * tr_lvl
         obtained = "Это предмет из клада, зарытого кем-то в лесу."
         trs = treasures.gen_treas(count, data.loot['klad'], alignment, min_cost, max_cost, obtained)
         trs_list = game.lair.treasury.treasures_description(trs)
@@ -245,16 +245,14 @@ label lb_enc_klad:
             '[trs_descrptn]'
             $ game.lair.treasury.receive_treasures(trs)
             
-        'Пусть пока лежат'  if game.dragon.bloodiness < 5:
+        'Пусть пока лежат' if game.dragon.bloodiness < 5:
             'Конечно сокровища полезны, но то что тут могли закопать жалкие людишки вряд ли стоит драгоценного времени благородного змея.'
-
-    
     return
 
 label lb_patrool_forest:
     python:
         game.dragon.drain_energy()
-        chance = random.randint(0,game.mobilization.level)
+        chance = random.randint(0, game.mobilization.level)
         if chance < 4:
             patrool = 'jagger'
             dtxt = 'Егерь.'
