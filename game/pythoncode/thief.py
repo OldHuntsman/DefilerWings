@@ -176,7 +176,7 @@ class Thief(Sayer, Mortal):
                             stolen_items.append(stolen_item)
                             if renpy.config.debug:
                                 thief(u"Взял шмотку %s" % stolen_item)
-                            self.event('receive_item', stolen_item)
+                            self.event('receive_item', item=stolen_item)
                         else:
                             # Мы разбудили дракона
                             if renpy.config.debug:
