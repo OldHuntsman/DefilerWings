@@ -4,9 +4,9 @@ label lb_location_lair_main:
     
     menu:
         'Осмотреть дракона':
-            #чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
+            # чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
             game.dragon.third "[game.dragon.description]"
-        'Сотворить заклинание'  if game.dragon.energy() > 0 and game.dragon.mana > 0:
+        'Сотворить заклинание' if game.dragon.energy() > 0 and game.dragon.mana > 0:
             python:
                 spells_menu = []
                 for spell in data.spell_list.keys():
@@ -27,7 +27,7 @@ label lb_location_lair_main:
                     $ game.lair.upgrades.add('magic_traps', deepcopy(data.lair_upgrades['magic_traps']))
 
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
-            #TODO: заменить на адекватный вариант
+            # TODO: заменить на адекватный вариант
             python:
                 def get_bg():
                     import random
@@ -57,7 +57,7 @@ label lb_location_lair_main:
                     $ description = u"В сокровищнице:\n"
                     $ description += u"%s\n" % treasures.number_conjugation_rus(game.lair.treasury.farting, u"фартинг")
                     $ description += u"%s\n" % treasures.number_conjugation_rus(game.lair.treasury.taller, u"талер")
-                    $ description += u"%s" %treasures.number_conjugation_rus(game.lair.treasury.dublon, u"дублон")
+                    $ description += u"%s" % treasures.number_conjugation_rus(game.lair.treasury.dublon, u"дублон")
                     "[description]"
                 '[game.lair.treasury.jewelry_mass_description]' if game.lair.treasury.jewelry_mass > 0:
                     menu:

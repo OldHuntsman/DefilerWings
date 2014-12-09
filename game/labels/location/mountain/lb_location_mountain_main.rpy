@@ -7,20 +7,20 @@ label lb_location_mountain_main:
         'Даже драконам надо иногда спать. Особенно драконам!'
         return
         
-    $ nochance = game.poverty.value*3      
+    $ nochance = game.poverty.value * 3
     $ choices = [("lb_enc_miner", 10),
-                ("lb_enc_dklad", 10),
-                ("lb_enc_mines", 10),
-                ("lb_enc_ram", 10),
-                ("lb_enc_bear", 10),   
-                ("lb_enc_jotun", 10),
-                ("lb_enc_ifrit", 10),
-                ("lb_enc_smugglers", 10),
-                ("lb_enc_slavers", 10),                
-                ("lb_enc_frontgates", 10),
-                ("lb_enc_cavegates", 10),
-                ("lb_patrool_mountain", 3*game.mobilization.level),                
-                ("lb_enc_noting", nochance),]
+                 ("lb_enc_dklad", 10),
+                 ("lb_enc_mines", 10),
+                 ("lb_enc_ram", 10),
+                 ("lb_enc_bear", 10),
+                 ("lb_enc_jotun", 10),
+                 ("lb_enc_ifrit", 10),
+                 ("lb_enc_smugglers", 10),
+                 ("lb_enc_slavers", 10),
+                 ("lb_enc_frontgates", 10),
+                 ("lb_enc_cavegates", 10),
+                 ("lb_patrool_mountain", 3 * game.mobilization.level),
+                 ("lb_enc_noting", nochance)]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
         
@@ -49,11 +49,11 @@ label lb_enc_dklad:
     'Дракон учуял сокровища спрятанные где-то н подалёку.'
     nvl clear
     python:
-        tr_lvl = random.randint(1,100)
-        count = random.randint(1,10)
+        tr_lvl = random.randint(1, 100)
+        count = random.randint(1, 10)
         alignment = 'human'
-        min_cost = 1*tr_lvl
-        max_cost = 10*tr_lvl
+        min_cost = 1 * tr_lvl
+        max_cost = 10 * tr_lvl
         obtained = "Это предмет из клада, спрятанного в горной расщелине."
         trs = treasures.gen_treas(count, data.loot['klad'], alignment, min_cost, max_cost, obtained)
         trs_list = game.lair.treasury.treasures_description(trs)
@@ -65,7 +65,7 @@ label lb_enc_dklad:
             '[trs_descrptn]'
             $ game.lair.treasury.receive_treasures(trs)
                         
-        'Пусть пока лежат'  if game.dragon.bloodiness < 5:
+        'Пусть пока лежат' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             'Конечно сокровища полезны, но то что тут могли спрятать жалкие смертные вряд ли стоит драгоценного времени благородного змея.'    
     return
@@ -122,7 +122,7 @@ label lb_enc_smugglers:
             $ game.foe = core.Enemy('band', gameRef=game, base_character=NVLCharacter)
             call lb_fight
             python:
-                count = random.randint(5,15)
+                count = random.randint(5, 15)
                 alignment = 'human'
                 min_cost = 5
                 max_cost = 100
@@ -193,7 +193,7 @@ label lb_enc_mines:
             $ game.foe = core.Enemy('xbow', gameRef=game, base_character=NVLCharacter)
             call lb_fight
             python:
-                count = random.randint(1,15)
+                count = random.randint(1, 15)
                 alignment = 'human'
                 min_cost = 1
                 max_cost = 1000000
@@ -235,7 +235,7 @@ label lb_enc_cavegates:
 label lb_patrool_mountain:
     python:
         game.dragon.drain_energy()
-        chance = random.randint(0,game.mobilization.level)
+        chance = random.randint(0, game.mobilization.level)
         if chance < 4:
             patrool = 'jagger'
             dtxt = 'В заросшей низким кустарником седловине %s нарывается на засаду, устроенную горным егерем, патрулирующим эти места.' % game.dragon.name
@@ -256,4 +256,3 @@ label lb_patrool_mountain:
     call lb_fight
     
     return
-    
