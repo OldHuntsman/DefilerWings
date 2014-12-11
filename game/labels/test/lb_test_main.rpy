@@ -1,3 +1,4 @@
+# coding=utf-8
 init python:
     from pythoncode import core
     from pythoncode import girls_data

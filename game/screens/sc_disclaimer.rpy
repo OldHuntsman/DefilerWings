@@ -1,3 +1,4 @@
+# coding=utf-8
 screen sc_disclaimer:
     frame:
         text "Внимание!":           # Отдельно так как нужно спозиционировать по центру.

@@ -1,4 +1,5 @@
-﻿label lb_location_forest_main:
+﻿# coding=utf-8
+label lb_location_forest_main:
     $ place = 'forest'
     show expression get_place_bg(place) as bg
     nvl clear

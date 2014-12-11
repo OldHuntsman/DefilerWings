@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_dragon_creator:
     python:
         child = core.Dragon(parent=game.dragon, gameRef=game, base_character=game.adv_character)

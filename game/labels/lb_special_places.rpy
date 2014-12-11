@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_special_places:
     nvl clear
     python:

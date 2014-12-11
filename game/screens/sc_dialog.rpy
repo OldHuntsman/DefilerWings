@@ -1,3 +1,4 @@
+# coding=utf-8
 screen sc_dialog(name='', avatar=None, what=''):
     add "img/style/dialog.png":
         ypos 120

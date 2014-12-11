@@ -1,3 +1,4 @@
+# coding=utf-8
 import math
 import renpy.store as store
 

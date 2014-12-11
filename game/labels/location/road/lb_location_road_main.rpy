@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_location_road_main:
     $ place = 'road'
     show expression get_place_bg(place) as bg

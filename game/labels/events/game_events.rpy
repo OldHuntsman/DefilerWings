@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_event_mobilization_increase:
     show expression core.get_img("img/scene/mobilization") as bg
     nvl clear

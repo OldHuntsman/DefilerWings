@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_test_example_encounter:
     menu:
         "Простой пример взвешенного выбора с распределением 2:1:1":

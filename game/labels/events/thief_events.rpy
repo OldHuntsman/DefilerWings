@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_event_thief_spawn(thief):
     show expression "img/scene/thief.png" as bg
     nvl clear

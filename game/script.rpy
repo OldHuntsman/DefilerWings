@@ -1,4 +1,5 @@
-﻿init python:
+﻿# coding=utf-8
+init python:
     #Импортируем нужные библиотеки. Возможно это надо засунуть в какой-то отдельный файл инициализации.
     from pythoncode import data
     from pythoncode import core

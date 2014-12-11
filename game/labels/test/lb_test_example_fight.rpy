@@ -1,3 +1,4 @@
+# coding=utf-8
 init python:
     from pythoncode import battle
 

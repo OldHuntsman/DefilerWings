@@ -1,4 +1,5 @@
-﻿## This file contains some of the options that can be changed to customize
+﻿# coding=utf-8
+## This file contains some of the options that can be changed to customize
 ## your Ren'Py game. It only contains the most common options... there
 ## is quite a bit more customization you can do.
 ##

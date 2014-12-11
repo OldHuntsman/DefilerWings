@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_event_knight_spawn(knight):
     show expression "img/scene/oath.png" as bg
     nvl clear

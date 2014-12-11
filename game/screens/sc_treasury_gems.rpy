@@ -1,3 +1,4 @@
+# coding=utf-8
 screen sc_treasury_gems:
     python:
         class del_gem:

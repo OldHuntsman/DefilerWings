@@ -1,3 +1,4 @@
+# coding=utf-8
 label splashscreen:
     python:
         if not persistent.disclaimer_accepted:                      # Проверяем был ли принят дисклеймер. Если нет, то:
