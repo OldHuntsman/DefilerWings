@@ -60,9 +60,9 @@ class Thief(Sayer, Mortal):
             return False
 
     def description(self):
-        '''
+        """
         Описание вора, возвращает строку с описанием.
-        '''
+        """
         d = []
         if self.is_dead:
             d.append(u"Вор мёртв")
@@ -83,10 +83,10 @@ class Thief(Sayer, Mortal):
         return u"\n".join(d)
 
     def steal(self, lair=None):
-        '''
+        """
         Вор пытается урасть что-нибудь.
         :param lair: Логово из которого происходит кража
-        '''
+        """
         lair = lair
         thief = self
 
@@ -176,7 +176,6 @@ class Thief(Sayer, Mortal):
                             stolen_items.append(stolen_item)
                             if renpy.config.debug:
                                 thief(u"Взял шмотку %s" % stolen_item)
-                            self.event('receive_item', item=stolen_item)
                         else:
                             # Мы разбудили дракона
                             if renpy.config.debug:
@@ -189,6 +188,7 @@ class Thief(Sayer, Mortal):
                         if renpy.config.debug:
                             thief(u"В сокровищнице нечего брать. Сваливаю.")
                         return
+                self.event('steal_items', items=stolen_items)
         else:  # До логова добраться не получилось, получаем предмет c 50%м шансом
             if renpy.config.debug:
                 thief(u"Не добрался до логова")
@@ -200,15 +200,15 @@ class Thief(Sayer, Mortal):
         return
 
     def check_luck(self, luck):
-        '''
+        """
         Unused
-        '''
+        """
         pass
 
     def die(self, reason=None):
-        '''
+        """
         Вор умирает
-        '''
+        """
         for i in self.items:
             self.treasury.thief_items.append(deepcopy(self.items[i]))
         if renpy.config.debug:

@@ -25,10 +25,10 @@ class Modifier(object):
 
 
 class Container(collections.defaultdict):
-    '''
+    """
     Класс-хранилище разнообразных свойст/модификаторов
     TODO: реверсивный поиск
-    '''
+    """
 
     def __init__(self, id=None, data=None, *args, **kwargs):
         super(Container, self).__init__(*args, **kwargs)
@@ -39,10 +39,10 @@ class Container(collections.defaultdict):
                 self.add(key, value)
 
     def add(self, id, data):
-        '''
+        """
         :param id: Идентификатор свойства/модификатора
         :param data: dict, содержащий парамерты этого свойства/модификатор
-        '''
+        """
         if id not in self:
             if type(data) is dict:
                 self[id] = Container(id, data)
@@ -52,10 +52,10 @@ class Container(collections.defaultdict):
             raise Exception("Already in container")
 
     def sum(self, parameter):
-        '''
+        """
         :param parameter: Значение, по которому нужно суммировать аттрибуты. Суммирование проводится
                           рекурсивно.
-        '''
+        """
         total = 0
         if parameter in self:
             try:
@@ -68,11 +68,11 @@ class Container(collections.defaultdict):
         return total
 
     def list(self, key):
-        '''
+        """
         Рекурсивно возвращает лист значений по ключу
         :param key: Ключ по которому производится поиск
         :return: Список значений
-        '''
+        """
         result = []
         if key in self:
             if type(self[key]) is list:
@@ -85,11 +85,11 @@ class Container(collections.defaultdict):
         return result
 
     def contains(self, key, value=None):
-        '''
+        """
         Возвращает список айдишников, которые содержат заданный ключ и, если указано, значение.
         :param key: Ключ который должен содержать элемент
-        :retuкn: список элеметов содержащих ключ, если таких элементов нет, то пустой список
-        '''
+        :return: список элеметов содержащих ключ, если таких элементов нет, то пустой список
+        """
         result = []
         if key in self:
             if value is None:
@@ -103,11 +103,11 @@ class Container(collections.defaultdict):
         return result
 
     def select(self, query):
-        '''
+        """
         Возвращает список айдишников которые подходят под условия указанные в query. Нерекурсивно.
-        :param query: cписок кортежей (ключ, значение) которым должен удовлетворять объект поиска
+        :param query: список кортежей (ключ, значение) которым должен удовлетворять объект поиска
         :return: спискок удовлетворяюищих элементво
-        '''
+        """
         result = []
         for (key, value) in query:
             if key in self and self[key] == value:
@@ -122,9 +122,9 @@ class Container(collections.defaultdict):
         return result
 
     def type(self):
-        '''
+        """
         For test uses
-        '''
+        """
         return type(self)
 
     def __getattr__(self, name):
@@ -285,6 +285,7 @@ thief_events = {
     "die_trap": None,
     "pass_trap": None,
     "receive_item": "lb_event_thief_receive_item",
+    "steal_items": "lb_event_thief_steal_items",
 }
 
 #

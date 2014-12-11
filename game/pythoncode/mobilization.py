@@ -9,13 +9,13 @@ class Mobilization(store.object):
         return self.level, self.points
 
     def __init__(self, level=0, points=1):
-        '''
+        """
         level - уровень мобилизации
         points - количество очков мобилизации
         Оба параметра не являются обязательными. Но оба параметра по сути выражают отдно и то же.
-        Поэтому, в случае если указаны оба параметра, то приоритет отдается тому, где получается 
+        Поэтому, в случае если указаны оба параметра, то приоритет отдается тому, где получается
         больше очков.
-        '''
+        """
         points = max(self._lvl_to_points(level), points)
         if points >= self._min_points():
             self.points = points
@@ -33,10 +33,10 @@ class Mobilization(store.object):
         return Mobilization._lvl_to_points(0)
 
     def _check(self, lvl):
-        '''
+        """
         lvl - уровень для проверки
         Проверяет правильно высчитывается количество очков для начала уровня
-        '''
+        """
         return int(lvl) == self._points_to_lvl(self._lvl_to_points(int(lvl)))
 
     @property
