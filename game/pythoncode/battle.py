@@ -80,8 +80,7 @@ def chance_list(size):
     """
     if size < 0:
         return [1]  # защита, вообще такого быть не должно
-    gen_list = [0 for i in range(size + 1)]
-    gen_list[0] = 1L
+    gen_list = [1L] + [0] * size
     for gen_i in xrange(size):
         sub_list = list(gen_list)
         for sub_i in xrange(gen_i + 1):
@@ -96,26 +95,19 @@ def brute_chance(balance, attack, defence):
     """
     # расчет дополнения к функции распределения атаки
     attack_list = chance_list(attack)
-    summ = 0
-    for attack_i in xrange(len(attack_list)):
-        summ += attack_list[attack_i]
+    summ = sum(attack_list)
     residue = 0.0
     for attack_i in reversed(xrange(len(attack_list))):
         residue += attack_list[attack_i]
         attack_list[attack_i] = residue / summ
     # расчет плотности вероятности защиты
     defence_list = chance_list(defence)
-    summ = 0.0
-    for defence_i in xrange(len(defence_list)):
-        summ += defence_list[defence_i]
-    for defence_i in xrange(len(defence_list)):
-        defence_list[defence_i] = defence_list[defence_i] / summ
+    summ = float(sum(defence_list))
+    defence_list = [a / summ for a in defence_list]
     # расчет шанса
     victory = 0.0
     for defence_i in xrange(len(defence_list)):
-        attack_i = 0
-        while (attack_i + balance <= defence_i) and (attack_i < len(attack_list)):
-            attack_i += 1
+        attack_i = max(min(defence_i - balance + 1, len(attack_list)), 0)
         if attack_i < len(attack_list):
             victory += defence_list[defence_i] * attack_list[attack_i]
     return victory
