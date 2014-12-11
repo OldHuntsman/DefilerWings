@@ -1313,7 +1313,7 @@ def gen_treas(count, t_list, alignment, min_cost, max_cost, obtained):
             treasures_list.append(t)
         else:
             raise Exception("Таких сокровищ не бывает")
-        if min_cost > treasures_list[-1].cost > max_cost:
+        if not min_cost < treasures_list[-1].cost < max_cost:
             treasures_list.pop()
             count += 1
         count -= 1
