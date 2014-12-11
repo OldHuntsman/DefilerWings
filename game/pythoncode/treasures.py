@@ -1162,9 +1162,10 @@ class Treasure(object):  # класс для сокровищ
                 return weighted_select(material_types)
 
         self.material = material()  # выбираем материал
-
-        self.mat_price = material_types[self.material][1] if material_types.has_key(self.material) else metal_types[
-            self.material]
+        if self.material in material_types:
+            self.mat_price = material_types[self.material][1]
+        else:
+            self.mat_price = metal_types[self.material]
 
         def decorate():
             if self.decorable:  # todo: словарь, откуда будем брать варианты орнаментов
@@ -1173,7 +1174,7 @@ class Treasure(object):  # класс для сокровищ
                     rnd = random.randint(1, 100)
                     if rnd <= 50:
                         self.decoration_image = random.choice(image_types[self.alignment])
-                        if material_types.has_key(self.material):
+                        if self.material in material_types:
                             return "carving"
                         else:
                             return weighted_select(Treasure.decorate_types)
