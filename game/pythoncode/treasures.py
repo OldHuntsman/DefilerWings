@@ -1289,29 +1289,33 @@ class Treasure(object):  # класс для сокровищ
 
 def gen_treas(count, t_list, alignment, min_cost, max_cost, obtained):
     """Генерируем рандомное сокровище
-    функция генерации сокровищ,count - количество сокровищ, t_list - список строк-имен сокровищ, alignmet - принадлежность
-    к определенной культуре(одно из: human, cleric, knight, merman, elf, dwarf), min_cost - минимальная цена сокровища,
+    функция генерации сокровищ,
+    count - количество сокровищ,
+    t_list - список строк-имен сокровищ,
+    alignmet - принадлежность к определенной культуре(одно из: human, cleric, knight, merman, elf, dwarf),
+    min_cost - минимальная цена сокровища,
     max_cost - максимальная цена сокровища"""
     treasures_list = []
-    while count != 0:
+    while count > 0:
         treas_holder = random.choice(t_list)
-        if gem_types.has_key(treas_holder):
+        if treas_holder in gem_types:
             treasures_list.extend(generate_gem(1, treas_holder))
-        if material_types.has_key(treas_holder):
+        elif treas_holder in material_types:
             treasures_list.extend(generate_mat(1, treas_holder))
-        if metal_types.has_key(treas_holder):
+        elif treas_holder in metal_types:
             treasures_list.append(Ingot(treas_holder))
-        if Coin.coin_types.has_key(treas_holder):
+        elif treas_holder in Coin.coin_types:
             rnd = random.randint(min_cost, max_cost)
             treasures_list.append(Coin(treas_holder, rnd / Coin.coin_types[treas_holder][1]))
-        if treasure_types.has_key(treas_holder):
+        elif treas_holder in treasure_types:
             t = Treasure(treas_holder, alignment)
             t.obtained = obtained
             treasures_list.append(t)
-        for i in treasures_list:
-            if i.cost < min_cost or i.cost > max_cost:
-                treasures_list.remove(i)
-                count += 1
+        else:
+            raise Exception("Таких сокровищ не бывает")
+        if min_cost > treasures_list[-1].cost > max_cost:
+            treasures_list.pop()
+            count += 1
         count -= 1
     return treasures_list
 
