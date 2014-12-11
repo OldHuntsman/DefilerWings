@@ -18,8 +18,19 @@ label lb_choose_dragon:
         togle_dragonchoose_button = None
         if game.dragon and len(game.dragon.heads) == 0 and len(dragons_choosed) == 3:
             lost = True
-    if lost:  # TODO: приделать что-то что происходит при поражении
-        "Вы проиграли"
+    if lost:  # TODO: Переделать что-то что происходит при поражении
+        menu:
+            "Вы проиграли"
+            "Начать заново":
+                python:
+                    if not freeplay:
+                        renpy.unlink_save("1-1")
+                        renpy.full_restart()
+                    else:
+                        renpy.unlink_save("1-3")
+                        renpy.full_restart()
+            "Назад":
+                return
 
     python hide:
         used_gifts = []

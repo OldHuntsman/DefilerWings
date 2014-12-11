@@ -92,7 +92,6 @@ class Thief(Sayer, Mortal):
 
         if lair is None:  # Нет логова, нет краж. Вообще такого быть не должно.
             raise Exception("No lair available")
-            return
         # Для начала пытаемся понять можем ли мы попасть в логово:
         if lair.reachable(thief.abilities.list("provide") + thief.items.list("provide")):
             if renpy.config.debug:
