@@ -1107,7 +1107,7 @@ def generate_mat(count, *args):
                     new_dict[i] = material_types[i]
         for i in xrange(count):
             if len(size) == 0:
-                size = size = Material.size_dict
+                size = Material.size_dict
             if len(new_dict) == 0:
                 new_dict = material_types
             mats.append(Material(weighted_select(new_dict), weighted_select(size)))
@@ -1137,7 +1137,7 @@ class Treasure(object):  # класс для сокровищ
         self.spangled = generate_gem(1, {"size": ('common',)})[0] if random.randint(1,
                                                                                     100) <= 50 and self.incrustable else None  # размер 'common' - хак, чтобы не писалось "мелкими"
         self.inlaid = generate_gem(1, {"size": ('common',)})[0] if random.randint(1,
-                                                                                  100) <= 15 and self.incrustable  else None
+                                                                                  100) <= 15 and self.incrustable else None
         self.huge = generate_gem(1, {"size": ('large',)})[0] if random.randint(1,
                                                                                100) <= 5 and self.incrustable else None
 
@@ -1552,14 +1552,11 @@ class Treasury(store.object):
                     self.threshold_value = abducted_list[-1].cost
                 return True
             else:
-                treasure_list.append(
-                    test_treasure)  # стоимость добавляемого меньше пороговой, возвращаем сокровище обратно в сокровищницу
+                treasure_list.append(test_treasure)  # стоимость добавляемого меньше пороговой, возвращаем сокровище обратно в сокровищницу
                 return False
 
-        for jewelry_i in reversed(xrange(len(
-                self.jewelry))):  # цикл по всем сокровищам, начиная с конца списка, для соответствия индекса количеству вещей в списке
-            update_list(
-                self.jewelry.pop())  # достаем сокровище из конца списка - там должны быть более дорогие сокровища и пробуем добавить их в список награбленного
+        for _ in reversed(xrange(len(self.jewelry))):  # цикл по всем сокровищам, начиная с конца списка, для соответствия индекса количеству вещей в списке
+            update_list(self.jewelry.pop())  # достаем сокровище из конца списка - там должны быть более дорогие сокровища и пробуем добавить их в список награбленного
         self.jewelry.extend(treasure_list)  # возвращаем сокровища в сокровищницу после поиска самых дорогих
         treasure_list = []  # очищаем список возвращаемого
         for gem_type in self.gems.keys():  # просматриваем список типов камней

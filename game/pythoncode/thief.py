@@ -24,8 +24,7 @@ class Thief(Sayer, Mortal):
         self.abilities = data.Container("thief_abilities")
         self.items = data.Container("thief_items")
         # Определяем способности вора
-        ability_list = [a for a in data.thief_abilities]  # Составляем список из возможных способностей
-        ability_list = ability_list + [None for i in range(len(ability_list))]  # Добавляем невалидных вариантов
+        ability_list = data.thief_abilities + [None] * len(data.thief_abilities)  # К возможным способностям добавляем невалидных вариантов
         for level in range(self._skill):
             ab = random.choice(ability_list)
             if ab is not None and ab not in self.abilities:
