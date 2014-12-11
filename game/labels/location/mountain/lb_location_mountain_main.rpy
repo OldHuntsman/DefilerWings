@@ -126,14 +126,13 @@ label lb_enc_smugglers:
                 alignment = 'human'
                 min_cost = 5
                 max_cost = 100
-                t_list = smuggler_list
                 obtained = "Это часть груза контрабандистов, которых дракон ограбил на тайном перевале в северных горах."
                 trs = treasures.gen_treas(count, data.loot['smuggler'], alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
                 trs_descrptn = '\n'.join(trs_list)
                 game.lair.treasury.receive_treasures(trs)
                 
-            'Обыскав тюки контрабандистов [dragon.name] находит кое-какие ценные вещи:'
+            'Обыскав тюки контрабандистов [game.dragon.name] находит кое-какие ценные вещи:'
             '[trs_descrptn]'
             
         'Отпустить их с миром' if game.dragon.bloodiness < 5:    
