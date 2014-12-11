@@ -1,7 +1,7 @@
 # coding=utf-8
 screen sc_treasury_gems:
     python:
-        class del_gem:
+        class del_gem(object):
             def __init__(self, gem_store, gem_index):
                 self.gem_store = gem_store
                 self.gem_index = gem_index
@@ -21,11 +21,12 @@ screen sc_treasury_gems:
 
 screen sc_gem_creator:
     python:
-        class add_gem:
+        class add_gem(object):
             def __init__(self, gemstore, gem):
                 self.gemstore = gemstore
                 self.gem = gem
-            def  __call__(self):
+
+            def __call__(self):
                 self.gemstore.receive_treasures([self.gem])
                 renpy.restart_interaction()
     

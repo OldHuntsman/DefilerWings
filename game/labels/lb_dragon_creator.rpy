@@ -8,7 +8,7 @@ label lb_dragon_creator:
                                 "clutches": "когти", "horns": "рога", "fangs": "клыки", "ugly": "уродство"}
         colored_heads = ["red", "white", "blue", "black", "iron", "bronze", "silver", "gold", "shadow"]
     init python:
-        class AddModifier:
+        class AddModifier(object):
             def __init__(self, mod, dragon):
                 self.mod = mod
                 self.dragon = dragon

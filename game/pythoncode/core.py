@@ -578,7 +578,7 @@ class Girl(Sayer):
         self.treasure = []
 
 
-class Mortal:
+class Mortal(object):
     _alive = True  # По умолчанию все живые
 
     @property
