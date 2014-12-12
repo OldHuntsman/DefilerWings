@@ -136,7 +136,6 @@ class Girls_list(object):
         Ограбить девушку.
         """
         self.game.lair.treasury.receive_treasures(self.game.girl.treasure)
-        self.game.girl.treasure = []
         return self.description('rob')
 
     def prisoners_list(self):
@@ -164,7 +163,7 @@ class Girls_list(object):
         format_dict = {'dragon_name': self.game.dragon.name,
                        'dragon_type': self.game.dragon.kind(),
                        'girl_name': self.game.girl.name,
-                       'girl_title': self.game.girl.type,
+                       'girl_title': girls_data.girls_info[self.game.girl.type]['description'],
                        }
         # TODO: %(dragon_name_full)s = Имя дракона с эпитетом
 
@@ -179,7 +178,8 @@ class Girls_list(object):
             elif status == 'rob':
                 treas_description = self.game.lair.treasury.treasures_description(self.game.girl.treasure)
                 treas_description = '\n'.join(treas_description)
-                format_dict['situation'] = (treas_description)
+                self.game.girl.treasure = []
+                format_dict['situation'] = treas_description
             text = text % format_dict
         else:
             text = "Описание для действия '%s' девушки типа '%s' отсутствует" % (status, self.game.girl.type)

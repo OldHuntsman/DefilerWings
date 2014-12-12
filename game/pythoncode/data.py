@@ -284,6 +284,7 @@ thief_events = {
     "die_inaccessability": None,
     "die_trap": None,
     "pass_trap": None,
+    "receive_no_item": None,
     "receive_item": "lb_event_thief_receive_item",
     "steal_items": "lb_event_thief_steal_items",
 }

@@ -1020,8 +1020,7 @@ class Dragon(Fighter):
             else:
                 # жизни закончились, рубим голову (последнюю в списке)
                 lost_head = self.heads.pop()
-                self.dead_heads.insert(0,
-                                       lost_head)  # ставим на первое место, чтобы после объединения списков порядок голов не изменился
+                self.dead_heads.insert(0, lost_head)  # ставим на первое место, чтобы после объединения списков порядок голов не изменился
                 # потеря головы, если головы закончились - значит смертушка пришла
                 if self.heads:
                     return ['lost_head', 'lost_' + lost_head]
@@ -1141,7 +1140,8 @@ def get_avatar(folder, regex='.*'):
     """
     Возвращает строку-путь с случайной картинкой подходящей под регекспу regex
     """
-    import re, os
+    import re
+    import os
 
     absolute_path = os.path.join(renpy.config.basedir, "game", folder)  # Cоставляем абсолютный путь где искать
     regex = re.compile(regex, re.IGNORECASE)

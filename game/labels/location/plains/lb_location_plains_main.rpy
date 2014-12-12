@@ -479,7 +479,8 @@ label lb_village:
     python:
         a = 10 + game.poverty.value - village_size
         chance = random.randint(1, a)
-        if chance > 10: village_size = 0
+        if chance > 10:
+            village_size = 0
         txt1 = village['overview'][village_size]
     show expression 'img/bg/special/village.png' as bg     
     '[txt1]'
