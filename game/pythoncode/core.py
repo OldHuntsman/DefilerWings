@@ -1141,7 +1141,8 @@ def get_avatar(folder, regex='.*'):
     """
     Возвращает строку-путь с случайной картинкой подходящей под регекспу regex
     """
-    import re, os
+    import re
+    import os
 
     absolute_path = os.path.join(renpy.config.basedir, "game", folder)  # Cоставляем абсолютный путь где искать
     regex = re.compile(regex, re.IGNORECASE)

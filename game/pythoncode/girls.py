@@ -179,7 +179,7 @@ class Girls_list(object):
             elif status == 'rob':
                 treas_description = self.game.lair.treasury.treasures_description(self.game.girl.treasure)
                 treas_description = '\n'.join(treas_description)
-                format_dict['situation'] = (treas_description)
+                format_dict['situation'] = treas_description
             text = text % format_dict
         else:
             text = "Описание для действия '%s' девушки типа '%s' отсутствует" % (status, self.game.girl.type)

@@ -35,7 +35,7 @@ screen sc_gem_creator:
     default size = treasures.Gem.size_dict.keys()[0]
     
     vbox:
-        #xalign 1.0
+        # xalign 1.0
         xpos 640
         textbutton "Добавить" action add_gem(game.lair.treasury,
                                              treasures.Gem(g_type=type, size=size, cut=cut))
