@@ -120,13 +120,13 @@ label lb_manor_empty:
     return
             
 label lb_wooden_fort_found:
-    jump lb_manor_found            
+    jump lb_manor_found  # TODO: Реализовать деревянный форт
             
 label lb_abbey_found:
-    jump lb_manor_found  
+    jump lb_manor_found  # TODO: Реализовать
 
 label lb_castle_found:
-    jump lb_manor_found  
+    jump lb_manor_found  # TODO: Реализовать замок
     
 label lb_palace_found:
-    jump lb_manor_found  
+    jump lb_manor_found  # TODO: Реализовать дворец
