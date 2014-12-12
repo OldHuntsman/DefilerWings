@@ -75,7 +75,7 @@ label lb_enc_inn:
             $ game.dragon.drain_energy()
             "[game.dragon.name] получает от испуганного хозяина трактира целую бочку лучшего эля. После такой выпивки так и тянет на приключения и хорошую закуску!"
             python:
-                if game.game.dragon.bloodiness < 5:
+                if game.dragon.bloodiness < 5:
                     game.dragon.bloodiness += 1
                 if game.dragon.lust < 3:
                     game.dragon.lust += 1
