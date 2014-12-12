@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_location_lair_main:
     $ place = game.lair.type_name
     show place as bg

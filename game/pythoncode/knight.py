@@ -27,8 +27,7 @@ class Knight(Fighter):
         self.lelel = level
         self.power = level
         self.abilities = data.Container("knight_abilities")
-        ability_list = [a for a in data.knight_abilities]  # Составляем список из возможных способностей
-        ability_list += [None for i in range(len(ability_list))]  # Добавляем невалидных вариантов
+        ability_list = data.knight_abilities + [None] * len(data.knight_abilities)  # К возможным способностям добавляем невалидных вариантов
         for i in range(level):
             ab = random.choice(ability_list)
             if ab is not None and ab not in self.abilities:
@@ -47,9 +46,9 @@ class Knight(Fighter):
         self.avatar = get_avatar(u"img/avahuman/knight")
 
     def description(self):
-        '''
+        """
         Описание рыцаря, возвращает строку с описанием.
-        '''
+        """
         d = []
         if self.is_dead:
             d.append(u"Рыцарь мёртв")
@@ -138,9 +137,9 @@ class Knight(Fighter):
         return
 
     def enchant_equip(self):
-        '''
+        """
         Рыцарь готовится к бою улучшая шмот.
-        '''
+        """
         basic_types = [i for i in self.items if self.items[i].basic]  # Какой шмот у рыцаря базового типа
         if len(basic_types) > 0:  # У рыцаря есть не улучшенный шмот
             enchanted_type = random.choice(basic_types)

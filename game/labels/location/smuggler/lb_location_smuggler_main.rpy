@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_location_smuggler_main:
     $ place = 'smugglers'
     show place

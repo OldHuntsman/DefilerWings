@@ -998,25 +998,24 @@ def generate_gem(count, *args):
         cut = {}
         size = {}
         new_dict = {}
-        args_holder = [i for i in args]
-        for i in args_holder:
-            if type(i) == dict:
+        for i in args:
+            if isinstance(i, dict):
                 if i.keys()[0] == "size":
                     for v in i["size"]:
-                        if Gem.size_dict.has_key(v):
+                        if v in Gem.size_dict:
                             size[v] = Gem.size_dict[v]
                 elif i.keys()[0] == "cut":
                     for v in i["cut"]:
-                        if cut_dict.has_key(v):
+                        if v in cut_dict:
                             cut[v] = cut_dict[v]
-            elif type(i) == list:
+            elif isinstance(i, list):
                 for item in i:
-                    if gem_types.has_key(item):
+                    if item in gem_types:
                         new_dict[item] = gem_types[item]
-            elif type(i) == str:
-                if gem_types.has_key(i):
+            elif isinstance(i, basestring):
+                if i in gem_types:
                     new_dict[i] = gem_types[i]
-        while count != 0:
+        while count > 0:
             if len(cut) == 0:
                 cut = Gem.cut_dict
             if len(size) == 0:
@@ -1092,23 +1091,23 @@ def generate_mat(count, *args):
     if len(args) != 0:
         size = {}
         new_dict = {}
-        args_holder = [i for i in args]
-        for i in args_holder:
-            if type(i) == dict:
+        for i in args:
+            if isinstance(i, dict):
                 if i.keys()[0] == "size":
+                    # size = {v: Material.size_dict[v] for v in i["size"] if v in Material.size_dict}
                     for v in i["size"]:
-                        if Material.size_dict.has_key(v):
+                        if v in Material.size_dict:
                             size[v] = Material.size_dict[v]
-            elif type(i) == list:
+            elif isinstance(i, list):
                 for item in i:
-                    if material_types.has_key(item):
+                    if item in material_types:
                         new_dict[item] = material_types[item]
-            elif type(i) == str:
-                if material_types.has_key(i):
+            elif isinstance(i, basestring):
+                if i in material_types:
                     new_dict[i] = material_types[i]
         for i in xrange(count):
             if len(size) == 0:
-                size = size = Material.size_dict
+                size = Material.size_dict
             if len(new_dict) == 0:
                 new_dict = material_types
             mats.append(Material(weighted_select(new_dict), weighted_select(size)))
@@ -1136,11 +1135,11 @@ class Treasure(object):  # класс для сокровищ
         """дальше генерируем характеристики в зависимости от типа сокровища"""
         self.random_mod = random.randint(0, self.base_price * 10)
         self.spangled = generate_gem(1, {"size": ('common',)})[0] if random.randint(1,
-                                                                                    100) <= 50 and self.incrustable != False else None  # размер 'common' - хак, чтобы не писалось "мелкими"
+                                                                                    100) <= 50 and self.incrustable else None  # размер 'common' - хак, чтобы не писалось "мелкими"
         self.inlaid = generate_gem(1, {"size": ('common',)})[0] if random.randint(1,
-                                                                                  100) <= 15 and self.incrustable != False  else None
+                                                                                  100) <= 15 and self.incrustable else None
         self.huge = generate_gem(1, {"size": ('large',)})[0] if random.randint(1,
-                                                                               100) <= 5 and self.incrustable != False else None
+                                                                               100) <= 5 and self.incrustable else None
 
         def metalls_available():  # проверяем принадлежность к расе(из каких металов может быть сделано)
             if self.alignment == "human" or self.alignment == "cleric" or self.alignment == "knight":
@@ -1163,9 +1162,10 @@ class Treasure(object):  # класс для сокровищ
                 return weighted_select(material_types)
 
         self.material = material()  # выбираем материал
-
-        self.mat_price = material_types[self.material][1] if material_types.has_key(self.material) else metal_types[
-            self.material]
+        if self.material in material_types:
+            self.mat_price = material_types[self.material][1]
+        else:
+            self.mat_price = metal_types[self.material]
 
         def decorate():
             if self.decorable:  # todo: словарь, откуда будем брать варианты орнаментов
@@ -1174,7 +1174,7 @@ class Treasure(object):  # класс для сокровищ
                     rnd = random.randint(1, 100)
                     if rnd <= 50:
                         self.decoration_image = random.choice(image_types[self.alignment])
-                        if material_types.has_key(self.material):
+                        if self.material in material_types:
                             return "carving"
                         else:
                             return weighted_select(Treasure.decorate_types)
@@ -1192,7 +1192,7 @@ class Treasure(object):  # класс для сокровищ
             if self.alignment == "human" or self.alignment == "cleric" or self.alignment == "knight":
                 return weighted_select(Treasure.quality_types)
             else:
-                holder = {k: v for k, v in Treasure.quality_types.items()}
+                holder = Treasure.quality_types.items()
                 holder.__delitem__("rough")
                 return weighted_select(holder)
 
@@ -1219,8 +1219,7 @@ class Treasure(object):  # класс для сокровищ
     def incrustation_cost(self):
         holder = 0
         if self.spangled is not None:
-            holder += self.spangled.cost * Gem.size_dict['small'][1] // Gem.size_dict['common'][
-                1]  # из-за хака с размерами
+            holder += self.spangled.cost * Gem.size_dict['small'][1] // Gem.size_dict['common'][1]  # из-за хака с размерами
         if self.inlaid is not None:
             holder += self.inlaid.cost
         if self.huge is not None:
@@ -1289,29 +1288,33 @@ class Treasure(object):  # класс для сокровищ
 
 def gen_treas(count, t_list, alignment, min_cost, max_cost, obtained):
     """Генерируем рандомное сокровище
-    функция генерации сокровищ,count - количество сокровищ, t_list - список строк-имен сокровищ, alignmet - принадлежность
-    к определенной культуре(одно из: human, cleric, knight, merman, elf, dwarf), min_cost - минимальная цена сокровища,
+    функция генерации сокровищ,
+    count - количество сокровищ,
+    t_list - список строк-имен сокровищ,
+    alignmet - принадлежность к определенной культуре(одно из: human, cleric, knight, merman, elf, dwarf),
+    min_cost - минимальная цена сокровища,
     max_cost - максимальная цена сокровища"""
     treasures_list = []
-    while count != 0:
+    while count > 0:
         treas_holder = random.choice(t_list)
-        if gem_types.has_key(treas_holder):
+        if treas_holder in gem_types:
             treasures_list.extend(generate_gem(1, treas_holder))
-        if material_types.has_key(treas_holder):
+        elif treas_holder in material_types:
             treasures_list.extend(generate_mat(1, treas_holder))
-        if metal_types.has_key(treas_holder):
+        elif treas_holder in metal_types:
             treasures_list.append(Ingot(treas_holder))
-        if Coin.coin_types.has_key(treas_holder):
+        elif treas_holder in Coin.coin_types:
             rnd = random.randint(min_cost, max_cost)
             treasures_list.append(Coin(treas_holder, rnd / Coin.coin_types[treas_holder][1]))
-        if treasure_types.has_key(treas_holder):
+        elif treas_holder in treasure_types:
             t = Treasure(treas_holder, alignment)
             t.obtained = obtained
             treasures_list.append(t)
-        for i in treasures_list:
-            if i.cost < min_cost or i.cost > max_cost:
-                treasures_list.remove(i)
-                count += 1
+        else:
+            raise Exception("Таких сокровищ не бывает")
+        if not min_cost < treasures_list[-1].cost < max_cost:
+            treasures_list.pop()
+            count += 1
         count -= 1
     return treasures_list
 
@@ -1549,14 +1552,11 @@ class Treasury(store.object):
                     self.threshold_value = abducted_list[-1].cost
                 return True
             else:
-                treasure_list.append(
-                    test_treasure)  # стоимость добавляемого меньше пороговой, возвращаем сокровище обратно в сокровищницу
+                treasure_list.append(test_treasure)  # стоимость добавляемого меньше пороговой, возвращаем сокровище обратно в сокровищницу
                 return False
 
-        for jewelry_i in reversed(xrange(len(
-                self.jewelry))):  # цикл по всем сокровищам, начиная с конца списка, для соответствия индекса количеству вещей в списке
-            update_list(
-                self.jewelry.pop())  # достаем сокровище из конца списка - там должны быть более дорогие сокровища и пробуем добавить их в список награбленного
+        for _ in reversed(xrange(len(self.jewelry))):  # цикл по всем сокровищам, начиная с конца списка, для соответствия индекса количеству вещей в списке
+            update_list(self.jewelry.pop())  # достаем сокровище из конца списка - там должны быть более дорогие сокровища и пробуем добавить их в список награбленного
         self.jewelry.extend(treasure_list)  # возвращаем сокровища в сокровищницу после поиска самых дорогих
         treasure_list = []  # очищаем список возвращаемого
         for gem_type in self.gems.keys():  # просматриваем список типов камней

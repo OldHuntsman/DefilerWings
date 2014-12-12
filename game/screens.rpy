@@ -1,4 +1,5 @@
-﻿# This file is in the public domain. Feel free to modify it as a basis
+﻿# coding=utf-8
+# This file is in the public domain. Feel free to modify it as a basis
 # for your own screens.
 
 ##############################################################################

@@ -1,3 +1,4 @@
+# coding=utf-8
 # здесь хранятся тексты для игры
 python early:
     

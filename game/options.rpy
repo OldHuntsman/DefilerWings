@@ -1,4 +1,5 @@
-﻿## This file contains some of the options that can be changed to customize
+﻿# coding=utf-8
+## This file contains some of the options that can be changed to customize
 ## your Ren'Py game. It only contains the most common options... there
 ## is quite a bit more customization you can do.
 ##
@@ -30,7 +31,7 @@ init -1 python hide:
     config.name = "Defiler Wings"
 
     def get_version():
-        '''
+        """
         Функция для поиска текущей версии.
         Читает версию из неотслеживаемого файла game/version. Его можно заполнять и ручками, но
         можно и используя автоматически выполняемые скрипты post-commit (чтобы версия писалась после
@@ -52,7 +53,7 @@ init -1 python hide:
         попробовать.
         :return: Возвращает строку с версией игры, читая ее из game/version. Если этот файл найти не
         удалось возвращает "Unknown".
-        '''
+        """
         import os
         version_file = os.path.join(config.basedir, "game/version")  # Получаем путь до файла с версией
         if os.path.isfile(version_file):    # Проверяем есть ли такой файл
@@ -76,7 +77,7 @@ init -1 python hide:
                 cmd = "git"
             # Выполняем эту команду
             try:  #Пробуем выполнить один из этих бинаринков
-                p = Popen(cmd + cmd_ops, stdout=PIPE, stderr=PIPE, startupinfo=startupinfo)
+                p = Popen([cmd] + cmd_ops, stdout=PIPE, stderr=PIPE, startupinfo=startupinfo)
                 if p.wait() == 0:           # Проверяем удачно ли она завершилась
                     return p.stdout.read()  # Возвращаем ее результат
             except:     #Поймали эксепшен, скорее всего из-за того OS не нашла такой файл, пробуем следущий

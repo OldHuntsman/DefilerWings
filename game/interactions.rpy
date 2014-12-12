@@ -1,3 +1,4 @@
+# coding=utf-8
 # локация взаимодействий
 
 label lb_nature_sex:

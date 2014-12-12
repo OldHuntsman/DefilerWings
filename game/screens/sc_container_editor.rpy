@@ -1,6 +1,7 @@
+# coding=utf-8
 screen sc_container_editor(object, data_list):
     #Экран для редактирования  объекта Container
-    #object - Контейнер который мы редаткируем 
+    #object - Контейнер который мы редактируем
     #data_list - список контенеров из которых берется дата для контейнера object
     
     python:

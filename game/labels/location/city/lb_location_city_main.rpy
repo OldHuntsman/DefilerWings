@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_location_city_main:
         
     $ place = "city_gates"

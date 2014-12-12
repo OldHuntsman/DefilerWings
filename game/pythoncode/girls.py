@@ -160,8 +160,7 @@ class Girls_list(object):
         say - если истина - описание выводится сразу на экран, возвращается None, если ложь - возвращается текст описания
         """
         girl_type = self.game.girl.type
-        if girl_type not in girls_data.girls_texts or \
-                        status not in girls_data.girls_texts[girl_type]:
+        if girl_type not in girls_data.girls_texts or status not in girls_data.girls_texts[girl_type]:
             girl_type = 'girl'
         if girls_data.girls_texts[girl_type][status]:
             text = random.choice(girls_data.girls_texts[girl_type][status])

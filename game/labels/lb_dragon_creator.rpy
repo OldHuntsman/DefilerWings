@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_dragon_creator:
     python:
         child = core.Dragon(parent=game.dragon, gameRef=game, base_character=game.adv_character)
@@ -7,7 +8,7 @@ label lb_dragon_creator:
                                 "clutches": "когти", "horns": "рога", "fangs": "клыки", "ugly": "уродство"}
         colored_heads = ["red", "white", "blue", "black", "iron", "bronze", "silver", "gold", "shadow"]
     init python:
-        class AddModifier:
+        class AddModifier(object):
             def __init__(self, mod, dragon):
                 self.mod = mod
                 self.dragon = dragon

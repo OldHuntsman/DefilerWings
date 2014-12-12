@@ -1,3 +1,4 @@
+# coding=utf-8
 screen sc_equip_editor(object, equip_variants):
     #:param object: Объект, чьи предметы будут редактироваться, например рыцарь.
     #:param equip_variants: Список из вариантов экипировки

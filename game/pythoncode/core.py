@@ -78,9 +78,9 @@ class Game(store.object):
             raise Exception("Время не может течь назад")
 
     def save(self):
-        '''
+        """
         Логика сохранения игры.
-        '''
+        """
         renpy.rename_save("1-1", "1-2")  # Переименовываем старый сейв
         renpy.take_screenshot()  # Делаем скриншот для отображения в сейве
         renpy.save("1-1")  # Сохраняем игру
@@ -92,13 +92,13 @@ class Game(store.object):
         renpy.save("1-3")
 
     def next_year(self):
-        '''
+        """
         Логика смены года.
         Проверки на появление/левелап/рейд рыцаря/вора.
         Изменение дурной славы.
         Попытки бегства женщин.
         Что-то ещё?
-        '''
+        """
         self.year += 1
         self.dragon.age += 1
         # Применяем разруху накопленную за год с учетом отстройки
@@ -437,9 +437,9 @@ class Game(store.object):
         return None
 
     def interpolate(self, str):
-        '''
+        """
         Функция заменяющая переменные в строке на актуальные данные игры
-        '''
+        """
         return str % self.format_data
 
     @property
@@ -458,9 +458,9 @@ class Game(store.object):
         return self._win
 
     def win(self):
-        '''
+        """
         Форсируем выгирать игру
-        '''
+        """
         self._win = True
 
     @property
@@ -472,9 +472,9 @@ class Game(store.object):
         return self._defeat
 
     def defeat(self):
-        '''
+        """
         Форсируем проиграть игру
-        '''
+        """
         self._defeat = True
 
 
@@ -491,20 +491,20 @@ class Lair(object):
         self.treasury = treasures.Treasury()
 
     def reachable(self, abilities):
-        '''
+        """
         Функция для проверки доступности логова
         :param abilities: - список способностей у того, кто пытается достичь, например, для вора: [ 'alpinism', 'swimming' ]
         :return: Возращает True ,если до логова можно добраться и False если нет
-        '''
+        """
         for r in self.requirements():
             if r not in abilities:
                 return False
         return True
 
     def requirements(self):
-        '''
+        """
         :return: Возвращает список способностей которые нужны чтобы достичь логова.
-        '''
+        """
         r = []
         if self.type.require:  # Если тип логова что-то требует добавляем что оно требует
             r += self.type.require
@@ -519,9 +519,9 @@ class Lair(object):
 
 
 class Sayer(store.object):
-    '''
+    """
     Базовый класс для всего что умеет говорить
-    '''
+    """
 
     def __init__(self, gameRef=None, base_character=None, *args, **kwargs):
         """
@@ -550,7 +550,7 @@ class Sayer(store.object):
         self._real_character(*args, **kwargs)  # На самом деле говорим
 
     def third(self, *args, **kwargs):
-        '''
+        """
         Говорим от третьего лица. Принимаются предложения на более удачное название.
         Например прямая речь:
         $ game.person ("Что-нибудь")
@@ -558,7 +558,7 @@ class Sayer(store.object):
         Рассказ о том что делает этот персонаж:
         $ game.person.third("Делая что-нибудь")
         game.person.third "Делая где-нибудь"
-        '''
+        """
         self._gameRef.currentCharacter = self  # Делаем вид, что сказали сами
         self._gameRef.narrator._real_character(*args, **kwargs)  # Говорим о лица нарратора. Грязный хак.
 
@@ -578,7 +578,7 @@ class Girl(Sayer):
         self.treasure = []
 
 
-class Mortal:
+class Mortal(object):
     _alive = True  # По умолчанию все живые
 
     @property
@@ -729,9 +729,9 @@ class Dragon(Fighter):
     """
 
     def __init__(self, parent=None, *args, **kwargs):
-        '''
+        """
         parent - родитель дракона, если есть.
-        '''
+        """
         from points import Reputation
 
         super(Dragon, self).__init__(*args, **kwargs)
@@ -963,9 +963,9 @@ class Dragon(Fighter):
         return self.modifiers().count('paws')
 
     def _get_ability(self):
-        '''
+        """
         Возвращает способность, которую может получить дракон при рождении
-        '''
+        """
         dragon_leveling = 2 * ['head']
         if self.size() < 6:
             dragon_leveling += (6 - self.size()) * ['size']
@@ -1138,9 +1138,9 @@ def call(label, *args, **kwargs):
 
 
 def get_avatar(folder, regex='.*'):
-    '''
+    """
     Возвращает строку-путь с случайной картинкой подходящей под регекспу regex
-    '''
+    """
     import re, os
 
     absolute_path = os.path.join(renpy.config.basedir, "game", folder)  # Cоставляем абсолютный путь где искать
