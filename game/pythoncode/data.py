@@ -951,6 +951,18 @@ special_places = {
     # рыцарский манор
     'manor_full': (u"Укреплённая усадьба", 'lb_manor'),
     'manor_empty': (u"Заброшенная усадьба", 'lb_manor_empty'),
+    # деревянный замок
+    'wooden_fort_full': (u"Деревянный замок", 'lb_wooden_fort'),
+    'wooden_fort_empty': (u"Опустевший форт", 'lb_wooden_fort_empty'),
+    # монастрыь
+    'abbey_full': (u"Укреплённый монастрыь", 'lb_abbey'),
+    'abbey_empty': (u"Разорённый монастырь", 'lb_abbey_empty'),
+    # каменный замок
+    'castle_full': (u"Каменная крепость", 'lb_castle'),
+    'castle_empty': (u"Пустая крепость", 'lb_castle_empty'),
+    # королевский замок
+    'palace_full': (u"Королевский замок", 'lb_palace'),
+    'palace_empty': (u"Пустой дворец", 'lb_palace_empty'),
     # зачарованный лес
     'enter_ef': (u"Зачарованный лес", 'lb_enchanted_forest'),
     'dead_grove': (u"Заброшенная роща альвов", 'lb_dead_grove'),
