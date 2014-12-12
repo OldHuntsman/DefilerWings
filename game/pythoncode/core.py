@@ -1020,8 +1020,7 @@ class Dragon(Fighter):
             else:
                 # жизни закончились, рубим голову (последнюю в списке)
                 lost_head = self.heads.pop()
-                self.dead_heads.insert(0,
-                                       lost_head)  # ставим на первое место, чтобы после объединения списков порядок голов не изменился
+                self.dead_heads.insert(0, lost_head)  # ставим на первое место, чтобы после объединения списков порядок голов не изменился
                 # потеря головы, если головы закончились - значит смертушка пришла
                 if self.heads:
                     return ['lost_head', 'lost_' + lost_head]
