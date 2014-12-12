@@ -584,12 +584,12 @@ screen yesno_prompt:
         hbox:
             xalign 0.5
             spacing 100
-            if message == layout.QUIT and not main_menu:
+            if message == layout.QUIT and not main_menu and not save_blocked:
                 if not freeplay:
                     textbutton _("Да") action FileSave("1", confirm=False, page="1"), yes_action
                 else:
                     textbutton _("Да") action FileSave("3", confirm=False, page="1"), yes_action
-            elif message == layout.MAIN_MENU:
+            elif message == layout.MAIN_MENU and not save_blocked:
                 if not freeplay:
                     textbutton _("Да") action FileSave("1", confirm=False, page="1"), yes_action
                 else:

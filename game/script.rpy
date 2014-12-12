@@ -11,6 +11,7 @@ init python:
     if not hasattr(persistent, 'seen_encounters'):
         persistent.seen_encounters = []
     freeplay = bool()
+    save_blocked = False
 # Начало игры
     
 label start:
