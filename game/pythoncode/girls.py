@@ -136,7 +136,6 @@ class Girls_list(object):
         Ограбить девушку.
         """
         self.game.lair.treasury.receive_treasures(self.game.girl.treasure)
-        self.game.girl.treasure = []
         return self.description('rob')
 
     def prisoners_list(self):
@@ -179,6 +178,7 @@ class Girls_list(object):
             elif status == 'rob':
                 treas_description = self.game.lair.treasury.treasures_description(self.game.girl.treasure)
                 treas_description = '\n'.join(treas_description)
+                self.game.girl.treasure = []
                 format_dict['situation'] = treas_description
             text = text % format_dict
         else:
