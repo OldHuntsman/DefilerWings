@@ -39,15 +39,14 @@ screen sc_gem_creator:
         xpos 640
         textbutton "Добавить" action add_gem(game.lair.treasury,
                                              treasures.Gem(g_type=type, size=size, cut=cut))
-        text "Type: %s"%type
-        text "Cut: %s" %cut
-        text "Size %s" %size
-        
+        text "Type: %s" % type
+        text "Cut: %s" % cut
+        text "Size %s" % size
         
         hbox:
             vbox:
                 for i in treasures.gem_types:
-                    textbutton i action [ SetScreenVariable("type", i), renpy.restart_interaction ]
+                    textbutton i action[SetScreenVariable("type", i), renpy.restart_interaction]
             vbox:
                 for i in treasures.Gem.cut_dict:
                     textbutton i action SetScreenVariable("cut", i)

@@ -62,10 +62,10 @@ init -1 python hide:
         else:                               # Если это не получилось, то пробуем получить версию файла самостоятельно
             from subprocess import Popen, PIPE, STDOUT  # Импортирует все немобходимое
             cmd_ops = ["--git-dir=%s" % os.path.join(config.basedir, ".git"),  # Составляем список опций.
-                        "describe",
-                        "--tags",
-                        "--long",
-                        "--always"]
+                       "describe",
+                       "--tags",
+                       "--long",
+                       "--always"]
             # Для винды делаем там чтобы не выскакивало окно консоли.
             startupinfo = None
             if os.name == 'nt':
@@ -240,7 +240,6 @@ init -1 python hide:
     # Music that is played while the user is at the main menu.
 
     # config.main_menu_music = "main_menu_theme.ogg"
-
 
     #########################################
     # Help.

@@ -18,7 +18,7 @@
 # TODO: выпилить, сделав нормальный стиль для prompt
 init python:
     style.map_tooltip = Style("prompt")
-    style.map_tooltip.background = Frame("img/bg/logovo.png", 5,5)
+    style.map_tooltip.background = Frame("img/bg/logovo.png", 5, 5)
 
 screen main_map:
     python:
@@ -34,28 +34,28 @@ screen main_map:
                     ("city", "Столица"),
                     ("plains", "Обжитые земли")]
     
-    default map_tooltip = Tooltip("None") # Подсказка на что сейчас наведена мышка
-    default status_bar_tooltip = Tooltip("None") # Тултип для статусбара, если не объявить в родительском окне, то почему-то не работает.
+    default map_tooltip = Tooltip("None")  # Подсказка на что сейчас наведена мышка
+    default status_bar_tooltip = Tooltip("None")  # Тултип для статусбара, если не объявить в родительском окне, то почему-то не работает.
     
     fixed:
         fit_first True  # Принимаем размер следущей картинки. Нужно для корректного отображения подсказки посередине.
         add "img/map/ground.png"
     
         for target, description in map_data:
-            imagebutton: # target
+            imagebutton:  # target
                 auto "img/map/button_" + target + "_%s.png"
                 action Return("lb_location_%s_main" % target)
                 focus_mask True
                 hovered map_tooltip.Action(description)
     
-        if map_tooltip.value != "None": # Костыль-костылык. Не показываем подсказу если у нее значение по умолчанию
+        if map_tooltip.value != "None":  # Костыль-костылык. Не показываем подсказу если у нее значение по умолчанию
             frame:                      # Делаем небольшой фрейм, чтобы показать подсказку
                 style "map_tooltip"     # Ставим ему стиль
                 xpadding 10
                 ypadding 5
                 xalign 0.5
                 yalign 0.01
-                text map_tooltip.value: # Выводим собственно текст подсказки
+                text map_tooltip.value:  # Выводим собственно текст подсказки
                     xalign 0.5
         
         if game.dragon is not None:

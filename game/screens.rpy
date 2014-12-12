@@ -11,8 +11,6 @@ screen say:
 
     use sc_dialog(who, game.currentCharacter.avatar, what)
 
-
-
     use status_bar
     # Use the quick menu.
     use quick_menu
@@ -679,7 +677,7 @@ screen girls_menu:
                     $ position_i += 1
                     $ girl_i = girl_page * girls_cells + girl_position_priority[position_i]
                     if girl_i < game.girls_list.prisoners_count:
-                        imagebutton idle Image(im.Grayscale(game.girls_list.prisoners[girl_i].avatar)) hover game.girls_list.prisoners[girl_i].avatar action [Function(game.girls_list.set_active, girl_i), Jump('lb_nature_sex')]
+                        imagebutton idle Image(im.Grayscale(game.girls_list.prisoners[girl_i].avatar)) hover game.girls_list.prisoners[girl_i].avatar action[Function(game.girls_list.set_active, girl_i), Jump('lb_nature_sex')]
                     else:
                         null
 
@@ -688,11 +686,11 @@ screen girls_menu:
             xpos 60
             spacing 50
             if girl_page > 0:
-                textbutton _("Предыдущая страница") action [SetVariable('girl_page', prev_girl_page), Show("girls_menu")]
+                textbutton _("Предыдущая страница") action[SetVariable('girl_page', prev_girl_page), Show("girls_menu")]
             else:
                 textbutton _("Предыдущая страница") action None
             textbutton _("Вернуться") action Return()
             if next_girl_page * girls_cells < game.girls_list.prisoners_count:
-                textbutton _("Следующая страница") action [SetVariable('girl_page', next_girl_page), Show("girls_menu")]
+                textbutton _("Следующая страница") action[SetVariable('girl_page', next_girl_page), Show("girls_menu")]
             else:
                 textbutton _("Следующая страница") action None
