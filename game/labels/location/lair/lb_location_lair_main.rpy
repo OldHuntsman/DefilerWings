@@ -97,7 +97,9 @@ label lb_location_lair_main:
                         game.save()
                     else:
                         game.save_freegame()
+                    save_blocked = True
                     game.sleep()
+                    save_blocked = False
                     game.narrator("game saved")
                     del game_loaded
         'Покинуть логово':
