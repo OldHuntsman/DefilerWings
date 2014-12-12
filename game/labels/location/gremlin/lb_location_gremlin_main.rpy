@@ -31,7 +31,7 @@ label lb_location_gremlin_main:
                     $ game.lair.treasury.money -= mechanic_traps_cost
                 "Уйти":
                     pass
-        'Укрепления для логова':
+        'Укрепления для логова' if 'gremlin_fortification' not in game.lair.upgrades:
             menu:
                 "Стоимость возведения укреплений: [fortification_cost] фартингов"
                 "Укрепить логово" if fortification_cost <= game.lair.treasury.money:
