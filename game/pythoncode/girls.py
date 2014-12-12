@@ -65,19 +65,15 @@ class Girls_list(object):
         """
         Осеменение женщины.
         """
-        text = self.description('prelude')
-        store.nvl_list = []  # вариант nvl clear на питоне
-        text += self.description('sex')
-        store.nvl_list = []  # вариант nvl clear на питоне
-        text += self.description('impregnate')
-        store.nvl_list = []  # вариант nvl clear на питоне
+        self.description('prelude', True)
+        self.description('sex', True)
+        self.description('impregnate', True)
         self.game.girl.virgin = False
         if self.game.girl.quality < self.game.dragon.magic:
             self.game.girl.pregnant = 2
         else:
             self.game.girl.pregnant = 1
         self.game.dragon.lust -= 1
-        return text
 
     def free_girl(self):
         """
@@ -170,7 +166,7 @@ class Girls_list(object):
                        'girl_name': self.game.girl.name,
                        'girl_title': self.game.girl.type,
                        }
-    # TODO: %(dragon_name_full)s = Имя дракона с эпитетом
+        # TODO: %(dragon_name_full)s = Имя дракона с эпитетом
 
         girl_type = self.game.girl.type
         if girl_type not in girls_data.girls_texts or status not in girls_data.girls_texts[girl_type]:
@@ -188,8 +184,8 @@ class Girls_list(object):
         else:
             text = "Описание для действия '%s' девушки типа '%s' отсутствует" % (status, self.game.girl.type)
         if say:
-            store.nvl_list = []  # вариант nvl clear на питоне
             self.game.girl.third(text)  # выдача сообщения
+            store.nvl_list = []  # вариант nvl clear на питоне
         else:
             return text
 
