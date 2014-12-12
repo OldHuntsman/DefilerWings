@@ -17,7 +17,7 @@ label lb_location_road_main:
                  ("lb_enc_caravan", 10),
                  ("lb_enc_lcaravan", 10),
                  ("lb_enc_outpost", 10),
-                 ("lb_manor_found", 1000),
+                 ("lb_manor_found", 10),
                  ("lb_patrool_road", 3 * game.mobilization.level),
                  ("lb_enc_noting", nochance)]
     $ enc = core.Game.weighted_random(choices)
