@@ -1,7 +1,8 @@
-#локация взаимодействий
+# coding=utf-8
+# локация взаимодействий
 
 label lb_nature_sex:
-    if game.girl.jailed: 
+    if game.girl.jailed:
         $ place = 'prison'
         show place as bg
     nvl clear
@@ -9,7 +10,7 @@ label lb_nature_sex:
         'Надругаться' if game.girls_list.is_mating_possible:
             $ description = game.girls_list.impregnate()
             game.girl.third "[description]"
-        'Ограбить' if game.girl.treasure != []:
+        'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"
         'Сожрать' if game.dragon.hunger > 0:
@@ -32,12 +33,12 @@ label lb_nature_sex:
         'Отпустить восвояси':
             $ description = game.girls_list.free_girl()
             game.girl.third "[description]"
-            return      
+            return
     jump lb_nature_sex
-    
+
 
 label lb_lair_sex:
-    if game.girl.jailed: 
+    if game.girl.jailed:
         $ place = 'prison'
         show place as bg
     nvl clear
@@ -45,7 +46,7 @@ label lb_lair_sex:
         'Надругаться' if game.girls_list.is_mating_possible:
             $ description = game.girls_list.impregnate()
             game.girl.third "[description]"
-        'Ограбить' if game.girl.treasure != []:
+        'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"
         'Сожрать' if game.dragon.hunger > 0:
@@ -68,7 +69,7 @@ label lb_lair_sex:
         'Отпустить восвояси':
             $ description = game.girls_list.free_girl()
             game.girl.third "[description]"
-            return      
+            return
     jump lb_nature_sex
 
 label lb_gigant_sex:
@@ -77,7 +78,7 @@ label lb_gigant_sex:
         'Надругаться' if game.girls_list.is_mating_possible:
             $ description = game.girls_list.impregnate()
             game.girl.third "[description]"
-        'Ограбить' if game.girl.treasure != []:
+        'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"
         'Сожрать' if game.dragon.hunger > 0:
@@ -87,10 +88,10 @@ label lb_gigant_sex:
         'Отпустить восвояси':
             $ description = game.girls_list.free_girl()
             game.girl.third "[description]"
-            return      
+            return
     jump lb_nature_sex
-    
-    
+
+
 label lb_knight_new:
     show expression 'img/bg/special/oath.png' as bg
     'Рыцарь дал клятву убить дракона.'

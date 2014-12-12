@@ -1,3 +1,4 @@
+# coding=utf-8
 screen sc_list_editor(object, data_list):
     #Экран для редактирования list'ов
     #object - list который мы редаткируем 

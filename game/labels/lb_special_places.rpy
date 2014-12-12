@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_special_places:
     nvl clear
     python:
@@ -20,13 +21,13 @@ label lb_enchanted_forest:
     'Дракон входит под сень колдовских древ.'
     menu:
         'Рыскать кругом':
-            #TODO добавить энкаунтеры зачарованного леса
+            # TODO добавить энкаунтеры зачарованного леса
             $ pass
         'Напасть на Древо Жизни':
             'Дерево жизни разрушено.'
             $ game.dragon.add_event('ravage_sacred_grove')
             call lb_dead_grove
-            #TODO сделать нормальный энкаунтер
+            # TODO сделать нормальный энкаунтер
     return
 
 label lb_dead_grove:
@@ -54,7 +55,7 @@ label lb_manor:
     $ txt = game.interpolate(random.choice(txt_place_manor[1]))
     '[txt]'    
     $ game.foe = core.Enemy('old_knight', gameRef=game, base_character=NVLCharacter)
-    $ chances = show_chances()
+    $ chances = show_chances(game.foe)
     '[chances]'
     nvl clear
     menu:
@@ -73,7 +74,7 @@ label lb_manor:
     
 label lb_manor_rob:
     python:
-        count = random.randint(4,12)
+        count = random.randint(4, 12)
         alignment = 'knight'
         min_cost = 10
         max_cost = 500
@@ -119,13 +120,13 @@ label lb_manor_empty:
     return
             
 label lb_wooden_fort_found:
-    jump lb_manor_found            
+    jump lb_manor_found  # TODO: Реализовать деревянный форт
             
 label lb_abbey_found:
-    jump lb_manor_found  
+    jump lb_manor_found  # TODO: Реализовать
 
 label lb_castle_found:
-    jump lb_manor_found  
+    jump lb_manor_found  # TODO: Реализовать замок
     
 label lb_palace_found:
-    jump lb_manor_found  
+    jump lb_manor_found  # TODO: Реализовать дворец

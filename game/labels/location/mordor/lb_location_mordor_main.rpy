@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_location_mordor_main:
     $ place = 'mordor' 
     show place as bg

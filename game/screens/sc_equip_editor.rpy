@@ -1,3 +1,4 @@
+# coding=utf-8
 screen sc_equip_editor(object, equip_variants):
     #:param object: Объект, чьи предметы будут редактироваться, например рыцарь.
     #:param equip_variants: Список из вариантов экипировки
@@ -34,8 +35,8 @@ screen sc_equip_editor(object, equip_variants):
                 viewport:
                     scrollbars "vertical"
                     vbox:
-                        text "%s:" % (d.id)
+                        text "%s:" % d.id
                         for type in object._equip_slots:
-                            text "%s:" % (type)
+                            text "%s:" % type
                             for i in d.contains("type", type):
                                 textbutton d[i].name action Equip(object, d[i])

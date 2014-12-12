@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_location_sea_main:
     $ place = 'sea'
     show expression get_place_bg(place) as bg
@@ -16,29 +17,27 @@ label lb_location_sea_main:
     
 label lb_encounter_sea:
     $ choices = [("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),   
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),   
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_enc_", 10),
-                ("lb_patrool_sea", 3*game.mobilization.level),
-                
-                ]
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_enc_", 10),
+                 ("lb_patrool_sea", 3 * game.mobilization.level)]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
 

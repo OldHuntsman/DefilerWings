@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_location_gremlin_main:
     $ place = 'gremlins'
     show place
