@@ -164,7 +164,7 @@ class Girls_list(object):
         format_dict = {'dragon_name': self.game.dragon.name,
                        'dragon_type': self.game.dragon.kind(),
                        'girl_name': self.game.girl.name,
-                       'girl_title': self.game.girl.type,
+                       'girl_title': girls_data.girls_info[self.game.girl.type]['description'],
                        }
         # TODO: %(dragon_name_full)s = Имя дракона с эпитетом
 
