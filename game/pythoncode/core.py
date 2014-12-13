@@ -783,16 +783,11 @@ class Dragon(Fighter):
             self.heads[self.heads.index('green')] = self._gift
         else:
             self.anatomy.append(self._gift)
-
-<<<<<<< HEAD
         self.avatar = get_avatar("img/avadragon/" + self.color_eng, used_avatars=used_avatars)  # Назначаем аватарку
-=======
-        self.avatar = get_avatar("img/avadragon/" + self.color_eng)  # Назначаем аватарку
         
     @property
     def fullname(self):
         return self.name + u' ' + self.surname
->>>>>>> origin/treasury
 
     @property
     def description(self):
