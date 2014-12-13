@@ -44,7 +44,6 @@ label lb_dead_grove:
     return
 
 # Рыцарская усадьба
-
 label lb_manor_found:
     show expression 'img/bg/special/castle1.png' as bg
     $ txt = game.interpolate(random.choice(txt_place_manor[0]))
@@ -121,9 +120,7 @@ label lb_manor_empty:
             
     return
 
-
 # Деревянный замок
-
 label lb_wooden_fort_found:
     show expression 'img/bg/special/castle2.png' as bg
     $ txt = game.interpolate(random.choice(txt_place_wooden_fort[0]))
@@ -200,9 +197,7 @@ label lb_wooden_fort_empty:
             
     return
 
-
-#Укреполённый морнастырь
-
+# Укреплённый монастырь
 label lb_abbey_found:
     show expression 'img/bg/special/castle3.png' as bg
     $ txt = game.interpolate(random.choice(txt_place_abbey[0]))
@@ -279,9 +274,7 @@ label lb_abbey_empty:
             
     return
 
-
 # Каменная крепость
-
 label lb_castle_found:
     show expression 'img/bg/special/castle4.png' as bg
     $ txt = game.interpolate(random.choice(txt_place_castle[0]))
@@ -541,4 +534,3 @@ label lb_ifrit_found:
     'Ифрит. Плейсхолдер.'
     
     return
-    
