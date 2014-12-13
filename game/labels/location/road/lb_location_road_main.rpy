@@ -258,8 +258,8 @@ label lb_enc_outpost:
                 game.dragon.drain_energy()
                 passing_tool = random.randint(50, 250)
                 slvr_trs = treasures.Coin('taller', passing_tool)
+                game.narrator(slvr_trs.description() + '.')
                 game.lair.treasury.receive_treasures([slvr_trs])
-            '[game.dragon.reputation.gain_description]'
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
             python:

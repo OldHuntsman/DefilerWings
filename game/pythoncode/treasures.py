@@ -1192,8 +1192,9 @@ class Treasure(object):  # класс для сокровищ
             if self.alignment == "human" or self.alignment == "cleric" or self.alignment == "knight":
                 return weighted_select(Treasure.quality_types)
             else:
-                holder = Treasure.quality_types.items()
-                holder.__delitem__("rough")
+                from copy import deepcopy
+                holder = deepcopy(Treasure.quality_types)
+                holder.__delitem__('rough')
                 return weighted_select(holder)
 
         self.quality = q_choice()
@@ -1338,10 +1339,10 @@ class Treasury(store.object):
         return self.farting + 10 * self.taller + 100 * self.dublon
 
     @money.setter
-    def money(self, Value):
-        if Value < 0:  # Защита от ухода денег в минус
+    def money(self, value):
+        if value < 0:  # Защита от ухода денег в минус
             raise NotImplementedError, u"Денег недостаточно для выполнения операции"
-        money_diff = Value - self.money  # считаем разницу между прошлым значением и новым
+        money_diff = value - self.money  # считаем разницу между прошлым значением и новым
         if money_diff < 0:
             # разница отрицательна или ноль - производим вычитание
             money_diff = -money_diff  # для удобства получаем число, которое необходимо вычесть
@@ -1467,7 +1468,7 @@ class Treasury(store.object):
             description_list.append(capitalizeFirst(treas.description()) + '.')
         return description_list
 
-    def take_ingot(self, ingot_type, weight):
+    def take_ingot(self, ingot_type, weight=1):
         """
         :param ingot_type: название металла
         :param weight: вес, который мы хотели бы взять 
@@ -1508,7 +1509,7 @@ class Treasury(store.object):
         else:
             return None
 
-    def take_coin(self, coin_name, coin_count):
+    def take_coin(self, coin_name, coin_count=1):
         """
         :param coin_name: название монеты
         :param coin_count: сколько монет нам бы хотелось взять
@@ -1537,8 +1538,10 @@ class Treasury(store.object):
         abducted_list = []  # список награбленного
         threshold_value = 0  # минимальная стоимость, которая будет взята
 
-        def update_list(
-                test_treasure):  # функция добавления награбленного в список, возвращает истину в случае успешного добавления
+        def update_list(test_treasure):  
+            """
+            функция добавления награбленного в список, возвращает истину в случае успешного добавления
+            """
             if not test_treasure:
                 return False  # попытка взять несуществующую вещь
             elif threshold_value < test_treasure.cost:
@@ -1791,11 +1794,73 @@ class Treasury(store.object):
     def get_salary(self, amount):
         """
         :param amount: требуемая сумма, фартингов
-        :return: список того, что взяли, чтобы получить сумму, либо None, если денег недостаточно
+        :return: список того, что взяли, чтобы получить сумму, либо None, если в сокровищнице недостаточно денег.
         """
-        salary_list = []
+        self.salary_list = []  # список сокровищ, которые можно взять в качестве платы
+        self.salary_item = None  # предмет, который можно взять в качестве платы
+        self.min_salary_value = 0  # цена предмета
+        self.max_salary_value = 0  # цена списка сокровищ
+        self.treasure_list = []  # список сокровищ, которые не приглянулись гремлинам
+        
+        def update_list(test_treasure):  
+            """
+            функция добавления в список, возвращает истину если нужно добавить такую же вещь
+            """
+            if not test_treasure:
+                return False  # попытка взять несуществующую вещь
+            elif test_treasure.cost >= amount:
+                # стоимость сокровища больше или равно необходимой суммы, можно взять только его в качестве оплаты
+                if (self.min_salary_value == 0):
+                    # это первая вещь, которая стоит дороже, чем нам нужно - берём её
+                    self.min_salary_value = test_treasure.cost
+                    self.salary_item = test_treasure
+                elif (self.min_salary_value > test_treasure.cost):
+                    # это не первая вещь, которая стоит дороже, чем нам нужно - берём её только если она дешевле прошлой
+                    self.treasure_list.append(self.salary_item)  # возвращаем прошлую вещь в сокровищницу
+                    self.min_salary_value = test_treasure.cost  # берём новую
+                    self.salary_item = test_treasure
+                else:
+                    self.treasure_list.append(test_treasure)  # возвращаем вещь в сокровищницу
+                return False  # больше такой не нужно
+            else:
+                # стоимость сокровища меньше необходимой суммы, придётся "скрести по сусекам"
+                if self.max_salary_value < amount:
+                    # стоимость списка недостаточно, добавляем ещё
+                    self.max_salary_value += test_treasure.cost
+                    self.salary_list.append(test_treasure)
+                    return True
+                else:
+                    # стоимость списка достаточно, больше ничего не нужно
+                    self.treasure_list.append(test_treasure)  # возвращаем вещь в сокровищницу
+                    return False
+        
         if self.wealth >= amount:
             if self.money >= amount:
                 self.money -= amount
-                salary_list.append(Coin('farting', amount))
-        return salary_list
+                self.salary_list.append(Coin('farting', amount))
+                return self.salary_list  # взяли деньгами сколько нужно
+            else:
+                for coin_type in Coin.coin_types.keys():  # просматриваем список типов монет
+                    while update_list(self.take_coin(coin_type)):
+                        pass  # пока в список добавляются монеты - добавляем
+                for _ in reversed(xrange(len(self.jewelry))):  # цикл по всем сокровищам, начиная с конца списка, для соответствия индекса количеству вещей в списке
+                    update_list(self.jewelry.pop())  # достаем сокровище из конца списка - там должны быть более дорогие сокровища и пробуем добавить их в список
+                for gem_type in self.gems.keys():  # просматриваем список типов камней
+                    while update_list(self.take_gem(gem_type)):
+                        pass  # пока в список добавляются камни - добавляем
+                for metal_type in self.metals.keys():  # аналогично, просматриваем список типов слитков
+                    while update_list(self.take_ingot(metal_type)):
+                        pass  # пока в список добавляются слитки - добавляем
+                for material_type in self.materials.keys():  # аналогично, просматриваем список типов материалов
+                    while update_list(self.take_material(material_type)):
+                        pass  # пока в список добавляются материалы - добавляем
+                if self.max_salary_value > self.min_salary_value:
+                    if self.salary_list:
+                        self.treasure_list.extend(self.salary_list)  # возвращаем список в сокровищницу - не пригодился
+                    self.salary_list = [self.salary_item]
+                elif self.salary_list:
+                    self.treasure_list.append(self.salary_item)  # возвращаем предмет в сокровищницу - не пригодился
+                self.receive_treasures(self.treasure_list)  # возвращаем сокровища в сокровищницу    
+                return self.salary_list
+        else:
+            return None

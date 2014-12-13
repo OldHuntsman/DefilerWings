@@ -31,10 +31,7 @@ class Girls_list(object):
         self.game.girl.type = type
         # создание аватарки
         relative_path = "img/avahuman/" + girls_data.girls_info[type]['avatar']  # Относительный путь для движка ренпи
-        absolute_path = os.path.join(renpy_internal.config.basedir, "game",
-                                     relative_path)  # Cоставляем абсолютный путь где искать
-        filename = random.choice(os.listdir(absolute_path))  # получаем название файла
-        self.game.girl.avatar = relative_path + "/" + filename  # Возвращаем правильно отформатированное значение
+        self.game.girl.avatar = core.get_avatar(relative_path)  # Возвращаем правильно отформатированное значение
         # генерация имени
         if type + '_last' in girls_data.girls_names:
             self.game.girl.name = u"%s %s" % (random.choice(girls_data.girls_names[type + '_first']),
@@ -161,6 +158,7 @@ class Girls_list(object):
         say - если истина - описание выводится сразу на экран, возвращается None, если ложь - возвращается текст описания
         """
         format_dict = {'dragon_name': self.game.dragon.name,
+                       'dragon_name_full': self.game.dragon.fullname,
                        'dragon_type': self.game.dragon.kind(),
                        'girl_name': self.game.girl.name,
                        'girl_title': girls_data.girls_info[self.game.girl.type]['description'],
