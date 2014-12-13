@@ -19,7 +19,7 @@ label lb_location_gremlin_main:
         'Нанять слуг' if 'servant' not in game.lair.upgrades and 'gremlin_servant' not in game.lair.upgrades:
             "Гремлины будут служить в логове, приглядывать за пленницами и охранять их. Всего за [servant_cost] фартингов в год"
             menu:
-                "Нанять слуг":
+                "Нанять слуг": if servant_cost <= game.lair.treasury.money:
                     $ game.lair.upgrades.add('gremlin_servant', deepcopy(data.lair_upgrades['gremlin_servant']))
                 "Уйти":
                     pass
@@ -31,7 +31,7 @@ label lb_location_gremlin_main:
                     $ game.lair.treasury.money -= mechanic_traps_cost
                 "Уйти":
                     pass
-        'Укрепления для логова':
+        'Укрепления для логова' if 'gremlin_fortification' not in game.lair.upgrades:
             menu:
                 "Стоимость возведения укреплений: [fortification_cost] фартингов"
                 "Укрепить логово" if fortification_cost <= game.lair.treasury.money:

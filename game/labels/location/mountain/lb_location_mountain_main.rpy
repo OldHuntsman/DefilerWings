@@ -14,8 +14,8 @@ label lb_location_mountain_main:
                  ("lb_enc_mines", 10),
                  ("lb_enc_ram", 10),
                  ("lb_enc_bear", 10),
-                 ("lb_enc_jotun", 10),
-                 ("lb_enc_ifrit", 10),
+                 ("lb_jotun_found", 10),
+                 ("lb_ifrit_found", 10),
                  ("lb_enc_smugglers", 10),
                  ("lb_enc_slavers", 10),
                  ("lb_enc_frontgates", 10),
@@ -211,16 +211,6 @@ label lb_enc_mines:
         'Пройти мимо' if game.dragon.bloodiness < 5:
             'Человеческое серебро не стоит того чтобы получить в глаз их железо!'       
             $ game.dragon.gain_rage()
-    return
-    
-label lb_enc_jotun:
-    'Йотун. Плейсхолдер.'
-    
-    return
-    
-label lb_enc_ifrit:
-    'Ифрит. Плейсхолдер.'
-    
     return
    
 label lb_enc_frontgates:

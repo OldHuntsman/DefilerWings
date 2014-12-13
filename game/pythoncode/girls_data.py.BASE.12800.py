@@ -88,7 +88,7 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'basilisk',  # идентификатор продвинутого отродья
                     'giantess': False,  # является ли великаншей
                     'avatar': 'peasant',  # аватарка
-                    'description': u'селянка',  # описание для вывода в текст
+                    'description': 'селянка',   #описание для вывода в текст    
                     't_count_min': 0,  # количество сокровищ минимальное
                     't_count_max': 2,  # количество сокровищ максимальное
                     't_price_min': 1,  # минимальная цена предмета
@@ -105,7 +105,7 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'kobold',
                     'giantess': False,
                     'avatar': 'citizen',
-                    'description': u'горожанка',
+                    'description': 'горожанка' 
                     't_count_min': 2,
                     't_count_max': 5,
                     't_price_min': 25,
@@ -121,7 +121,7 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'kobold',
                     'giantess': False,
                     'avatar': 'thief',
-                    'description': u'воровка',
+                    'description': 'воровка'
                     't_count_min': 2,
                     't_count_max': 5,
                     't_price_min': 25,
@@ -137,7 +137,7 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'lizardman',
                     'giantess': False,
                     'avatar': 'knight',
-                    'description': u'воительница',
+                    'description': 'воительница'
                     't_count_min': 2,
                     't_count_max': 5,
                     't_price_min': 25,
@@ -153,7 +153,7 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'lizardman',
                     'giantess': False,
                     'avatar': 'princess',
-                    'description': u'аристократка',
+                    'description': 'аристократка'
                     't_count_min': 4,
                     't_count_max': 10,
                     't_price_min': 250,
@@ -169,7 +169,7 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'dragonborn',
                     'giantess': False,
                     'avatar': 'elf',
-                    'description': u'эльфийская дева',
+                    'description': 'эльфийская дева'
                     't_count_min': 3,
                     't_count_max': 7,
                     't_price_min': 250,
@@ -184,7 +184,7 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'sea_bastard',
                     'giantess': False,
                     'avatar': 'mermaid',
-                    'description': u'русалка',
+                    'description': 'русалка'
                     't_count_min': 2,
                     't_count_max': 5,
                     't_price_min': 10,
@@ -199,7 +199,7 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'minotaur',
                     'giantess': True,
                     'avatar': 'ogre',
-                    'description': u'людоедка',
+                    'description': 'людоедка'
                     't_count_min': 2,
                     't_count_max': 5,
                     't_price_min': 25,
@@ -215,7 +215,7 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'naga',
                     'giantess': True,
                     'avatar': 'mermaid',
-                    'description': u'сирена',
+                    'description': 'сирена'
                     't_count_min': 2,
                     't_count_max': 5,
                     't_price_min': 100,
@@ -231,7 +231,7 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'yetti',
                     'giantess': True,
                     'avatar': 'ice',
-                    'description': u'ледяная великанша',
+                    'description': 'ледяная великанша'
                     't_count_min': 3,
                     't_count_max': 7,
                     't_price_min': 100,
@@ -247,7 +247,7 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'barlog',
                     'giantess': True,
                     'avatar': 'fire',
-                    'description': u'огненная великанша',
+                    'description': 'огненная великанша'
                     't_count_min': 3,
                     't_count_max': 7,
                     't_price_min': 100,
@@ -263,7 +263,7 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'troll',
                     'giantess': True,
                     'avatar': 'titan',
-                    'description': u'титанида',
+                    'description': 'титанида'
                     't_count_min': 3,
                     't_count_max': 7,
                     't_price_min': 100,

@@ -105,7 +105,11 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'kobold',
                     'giantess': False,
                     'avatar': 'citizen',
+<<<<<<< HEAD
+                    'description': 'горожанка', 
+=======
                     'description': u'горожанка',
+>>>>>>> b26d22a345de9a76445f460e2b6a143c2f5015c3
                     't_count_min': 2,
                     't_count_max': 5,
                     't_price_min': 25,
@@ -121,7 +125,11 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'kobold',
                     'giantess': False,
                     'avatar': 'thief',
+<<<<<<< HEAD
+                    'description': 'воровка',
+=======
                     'description': u'воровка',
+>>>>>>> b26d22a345de9a76445f460e2b6a143c2f5015c3
                     't_count_min': 2,
                     't_count_max': 5,
                     't_price_min': 25,
@@ -137,7 +145,11 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'lizardman',
                     'giantess': False,
                     'avatar': 'knight',
+<<<<<<< HEAD
+                    'description': 'воительница',
+=======
                     'description': u'воительница',
+>>>>>>> b26d22a345de9a76445f460e2b6a143c2f5015c3
                     't_count_min': 2,
                     't_count_max': 5,
                     't_price_min': 25,
@@ -153,7 +165,11 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'lizardman',
                     'giantess': False,
                     'avatar': 'princess',
+<<<<<<< HEAD
+                    'description': 'аристократка',
+=======
                     'description': u'аристократка',
+>>>>>>> b26d22a345de9a76445f460e2b6a143c2f5015c3
                     't_count_min': 4,
                     't_count_max': 10,
                     't_price_min': 250,
@@ -169,7 +185,11 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'dragonborn',
                     'giantess': False,
                     'avatar': 'elf',
+<<<<<<< HEAD
+                    'description': 'эльфийская дева',
+=======
                     'description': u'эльфийская дева',
+>>>>>>> b26d22a345de9a76445f460e2b6a143c2f5015c3
                     't_count_min': 3,
                     't_count_max': 7,
                     't_price_min': 250,
@@ -184,7 +204,11 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'sea_bastard',
                     'giantess': False,
                     'avatar': 'mermaid',
+<<<<<<< HEAD
+                    'description': 'русалка',
+=======
                     'description': u'русалка',
+>>>>>>> b26d22a345de9a76445f460e2b6a143c2f5015c3
                     't_count_min': 2,
                     't_count_max': 5,
                     't_price_min': 10,
@@ -199,7 +223,11 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'minotaur',
                     'giantess': True,
                     'avatar': 'ogre',
+<<<<<<< HEAD
+                    'description': 'людоедка',
+=======
                     'description': u'людоедка',
+>>>>>>> b26d22a345de9a76445f460e2b6a143c2f5015c3
                     't_count_min': 2,
                     't_count_max': 5,
                     't_price_min': 25,
@@ -215,7 +243,11 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'naga',
                     'giantess': True,
                     'avatar': 'mermaid',
+<<<<<<< HEAD
+                    'description': 'сирена',
+=======
                     'description': u'сирена',
+>>>>>>> b26d22a345de9a76445f460e2b6a143c2f5015c3
                     't_count_min': 2,
                     't_count_max': 5,
                     't_price_min': 100,
@@ -231,7 +263,11 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'yetti',
                     'giantess': True,
                     'avatar': 'ice',
+<<<<<<< HEAD
+                    'description': 'ледяная великанша',
+=======
                     'description': u'ледяная великанша',
+>>>>>>> b26d22a345de9a76445f460e2b6a143c2f5015c3
                     't_count_min': 3,
                     't_count_max': 7,
                     't_price_min': 100,
@@ -247,7 +283,11 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'barlog',
                     'giantess': True,
                     'avatar': 'fire',
+<<<<<<< HEAD
+                    'description': 'огненная великанша',
+=======
                     'description': u'огненная великанша',
+>>>>>>> b26d22a345de9a76445f460e2b6a143c2f5015c3
                     't_count_min': 3,
                     't_count_max': 7,
                     't_price_min': 100,
@@ -263,7 +303,11 @@ girls_info = {  # Информация о всех типах девушек
                     'advanced_spawn': 'troll',
                     'giantess': True,
                     'avatar': 'titan',
+<<<<<<< HEAD
+                    'description': 'титанида',
+=======
                     'description': u'титанида',
+>>>>>>> b26d22a345de9a76445f460e2b6a143c2f5015c3
                     't_count_min': 3,
                     't_count_max': 7,
                     't_price_min': 100,

@@ -65,19 +65,15 @@ class Girls_list(object):
         """
         Осеменение женщины.
         """
-        text = self.description('prelude')
-        store.nvl_list = []  # вариант nvl clear на питоне
-        text += self.description('sex')
-        store.nvl_list = []  # вариант nvl clear на питоне
-        text += self.description('impregnate')
-        store.nvl_list = []  # вариант nvl clear на питоне
+        self.description('prelude', True)
+        self.description('sex', True)
+        self.description('impregnate', True)
         self.game.girl.virgin = False
         if self.game.girl.quality < self.game.dragon.magic:
             self.game.girl.pregnant = 2
         else:
             self.game.girl.pregnant = 1
         self.game.dragon.lust -= 1
-        return text
 
     def free_girl(self):
         """
@@ -140,7 +136,6 @@ class Girls_list(object):
         Ограбить девушку.
         """
         self.game.lair.treasury.receive_treasures(self.game.girl.treasure)
-        self.game.girl.treasure = []
         return self.description('rob')
 
     def prisoners_list(self):
@@ -168,9 +163,9 @@ class Girls_list(object):
         format_dict = {'dragon_name': self.game.dragon.name,
                        'dragon_type': self.game.dragon.kind(),
                        'girl_name': self.game.girl.name,
-                       'girl_title': self.game.girl.type,
+                       'girl_title': girls_data.girls_info[self.game.girl.type]['description'],
                        }
-    # TODO: %(dragon_name_full)s = Имя дракона с эпитетом
+        # TODO: %(dragon_name_full)s = Имя дракона с эпитетом
 
         girl_type = self.game.girl.type
         if girl_type not in girls_data.girls_texts or status not in girls_data.girls_texts[girl_type]:
@@ -183,13 +178,14 @@ class Girls_list(object):
             elif status == 'rob':
                 treas_description = self.game.lair.treasury.treasures_description(self.game.girl.treasure)
                 treas_description = '\n'.join(treas_description)
-                format_dict['situation'] = (treas_description)
+                self.game.girl.treasure = []
+                format_dict['situation'] = treas_description
             text = text % format_dict
         else:
             text = "Описание для действия '%s' девушки типа '%s' отсутствует" % (status, self.game.girl.type)
         if say:
-            store.nvl_list = []  # вариант nvl clear на питоне
             self.game.girl.third(text)  # выдача сообщения
+            store.nvl_list = []  # вариант nvl clear на питоне
         else:
             return text
 
