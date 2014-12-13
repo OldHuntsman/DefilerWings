@@ -19,7 +19,7 @@ label lb_location_mountain_main:
                  ("lb_enc_smugglers", 10),
                  ("lb_enc_slavers", 10),
                  ("lb_enc_frontgates", 10),
-                 ("lb_enc_cavegates", 10),
+                 ("lb_enc_cannontower", 10),
                  ("lb_patrool_mountain", 3 * game.mobilization.level),
                  ("lb_enc_noting", nochance)]
     $ enc = core.Game.weighted_random(choices)
@@ -47,7 +47,7 @@ label lb_enc_miner:
     return
     
 label lb_enc_dklad:
-    'Дракон учуял сокровища спрятанные где-то н подалёку.'
+    'Дракон учуял сокровища спрятанные где-то неподалёку.'
     nvl clear
     python:
         tr_lvl = random.randint(1, 100)
@@ -213,13 +213,35 @@ label lb_enc_mines:
             $ game.dragon.gain_rage()
     return
    
-label lb_enc_frontgates:
-    'Главный вход в подгорное царство. Плейсхолдер.'    
+label lb_enc_frontgates_found:
+    'Блуждая среди горных круч, %(dragon_name_full)s наткнулся на...'
+    show expression 'img/bg/special/gates_dwarf.png' as bg
+    'Врата в Подгорное Царство!'
+    $ game.dragon.add_special_place('frontgates', 'frontgates_guarded')
+    call lb_frontgates    
     return
     
-label lb_enc_cavegates:
-    'Потайной вход в подгорное царство. Плейсхолдер.'
-    
+label lb_enc_cannontower:
+    'На склоне горы, словно вырастая прямо из каменной кручи угнездилось небольшой но мощный бастион. Судя по запаху внутри полно цвергов и их механизмов.'
+    menu:
+        'Подобраться и заглянуть в бойницу':
+            'В прорезь бойницы видны суетящиеся цверги. Они готовят ПУШКУ... зачем?'
+            show expression 'img/bg/scene/fight/steamgun.png' as bg
+            'А! Они будут стрелять!'
+            $ game.dragon.drain_energy()
+            $ game.foe = core.Enemy('steamgun', gameRef=game, base_character=NVLCharacter)
+            call lb_fight
+            'Внутри бастиона нет никаких сокровищ, только железо, провиант и бумаги. В глубине был проход в подгорное цраство, но едва поняв что проигрывают бой, цверги взорвали заряд пороха который обрушил тоннель завалив его сотянми тонн камней. Через завал никому не пробораться.'
+            menu:
+                'Расшифровать архивы':
+                    'Основная часть бумаг это разнообразные технические чертежи а так же накладные на боеприпасы и провиант. Но помимо прочего есть тут и весьма занимательные архитектурные планы. Согласно этим данным, помимо очень сильно укреплённых главных ворот и пушечных бастионов, в подгорное царство есть ещё один почти не охраняемый но замаскированный "задний проход". При случае можно будет его "раздраконить"...'
+                    $ game.dragon.add_special_place('backdor', 'backdor_open')
+                'Уйти прочь':
+                    $ game.dragon.gain_rage()
+                            
+        'Убраться отсюда поскорее' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()
+            
     return
     
 label lb_patrool_mountain:
