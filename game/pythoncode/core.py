@@ -101,23 +101,29 @@ class Game(store.object):
         """
         self.year += 1
         self.dragon.age += 1
-        # Применяем разруху накопленную за год с учетом отстройки
-        self.poverty.value -= 1
-        self.poverty.apply_planned()
-        # Действия с девушками каждый год
-        self.girls_list.next_year()
-        # Платим за службу
+        # Платим за службу, проверяется в начале года
         for upgrade in self.lair.upgrades.keys():
             if type(self.lair.upgrades) == type(self.lair.upgrades[upgrade]) and \
                             'cost' in self.lair.upgrades[upgrade].keys():
                 salary = self.lair.treasury.get_salary(self.lair.upgrades[upgrade]['cost'])
                 if salary:
+                    if renpy.config.debug:
+                        summ = 0
+                        for salary_i in salary:
+                            summ += salary_i.cost
+                        salary_tuple = (self.lair.upgrades[upgrade]['name'], summ - self.lair.upgrades[upgrade]['cost'])
+                        self.narrator(u"%s в качестве платы за год воруют: %s ф." % salary_tuple)
                     salary = self.lair.treasury.treasures_description(salary)
-                    self.narrator(u"%s в качестве платы за год получают:\n %s" % (
-                                  self.lair.upgrades[upgrade]['name'], ' '.join(salary)))
+                    salary_tuple = (self.lair.upgrades[upgrade]['name'], ' '.join(salary))
+                    self.narrator(u"%s в качестве платы за год получают:\n %s" % salary_tuple)
                 else:
                     self.narrator(u"%s не получили обещанной платы и уходят." % self.lair.upgrades[upgrade]['name'])
                     del self.lair.upgrades[upgrade]
+        # Применяем разруху накопленную за год с учетом отстройки
+        self.poverty.value -= 1
+        self.poverty.apply_planned()
+        # Действия с девушками каждый год
+        self.girls_list.next_year()
         # Изменяем уровень мобилизации
         desired_mobilization = self.dragon.reputation.level - self.poverty.value  # Желаемый уровень мобилизации
         mobilization_delta = desired_mobilization - self.mobilization.level  # Считаем есть ли разница с текущим уровнем мобилизации
