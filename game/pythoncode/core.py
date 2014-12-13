@@ -745,6 +745,7 @@ class Dragon(Fighter):
         # self._first_name = u"Старый"
         # self._last_name = u"Охотник"
         self.name = random.choice(data.dragon_names)
+        self.surname = random.choice(data.dragon_surnames)
         self.age = 0
         self.reputation = Reputation()
         self._tiredness = 0  # увеличивается при каждом действии
@@ -783,6 +784,10 @@ class Dragon(Fighter):
             self.anatomy.append(self._gift)
 
         self.avatar = get_avatar("img/avadragon/" + self.color_eng)  # Назначаем аватарку
+        
+    @property
+    def fullname(self):
+        return self.name + u' ' + self.surname
 
     @property
     def description(self):
