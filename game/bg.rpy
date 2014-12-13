@@ -17,9 +17,9 @@ init:
     image place = ConditionSwitch(
         "place == 'city_gates'", "img/bg/city/outside.png",    # определение фонов для разных мест (потребует доработки)
         "place == 'impassable_coomb'", "img/bg/lair/ravine.png",
-        "place == 'impregnable_peak'", "img/bg/lair/cave.png",
-        "place == 'solitude_сitadel'", "img/bg/lair/cave.png",
-        "place == 'vulcano_chasm'", "img/bg/lair/cave.png",
+        "place == 'impregnable_peak'", "img/bg/lair/cavelarge.png",
+        "place == 'solitude_сitadel'", "img/bg/lair/icecave.png",
+        "place == 'vulcano_chasm'", "img/bg/lair/volcanocave.png",
         "place == 'underwater_grot'", "img/bg/lair/cave.png",
         "place == 'underground_burrow'", "img/bg/lair/cave.png",
         "place == 'dragon_castle'", "img/bg/lair/cave.png",
@@ -31,8 +31,8 @@ init:
         "place == 'monastery_ruin'", "img/bg/lair/cave.png",
         "place == 'fortress_ruin'", "img/bg/lair/cave.png",
         "place == 'castle_ruin'", "img/bg/lair/castle_ruin.png",
-        "place == 'ice_citadel'", "img/bg/lair/cave.png",
-        "place == 'vulcanic_forge'", "img/bg/lair/cave.png",
+        "place == 'ice_citadel'", "img/bg/lair/icecastle.png",
+        "place == 'vulcanic_forge'", "img/bg/lair/volcanoforge.png",
         "place == 'cloud_castle'", "img/bg/lair/cave.png",
         "place == 'undefwater_mansion'", "img/bg/lair/cave.png",
         "place == 'underground_palaces'", "img/bg/lair/cave.png",
