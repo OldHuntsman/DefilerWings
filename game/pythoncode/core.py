@@ -305,7 +305,7 @@ class Game(store.object):
                     ('unique' not in quest or quest['unique'] not in self.unique) and \
                     ('prerequisite' not in quest or quest['prerequisite'] in self.unique):
                 quests.append(quest)
-        self._quest = random.choice(quests)  # TODO: ошибка - отваливается выходом из массива если сильно прокачать дракона
+        self._quest = random.choice(quests)
         # Задание года окончания выполнения квеста
         self._quest_time = self._year
         if 'fixed_time' in self._quest:
@@ -452,6 +452,7 @@ class Game(store.object):
     def format_data(self):
         data = {
             "dragon_name": self.dragon.name,
+            "dragon_name_full": self.dragon.fullname,
         }
         return data
 
@@ -734,7 +735,7 @@ class Dragon(Fighter):
     Класс дракона.
     """
 
-    def __init__(self, parent=None, used_gifts=None, used_avatars=None, *args, **kwargs):
+    def __init__(self, parent=None, *args, **kwargs):
         """
         parent - родитель дракона, если есть.
         """
@@ -759,8 +760,7 @@ class Dragon(Fighter):
         self.special_places = {}  # Список разведанных "достопримечательностей"
         self.events = []  # список событий с этим драконом
         self._gift = None  # Дар Владычицы
-        if used_gifts is None:
-            used_gifts = []
+
         # Головы
         if parent is not None:
             self.heads = deepcopy(parent.heads)  # Копируем живые головы родителя
@@ -776,14 +776,15 @@ class Dragon(Fighter):
             self.anatomy = ['size']
         else:
             self.anatomy = deepcopy(parent.anatomy)
-        self._gift = self._get_ability(used_gifts=used_gifts)
+        self._gift = self._get_ability()
         if self._gift == 'head':
             self.heads.append('green')
         elif self._gift in data.dragon_heads.keys():
             self.heads[self.heads.index('green')] = self._gift
         else:
             self.anatomy.append(self._gift)
-        self.avatar = get_avatar("img/avadragon/" + self.color_eng, used_avatars=used_avatars)  # Назначаем аватарку
+
+        self.avatar = get_avatar("img/avadragon/" + self.color_eng)  # Назначаем аватарку
         
     @property
     def fullname(self):
@@ -973,7 +974,7 @@ class Dragon(Fighter):
         """
         return self.modifiers().count('paws')
 
-    def _get_ability(self, used_gifts):
+    def _get_ability(self):
         """
         Возвращает способность, которую может получить дракон при рождении
         """
@@ -1000,9 +1001,6 @@ class Dragon(Fighter):
             dragon_leveling += 2 * ['cunning']
         if self.heads.count('green') > 0:
             dragon_leveling += [self._colorize_head()]
-        dragon_leveling = [item for item in dragon_leveling if item not in used_gifts]
-        if len(dragon_leveling) == 0:
-            raise StopIteration
         new_ability = random.choice(dragon_leveling)
         return new_ability
 
@@ -1150,23 +1148,17 @@ def call(label, *args, **kwargs):
             return _call(i, *args, **kwargs)
 
 
-def get_avatar(folder, regex='.*', used_avatars=None):
+def get_avatar(folder, regex='.*'):
     """
     Возвращает строку-путь с случайной картинкой подходящей под регекспу regex
     """
     import re
     import os
-    if used_avatars is None:
-        used_avatars = []
 
     absolute_path = os.path.join(renpy.config.basedir, "game", folder)  # Cоставляем абсолютный путь где искать
     regex = re.compile(regex, re.IGNORECASE)
-    reg_list = filter(regex.search, os.listdir(absolute_path))
-    reg_list = [item for item in reg_list if folder + "/" + item not in used_avatars]
-    if len(reg_list) == 0:
-        raise StopIteration
-    file = folder + "/" + random.choice(reg_list)  # получаем название файла
-    return file  # Возвращаем правильно отформатированно значение
+    filename = random.choice(filter(regex.search, os.listdir(absolute_path)))  # получаем название файла
+    return folder + "/" + filename  # Возвращаем правильно отформатированно значение
 
 
 get_img = get_avatar

@@ -163,7 +163,6 @@ class Girls_list(object):
                        'girl_name': self.game.girl.name,
                        'girl_title': girls_data.girls_info[self.game.girl.type]['description'],
                        }
-        # TODO: %(dragon_name_full)s = Имя дракона с эпитетом
 
         girl_type = self.game.girl.type
         if girl_type not in girls_data.girls_texts or status not in girls_data.girls_texts[girl_type]:

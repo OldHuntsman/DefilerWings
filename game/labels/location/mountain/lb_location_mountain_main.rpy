@@ -18,7 +18,7 @@ label lb_location_mountain_main:
                  ("lb_ifrit_found", 10),
                  ("lb_enc_smugglers", 10),
                  ("lb_enc_slavers", 10),
-                 ("lb_enc_frontgates", 10),
+                 ("lb_enc_frontgates_found", 10),
                  ("lb_enc_cannontower", 10),
                  ("lb_patrool_mountain", 3 * game.mobilization.level),
                  ("lb_enc_noting", nochance)]
@@ -214,7 +214,7 @@ label lb_enc_mines:
     return
    
 label lb_enc_frontgates_found:
-    'Блуждая среди горных круч, %(dragon_name_full)s наткнулся на...'
+    'Блуждая среди горных круч, [game.dragon.fullname] наткнулся на...'
     show expression 'img/bg/special/gates_dwarf.png' as bg
     'Врата в Подгорное Царство!'
     $ game.dragon.add_special_place('frontgates', 'frontgates_guarded')
@@ -226,7 +226,7 @@ label lb_enc_cannontower:
     menu:
         'Подобраться и заглянуть в бойницу':
             'В прорезь бойницы видны суетящиеся цверги. Они готовят ПУШКУ... зачем?'
-            show expression 'img/bg/scene/fight/steamgun.png' as bg
+            show expression 'img/scene/fight/steamgun.png' as bg
             'А! Они будут стрелять!'
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('steamgun', gameRef=game, base_character=NVLCharacter)

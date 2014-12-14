@@ -508,7 +508,7 @@ label lb_jotun_rob:
         'Обследовать ледяную цитадель':
             $ txt = game.interpolate(random.choice(txt_place_jotun[1]))
             '[txt]'
-            $ description = game.girls_list.new_girl('jotun')
+            $ description = game.girls_list.new_girl('ice')
             nvl clear
             game.girl.third "[description]"
             call lb_gigant_sex     
@@ -542,25 +542,25 @@ label lb_ifrit:
     show expression 'img/bg/lair/volcanoforge.png' as bg
     $ txt = game.interpolate(random.choice(txt_place_ifrit[0]))
     '[txt]'
-    $ game.foe = core.Enemy('jotun', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('ifrit', gameRef=game, base_character=NVLCharacter)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
-        'Вызвать йотуна на бой':
+        'Вызвать ифрита на бой':
             $ game.dragon.drain_energy()
             call lb_fight
             jump lb_ifrit_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
-            $ game.dragon.add_special_place('jotun', 'jotun_full')
+            $ game.dragon.add_special_place('ifrit', 'ifrit_full')
             $ game.dragon.gain_rage()
     return
     
 label lb_ifrit_rob:
     menu:
-        'Обследовать ледяную цитадель':
+        'Обследовать вулканическую кузню':
             $ txt = game.interpolate(random.choice(txt_place_ifrit[1]))
             '[txt]'
-            $ description = game.girls_list.new_girl('ifrit')
+            $ description = game.girls_list.new_girl('fire')
             nvl clear
             game.girl.third "[description]"
             call lb_gigant_sex     
@@ -578,7 +578,7 @@ label lb_ifrit_empty:
         'Переместить логово':
             $ game.create_lair('vulcanic_forge')
             $ game.dragon.del_special_place('ifrit')
-        'Покинуть ледяную цитадель':
+        'Покинуть вулканическую кузню':
             $ game.dragon.add_special_place('ifrit', 'ifrit_empty')
     return 
     
@@ -593,7 +593,7 @@ label lb_backdor:
             stop music
             play music "mus/moria.ogg"
             show expression 'img/bg/special/moria.png' as bg
-            'Нажав на неприметный камушек в правильном месте %(dragon_name)s открыл потайной проход в подгорное царство. Теперь отступать не стоит, если цвергов не добить, то они запечатают задний проход и укрепятся ещё основательнее.'
+            'Нажав на неприметный камушек в правильном месте [game.dragon.name] открыл потайной проход в подгорное царство. Теперь отступать не стоит, если цвергов не добить, то они запечатают задний проход и укрепятся ещё основательнее.'
             $ game.dragon.add_special_place('backdor', 'backdor_sealed')
             jump lb_dwarf_army    
         'Для такого дела нужна подготовка...':
@@ -614,7 +614,7 @@ label lb_frontgates:
     nvl clear
     menu:
         'Проломить ворота' if game.dragon.size() > 3:
-            'Жалкие укрепления коротышек не смогут устоять перед яростным отродья Гопсожи. %(dragon_name_full)s достаточно огромен и могуч чтобы проломиться сквозь ворота и ворваться в подгорное царство. Однако теперь отступать нельзя - если цвергов не прогнать, они укрепятся заново.'
+            'Жалкие укрепления коротышек не смогут устоять перед яростным отродья Гопсожи. [game.dragon.fullname] достаточно огромен и могуч чтобы проломиться сквозь ворота и ворваться в подгорное царство. Однако теперь отступать нельзя - если цвергов не прогнать, они укрепятся заново.'
             $ game.dragon.add_special_place('backdor', 'backdor_sealed')
             $ game.dragon.drain_energy()
             call lb_golem_guard
@@ -644,26 +644,27 @@ label lb_golem_guard:
     return
     
 label lb_dwarf_army:
-    'Подобно несущему смерть урагану %(dragon_name_full)s ворвался во внутренние палаты подгорного царства. Однако цверги всё ещё не беззащитны, дорогу дракону заступает в спешке собранный ударный отряд...'
+    'Подобно несущему смерть урагану [game.dragon.fullname] ворвался во внутренние палаты подгорного царства. Однако цверги всё ещё не беззащитны, дорогу дракону заступает в спешке собранный ударный отряд...'
     $ game.foe = core.Enemy('dwarf_guards', gameRef=game, base_character=NVLCharacter)
     $ narrator(show_chances(game.foe))
-    'Атаковать без жалости':
-        call lb_fight
-        'Теперь когда основные силы цвергов разбиты и деморализованы, надо выбрать направление финального удара. Ремесленные кварталы почти беззащиты и там цвергов можно будет перебить во множестве, пока они не успели сбежать. С другой стороны, самые главные ценности должны храниться ниже, в главной сокровищнице. Если не наведаться туда прямо сейчас, хитрые цверги вынесут всё до последней монетки.'
-        menu:
-            'Вниз - за сокровищами!':
-                call lb_dwarf_treashury
-                
-            'Разорить ремесленные цеха':
-                call lb_dwarf_houses
-                
-            'Отступить':
-                'Обидно отутпать когда победа была так близка, но загнанные в угол цверги могут быть крайне опасными противниками. Иногда лучше не рисковать!'
-                $ game.dragon.gain_rage()
-                
-    'Бежать поджав хвост':
-        'Сегодня коротышкам повезло, но даже если они восстановят ворота, не долго им осталось пребывать в покое...'
-        $ game.dragon.gain_rage()
+    menu:
+        'Атаковать без жалости':
+            call lb_fight
+            'Теперь, когда основные силы цвергов разбиты и деморализованы, надо выбрать направление финального удара. Ремесленные кварталы почти беззащиты и там цвергов можно будет перебить во множестве, пока они не успели сбежать. С другой стороны, самые главные ценности должны храниться ниже, в главной сокровищнице. Если не наведаться туда прямо сейчас, хитрые цверги вынесут всё до последней монетки.'
+            menu:
+                'Вниз - за сокровищами!':
+                    call lb_dwarf_treashury
+                    
+                'Разорить ремесленные цеха':
+                    call lb_dwarf_houses
+                    
+                'Отступить':
+                    'Обидно отступать, когда победа была так близка, но загнанные в угол цверги могут быть крайне опасными противниками. Иногда лучше не рисковать!'
+                    $ game.dragon.gain_rage()
+                    
+        'Бежать поджав хвост':
+            'Сегодня коротышкам повезло, но даже если они восстановят ворота, не долго им осталось пребывать в покое...'
+            $ game.dragon.gain_rage()
     return
     
 label lb_dwarf_houses:

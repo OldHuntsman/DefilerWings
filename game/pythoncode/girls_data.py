@@ -228,7 +228,7 @@ girls_info = {  # Информация о всех типах девушек
                 'ice': {
                     'magic_rating': 3,
                     'regular_spawn': 'ice_worm',
-                    'advanced_spawn': 'yetti',
+                    'advanced_spawn': 'yettie',
                     'giantess': True,
                     'avatar': 'ice',
                     'description': u'ледяная великанша',
