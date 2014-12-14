@@ -305,7 +305,7 @@ class Game(store.object):
                     ('unique' not in quest or quest['unique'] not in self.unique) and \
                     ('prerequisite' not in quest or quest['prerequisite'] in self.unique):
                 quests.append(quest)
-        self._quest = random.choice(quests)  # TODO: ошибка - отваливается выходом из массива если сильно прокачать дракона
+        self._quest = random.choice(quests)
         # Задание года окончания выполнения квеста
         self._quest_time = self._year
         if 'fixed_time' in self._quest:
@@ -452,6 +452,7 @@ class Game(store.object):
     def format_data(self):
         data = {
             "dragon_name": self.dragon.name,
+            "dragon_name_full": self.dragon.fullname,
         }
         return data
 
