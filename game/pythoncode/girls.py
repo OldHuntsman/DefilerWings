@@ -186,6 +186,15 @@ class Girls_list(object):
         else:
             return text
 
+    def event(self, event_type, *args, **kwargs):
+        from core import call
+        if event_type in girls_data.girl_events:
+            if girls_data.girl_events[event_type] is not None:
+                call(girls_data.girl_events[event_type], *args, **kwargs)
+        else:
+            raise Exception("Unknown event: %s" % event_type)
+        return
+
     def next_year(self):
         """
         Все действия с девушками за год.
@@ -199,13 +208,9 @@ class Girls_list(object):
                             'elite_guards' not in self.game.lair.upgrades:
                 # девушка сбежала из камеры
                 del self.prisoners[girl_i]
-                if 'mechanic_traps' in self.game.lair.upgrades or \
-                                'magic_traps' in self.game.lair.upgrades:
-                    self.description('traps', True)  # описание гибели в ловушке
-                else:
-                    self.description('escape', True)  # описание чудесного спасения
-                    if self.game.girl.pregnant:
-                        self.free_list.append(self.game.girl)
+                self.event('escape')  # событие "побег из заключения"
+                if self.game.girl.pregnant:
+                    self.free_list.append(self.game.girl)
             else:
                 # девушка не убежала
                 if ('servant' in self.game.lair.upgrades) or ('gremlin_servant' in self.game.lair.upgrades):
@@ -220,16 +225,16 @@ class Girls_list(object):
                             self.offspring.append(girl_size)
 
                         self.spawn.append(girl_type[spawn_class])
-                        self.description('birth', True)  # описание родов
+                        self.event('spawn', girl_type[spawn_class])  # событие "рождение отродий"
                         self.game.girl.pregnant = 0
                 else:
-                    self.description('hunger', True)  # описание смерти от голода
+                    self.event('hunger_death')  # событие "смерть девушки от голода"
                     del self.prisoners[girl_i]
         # свободные, в том числе только что сбежавшие. Отслеживаются только беременные
         for girl_i in xrange(len(self.free_list)):
             self.game.girl = self.free_list[girl_i]
             if (random.randint(1, 3) == 1) and not girls_data.girls_info[self.game.girl.type]['giantess']:
-                self.description('kill', True)  # убивают из-за беременности
+                self.event('kill')  # событие "беременную девушку убивают на свободе"
             else:
                 girl_type = girls_data.girls_info[self.game.girl.type]
 
@@ -242,7 +247,7 @@ class Girls_list(object):
 
                 spawn_type = girls_data.girls_info[self.game.girl.type][spawn_class]
                 spawn = girls_data.spawn_info[spawn_type]
-                self.description('free_birth', True)  # рожает на свободе
+                self.event('free_spawn', spawn_type)  # событие "рождение отродий на воле"
                 self.free_spawn(spawn['power'])
         self.free_list = []  # очистка списка - либо родила, либо убили - отслеживать дальше не имеет смысла
 

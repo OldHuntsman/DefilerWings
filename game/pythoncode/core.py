@@ -1154,6 +1154,7 @@ def call(label, *args, **kwargs):
 def get_avatar(folder, regex='.*', used_avatars=None):
     """
     Возвращает строку-путь с случайной картинкой подходящей под регекспу regex
+    Исключает из рассмотрения список used_avatars
     """
     import re
     import os

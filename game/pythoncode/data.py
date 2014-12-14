@@ -1443,5 +1443,4 @@ human_special_places = [
 game_events = {
     "mobilization_increased": "lb_event_mobilization_increase",
     "poverty_increased": "lb_event_poverty_increase",
-    "creatures_spawn": None,
 }

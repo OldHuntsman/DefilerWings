@@ -10,9 +10,3 @@ label lb_event_poverty_increase:
     nvl clear
     "Разруха выросла"
     return
-
-label lb_event_creature_spawn:
-    show expression core.get_img("img/scene/spawn") as bg
-    nvl clear
-    "Родилось существо"
-    return
