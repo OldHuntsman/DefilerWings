@@ -1339,10 +1339,10 @@ class Treasury(store.object):
         return self.farting + 10 * self.taller + 100 * self.dublon
 
     @money.setter
-    def money(self, Value):
-        if Value < 0:  # Защита от ухода денег в минус
+    def money(self, value):
+        if value < 0:  # Защита от ухода денег в минус
             raise NotImplementedError, u"Денег недостаточно для выполнения операции"
-        money_diff = Value - self.money  # считаем разницу между прошлым значением и новым
+        money_diff = value - self.money  # считаем разницу между прошлым значением и новым
         if money_diff < 0:
             # разница отрицательна или ноль - производим вычитание
             money_diff = -money_diff  # для удобства получаем число, которое необходимо вычесть

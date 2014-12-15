@@ -52,8 +52,8 @@ label lb_dragon_creator:
                 xalign 1.0
                 xmaximum 320
                 textbutton "Выпустить":
-                    pos(72,649)
-                    xysize(174,36)
+                    pos(72, 649)
+                    xysize(174, 36)
                     text_xalign 0.5
                     text_yalign 0.5
                     background "img/bg/logovo.png"
@@ -63,8 +63,8 @@ label lb_dragon_creator:
                 xalign 1.0
                 xmaximum 320
                 textbutton "Описание":
-                    pos(72,600)
-                    xysize(174,36)
+                    pos(72, 600)
+                    xysize(174, 36)
                     text_xalign 0.5
                     text_yalign 0.5
                     background "img/bg/logovo.png"

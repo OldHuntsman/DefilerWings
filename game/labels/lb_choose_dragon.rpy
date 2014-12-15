@@ -38,15 +38,19 @@ label lb_choose_dragon:
         if game.dragon is not None:
             used_avatars.append(game.dragon.avatar)
 
-        while len(dragons) < 3:
-            child = core.Dragon(parent=game.dragon, gameRef=game, base_character=game.adv_character)
-            if child._gift not in used_gifts and child.avatar not in used_avatars:
-                dragons.append(child)
-                used_gifts.append(child._gift)
-                used_avatars.append(child.avatar)
+        for x in xrange(3):
+            try:
+                child = core.Dragon(parent=game.dragon, used_gifts=used_gifts, used_avatars=used_avatars, gameRef=game, base_character=game.adv_character)
+            except StopIteration:
+                break  # TODO: действие в случае когда драконы закончились
+            dragons.append(child)
+            used_gifts.append(child._gift)
+            used_avatars.append(child.avatar)
         renpy.childimg1 = ui.image(dragons[0].avatar) if dragons[0] not in dragons_choosed else ui.image(im.Grayscale(dragons[0].avatar))
-        renpy.childimg2 = ui.image(dragons[1].avatar) if dragons[1] not in dragons_choosed else ui.image(im.Grayscale(dragons[1].avatar))
-        renpy.childimg3 = ui.image(dragons[2].avatar) if dragons[2] not in dragons_choosed else ui.image(im.Grayscale(dragons[2].avatar))
+        if len(dragons) > 1:
+            renpy.childimg2 = ui.image(dragons[1].avatar) if dragons[1] not in dragons_choosed else ui.image(im.Grayscale(dragons[1].avatar))
+        if len(dragons) > 2:
+            renpy.childimg3 = ui.image(dragons[2].avatar) if dragons[2] not in dragons_choosed else ui.image(im.Grayscale(dragons[2].avatar))
 
         def get_breedbg():
             import random

@@ -157,7 +157,7 @@ class Thief(Sayer, Mortal):
                 # TODO: Добавить проклятые вещи
                 if renpy.config.debug:
                     thief(u"Начинаю вычищать логово")
-                attempts = 1
+                attempts = luck
                 if "greedy" in thief.abilities:
                     attempts += 1
                 if "bottomless_sac" in thief.items:
@@ -165,16 +165,14 @@ class Thief(Sayer, Mortal):
                         attempts *= 2
                     else:
                         attempts = 0
-                stolen_items = []  # То что вор успел украсть.
-                for i in range(attempts):
-                    if lair.treasury.wealth > 0:  # Если в сокровищнице хоть что-нибудь есть
+                if lair.treasury.wealth > 0:  # Если в сокровищнице хоть что-нибудь есть
+                    # Берем шмотки
+                    stolen_items = lair.treasury.rob_treasury(attempts)  # Вор что-то украл
+                    for i in xrange(len(stolen_items)):
                         if "sleep_dust" in thief.items or "trickster" in thief.abilities or random.choice(
                                 range(10)) in range(5 - thief.skill):
-                            # Берем шмотку
-                            stolen_item = lair.treasury.rob_treasury()[0]  # Вор что-то украл
-                            stolen_items.append(stolen_item)
                             if renpy.config.debug:
-                                thief(u"Взял шмотку %s" % stolen_item)
+                                thief(u"Взял шмотку %s" % stolen_items[i])
                         else:
                             # Мы разбудили дракона
                             if renpy.config.debug:
@@ -183,10 +181,10 @@ class Thief(Sayer, Mortal):
                             lair.treasury.receive_treasures(stolen_items)  # Дракон возвращает что награбил вор.
                             thief.die("wake_up")
                             return
-                    else:
-                        if renpy.config.debug:
-                            thief(u"В сокровищнице нечего брать. Сваливаю.")
-                        return
+                else:
+                    if renpy.config.debug:
+                        thief(u"В сокровищнице нечего брать. Сваливаю.")
+                    return
                 self.event('steal_items', items=stolen_items)
         else:  # До логова добраться не получилось, получаем предмет c 50%м шансом
             if renpy.config.debug:
