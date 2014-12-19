@@ -243,21 +243,21 @@ screen main_menu:
             xalign .966
             yalign .925
 
-    # text "{font=fonts/Lombardina лого.ttf}Крылья":
+    # text "{font=fonts/Lombardina.ttf}Крылья":
         # xalign 0.94
         # yalign 0.11
         # text_align 1
         # size 90
         # bold False
         # color "#607080"
-    # text "{font=fonts/Lombardina лого.ttf}Осквернителя":
+    # text "{font=fonts/Lombardina.ttf}Осквернителя":
         # xalign 0.95
         # yalign 0.22
         # text_align 1
         # size 60
         # bold False
         # color "#607080"
-    text "{font=fonts/PFMonumentaPro-Regular кнопки.ttf}Версия: %s" % config.version:
+    text "{font=fonts/PFMonumentaPro-Regular.ttf}Версия: %s" % config.version:
         xalign 0.96
         yalign 0.29
         text_align 0.5
@@ -276,7 +276,7 @@ init python:
     style.mm_frame.background = Frame("img/menu/frame.png", 125, 25)
 
     style.mm_button_text.size = 22
-    style.mm_button_text.font = "fonts/PFMonumentaPro-Regular кнопки.ttf"
+    style.mm_button_text.font = "fonts/PFMonumentaPro-Regular.ttf"
 
     style.mm_button.yminimum = 70
     style.mm_button.xminimum = 280
@@ -304,7 +304,7 @@ screen navigation:
         textbutton _("Обратно") action Return()
         textbutton _("Настройки") action ShowMenu("preferences")
         # textbutton _("Сохранить игру") action ShowMenu("save")
-        textbutton _("Загрузить игру") action ShowMenu("load")
+        # textbutton _("Загрузить игру") action ShowMenu("load")
         textbutton _("Главное меню") action MainMenu()
         textbutton _("Помощь") action Help()
         textbutton _("Выход") action Quit()
@@ -334,29 +334,8 @@ screen file_picker:
 
         has vbox
 
-        # The buttons at the top allow the user to pick a
-        # page of files.
-        hbox:
-            style_group "file_picker_nav"
-
-            textbutton _("Назад"):
-                action FilePagePrevious()
-
-            textbutton _("Авто"):
-                action FilePage("auto")
-
-            # textbutton _("Быстрое сохранение"):
-            #    action FilePage("quick")
-
-            for i in range(1, 9):
-                textbutton str(i):
-                    action FilePage(i)
-
-            textbutton _("Далее"):
-                action FilePageNext()
-
         $ columns = 2
-        $ rows = 5
+        $ rows = 2
 
         # Display a grid of file slots.
         grid columns rows:

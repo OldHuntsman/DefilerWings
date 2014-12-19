@@ -20,6 +20,7 @@ init -1 python hide:
 
     config.screen_width = 1280
     config.screen_height = 720
+    config.game_menu_action = ShowMenu('load')
 
     # This controls the title of the window, when Ren'Py is
     # running in a window.
@@ -311,7 +312,7 @@ init -1 python hide:
     # stored. (It needs to be set early, before any other init code
     # is run, so the persistent information can be found by the init code.)
 python early:
-    config.save_directory = "Defiler Wings-1397141435"
+    config.save_directory = "Defiler Wings"
 
 init -1 python hide:
     #########################################
@@ -335,6 +336,9 @@ init -1 python hide:
 
     #########################################
     # More customizations can go here.
+
+    config.thumbnail_height = 144
+    config.thumbnail_width = 256
 
     # Определяем изображения автоматически
     config.automatic_images = ['_', '/']
