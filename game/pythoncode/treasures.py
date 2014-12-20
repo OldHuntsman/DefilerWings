@@ -28,6 +28,7 @@ gem_types = {
     "black_diamond": (1, 100),
     "rose_diamond": (1, 100),
 }
+
 """словарь для типов материалов, ключи - названия материалов, значения - (шанс, ценность)"""
 material_types = {
     "jasper": (5, 1),
@@ -40,119 +41,394 @@ material_types = {
     "shell": (3, 5),
     "horn": (1, 10),
 }
+
 """словарь для описания типов материалов, ключи - названия материалов, значения - словарь для различных падежей русского названия материала"""
 material_description_rus = {
-    "jasper": {'nominative': u'яшма', 'genitive': u'яшмы'},
-    "turquoise": {'nominative': u'бирюза', 'genitive': u'бирюзы'},
-    "jade": {'nominative': u'нефрит', 'genitive': u'нефрита'},
-    "malachite": {'nominative': u'малахит', 'genitive': u'малахита'},
-    "corall": {'nominative': u'коралл', 'genitive': u'коралла'},
-    "ivory": {'nominative': u'слоновая кость', 'genitive': u'слоновой кости'},
-    "agate": {'nominative': u'агат', 'genitive': u'агата'},
-    "shell": {'nominative': u'перламутр', 'genitive': u'перламутра'},
-    "horn": {'nominative': u'драконий рог', 'genitive': u'драконьего рога'},
+    "jasper": {
+        'nominative': u'яшма',
+        'genitive': u'яшмы'
+    },
+    "turquoise": {
+        'nominative': u'бирюза',
+        'genitive': u'бирюзы'
+    },
+    "jade": {
+        'nominative': u'нефрит',
+        'genitive': u'нефрита'
+    },
+    "malachite": {
+        'nominative': u'малахит',
+        'genitive': u'малахита'
+    },
+    "corall": {
+        'nominative': u'коралл',
+        'genitive': u'коралла'
+    },
+    "ivory": {
+        'nominative': u'слоновая кость',
+        'genitive': u'слоновой кости'
+    },
+    "agate": {
+        'nominative': u'агат',
+        'genitive': u'агата'
+    },
+    "shell": {
+        'nominative': u'перламутр',
+        'genitive': u'перламутра'
+    },
+    "horn": {
+        'nominative': u'драконий рог',
+        'genitive': u'драконьего рога'
+    },
 }
+
 """словарь для описания размеров материалов, ключи - названия размера материалов, значения - словарь для русского прилагательного, соответствующего размеру"""
 material_size_description_rus = {
     'small': {
-        'he': {'nominative': u"мелкий ", 'ablative': u"мелким "},
-        'she': {'nominative': u"мелкая ", 'ablative': u"мелкой "},
-        'they': {'nominative': u"мелкие ", 'genitive': u"мелких ", 'ablative': u"мелкими "}},
-    'common': {
-        'he': {'nominative': u"", 'ablative': u""},  # этот размер не отображается
-        'she': {'nominative': u"", 'ablative': u""},
-        'they': {'nominative': u"", 'genitive': u"", 'ablative': u""}},
+        'he': {
+            'nominative': u"мелкий ",
+            'ablative': u"мелким "
+        },
+        'she': {
+            'nominative': u"мелкая ",
+            'ablative': u"мелкой "
+        },
+        'they': {
+            'nominative': u"мелкие ",
+            'genitive': u"мелких ",
+            'ablative': u"мелкими "
+        }
+    },
+    'common': { # этот размер не отображается
+        'he': {
+            'nominative': u"",
+            'ablative': u""
+        },
+        'she': {
+            'nominative': u"",
+            'ablative': u""
+        },
+        'they': {
+            'nominative': u"",
+            'genitive': u"",
+            'ablative': u""
+        }
+    },
     'large': {
-        'he': {'nominative': u"крупный ", 'ablative': u"крупным "},
-        'she': {'nominative': u"крупная ", 'ablative': u"крупной "},
-        'they': {'nominative': u"крупные ", 'genitive': u"крупных ", 'ablative': u"крупными "}, },
+        'he': {
+            'nominative': u"крупный ",
+            'ablative': u"крупным "
+        },
+        'she': {
+            'nominative': u"крупная ",
+            'ablative': u"крупной "
+        },
+        'they': {
+            'nominative': u"крупные ",
+            'genitive': u"крупных ",
+            'ablative': u"крупными "
+        }
+    },
     'exceptional': {
-        'he': {'nominative': u"огромный ", 'ablative': u"огромным "},
-        'she': {'nominative': u"огромная ", 'ablative': u"огромной "},
-        'they': {'nominative': u"огромные ", 'genitive': u"огромных ", 'ablative': u"огромными "}},
+        'he': {
+            'nominative': u"огромный ",
+            'ablative': u"огромным "
+        },
+        'she': {
+            'nominative': u"огромная ",
+            'ablative': u"огромной "
+        },
+        'they': {
+            'nominative': u"огромные ",
+            'genitive': u"огромных ",
+            'ablative': u"огромными "
+        }
+    }
 }
 """словарь для описания степени обработки драгоценных камней, ключи - названия степени обработки, значения - словарь для соответствующего русского прилагательного"""
 gem_cut_description_rus = {
     ' ': {
-        'he': {'nominative': u'', 'ablative': u''},  # эта полировка не отображается
-        'she': {'nominative': u'', 'ablative': u''},
-        'they': {'nominative': u'', 'genitive': u'', 'ablative': u''}},
+        'he': {  # эта полировка не отображается
+            'nominative': u'',
+            'ablative': u''
+        },
+        'she': {
+            'nominative': u'',
+            'ablative': u''
+        },
+        'they': {
+            'nominative': u'',
+            'genitive': u'',
+            'ablative': u''
+        }
+    },
     'polished': {
-        'he': {'nominative': u'необработанный ', 'ablative': u''},
-        # 'ablative' не отображается, чтобы не портить описание вещи
-        'they': {'nominative': u'необработанные ', 'genitive': u"необработанных ", 'ablative': u''}},
+        'he': {
+            'nominative': u'необработанный ',
+            'ablative': u''  # 'ablative' не отображается, чтобы не портить описание вещи
+        },
+        'they': {
+            'nominative': u'необработанные ',
+            'genitive': u"необработанных ",
+            'ablative': u''
+        }
+    },
     'rough': {
-        'he': {'nominative': u'полированный ', 'ablative': u'полированным '},
-        'they': {'nominative': u'полированные ', 'genitive': u'полированных ', 'ablative': u'полированными '}},
+        'he': {
+            'nominative': u'полированный ',
+            'ablative': u'полированным '
+        },
+        'they': {
+            'nominative': u'полированные ',
+            'genitive': u'полированных ',
+            'ablative': u'полированными '
+        }
+    },
     'faceted': {
-        'he': {'nominative': u'ограненный ', 'ablative': u'ограненным '},
-        'they': {'nominative': u'ограненные ', 'genitive': u'ограненных ', 'ablative': u'ограненными '}},
+        'he': {
+            'nominative': u'ограненный ',
+            'ablative': u'ограненным '
+        },
+        'they': {
+            'nominative': u'ограненные ',
+            'genitive': u'ограненных ',
+            'ablative': u'ограненными '
+        }
+    }
 }
+
 """Словарь для драгоценных камней, ключ - тип драгоценного камня, значение - словарь с русским названием драгоценного камня в разных падежах"""
 gem_description_rus = {
     "amber": {
-        'he': {'nominative': u"янтарь", 'genitive': u"янтаря", 'ablative': u"янтарём"},
-        'they': {'genitive': u"янтарей", 'ablative': u"янтарями"}},
+        'he': {
+            'nominative': u"янтарь",
+            'genitive': u"янтаря",
+            'ablative': u"янтарём"
+        },
+        'they': {
+            'genitive': u"янтарей",
+            'ablative': u"янтарями"
+        }
+    },
     "crystall": {
-        'he': {'nominative': u'горный хрусталь', 'genitive': u"горных хрусталя", 'ablative': u'горным хрусталём'},
-        'they': {'genitive': u"горных хрусталей", 'ablative': u'горными хрусталями'}},
+        'he': {
+            'nominative': u'горный хрусталь',
+            'genitive': u"горных хрусталя",
+            'ablative': u'горным хрусталём'
+        },
+        'they': {
+            'genitive': u"горных хрусталей",
+            'ablative': u'горными хрусталями'
+        }
+    },
     "beryll": {
-        'he': {'nominative': u'берилл', 'genitive': u"берилла", 'ablative': u'бериллом'},
-        'they': {'genitive': u"бериллов", 'ablative': u'бериллами'}},
+        'he': {
+            'nominative': u'берилл',
+            'genitive': u"берилла",
+            'ablative': u'бериллом'
+        },
+        'they': {
+            'genitive': u"бериллов",
+            'ablative': u'бериллами'
+        }
+    },
     "tigereye": {
-        'he': {'nominative': u'тигровый глаз', 'genitive': u"тигровых глаза", 'ablative': u'тигровым глазом'},
-        'they': {'genitive': u"тигровых глазов", 'ablative': u'тигровыми глазами'}},
+        'he': {
+            'nominative': u'тигровый глаз',
+            'genitive': u"тигровых глаза",
+            'ablative': u'тигровым глазом'
+        },
+        'they': {
+            'genitive': u"тигровых глазов",
+            'ablative': u'тигровыми глазами'
+        }
+    },
     "granate": {
-        'he': {'nominative': u'гранат', 'genitive': u"граната", 'ablative': u'гранатом'},
-        'they': {'genitive': u"гранатов", 'ablative': u'гранатами'}},
+        'he': {
+            'nominative': u'гранат',
+            'genitive': u"граната",
+            'ablative': u'гранатом'
+        },
+        'they': {
+            'genitive': u"гранатов",
+            'ablative': u'гранатами'
+        }
+    },
     "turmaline": {
-        'he': {'nominative': u'турмалин', 'genitive': u"турмалина", 'ablative': u'турмалином'},
-        'they': {'genitive': u"турмалинов", 'ablative': u'турмалинами'}},
+        'he': {
+            'nominative': u'турмалин',
+            'genitive': u"турмалина",
+            'ablative': u'турмалином'
+        },
+        'they': {
+            'genitive': u"турмалинов",
+            'ablative': u'турмалинами'
+        }
+    },
     "aqua": {
-        'he': {'nominative': u'аквамарин', 'genitive': u"аквамарина", 'ablative': u'аквамарином'},
-        'they': {'genitive': u"аквамаринов", 'ablative': u'аквамаринами'}},
+        'he': {
+            'nominative': u'аквамарин',
+            'genitive': u"аквамарина",
+            'ablative': u'аквамарином'
+        },
+        'they': {
+            'genitive': u"аквамаринов",
+            'ablative': u'аквамаринами'
+        }
+    },
     "pearl": {
-        'he': {'nominative': u'жемчуг', 'genitive': u"жемчуга", 'ablative': u'жемчугом'},
-        'she': {'nominative': u'жемчужина', 'genitive': u"жемчужины", 'ablative': u'жемчужиной'},
-        'they': {'genitive': u"жемчужин", 'ablative': u'жемчугами'}},
+        'he': {
+            'nominative': u'жемчуг',
+            'genitive': u"жемчуга",
+            'ablative': u'жемчугом'
+        },
+        'she': {
+            'nominative': u'жемчужина',
+            'genitive': u"жемчужины",
+            'ablative': u'жемчужиной'
+        },
+        'they': {
+            'genitive': u"жемчужин",
+            'ablative': u'жемчугами'
+        }
+    },
     "black_pearl": {
-        'he': {'nominative': u'чёрный жемчуг', 'genitive': u'чёрных жемчуга', 'ablative': u'чёрным жемчугом'},
-        'she': {'nominative': u'чёрная жемчужина', 'genitive': u'чёрных жемчужины', 'ablative': u'чёрной жемчужиной'},
-        'they': {'genitive': u"чёрных жемчужин", 'ablative': u'чёрными жемчугами'}},
+        'he': {
+            'nominative': u'чёрный жемчуг',
+            'genitive': u'чёрных жемчуга',
+            'ablative': u'чёрным жемчугом'
+        },
+        'she': {
+            'nominative': u'чёрная жемчужина',
+            'genitive': u'чёрных жемчужины',
+            'ablative': u'чёрной жемчужиной'
+        },
+        'they': {
+            'genitive': u"чёрных жемчужин",
+            'ablative': u'чёрными жемчугами'
+        }
+    },
     "elven_beryll": {
-        'he': {'nominative': u'эльфийский берилл', 'genitive': u"эльфийских берилла",
-               'ablative': u'эльфийским бериллом'},
-        'they': {'genitive': u"эльфийских бериллов", 'ablative': u'эльфийскими бериллами'}},
+        'he': {
+            'nominative': u'эльфийский берилл',
+            'genitive': u"эльфийских берилла",
+            'ablative': u'эльфийским бериллом'
+        },
+        'they': {
+            'genitive': u"эльфийских бериллов",
+            'ablative': u'эльфийскими бериллами'
+        }
+    },
     "topaz": {
-        'he': {'nominative': u'топаз', 'genitive': u"топаза", 'ablative': u'топазом'},
-        'they': {'genitive': u"топазов", 'ablative': u'топазами'}},
+        'he': {
+            'nominative': u'топаз',
+            'genitive': u"топаза",
+            'ablative': u'топазом'
+        },
+        'they': {
+            'genitive': u"топазов",
+            'ablative': u'топазами'
+        }
+    },
     "saphire": {
-        'he': {'nominative': u'сапфир', 'genitive': u"сапфира", 'ablative': u'сапфиром'},
-        'they': {'genitive': u"сапфиров", 'ablative': u'сапфирами'}},
+        'he': {
+            'nominative': u'сапфир',
+            'genitive': u"сапфира",
+            'ablative': u'сапфиром'
+        },
+        'they': {
+            'genitive': u"сапфиров",
+            'ablative': u'сапфирами'
+        }
+    },
     "ruby": {
-        'he': {'nominative': u'рубин', 'genitive': u"рубина", 'ablative': u'рубином'},
-        'they': {'genitive': u"рубинов", 'ablative': u'рубинами'}},
+        'he': {
+            'nominative': u'рубин',
+            'genitive': u"рубина",
+            'ablative': u'рубином'
+        },
+        'they': {
+            'genitive': u"рубинов",
+            'ablative': u'рубинами'
+        }
+    },
     "emerald": {
-        'he': {'nominative': u'изумруд', 'genitive': u"изумруда", 'ablative': u'изумрудом'},
-        'they': {'genitive': u"изумрудов", 'ablative': u'изумрудами'}},
+        'he': {
+            'nominative': u'изумруд',
+            'genitive': u"изумруда",
+            'ablative': u'изумрудом'
+        },
+        'they': {
+            'genitive': u"изумрудов",
+            'ablative': u'изумрудами'
+        }
+    },
     "goodruby": {
-        'he': {'nominative': u'яхонт', 'genitive': u"яхонта", 'ablative': u'яхонтом'},
-        'they': {'genitive': u"яхонтов", 'ablative': u'яхонтами'}},
+        'he': {
+            'nominative': u'яхонт',
+            'genitive': u"яхонта",
+            'ablative': u'яхонтом'
+        },
+        'they': {
+            'genitive': u"яхонтов",
+            'ablative': u'яхонтами'
+        }
+    },
     "goodemerald": {
-        'he': {'nominative': u'смарагд', 'genitive': u"смарагда", 'ablative': u'смарагдом'},
-        'they': {'genitive': u"смарагдов", 'ablative': u'смарагдами'}},
+        'he': {
+            'nominative': u'смарагд',
+            'genitive': u"смарагда",
+            'ablative': u'смарагдом'
+        },
+        'they': {
+            'genitive': u"смарагдов",
+            'ablative': u'смарагдами'
+        }
+    },
     "star": {
-        'he': {'nominative': u'звёздный сапфир', 'genitive': u"звёздных сапфира", 'ablative': u'звёздным сапфиром'},
-        'they': {'genitive': u"звёздных сапфиров", 'ablative': u'звёздными сапфирами'}},
+        'he': {
+            'nominative': u'звёздный сапфир',
+            'genitive': u"звёздных сапфира",
+            'ablative': u'звёздным сапфиром'
+        },
+        'they': {
+            'genitive': u"звёздных сапфиров",
+            'ablative': u'звёздными сапфирами'
+        }
+    },
     "diamond": {
-        'he': {'nominative': u'алмаз', 'genitive': u"алмаза", 'ablative': u'алмазом'},
-        'they': {'genitive': u"алмазов", 'ablative': u'алмазами'}},
+        'he': {
+            'nominative': u'алмаз',
+            'genitive': u"алмаза",
+            'ablative': u'алмазом'
+        },
+        'they': {
+            'genitive': u"алмазов",
+            'ablative': u'алмазами'
+        }
+    },
     "black_diamond": {
-        'he': {'nominative': u'чёрный алмаз', 'genitive': u"чёрных алмаза", 'ablative': u'чёрным алмазом'},
-        'they': {'genitive': u"чёрных алмазов", 'ablative': u'чёрными алмазами'}},
+        'he': {
+            'nominative': u'чёрный алмаз',
+            'genitive': u"чёрных алмаза",
+            'ablative': u'чёрным алмазом'
+        },
+        'they': {
+            'genitive': u"чёрных алмазов",
+            'ablative': u'чёрными алмазами'
+        }
+    },
     "rose_diamond": {
-        'he': {'nominative': u'розовый алмаз', 'genitive': u"розовых алмаза", 'ablative': u'розовым алмазом'},
-        'they': {'genitive': u"розовых алмазов", 'ablative': u'розовыми алмазами'}},
+        'he': {
+            'nominative': u'розовый алмаз',
+            'genitive': u"розовых алмаза",
+            'ablative': u'розовым алмазом'
+        },
+        'they': {
+            'genitive': u"розовых алмазов",
+            'ablative': u'розовыми алмазами'
+        }
+    },
 }
 """словарь для типов металлов, ключ - металл, значение - ценность"""
 metal_types = {
@@ -894,9 +1170,18 @@ class Coin(object):
 
 
 class Gem(object):  # класс для генерации драг.камней
-    cut_dict = {" ": (0, 1), "polished": (50, 2), "rough": (30, 1), "faceted": (20, 3)}
-    size_dict = {"small": (40, 1), "common": (50, 5), "large": (8, 25),
-                 "exceptional": (2, 100)}
+    cut_dict = {
+        " ": (0, 1),
+        "polished": (50, 2),
+        "rough": (30, 1),
+        "faceted": (20, 3)
+    }
+    size_dict = {
+        "small": (40, 1),
+        "common": (50, 5),
+        "large": (8, 25),
+        "exceptional": (2, 100)
+    }
 
     def __init__(self, g_type, size, cut):
         self.g_type = g_type  # Тип камня

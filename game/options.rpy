@@ -62,11 +62,13 @@ init -1 python hide:
             return f.read()                 # возвращаем его содержание
         else:                               # Если это не получилось, то пробуем получить версию файла самостоятельно
             from subprocess import Popen, PIPE, STDOUT  # Импортирует все немобходимое
-            cmd_ops = ["--git-dir=%s" % os.path.join(config.basedir, ".git"),  # Составляем список опций.
-                       "describe",
-                       "--tags",
-                       "--long",
-                       "--always"]
+            cmd_ops = [
+                "--git-dir=%s" % os.path.join(config.basedir, ".git"),  # Составляем список опций.
+                "describe",
+                "--tags",
+                "--long",
+                "--always"
+            ]
             # Для винды делаем там чтобы не выскакивало окно консоли.
             startupinfo = None
             if os.name == 'nt':
@@ -142,7 +144,7 @@ init -1 python hide:
         # And we're done with the theme. The theme will customize
         # various styles, so if we want to change them, we should
         # do so below.
-)
+    )
 
     #########################################
     # These settings let you customize the window containing the
