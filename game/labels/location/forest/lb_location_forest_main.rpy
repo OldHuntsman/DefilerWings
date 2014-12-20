@@ -9,19 +9,20 @@ label lb_location_forest_main:
         return
         
     $ nochance = game.poverty.value * 3
-    $ choices = [("lb_enc_lumberjack", 10),
-                 ("lb_enc_onegirl", 10),
-                 ("lb_enc_wandergirl", 10),
-                 ("lb_enc_ogre", 10),
-                 ("lb_enc_deer", 10),
-                 ("lb_enc_boar", 10),
-                 ("lb_enc_berries", 10),
-                 ("lb_enc_shrooms", 10),
-                 ("lb_enc_guardian", 1000),
-                 ("lb_enc_lumbermill", 10),
-                 ("lb_enc_klad", 10),
-                 ("lb_patrool_forest", 3 * game.mobilization.level),
-                 ("lb_enc_noting", nochance)]
+    $ choices = [
+        ("lb_enc_lumberjack", 10),
+        ("lb_enc_onegirl", 10),
+        ("lb_enc_wandergirl", 10),
+        ("lb_enc_ogre", 10),
+        ("lb_enc_deer", 10),
+        ("lb_enc_boar", 10),
+        ("lb_enc_berries", 10),
+        ("lb_enc_shrooms", 10),
+        ("lb_enc_guardian", 1000),
+        ("lb_enc_lumbermill", 10),
+        ("lb_enc_klad", 10),
+        ("lb_patrool_forest", 3 * game.mobilization.level),
+        ("lb_enc_noting", nochance)]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
     

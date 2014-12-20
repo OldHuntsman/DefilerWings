@@ -15,21 +15,22 @@ label lb_location_sky_main:
     return
     
 label lb_encounter_sky:
-    $ choices = [("lb_enc_cloud_castle", 10),
-                 ("lb_enc_swan", 10),
-                 ("lb_enc_griffin", 10),
-                 ("lb_enc_skyboat", 10),
-                 ("lb_enc_skyship", 10),
-                 ("lb_abbey_found", 10),
-                 ("lb_castle_found", 10),
-                 ("lb_palace_found", 10),
-                 ("lb_enc_fair_sky", 10),
-                 ("lb_enc_caravan_sky", 10),
-                 ("lb_enc_cannontower", 10),
-                 ("lb_jotun_found", 10),
-                 ("lb_ifrit_found", 10),
-                 ("lb_enc_militia_sky", 10),
-                 ("lb_patrool_sky", 3 * game.mobilization.level)]
+    $ choices = [
+        ("lb_enc_cloud_castle", 10),
+        ("lb_enc_swan", 10),
+        ("lb_enc_griffin", 10),
+        ("lb_enc_skyboat", 10),
+        ("lb_enc_skyship", 10),
+        ("lb_abbey_found", 10),
+        ("lb_castle_found", 10),
+        ("lb_palace_found", 10),
+        ("lb_enc_fair_sky", 10),
+        ("lb_enc_caravan_sky", 10),
+        ("lb_enc_cannontower", 10),
+        ("lb_jotun_found", 10),
+        ("lb_ifrit_found", 10),
+        ("lb_enc_militia_sky", 10),
+        ("lb_patrool_sky", 3 * game.mobilization.level)]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
 

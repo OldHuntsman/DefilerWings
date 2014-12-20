@@ -9,19 +9,20 @@ label lb_location_mountain_main:
         return
         
     $ nochance = game.poverty.value * 3
-    $ choices = [("lb_enc_miner", 10),
-                 ("lb_enc_dklad", 10),
-                 ("lb_enc_mines", 10),
-                 ("lb_enc_ram", 10),
-                 ("lb_enc_bear", 10),
-                 ("lb_jotun_found", 10),
-                 ("lb_ifrit_found", 10),
-                 ("lb_enc_smugglers", 10),
-                 ("lb_enc_slavers", 10),
-                 ("lb_enc_frontgates_found", 10),
-                 ("lb_enc_cannontower", 10),
-                 ("lb_patrool_mountain", 3 * game.mobilization.level),
-                 ("lb_enc_noting", nochance)]
+    $ choices = [
+        ("lb_enc_miner", 10),
+        ("lb_enc_dklad", 10),
+        ("lb_enc_mines", 10),
+        ("lb_enc_ram", 10),
+        ("lb_enc_bear", 10),
+        ("lb_jotun_found", 10),
+        ("lb_ifrit_found", 10),
+        ("lb_enc_smugglers", 10),
+        ("lb_enc_slavers", 10),
+        ("lb_enc_frontgates_found", 10),
+        ("lb_enc_cannontower", 10),
+        ("lb_patrool_mountain", 3 * game.mobilization.level),
+        ("lb_enc_noting", nochance)]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
         

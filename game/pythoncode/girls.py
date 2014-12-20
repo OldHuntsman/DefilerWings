@@ -157,13 +157,13 @@ class Girls_list(object):
         status - кодовое описание ситуации
         say - если истина - описание выводится сразу на экран, возвращается None, если ложь - возвращается текст описания
         """
-        format_dict = {'dragon_name': self.game.dragon.name,
-                       'dragon_name_full': self.game.dragon.fullname,
-                       'dragon_type': self.game.dragon.kind(),
-                       'girl_name': self.game.girl.name,
-                       'girl_title': girls_data.girls_info[self.game.girl.type]['description'],
-                       }
-
+        format_dict = {
+            'dragon_name': self.game.dragon.name,
+            'dragon_name_full': self.game.dragon.fullname,
+            'dragon_type': self.game.dragon.kind(),
+            'girl_name': self.game.girl.name,
+            'girl_title': girls_data.girls_info[self.game.girl.type]['description'],
+        }
         girl_type = self.game.girl.type
         if girl_type not in girls_data.girls_texts or status not in girls_data.girls_texts[girl_type]:
             girl_type = 'girl'

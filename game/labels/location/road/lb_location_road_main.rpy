@@ -9,22 +9,23 @@ label lb_location_road_main:
         return
         
     $ nochance = game.poverty.value * 3
-    $ choices = [("lb_enc_tornament", 10),
-                 ("lb_enc_inn", 10),
-                 ("lb_enc_peasant_cart", 10),
-                 ("lb_enc_carriage", 10),
-                 ("lb_enc_questing_knight", 10),
-                 ("lb_enc_trader", 10),
-                 ("lb_enc_caravan", 10),
-                 ("lb_enc_lcaravan", 10),
-                 ("lb_enc_outpost", 10),
-                 ("lb_manor_found", 10),
-                 ("lb_wooden_fort_found", 10),
-                 ("lb_abbey_found", 10),
-                 ("lb_castle_found", 10),
-                 ("lb_palace_found", 10),
-                 ("lb_patrool_road", 3 * game.mobilization.level),
-                 ("lb_enc_noting", nochance)]
+    $ choices = [
+        ("lb_enc_tornament", 10),
+        ("lb_enc_inn", 10),
+        ("lb_enc_peasant_cart", 10),
+        ("lb_enc_carriage", 10),
+        ("lb_enc_questing_knight", 10),
+        ("lb_enc_trader", 10),
+        ("lb_enc_caravan", 10),
+        ("lb_enc_lcaravan", 10),
+        ("lb_enc_outpost", 10),
+        ("lb_manor_found", 10),
+        ("lb_wooden_fort_found", 10),
+        ("lb_abbey_found", 10),
+        ("lb_castle_found", 10),
+        ("lb_palace_found", 10),
+        ("lb_patrool_road", 3 * game.mobilization.level),
+        ("lb_enc_noting", nochance)]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
         
