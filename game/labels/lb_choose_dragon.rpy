@@ -6,7 +6,7 @@ label lb_choose_dragon:
         if game.dragon is None:
             dragons = []
             dragons_choosed = []
-        if game.dragon is not None and game.dragon.heads:
+        elif game.dragon.is_alive and not game.is_lost:
             dragons = []
             dragons_choosed = []
             # добавляем 1 гоблина в армию тьмы
@@ -23,13 +23,8 @@ label lb_choose_dragon:
             "Вы проиграли"
             "Начать заново":
                 python:
-                    if not freeplay:
                         renpy.unlink_save("1-1")
                         renpy.full_restart()
-                    else:
-                        renpy.unlink_save("1-3")
-                        renpy.full_restart()
-            "Назад":
                 return
 
     python hide:
@@ -66,6 +61,7 @@ label lb_choose_dragon:
             else:
                 return "img/scene/hatch/base.png"
         renpy.breedbg = ui.image(get_breedbg())
+
     screen ava_screen:
         add renpy.breedbg
         add renpy.childimg1 xalign 0.0 yalign 0.0
@@ -75,6 +71,7 @@ label lb_choose_dragon:
         imagebutton idle "img/bg/frame.png" hover "img/bg/frame_light.png" selected_idle "img/bg/frame_light.png" xalign 0.0 yalign 0.5 action SetVariable("child_choose", dragons[1]), SetVariable("togle_dragonchoose_button", True), Show("text_screen"), SelectedIf(child_choose == dragons[1]), SensitiveIf(dragons[1] not in dragons_choosed)
         imagebutton idle "img/bg/frame.png" hover "img/bg/frame_light.png" selected_idle "img/bg/frame_light.png" xalign 0.0 yalign 1.0 action SetVariable("child_choose", dragons[2]), SetVariable("togle_dragonchoose_button", True), Show("text_screen"), SelectedIf(child_choose == dragons[2]), SensitiveIf(dragons[2] not in dragons_choosed)
         use status_bar
+
     screen text_screen:
         $renpy.childtext = child_choose.description
         window:

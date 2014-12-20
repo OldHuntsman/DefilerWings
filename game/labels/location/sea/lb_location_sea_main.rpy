@@ -10,10 +10,9 @@ label lb_location_sea_main:
         
     if not game.dragon.can_swim: 
         '[game.dragon.name] пробует когтем солёную морскую влагу. Если бы только он умел дышать под водой...'
-        return
-        
+    else:
+        call lb_encounter_sea
     return
-    # call lb_encounter_sea
     
 label lb_encounter_sea:
     $ choices = [("lb_enc_fishers", 10),

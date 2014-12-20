@@ -17,7 +17,7 @@ label lb_location_road_main:
                  ("lb_enc_trader", 10),
                  ("lb_enc_caravan", 10),
                  ("lb_enc_lcaravan", 10),
-                 ("lb_enc_outpost", 10000),
+                 ("lb_enc_outpost", 10),
                  ("lb_manor_found", 10),
                  ("lb_wooden_fort_found", 10),
                  ("lb_abbey_found", 10),
