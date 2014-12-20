@@ -31,10 +31,7 @@ class Girls_list(object):
         self.game.girl.type = type
         # создание аватарки
         relative_path = "img/avahuman/" + girls_data.girls_info[type]['avatar']  # Относительный путь для движка ренпи
-        absolute_path = os.path.join(renpy_internal.config.basedir, "game",
-                                     relative_path)  # Cоставляем абсолютный путь где искать
-        filename = random.choice(os.listdir(absolute_path))  # получаем название файла
-        self.game.girl.avatar = relative_path + "/" + filename  # Возвращаем правильно отформатированное значение
+        self.game.girl.avatar = core.get_avatar(relative_path)  # Возвращаем правильно отформатированное значение
         # генерация имени
         if type + '_last' in girls_data.girls_names:
             self.game.girl.name = u"%s %s" % (random.choice(girls_data.girls_names[type + '_first']),
@@ -65,13 +62,15 @@ class Girls_list(object):
         """
         Осеменение женщины.
         """
+        self.description('prelude', True)
+        self.description('sex', True)
+        self.description('impregnate', True)
         self.game.girl.virgin = False
         if self.game.girl.quality < self.game.dragon.magic:
             self.game.girl.pregnant = 2
         else:
             self.game.girl.pregnant = 1
         self.game.dragon.lust -= 1
-        return self.description('sex')
 
     def free_girl(self):
         """
@@ -134,7 +133,6 @@ class Girls_list(object):
         Ограбить девушку.
         """
         self.game.lair.treasury.receive_treasures(self.game.girl.treasure)
-        self.game.girl.treasure = []
         return self.description('rob')
 
     def prisoners_list(self):
@@ -159,28 +157,43 @@ class Girls_list(object):
         status - кодовое описание ситуации
         say - если истина - описание выводится сразу на экран, возвращается None, если ложь - возвращается текст описания
         """
+        format_dict = {'dragon_name': self.game.dragon.name,
+                       'dragon_name_full': self.game.dragon.fullname,
+                       'dragon_type': self.game.dragon.kind(),
+                       'girl_name': self.game.girl.name,
+                       'girl_title': girls_data.girls_info[self.game.girl.type]['description'],
+                       }
+
         girl_type = self.game.girl.type
-        if girl_type not in girls_data.girls_texts or \
-                        status not in girls_data.girls_texts[girl_type]:
+        if girl_type not in girls_data.girls_texts or status not in girls_data.girls_texts[girl_type]:
             girl_type = 'girl'
         if girls_data.girls_texts[girl_type][status]:
             text = random.choice(girls_data.girls_texts[girl_type][status])
             # TODO: Ситуативные описания
-            insert_list = [self.game.girl.name, self.game.dragon.name]
             if status == 'birth':
-                insert_list.append(girls_data.spawn_info[self.spawn[-1]]['name'])
+                format_dict['situation'] = (girls_data.spawn_info[self.spawn[-1]]['name'])
             elif status == 'rob':
                 treas_description = self.game.lair.treasury.treasures_description(self.game.girl.treasure)
                 treas_description = '\n'.join(treas_description)
-                insert_list.append(treas_description)
-            text = text.format(*insert_list)
+                self.game.girl.treasure = []
+                format_dict['situation'] = treas_description
+            text = text % format_dict
         else:
             text = "Описание для действия '%s' девушки типа '%s' отсутствует" % (status, self.game.girl.type)
         if say:
-            store.nvl_list = []  # вариант nvl clear на питоне
             self.game.girl.third(text)  # выдача сообщения
+            store.nvl_list = []  # вариант nvl clear на питоне
         else:
             return text
+
+    def event(self, event_type, *args, **kwargs):
+        from core import call
+        if event_type in girls_data.girl_events:
+            if girls_data.girl_events[event_type] is not None:
+                call(girls_data.girl_events[event_type], *args, **kwargs)
+        else:
+            raise Exception("Unknown event: %s" % event_type)
+        return
 
     def next_year(self):
         """
@@ -195,13 +208,9 @@ class Girls_list(object):
                             'elite_guards' not in self.game.lair.upgrades:
                 # девушка сбежала из камеры
                 del self.prisoners[girl_i]
-                if 'mechanic_traps' in self.game.lair.upgrades or \
-                                'magic_traps' in self.game.lair.upgrades:
-                    self.description('traps', True)  # описание гибели в ловушке
-                else:
-                    self.description('escape', True)  # описание чудесного спасения
-                    if self.game.girl.pregnant:
-                        self.free_list.append(self.game.girl)
+                self.event('escape')  # событие "побег из заключения"
+                if self.game.girl.pregnant:
+                    self.free_list.append(self.game.girl)
             else:
                 # девушка не убежала
                 if ('servant' in self.game.lair.upgrades) or ('gremlin_servant' in self.game.lair.upgrades):
@@ -216,16 +225,16 @@ class Girls_list(object):
                             self.offspring.append(girl_size)
 
                         self.spawn.append(girl_type[spawn_class])
-                        self.description('birth', True)  # описание родов
+                        self.event('spawn', girl_type[spawn_class])  # событие "рождение отродий"
                         self.game.girl.pregnant = 0
                 else:
-                    self.description('hunger', True)  # описание смерти от голода
+                    self.event('hunger_death')  # событие "смерть девушки от голода"
                     del self.prisoners[girl_i]
         # свободные, в том числе только что сбежавшие. Отслеживаются только беременные
         for girl_i in xrange(len(self.free_list)):
             self.game.girl = self.free_list[girl_i]
             if (random.randint(1, 3) == 1) and not girls_data.girls_info[self.game.girl.type]['giantess']:
-                self.description('kill', True)  # убивают из-за беременности
+                self.event('kill')  # событие "беременную девушку убивают на свободе"
             else:
                 girl_type = girls_data.girls_info[self.game.girl.type]
 
@@ -238,7 +247,7 @@ class Girls_list(object):
 
                 spawn_type = girls_data.girls_info[self.game.girl.type][spawn_class]
                 spawn = girls_data.spawn_info[spawn_type]
-                self.description('free_birth', True)  # рожает на свободе
+                self.event('free_spawn', spawn_type)  # событие "рождение отродий на воле"
                 self.free_spawn(spawn['power'])
         self.free_list = []  # очистка списка - либо родила, либо убили - отслеживать дальше не имеет смысла
 

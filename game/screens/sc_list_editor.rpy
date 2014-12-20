@@ -1,7 +1,8 @@
+# coding=utf-8
 screen sc_list_editor(object, data_list):
-    #Экран для редактирования list'ов
-    #object - list который мы редаткируем 
-    #data_list - список списков/словарей из которых берется дата для списка object
+    # Экран для редактирования list'ов
+    # object - list который мы редаткируем
+    # data_list - список списков/словарей из которых берется дата для списка object
     
     # FIY Вообще должно работать, но нигде не используется.
     
@@ -10,21 +11,24 @@ screen sc_list_editor(object, data_list):
             def __init__(self, source, item):
                 self._source = source
                 self._item = item
+
             def __call__(self):
                 del self._source[self._item]
                 renpy.restart_interaction()
+
         class add_object(Action):
             def __init__(self, target, item):
                 self._target = target
                 self._item = item
+
             def __call__(self):
                 target.append(item)
                 renpy.restart_interaction()
     
     vbox:
-        text (  "Инструкции:\n"
-                "Кликните на объект в текущем контейнере чтобы удалить его.\n"
-                "Кликните на объект в номерном контейнере чтобы добавить его в текущий контейнер.")
+        text("Инструкции:\n"
+             "Кликните на объект в текущем контейнере чтобы удалить его.\n"
+             "Кликните на объект в номерном контейнере чтобы добавить его в текущий контейнер.")
         hbox:
             vbox:
                 text "Текущий лист:"

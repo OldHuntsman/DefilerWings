@@ -1,17 +1,23 @@
+# coding=utf-8
 label lb_dragon_creator:
     python:
+        save_blocked = True
         child = core.Dragon(parent=game.dragon, gameRef=game, base_character=game.adv_character)
         game.dragon = child
         mods_left = 12
+        for i in game.dragon.heads:
+            game.dragon.heads.remove(i)
+        for i in game.dragon.anatomy:
+            game.dragon.anatomy.remove(i)
+        game.dragon.heads.append("green")
         special_features_rus = {"tough_scale": "крепкая чешуя", "poisoned_sting": "ядовитое жало",
                                 "clutches": "когти", "horns": "рога", "fangs": "клыки", "ugly": "уродство"}
         colored_heads = ["red", "white", "blue", "black", "iron", "bronze", "silver", "gold", "shadow"]
     init python:
-        class AddModifier:
+        class AddModifier(object):
             def __init__(self, mod, dragon):
                 self.mod = mod
                 self.dragon = dragon
-
             def __call__(self):
                 if self.mod in data.dragon_heads.keys():
                     if self.mod == "green":
@@ -52,7 +58,28 @@ label lb_dragon_creator:
                     text_yalign 0.5
                     background "img/bg/logovo.png"
                     text_size 22
-                    action Jump("lb_location_mordor_main"), Hide("creator")
+                    action Hide("creator"), Return("return")
+            fixed:
+                xalign 1.0
+                xmaximum 320
+                textbutton "Описание":
+                    pos(72, 600)
+                    xysize(174, 36)
+                    text_xalign 0.5
+                    text_yalign 0.5
+                    background "img/bg/logovo.png"
+                    text_size 22
+                    action Show("sc_dragon_description")
+    screen sc_dragon_description:
+        window:
+            xmaximum 960
+            xalign 0.0
+            text "[game.dragon.description]"
+        key "K_SPACE" action Hide("sc_dragon_description")
+        key 'K_RETURN' action Hide("sc_dragon_description")
+        key 'K_KP_ENTER' action Hide("sc_dragon_description")
+        key 'mouseup_1' action Hide("sc_dragon_description")
     nvl clear
     call screen creator
+    $ save_blocked = False
     jump lb_location_mordor_main

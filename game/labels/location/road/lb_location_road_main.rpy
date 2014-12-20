@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_location_road_main:
     $ place = 'road'
     show expression get_place_bg(place) as bg
@@ -12,12 +13,16 @@ label lb_location_road_main:
                  ("lb_enc_inn", 10),
                  ("lb_enc_peasant_cart", 10),
                  ("lb_enc_carriage", 10),
-                 ("lb_enc_qesting_knight", 10),
+                 ("lb_enc_questing_knight", 10),
                  ("lb_enc_trader", 10),
                  ("lb_enc_caravan", 10),
                  ("lb_enc_lcaravan", 10),
-                 ("lb_enc_outpost", 10),
-                 ("lb_manor_found", 1000),
+                 ("lb_enc_outpost", 10000),
+                 ("lb_manor_found", 10),
+                 ("lb_wooden_fort_found", 10),
+                 ("lb_abbey_found", 10),
+                 ("lb_castle_found", 10),
+                 ("lb_palace_found", 10),
                  ("lb_patrool_road", 3 * game.mobilization.level),
                  ("lb_enc_noting", nochance)]
     $ enc = core.Game.weighted_random(choices)
@@ -74,7 +79,7 @@ label lb_enc_inn:
             $ game.dragon.drain_energy()
             "[game.dragon.name] получает от испуганного хозяина трактира целую бочку лучшего эля. После такой выпивки так и тянет на приключения и хорошую закуску!"
             python:
-                if game.game.dragon.bloodiness < 5:
+                if game.dragon.bloodiness < 5:
                     game.dragon.bloodiness += 1
                 if game.dragon.lust < 3:
                     game.dragon.lust += 1
@@ -122,7 +127,7 @@ label lb_enc_carriage:
             $ game.dragon.gain_rage()        
     return
     
-label lb_enc_qesting_knight:
+label lb_enc_questing_knight:
     'Странствующий рыцарь.'
     menu:
         'Вызвать на бой':
@@ -241,7 +246,53 @@ label lb_enc_lcaravan:
     return
     
 label lb_enc_outpost:
-    'Застава на дороге. Плейсхолдер.'
+    'Застава на дороге.'
+    nvl clear
+    menu:
+        'Напасть на заставу':
+            $ game.dragon.drain_energy()
+            $ game.foe = core.Enemy('footman', gameRef=game, base_character=NVLCharacter)
+            call lb_fight
+            'Большинство стражников мертво, остальные бежали в ужасе, однако здание заставы всё ещё стоит у дороги и восстановить её работу будет не так уж сложно. Зато внутри находится сундук с собранными за последнее время торговыми пошлинами. Внутри приятно звенят монеты:'
+            python:
+                game.dragon.drain_energy()
+                passing_tool = random.randint(50, 250)
+                slvr_trs = treasures.Coin('taller', passing_tool)
+                game.narrator(slvr_trs.description() + '.')
+                game.lair.treasury.receive_treasures([slvr_trs])
+            $ game.dragon.reputation.points += 5
+            '[game.dragon.reputation.gain_description]'
+            python:
+                doit = False
+                if 'fire_breath' in game.dragon.modifiers(): 
+                    doit = True
+            menu:
+                'Развалить укрепления' if game.dragon.size() > 3:
+                    $ game.dragon.drain_energy()
+                    "Я твой застава щаталь!"
+                    $ if game.mobilization.level >= 1: game.mobilization.level -= 1
+                    '[game.dragon.reputation.gain_description]'
+                'Дыхнуть огнём' if doit:
+                    $ game.dragon.drain_energy()
+                    "Амбар сгорает."
+                    $ if game.mobilization.level >= 1: game.mobilization.level -= 1
+                    '[game.dragon.reputation.gain_description]'
+                'Наложить проклятье' if game.dragon.mana > 0:
+                    $ game.dragon.drain_energy()
+                    "Аутпост проклят."
+                    $ if game.mobilization.level >= 1: game.mobilization.level -= 1
+                    '[game.dragon.reputation.gain_description]'
+                'Обследовать укрепления' if game.dragon.size() <= 3 and game.dragon.mana == 0 and not doit:
+                    $ game.dragon.drain_energy()
+                    "[game.dragon.name] тщательно обследует необычное строение на предмет важности и уязвимых мест. Укрепления, хорть и деревянные, но построены на славу. Сломать получается только хлипкие загородки которыми перекрывают дорогу, но их несложно сднелать заново. Чтобы сравнять заставу с землёй нужно использовать огонь или быть намного крупнее."
+                    'Только время зря потерял. Придётся уйти несолоно хлебавши.'
+                'Оставить заставу в целости':
+                    $ pass
+            
+        'Аккуратно обойти заставу' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()
+            'Там конечно можно было бы поживиться собранными с купцов пошлинами, но где деньги там и охрана. Связываться сейчас с королевскими латниками особого смысла нет, лучше поискать добычу попроще или хотя бы побогаче.'
+        
     return
     
 label lb_patrool_road:

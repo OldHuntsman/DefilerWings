@@ -78,9 +78,9 @@ class Game(store.object):
             raise Exception("Время не может течь назад")
 
     def save(self):
-        '''
+        """
         Логика сохранения игры.
-        '''
+        """
         renpy.rename_save("1-1", "1-2")  # Переименовываем старый сейв
         renpy.take_screenshot()  # Делаем скриншот для отображения в сейве
         renpy.save("1-1")  # Сохраняем игру
@@ -92,32 +92,38 @@ class Game(store.object):
         renpy.save("1-3")
 
     def next_year(self):
-        '''
+        """
         Логика смены года.
         Проверки на появление/левелап/рейд рыцаря/вора.
         Изменение дурной славы.
         Попытки бегства женщин.
         Что-то ещё?
-        '''
+        """
         self.year += 1
         self.dragon.age += 1
-        # Применяем разруху накопленную за год с учетом отстройки
-        self.poverty.value -= 1
-        self.poverty.apply_planned()
-        # Действия с девушками каждый год
-        self.girls_list.next_year()
-        # Платим за службу
+        # Платим за службу, проверяется в начале года
         for upgrade in self.lair.upgrades.keys():
             if type(self.lair.upgrades) == type(self.lair.upgrades[upgrade]) and \
                             'cost' in self.lair.upgrades[upgrade].keys():
                 salary = self.lair.treasury.get_salary(self.lair.upgrades[upgrade]['cost'])
                 if salary:
+                    if renpy.config.debug:
+                        summ = 0
+                        for salary_i in salary:
+                            summ += salary_i.cost
+                        salary_tuple = (self.lair.upgrades[upgrade]['name'], summ - self.lair.upgrades[upgrade]['cost'])
+                        self.narrator(u"%s в качестве платы за год воруют: %s ф." % salary_tuple)
                     salary = self.lair.treasury.treasures_description(salary)
-                    self.narrator(u"%s в качестве платы за год получают:\n %s" % (
-                                  self.lair.upgrades[upgrade]['name'], ' '.join(salary)))
+                    salary_tuple = (self.lair.upgrades[upgrade]['name'], ' '.join(salary))
+                    self.narrator(u"%s в качестве платы за год получают:\n %s" % salary_tuple)
                 else:
                     self.narrator(u"%s не получили обещанной платы и уходят." % self.lair.upgrades[upgrade]['name'])
                     del self.lair.upgrades[upgrade]
+        # Применяем разруху накопленную за год с учетом отстройки
+        self.poverty.value -= 1
+        self.poverty.apply_planned()
+        # Действия с девушками каждый год
+        self.girls_list.next_year()
         # Изменяем уровень мобилизации
         desired_mobilization = self.dragon.reputation.level - self.poverty.value  # Желаемый уровень мобилизации
         mobilization_delta = desired_mobilization - self.mobilization.level  # Считаем есть ли разница с текущим уровнем мобилизации
@@ -437,15 +443,16 @@ class Game(store.object):
         return None
 
     def interpolate(self, str):
-        '''
+        """
         Функция заменяющая переменные в строке на актуальные данные игры
-        '''
+        """
         return str % self.format_data
 
     @property
     def format_data(self):
         data = {
             "dragon_name": self.dragon.name,
+            "dragon_name_full": self.dragon.fullname,
         }
         return data
 
@@ -458,9 +465,9 @@ class Game(store.object):
         return self._win
 
     def win(self):
-        '''
+        """
         Форсируем выгирать игру
-        '''
+        """
         self._win = True
 
     @property
@@ -472,9 +479,9 @@ class Game(store.object):
         return self._defeat
 
     def defeat(self):
-        '''
+        """
         Форсируем проиграть игру
-        '''
+        """
         self._defeat = True
 
 
@@ -491,20 +498,20 @@ class Lair(object):
         self.treasury = treasures.Treasury()
 
     def reachable(self, abilities):
-        '''
+        """
         Функция для проверки доступности логова
         :param abilities: - список способностей у того, кто пытается достичь, например, для вора: [ 'alpinism', 'swimming' ]
         :return: Возращает True ,если до логова можно добраться и False если нет
-        '''
+        """
         for r in self.requirements():
             if r not in abilities:
                 return False
         return True
 
     def requirements(self):
-        '''
+        """
         :return: Возвращает список способностей которые нужны чтобы достичь логова.
-        '''
+        """
         r = []
         if self.type.require:  # Если тип логова что-то требует добавляем что оно требует
             r += self.type.require
@@ -519,9 +526,9 @@ class Lair(object):
 
 
 class Sayer(store.object):
-    '''
+    """
     Базовый класс для всего что умеет говорить
-    '''
+    """
 
     def __init__(self, gameRef=None, base_character=None, *args, **kwargs):
         """
@@ -550,7 +557,7 @@ class Sayer(store.object):
         self._real_character(*args, **kwargs)  # На самом деле говорим
 
     def third(self, *args, **kwargs):
-        '''
+        """
         Говорим от третьего лица. Принимаются предложения на более удачное название.
         Например прямая речь:
         $ game.person ("Что-нибудь")
@@ -558,7 +565,7 @@ class Sayer(store.object):
         Рассказ о том что делает этот персонаж:
         $ game.person.third("Делая что-нибудь")
         game.person.third "Делая где-нибудь"
-        '''
+        """
         self._gameRef.currentCharacter = self  # Делаем вид, что сказали сами
         self._gameRef.narrator._real_character(*args, **kwargs)  # Говорим о лица нарратора. Грязный хак.
 
@@ -578,7 +585,7 @@ class Girl(Sayer):
         self.treasure = []
 
 
-class Mortal:
+class Mortal(object):
     _alive = True  # По умолчанию все живые
 
     @property
@@ -728,10 +735,10 @@ class Dragon(Fighter):
     Класс дракона.
     """
 
-    def __init__(self, parent=None, *args, **kwargs):
-        '''
+    def __init__(self, parent=None, used_gifts=None, used_avatars=None, *args, **kwargs):
+        """
         parent - родитель дракона, если есть.
-        '''
+        """
         from points import Reputation
 
         super(Dragon, self).__init__(*args, **kwargs)
@@ -739,6 +746,7 @@ class Dragon(Fighter):
         # self._first_name = u"Старый"
         # self._last_name = u"Охотник"
         self.name = random.choice(data.dragon_names)
+        self.surname = random.choice(data.dragon_surnames)
         self.age = 0
         self.reputation = Reputation()
         self._tiredness = 0  # увеличивается при каждом действии
@@ -752,7 +760,8 @@ class Dragon(Fighter):
         self.special_places = {}  # Список разведанных "достопримечательностей"
         self.events = []  # список событий с этим драконом
         self._gift = None  # Дар Владычицы
-
+        if used_gifts is None:
+            used_gifts = []
         # Головы
         if parent is not None:
             self.heads = deepcopy(parent.heads)  # Копируем живые головы родителя
@@ -768,15 +777,18 @@ class Dragon(Fighter):
             self.anatomy = ['size']
         else:
             self.anatomy = deepcopy(parent.anatomy)
-        self._gift = self._get_ability()
+        self._gift = self._get_ability(used_gifts=used_gifts)
         if self._gift == 'head':
             self.heads.append('green')
         elif self._gift in data.dragon_heads.keys():
             self.heads[self.heads.index('green')] = self._gift
         else:
             self.anatomy.append(self._gift)
-
-        self.avatar = get_avatar("img/avadragon/" + self.color_eng)  # Назначаем аватарку
+        self.avatar = get_avatar("img/avadragon/" + self.color_eng, used_avatars=used_avatars)  # Назначаем аватарку
+        
+    @property
+    def fullname(self):
+        return self.name + u' ' + self.surname
 
     @property
     def description(self):
@@ -962,10 +974,10 @@ class Dragon(Fighter):
         """
         return self.modifiers().count('paws')
 
-    def _get_ability(self):
-        '''
+    def _get_ability(self, used_gifts):
+        """
         Возвращает способность, которую может получить дракон при рождении
-        '''
+        """
         dragon_leveling = 2 * ['head']
         if self.size() < 6:
             dragon_leveling += (6 - self.size()) * ['size']
@@ -989,6 +1001,9 @@ class Dragon(Fighter):
             dragon_leveling += 2 * ['cunning']
         if self.heads.count('green') > 0:
             dragon_leveling += [self._colorize_head()]
+        dragon_leveling = [item for item in dragon_leveling if item not in used_gifts]
+        if len(dragon_leveling) == 0:
+            raise StopIteration
         new_ability = random.choice(dragon_leveling)
         return new_ability
 
@@ -1020,8 +1035,7 @@ class Dragon(Fighter):
             else:
                 # жизни закончились, рубим голову (последнюю в списке)
                 lost_head = self.heads.pop()
-                self.dead_heads.insert(0,
-                                       lost_head)  # ставим на первое место, чтобы после объединения списков порядок голов не изменился
+                self.dead_heads.insert(0, lost_head)  # ставим на первое место, чтобы после объединения списков порядок голов не изменился
                 # потеря головы, если головы закончились - значит смертушка пришла
                 if self.heads:
                     return ['lost_head', 'lost_' + lost_head]
@@ -1137,16 +1151,24 @@ def call(label, *args, **kwargs):
             return _call(i, *args, **kwargs)
 
 
-def get_avatar(folder, regex='.*'):
-    '''
+def get_avatar(folder, regex='.*', used_avatars=None):
+    """
     Возвращает строку-путь с случайной картинкой подходящей под регекспу regex
-    '''
-    import re, os
+    Исключает из рассмотрения список used_avatars
+    """
+    import re
+    import os
+    if used_avatars is None:
+        used_avatars = []
 
     absolute_path = os.path.join(renpy.config.basedir, "game", folder)  # Cоставляем абсолютный путь где искать
     regex = re.compile(regex, re.IGNORECASE)
-    filename = random.choice(filter(regex.search, os.listdir(absolute_path)))  # получаем название файла
-    return folder + "/" + filename  # Возвращаем правильно отформатированно значение
+    reg_list = filter(regex.search, os.listdir(absolute_path))
+    reg_list = [item for item in reg_list if folder + "/" + item not in used_avatars]
+    if len(reg_list) == 0:
+        raise StopIteration
+    file = folder + "/" + random.choice(reg_list)  # получаем название файла
+    return file  # Возвращаем правильно отформатированно значение
 
 
 get_img = get_avatar

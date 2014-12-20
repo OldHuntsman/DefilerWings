@@ -1,3 +1,4 @@
+# coding=utf-8
 # локация взаимодействий
 
 label lb_nature_sex:
@@ -7,8 +8,7 @@ label lb_nature_sex:
     nvl clear
     menu:
         'Надругаться' if game.girls_list.is_mating_possible:
-            $ description = game.girls_list.impregnate()
-            game.girl.third "[description]"
+            $ game.girls_list.impregnate()
         'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"

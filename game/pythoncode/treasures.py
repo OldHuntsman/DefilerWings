@@ -998,25 +998,24 @@ def generate_gem(count, *args):
         cut = {}
         size = {}
         new_dict = {}
-        args_holder = [i for i in args]
-        for i in args_holder:
-            if type(i) == dict:
+        for i in args:
+            if isinstance(i, dict):
                 if i.keys()[0] == "size":
                     for v in i["size"]:
-                        if Gem.size_dict.has_key(v):
+                        if v in Gem.size_dict:
                             size[v] = Gem.size_dict[v]
                 elif i.keys()[0] == "cut":
                     for v in i["cut"]:
-                        if cut_dict.has_key(v):
+                        if v in cut_dict:
                             cut[v] = cut_dict[v]
-            elif type(i) == list:
+            elif isinstance(i, list):
                 for item in i:
-                    if gem_types.has_key(item):
+                    if item in gem_types:
                         new_dict[item] = gem_types[item]
-            elif type(i) == str:
-                if gem_types.has_key(i):
+            elif isinstance(i, basestring):
+                if i in gem_types:
                     new_dict[i] = gem_types[i]
-        while count != 0:
+        while count > 0:
             if len(cut) == 0:
                 cut = Gem.cut_dict
             if len(size) == 0:
@@ -1092,23 +1091,23 @@ def generate_mat(count, *args):
     if len(args) != 0:
         size = {}
         new_dict = {}
-        args_holder = [i for i in args]
-        for i in args_holder:
-            if type(i) == dict:
+        for i in args:
+            if isinstance(i, dict):
                 if i.keys()[0] == "size":
+                    # size = {v: Material.size_dict[v] for v in i["size"] if v in Material.size_dict}
                     for v in i["size"]:
-                        if Material.size_dict.has_key(v):
+                        if v in Material.size_dict:
                             size[v] = Material.size_dict[v]
-            elif type(i) == list:
+            elif isinstance(i, list):
                 for item in i:
-                    if material_types.has_key(item):
+                    if item in material_types:
                         new_dict[item] = material_types[item]
-            elif type(i) == str:
-                if material_types.has_key(i):
+            elif isinstance(i, basestring):
+                if i in material_types:
                     new_dict[i] = material_types[i]
         for i in xrange(count):
             if len(size) == 0:
-                size = size = Material.size_dict
+                size = Material.size_dict
             if len(new_dict) == 0:
                 new_dict = material_types
             mats.append(Material(weighted_select(new_dict), weighted_select(size)))
@@ -1136,11 +1135,11 @@ class Treasure(object):  # класс для сокровищ
         """дальше генерируем характеристики в зависимости от типа сокровища"""
         self.random_mod = random.randint(0, self.base_price * 10)
         self.spangled = generate_gem(1, {"size": ('common',)})[0] if random.randint(1,
-                                                                                    100) <= 50 and self.incrustable != False else None  # размер 'common' - хак, чтобы не писалось "мелкими"
+                                                                                    100) <= 50 and self.incrustable else None  # размер 'common' - хак, чтобы не писалось "мелкими"
         self.inlaid = generate_gem(1, {"size": ('common',)})[0] if random.randint(1,
-                                                                                  100) <= 15 and self.incrustable != False  else None
+                                                                                  100) <= 15 and self.incrustable else None
         self.huge = generate_gem(1, {"size": ('large',)})[0] if random.randint(1,
-                                                                               100) <= 5 and self.incrustable != False else None
+                                                                               100) <= 5 and self.incrustable else None
 
         def metalls_available():  # проверяем принадлежность к расе(из каких металов может быть сделано)
             if self.alignment == "human" or self.alignment == "cleric" or self.alignment == "knight":
@@ -1163,9 +1162,10 @@ class Treasure(object):  # класс для сокровищ
                 return weighted_select(material_types)
 
         self.material = material()  # выбираем материал
-
-        self.mat_price = material_types[self.material][1] if material_types.has_key(self.material) else metal_types[
-            self.material]
+        if self.material in material_types:
+            self.mat_price = material_types[self.material][1]
+        else:
+            self.mat_price = metal_types[self.material]
 
         def decorate():
             if self.decorable:  # todo: словарь, откуда будем брать варианты орнаментов
@@ -1174,7 +1174,7 @@ class Treasure(object):  # класс для сокровищ
                     rnd = random.randint(1, 100)
                     if rnd <= 50:
                         self.decoration_image = random.choice(image_types[self.alignment])
-                        if material_types.has_key(self.material):
+                        if self.material in material_types:
                             return "carving"
                         else:
                             return weighted_select(Treasure.decorate_types)
@@ -1192,8 +1192,9 @@ class Treasure(object):  # класс для сокровищ
             if self.alignment == "human" or self.alignment == "cleric" or self.alignment == "knight":
                 return weighted_select(Treasure.quality_types)
             else:
-                holder = {k: v for k, v in Treasure.quality_types.items()}
-                holder.__delitem__("rough")
+                from copy import deepcopy
+                holder = deepcopy(Treasure.quality_types)
+                holder.__delitem__('rough')
                 return weighted_select(holder)
 
         self.quality = q_choice()
@@ -1219,8 +1220,7 @@ class Treasure(object):  # класс для сокровищ
     def incrustation_cost(self):
         holder = 0
         if self.spangled is not None:
-            holder += self.spangled.cost * Gem.size_dict['small'][1] // Gem.size_dict['common'][
-                1]  # из-за хака с размерами
+            holder += self.spangled.cost * Gem.size_dict['small'][1] // Gem.size_dict['common'][1]  # из-за хака с размерами
         if self.inlaid is not None:
             holder += self.inlaid.cost
         if self.huge is not None:
@@ -1289,29 +1289,33 @@ class Treasure(object):  # класс для сокровищ
 
 def gen_treas(count, t_list, alignment, min_cost, max_cost, obtained):
     """Генерируем рандомное сокровище
-    функция генерации сокровищ,count - количество сокровищ, t_list - список строк-имен сокровищ, alignmet - принадлежность
-    к определенной культуре(одно из: human, cleric, knight, merman, elf, dwarf), min_cost - минимальная цена сокровища,
+    функция генерации сокровищ,
+    count - количество сокровищ,
+    t_list - список строк-имен сокровищ,
+    alignmet - принадлежность к определенной культуре(одно из: human, cleric, knight, merman, elf, dwarf),
+    min_cost - минимальная цена сокровища,
     max_cost - максимальная цена сокровища"""
     treasures_list = []
-    while count != 0:
+    while count > 0:
         treas_holder = random.choice(t_list)
-        if gem_types.has_key(treas_holder):
+        if treas_holder in gem_types:
             treasures_list.extend(generate_gem(1, treas_holder))
-        if material_types.has_key(treas_holder):
+        elif treas_holder in material_types:
             treasures_list.extend(generate_mat(1, treas_holder))
-        if metal_types.has_key(treas_holder):
+        elif treas_holder in metal_types:
             treasures_list.append(Ingot(treas_holder))
-        if Coin.coin_types.has_key(treas_holder):
+        elif treas_holder in Coin.coin_types:
             rnd = random.randint(min_cost, max_cost)
             treasures_list.append(Coin(treas_holder, rnd / Coin.coin_types[treas_holder][1]))
-        if treasure_types.has_key(treas_holder):
+        elif treas_holder in treasure_types:
             t = Treasure(treas_holder, alignment)
             t.obtained = obtained
             treasures_list.append(t)
-        for i in treasures_list:
-            if i.cost < min_cost or i.cost > max_cost:
-                treasures_list.remove(i)
-                count += 1
+        else:
+            raise Exception("Таких сокровищ не бывает")
+        if not min_cost < treasures_list[-1].cost < max_cost:
+            treasures_list.pop()
+            count += 1
         count -= 1
     return treasures_list
 
@@ -1335,10 +1339,10 @@ class Treasury(store.object):
         return self.farting + 10 * self.taller + 100 * self.dublon
 
     @money.setter
-    def money(self, Value):
-        if Value < 0:  # Защита от ухода денег в минус
+    def money(self, value):
+        if value < 0:  # Защита от ухода денег в минус
             raise NotImplementedError, u"Денег недостаточно для выполнения операции"
-        money_diff = Value - self.money  # считаем разницу между прошлым значением и новым
+        money_diff = value - self.money  # считаем разницу между прошлым значением и новым
         if money_diff < 0:
             # разница отрицательна или ноль - производим вычитание
             money_diff = -money_diff  # для удобства получаем число, которое необходимо вычесть
@@ -1464,7 +1468,7 @@ class Treasury(store.object):
             description_list.append(capitalizeFirst(treas.description()) + '.')
         return description_list
 
-    def take_ingot(self, ingot_type, weight):
+    def take_ingot(self, ingot_type, weight=1):
         """
         :param ingot_type: название металла
         :param weight: вес, который мы хотели бы взять 
@@ -1505,7 +1509,7 @@ class Treasury(store.object):
         else:
             return None
 
-    def take_coin(self, coin_name, coin_count):
+    def take_coin(self, coin_name, coin_count=1):
         """
         :param coin_name: название монеты
         :param coin_count: сколько монет нам бы хотелось взять
@@ -1534,8 +1538,10 @@ class Treasury(store.object):
         abducted_list = []  # список награбленного
         threshold_value = 0  # минимальная стоимость, которая будет взята
 
-        def update_list(
-                test_treasure):  # функция добавления награбленного в список, возвращает истину в случае успешного добавления
+        def update_list(test_treasure):  
+            """
+            функция добавления награбленного в список, возвращает истину в случае успешного добавления
+            """
             if not test_treasure:
                 return False  # попытка взять несуществующую вещь
             elif threshold_value < test_treasure.cost:
@@ -1549,14 +1555,11 @@ class Treasury(store.object):
                     self.threshold_value = abducted_list[-1].cost
                 return True
             else:
-                treasure_list.append(
-                    test_treasure)  # стоимость добавляемого меньше пороговой, возвращаем сокровище обратно в сокровищницу
+                treasure_list.append(test_treasure)  # стоимость добавляемого меньше пороговой, возвращаем сокровище обратно в сокровищницу
                 return False
 
-        for jewelry_i in reversed(xrange(len(
-                self.jewelry))):  # цикл по всем сокровищам, начиная с конца списка, для соответствия индекса количеству вещей в списке
-            update_list(
-                self.jewelry.pop())  # достаем сокровище из конца списка - там должны быть более дорогие сокровища и пробуем добавить их в список награбленного
+        for _ in reversed(xrange(len(self.jewelry))):  # цикл по всем сокровищам, начиная с конца списка, для соответствия индекса количеству вещей в списке
+            update_list(self.jewelry.pop())  # достаем сокровище из конца списка - там должны быть более дорогие сокровища и пробуем добавить их в список награбленного
         self.jewelry.extend(treasure_list)  # возвращаем сокровища в сокровищницу после поиска самых дорогих
         treasure_list = []  # очищаем список возвращаемого
         for gem_type in self.gems.keys():  # просматриваем список типов камней
@@ -1791,11 +1794,73 @@ class Treasury(store.object):
     def get_salary(self, amount):
         """
         :param amount: требуемая сумма, фартингов
-        :return: список того, что взяли, чтобы получить сумму, либо None, если денег недостаточно
+        :return: список того, что взяли, чтобы получить сумму, либо None, если в сокровищнице недостаточно денег.
         """
-        salary_list = []
+        self.salary_list = []  # список сокровищ, которые можно взять в качестве платы
+        self.salary_item = None  # предмет, который можно взять в качестве платы
+        self.min_salary_value = 0  # цена предмета
+        self.max_salary_value = 0  # цена списка сокровищ
+        self.treasure_list = []  # список сокровищ, которые не приглянулись гремлинам
+        
+        def update_list(test_treasure):  
+            """
+            функция добавления в список, возвращает истину если нужно добавить такую же вещь
+            """
+            if not test_treasure:
+                return False  # попытка взять несуществующую вещь
+            elif test_treasure.cost >= amount:
+                # стоимость сокровища больше или равно необходимой суммы, можно взять только его в качестве оплаты
+                if (self.min_salary_value == 0):
+                    # это первая вещь, которая стоит дороже, чем нам нужно - берём её
+                    self.min_salary_value = test_treasure.cost
+                    self.salary_item = test_treasure
+                elif (self.min_salary_value > test_treasure.cost):
+                    # это не первая вещь, которая стоит дороже, чем нам нужно - берём её только если она дешевле прошлой
+                    self.treasure_list.append(self.salary_item)  # возвращаем прошлую вещь в сокровищницу
+                    self.min_salary_value = test_treasure.cost  # берём новую
+                    self.salary_item = test_treasure
+                else:
+                    self.treasure_list.append(test_treasure)  # возвращаем вещь в сокровищницу
+                return False  # больше такой не нужно
+            else:
+                # стоимость сокровища меньше необходимой суммы, придётся "скрести по сусекам"
+                if self.max_salary_value < amount:
+                    # стоимость списка недостаточно, добавляем ещё
+                    self.max_salary_value += test_treasure.cost
+                    self.salary_list.append(test_treasure)
+                    return True
+                else:
+                    # стоимость списка достаточно, больше ничего не нужно
+                    self.treasure_list.append(test_treasure)  # возвращаем вещь в сокровищницу
+                    return False
+        
         if self.wealth >= amount:
             if self.money >= amount:
                 self.money -= amount
-                salary_list.append(Coin('farting', amount))
-        return salary_list
+                self.salary_list.append(Coin('farting', amount))
+                return self.salary_list  # взяли деньгами сколько нужно
+            else:
+                for coin_type in Coin.coin_types.keys():  # просматриваем список типов монет
+                    while update_list(self.take_coin(coin_type)):
+                        pass  # пока в список добавляются монеты - добавляем
+                for _ in reversed(xrange(len(self.jewelry))):  # цикл по всем сокровищам, начиная с конца списка, для соответствия индекса количеству вещей в списке
+                    update_list(self.jewelry.pop())  # достаем сокровище из конца списка - там должны быть более дорогие сокровища и пробуем добавить их в список
+                for gem_type in self.gems.keys():  # просматриваем список типов камней
+                    while update_list(self.take_gem(gem_type)):
+                        pass  # пока в список добавляются камни - добавляем
+                for metal_type in self.metals.keys():  # аналогично, просматриваем список типов слитков
+                    while update_list(self.take_ingot(metal_type)):
+                        pass  # пока в список добавляются слитки - добавляем
+                for material_type in self.materials.keys():  # аналогично, просматриваем список типов материалов
+                    while update_list(self.take_material(material_type)):
+                        pass  # пока в список добавляются материалы - добавляем
+                if self.max_salary_value > self.min_salary_value:
+                    if self.salary_list:
+                        self.treasure_list.extend(self.salary_list)  # возвращаем список в сокровищницу - не пригодился
+                    self.salary_list = [self.salary_item]
+                elif self.salary_list:
+                    self.treasure_list.append(self.salary_item)  # возвращаем предмет в сокровищницу - не пригодился
+                self.receive_treasures(self.treasure_list)  # возвращаем сокровища в сокровищницу    
+                return self.salary_list
+        else:
+            return None

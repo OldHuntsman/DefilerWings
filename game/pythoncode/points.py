@@ -17,9 +17,9 @@ class Mobilization(store.object):
         return self.level
 
     def __init__(self, level=0):
-        '''
+        """
         level - уровень мобилизации
-        '''
+        """
         self.level = level
 
     @property
@@ -59,18 +59,18 @@ class Mobilization(store.object):
 
 
 class Reputation(store.object):
-    '''
+    """
     Дурная слава дракона.
-    '''
+    """
     _rp = 0
     _gain = 0
     _last_gain = 0
 
     @property
     def points(self):
-        '''
+        """
         Количество очков дурной славы
-        '''
+        """
         return self._rp
 
     @points.setter
@@ -94,9 +94,9 @@ class Reputation(store.object):
         return self._gain
 
     def reset_gain(self):
-        '''
+        """
         Обнуляет прибавку к очкам дурной славы. Используется когда, например, дракон спит.
-        '''
+        """
         self._gain = 0
 
     @property
@@ -109,14 +109,14 @@ class Reputation(store.object):
 
 
 class Poverty(store.object):
-    '''
+    """
     Счетчик разрухи. При попытке опустить разруху ниже нуля она примет нулевое значение.
     Использование:
     Poverty.value - возвращает текущий уровень разрухи
     Poverty.value += 1 - планирует увеличение разрухи на единицу
     Poverty.value -= 1 - планирует уменьшение разрухи на единицу
     Poverty.apply_value() - Применяет запланированное изменение разрухи
-    '''
+    """
     _value = 0
     _planned = 0
 
@@ -129,9 +129,9 @@ class Poverty(store.object):
         self._planned += value - self._value
 
     def apply_planned(self):
-        '''
+        """
         Применяем запланированные изменения в разрухе
-        '''
+        """
         callback = False
         if self._planned > 0:
             callback = True
@@ -145,9 +145,9 @@ class Poverty(store.object):
 
 
 class Army(store.object):
-    '''
+    """
     Класс для армии Тьмы
-    '''
+    """
 
     def __init__(self):
         self._grunts = {'goblin': 1}  # словарь для хранения рядовых войск

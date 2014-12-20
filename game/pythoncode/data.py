@@ -25,10 +25,10 @@ class Modifier(object):
 
 
 class Container(collections.defaultdict):
-    '''
+    """
     Класс-хранилище разнообразных свойст/модификаторов
     TODO: реверсивный поиск
-    '''
+    """
 
     def __init__(self, id=None, data=None, *args, **kwargs):
         super(Container, self).__init__(*args, **kwargs)
@@ -39,10 +39,10 @@ class Container(collections.defaultdict):
                 self.add(key, value)
 
     def add(self, id, data):
-        '''
+        """
         :param id: Идентификатор свойства/модификатора
         :param data: dict, содержащий парамерты этого свойства/модификатор
-        '''
+        """
         if id not in self:
             if type(data) is dict:
                 self[id] = Container(id, data)
@@ -52,10 +52,10 @@ class Container(collections.defaultdict):
             raise Exception("Already in container")
 
     def sum(self, parameter):
-        '''
+        """
         :param parameter: Значение, по которому нужно суммировать аттрибуты. Суммирование проводится
                           рекурсивно.
-        '''
+        """
         total = 0
         if parameter in self:
             try:
@@ -68,11 +68,11 @@ class Container(collections.defaultdict):
         return total
 
     def list(self, key):
-        '''
+        """
         Рекурсивно возвращает лист значений по ключу
         :param key: Ключ по которому производится поиск
         :return: Список значений
-        '''
+        """
         result = []
         if key in self:
             if type(self[key]) is list:
@@ -85,11 +85,11 @@ class Container(collections.defaultdict):
         return result
 
     def contains(self, key, value=None):
-        '''
+        """
         Возвращает список айдишников, которые содержат заданный ключ и, если указано, значение.
         :param key: Ключ который должен содержать элемент
-        :retuкn: список элеметов содержащих ключ, если таких элементов нет, то пустой список
-        '''
+        :return: список элеметов содержащих ключ, если таких элементов нет, то пустой список
+        """
         result = []
         if key in self:
             if value is None:
@@ -103,11 +103,11 @@ class Container(collections.defaultdict):
         return result
 
     def select(self, query):
-        '''
+        """
         Возвращает список айдишников которые подходят под условия указанные в query. Нерекурсивно.
-        :param query: cписок кортежей (ключ, значение) которым должен удовлетворять объект поиска
+        :param query: список кортежей (ключ, значение) которым должен удовлетворять объект поиска
         :return: спискок удовлетворяюищих элементво
-        '''
+        """
         result = []
         for (key, value) in query:
             if key in self and self[key] == value:
@@ -122,9 +122,9 @@ class Container(collections.defaultdict):
         return result
 
     def type(self):
-        '''
+        """
         For test uses
-        '''
+        """
         return type(self)
 
     def __getattr__(self, name):
@@ -284,7 +284,9 @@ thief_events = {
     "die_inaccessability": None,
     "die_trap": None,
     "pass_trap": None,
+    "receive_no_item": None,
     "receive_item": "lb_event_thief_receive_item",
+    "steal_items": "lb_event_thief_steal_items",
 }
 
 #
@@ -709,6 +711,70 @@ dragon_names = [u'Азог',
                 u'Шадизар',
 ]
 
+dragon_surnames = [u'Яростный',
+                u'Могучий',
+                u'Ужасный',
+                u'Бурерождённый',
+                u'Зловещий',
+                u'Тёмный',
+                u'Жестокий',
+                u'Надменный',
+                u'Жадный',
+                u'Алчный',
+                u'Безжалостный',
+                u'Беспощадный',
+                u'Гордый',
+                u'Прожорливый',
+                u'Громогласный',
+                u'Устрашающий',
+                u'Погибельный',
+                u'Сварливый',
+                u'Великолепный',
+                u'Завистливый',
+                u'Порочный',
+                u'Змееглазый',
+                u'Длиннохвостый',
+                u'Уродливый',
+                u'Шипочешуйный',
+                u'Злокозненный',
+                u'Осквернитель',
+                u'Пожиратель',
+                u'Разрыватель',
+                u'Роковой',
+                u'Смертоносный',
+                u'Скрытный',
+                u'Кровавый',
+                u'Саблеклык',
+                u'Искуситель',
+                u'Бесстыдный',
+                u'Смрадный',
+                u'Загребущий',
+                u'Срамотряс',
+                u'Пронзатель',
+                u'Сластолюбивый',
+                u'Гневный',
+                u'Кишкодёр',
+                u'Живодёр',
+                u'Живоглот',
+                u'Праздный',
+                u'Ослизлый',
+                u'Разрушитель',
+                u'Змееед',
+                u'Проклятый',
+                u'Кровожадный',
+                u'Растлитель',
+                u'Безбожный',
+                u'Властный',
+                u'Лживый',
+                u'Буревесник',
+                u'Подлый',
+                u'Двуличный',
+                u'Мудрый',
+                u'Зоркий',
+                u'Стремительный',
+                u'Нечистивый',
+]
+
 # Размеры
 dragon_size = [
     u'Мелкий',
@@ -947,12 +1013,36 @@ special_places = {
     'enc_ogre': (u"Пещера людоеда", 'lb_enc_fight_ogre'),
     'explore_ogre_den': (u"Исследовать пещеру людоеда", 'lb_enc_explore_ogre_den'),
     'create_ogre_lair': (u"Поселиться в пещере людоеда", 'lb_enc_create_ogre_lair'),
+    # йотун
+    'jotun_full': (u"Ледяная цитадель", 'lb_jotun'),
+    'jotun_empty': (u"Пустой замок в горах", 'lb_jotun_empty'),
+    # Ифрит
+    'ifrit_full': (u"Вулканическая кузня", 'lb_ifrit'),
+    'ifrit_empty': (u"Пустая вулканическая кузня", 'lb_ifrit_empty'),
     # рыцарский манор
     'manor_full': (u"Укреплённая усадьба", 'lb_manor'),
     'manor_empty': (u"Заброшенная усадьба", 'lb_manor_empty'),
+    # деревянный замок
+    'wooden_fort_full': (u"Деревянный замок", 'lb_wooden_fort'),
+    'wooden_fort_empty': (u"Опустевший форт", 'lb_wooden_fort_empty'),
+    # монастрыь
+    'abbey_full': (u"Укреплённый монастрыь", 'lb_abbey'),
+    'abbey_empty': (u"Разорённый монастырь", 'lb_abbey_empty'),
+    # каменный замок
+    'castle_full': (u"Каменная крепость", 'lb_castle'),
+    'castle_empty': (u"Пустая крепость", 'lb_castle_empty'),
+    # королевский замок
+    'palace_full': (u"Королевский замок", 'lb_palace'),
+    'palace_empty': (u"Пустой дворец", 'lb_palace_empty'),
     # зачарованный лес
     'enter_ef': (u"Зачарованный лес", 'lb_enchanted_forest'),
     'dead_grove': (u"Заброшенная роща альвов", 'lb_dead_grove'),
+    # задний проход в морию
+    'backdor_open': (u"Задний проход", 'lb_backdor'),
+    'backdor_sealed': (u"Задний проход", 'lb_backdor_sealed'),
+    # мория
+    'frontgates_guarded': (u"Врата Подгорного Царства", 'lb_frontgates'),
+    'frontgates_open': (u"Разбитые врата", 'lb_frontgates_open'),
 }
 
 quest_list = (  # TODO: внести все выполнимые на сегодня квесты
@@ -1353,5 +1443,4 @@ human_special_places = [
 game_events = {
     "mobilization_increased": "lb_event_mobilization_increase",
     "poverty_increased": "lb_event_poverty_increase",
-    "creatures_spawn": None,
 }

@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_test_example_returnLoop:
     # Пример цикла с возвратом без использования jump
     # while True:            # Вечный цикл до экспрессивного выхода

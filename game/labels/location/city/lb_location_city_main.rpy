@@ -1,10 +1,11 @@
+# coding=utf-8
 label lb_location_city_main:
         
     $ place = "city_gates"
-    show place
+    show place as bg
     
     if game.dragon.energy() == 0:
-        'Даже драконам надо иногда спать. Особенно драконам!'
+        dragon 'Даже драконам надо иногда спать. Особенно драконам!'
         return      
         
     menu:

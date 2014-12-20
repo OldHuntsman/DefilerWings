@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_location_mountain_main:
     $ place = 'mountain'
     show expression get_place_bg(place) as bg
@@ -13,12 +14,12 @@ label lb_location_mountain_main:
                  ("lb_enc_mines", 10),
                  ("lb_enc_ram", 10),
                  ("lb_enc_bear", 10),
-                 ("lb_enc_jotun", 10),
-                 ("lb_enc_ifrit", 10),
+                 ("lb_jotun_found", 10),
+                 ("lb_ifrit_found", 10),
                  ("lb_enc_smugglers", 10),
                  ("lb_enc_slavers", 10),
-                 ("lb_enc_frontgates", 10),
-                 ("lb_enc_cavegates", 10),
+                 ("lb_enc_frontgates_found", 10),
+                 ("lb_enc_cannontower", 10),
                  ("lb_patrool_mountain", 3 * game.mobilization.level),
                  ("lb_enc_noting", nochance)]
     $ enc = core.Game.weighted_random(choices)
@@ -46,7 +47,7 @@ label lb_enc_miner:
     return
     
 label lb_enc_dklad:
-    'Дракон учуял сокровища спрятанные где-то н подалёку.'
+    'Дракон учуял сокровища спрятанные где-то неподалёку.'
     nvl clear
     python:
         tr_lvl = random.randint(1, 100)
@@ -126,14 +127,13 @@ label lb_enc_smugglers:
                 alignment = 'human'
                 min_cost = 5
                 max_cost = 100
-                t_list = smuggler_list
                 obtained = "Это часть груза контрабандистов, которых дракон ограбил на тайном перевале в северных горах."
                 trs = treasures.gen_treas(count, data.loot['smuggler'], alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
                 trs_descrptn = '\n'.join(trs_list)
                 game.lair.treasury.receive_treasures(trs)
                 
-            'Обыскав тюки контрабандистов [dragon.name] находит кое-какие ценные вещи:'
+            'Обыскав тюки контрабандистов [game.dragon.name] находит кое-какие ценные вещи:'
             '[trs_descrptn]'
             
         'Отпустить их с миром' if game.dragon.bloodiness < 5:    
@@ -212,24 +212,36 @@ label lb_enc_mines:
             'Человеческое серебро не стоит того чтобы получить в глаз их железо!'       
             $ game.dragon.gain_rage()
     return
-    
-label lb_enc_jotun:
-    'Йотун. Плейсхолдер.'
-    
-    return
-    
-label lb_enc_ifrit:
-    'Ифрит. Плейсхолдер.'
-    
-    return
    
-label lb_enc_frontgates:
-    'Главный вход в подгорное царство. Плейсхолдер.'    
+label lb_enc_frontgates_found:
+    'Блуждая среди горных круч, [game.dragon.fullname] наткнулся на...'
+    show expression 'img/bg/special/gates_dwarf.png' as bg
+    'Врата в Подгорное Царство!'
+    $ game.dragon.add_special_place('frontgates', 'frontgates_guarded')
+    call lb_frontgates    
     return
     
-label lb_enc_cavegates:
-    'Потайной вход в подгорное царство. Плейсхолдер.'
-    
+label lb_enc_cannontower:
+    'На склоне горы, словно вырастая прямо из каменной кручи угнездилось небольшой но мощный бастион. Судя по запаху внутри полно цвергов и их механизмов.'
+    menu:
+        'Подобраться и заглянуть в бойницу':
+            'В прорезь бойницы видны суетящиеся цверги. Они готовят ПУШКУ... зачем?'
+            show expression 'img/scene/fight/steamgun.png' as bg
+            'А! Они будут стрелять!'
+            $ game.dragon.drain_energy()
+            $ game.foe = core.Enemy('steamgun', gameRef=game, base_character=NVLCharacter)
+            call lb_fight
+            'Внутри бастиона нет никаких сокровищ, только железо, провиант и бумаги. В глубине был проход в подгорное цраство, но едва поняв что проигрывают бой, цверги взорвали заряд пороха который обрушил тоннель завалив его сотянми тонн камней. Через завал никому не пробораться.'
+            menu:
+                'Расшифровать архивы':
+                    'Основная часть бумаг это разнообразные технические чертежи а так же накладные на боеприпасы и провиант. Но помимо прочего есть тут и весьма занимательные архитектурные планы. Согласно этим данным, помимо очень сильно укреплённых главных ворот и пушечных бастионов, в подгорное царство есть ещё один почти не охраняемый но замаскированный "задний проход". При случае можно будет его "раздраконить"...'
+                    $ game.dragon.add_special_place('backdor', 'backdor_open')
+                'Уйти прочь':
+                    $ game.dragon.gain_rage()
+                            
+        'Убраться отсюда поскорее' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()
+            
     return
     
 label lb_patrool_mountain:

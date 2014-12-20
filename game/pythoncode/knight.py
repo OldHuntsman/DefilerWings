@@ -47,9 +47,9 @@ class Knight(Fighter):
         self.avatar = get_avatar(u"img/avahuman/knight")
 
     def description(self):
-        '''
+        """
         Описание рыцаря, возвращает строку с описанием.
-        '''
+        """
         d = []
         if self.is_dead:
             d.append(u"Рыцарь мёртв")
@@ -138,9 +138,9 @@ class Knight(Fighter):
         return
 
     def enchant_equip(self):
-        '''
+        """
         Рыцарь готовится к бою улучшая шмот.
-        '''
+        """
         basic_types = [i for i in self.items if self.items[i].basic]  # Какой шмот у рыцаря базового типа
         if len(basic_types) > 0:  # У рыцаря есть не улучшенный шмот
             enchanted_type = random.choice(basic_types)

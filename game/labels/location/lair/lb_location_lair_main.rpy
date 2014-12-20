@@ -1,3 +1,4 @@
+# coding=utf-8
 label lb_location_lair_main:
     $ place = game.lair.type_name
     show place as bg
@@ -29,17 +30,16 @@ label lb_location_lair_main:
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             # TODO: заменить на адекватный вариант
             python:
-                def get_bg():
-                    import random
-                    import os
-                    rel_path = "img/bg/hoard"
-                    abs_path = os.path.join(renpy.config.basedir, "game", rel_path)
-                    if game.dragon.color_eng in os.listdir(abs_path):
-                        color_filename = random.choice(os.listdir(os.path.join(abs_path, game.dragon.color_eng)))
-                        return rel_path + "/" + game.dragon.color_eng + "/" + color_filename
-                    else:
-                        return "img/bg/hoard/base.png"
-                renpy.treasurybg = ui.image(get_bg())
+                import random
+                import os
+                rel_path = "img/bg/hoard"
+                abs_path = os.path.join(renpy.config.basedir, "game", rel_path)
+                if game.dragon.color_eng in os.listdir(abs_path):
+                    color_filename = random.choice(os.listdir(os.path.join(abs_path, game.dragon.color_eng)))
+                    treasurybg = rel_path + "/" + game.dragon.color_eng + "/" + color_filename
+                else:
+                    treasurybg = "img/bg/hoard/base.png"
+                renpy.treasurybg = ui.image(treasurybg)
                     
             show image renpy.treasurybg as bg
             $ description = u"%s собрал кучу сокровищ общей стоимостью %s" % (game.dragon.name, treasures.number_conjugation_rus(game.lair.treasury.wealth, u"фартинг"))
@@ -47,29 +47,29 @@ label lb_location_lair_main:
             "[description]"
             menu:
                 '[game.lair.treasury.gems_mass_description]' if game.lair.treasury.gem_mass > 0:
-                    nvl clear
                     "[game.lair.treasury.gems_list]"
+                    nvl clear
                 '[game.lair.treasury.materials_mass_description]' if game.lair.treasury.metal_mass + game.lair.treasury.material_mass > 0:
-                    nvl clear
                     "[game.lair.treasury.materials_list]"
-                '[game.lair.treasury.coin_mass_description]' if game.lair.treasury.coin_mass > 0:
                     nvl clear
+                '[game.lair.treasury.coin_mass_description]' if game.lair.treasury.coin_mass > 0:
                     $ description = u"В сокровищнице:\n"
                     $ description += u"%s\n" % treasures.number_conjugation_rus(game.lair.treasury.farting, u"фартинг")
                     $ description += u"%s\n" % treasures.number_conjugation_rus(game.lair.treasury.taller, u"талер")
                     $ description += u"%s" % treasures.number_conjugation_rus(game.lair.treasury.dublon, u"дублон")
                     "[description]"
+                    nvl clear
                 '[game.lair.treasury.jewelry_mass_description]' if game.lair.treasury.jewelry_mass > 0:
                     menu:
                         'Самая дорогая в сокровищнице':
-                            nvl clear
                             "[game.lair.treasury.most_expensive_jewelry]"
+                            nvl clear
                         'Самая дешёвая в сокровищнице':
-                            nvl clear
                             "[game.lair.treasury.cheapest_jewelry]"
-                        'Случайная':
                             nvl clear
+                        'Случайная':
                             "[game.lair.treasury.random_jewelry]"
+                            nvl clear
                         'Вернуться в логово':
                             jump lb_location_lair_main   
                 'Вернуться в логово':
@@ -96,7 +96,9 @@ label lb_location_lair_main:
                         game.save()
                     else:
                         game.save_freegame()
+                    save_blocked = True
                     game.sleep()
+                    save_blocked = False
                     game.narrator("game saved")
                     del game_loaded
         'Покинуть логово':
