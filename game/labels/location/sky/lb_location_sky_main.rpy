@@ -10,10 +10,9 @@ label lb_location_sky_main:
         
     if not game.dragon.can_fly: 
         '[game.dragon.name] с тоской смотрит в небо. Если бы только он умел летать...'
-        return
-        
+    else:
+        call lb_encounter_sky
     return
-    # call lb_encounter_sky
     
 label lb_encounter_sky:
     $ choices = [("lb_enc_cloud_castle", 10),
