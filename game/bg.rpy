@@ -46,4 +46,4 @@ init:
         "place == 'smugglers'", "img/bg/special/smugglers.png",
         "place == 'mordor'", "img/bg/special/mordor.png",
         "place == 'prison'", "img/scene/prison.png",
-        )
+    )

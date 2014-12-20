@@ -10,7 +10,6 @@
 screen say:
 
     use sc_dialog(who, game.currentCharacter.avatar, what)
-
     use status_bar
     # Use the quick menu.
     use quick_menu
@@ -34,15 +33,11 @@ screen choice:
             spacing 2
 
             for caption, action, chosen in items:
-
                 if action:
-
                     button:
                         action action
                         style "menu_choice_button"
-
                         text caption style "menu_choice"
-
                 else:
                     text caption style "menu_caption"
 
@@ -93,21 +88,15 @@ screen dw_choice(items):
             spacing 2
 
             for caption, value, visible, condition in items:
-
                 if visible and condition:
-
                     button:
                         action Return(value)
                         style "menu_choice_button"
-
                         text caption style "menu_choice"
-
                 if visible and not condition:
-
                     button:
                         action NullAction()
                         style "menu_choice_button"
-
                         text caption style "menu_choice_inactive"
     use status_bar
 
@@ -159,33 +148,23 @@ screen nvl:
             for who, what, who_id, what_id, window_id in dialogue:
                 window:
                     id window_id
-
                     has hbox:
                         spacing 10
-
                     if who is not None:
                         text who id who_id
-
                     text what id what_id
 
             # Display a menu, if given.
             if items:
-
                 vbox:
                     id "menu"
-
                     for caption, action, chosen in items:
-
                         if action:
-
                             button:
                                 style "nvl_menu_choice_button"
                                 action action
-
                                 text caption style "nvl_menu_choice"
-
                         else:
-
                             text caption style "nvl_dialogue"
 
     add SideImage() xalign 0.0 yalign 1.0
@@ -437,6 +416,12 @@ screen preferences:
                 has vbox
 
                 textbutton _("Джостик...") action Preference("joystick")
+            
+            frame:
+                style_group "pref"
+                has vbox
+
+                textbutton _("Сброс сюжетной игры") action Game_Reset()
 
         vbox:
             frame:
@@ -527,6 +512,11 @@ init -2:
 
     # style pref_root:
     #    background img/menu/gmenu.png
+    
+    python:
+        class Game_Reset(object):
+            def __call__(self):
+                renpy.unlink_save("1-1")
 
 ##############################################################################
 # Yes/No Prompt
@@ -632,9 +622,11 @@ init python:
         girls_cols = 4
         girls_cells = girls_rows * girls_cols
         girl_page = 0
-        girl_position_priority = (6, 7, 8, 9,
-                                  5, 0, 1, 10,
-                                  4, 3, 2, 11)
+        girl_position_priority = (
+            6, 7, 8, 9,
+            5, 0, 1, 10,
+            4, 3, 2, 11
+        )
 screen girls_menu:
 
     # This ensures that any other menu screen is replaced.

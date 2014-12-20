@@ -137,131 +137,191 @@ class Container(collections.defaultdict):
 # Вор
 #
 
-thief_first_names = [u"Джек",
-                     u"Гарри",
-                     u"Cэм"]
-thief_last_names = [u"Лысый",
-                    u"Скользкий",
-                    u"Шустрый"]
+thief_first_names = [
+    u"Джек",
+    u"Гарри",
+    u"Cэм"
+]
 
-thief_abilities = Container("thief_abilities",
-                            {
-                                "climber": {"name": u"Альпинист",
-                                            "description": u"Дает \"Альпинизм\"",
-                                            "provide": ["alpinism"]},
-                                "diver": {"name": u"Ныряльщик",
-                                          "description": u"Дает \"Плавание\"",
-                                          "provide": ["swimming"]},
-                                "greedy": {"name": u"Жадина",
-                                           "description": u"Пытается украсть одно дополнительное сокровище",
-                                           "provide": []},
-                                "mechanic": {"name": u"Механик",
-                                             "description": u"Игнорирует механические ловушки",
-                                             "avoids": ["mechanic_traps"],
-                                             "provide": []},
-                                "magicproof": {"name": u"Знаток магии",
-                                               "description": u"Игнорирует магические ловушки",
-                                               "avoids": ["magic_traps"],
-                                               "provide": []},
-                                "poisoner": {"name": u"Отравитель",
-                                             "description": u"Игнорирует ядовитых стражей",
-                                             "avoids": ["poison_guargs"],
-                                             "provide": []},
-                                "assassin": {"name": u"Ассасин",
-                                             "description": u"Игнорирует обычных стражей",
-                                             "avoids": ["regular_guargs"],
-                                             "provide": []},
-                                "night_shadow": {"name": u"Ночная тень",
-                                                 "description": u"Игнорирует элитных стражей",
-                                                 "avoids": ["elite_guards"],
-                                                 # Это странно, что он может быть пойман обычными стражами
-                                                 "provide": []},
-                                "trickster": {"name": u"Ловкач",
-                                              "description": u"Не имеет шанса разбудить дракона",
-                                              "provide": []}
-                            }
+thief_last_names = [
+    u"Лысый",
+    u"Скользкий",
+    u"Шустрый"
+]
+
+thief_abilities = Container(
+    "thief_abilities",
+    {
+        "climber": {
+            "name": u"Альпинист",
+            "description": u"Дает \"Альпинизм\"",
+            "provide": ["alpinism"]
+        },
+        "diver": {
+            "name": u"Ныряльщик",
+            "description": u"Дает \"Плавание\"",
+            "provide": ["swimming"]
+        },
+        "greedy": {
+            "name": u"Жадина",
+            "description": u"Пытается украсть одно дополнительное сокровище",
+            "provide": []
+        },
+        "mechanic": {
+            "name": u"Механик",
+            "description": u"Игнорирует механические ловушки",
+            "avoids": ["mechanic_traps"],
+            "provide": []
+        },
+        "magicproof": {
+            "name": u"Знаток магии",
+            "description": u"Игнорирует магические ловушки",
+            "avoids": ["magic_traps"],
+            "provide": []
+        },
+        "poisoner": {
+            "name": u"Отравитель",
+            "description": u"Игнорирует ядовитых стражей",
+            "avoids": ["poison_guargs"],
+            "provide": []
+        },
+        "assassin": {
+            "name": u"Ассасин",
+            "description": u"Игнорирует обычных стражей",
+            "avoids": ["regular_guargs"],
+            "provide": []
+        },
+        "night_shadow": {
+            "name": u"Ночная тень",
+            "description": u"Игнорирует элитных стражей",
+            "avoids": ["elite_guards"],
+            # Это странно, что он может быть пойман обычными стражами
+            "provide": []
+        },
+        "trickster": {
+            "name": u"Ловкач",
+            "description": u"Не имеет шанса разбудить дракона",
+            "provide": []
+        }
+    }
 )
 
-thief_items = Container("thief_items",
-                        {
-                            "plan": {"name": u"План ограбления",
-                                     "level": 1,
-                                     "description": u"+1 к уровню вора"},
-                            "scheme": {"name": u"Схема тайных проходов",
-                                       "description": u"Позволяет игнорировать неприступность логова"},
-                            "sleep_dust": {"name": u"Сонный порошок",
-                                           "description": u"Вор не имеет шанса разбудить дракона"},
-                            "bottomless_sac": {"name": u"Бездонный мешок",
-                                               "dropable": True,
-                                               "description": u"Удваивает попытки кражи"},
-                            "antidot": {"name": u"Антидот",
-                                        "description": u"Вор игнорирует ядовитых стражей",
-                                        "avoids": ["poison_guargs"]},
-                            "enchanted_dagger": {"name": u"Зачарованный кинжал",  # Applied
-                                                 "dropable": True,
-                                                 "description": u"Вор игнорирует обычных стражей",
-                                                 "avoids": ["regular_guargs"]},
-                            "ring_of_invisibility": {"name": u"Кольцо-невидимка",  # Applied
-                                                     "dropable": True,
-                                                     "description": u"Вор элитных стражей",
-                                                     "avoids": ["elite_guargs"]},
-                            "flying_boots": {"name": u"Летучие сандалии",  # Applied
-                                             "dropable": True,
-                                             "description": u"Дает \"Полёт\"",
-                                             "provide": ["flight"]},
-                            "cooling_amulet": {"name": u"Охлаждающий амулет",  # Applied
-                                               "dropable": True,
-                                               "description": u"Дает \"защиту от огня\"",
-                                               "provide": ["fireproof"]},
-                            "warming_amulet": {"name": u"Согревающий амулет",  # Applied
-                                               "dropable": True,
-                                               "description": u"Дает \"защиту от холода\"",
-                                               "provide": ["coldproof"]}
-                        })
+thief_items = Container(
+    "thief_items",
+    {
+        "plan": {
+            "name": u"План ограбления",
+            "level": 1,
+            "description": u"+1 к уровню вора"
+        },
+        "scheme": {
+            "name": u"Схема тайных проходов",
+            "description": u"Позволяет игнорировать неприступность логова"
+        },
+        "sleep_dust": {
+            "name": u"Сонный порошок",
+            "description": u"Вор не имеет шанса разбудить дракона"
+        },
+        "bottomless_sac": {
+            "name": u"Бездонный мешок",
+            "dropable": True,
+            "description": u"Удваивает попытки кражи"
+        },
+        "antidot": {
+            "name": u"Антидот",
+            "description": u"Вор игнорирует ядовитых стражей",
+            "avoids": ["poison_guargs"]
+        },
+        "enchanted_dagger": {
+            "name": u"Зачарованный кинжал",  # Applied
+            "dropable": True,
+            "description": u"Вор игнорирует обычных стражей",
+            "avoids": ["regular_guargs"]
+        },
+        "ring_of_invisibility": {
+            "name": u"Кольцо-невидимка",  # Applied
+            "dropable": True,
+            "description": u"Вор элитных стражей",
+            "avoids": ["elite_guargs"]
+        },
+        "flying_boots": {
+            "name": u"Летучие сандалии",  # Applied
+            "dropable": True,
+            "description": u"Дает \"Полёт\"",
+            "provide": ["flight"]
+        },
+        "cooling_amulet": {
+            "name": u"Охлаждающий амулет",  # Applied
+            "dropable": True,
+            "description": u"Дает \"защиту от огня\"",
+            "provide": ["fireproof"]
+        },
+        "warming_amulet": {
+            "name": u"Согревающий амулет",  # Applied
+            "dropable": True,
+            "description": u"Дает \"защиту от холода\"",
+            "provide": ["coldproof"]
+        }
+    })
 
 # Одинаковые айдишники вещей спасут от того, что у вора может оказаться норамльная.
 thief_items_cursed = Container(
     "thief_items_cursed",
     {
-        "plan": {"name": u"Плохой план",  # Applied
-                 "level": -1,
-                 "cursed": True,
-                 "description": u"-1 к уровню вора",
-                 "fails": []},
-        "bottomless_sac": {"name": u"Дырявый мешок",  # Applied
-                           "cursed": True,
-                           "description": u"Вор не уносит никаких сокровищ",
-                           "fails": []},
-        "enchanted_dagger": {"name": u"Проклятый кинжал",  # Applied
-                             "cursed": True,
-                             "description": u"Автоматический успех обычных стражей",
-                             "fails": ["regular_guards"]},
-        "ring_of_invisibility": {"name": u"Кольцо мерцания",  # Applied
-                                 "cursed": True,
-                                 "description": u"Автоматический успех элитных стражей",
-                                 "fails": ["elite_guards"]},
-        "flying_boots": {"name": u"Ощипанные сандалии",  # Applied
-                         "cursed": True,
-                         "description": u"Вор автоматически разбивается насмерть, если идет в логово требующее полета",
-                         "fails": ["flight"],
-                         "provide": ["flight"]},
-        "cooling_amulet": {"name": u"Морозильный амулет",  # Applied
-                           "cursed": True,
-                           "description": u"Вор замораживается насмерть, если идет в огненное логово",
-                           "fails": ["fireproof"],
-                           "provide": ["fireproof"]},
-        "warming_amulet": {"name": u"Шашлычный амулет",  # Applied
-                           "cursed": True,
-                           "description": u"Вор зажаривается насмерть, если идет в ледяное логово",
-                           "fails": ["coldproof"],
-                           "provide": ["coldproof"]}
-    })
+        "plan": {
+            "name": u"Плохой план",  # Applied
+            "level": -1,
+            "cursed": True,
+            "description": u"-1 к уровню вора",
+            "fails": []
+        },
+        "bottomless_sac": {
+            "name": u"Дырявый мешок",  # Applied
+            "cursed": True,
+            "description": u"Вор не уносит никаких сокровищ",
+            "fails": []},
+        "enchanted_dagger": {
+            "name": u"Проклятый кинжал",  # Applied
+            "cursed": True,
+            "description": u"Автоматический успех обычных стражей",
+            "fails": ["regular_guards"]},
+        "ring_of_invisibility": {
+            "name": u"Кольцо мерцания",  # Applied
+            "cursed": True,
+            "description": u"Автоматический успех элитных стражей",
+            "fails": ["elite_guards"]
+        },
+        "flying_boots": {
+            "name": u"Ощипанные сандалии",  # Applied
+            "cursed": True,
+            "description": u"Вор автоматически разбивается насмерть, если идет в логово требующее полета",
+            "fails": ["flight"],
+            "provide": ["flight"]
+        },
+        "cooling_amulet": {
+            "name": u"Морозильный амулет",  # Applied
+            "cursed": True,
+            "description": u"Вор замораживается насмерть, если идет в огненное логово",
+            "fails": ["fireproof"],
+            "provide": ["fireproof"]
+        },
+        "warming_amulet": {
+            "name": u"Шашлычный амулет",  # Applied
+            "cursed": True,
+            "description": u"Вор зажаривается насмерть, если идет в ледяное логово",
+            "fails": ["coldproof"],
+            "provide": ["coldproof"]
+        }
+    }
+)
 
-thief_titles = [u"Мародер",
-                u"Грабитель",
-                u"Взломшик",
-                u"Расхититель гробниц",
-                u"Мастер-вор"]
+thief_titles = [
+    u"Мародер",
+    u"Грабитель",
+    u"Взломшик",
+    u"Расхититель гробниц",
+    u"Мастер-вор"
+]
 
 '''
 Вызывает label указанный в value словаря. Если указан list, то вызваются все label'ы указанные в
@@ -307,193 +367,269 @@ knight_first_names = [
     u"Оуэн",
     u"Бедивер",
     u"Гахерис",
-    u"Агравейн"]
+    u"Агравейн"
+]
+
 knight_last_names = [
     u"Озерный",
     u"Подгорный",
     u"Лесной",
     u"Православный",
     u"Поземный",
-    u"Луговой"]
+    u"Луговой"
+]
 
-knight_abilities = Container("knight_abilities",
-                             {
-                                 "brave": {"name": u"Отважный",
-                                           "description": u"Не боится дракона, как бы страшен он ни был",
-                                           "modifiers": ["fearless"]},
-                                 "charmed": {"name": u"Зачарованный",
-                                             "description": u"Способен атаковать логово с любыми условиями доступа",
-                                             "modifiers": ["swimming", "flight", "alpinism"]},
-                                 "liberator": {"name": u"Освободитель",  # TODO: implement
-                                               "description": u"+1 к защите за каждую крестьянку, +1 к атаке за каждую богатую и +1 к атаке и защите за любую другую не великаншу томящуюся в логове дракона",
-                                               "modifiers": []},
-                                 "firstborn": {"name": u"Первенец",  # TODO: implement
-                                               "description": u"Получает 2 шмотки сразу со старта",
-                                               "modifiers": []},
-                                 "fiery": {"name": u"Вспыльчивый",
-                                           "description": u"+2 к атаке",
-                                           "modifiers": ['atk_up', 'atk_up']},
-                                 "cautious": {"name": u"Осторожный",
-                                              "description": u"+2 к защите",
-                                              "modifiers": ['def_up', 'def_up']}
-                             }
+knight_abilities = Container(
+    "knight_abilities",
+    {
+        "brave": {
+            "name": u"Отважный",
+            "description": u"Не боится дракона, как бы страшен он ни был",
+            "modifiers": ["fearless"]
+        },
+        "charmed": {
+            "name": u"Зачарованный",
+            "description": u"Способен атаковать логово с любыми условиями доступа",
+            "modifiers": ["swimming", "flight", "alpinism"]
+        },
+        "liberator": {
+            "name": u"Освободитель",  # TODO: implement
+            "description": u"+1 к защите за каждую крестьянку, +1 к атаке за каждую богатую и +1 к атаке и защите за любую другую не великаншу томящуюся в логове дракона",
+            "modifiers": []
+        },
+        "firstborn": {
+            "name": u"Первенец",  # TODO: implement
+            "description": u"Получает 2 шмотки сразу со старта",
+            "modifiers": []
+        },
+        "fiery": {
+            "name": u"Вспыльчивый",
+            "description": u"+2 к атаке",
+            "modifiers": ['atk_up', 'atk_up']
+        },
+        "cautious": {
+            "name": u"Осторожный",
+            "description": u"+2 к защите",
+            "modifiers": ['def_up', 'def_up']
+        }
+    }
 )
 
-knight_items = Container("knight_items",
-                         {
-                             # TODO: implement
-                             # Нагрудники
-                             "basic_vest": {"name": u"Дубовая броня",
-                                            "description": u"Не дает преимуществ",
-                                            "type": "vest",
-                                            "basic": True,
-                                            "modifiers": []},
-                             "glittering_vest": {"name": u"Сверкающий доспех",
-                                                 "description": u"+2 к защите",
-                                                 "type": "vest",
-                                                 "basic": False,
-                                                 "modifiers": ['def_up', 'def_up']},
-                             "gold_vest": {"name": u"Золочёный доспех",
-                                           "description": u"1 верная защита",
-                                           "type": "vest",
-                                           "basic": False,
-                                           "modifiers": ['sdef_up']},
-                             "magic_vest": {"name": u"Волшебный доспех",  # TODO: implement
-                                            "description": u"защита от одного типа элементов",
-                                            "type": "vest",
-                                            "basic": False,
-                                            "modifiers": []},
-                             # Копья
-                             "basic_spear": {"name": u"Деревянное копье",
-                                             "description": u"Не дает преимуществ",
-                                             "type": "spear",
-                                             "basic": True,
-                                             "modifiers": []},
-                             "blued_spear": {"name": u"Вороненое копье",
-                                             "description": u"+2 к атаке",
-                                             "type": "spear",
-                                             "basic": False,
-                                             "modifiers": ['atk_up', 'atk_up']},
-                             "spear_with_scarf": {"name": u"Копье с шарфом",
-                                                  "description": u"1 верная атака",
-                                                  "type": "spear",
-                                                  "basic": False,
-                                                  "modifiers": ['satk_up']},
-                             "dragonslayer_spear": {"name": u"Копьё-драконобой",  # TODO: implement
-                                                    "description": u"+1 к атаке, если дракон ранен он вместо этого сразу теряет голову",
-                                                    "type": "spear",
-                                                    "basic": False,
-                                                    "modifiers": []},
-                             # Мечи
-                             "basic_sword": {"name": u"Деревянный меч",
-                                             "description": u"Не дает преимуществ",
-                                             "type": "sword",
-                                             "basic": True,
-                                             "modifiers": []},
-                             "glittering_sword": {"name": u"Сияющий клинок",
-                                                  "description": u"+2 к атаке",
-                                                  "type": "sword",
-                                                  "basic": False,
-                                                  "modifiers": ['atk_up', 'atk_up']},
-                             "lake_woman_sword": {"name": u"Клинок озёрной девы",
-                                                  "description": u"1 верная атака",
-                                                  "type": "sword",
-                                                  "basic": False,
-                                                  "modifiers": ['satk_up']},
-                             "flameberg_sword": {"name": u"Пылающий фламберг",
-                                                 "description": u"2 верных атаки огнём",
-                                                 "type": "sword",
-                                                 "basic": False,
-                                                 "modifiers": ['sfatk_up', 'sfatk_up']},
-                             "icecracker_sword": {"name": u"Ледоруб-жыдобой ^_^",
-                                                  "description": u"2 верных атаки льдом",
-                                                  "type": "sword",
-                                                  "basic": False,
-                                                  "modifiers": ['siatk_up', 'siatk_up']},
-                             "thunderer_sword": {"name": u"Меч-громобой",
-                                                 "description": u"2 верных атаки молнией",
-                                                 "type": "sword",
-                                                 "basic": False,
-                                                 "modifiers": ['slatk_up', 'slatk_up']},
-                             # Щиты
-                             "basic_shield": {"name": u"Деревянный щит",
-                                              "description": u"Не дает преимуществ",
-                                              "type": "shield",
-                                              "basic": True,
-                                              "modifiers": []},
-                             "polished_shield": {"name": u"Полированный щит",
-                                                 "description": u"+2 к защите",
-                                                 "type": "shield",
-                                                 "basic": False,
-                                                 "modifiers": ['def_up', 'def_up']},
-                             "mirror_shield": {"name": u"Зерцальный щит",  # TODO: Implement
-                                               "description": u"2 верных защиты, если у дракона есть дыхание",
-                                               "type": "shield",
-                                               "basic": False,
-                                               "modifiers": []},
-                             # Кони
-                             "basic_horse": {"name": u"Деревянная лошадка",
-                                             "description": u"Не дает преимуществ",
-                                             "type": "horse",
-                                             "basic": True,
-                                             "modifiers": []},
-                             "white_horse": {"name": u"Белый конь",
-                                             "description": u"+1 к атаке, +1 к защите",
-                                             "type": "horse",
-                                             "basic": False,
-                                             "modifiers": ['atk_up', 'def_up']},
-                             "pegasus": {"name": u"Пегас",
-                                         "description": u"даёт полёт",
-                                         "type": "horse",
-                                         "basic": False,
-                                         "modifiers": ['flight']},
-                             "firehorse": {"name": u"Конь-огонь",
-                                           "description": u"даёт альпинизм и защиту от огня",
-                                           "type": "horse",
-                                           "basic": False,
-                                           "modifiers": ['alpinism', 'fire_immunity']},
-                             "sivka": {"name": u"Сивка-Бурка",
-                                       "description": u"даёт альпинизм и защиту от холода",
-                                       "type": "horse",
-                                       "basic": False,
-                                       "modifiers": []},
-                             "kelpie": {"name": u"Келпи",
-                                        "description": u"игнорирует недоступность морского логова",
-                                        "type": "horse",
-                                        "basic": False,
-                                        "modifiers": ['swimming']},
-                             "griffon": {"name": u"Боевой грифон",
-                                         "description": u"+1 к атаке, +1 к защите, даёт полёт",
-                                         "type": "horse",
-                                         "basic": False,
-                                         "modifiers": ['atk_up', 'def_up', 'flight']},
-                             # Спутники
-                             "basic_follower": {"name": u"Деревянный спутник",
-                                                "description": u"Не дает преимуществ",
-                                                "type": "follower",
-                                                "basic": True,
-                                                "modifiers": []},
-                             "squire": {"name": u"Ловкий оруженосец",
-                                        "description": u"даёт \"альпинизм\"",
-                                        "type": "follower",
-                                        "basic": False,
-                                        "modifiers": ['alpinism']},
-                             "veteran": {"name": u"Старый ветеран",
-                                         "description": u"даёт 1 верную защиту",
-                                         "type": "follower",
-                                         "basic": False,
-                                         "modifiers": ['sdef_up']},
-                             "pythoness": {"name": u"Прорицательница",
-                                           "description": u"даёт 1 верную атаку",
-                                           "type": "follower",
-                                           "basic": False,
-                                           "modifiers": ['satk_up']},
-                             "thaumaturge": {"name": u"Кудесник",
-                                             "description": u"даёт 1 верную атаку и 1 верную защиту",
-                                             "type": "follower",
-                                             "basic": False,
-                                             "modifiers": ['satk_up', 'sdef_up']}
-                         })
+knight_items = Container(
+    "knight_items",
+    {
+        # TODO: implement
+        # Нагрудники
+        "basic_vest": {
+            "name": u"Дубовая броня",
+            "description": u"Не дает преимуществ",
+            "type": "vest",
+            "basic": True,
+            "modifiers": []
+        },
+        "glittering_vest": {
+            "name": u"Сверкающий доспех",
+            "description": u"+2 к защите",
+            "type": "vest",
+            "basic": False,
+            "modifiers": ['def_up', 'def_up']
+        },
+        "gold_vest": {
+            "name": u"Золочёный доспех",
+            "description": u"1 верная защита",
+            "type": "vest",
+            "basic": False,
+            "modifiers": ['sdef_up']
+        },
+        "magic_vest": {
+            "name": u"Волшебный доспех",  # TODO: implement
+            "description": u"защита от одного типа элементов",
+            "type": "vest",
+            "basic": False,
+            "modifiers": []
+        },
+        # Копья
+        "basic_spear": {
+            "name": u"Деревянное копье",
+            "description": u"Не дает преимуществ",
+            "type": "spear",
+            "basic": True,
+            "modifiers": []
+        },
+        "blued_spear": {
+            "name": u"Вороненое копье",
+            "description": u"+2 к атаке",
+            "type": "spear",
+            "basic": False,
+            "modifiers": ['atk_up', 'atk_up']
+        },
+        "spear_with_scarf": {
+            "name": u"Копье с шарфом",
+            "description": u"1 верная атака",
+            "type": "spear",
+            "basic": False,
+            "modifiers": ['satk_up']
+        },
+        "dragonslayer_spear": {
+            "name": u"Копьё-драконобой",  # TODO: implement
+            "description": u"+1 к атаке, если дракон ранен он вместо этого сразу теряет голову",
+            "type": "spear",
+            "basic": False,
+            "modifiers": []
+        },
+        # Мечи
+        "basic_sword": {
+            "name": u"Деревянный меч",
+            "description": u"Не дает преимуществ",
+            "type": "sword",
+            "basic": True,
+            "modifiers": []
+        },
+        "glittering_sword": {
+            "name": u"Сияющий клинок",
+            "description": u"+2 к атаке",
+            "type": "sword",
+            "basic": False,
+            "modifiers": ['atk_up', 'atk_up']
+        },
+        "lake_woman_sword": {
+            "name": u"Клинок озёрной девы",
+            "description": u"1 верная атака",
+            "type": "sword",
+            "basic": False,
+            "modifiers": ['satk_up']
+        },
+        "flameberg_sword": {
+            "name": u"Пылающий фламберг",
+            "description": u"2 верных атаки огнём",
+            "type": "sword",
+            "basic": False,
+            "modifiers": ['sfatk_up', 'sfatk_up']
+        },
+        "icecracker_sword": {
+            "name": u"Ледоруб-жыдобой ^_^",
+            "description": u"2 верных атаки льдом",
+            "type": "sword",
+            "basic": False,
+            "modifiers": ['siatk_up', 'siatk_up']
+        },
+        "thunderer_sword": {
+            "name": u"Меч-громобой",
+            "description": u"2 верных атаки молнией",
+            "type": "sword",
+            "basic": False,
+            "modifiers": ['slatk_up', 'slatk_up']
+        },
+        # Щиты
+        "basic_shield": {
+            "name": u"Деревянный щит",
+            "description": u"Не дает преимуществ",
+            "type": "shield",
+            "basic": True,
+            "modifiers": []
+        },
+        "polished_shield": {
+            "name": u"Полированный щит",
+            "description": u"+2 к защите",
+            "type": "shield",
+            "basic": False,
+            "modifiers": ['def_up', 'def_up']
+        },
+        "mirror_shield": {
+            "name": u"Зерцальный щит",  # TODO: Implement
+            "description": u"2 верных защиты, если у дракона есть дыхание",
+            "type": "shield",
+            "basic": False,
+            "modifiers": []
+        },
+        # Кони
+        "basic_horse": {
+            "name": u"Деревянная лошадка",
+            "description": u"Не дает преимуществ",
+            "type": "horse",
+            "basic": True,
+            "modifiers": []
+        },
+        "white_horse": {
+            "name": u"Белый конь",
+            "description": u"+1 к атаке, +1 к защите",
+            "type": "horse",
+            "basic": False,
+            "modifiers": ['atk_up', 'def_up']
+        },
+        "pegasus": {
+            "name": u"Пегас",
+            "description": u"даёт полёт",
+            "type": "horse",
+            "basic": False,
+            "modifiers": ['flight']
+        },
+        "firehorse": {
+            "name": u"Конь-огонь",
+            "description": u"даёт альпинизм и защиту от огня",
+            "type": "horse",
+            "basic": False,
+            "modifiers": ['alpinism', 'fire_immunity']
+        },
+        "sivka": {
+            "name": u"Сивка-Бурка",
+            "description": u"даёт альпинизм и защиту от холода",
+            "type": "horse",
+            "basic": False,
+            "modifiers": []
+        },
+        "kelpie": {
+            "name": u"Келпи",
+            "description": u"игнорирует недоступность морского логова",
+            "type": "horse",
+            "basic": False,
+            "modifiers": ['swimming']
+        },
+        "griffon": {
+            "name": u"Боевой грифон",
+            "description": u"+1 к атаке, +1 к защите, даёт полёт",
+            "type": "horse",
+            "basic": False,
+            "modifiers": ['atk_up', 'def_up', 'flight']
+        },
+        # Спутники
+        "basic_follower": {
+            "name": u"Деревянный спутник",
+            "description": u"Не дает преимуществ",
+            "type": "follower",
+            "basic": True,
+            "modifiers": []
+        },
+        "squire": {
+            "name": u"Ловкий оруженосец",
+            "description": u"даёт \"альпинизм\"",
+            "type": "follower",
+            "basic": False,
+            "modifiers": ['alpinism']
+        },
+        "veteran": {
+            "name": u"Старый ветеран",
+            "description": u"даёт 1 верную защиту",
+            "type": "follower",
+            "basic": False,
+            "modifiers": ['sdef_up']
+        },
+        "pythoness": {
+            "name": u"Прорицательница",
+            "description": u"даёт 1 верную атаку",
+            "type": "follower",
+            "basic": False,
+            "modifiers": ['satk_up']
+        },
+        "thaumaturge": {
+            "name": u"Кудесник",
+            "description": u"даёт 1 верную атаку и 1 верную защиту",
+            "type": "follower",
+            "basic": False,
+            "modifiers": ['satk_up', 'sdef_up']
+        }
+    }
+)
 
 knight_titles = [
     u"Бедный рыцарь",
@@ -515,97 +651,162 @@ knight_events = {
 # Логово
 #
 
-lair_types = Container("lair_types", {
-    "impassable_coomb": {"name": u"Буреломный овраг",
-                         "inaccessability": 0},
-    "impregnable_peak": {"name": u"Неприступная вершина",
-                         "inaccessability": 0,
-                         "require": ["aplinism"],
-                         'prerequisite': ['wings']},
-    "solitude_сitadel": {"name": u"Цитадель одиночества",
-                         "inaccessability": 0,
-                         "require": ["aplinism", "coldproof"],
-                         'prerequisite': ['wings', 'ice_immunity']},
-    "vulcano_chasm": {"name": u"Вулканическая расселина",
-                      "inaccessability": 0,
-                      "require": ["aplinism", "fireproof"],
-                      'prerequisite': ['wings', 'fire_immunity']},
-    "underwater_grot": {"name": u"Подводный грот",
-                        "inaccessability": 0,
-                        "require": ["swimming"],
-                        'prerequisite': ['swimming']},
-    "underground_burrow": {"name": u"Подземная нора",
-                           "inaccessability": 1,
-                           "require": [],
-                           'prerequisite': ['can_dig']},
-    "dragon_castle": {"name": u"Драконий замок",
-                      "inaccessability": 1,
-                      "require": []},
-    "castle": {"name": u"Старые руины",
-               "inaccessability": 1,
-               "require": []},
-    "ogre_den": {"name": u"Берлога людоеда",
-                 "inaccessability": 1,
-                 "require": []},
-    "broad_cave": {"name": u"Просторная пещера",
-                   "inaccessability": 1,
-                   "require": []},
-    "tower_ruin": {"name": u"Руины башни",
-                   "inaccessability": 0,
-                   "provide": ["magic_traps"]},
-    "monastery_ruin": {"name": u"Руины монастыря",
-                       "inaccessability": 1,
-                       "require": []},
-    "fortress_ruin": {"name": u"Руины каменной крепости",
-                      "inaccessability": 2,
-                      "require": []},
-    "castle_ruin": {"name": u"Руины королевского замка",
-                    "inaccessability": 1,
-                    "require": []},
-    "ice_citadel": {"name": u"Ледяная цитадель",
-                    "inaccessability": 1,
-                    "require": ["aplinism", "coldproof"]},
-    "vulcanic_forge": {"name": u"Вулканическая кузница",
-                       "inaccessability": 1,
-                       "require": ["aplinism", "fireproof"]},
-    "forest_heart": {"name": u"Дупло Великого Древа",
-                     "inaccessability": 2,
-                     "provide": ["magic_traps"]},
-    "cloud_castle": {"name": u"Замок в облаках",
-                     "inaccessability": 2,
-                     "require": ["flight"]},
-    "undefwater_mansion": {"name": u"Подводные хоромы",
-                           "inaccessability": 1,
-                           "require": ["swimming"]},
-    "underground_palaces": {"name": u"Подгорные чертоги",
-                            "inaccessability": 2,
-                            "require": ["aplinism"],
-                            "provide": ["mechanic_traps"]},
-})
+lair_types = Container(
+    "lair_types",
+    {
+        "impassable_coomb": {
+            "name": u"Буреломный овраг",
+            "inaccessability": 0
+        },
+        "impregnable_peak": {
+            "name": u"Неприступная вершина",
+            "inaccessability": 0,
+            "require": ["aplinism"],
+            'prerequisite': ['wings']
+        },
+        "solitude_сitadel": {
+            "name": u"Цитадель одиночества",
+            "inaccessability": 0,
+            "require": ["aplinism", "coldproof"],
+            'prerequisite': ['wings', 'ice_immunity']
+        },
+        "vulcano_chasm": {
+            "name": u"Вулканическая расселина",
+            "inaccessability": 0,
+            "require": ["aplinism", "fireproof"],
+            'prerequisite': ['wings', 'fire_immunity']
+        },
+        "underwater_grot": {
+            "name": u"Подводный грот",
+            "inaccessability": 0,
+            "require": ["swimming"],
+            'prerequisite': ['swimming']
+        },
+        "underground_burrow": {
+            "name": u"Подземная нора",
+            "inaccessability": 1,
+            "require": [],
+            'prerequisite': ['can_dig']
+        },
+        "dragon_castle": {
+            "name": u"Драконий замок",
+            "inaccessability": 1,
+            "require": []
+        },
+        "castle": {
+            "name": u"Старые руины",
+            "inaccessability": 1,
+            "require": []
+        },
+        "ogre_den": {
+            "name": u"Берлога людоеда",
+            "inaccessability": 1,
+            "require": []
+        },
+        "broad_cave": {
+            "name": u"Просторная пещера",
+            "inaccessability": 1,
+            "require": []
+        },
+        "tower_ruin": {
+            "name": u"Руины башни",
+            "inaccessability": 0,
+            "provide": ["magic_traps"]
+        },
+        "monastery_ruin": {
+            "name": u"Руины монастыря",
+            "inaccessability": 1,
+            "require": []
+        },
+        "fortress_ruin": {
+            "name": u"Руины каменной крепости",
+            "inaccessability": 2,
+            "require": []
+        },
+        "castle_ruin": {
+            "name": u"Руины королевского замка",
+            "inaccessability": 1,
+            "require": []
+        },
+        "ice_citadel": {
+            "name": u"Ледяная цитадель",
+            "inaccessability": 1,
+            "require": ["aplinism", "coldproof"]
+        },
+        "vulcanic_forge": {
+            "name": u"Вулканическая кузница",
+            "inaccessability": 1,
+            "require": ["aplinism", "fireproof"]
+        },
+        "forest_heart": {
+            "name": u"Дупло Великого Древа",
+            "inaccessability": 2,
+            "provide": ["magic_traps"]
+        },
+        "cloud_castle": {
+            "name": u"Замок в облаках",
+            "inaccessability": 2,
+            "require": ["flight"]
+        },
+        "undefwater_mansion": {
+            "name": u"Подводные хоромы",
+            "inaccessability": 1,
+            "require": ["swimming"]
+        },
+        "underground_palaces": {
+            "name": u"Подгорные чертоги",
+            "inaccessability": 2,
+            "require": ["aplinism"],
+            "provide": ["mechanic_traps"]
+        },
+    }
+)
 
-lair_upgrades = Container("lair_upgrades", {
-    "mechanic_traps": {"name": u"Механические ловушки",
-                       "protection": 1},
-    "magic_traps": {"name": u"Магические ловушки",
-                    "protection": 1},
-    "poison_guards": {"name": u"Ядовитые стражи",
-                      "protection": 1},
-    "regular_guards": {"name": u"Обычные стражи",
-                       "protection": 2},
-    "smuggler_guards": {"name": u"Охранники",
-                        "cost": 100,
-                        "protection": 2},
-    "elite_guards": {"name": u"Элитные стражи",
-                     "protection": 3},
-    "gremlin_fortification": {"name": u"Укрепления",
-                              "inaccessability": 1,
-                              "protection": 0},
-    "gremlin_servant": {"name": u"Слуги-гремлины",
-                        "cost": 100,
-                        "protection": 0},
-    "servant": {"name": u"Слуги",
-                "protection": 0},
-})
+lair_upgrades = Container(
+    "lair_upgrades",
+    {
+        "mechanic_traps": {
+            "name": u"Механические ловушки",
+            "protection": 1
+        },
+        "magic_traps": {
+            "name": u"Магические ловушки",
+            "protection": 1
+        },
+        "poison_guards": {
+            "name": u"Ядовитые стражи",
+            "protection": 1
+        },
+        "regular_guards": {
+            "name": u"Обычные стражи",
+            "protection": 2
+        },
+        "smuggler_guards": {
+            "name": u"Охранники",
+            "cost": 100,
+            "protection": 2
+        },
+        "elite_guards": {
+            "name": u"Элитные стражи",
+            "protection": 3
+        },
+        "gremlin_fortification": {
+            "name": u"Укрепления",
+            "inaccessability": 1,
+            "protection": 0
+        },
+        "gremlin_servant": {
+            "name": u"Слуги-гремлины",
+            "cost": 100,
+            "protection": 0
+        },
+        "servant": {
+            "name": u"Слуги",
+            "protection": 0
+        }
+    }
+)
+
 attack_types = ['base', 'fire', 'ice', 'poison', 'sound', 'lightning']
 protection_types = ['base', 'scale', 'shield', 'armor']
 
@@ -650,129 +851,131 @@ reputation_gain = {
 #
 
 # имена
-dragon_names = [u'Азог',
-                u'Ауринг',
-                u'Алафис',
-                u'Брагнор',
-                u'Беливирг',
-                u'Бладвинг',
-                u'Беоргис',
-                u'Буран',
-                u'Висерин',
-                u'Вазгор',
-                u'Балерион',
-                u'Мераксес',
-                u'Вхагар',
-                u'Сиракс',
-                u'Тираксес',
-                u'Вермакс',
-                u'Арракс',
-                u'Караксес',
-                u'Тандрос',
-                u'Мунхайд',
-                u'Силвервинг',
-                u'Вермитор',
-                u'Шиптиф',
-                u'Вермитор',
-                u'Шрикос',
-                u'Моргул',
-                u'Урракс',
-                u'Дрого',
-                u'Рейегаль',
-                u'Визерион',
-                u'Эссовиус',
-                u'Гискар',
-                u'Валерион',
-                u'Вермитракс',
-                u'Архоней',
-                u'Дестирион',
-                u'Алхафтон',
-                u'Торогрим',
-                u'Коринстраз',
-                u'Ираникус',
-                u'Чарис',
-                u'Итариус',
-                u'Изондр',
-                u'Литурган',
-                u'Таэрад',
-                u'Морфалаз',
-                u'Нефариан',
-                u'Сеарнокс',
-                u'Пион',
-                u'Ладон',
-                u'Сципион',
-                u'Эрихтон',
-                u'Горонис',
-                u'Горгатрокс',
-                u'Артаксеркс',
-                u'Айтварас',
-                u'Балаур',
-                u'Орлангур',
-                u'Шадизар',
+dragon_names = [
+    u'Азог',
+    u'Ауринг',
+    u'Алафис',
+    u'Брагнор',
+    u'Беливирг',
+    u'Бладвинг',
+    u'Беоргис',
+    u'Буран',
+    u'Висерин',
+    u'Вазгор',
+    u'Балерион',
+    u'Мераксес',
+    u'Вхагар',
+    u'Сиракс',
+    u'Тираксес',
+    u'Вермакс',
+    u'Арракс',
+    u'Караксес',
+    u'Тандрос',
+    u'Мунхайд',
+    u'Силвервинг',
+    u'Вермитор',
+    u'Шиптиф',
+    u'Вермитор',
+    u'Шрикос',
+    u'Моргул',
+    u'Урракс',
+    u'Дрого',
+    u'Рейегаль',
+    u'Визерион',
+    u'Эссовиус',
+    u'Гискар',
+    u'Валерион',
+    u'Вермитракс',
+    u'Архоней',
+    u'Дестирион',
+    u'Алхафтон',
+    u'Торогрим',
+    u'Коринстраз',
+    u'Ираникус',
+    u'Чарис',
+    u'Итариус',
+    u'Изондр',
+    u'Литурган',
+    u'Таэрад',
+    u'Морфалаз',
+    u'Нефариан',
+    u'Сеарнокс',
+    u'Пион',
+    u'Ладон',
+    u'Сципион',
+    u'Эрихтон',
+    u'Горонис',
+    u'Горгатрокс',
+    u'Артаксеркс',
+    u'Айтварас',
+    u'Балаур',
+    u'Орлангур',
+    u'Шадизар',
 ]
 
-dragon_surnames = [u'Яростный',
-                u'Могучий',
-                u'Ужасный',
-                u'Бурерождённый',
-                u'Зловещий',
-                u'Тёмный',
-                u'Жестокий',
-                u'Надменный',
-                u'Жадный',
-                u'Алчный',
-                u'Безжалостный',
-                u'Беспощадный',
-                u'Гордый',
-                u'Прожорливый',
-                u'Громогласный',
-                u'Устрашающий',
-                u'Погибельный',
-                u'Сварливый',
-                u'Великолепный',
-                u'Завистливый',
-                u'Порочный',
-                u'Змееглазый',
-                u'Длиннохвостый',
-                u'Уродливый',
-                u'Шипочешуйный',
-                u'Злокозненный',
-                u'Осквернитель',
-                u'Пожиратель',
-                u'Разрыватель',
-                u'Роковой',
-                u'Смертоносный',
-                u'Скрытный',
-                u'Кровавый',
-                u'Саблеклык',
-                u'Искуситель',
-                u'Бесстыдный',
-                u'Смрадный',
-                u'Загребущий',
-                u'Срамотряс',
-                u'Пронзатель',
-                u'Сластолюбивый',
-                u'Гневный',
-                u'Кишкодёр',
-                u'Живодёр',
-                u'Живоглот',
-                u'Праздный',
-                u'Ослизлый',
-                u'Разрушитель',
-                u'Змееед',
-                u'Проклятый',
-                u'Кровожадный',
-                u'Растлитель',
-                u'Безбожный',
-                u'Властный',
-                u'Лживый',
-                u'Буревесник',
-                u'Подлый',
-                u'Двуличный',
-                u'Мудрый',
-                u'Зоркий',
-                u'Стремительный',
-                u'Нечистивый',
+dragon_surnames = [
+    u'Яростный',
+    u'Могучий',
+    u'Ужасный',
+    u'Бурерождённый',
+    u'Зловещий',
+    u'Тёмный',
+    u'Жестокий',
+    u'Надменный',
+    u'Жадный',
+    u'Алчный',
+    u'Безжалостный',
+    u'Беспощадный',
+    u'Гордый',
+    u'Прожорливый',
+    u'Громогласный',
+    u'Устрашающий',
+    u'Погибельный',
+    u'Сварливый',
+    u'Великолепный',
+    u'Завистливый',
+    u'Порочный',
+    u'Змееглазый',
+    u'Длиннохвостый',
+    u'Уродливый',
+    u'Шипочешуйный',
+    u'Злокозненный',
+    u'Осквернитель',
+    u'Пожиратель',
+    u'Разрыватель',
+    u'Роковой',
+    u'Смертоносный',
+    u'Скрытный',
+    u'Кровавый',
+    u'Саблеклык',
+    u'Искуситель',
+    u'Бесстыдный',
+    u'Смрадный',
+    u'Загребущий',
+    u'Срамотряс',
+    u'Пронзатель',
+    u'Сластолюбивый',
+    u'Гневный',
+    u'Кишкодёр',
+    u'Живодёр',
+    u'Живоглот',
+    u'Праздный',
+    u'Ослизлый',
+    u'Разрушитель',
+    u'Змееед',
+    u'Проклятый',
+    u'Кровожадный',
+    u'Растлитель',
+    u'Безбожный',
+    u'Властный',
+    u'Лживый',
+    u'Буревесник',
+    u'Подлый',
+    u'Двуличный',
+    u'Мудрый',
+    u'Зоркий',
+    u'Стремительный',
+    u'Нечистивый',
 ]
 
 # Размеры
@@ -835,16 +1038,17 @@ special_description = [
     u'Взгляд дракона светится нечеловеческим коварством. Сила его колдовских чар просто невероятна.'
 ]
 
-head_num = [  # TODO: Текстовый модуль с числительными
-              u'основная',
-              u'вторая',
-              u'третья',
-              u'четвёртая',
-              u'пятая',
-              u'шестая',
-              u'седьмая',
-              u'восьмая',
-              u'девятая'
+# TODO: Текстовый модуль с числительными
+head_num = [
+    u'основная',
+    u'вторая',
+    u'третья',
+    u'четвёртая',
+    u'пятая',
+    u'шестая',
+    u'седьмая',
+    u'восьмая',
+    u'девятая'
 ]
 
 # описание числа голов
@@ -1046,133 +1250,135 @@ special_places = {
 }
 
 quest_list = (  # TODO: внести все выполнимые на сегодня квесты
-                {  # только для дебага, не используется
-                   'min_lvl': 25,  # минимальный уровень дракона для получения квеста
-                   'max_lvl': 25,  # максимальный уровень дракона для получения квеста
-                   'text': u"Проживи 5 лет.",  # текст квеста
-                   'fixed_time': 25,  # количество лет на выполнение квеста, не зависящее от уровня дракона
-                   'task': 'autocomplete',
-                   # ключевое слово для описания задачи, 'autocomplete' - задача выполняется автоматически
-                },
-                {
-                    'min_lvl': 1,  # минимальный уровень дракона для получения квеста
-                    'max_lvl': 1,  # максимальный уровень дракона для получения квеста
-                    'text': u"Породить любое потомство.",  # текст квеста
-                    'fixed_time': 5,  # количество лет на выполнение квеста, не зависящее от уровня дракона
-                    'task': 'offspring',  # ключевое слово для описания задачи, 'offspring' - породить потомство
-                    'task_requirements': ('free_spawn', 'educated_spawn')
-                    # кортеж с требованиями, для выполнения задания нужно выполнить любое из них,
-                    # 'free_spawn' - потомство, рождённое на воле, 'educated_spawn' - воспитанное потомство
-                },
-                {
-                    'min_lvl': 2,  # минимальный уровень дракона для получения квеста
-                    'max_lvl': 2,  # максимальный уровень дракона для получения квеста
-                    'text': u"Стяжать дурную славу {0} или более.",
-                    # текст квеста, {0} будет заменён на требуемый уровень
-                    'fixed_time': 5,  # количество лет на выполнение квеста, не зависящее от уровня дракона
-                    'task': 'reputation',
-                    # ключевое слово для описания задачи, 'reputation' - проверяется уровень дурной славы
-                    'fixed_threshold': 1,  # 'fixed_'+ ключевое слово для задания фиксированного требуемого значения
-                },
-                {
-                    'min_lvl': 3,  # минимальный уровень дракона для получения квеста
-                    'max_lvl': 3,  # максимальный уровень дракона для получения квеста
-                    'text': u"Снизить боеспособность королевства.",  # текст квеста
-                    'fixed_time': 10,  # количество лет на выполнение квеста, не зависящее от уровня дракона
-                    'task': 'poverty',
-                    # ключевое слово для описания задачи, 'poverty' - проверяется уровень понижения мобилизации из-за разрухи
-                    'fixed_threshold': 1,  # 'fixed_'+ ключевое слово для задания фиксированного требуемого значения
-                },
-                {
-                    'min_lvl': 4,  # минимальный уровень дракона для получения квеста
-                    'max_lvl': 4,  # максимальный уровень дракона для получения квеста
-                    'text': u"Переселиться в приличное логово, сделать там любое улучшение, завести слуг и охрану.",
-                    # текст квеста
-                    'fixed_time': 10,  # количество лет на выполнение квеста, не зависящее от уровня дракона
-                    'task': 'lair',
-                    # ключевое слово для описания задачи, 'lair' - проверяется тип логова и его улучшений
-                    'task_obstruction': ('impassable_coomb',),
-                    # кортеж с описанием препятствий для выполнения квеста, 'impassable_coomb' - буреломный овраг, квест не выполнится с этим типом логова
-                    'task_requirements': ((('mechanic_traps', 'magic_traps', 'gremlin_fortification'),
-                                           ('gremlin_servant', 'servant'),
-                                           ('poison_guards', 'regular_guards', 'elite_guards')),),
-                    # кортеж с требованиями, для выполнения задания нужно выполнить любое из них, чтобы потребовать список требований - нужно использовать кортеж внутри кортежа
-                    # а для вариантов среди списка требований - нужно использовать котреж, который будет внутри кортежа для списка, который уже внутри кортежа
-                },
-                {
-                    'min_lvl': 5,  # минимальный уровень дракона для получения квеста
-                    'max_lvl': 5,  # максимальный уровень дракона для получения квеста
-                    'text': u"Поймать вора или одолеть рыцаря в собственном логове.",  # текст квеста
-                    'fixed_time': 25,  # количество лет на выполнение квеста, не зависящее от уровня дракона
-                    'task': 'event',  # ключевое слово для описания задачи, 'event' - должно произойти какое-то событие
-                    'task_requirements': ('thief_killer', 'knight_killer',),
-                    # кортеж с требованиями, нужно либо 'thief_killer' - поймать вора, либо 'knight_killer' - убить рыцаря
-                },
-                {
-                    'min_lvl': 6,  # минимальный уровень дракона для получения квеста
-                    'max_lvl': 11,  # максимальный уровень дракона для получения квеста
-                    'text': u"Стяжать дурную славу {0} или более.",
-                    # текст квеста, {0} будет заменён на требуемый уровень
-                    'lvlscale_time': 5,  # на что нужно умножить уровень дракона, чтобы получить число лет на выполнение
-                    'task': 'reputation',
-                    # ключевое слово для описания задачи, 'reputation' - проверяется уровень дурной славы
-                    'fixed_threshold': 1,  # задаёт фиксированное значения для задачи
-                    'lvlscale_threshold': 1,
-                    # число, на которое нужно умножить уровень дракона, чтобы получить необходимый уровень
-                },
-                {
-                    'min_lvl': 6,  # минимальный уровень дракона для получения квеста
-                    'max_lvl': 11,  # максимальный уровень дракона для получения квеста
-                    'text': u"Достичь суммарной стоимости золотого ложа не менее {0} фартингов.",
-                    # текст квеста, {0} будет заменён на требуемый уровень
-                    'lvlscale_time': 5,  # на что нужно умножить уровень дракона, чтобы получить число лет на выполнение
-                    'task': 'wealth',  # ключевое слово для описания задачи, 'wealth' - проверяется стоимость сокровищ
-                    'fixed_threshold': 5000,  # задаёт фиксированное значения для задачи
-                    'lvlscale_threshold': 1000,
-                    # число, на которое нужно умножить уровень дракона, чтобы получить необходимый уровень
-                },
-                {
-                    'min_lvl': 6,  # минимальный уровень дракона для получения квеста
-                    'max_lvl': 11,  # максимальный уровень дракона для получения квеста
-                    'text': u"Подарок для Владычицы. Драгоценность стоимостью {0} фартингов.",
-                    # текст квеста, {0} будет заменён на требуемый уровень
-                    'lvlscale_time': 5,  # на что нужно умножить уровень дракона, чтобы получить число лет на выполнение
-                    'task': 'gift',  # ключевое слово для описания задачи, 'wealth' - проверяется стоимость сокровищ
-                    'lvlscale_threshold': 100,
-                    # число, на которое нужно умножить уровень дракона, чтобы получить необходимый уровень
-                },
-                {
-                    'min_lvl': 6,  # минимальный уровень дракона для получения квеста
-                    'max_lvl': 11,  # максимальный уровень дракона для получения квеста
-                    'text': u"Породить потомка от великанши.",  # текст квеста
-                    'fixed_time': 50,  # количество лет на выполнение квеста, не зависящее от уровня дракона
-                    'task': 'offspring',  # ключевое слово для описания задачи, 'offspring' - породить потомство
-                    'task_requirements': ('giantess',),
-                    # кортеж с требованиями, для выполнения задания нужно выполнить любое из них, 'giantess' - потомок от великанши
-                    'unique': 'giantess'
-                    # наличие этого ключа - задание выполняется только один раз в течение игры, значение - ключ для game.unique, который добавится после выполнения
-                },
-                {
-                    'min_lvl': 6,  # минимальный уровень дракона для получения квеста
-                    'max_lvl': 11,  # максимальный уровень дракона для получения квеста
-                    'text': u"Разорить священную рощу альвов.",  # текст квеста
-                    'fixed_time': 75,  # количество лет на выполнение квеста, не зависящее от уровня дракона
-                    'prerequisite': 'giantess',  # ключ для game.unique, который необходим для получения этой задачи
-                    'task': 'event',  # ключевое слово для описания задачи, 'event' - должно произойти какое-то событие
-                    'task_requirements': ('ravage_sacred_grove',),
-                    # кортеж с требованиями, для выполнения задания нужно выполнить любое из них, 'ravage_sacred_grove' - разорить рощу альвов
-                    'unique': 'ravage_sacred_grove'
-                    # наличие этого ключа - задание выполняется только один раз в течение игры, значение - ключ для game.unique, который добавится после выполнения
-                },
-                {
-                    'min_lvl': 12,  # минимальный уровень дракона для получения квеста
-                    'max_lvl': 20,  # максимальный уровень дракона для получения квеста
-                    'text': u"Собрать армию тьмы и захватить столицу королевства для Темной Госпожи.",  # текст квеста
-                    'fixed_time': 1000,  # количество лет на выполнение квеста, не зависящее от уровня дракона
-                    'task': 'event',  # ключевое слово для описания задачи, 'event' - должно произойти какое-то событие
-                    'task_requirements': ('victory',),
-                    # кортеж с требованиями, для выполнения задания нужно выполнить любое из них, 'victory' - заглушка для победы
-                },
+    {  # только для дебага, не используется
+       'min_lvl': 25,  # минимальный уровень дракона для получения квеста
+       'max_lvl': 25,  # максимальный уровень дракона для получения квеста
+       'text': u"Проживи 5 лет.",  # текст квеста
+       'fixed_time': 25,  # количество лет на выполнение квеста, не зависящее от уровня дракона
+       'task': 'autocomplete',
+       # ключевое слово для описания задачи, 'autocomplete' - задача выполняется автоматически
+    },
+    {
+        'min_lvl': 1,  # минимальный уровень дракона для получения квеста
+        'max_lvl': 1,  # максимальный уровень дракона для получения квеста
+        'text': u"Породить любое потомство.",  # текст квеста
+        'fixed_time': 5,  # количество лет на выполнение квеста, не зависящее от уровня дракона
+        'task': 'offspring',  # ключевое слово для описания задачи, 'offspring' - породить потомство
+        'task_requirements': ('free_spawn', 'educated_spawn')
+        # кортеж с требованиями, для выполнения задания нужно выполнить любое из них,
+        # 'free_spawn' - потомство, рождённое на воле, 'educated_spawn' - воспитанное потомство
+    },
+    {
+        'min_lvl': 2,  # минимальный уровень дракона для получения квеста
+        'max_lvl': 2,  # максимальный уровень дракона для получения квеста
+        'text': u"Стяжать дурную славу {0} или более.",
+        # текст квеста, {0} будет заменён на требуемый уровень
+        'fixed_time': 5,  # количество лет на выполнение квеста, не зависящее от уровня дракона
+        'task': 'reputation',
+        # ключевое слово для описания задачи, 'reputation' - проверяется уровень дурной славы
+        'fixed_threshold': 1,  # 'fixed_'+ ключевое слово для задания фиксированного требуемого значения
+    },
+    {
+        'min_lvl': 3,  # минимальный уровень дракона для получения квеста
+        'max_lvl': 3,  # максимальный уровень дракона для получения квеста
+        'text': u"Снизить боеспособность королевства.",  # текст квеста
+        'fixed_time': 10,  # количество лет на выполнение квеста, не зависящее от уровня дракона
+        'task': 'poverty',
+        # ключевое слово для описания задачи, 'poverty' - проверяется уровень понижения мобилизации из-за разрухи
+        'fixed_threshold': 1,  # 'fixed_'+ ключевое слово для задания фиксированного требуемого значения
+    },
+    {
+        'min_lvl': 4,  # минимальный уровень дракона для получения квеста
+        'max_lvl': 4,  # максимальный уровень дракона для получения квеста
+        'text': u"Переселиться в приличное логово, сделать там любое улучшение, завести слуг и охрану.",
+        # текст квеста
+        'fixed_time': 10,  # количество лет на выполнение квеста, не зависящее от уровня дракона
+        'task': 'lair',
+        # ключевое слово для описания задачи, 'lair' - проверяется тип логова и его улучшений
+        'task_obstruction': ('impassable_coomb',),
+        # кортеж с описанием препятствий для выполнения квеста, 'impassable_coomb' - буреломный овраг, квест не выполнится с этим типом логова
+        'task_requirements': (
+            ('mechanic_traps', 'magic_traps', 'gremlin_fortification'),
+            ('gremlin_servant', 'servant'),
+            ('poison_guards', 'regular_guards', 'elite_guards')
+        )
+        # кортеж с требованиями, для выполнения задания нужно выполнить любое из них, чтобы потребовать список требований - нужно использовать кортеж внутри кортежа
+        # а для вариантов среди списка требований - нужно использовать котреж, который будет внутри кортежа для списка, который уже внутри кортежа
+    },
+    {
+        'min_lvl': 5,  # минимальный уровень дракона для получения квеста
+        'max_lvl': 5,  # максимальный уровень дракона для получения квеста
+        'text': u"Поймать вора или одолеть рыцаря в собственном логове.",  # текст квеста
+        'fixed_time': 25,  # количество лет на выполнение квеста, не зависящее от уровня дракона
+        'task': 'event',  # ключевое слово для описания задачи, 'event' - должно произойти какое-то событие
+        'task_requirements': ('thief_killer', 'knight_killer',),
+        # кортеж с требованиями, нужно либо 'thief_killer' - поймать вора, либо 'knight_killer' - убить рыцаря
+    },
+    {
+        'min_lvl': 6,  # минимальный уровень дракона для получения квеста
+        'max_lvl': 11,  # максимальный уровень дракона для получения квеста
+        'text': u"Стяжать дурную славу {0} или более.",
+        # текст квеста, {0} будет заменён на требуемый уровень
+        'lvlscale_time': 5,  # на что нужно умножить уровень дракона, чтобы получить число лет на выполнение
+        'task': 'reputation',
+        # ключевое слово для описания задачи, 'reputation' - проверяется уровень дурной славы
+        'fixed_threshold': 1,  # задаёт фиксированное значения для задачи
+        'lvlscale_threshold': 1,
+        # число, на которое нужно умножить уровень дракона, чтобы получить необходимый уровень
+    },
+    {
+        'min_lvl': 6,  # минимальный уровень дракона для получения квеста
+        'max_lvl': 11,  # максимальный уровень дракона для получения квеста
+        'text': u"Достичь суммарной стоимости золотого ложа не менее {0} фартингов.",
+        # текст квеста, {0} будет заменён на требуемый уровень
+        'lvlscale_time': 5,  # на что нужно умножить уровень дракона, чтобы получить число лет на выполнение
+        'task': 'wealth',  # ключевое слово для описания задачи, 'wealth' - проверяется стоимость сокровищ
+        'fixed_threshold': 5000,  # задаёт фиксированное значения для задачи
+        'lvlscale_threshold': 1000,
+        # число, на которое нужно умножить уровень дракона, чтобы получить необходимый уровень
+    },
+    {
+        'min_lvl': 6,  # минимальный уровень дракона для получения квеста
+        'max_lvl': 11,  # максимальный уровень дракона для получения квеста
+        'text': u"Подарок для Владычицы. Драгоценность стоимостью {0} фартингов.",
+        # текст квеста, {0} будет заменён на требуемый уровень
+        'lvlscale_time': 5,  # на что нужно умножить уровень дракона, чтобы получить число лет на выполнение
+        'task': 'gift',  # ключевое слово для описания задачи, 'wealth' - проверяется стоимость сокровищ
+        'lvlscale_threshold': 100,
+        # число, на которое нужно умножить уровень дракона, чтобы получить необходимый уровень
+    },
+    {
+        'min_lvl': 6,  # минимальный уровень дракона для получения квеста
+        'max_lvl': 11,  # максимальный уровень дракона для получения квеста
+        'text': u"Породить потомка от великанши.",  # текст квеста
+        'fixed_time': 50,  # количество лет на выполнение квеста, не зависящее от уровня дракона
+        'task': 'offspring',  # ключевое слово для описания задачи, 'offspring' - породить потомство
+        'task_requirements': ('giantess',),
+        # кортеж с требованиями, для выполнения задания нужно выполнить любое из них, 'giantess' - потомок от великанши
+        'unique': 'giantess'
+        # наличие этого ключа - задание выполняется только один раз в течение игры, значение - ключ для game.unique, который добавится после выполнения
+    },
+    {
+        'min_lvl': 6,  # минимальный уровень дракона для получения квеста
+        'max_lvl': 11,  # максимальный уровень дракона для получения квеста
+        'text': u"Разорить священную рощу альвов.",  # текст квеста
+        'fixed_time': 75,  # количество лет на выполнение квеста, не зависящее от уровня дракона
+        'prerequisite': 'giantess',  # ключ для game.unique, который необходим для получения этой задачи
+        'task': 'event',  # ключевое слово для описания задачи, 'event' - должно произойти какое-то событие
+        'task_requirements': ('ravage_sacred_grove',),
+        # кортеж с требованиями, для выполнения задания нужно выполнить любое из них, 'ravage_sacred_grove' - разорить рощу альвов
+        'unique': 'ravage_sacred_grove'
+        # наличие этого ключа - задание выполняется только один раз в течение игры, значение - ключ для game.unique, который добавится после выполнения
+    },
+    {
+        'min_lvl': 12,  # минимальный уровень дракона для получения квеста
+        'max_lvl': 20,  # максимальный уровень дракона для получения квеста
+        'text': u"Собрать армию тьмы и захватить столицу королевства для Темной Госпожи.",  # текст квеста
+        'fixed_time': 1000,  # количество лет на выполнение квеста, не зависящее от уровня дракона
+        'task': 'event',  # ключевое слово для описания задачи, 'event' - должно произойти какое-то событие
+        'task_requirements': ('victory',),
+        # кортеж с требованиями, для выполнения задания нужно выполнить любое из них, 'victory' - заглушка для победы
+    },
 )
 
 # Список всех доступных для дракона событий
