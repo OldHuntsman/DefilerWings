@@ -10,8 +10,14 @@ label lb_dragon_creator:
         for i in game.dragon.anatomy:
             game.dragon.anatomy.remove(i)
         game.dragon.heads.append("green")
-        special_features_rus = {"tough_scale": "крепкая чешуя", "poisoned_sting": "ядовитое жало",
-                                "clutches": "когти", "horns": "рога", "fangs": "клыки", "ugly": "уродство"}
+        special_features_rus = {
+            "tough_scale": "крепкая чешуя",
+            "poisoned_sting": "ядовитое жало",
+            "clutches": "когти",
+            "horns": "рога",
+            "fangs": "клыки",
+            "ugly": "уродство"
+        }
         colored_heads = ["red", "white", "blue", "black", "iron", "bronze", "silver", "gold", "shadow"]
     init python:
         class AddModifier(object):
