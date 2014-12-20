@@ -437,6 +437,12 @@ screen preferences:
                 has vbox
 
                 textbutton _("Джостик...") action Preference("joystick")
+            
+            frame:
+                style_group "pref"
+                has vbox
+
+                textbutton _("Сброс сюжетной игры") action Game_Reset()
 
         vbox:
             frame:
@@ -527,6 +533,11 @@ init -2:
 
     # style pref_root:
     #    background img/menu/gmenu.png
+    
+    python:
+        class Game_Reset(object):
+            def __call__(self):
+                renpy.unlink_save("1-1")
 
 ##############################################################################
 # Yes/No Prompt

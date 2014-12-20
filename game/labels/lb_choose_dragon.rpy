@@ -6,7 +6,7 @@ label lb_choose_dragon:
         if game.dragon is None:
             dragons = []
             dragons_choosed = []
-        elif game.dragon.heads and not game.is_lost:
+        elif game.dragon.is_alive and not game.is_lost:
             dragons = []
             dragons_choosed = []
             # добавляем 1 гоблина в армию тьмы
