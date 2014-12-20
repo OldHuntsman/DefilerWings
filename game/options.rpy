@@ -142,7 +142,7 @@ init -1 python hide:
         # And we're done with the theme. The theme will customize
         # various styles, so if we want to change them, we should
         # do so below.
-        )
+)
 
     #########################################
     # These settings let you customize the window containing the
