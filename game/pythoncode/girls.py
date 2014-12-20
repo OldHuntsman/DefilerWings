@@ -294,10 +294,10 @@ class Girls_list(object):
                 renpy.say(self.game.narrator, u"%s отправляется в армию тьмы" % spawn['name'])
                 self.army_of_darkness(spawn_type)
             else:
-                renpy.say(self.game.narrator,
-                          u"%s приступает к выполнению обязанностей" % spawn['name'])  # выдача сообщения
-                self.game.lair.upgrades.add(menu_action,
-                                            deepcopy(data.lair_upgrades[menu_action]))  # добавление в улучшение логова
+                # выдача сообщения
+                renpy.say(self.game.narrator, u"%s приступает к выполнению обязанностей" % spawn['name'])
+                # добавление в улучшение логова
+                self.game.lair.upgrades.add(menu_action, deepcopy(data.lair_upgrades[menu_action]))
         self.spawn = []
 
     def free_spawn(self, power):
