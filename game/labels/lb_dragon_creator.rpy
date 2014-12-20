@@ -18,6 +18,7 @@ label lb_dragon_creator:
             def __init__(self, mod, dragon):
                 self.mod = mod
                 self.dragon = dragon
+
             def __call__(self):
                 if self.mod in data.dragon_heads.keys():
                     if self.mod == "green":
