@@ -9,11 +9,11 @@ label lb_event_girl_escape:
 
 label lb_event_girl_spawn(spawn_type):
     $ spawn_image = "img/scene/spawn/%s.png" % spawn_type
-    "[spawn_image]"
     hide bg
-    show expression spawn_image as foeimg
+    show expression spawn_image as bg
     nvl clear
-    $ game.girls_list.description('spawn', True)  # описание родов
+    $ spawn_description = game.girls_list.description('spawn')  # описание родов на воле
+    "[spawn_description]"
     return
 
 label lb_event_girl_free_spawn(spawn_type):

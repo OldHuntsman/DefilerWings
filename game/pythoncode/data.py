@@ -592,27 +592,38 @@ lair_types = Container("lair_types", {
 })
 
 lair_upgrades = Container("lair_upgrades", {
-    "mechanic_traps": {"name": u"Механические ловушки",
-                       "protection": 1},
-    "magic_traps": {"name": u"Магические ловушки",
-                    "protection": 1},
-    "poison_guards": {"name": u"Ядовитые стражи",
-                      "protection": 1},
-    "regular_guards": {"name": u"Обычные стражи",
-                       "protection": 2},
-    "smuggler_guards": {"name": u"Охранники",
-                        "cost": 100,
-                        "protection": 2},
-    "elite_guards": {"name": u"Элитные стражи",
-                     "protection": 3},
-    "gremlin_fortification": {"name": u"Укрепления",
-                              "inaccessability": 1,
-                              "protection": 0},
-    "gremlin_servant": {"name": u"Слуги-гремлины",
-                        "cost": 100,
-                        "protection": 0},
-    "servant": {"name": u"Слуги",
-                "protection": 0},
+    "mechanic_traps": {
+        "name": u"Механические ловушки",
+        "protection": 1},
+    "magic_traps": {
+        "name": u"Магические ловушки",
+        "protection": 1},
+    "poison_guards": {
+        "name": u"Ядовитые стражи",
+        "protection": 1},
+    "regular_guards": {
+        "name": u"Обычные стражи",
+        "replaces" : "smuggler_guards",  # какое улучшение автоматически заменяет
+        "protection": 2},
+    "smuggler_guards": {
+        "name": u"Охранники",
+        "cost": 100,
+        "protection": 2},
+    "elite_guards": {
+        "name": u"Элитные стражи",
+        "protection": 3},
+    "gremlin_fortification": {
+        "name": u"Укрепления",
+        "inaccessability": 1,
+        "protection": 0},
+    "gremlin_servant": {
+        "name": u"Слуги-гремлины",
+        "replaces" : "servant",  # какое улучшение автоматически заменяет
+        "cost": 100,
+        "protection": 0},
+    "servant": {
+        "name": u"Слуги",
+        "protection": 0},
 })
 attack_types = ['base', 'fire', 'ice', 'poison', 'sound', 'lightning']
 protection_types = ['base', 'scale', 'shield', 'armor']

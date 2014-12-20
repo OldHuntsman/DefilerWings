@@ -170,7 +170,7 @@ class Girls_list(object):
         if girls_data.girls_texts[girl_type][status]:
             text = random.choice(girls_data.girls_texts[girl_type][status])
             # TODO: Ситуативные описания
-            if status == 'birth':
+            if status == 'spawn':
                 format_dict['situation'] = (girls_data.spawn_info[self.spawn[-1]]['name'])
             elif status == 'rob':
                 treas_description = self.game.lair.treasury.treasures_description(self.game.girl.treasure)
@@ -288,16 +288,20 @@ class Girls_list(object):
             menu_action = renpy.display_menu(spawn_menu)
 
             if menu_action == 'free':
-                renpy.say(self.game.narrator, u"%s отправляется бесчинствовать в королевстве" % spawn['name'])
+                renpy.say(self.game.narrator, u"%s отправляется бесчинствовать в королевстве." % spawn['name'])
                 self.free_spawn(spawn['power'])
             elif menu_action == 'army_of_darkness':
-                renpy.say(self.game.narrator, u"%s отправляется в армию тьмы" % spawn['name'])
+                renpy.say(self.game.narrator, u"%s отправляется в армию тьмы." % spawn['name'])
                 self.army_of_darkness(spawn_type)
             else:
-                # выдача сообщения
-                renpy.say(self.game.narrator, u"%s приступает к выполнению обязанностей" % spawn['name'])
+                # выдача сообщения о начале работы
+                renpy.say(self.game.narrator, u"%s приступает к выполнению обязанностей." % spawn['name'])
+                # выдача сообщения о конце работы, если это необходимо
+                if 'replaces' in data.lair_upgrades[menu_action].keys():
+                    replace = data.lair_upgrades[menu_action]['replaces']
+                    renpy.say(self.game.narrator, u"%s больше не требуются и уходят." % data.lair_upgrades[replace]['name'])
                 # добавление в улучшение логова
-                self.game.lair.upgrades.add(menu_action, deepcopy(data.lair_upgrades[menu_action]))
+                self.game.lair.add_upgrade(menu_action)
         self.spawn = []
 
     def free_spawn(self, power):

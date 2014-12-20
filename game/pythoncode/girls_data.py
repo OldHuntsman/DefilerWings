@@ -398,7 +398,7 @@ spawn_info = {
 
 girl_events = {
     'escape': 'lb_event_girl_escape',  # событие "побег из заключения"
-    'spawn': 'lb_event_girl_birth',  # событие "рождение отродий"
+    'spawn': 'lb_event_girl_spawn',  # событие "рождение отродий"
     'free_spawn': 'lb_event_girl_free_spawn',  # событие "рождение отродий на воле"
     'hunger_death': 'lb_event_girl_hunger_death',  # событие "смерть девушки от голода"
     'kill': 'lb_event_girl_kill',  # событие "беременную девушку убивают на свободе"
