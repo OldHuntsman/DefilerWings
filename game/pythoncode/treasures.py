@@ -1728,9 +1728,11 @@ class Treasury(store.object):
 
         treas_list = deepcopy(treasure_list)
         description_list = []
-        # Группируем монеты и слитки
+        # Группируем монеты, слитки, драгоценные камни и материалы
         coin_list = {}
         ingot_list = {}
+        gem_list = {}
+        material_list = {}
         for treas_i in reversed(xrange(len(treasure_list))):
             treas = treas_list[treas_i]
             if isinstance(treas, Coin):
@@ -1745,10 +1747,34 @@ class Treasury(store.object):
                 else:
                     ingot_list[treas.metal_type] = treas.weight
                 del treas_list[treas_i]
+            elif isinstance(treas, Gem):
+                type_str = treas.g_type + ';' + treas.size + ';' + treas.cut
+                if type_str in gem_list:
+                    gem_list[type_str] += 1
+                else:
+                    gem_list[type_str] = 1
+                del treas_list[treas_i]
+            elif isinstance(treas, Material):
+                type_str = treas.m_type + ';' + treas.size
+                if type_str in material_list:
+                    material_list[type_str] += 1
+                else:
+                    material_list[type_str] = 1
+                del treas_list[treas_i]
         for treas in coin_list.iterkeys():
             description_list.append(Coin.number_conjugation(treas, coin_list[treas]) + '.')
         for treas in ingot_list.iterkeys():
             description_list.append(capitalizeFirst(Ingot.number_conjugation(treas, ingot_list[treas])) + '.')
+        for treas in gem_list.iterkeys():
+            if gem_list[treas] > 1:
+                description_list.append(capitalizeFirst(Gem.number_conjugation(treas, gem_list[treas])) + '.')
+            else:
+                description_list.append(capitalizeFirst(Gem(*treas.split(';')).description()) + '.')
+        for treas in material_list.iterkeys():
+            if material_list[treas] > 1:
+                description_list.append(capitalizeFirst(Material.number_conjugation(treas, material_list[treas])) + '.')
+            else:
+                description_list.append(capitalizeFirst(Material(*treas.split(';')).description()) + '.')
             # Выводим остальное
         for treas in treas_list:
             description_list.append(capitalizeFirst(treas.description()) + '.')
