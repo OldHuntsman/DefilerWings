@@ -1058,6 +1058,14 @@ treasures_mass_description_rus = {
         10000: u"Гора безделушек",
         100000: u"Горы безделушек",
     },
+    'wealth': {
+        0: u"Сокровищница практически пуста. ",
+        100: u"В сокровищнице жалкие гроши, которые добропорядочному дракону иметь стыдно. ",
+        1000: u"В сокровищнице смотреть не на что. ",
+        10000: u"В сокровищнице вполне достойная куча сокровищ, уже не стыдно её кому-нибудь показать. ",
+        100000: u"Собрать такую гору сокровищ удаётся только лучшим драконам. Есть повод для гордости. ",
+        1000000: u"Горы сокровищ - гордость самого богатого дракона в мире. ",
+    },
 }
 
 number_conjugation_end = {
@@ -2102,6 +2110,19 @@ class Treasury(store.object):
         :return: описание массы драгоценных камней в сокровищнице
         """
         return Treasury.get_mass_description('jewelry', self.jewelry_mass)
+        
+    @property
+    def wealth_description(self):
+        """
+        :return: описание всех сокровищ в сокровищнице
+        """
+        wealth = self.wealth
+        if wealth > 0:
+            wealth_str = Treasury.get_mass_description('wealth', wealth)
+            wealth_str += u"Общая стоимость сокровищ: " + number_conjugation_rus(wealth, u"фартинг")
+            return wealth_str 
+        else:
+            return u"Сокровищница пуста."
 
     def get_salary(self, amount):
         """

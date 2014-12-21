@@ -28,7 +28,6 @@ label lb_location_lair_main:
                     $ game.lair.upgrades.add('magic_traps', deepcopy(data.lair_upgrades['magic_traps']))
 
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
-            # TODO: заменить на адекватный вариант
             python:
                 import random
                 import os
@@ -42,10 +41,9 @@ label lb_location_lair_main:
                 renpy.treasurybg = ui.image(treasurybg)
                     
             show image renpy.treasurybg as bg
-            $ description = u"%s собрал кучу сокровищ общей стоимостью %s" % (game.dragon.name, treasures.number_conjugation_rus(game.lair.treasury.wealth, u"фартинг"))
             nvl clear
-            "[description]"
             menu:
+                '[game.lair.treasury.wealth_description]'
                 '[game.lair.treasury.gems_mass_description]' if game.lair.treasury.gem_mass > 0:
                     "[game.lair.treasury.gems_list]"
                     nvl clear
