@@ -45,16 +45,17 @@ label lb_choose_dragon:
             renpy.childimg1 = ui.image(dragons[0].avatar)
         else:
             renpy.childimg1 = ui.image(im.Grayscale(dragons[0].avatar))
-        if len(dragons) > 1:
+        try:
             if dragons[1] not in dragons_choosed:
                 renpy.childimg2 = ui.image(dragons[1].avatar)
             else:
                 renpy.childimg2 = ui.image(im.Grayscale(dragons[1].avatar))
-        if len(dragons) > 2:
             if dragons[2] not in dragons_choosed:
                 renpy.childimg3 = ui.image(dragons[2].avatar)
             else:
                 renpy.childimg3 = ui.image(im.Grayscale(dragons[2].avatar))
+        except IndexError:
+            pass
 
         def get_breedbg():
             import random
