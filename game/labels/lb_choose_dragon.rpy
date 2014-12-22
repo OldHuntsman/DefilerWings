@@ -41,11 +41,20 @@ label lb_choose_dragon:
             dragons.append(child)
             used_gifts.append(child._gift)
             used_avatars.append(child.avatar)
-        renpy.childimg1 = ui.image(dragons[0].avatar) if dragons[0] not in dragons_choosed else ui.image(im.Grayscale(dragons[0].avatar))
+        if dragons[0] not in dragons_choosed:
+            renpy.childimg1 = ui.image(dragons[0].avatar)
+        else:
+            renpy.childimg1 = ui.image(im.Grayscale(dragons[0].avatar))
         if len(dragons) > 1:
-            renpy.childimg2 = ui.image(dragons[1].avatar) if dragons[1] not in dragons_choosed else ui.image(im.Grayscale(dragons[1].avatar))
+            if dragons[1] not in dragons_choosed:
+                renpy.childimg2 = ui.image(dragons[1].avatar)
+            else:
+                renpy.childimg2 = ui.image(im.Grayscale(dragons[1].avatar))
         if len(dragons) > 2:
-            renpy.childimg3 = ui.image(dragons[2].avatar) if dragons[2] not in dragons_choosed else ui.image(im.Grayscale(dragons[2].avatar))
+            if dragons[2] not in dragons_choosed:
+                renpy.childimg3 = ui.image(dragons[2].avatar)
+            else:
+                renpy.childimg3 = ui.image(im.Grayscale(dragons[2].avatar))
 
         def get_breedbg():
             import random

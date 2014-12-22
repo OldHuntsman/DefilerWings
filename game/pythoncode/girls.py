@@ -217,10 +217,16 @@ class Girls_list(object):
                     if self.game.girl.pregnant:
                         girl_type = girls_data.girls_info[self.game.girl.type]
 
-                        spawn_class = 'regular_spawn' if self.game.girl.pregnant == 1 else 'advanced_spawn'
+                        if self.game.girl.pregnant == 1:
+                            spawn_class = 'regular_spawn'
+                        else:
+                            spawn_class = 'advanced_spawn'
                         if 'educated_spawn' not in self.offspring:
                             self.offspring.append('educated_spawn')
-                        girl_size = 'giantess' if girl_type['giantess'] else 'usual_size'
+                        if girl_type['giantess']:
+                            girl_size = 'giantess'
+                        else:
+                            girl_size = 'usual_size'
                         if girl_size not in self.offspring:
                             self.offspring.append(girl_size)
 
@@ -238,10 +244,16 @@ class Girls_list(object):
             else:
                 girl_type = girls_data.girls_info[self.game.girl.type]
 
-                spawn_class = 'regular_spawn' if self.game.girl.pregnant == 1 else 'advanced_spawn'
+                if self.game.girl.pregnant == 1:
+                    spawn_class = 'regular_spawn'
+                else:
+                    spawn_class = 'advanced_spawn'
                 if 'free_spawn' not in self.offspring:
                     self.offspring.append('free_spawn')
-                girl_size = 'giantess' if girl_type['giantess'] else 'usual_size'
+                if girl_type['giantess']:
+                    girl_size = 'giantess'
+                else:
+                    girl_size = 'usual_size'
                 if girl_size not in self.offspring:
                     self.offspring.append(girl_size)
 

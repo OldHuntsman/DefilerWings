@@ -1196,11 +1196,24 @@ class Gem(object):  # класс для генерации драг.камней
         self.size = size  # размер
         self.size_mod = Gem.size_dict[size][1]  # модификатор размера
         """степень обработки"""
-        self.cut = " " if self.g_type == "pearl" or self.g_type == "black_pearl" else cut
+        if self.g_type == "pearl" or self.g_type == "black_pearl":
+            self.cut = " "
+        else:
+            self.cut = cut
         self.cut_mod = Gem.cut_dict[cut][1]  # модификатор обработки
         self.base = gem_types[self.g_type][1]  # базовая ценность, зависит от типа
-        self.can_be_incrusted = False if self.size == 100 else True  # проверяем возможность инкрустации
-        self.amount = 1 if self.size_mod >= 25 else 5 if self.size_mod == 5 else 20
+        # проверяем возможность инкрустации:
+        if self.size == 100:
+            self.can_be_incrusted = False
+        else:
+            self.can_be_incrusted = True
+        if self.size_mod >= 25:
+            self.amount = 1
+        else:
+            if self.size_mod == 5:
+                self.amount = 5
+            else:
+                self.amount = 20
 
     @property
     def cost(self):  # цена камня, складывается из базы(зависит от типа), размера и степени обработки
@@ -1253,7 +1266,11 @@ class Gem(object):  # класс для генерации драг.камней
             else:
                 gem_count *= 5
         conjugation_type = number_conjugation_type(gem_count)  # определяем тип сопряжения
-        gender = 'he' if gem_param[0] != 'pearl' and gem_param[0] != 'black_pearl' else 'she'  # определяем род, некрасивый вариант - лучше использовать словарь
+        # определяем род, некрасивый вариант - лучше использовать словарь:
+        if gem_param[0] != 'pearl' and gem_param[0] != 'black_pearl':
+            gender = 'he'
+        else:
+            gender = 'she'
         # выводим результат для каждого типа сопряжения
         if conjugation_type == 0:  # единственное число - именительный падеж, род копируется
             if gem_count != 1:  # если камень один - не ставим число
@@ -1428,12 +1445,19 @@ class Treasure(object):  # класс для сокровищ
         self.alignment = alignment
         """дальше генерируем характеристики в зависимости от типа сокровища"""
         self.random_mod = random.randint(0, self.base_price * 10)
-        self.spangled = generate_gem(1, {"size": ('common',)})[0] if random.randint(1,
-                                                                                    100) <= 50 and self.incrustable else None  # размер 'common' - хак, чтобы не писалось "мелкими"
-        self.inlaid = generate_gem(1, {"size": ('common',)})[0] if random.randint(1,
-                                                                                  100) <= 15 and self.incrustable else None
-        self.huge = generate_gem(1, {"size": ('large',)})[0] if random.randint(1,
-                                                                               100) <= 5 and self.incrustable else None
+        # размер 'common' - хак, чтобы не писалось "мелкими":
+        if random.randint(1, 100) <= 50 and self.incrustable:
+            self.spangled = generate_gem(1, {"size": ('common',)})[0]
+        else:
+            self.spangled = None
+        if random.randint(1, 100) <= 15 and self.incrustable:
+            self.inlaid = generate_gem(1, {"size": ('common',)})[0]
+        else:
+            self.inlaid = None
+        if random.randint(1, 100) <= 5 and self.incrustable:
+            self.huge = generate_gem(1, {"size": ('large',)})[0]
+        else:
+            self.huge = None
 
         def metalls_available():  # проверяем принадлежность к расе(из каких металов может быть сделано)
             if self.alignment == "human" or self.alignment == "cleric" or self.alignment == "knight":
@@ -1480,7 +1504,10 @@ class Treasure(object):  # класс для сокровищ
         self.decoration = decorate()  # выбираем орнамент
         if self.image:
             self.decoration_image = random.choice(image_types[self.alignment])
-        self.dec_mod = 1 if self.decoration is None else 2  # равен двум если есть орнамент
+        if self.decoration is None:
+            self.dec_mod = 1
+        else:
+            self.dec_mod = 2  # равен двум если есть орнамент
 
         def q_choice():  # прокидываем качество вещи
             if self.alignment == "human" or self.alignment == "cleric" or self.alignment == "knight":
@@ -1557,7 +1584,11 @@ class Treasure(object):  # класс для сокровищ
                     enchant_list.append(u"%s %s" % (decoration_description_rus['inlaid'][self.gender],
                                                     self.inlaid.description(True, 'ablative', 'they')))
                 if self.huge:  # с крупным камнем
-                    gem_gender = 'she' if self.huge.g_type == 'pearl' or self.huge.g_type == 'black_pearl' else 'he'  # только ради "крупной (чёрной) жемчужины"
+                    # только ради "крупной (чёрной) жемчужины":
+                    if self.huge.g_type == 'pearl' or self.huge.g_type == 'black_pearl':
+                        gem_gender = 'she'
+                    else:
+                        gem_gender = 'he'
                     enchant_list.append(u"с %s" % self.huge.description(True, 'ablative', gem_gender))
                 if self.decoration:  # украшенное чеканкой/гравировкой/травлением/резьбой
                     enchant_list.append(u"%s %s" % (decoration_description_rus['decoration'][self.gender],
@@ -1796,8 +1827,11 @@ class Treasury(store.object):
         """
         if ingot_type in self.metals and self.metals[ingot_type] > 0:  # проверяем есть ли такой металл в сокровищнице
             ingot = Ingot(ingot_type)  # создаем слиток
-            ingot.weight = weight if weight < self.metals[ingot_type] else self.metals[
-                ingot_type]  # делаем вес слитка равным указанному весу или максимуму в сокровищнице
+            # делаем вес слитка равным указанному весу или максимуму в сокровищнице:
+            if weight < self.metals[ingot_type]:
+                ingot.weight = weight
+            else:
+                ingot.weight = self.metals[ingot_type]
             self.metals[ingot_type] -= ingot.weight  # вычитаем вес слитка из сокровищницы
             return ingot
         else:
@@ -1836,15 +1870,24 @@ class Treasury(store.object):
         :return: Возвращает тип Coin с указанным числом монет или максимально возможным, либо None, если таких монет в сокровищнице нет
         """
         if coin_name == 'farting' and self.farting > 0:
-            coin_count = coin_count if coin_count < self.farting else self.farting
+            if coin_count < self.farting:
+                coin_count = coin_count
+            else:
+                coin_count = self.farting
             self.farting -= coin_count
             return Coin(coin_name, coin_count)
         elif coin_name == 'taller' and self.taller > 0:
-            coin_count = coin_count if coin_count < self.taller else self.taller
+            if coin_count < self.taller:
+                coin_count = coin_count
+            else:
+                coin_count = self.taller
             self.taller -= coin_count
             return Coin(coin_name, coin_count)
         elif coin_name == 'dublon' and self.dublon > 0:
-            coin_count = coin_count if coin_count < self.dublon else self.dublon
+            if coin_count < self.dublon:
+                coin_count = coin_count
+            else:
+                coin_count = self.dublon
             self.dublon -= coin_count
             return Coin(coin_name, coin_count)
         return None
