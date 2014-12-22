@@ -63,8 +63,6 @@ label lb_test_debug:
         "Отладка"
         "Включить дебаговывод":
             $ config.debug = True
-        "Ослабить армию Тьмы":
-            $ game.army.power_percentage -= 10
         "Королевство":
             menu:
                 "Повысить мобилизацию":
@@ -75,6 +73,8 @@ label lb_test_debug:
                     $ game.poverty.value += 1
                 "Понизить разруху":
                     $ game.poverty.value -= 1
+                "Ослабить армию Тьмы":
+                    $ game.army.power_percentage -= 10
         "Дракон":
             menu:
                 "Потратить одно очко здоровья":
@@ -177,6 +177,16 @@ label lb_test_debug:
                         call screen sc_equip_editor(game.knight, [data.knight_items])
                     else:
                         "Рыцаря нет"
+        "Удалить сохранения":
+            menu:
+                "Сохранение сюжетной игры":
+                    $ renpy.unlink_save("1-1")
+                    "Сохранение сюжетной игры удалено!"
+                "Сохранение свободной игры":
+                    $ renpy.unlink_save("1-3")
+                    "Сохранение свободной игры удалено!"
+                "Назад":
+                    pass
     return
     
 label lb_test_example_inaccessible_menu:

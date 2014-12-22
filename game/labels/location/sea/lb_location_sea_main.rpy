@@ -15,19 +15,20 @@ label lb_location_sea_main:
     return
     
 label lb_encounter_sea:
-    $ choices = [("lb_enc_fishers", 10),
-                 ("lb_enc_yacht", 10),
-                 ("lb_enc_bark", 10),
-                 ("lb_enc_tuna", 10),
-                 ("lb_enc_shark", 10),
-                 ("lb_enc_sea_castle", 10),
-                 ("lb_enc_galeon", 10),
-                 ("lb_enc_diver", 10),
-                 ("lb_enc_mermaid", 10),
-                 ("lb_enc_merfolks", 10),
-                 ("lb_enc_mermaids", 10),
-                 ("lb_enc_shipwreck", 10),
-                 ("lb_patrool_sea", 3 * game.mobilization.level)]
+    $ choices = [
+        ("lb_enc_fishers", 10),
+        ("lb_enc_yacht", 10),
+        ("lb_enc_bark", 10),
+        ("lb_enc_tuna", 10),
+        ("lb_enc_shark", 10),
+        ("lb_enc_sea_castle", 10),
+        ("lb_enc_galeon", 10),
+        ("lb_enc_diver", 10),
+        ("lb_enc_mermaid", 10),
+        ("lb_enc_merfolks", 10),
+        ("lb_enc_mermaids", 10),
+        ("lb_enc_shipwreck", 10),
+        ("lb_patrool_sea", 3 * game.mobilization.level)]
     $ enc = core.Game.weighted_random(choices)
     $ renpy.call(enc)
 

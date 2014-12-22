@@ -157,20 +157,20 @@ class Girls_list(object):
         status - кодовое описание ситуации
         say - если истина - описание выводится сразу на экран, возвращается None, если ложь - возвращается текст описания
         """
-        format_dict = {'dragon_name': self.game.dragon.name,
-                       'dragon_name_full': self.game.dragon.fullname,
-                       'dragon_type': self.game.dragon.kind(),
-                       'girl_name': self.game.girl.name,
-                       'girl_title': girls_data.girls_info[self.game.girl.type]['description'],
-                       }
-
+        format_dict = {
+            'dragon_name': self.game.dragon.name,
+            'dragon_name_full': self.game.dragon.fullname,
+            'dragon_type': self.game.dragon.kind(),
+            'girl_name': self.game.girl.name,
+            'girl_title': girls_data.girls_info[self.game.girl.type]['description'],
+        }
         girl_type = self.game.girl.type
         if girl_type not in girls_data.girls_texts or status not in girls_data.girls_texts[girl_type]:
             girl_type = 'girl'
         if girls_data.girls_texts[girl_type][status]:
             text = random.choice(girls_data.girls_texts[girl_type][status])
             # TODO: Ситуативные описания
-            if status == 'birth':
+            if status == 'spawn':
                 format_dict['situation'] = (girls_data.spawn_info[self.spawn[-1]]['name'])
             elif status == 'rob':
                 treas_description = self.game.lair.treasury.treasures_description(self.game.girl.treasure)
@@ -217,10 +217,16 @@ class Girls_list(object):
                     if self.game.girl.pregnant:
                         girl_type = girls_data.girls_info[self.game.girl.type]
 
-                        spawn_class = 'regular_spawn' if self.game.girl.pregnant == 1 else 'advanced_spawn'
+                        if self.game.girl.pregnant == 1:
+                            spawn_class = 'regular_spawn'
+                        else:
+                            spawn_class = 'advanced_spawn'
                         if 'educated_spawn' not in self.offspring:
                             self.offspring.append('educated_spawn')
-                        girl_size = 'giantess' if girl_type['giantess'] else 'usual_size'
+                        if girl_type['giantess']:
+                            girl_size = 'giantess'
+                        else:
+                            girl_size = 'usual_size'
                         if girl_size not in self.offspring:
                             self.offspring.append(girl_size)
 
@@ -238,10 +244,16 @@ class Girls_list(object):
             else:
                 girl_type = girls_data.girls_info[self.game.girl.type]
 
-                spawn_class = 'regular_spawn' if self.game.girl.pregnant == 1 else 'advanced_spawn'
+                if self.game.girl.pregnant == 1:
+                    spawn_class = 'regular_spawn'
+                else:
+                    spawn_class = 'advanced_spawn'
                 if 'free_spawn' not in self.offspring:
                     self.offspring.append('free_spawn')
-                girl_size = 'giantess' if girl_type['giantess'] else 'usual_size'
+                if girl_type['giantess']:
+                    girl_size = 'giantess'
+                else:
+                    girl_size = 'usual_size'
                 if girl_size not in self.offspring:
                     self.offspring.append(girl_size)
 
@@ -288,16 +300,20 @@ class Girls_list(object):
             menu_action = renpy.display_menu(spawn_menu)
 
             if menu_action == 'free':
-                renpy.say(self.game.narrator, u"%s отправляется бесчинствовать в королевстве" % spawn['name'])
+                renpy.say(self.game.narrator, u"%s отправляется бесчинствовать в королевстве." % spawn['name'])
                 self.free_spawn(spawn['power'])
             elif menu_action == 'army_of_darkness':
-                renpy.say(self.game.narrator, u"%s отправляется в армию тьмы" % spawn['name'])
+                renpy.say(self.game.narrator, u"%s отправляется в армию тьмы." % spawn['name'])
                 self.army_of_darkness(spawn_type)
             else:
-                renpy.say(self.game.narrator,
-                          u"%s приступает к выполнению обязанностей" % spawn['name'])  # выдача сообщения
-                self.game.lair.upgrades.add(menu_action,
-                                            deepcopy(data.lair_upgrades[menu_action]))  # добавление в улучшение логова
+                # выдача сообщения о начале работы
+                renpy.say(self.game.narrator, u"%s приступает к выполнению обязанностей." % spawn['name'])
+                # выдача сообщения о конце работы, если это необходимо
+                if 'replaces' in data.lair_upgrades[menu_action].keys():
+                    replace = data.lair_upgrades[menu_action]['replaces']
+                    renpy.say(self.game.narrator, u"%s больше не требуются и уходят." % data.lair_upgrades[replace]['name'])
+                # добавление в улучшение логова
+                self.game.lair.add_upgrade(menu_action)
         self.spawn = []
 
     def free_spawn(self, power):

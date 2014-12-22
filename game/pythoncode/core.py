@@ -493,7 +493,7 @@ class Lair(object):
         self.upgrades = data.Container('lair_upgrades')
         if 'provide' in self.type:
             for upgrade in self.type['provide']:
-                self.upgrades.add(upgrade, deepcopy(data.lair_upgrades[upgrade]))
+                self.add_upgrade(upgrade)
         # Сокровищиница
         self.treasury = treasures.Treasury()
 
@@ -523,7 +523,16 @@ class Lair(object):
     @property
     def inaccessability(self):
         return self.type.inaccessability + self.upgrades.sum("inaccessability")
-
+        
+    def add_upgrade(self, upgrade):
+        """
+        Функция для улучшения логова
+        :param upgrade: - название добавляемого апгрейда
+        """
+        self.upgrades.add(upgrade, deepcopy(data.lair_upgrades[upgrade]))
+        # замена улучшений, если это необходимо
+        if 'replaces' in self.upgrades[upgrade].keys():
+            del self.upgrades[self.upgrades[upgrade]['replaces']]
 
 class Sayer(store.object):
     """

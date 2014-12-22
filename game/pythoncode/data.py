@@ -779,6 +779,7 @@ lair_upgrades = Container(
         },
         "regular_guards": {
             "name": u"Обычные стражи",
+            "replaces" : "smuggler_guards",  # какое улучшение автоматически заменяет
             "protection": 2
         },
         "smuggler_guards": {
@@ -802,6 +803,7 @@ lair_upgrades = Container(
         },
         "servant": {
             "name": u"Слуги",
+            "replaces" : "gremlin_servant",  # какое улучшение автоматически заменяет
             "protection": 0
         }
     }
