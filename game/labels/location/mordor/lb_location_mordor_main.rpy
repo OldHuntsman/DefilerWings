@@ -24,9 +24,7 @@ label lb_location_mordor_main:
                     return
         'Армия Тьмы':
             show expression 'img/bg/special/army.png' as bg
-            python:
-                pass
-            'Тут будет описание армии тьмы'
+            '[game.army.army_description]'
             nvl clear
             menu:
                 'Собрать армию и начать войну!':
