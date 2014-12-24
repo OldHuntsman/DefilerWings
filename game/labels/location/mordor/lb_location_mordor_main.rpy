@@ -38,22 +38,39 @@ label lb_location_mordor_main:
             call lb_location_mordor_main
             
         'Аудиенция с владычицей' if not freeplay:
-            if game.is_quest_complete:
-                # Если делаем подарок - удаляем его из списка сокровищ
-                if game.quest_task == 'gift' and len(game.lair.treasury.jewelry) > 0:
-                    $ del game.lair.treasury.jewelry[game.lair.treasury.most_expensive_jewelry_index]
-                menu:
-                    "Задание выполнено! Продолжить род?"
-                    "Да":
-                        call lb_choose_dragon
-                    "Нет":
-                        pass
-            else:
-                "Текущее задание:\n[game.quest_text]\n[game.quest_time_text]"
+            jump lb_mistress
         'В земли Вольных Народов':
             $ pass
     return
     
+label lb_mistress:
+    menu:
+        'Получить награду' if game.is_quest_complete:
+            # Если делаем подарок - удаляем его из списка сокровищ
+            if game.quest_task == 'gift' and len(game.lair.treasury.jewelry) > 0:
+                $ del game.lair.treasury.jewelry[game.lair.treasury.most_expensive_jewelry_index]
+            'Дракон оплодотворяет владычицу и на свет появляется новый выводок.'
+            call lb_choose_dragon
+            return
+        'Уточнить задание' if not game.is_quest_complete:
+            "Текущее задание:\n[game.quest_text]\n[game.quest_time_text]"
+            call lb_mistress
+        'Завести разговор':
+            'Обсуждение'
+            call lb_mistress
+        'Предательски напасть':
+            'Независимо от того победит дракон или проиграет эта битва станет последней и его род на этом прервётся. Стоит ли убивать свою мать?'
+            menu:
+                'Она не смеет повелевать мной!':
+                    jump lb_betrayal
+                'Она же всётаки Мать...':
+                    'От Госпожи не укрылось напряжение сына, но она лишь загадочно улыбнулась не высказывая ни малейшего беспокойства.'
+                    call lb_location_mordor_main
+        'Лизнуть её руку и уйти':
+            'Иногда просто хочется прикоснуться к ней ещё раз...'  
+            call lb_location_mordor_main
+        return
+
 label lb_location_mordor_questtime:
     $ place = 'mordor' 
     show place as bg
@@ -68,10 +85,13 @@ label lb_location_mordor_questtime:
             "Попробовать еще раз":
                 call lb_choose_dragon
                 return
-        
     return
     
-    
+
+label lb_betrayal:
+    #TODO: Сражение дракона и Госпожи. Подробности в диздоке.
+    return
+
 label lb_war_border:
     #TODO: Дракон ведёт свою армию на вольные земли. На протяжении всех событий отступать нельзя - дракон умрёт или победит. Один раз можно попросить госпожу одолеть любого врага вместо дракона.
     #Чтобы пройти АТ нужно взять пограничную крепость. Дракон берёт на себя катапульты, армия штурмует стены. Если и дракон и армия победили, засчитываем победу. 
