@@ -69,7 +69,7 @@ label lb_mistress:
         'Лизнуть её руку и уйти':
             'Иногда просто хочется прикоснуться к ней ещё раз...'  
             call lb_location_mordor_main
-        return
+    return
 
 label lb_location_mordor_questtime:
     $ place = 'mordor' 
