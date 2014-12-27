@@ -1,6 +1,7 @@
 # coding=utf-8
 label lb_choose_dragon:
     # Хардкод на трех драконов.
+    hide bg
     python:
         lost = False
         if game.dragon is None:

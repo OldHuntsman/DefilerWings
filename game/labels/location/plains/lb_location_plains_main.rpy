@@ -312,7 +312,7 @@ label lb_enc_mill:
     'Ветряная мельница.'
     nvl clear
     menu:
-        'Расшатать мельницу' if game.dragon.size() > 3:
+        'Расшатать мельницу' if game.dragon.size > 3:
             $ game.dragon.drain_energy()
             "Я твой мельница щаталь!"
             $ game.poverty.value += 1
@@ -324,7 +324,7 @@ label lb_enc_mill:
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Обследовать здание' if game.dragon.size() <= 3 and game.dragon.mana == 0:
+        'Обследовать здание' if game.dragon.size <= 3 and game.dragon.mana == 0:
             $ game.dragon.drain_energy()
             "[game.dragon.name] тщательно обследует необычное строение на предмет важности и уязвимых мест. Эту четырёхкрылую башню с каменным основанием люди используют чтобы делать из зерна муку. Очень хочется её разрушить, но стоит она прочно. Нужно либо размер иметь побольше чтобы расшатать её собственным телом, либо наслать гнилостное заклятье на внутренние деревянные механизмы."
             'Только время зря потерял. Придётся уйти несолоно хлебавши.'
