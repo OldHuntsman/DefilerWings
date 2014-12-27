@@ -481,8 +481,7 @@ label lb_enc_create_ogre_lair:
 # Жльё морозного великана    
 
 label lb_jotun_found:
-    'Дракон некоторое время обследует горные склоны...'
-    'И обнаруживает жилище ледяного великана.'
+    'Жилище ледяного великана.'
     nvl clear
     jump lb_jotun
     
@@ -533,8 +532,7 @@ label lb_jotun_empty:
 # Жильё огненного великана
     
 label lb_ifrit_found:
-    'Дракон некоторое время обследует горные склоны...'
-    'И обнаруживает жилище огненного великана.'
+    'Жилище огненного великана.'
     nvl clear
     jump lb_ifrit
     
@@ -580,6 +578,113 @@ label lb_ifrit_empty:
             $ game.dragon.del_special_place('ifrit')
         'Покинуть вулканическую кузню':
             $ game.dragon.add_special_place('ifrit', 'ifrit_empty')
+    return 
+
+    
+# Жильё тритона
+    
+label lb_triton_found:
+    'Дракон поднимается над облаками...'
+    show expression 'img/bg/special/undefwater.png' as bg
+    'И обнаруживает жилище огненного великана.'
+    nvl clear
+    jump lb_triton
+    
+label lb_triton:   
+    show expression 'img/bg/special/undefwater.png' as bg
+    $ txt = game.interpolate(random.choice(txt_place_triton[0]))
+    '[txt]'
+    $ game.foe = core.Enemy('triton', gameRef=game, base_character=NVLCharacter)
+    $ narrator(show_chances(game.foe))
+    nvl clear
+    menu:
+        'Вызвать титана на бой':
+            $ game.dragon.drain_energy()
+            call lb_fight
+            jump lb_triton_rob
+        'Запомнить место и уйти' if game.dragon.bloodiness < 5:
+            $ game.dragon.add_special_place('triton', 'triton_full')
+            $ game.dragon.gain_rage()
+    return
+    
+label lb_triton_rob:
+    menu:
+        'Обследовать облачный замок':
+            $ txt = game.interpolate(random.choice(txt_place_triton[1]))
+            '[txt]'
+            $ description = game.girls_list.new_girl('siren')
+            nvl clear
+            game.girl.third "[description]"
+            call lb_gigant_sex     
+            jump lb_triton_empty
+                                        
+        'Запомнить место и уйти':
+            $ game.dragon.add_special_place('triton', 'triton_empty')
+            return
+ 
+label lb_triton_empty:
+    show expression 'img/bg/lair/undefwater.png' as bg
+    $ txt = game.interpolate(random.choice(txt_place_triton[2]))
+    '[txt]'
+    menu:
+        'Переместить логово':
+            $ game.create_lair('undefwater_mansion')
+            $ game.dragon.del_special_place('triton')
+        'Покинуть облачный замок':
+            $ game.dragon.add_special_place('triton', 'triton_empty')
+    return 
+    
+# Жильё титана
+    
+label lb_titan_found:
+    'Дракон поднимается над облаками...'
+    show expression 'img/bg/special/cloud_castle.png' as bg
+    'И обнаруживает жилище огненного великана.'
+    nvl clear
+    jump lb_titan
+    
+label lb_titan:   
+    show expression 'img/bg/special/cloud_castle.png' as bg
+    $ txt = game.interpolate(random.choice(txt_place_titan[0]))
+    '[txt]'
+    $ game.foe = core.Enemy('titan', gameRef=game, base_character=NVLCharacter)
+    $ narrator(show_chances(game.foe))
+    nvl clear
+    menu:
+        'Вызвать титана на бой':
+            $ game.dragon.drain_energy()
+            call lb_fight
+            jump lb_titan_rob
+        'Запомнить место и уйти' if game.dragon.bloodiness < 5:
+            $ game.dragon.add_special_place('titan', 'titan_full')
+            $ game.dragon.gain_rage()
+    return
+    
+label lb_titan_rob:
+    menu:
+        'Обследовать облачный замок':
+            $ txt = game.interpolate(random.choice(txt_place_titan[1]))
+            '[txt]'
+            $ description = game.girls_list.new_girl('titan')
+            nvl clear
+            game.girl.third "[description]"
+            call lb_gigant_sex     
+            jump lb_titan_empty
+                                        
+        'Запомнить место и уйти':
+            $ game.dragon.add_special_place('titan', 'titan_empty')
+            return
+ 
+label lb_titan_empty:
+    show expression 'img/bg/lair/cloud_castle.png' as bg
+    $ txt = game.interpolate(random.choice(txt_place_titan[2]))
+    '[txt]'
+    menu:
+        'Переместить логово':
+            $ game.create_lair('cloud_castle')
+            $ game.dragon.del_special_place('titan')
+        'Покинуть облачный замок':
+            $ game.dragon.add_special_place('titan', 'titan_empty')
     return 
     
 # Подгорное царство цвергов

@@ -1237,6 +1237,12 @@ special_places = {
     # Ифрит
     'ifrit_full': (u"Вулканическая кузня", 'lb_ifrit'),
     'ifrit_empty': (u"Пустая вулканическая кузня", 'lb_ifrit_empty'),
+    # Тритон
+    'triton_full': (u"Подводные хоромы", 'lb_triton'),
+    'triton_empty': (u"Подводные руины", 'lb_triton_empty'),
+    # Титан
+    'titan_full': (u"Облачный замок", 'lb_titan'),
+    'titan_empty': (u"Разорённый облачный замок", 'lb_titan_empty'),
     # рыцарский манор
     'manor_full': (u"Укреплённая усадьба", 'lb_manor'),
     'manor_empty': (u"Заброшенная усадьба", 'lb_manor_empty'),

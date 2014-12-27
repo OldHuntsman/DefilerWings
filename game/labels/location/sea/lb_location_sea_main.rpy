@@ -21,7 +21,7 @@ label lb_encounter_sea:
         ("lb_enc_bark", 10),
         ("lb_enc_tuna", 10),
         ("lb_enc_shark", 10),
-        ("lb_enc_sea_castle", 10),
+        ("lb_triton_found", 10),
         ("lb_enc_galeon", 10),
         ("lb_enc_diver", 10),
         ("lb_enc_mermaid", 10),
@@ -34,55 +34,257 @@ label lb_encounter_sea:
 
     return 
     
-
-label lb_enc_fishers:
-    'Плейсхолдер'
-    return
-    
-label lb_enc_yacht:
-    'Плейсхолдер'
-    return
-    
-label lb_enc_bark:
-    'Плейсхолдер'
-    return
-    
 label lb_enc_tuna:
-    'Плейсхолдер'
+    '[self.game.dragon.fullname] замечает крупный косяк тунца плывущий по течению. Некоторые рыбины такие здоровые что могут поспорить по весу с деревенскими быками. Но наверняка они даже вкуснее!'
+    nvl clear
+    menu:
+        'Заглотнуть тунца' if game.dragon.hunger > 0:
+            $ game.dragon.drain_energy()
+            '[game.dragon.name] ловит и пожирает самую крупную рыбу из стаи. Вскоре на кровь сплываются многочисленные акулы, но увидив кто тут трапезничает, мгновенно уплывают прочь.'
+            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
+        'Забить косяк' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
+            $ game.dragon.drain_energy()
+            'Хорошенько разогнавшись [game.dragon.name] врезается в косяк рыбы буквально взрывая его изнутри. Располосованная зубами и когтями рыба отчаянно бьётся в воде, так что кровь расплывается облаками и вода становится красной. Словно из ниоткуда появляются опьяневшие от крови акулы превнося в действие ещё больше хаоса и смерти. Неплохой способ выпустить ярость, кто бы подумал что можно получить столько радости от отдного единственного косяка?'    
+        'Проплыть мимо' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()
     return
     
 label lb_enc_shark:
-    'Плейсхолдер'
+    'Навстречу дракону величественно выплывает большая белая акула. Это действительно выдающийся экземпляр, не менее шести метров в длинну. Похоже она считает себя королевой этих вод.'
+    nvl clear
+    menu:
+        'Сразиться с акулой':
+            $ game.dragon.drain_energy()
+            $ game.foe = core.Enemy('griffin', gameRef=game, base_character=NVLCharacter)
+            call lb_fight
+            if game.dragon.hunger > 0:
+                'Голодный [self.game.dragon.name] съедает разрывает поверженную акулу на куски и заглатывает самые крупные в то время как за куски помельче дерутся откуда ни возьмись маленькие акулы.'
+                $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
+                $ game.dragon.hunger -= 1
+                $ game.dragon.add_effect('boar_meat')
+            else:
+                '[self.game.dragon.fullname] сейчас не голоден, поэтому оставляет изрангенную акулу на растерзание её более мелким но агрессивным сородичам, приплывшим на запах крови.'
+        'Скрыться на глубине' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()
     return
     
-label lb_enc_sea_castle:
-    'Плейсхолдер'
+label lb_enc_fishers:
+    '[self.game.dragon.fullname] натыкается на рыбацкую лодку идущую в порт. У них на борту полно рыбы.'
+    nvl clear
+    menu:
+        'Украсть рыбу' if game.dragon.hunger > 0:
+            $ game.dragon.drain_energy()
+            'Рыбаки кричат от удивления и ужаса, когда прямо из воды высовывается голова на длинной шее и хватает рыбу прямо у них из лодки. А потом ещё и ещё, до тех пор пока судно не причалило к берегу. Наверное рыбаки попрыгали бы от страху в море, если бы не знали что там ещё опасней.'
+            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
+            $ game.dragon.reputation.points += 1
+            '[game.dragon.reputation.gain_description]'
+        'Перевернуть лодку' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
+            $ game.dragon.drain_energy()
+            '[game.dragon.kind] выпрыгивает из воды словно резвящийся дельфин и всем своим весом падает поперёк лодки, так что та с хрустом ломается посередине, здымая облака брызг и раскидывая рыбаков встороны. Осталось пустить одному кровь, чтобы акулы доделали своё дело. Но меожеи быть кто-то и спасётся...'    
+            $ game.dragon.reputation.points += 3
+            '[game.dragon.reputation.gain_description]'
+        'Проплыть мимо' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()
     return
     
+label lb_enc_yacht:
+    'Вдоль берега неспеша плывёт изящная прогулочная яхта. Судя по запаху, на борту есть невинная девица, наверное дочь какого-нибудь богатого купца а может быть даже и лорда. В любом случае, это законная добыча повелителя окрестных вод!'
+    nvl clear
+    menu:
+        'Утащить девицу с палубы':
+            $ chance = random.choice(['citizen'], ['citizen'], ['citizen'], ['princess'])
+            $ game.dragon.drain_energy()
+            $ description = game.girls_list.new_girl(chance)
+            'Аккуратно, чтобы на яхте не заметили его приближения, [game.dragon.kind] подплывает к судну и ложится на паралельный курс, выжидая подходящего момента. И момент не заставляет себя долго ждать. Красивая юная [game.girl.type] выходиит на палубу и оболокачивается на перила, наблюая за резвящимися в волнах рыбками. Не долго думая, [game.dragon.name] хватает девушку и утаскивает в море и невзирая на обеспокоенные крики команды выволакивает её на берег, в уютное и тихое местечко, пригодное для романтического ужина...'
+            $ game.dragon.reputation.points += 1
+            '[game.dragon.reputation.gain_description]'
+            nvl clear
+            game.girl.third "[description]"
+            call lb_nature_sex      
+        'Оставить яхту в покое' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()    
+    return
+    
+label lb_enc_bark:
+    'Зная что вдоль береговой линии пролегают торговые маршруты, [game.dragon.kind] решает проплыть вдоль одного из них и натыкается на тяжело гружёный парусник. Судя по запаху, он везёт груз вина, оливкового масла и специй из заморских стран. Наверняка на борту должны быть и звонкие монетки, для украшения дракоьньей кучи.'
+    menu:
+        'Вымогать деньги':
+            python:
+                game.dragon.drain_energy()
+                passing_tool = random.randint(1, 20)
+                gold_trs = treasures.Coin('dublon', passing_tool)
+                game.lair.treasury.receive_treasures([gold_trs])
+            'Капитан решает не испытывать судьбу и отдаёт дракону несколько золотых дублонов, чтобы тот его не трогал и пропустил корабль с миром.'
+            $ game.dragon.reputation.points += 1
+            '[game.dragon.reputation.gain_description]'
+        'Потопить корабль' if game.dragon.bloodiness >= 5:
+            $ game.dragon.drain_energy()
+            $ game.foe = core.Enemy('ship', gameRef=game, base_character=NVLCharacter)
+            call lb_fight
+            'Пока накренившийся на борт корабль медленно идёт ко дну а оставшиеся в живых члены команды озабочены спасением своих жизней, [game.dragon.name] методично осматирвает трюм и каюту капитна, выгребая каждую монетку:'
+            python:
+                count = random.randint(5, 15)
+                alignment = 'human'
+                min_cost = 1
+                max_cost = 1000
+                obtained = "Просто монеты."
+                trs = treasures.gen_treas(count, ['taller', 'dublon'], alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+                game.lair.treasury.receive_treasures(trs)
+            '[trs_descrptn]'
+            $ game.dragon.reputation.points += 3
+            '[game.dragon.reputation.gain_description]'
+        'Пропустить' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()
+    return
+        
 label lb_enc_galeon:
-    'Плейсхолдер'
+    'А вот это называется "везёт по крупному" - паруса показавшиеся на горизонте принадлежат тяжело вооружённому галеону. Именно на таких судах люди короля перевозят золото из нового света. И суда по осадке у этой посудины трюмы отнюдь не пусты. Хотя опустошить их будет возможно не легко...'
+    $ game.foe = core.Enemy('battleship', gameRef=game, base_character=NVLCharacter)
+    $ narrator(show_chances(game.foe))
+    menu:
+        'Потопить галеон':
+            $ game.dragon.drain_energy()
+            call lb_fight
+            python:
+                count = random.randint(10, 25)
+                alignment = 'human'
+                min_cost = 1
+                max_cost = 1000000
+                t_list = ['gold']
+                obtained = "Просто золото."
+                trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+                game.lair.treasury.receive_treasures(trs)
+            'В трюмах галеона [game.dragon.kind] обнаруживает тяжелые слитки жёлтого металла, с эмблемой короля удостоверяющей высокую пробу:'
+            '[trs_descrptn]'
+            $ game.dragon.reputation.points += 5
+            '[game.dragon.reputation.gain_description]'
+            
+        'Не связываться' if game.dragon.bloodiness < 5:
+            'Груз золота невероятно заманчив, но разумеется у такого груза есть достойная охрана. И как бы ни хотелось быть богатым, живым быть всё же важнее.'       
+            $ game.dragon.gain_rage()
     return
     
 label lb_enc_diver:
-    'Плейсхолдер'
+    'Эти тёплые прозрачные воды облюбовали ловцы жемчуга. Раз за разом ныряют они на глубину, выискивая раковины-жемчужницы в надежде найти внутри драгоценное содержимое. [self.game.dragon.fullname] знает что грабить их бесполезно, бедняги считают что им повезло если за целый день работы обнаруживается хотя бы одна стоящая жемчужина. Но на этот раз дракона привлекает пожива дрягого рода. Загорелая ныряльщица с сильными и крепкими ногами источает аромат невинности привлекающий не менее чем запах денег. Такая может выносить здоровое потомсвто...'
+    nvl clear
+    menu:
+        'Поймать ныряльщицу':
+            $ game.dragon.drain_energy()
+            $ description = game.girls_list.new_girl('peasant')
+            'Дракон ловит ныряльщицу.'
+            $ game.dragon.reputation.points += 1
+            '[game.dragon.reputation.gain_description]'
+            nvl clear
+            game.girl.third "[description]"
+            call lb_nature_sex      
+        'Поискать другую добычу' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()
     return
     
 label lb_enc_mermaid:
-    'Плейсхолдер'
+    'Русалочка сидит на камне и рассчёсывает волосы.'
+    nvl clear
+    menu:
+        'Поймать русалку':
+            $ game.dragon.drain_energy()
+            $ description = game.girls_list.new_girl('mermaid')
+            'Дракон ловит русалку.'
+            $ game.dragon.reputation.points += 1
+            '[game.dragon.reputation.gain_description]'
+            nvl clear
+            game.girl.third "[description]"
+            call lb_water_sex      
+        'Поискать другую добычу' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()    
     return
     
 label lb_enc_merfolks:
-    'Плейсхолдер'
+    'Русалка и водяной плывут взявшись за руки. Водяной вооружен и вряд ли отдаст свою подругу без боя.'
+    $ game.foe = core.Enemy('merman', gameRef=game, base_character=NVLCharacter)
+    $ narrator(show_chances(game.foe))
+    nvl clear
+    menu:
+        'Напасть':
+            $ game.dragon.drain_energy()
+            call lb_fight
+            $ description = game.girls_list.new_girl('mermaid')
+            'Дракон ловит русалку.'
+            $ game.dragon.reputation.points += 1
+            '[game.dragon.reputation.gain_description]'
+            nvl clear
+            game.girl.third "[description]"
+            call lb_water_sex      
+        'Не связываться' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()       
     return
     
 label lb_enc_mermaids:
-    'Плейсхолдер'
+    'Русалки водят подводный хоровод.'
+    nvl clear
+    menu:
+        'Поймать русалку':
+            $ game.dragon.drain_energy()
+            $ description = game.girls_list.new_girl('mermaid')
+            'Дракон ловит русалку.'
+            $ game.dragon.reputation.points += 1
+            '[game.dragon.reputation.gain_description]'
+            nvl clear
+            game.girl.third "[description]"
+            call lb_water_sex      
+        'Поискать другую добычу' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()       
     return
      
 label lb_enc_shipwreck:
-    'Плейсхолдер'
+    'Глубоко на дне лежат обломки корабля потопленного штормом. Найти их было бы нереально, если бы не настойчивый запах золотоа идущий откуда-то из его поросших водорослями трюмов. Драконы просто не могут ингонировать запах золота. Даже под водой.'
+    nvl clear
+    python:
+        tr_lvl = random.randint(1, 100)
+        count = random.randint(1, 10)
+        alignment = 'human'
+        min_cost = 1 * tr_lvl
+        max_cost = 10 * tr_lvl
+        obtained = "Это предмет с затонувшего корабля."
+        trs = treasures.gen_treas(count, data.loot['klad'], alignment, min_cost, max_cost, obtained)
+        trs_list = game.lair.treasury.treasures_description(trs)
+        trs_descrptn = '\n'.join(trs_list)
+    menu:
+        'Нырнуть и отыскать сокровище':
+            $ game.dragon.drain_energy()
+            'Разворотив гнилые борта затонувшего корабля [self.game.dragon.fullname] добирается до ценного содержимого. В тёмном затопленном трюме покоится тяжёленкий сундук, а внутри сундука:'
+            '[trs_descrptn]'
+            $ game.lair.treasury.receive_treasures(trs)
+            
+        'Не время для сокровищ...' if game.dragon.bloodiness < 5:
+            'Конечно сокровища полезны, но у дракона есть дела поважнее. Какие интересно? Сложно даже представить... ЧТО МОЖЕТ БЫТЬ ВАЖНЕЕ СОКРОВИЩ???!'
     return
     
 label lb_patrool_sea:
-    'Плейсхолдер'
+    python:
+        game.dragon.drain_energy()
+        chance = random.randint(0, game.mobilization.level)
+        if chance < 4:
+            patrool = 'merman'
+            dtxt = 'Водяной.'
+        elif chance < 7:
+            patrool = 'merman'
+            dtxt = 'Водяной.'
+        elif chance < 11:
+            patrool = 'griffin_rider'
+            dtxt = 'Всадник на грифоне.'
+        elif chance < 16:
+            patrool = 'battleship'
+            dtxt = '' % game.dragon.name
+        else:
+            patrool = 'triton'
+            dtxt = '' % game.dragon.name
+    '[dtxt]'
+    $ game.foe = core.Enemy(patrool, gameRef=game, base_character=NVLCharacter)
+    $ narrator(show_chances(game.foe))
+    call lb_fight
+
     return
