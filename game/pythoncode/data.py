@@ -760,7 +760,7 @@ lair_types = Container(
             "inaccessability": 2,
             "require": ["flight"]
         },
-        "undefwater_mansion": {
+        "underwater_mansion": {
             "name": u"Подводные хоромы",
             "inaccessability": 1,
             "require": ["swimming"]

@@ -268,7 +268,7 @@ label lb_enc_outpost:
                 if 'fire_breath' in game.dragon.modifiers(): 
                     doit = True
             menu:
-                'Развалить укрепления' if game.dragon.size() > 3:
+                'Развалить укрепления' if game.dragon.size > 3:
                     $ game.dragon.drain_energy()
                     "Я твой застава щаталь!"
                     $ if game.mobilization.level >= 1: game.mobilization.level -= 1
@@ -283,7 +283,7 @@ label lb_enc_outpost:
                     "Аутпост проклят."
                     $ if game.mobilization.level >= 1: game.mobilization.level -= 1
                     '[game.dragon.reputation.gain_description]'
-                'Обследовать укрепления' if game.dragon.size() <= 3 and game.dragon.mana == 0 and not doit:
+                'Обследовать укрепления' if game.dragon.size <= 3 and game.dragon.mana == 0 and not doit:
                     $ game.dragon.drain_energy()
                     "[game.dragon.name] тщательно обследует необычное строение на предмет важности и уязвимых мест. Укрепления, хорть и деревянные, но построены на славу. Сломать получается только хлипкие загородки которыми перекрывают дорогу, но их несложно сднелать заново. Чтобы сравнять заставу с землёй нужно использовать огонь или быть намного крупнее."
                     'Только время зря потерял. Придётся уйти несолоно хлебавши.'
