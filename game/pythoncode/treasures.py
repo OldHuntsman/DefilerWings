@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 import random
-import data
 import renpy.store as store
-import renpy.exports as renpy
 
 """Словарь для драгоценных камней, ключи - названия камней, значения - кортежи вида(шанс появления, ценность)"""
 gem_types = {
@@ -42,7 +40,9 @@ material_types = {
     "horn": (1, 10),
 }
 
-"""словарь для описания типов материалов, ключи - названия материалов, значения - словарь для различных падежей русского названия материала"""
+"""словарь для описания типов материалов,
+ключи - названия материалов,
+значения - словарь для различных падежей русского названия материала"""
 material_description_rus = {
     "jasper": {
         'nominative': u'яшма',
@@ -82,7 +82,9 @@ material_description_rus = {
     },
 }
 
-"""словарь для описания размеров материалов, ключи - названия размера материалов, значения - словарь для русского прилагательного, соответствующего размеру"""
+"""словарь для описания размеров материалов,
+ключи - названия размера материалов,
+значения - словарь для русского прилагательного, соответствующего размеру"""
 material_size_description_rus = {
     'small': {
         'he': {
@@ -99,7 +101,7 @@ material_size_description_rus = {
             'ablative': u"мелкими "
         }
     },
-    'common': { # этот размер не отображается
+    'common': {  # этот размер не отображается
         'he': {
             'nominative': u"",
             'ablative': u""
@@ -1088,7 +1090,7 @@ def number_conjugation_rus(number, add_name, word_form='nominative', word_type=1
     return u"%s %s%s" % (number, add_name, description_end)
 
 
-def capitalizeFirst(string):
+def capitalize_first(string):
     if string:
         return string[0].upper() + string[1:]
     else:
@@ -1758,7 +1760,8 @@ class Treasury(store.object):
             elif isinstance(treas, Treasure):
                 self.jewelry.append(treas)
 
-    def treasures_description(self, treasure_list):
+    @staticmethod
+    def treasures_description(treasure_list):
         """
         :param treasure_list: Список сокровищ, для которых требуется получить описание
         :return: Возвращает список с описанием сокровищ
@@ -1803,20 +1806,20 @@ class Treasury(store.object):
         for treas in coin_list.iterkeys():
             description_list.append(Coin.number_conjugation(treas, coin_list[treas]) + '.')
         for treas in ingot_list.iterkeys():
-            description_list.append(capitalizeFirst(Ingot.number_conjugation(treas, ingot_list[treas])) + '.')
+            description_list.append(capitalize_first(Ingot.number_conjugation(treas, ingot_list[treas])) + '.')
         for treas in gem_list.iterkeys():
             if gem_list[treas] > 1:
-                description_list.append(capitalizeFirst(Gem.number_conjugation(treas, gem_list[treas])) + '.')
+                description_list.append(capitalize_first(Gem.number_conjugation(treas, gem_list[treas])) + '.')
             else:
-                description_list.append(capitalizeFirst(Gem(*treas.split(';')).description()) + '.')
+                description_list.append(capitalize_first(Gem(*treas.split(';')).description()) + '.')
         for treas in material_list.iterkeys():
             if material_list[treas] > 1:
-                description_list.append(capitalizeFirst(Material.number_conjugation(treas, material_list[treas])) + '.')
+                description_list.append(capitalize_first(Material.number_conjugation(treas, material_list[treas])) + '.')
             else:
-                description_list.append(capitalizeFirst(Material(*treas.split(';')).description()) + '.')
+                description_list.append(capitalize_first(Material(*treas.split(';')).description()) + '.')
             # Выводим остальное
         for treas in treas_list:
-            description_list.append(capitalizeFirst(treas.description()) + '.')
+            description_list.append(capitalize_first(treas.description()) + '.')
         return description_list
 
     def take_ingot(self, ingot_type, weight=1):
@@ -1963,7 +1966,7 @@ class Treasury(store.object):
         gem_list = sorted(self.gems.keys())  # список драгоценных камней, отсортированных по типу/размеру/огранке
         for gem_name in gem_list:
             if self.gems[gem_name]:  # проверка наличия камней такого типа в сокровищнице
-                gem_str += u"%s.\n" % capitalizeFirst(Gem.number_conjugation(gem_name, self.gems[gem_name]))
+                gem_str += u"%s.\n" % capitalize_first(Gem.number_conjugation(gem_name, self.gems[gem_name]))
         return gem_str
 
     @property
@@ -1976,11 +1979,11 @@ class Treasury(store.object):
         for metal_name in metal_list:
             metal_weight = self.metals[metal_name]
             if metal_weight:
-                material_str += u"%s.\n" % capitalizeFirst(Ingot.number_conjugation(metal_name, metal_weight))
+                material_str += u"%s.\n" % capitalize_first(Ingot.number_conjugation(metal_name, metal_weight))
         mat_list = sorted(self.materials.keys())
         for mat_name in mat_list:
             if self.materials[mat_name]:
-                material_str += u"%s.\n" % capitalizeFirst(
+                material_str += u"%s.\n" % capitalize_first(
                     Material.number_conjugation(mat_name, self.materials[mat_name]))
         return material_str
 
@@ -2018,7 +2021,7 @@ class Treasury(store.object):
         if len(self.jewelry):
             most_expensive_i = self.most_expensive_jewelry_index
             return u"%s.\nСтоимость украшения: %s.\n%s" % (
-                capitalizeFirst(self.jewelry[most_expensive_i].description()),
+                capitalize_first(self.jewelry[most_expensive_i].description()),
                 number_conjugation_rus(self.jewelry[most_expensive_i].cost, u"фартинг"),
                 self.jewelry[most_expensive_i].obtained)
         else:
@@ -2036,7 +2039,7 @@ class Treasury(store.object):
                 if self.jewelry[jewelry_i].cost < cheapest_cost:
                     cheapest_cost = self.jewelry[jewelry_i].cost
                     most_cheapest_i = jewelry_i
-            return u"%s.\nСтоимость украшения: %s.\n%s" % (capitalizeFirst(self.jewelry[most_cheapest_i].description()),
+            return u"%s.\nСтоимость украшения: %s.\n%s" % (capitalize_first(self.jewelry[most_cheapest_i].description()),
                                                            number_conjugation_rus(self.jewelry[most_cheapest_i].cost,
                                                                                   u"фартинг"),
                                                            self.jewelry[most_cheapest_i].obtained)
@@ -2047,7 +2050,7 @@ class Treasury(store.object):
     def random_jewelry(self):
         if len(self.jewelry):
             random_jewelry = random.choice(self.jewelry)
-            return u"%s.\nСтоимость украшения: %s.\n%s" % (capitalizeFirst(random_jewelry.description()),
+            return u"%s.\nСтоимость украшения: %s.\n%s" % (capitalize_first(random_jewelry.description()),
                                                            number_conjugation_rus(random_jewelry.cost, u"фартинг"),
                                                            random_jewelry.obtained)
         else:
@@ -2186,11 +2189,11 @@ class Treasury(store.object):
                 return False  # попытка взять несуществующую вещь
             elif test_treasure.cost >= amount:
                 # стоимость сокровища больше или равно необходимой суммы, можно взять только его в качестве оплаты
-                if (self.min_salary_value == 0):
+                if self.min_salary_value == 0:
                     # это первая вещь, которая стоит дороже, чем нам нужно - берём её
                     self.min_salary_value = test_treasure.cost
                     self.salary_item = test_treasure
-                elif (self.min_salary_value > test_treasure.cost):
+                elif self.min_salary_value > test_treasure.cost:
                     # это не первая вещь, которая стоит дороже, чем нам нужно - берём её только если она дешевле прошлой
                     self.treasure_list.append(self.salary_item)  # возвращаем прошлую вещь в сокровищницу
                     self.min_salary_value = test_treasure.cost  # берём новую

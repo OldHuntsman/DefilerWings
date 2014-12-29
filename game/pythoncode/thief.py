@@ -132,7 +132,7 @@ class Thief(Sayer, Mortal):
                 if upgrade in thief.items.list("fails"):  # Если для апгрейда есть испорченный предмет
                     if renpy.config.debug:
                         thief(u"Предмет для %s подвел меня" % upgrade)
-                    die(upgrade)  # Умираем
+                    self.die(upgrade)  # Умираем
                     thief.event("die_trap", trap=upgrade)
                     return
                 if upgrade in thief.abilities.list("avoids") or upgrade in thief.items.list("avoids"):  # Если у нас есть шмотка или скилл для обхода ловушки
@@ -197,6 +197,7 @@ class Thief(Sayer, Mortal):
         return
 
     def check_luck(self, luck):
+        # TODO: Для чего вообще нужен этот метод?
         """
         Unused
         """

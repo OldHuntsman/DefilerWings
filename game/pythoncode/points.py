@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
 from core import call
-import math
 import girls_data
 from data import reputation_levels, reputation_gain, game_events
 import renpy.store as store
@@ -240,7 +239,8 @@ class Army(store.object):
     @property
     def force(self):
         """
-        Возвращает суммарную силу армии тьмы по формуле (force) = (grunts + 3 * elites) * diversity * equipment * текущий процент мощи 
+        Возвращает суммарную силу армии тьмы по формуле
+        (force) = (grunts + 3 * elites) * diversity * equipment * текущий процент мощи
         """
         return (self.grunts + 3 * self.elites) * self.diversity * self.equipment * self._force_residue // 100
 

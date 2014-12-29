@@ -1,21 +1,17 @@
 ﻿#!/usr/bin/env python
 # coding=utf-8
 import random
-import math
 import data
 import core
-import os
-import renpy as renpy_internal
 import renpy.exports as renpy
 import renpy.store as store
 import girls_data
-from copy import deepcopy
 from treasures import gen_treas
 
 
 class Girls_list(object):
-    def __init__(self, gameRef, base_character):
-        self.game = gameRef
+    def __init__(self, game_ref, base_character):
+        self.game = game_ref
         self.character = base_character
         self.prisoners = []  # список заключенных девушек
         self.free_list = []  # список свободных девушек
@@ -23,22 +19,22 @@ class Girls_list(object):
         self.active = 0  # номер текущей девушки
         self.offspring = []  # типы потомков для выполнения квеста
 
-    def new_girl(self, type='peasant'):
+    def new_girl(self, girl_type='peasant'):
         """
         Генерация новой девушки указанного типа.
         """
         self.game.girl = core.Girl(gameRef=self.game, base_character=self.character)
-        self.game.girl.type = type
+        self.game.girl.type = girl_type
         # создание аватарки
-        relative_path = "img/avahuman/" + girls_data.girls_info[type]['avatar']  # Относительный путь для движка ренпи
+        relative_path = "img/avahuman/" + girls_data.girls_info[girl_type]['avatar']  # Относительный путь для движка ренпи
         self.game.girl.avatar = core.get_avatar(relative_path)  # Возвращаем правильно отформатированное значение
         # генерация имени
-        if type + '_last' in girls_data.girls_names:
-            self.game.girl.name = u"%s %s" % (random.choice(girls_data.girls_names[type + '_first']),
-                                              random.choice(girls_data.girls_names[type + '_last']))
+        if girl_type + '_last' in girls_data.girls_names:
+            self.game.girl.name = u"%s %s" % (random.choice(girls_data.girls_names[girl_type + '_first']),
+                                              random.choice(girls_data.girls_names[girl_type + '_last']))
         else:
-            if type + '_first' in girls_data.girls_names:
-                self.game.girl.name = random.choice(girls_data.girls_names[type + '_first'])
+            if girl_type + '_first' in girls_data.girls_names:
+                self.game.girl.name = random.choice(girls_data.girls_names[girl_type + '_first'])
             else:
                 self.game.girl.name = 'Неизвестная Красавица'
         self.game.girl.treasure = self.gen_tres()
@@ -48,8 +44,8 @@ class Girls_list(object):
         """
         Создание списка индивидуальных сокровищ для текущей девушки
         """
-        type = self.game.girl.type  # упрощение обращения к типу девушки
-        girl_info = girls_data.girls_info[type]  # упрощение обращения к информации для данного типа девушки
+        g_type = self.game.girl.type  # упрощение обращения к типу девушки
+        girl_info = girls_data.girls_info[g_type]  # упрощение обращения к информации для данного типа девушки
         count = random.randint(girl_info['t_count_min'], girl_info['t_count_max'])
         t_list = girl_info['t_list']
         alignment = girl_info['t_alignment']
@@ -186,7 +182,8 @@ class Girls_list(object):
         else:
             return text
 
-    def event(self, event_type, *args, **kwargs):
+    @staticmethod
+    def event(event_type, *args, **kwargs):
         from core import call
         if event_type in girls_data.girl_events:
             if girls_data.girl_events[event_type] is not None:
@@ -204,8 +201,8 @@ class Girls_list(object):
             self.game.girl = self.prisoners[girl_i]
             # попытка побега
             if (random.randint(1, 2) == 1) and self.game.lair.reachable([]) and \
-                            'regular_guards' not in self.game.lair.upgrades and \
-                            'elite_guards' not in self.game.lair.upgrades:
+                'regular_guards' not in self.game.lair.upgrades and \
+                'elite_guards' not in self.game.lair.upgrades:
                 # девушка сбежала из камеры
                 del self.prisoners[girl_i]
                 self.event('escape')  # событие "побег из заключения"

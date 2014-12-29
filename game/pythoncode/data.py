@@ -20,7 +20,8 @@ class Modifier(object):
     def __contains__(self, item):
         return item in self.__dict__
 
-    def attack_filter(self, attack):
+    @staticmethod
+    def attack_filter(attack):
         return attack
 
 
@@ -30,24 +31,24 @@ class Container(collections.defaultdict):
     TODO: реверсивный поиск
     """
 
-    def __init__(self, id=None, data=None, *args, **kwargs):
+    def __init__(self, container_id=None, data=None, *args, **kwargs):
         super(Container, self).__init__(*args, **kwargs)
-        self.id = id
+        self.id = container_id
         if data is not None:
 
             for key, value in data.items():
                 self.add(key, value)
 
-    def add(self, id, data):
+    def add(self, container_id, data):
         """
-        :param id: Идентификатор свойства/модификатора
+        :param container_id: Идентификатор свойства/модификатора
         :param data: dict, содержащий парамерты этого свойства/модификатор
         """
-        if id not in self:
+        if container_id not in self:
             if type(data) is dict:
-                self[id] = Container(id, data)
+                self[container_id] = Container(container_id, data)
             else:
-                self[id] = data
+                self[container_id] = data
         else:
             raise Exception("Already in container")
 

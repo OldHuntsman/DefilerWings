@@ -1,16 +1,13 @@
 ﻿#!/usr/bin/env python
 # coding=utf-8
 import random
-import math
 import data
-import battle
 import mob_data
 import girls
 import treasures
 from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
-import renpy as renpy_internal
 import renpy.store as store
 
 
@@ -23,14 +20,17 @@ class Game(store.object):
     _win = False
     _defeat = False
     _dragons_used = 0  # Количество использованных за игру драконво
+    lair = None
+    _quest = None
+    _quest_threshold = None
+    _quest_text = None
 
     def __init__(self, adv_character=None, nvl_character=None):
         """
-        :param base_character: Базовый класс для персонажа. Скорее всего NVLCharacter.
+        :param adv_character: Базовый класс для ADV-режима
+        :param nvl_character: Базовый класс для NVL-режима
         """
         from points import Mobilization, Poverty, Army
-        from thief import Thief
-        from knight import Knight
 
         self.adv_character = adv_character
         self.nvl_character = nvl_character
@@ -77,7 +77,8 @@ class Game(store.object):
         else:
             raise Exception("Время не может течь назад")
 
-    def save(self):
+    @staticmethod
+    def save():
         """
         Логика сохранения игры.
         """
@@ -86,7 +87,8 @@ class Game(store.object):
         renpy.save("1-1")  # Сохраняем игру
         return True
 
-    def save_freegame(self):
+    @staticmethod
+    def save_freegame():
         renpy.rename_save("1-3", "1-4")
         renpy.take_screenshot()
         renpy.save("1-3")
@@ -104,7 +106,7 @@ class Game(store.object):
         # Платим за службу, проверяется в начале года
         for upgrade in self.lair.upgrades.keys():
             if type(self.lair.upgrades) == type(self.lair.upgrades[upgrade]) and \
-                            'cost' in self.lair.upgrades[upgrade].keys():
+                    'cost' in self.lair.upgrades[upgrade].keys():
                 salary = self.lair.treasury.get_salary(self.lair.upgrades[upgrade]['cost'])
                 if salary:
                     if renpy.config.debug:
@@ -124,9 +126,13 @@ class Game(store.object):
         self.poverty.apply_planned()
         # Действия с девушками каждый год
         self.girls_list.next_year()
+
         # Изменяем уровень мобилизации
-        desired_mobilization = self.dragon.reputation.level - self.poverty.value  # Желаемый уровень мобилизации
-        mobilization_delta = desired_mobilization - self.mobilization.level  # Считаем есть ли разница с текущим уровнем мобилизации
+        # Для начала считаем желаемый уровень мобилизации
+        desired_mobilization = self.dragon.reputation.level - self.poverty.value
+        # Затем
+        # Затем считаем есть ли разница с текущим уровнем мобилизации
+        mobilization_delta = desired_mobilization - self.mobilization.level
         if mobilization_delta != 0:  # И если есть разница
             # Увеличиваем  или  уменьшаем на единицу 
             if mobilization_delta > 0:
@@ -148,7 +154,7 @@ class Game(store.object):
                 self.thief.event("spawn")
         else:  # Иначе пробуем его пустить на дело
             if random.choice(range(6)) in range(
-                            1 + len(self.thief.items)):  # Шанс 1 + количество шмота на воре, что он пойдет на дело
+                    1 + len(self.thief.items)):  # Шанс 1 + количество шмота на воре, что он пойдет на дело
                 # Идем на дело
                 if renpy.config.debug:
                     self.narrator(u"Вор идет на дело")
@@ -179,7 +185,9 @@ class Game(store.object):
                     self.narrator(u"Рыцарь появился.")
                 self.knight.event("spawn")
         else:  # Иначе пробуем его пустить на дело
-            if random.choice(range(7)) in range(1 + len([i for i in self.knight.items if not self.knight.items[i].basic])):  # Шанс 1 + количество небазового шмота на рыцаре из 7, что он пойдет на дело
+            # Шанс 1 + количество небазового шмота на рыцаре из 7, что он пойдет на дело
+            if random.choice(range(7)) in range(
+                    1 + len([i for i in self.knight.items if not self.knight.items[i].basic])):
                 # Идем на дело
                 if renpy.config.debug:
                     self.narrator(u"Рыцарь вызывает дракона на бой")
@@ -278,13 +286,16 @@ class Game(store.object):
             lair_list = []
             mods = self.dragon.modifiers()
             for lair in data.lair_types.iterkeys():
-                if 'prerequisite' in data.lair_types[lair]:  # просматриваем логова, выдаваемые автоматически при выполнении требований
+                # просматриваем логова, выдаваемые автоматически при выполнении требований
+                if 'prerequisite' in data.lair_types[lair]:
                     prerequisite_list = data.lair_types[lair]['prerequisite']  # получаем список требований к дракону
                     prerequisite_exists = True  # временная переменная для требований
                     for prerequisite in prerequisite_list:  # просматриваем список требований
-                        prerequisite_exists = prerequisite_exists and prerequisite in mods  # удостоверяемся, что список требований выполнен
+                        # удостоверяемся, что список требований выполнен
+                        prerequisite_exists = prerequisite_exists and prerequisite in mods
                     if prerequisite_exists:
-                        lair_list.append((data.lair_types[lair].name, lair))  # если список требований выполнен, добавляем логово к списку
+                        # если список требований выполнен, добавляем логово к списку
+                        lair_list.append((data.lair_types[lair].name, lair))
             if len(lair_list) == 0:
                 lair_type = 'impassable_coomb'  # список логов пуст, выбираем начальное
             elif len(lair_list) == 1:
@@ -418,20 +429,20 @@ class Game(store.object):
             return u"Задание нужно выполнить за %s лет." % str(number)
 
     @staticmethod
-    def weighted_random(data):
+    def weighted_random(choice_options):
         """
-        :param data: list of tuples (option, weight), где option - возвращаемый вариант, а
+        :param choice_options: list of tuples (option, weight), где option - возвращаемый вариант, а
                      weight - вес варианта. Чем больше, тем вероятнее что он выпадет.
         :return: option, или None, если сделать выбор не удалось.
         Пример использования:
         coin_flip = weighted_random([("орёл", 1), ("решка",1)])
         """
-        if len(data) > 0:
+        if len(choice_options) > 0:
             import bisect
             # Складываем вес всех доступных энкаунтеров
             accumulated = []
             total = 0
-            for option, weight in data:
+            for option, weight in choice_options:
                 assert weight >= 0
                 accumulated.append(weight + total)
                 total += weight
@@ -439,22 +450,22 @@ class Game(store.object):
             if total == 0:
                 return None
             r = random.random() * accumulated[-1]
-            return data[bisect.bisect(accumulated, r)][0]
+            return choice_options[bisect.bisect(accumulated, r)][0]
         return None
 
-    def interpolate(self, str):
+    def interpolate(self, text):
         """
         Функция заменяющая переменные в строке на актуальные данные игры
         """
-        return str % self.format_data
+        return text % self.format_data
 
     @property
     def format_data(self):
-        data = {
+        substitutes = {
             "dragon_name": self.dragon.name,
             "dragon_name_full": self.dragon.fullname,
         }
-        return data
+        return substitutes
 
     @property
     def is_won(self):
@@ -486,9 +497,9 @@ class Game(store.object):
 
 
 class Lair(object):
-    def __init__(self, type="impassable_coomb"):
-        self.type_name = type
-        self.type = data.Container(type, data.lair_types[type])
+    def __init__(self, lair_type="impassable_coomb"):
+        self.type_name = lair_type
+        self.type = data.Container(lair_type, data.lair_types[lair_type])
         # Список модификаций(ловушки, стражи и.т.п.)
         self.upgrades = data.Container('lair_upgrades')
         if 'provide' in self.type:
@@ -500,7 +511,8 @@ class Lair(object):
     def reachable(self, abilities):
         """
         Функция для проверки доступности логова
-        :param abilities: - список способностей у того, кто пытается достичь, например, для вора: [ 'alpinism', 'swimming' ]
+        :param abilities: - список способностей у того, кто пытается достичь логова,
+            например, для вора: [ 'alpinism', 'swimming' ]
         :return: Возращает True ,если до логова можно добраться и False если нет
         """
         for r in self.requirements():
@@ -523,7 +535,7 @@ class Lair(object):
     @property
     def inaccessability(self):
         return self.type.inaccessability + self.upgrades.sum("inaccessability")
-        
+
     def add_upgrade(self, upgrade):
         """
         Функция для улучшения логова
@@ -534,18 +546,19 @@ class Lair(object):
         if 'replaces' in self.upgrades[upgrade].keys():
             del self.upgrades[self.upgrades[upgrade]['replaces']]
 
+
 class Sayer(store.object):
     """
     Базовый класс для всего что умеет говорить
     """
 
-    def __init__(self, gameRef=None, base_character=None, *args, **kwargs):
+    def __init__(self, game_ref=None, base_character=None, *args, **kwargs):
         """
-        :param gameRef: Game object
+        :param game_ref: Game object
         :param base_character: base_character базовый класс персонажа от которого будет вестись вещание
         """
         self.avatar = None  # По умолчанию аватарки нет
-        self._gameRef = gameRef  # Проставляем ссылку на игру
+        self._gameRef = game_ref  # Проставляем ссылку на игру
         self._base_character = base_character  # На всякий случай если захотим пересоздать (но зачем?)
         self._real_character = base_character()  # Создаем объект от которого будет вестись вещание
 
@@ -585,10 +598,15 @@ class Girl(Sayer):
     """
 
     def __init__(self, *args, **kwargs):
-        super(Girl, self).__init__(*args, **kwargs)  # Инициализируем родителя
-        self.virgin = True  # девственность = пригодность для оплодотворения драконом
-        self.pregnant = 0  # 0 - не беременна, 1 - беременна базовым отродьем, 2 - беременна продвинутым отродьем
-        self.quality = 0  # Репродуктивное качество женщины. Если коварство дракона превышает её репродуктивное качество, то отродье будет продвинутым. Иначе базовым
+        # Инициализируем родителя
+        super(Girl, self).__init__(*args, **kwargs)
+        # девственность = пригодность для оплодотворения драконом
+        self.virgin = True
+        # беременность: 0 - не беременна, 1 - беременна базовым отродьем, 2 - беременна продвинутым отродьем
+        self.pregnant = 0
+        # Репродуктивное качество женщины.
+        # Если коварство дракона превышает её репродуктивное качество, то отродье будет продвинутым. Иначе базовым.
+        self.quality = 0
         self.name = ''
         self.jailed = False  # была ли уже в тюрьме, пригодится для описания
         self.treasure = []
@@ -642,11 +660,11 @@ class Fighter(Sayer, Mortal):
         :return: Значение защиты данного бойца в виде котртежа (защита, верная защита).
         """
         result = dict()
-        for type in data.protection_types:
-            result[type] = tuples_sum(
+        for protect_type in data.protection_types:
+            result[protect_type] = tuples_sum(
                 [get_modifier(mod).protection[1]
                  for mod in self.modifiers()
-                 if get_modifier(mod).protection[0] == type]
+                 if get_modifier(mod).protection[0] == protect_type]
             )
         return result
 
@@ -656,12 +674,12 @@ class Fighter(Sayer, Mortal):
         :return: Словарик, ключами которого являются типы атаки(лед, огонь, яд...),
         а значениями кортежи вида (атака, верная атака)
         """
-        result = dict()
-        for type in data.attack_types:
-            result[type] = tuples_sum(
+        result = {}
+        for attack_type in data.attack_types:
+            result[attack_type] = tuples_sum(
                 [get_modifier(mod).attack[1]
                  for mod in self.modifiers()
-                 if get_modifier(mod).attack[0] == type]
+                 if get_modifier(mod).attack[0] == attack_type]
             )
         return result
 
@@ -670,9 +688,9 @@ class Fighter(Sayer, Mortal):
         :return: Список типов атаки(лед, огонь, яд...), к которым у данного бойца иммунитет
         """
         immun = []
-        for type in data.attack_types:
-            if type + '_immunity' in self._modifiers:
-                immun.append(type)
+        for immune_type in data.attack_types:
+            if immune_type + '_immunity' in self._modifiers:
+                immun.append(immune_type)
         return immun
 
     def battle_description(self, status, dragon):
@@ -686,14 +704,14 @@ class Fighter(Sayer, Mortal):
         # цикл по всем индексам списка self.descriptions
         for desc_i in range(len(self.descriptions)):
             # получаем список переменных для строки описания из списка
-            (require, desc_str, insertion, round) = self.descriptions[desc_i]
+            (require, desc_str, insertion, battle_round) = self.descriptions[desc_i]
             # определяем подходит ли описание для текущего статуса
-            desc_need = round <= curr_round  # предварительно проверяем на количество использований
+            desc_need = battle_round <= curr_round  # предварительно проверяем на количество использований
             for req in require:
                 desc_need = (req in status) and desc_need
             if desc_need:
-                if round < curr_round:
-                    curr_round = round  # выбираем наименьшее число использований описания
+                if battle_round < curr_round:
+                    curr_round = battle_round  # выбираем наименьшее число использований описания
                     desc_list = []  # все предыдущие описания использовались чаще, очищаем список
                 # вставляем необходимые данные в описание
                 insert_list = []
@@ -723,13 +741,13 @@ class Fighter(Sayer, Mortal):
             # Пытаемся одеть под что нет слота
             raise Exception("Can't equip, no such slot. Trying to equip %s in slot %s" % (item.id, item["type"]))
 
-    def unequip(self, type):
+    def unequip(self, slot_type):
         # Снимаем все что в указанном слоте
-        if type in self._equip_slots:
-            self.items[type] = None
+        if slot_type in self._equip_slots:
+            self.items[slot_type] = None
         else:
             # Пытаемся снять из того слота которого не существует
-            raise Exception("Can't unequip, no such slot. Trying to unequip slot %s" % type)
+            raise Exception("Can't unequip, no such slot. Trying to unequip slot %s" % slot_type)
 
     def _add_equip_slots(self, slot_list):
         # slot_list - список слотов которые нужно добавить
@@ -756,7 +774,7 @@ class Dragon(Fighter):
         # self._last_name = u"Охотник"
         self.name = random.choice(data.dragon_names)
         self.surname = random.choice(data.dragon_surnames)
-        self.age = 0
+        self._age = 0
         self.reputation = Reputation()
         self._tiredness = 0  # увеличивается при каждом действии
         self.bloodiness = 0  # range 0..5
@@ -794,7 +812,7 @@ class Dragon(Fighter):
         else:
             self.anatomy.append(self._gift)
         self.avatar = get_avatar("img/avadragon/" + self.color_eng, used_avatars=used_avatars)  # Назначаем аватарку
-        
+
     @property
     def fullname(self):
         return self.name + u' ' + self.surname
@@ -844,10 +862,11 @@ class Dragon(Fighter):
         """
         :return: Список модификаторов дракона
         """
+        # TODO: Проверить последнюю строчку на наличие смысла и указать почему effect не используется.
         return self.anatomy + \
-               [mod for head_color in self.heads for mod in data.dragon_heads[head_color]] + \
-               [mod for spell in self.spells if spell in data.spell_list for mod in data.spell_list[spell]] + \
-               [mod for effect in self.spells if spell in data.effects_list for mod in data.effects_list[spell]]
+            [mod for head_color in self.heads for mod in data.dragon_heads[head_color]] + \
+            [mod for spell in self.spells if spell in data.spell_list for mod in data.spell_list[spell]] + \
+            [mod for effect in self.spells if spell in data.effects_list for mod in data.effects_list[spell]]
 
     def max_energy(self):
         """
@@ -1044,7 +1063,8 @@ class Dragon(Fighter):
             else:
                 # жизни закончились, рубим голову (последнюю в списке)
                 lost_head = self.heads.pop()
-                self.dead_heads.insert(0, lost_head)  # ставим на первое место, чтобы после объединения списков порядок голов не изменился
+                # ставим её на первое место, чтобы после объединения списков порядок голов не изменился
+                self.dead_heads.insert(0, lost_head)
                 # потеря головы, если головы закончились - значит смертушка пришла
                 if self.heads:
                     return ['lost_head', 'lost_' + lost_head]
@@ -1093,7 +1113,8 @@ class Dragon(Fighter):
     def add_special_place(self, place_name, stage=None):
         """
         :param place_name: название достопримечательности для добавления - ключ для словаря.
-        :param      stage: на каком этапе достопримечательность, ключ для словаря data.special_places, из которого берется надпись в списке и название локации для перехода. 
+        :param      stage: на каком этапе достопримечательность,
+            ключ для словаря data.special_places, из которого берется надпись в списке и название локации для перехода.
         Если стадия не указана (None), то ключ удаляется из словаря.
         """
         assert stage is None or stage in data.special_places, "Unknown stage: %s" % stage
@@ -1167,6 +1188,7 @@ def get_avatar(folder, regex='.*', used_avatars=None):
     """
     import re
     import os
+
     if used_avatars is None:
         used_avatars = []
 
@@ -1176,8 +1198,7 @@ def get_avatar(folder, regex='.*', used_avatars=None):
     reg_list = [item for item in reg_list if folder + "/" + item not in used_avatars]
     if len(reg_list) == 0:
         raise StopIteration
-    file = folder + "/" + random.choice(reg_list)  # получаем название файла
-    return file  # Возвращаем правильно отформатированно значение
+    return folder + "/" + random.choice(reg_list)  # Возвращаем правильно случайно выбранное значение
 
 
 get_img = get_avatar
