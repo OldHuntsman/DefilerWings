@@ -46,8 +46,8 @@ class Game(store.object):
         self.thief = None  # Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
         self.knight = None  # Рыцаря не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
 
-        self.narrator = Sayer(gameRef=self, base_character=nvl_character)
-        self.girls_list = girls.Girls_list(gameRef=self, base_character=adv_character)
+        self.narrator = Sayer(game_ref=self, first=nvl_character, third=nvl_character)
+        self.girls_list = girls.GirlsList(game_ref=self, base_character=adv_character)
         self.foe = None
         self.girl = None
 
@@ -552,15 +552,18 @@ class Sayer(store.object):
     Базовый класс для всего что умеет говорить
     """
 
-    def __init__(self, game_ref=None, base_character=None, *args, **kwargs):
+    def __init__(self, game_ref=None, first=None, third=None):
         """
         :param game_ref: Game object
-        :param base_character: base_character базовый класс персонажа от которого будет вестись вещание
+        :param first: класс для вещания от первого лица
+        :param third: класс для вещания от третьего лица
         """
         self.avatar = None  # По умолчанию аватарки нет
         self._gameRef = game_ref  # Проставляем ссылку на игру
-        self._base_character = base_character  # На всякий случай если захотим пересоздать (но зачем?)
-        self._real_character = base_character()  # Создаем объект от которого будет вестись вещание
+        self._adv_character = first  # На всякий случай если захотим пересоздать (но зачем?)
+        self._nvl_character = third
+        self._real_character = first()  # Создаем объект от которого будет вестись вещание
+        self._third_character = third()
 
     @property  # Задаем имя через свойство, чтобы при изменении его передавать в персонажа.
     def name(self):
@@ -569,6 +572,7 @@ class Sayer(store.object):
     @name.setter
     def name(self, value):
         self._real_character.name = value
+        self._third_character.name = value
 
     def __call__(self, *args, **kwargs):
         """
@@ -589,7 +593,7 @@ class Sayer(store.object):
         game.person.third "Делая где-нибудь"
         """
         self._gameRef.currentCharacter = self  # Делаем вид, что сказали сами
-        self._gameRef.narrator._real_character(*args, **kwargs)  # Говорим о лица нарратора. Грязный хак.
+        self._third_character(*args, **kwargs)  # Говорим о лица нарратора. Грязный хак.
 
 
 class Girl(Sayer):
@@ -862,7 +866,7 @@ class Dragon(Fighter):
         """
         :return: Список модификаторов дракона
         """
-        # TODO: Проверить последнюю строчку на наличие смысла и указать почему effect не используется.
+        # TODO: Проверить последнюю строчку на наличие смысла и/или заменить effect на `_`
         return self.anatomy + \
             [mod for head_color in self.heads for mod in data.dragon_heads[head_color]] + \
             [mod for spell in self.spells if spell in data.spell_list for mod in data.spell_list[spell]] + \

@@ -9,7 +9,7 @@ import girls_data
 from treasures import gen_treas
 
 
-class Girls_list(object):
+class GirlsList(object):
     def __init__(self, game_ref, base_character):
         self.game = game_ref
         self.character = base_character
@@ -26,8 +26,10 @@ class Girls_list(object):
         self.game.girl = core.Girl(gameRef=self.game, base_character=self.character)
         self.game.girl.type = girl_type
         # создание аватарки
-        relative_path = "img/avahuman/" + girls_data.girls_info[girl_type]['avatar']  # Относительный путь для движка ренпи
-        self.game.girl.avatar = core.get_avatar(relative_path)  # Возвращаем правильно отформатированное значение
+        # Состовляем относительный путь для папки с аватаркой
+        relative_path = "img/avahuman/" + girls_data.girls_info[girl_type]['avatar']
+        # Выбираем от туда аватарку
+        self.game.girl.avatar = core.get_avatar(relative_path)
         # генерация имени
         if girl_type + '_last' in girls_data.girls_names:
             self.game.girl.name = u"%s %s" % (random.choice(girls_data.girls_names[girl_type + '_first']),
@@ -151,7 +153,8 @@ class Girls_list(object):
         """
         Генерация описания ситуации для текущей девушки (self.game.girl).
         status - кодовое описание ситуации
-        say - если истина - описание выводится сразу на экран, возвращается None, если ложь - возвращается текст описания
+        say - если истина - описание выводится сразу на экран, возвращается None,
+              если ложь - возвращается текст описания
         """
         format_dict = {
             'dragon_name': self.game.dragon.name,
@@ -201,9 +204,9 @@ class Girls_list(object):
             self.game.girl = self.prisoners[girl_i]
             # попытка побега
             if (random.randint(1, 2) == 1) and self.game.lair.reachable([]) and \
-                'regular_guards' not in self.game.lair.upgrades and \
-                'elite_guards' not in self.game.lair.upgrades:
-                # девушка сбежала из камеры
+                    'regular_guards' not in self.game.lair.upgrades and \
+                    'elite_guards' not in self.game.lair.upgrades:
+                # Девушка сбежала из камеры
                 del self.prisoners[girl_i]
                 self.event('escape')  # событие "побег из заключения"
                 if self.game.girl.pregnant:
@@ -270,6 +273,7 @@ class Girls_list(object):
                 self.description('anguish', True)  # умирает c тоски
                 del self.prisoners[girl_i]
 
+    # noinspection PyTypeChecker
     def after_awakening(self):
         """
         Все действия после пробуждения - разбираемся с воспитанными отродьями.
@@ -278,12 +282,14 @@ class Girls_list(object):
             spawn_type = self.spawn[spawn_i]  # упрощение обращения к типу отродий
             spawn = girls_data.spawn_info[spawn_type]  # упрощение обращения к данным отродий
             spawn_mod = spawn['modifier']  # упрощение обращения к списку модификаторов отродий
+            # Делаем проверку. Истина, если не морское отродье или морское в подводном логове
+            # TODO: Возможно стоит сделать умирание слуги, если оно не морское и в морском логове.
             marine_check = ('marine' not in spawn_mod) or \
-                           (self.game.lair.type.require and 'swimming' in self.game.lair.type.require)  # истина, если не морское отродье или морское в подводном логове
+                           (self.game.lair.type.require and 'swimming' in self.game.lair.type.require)
             spawn_menu = [(u"К Вам приходит %s и просит назначения" % spawn['name'], None)]  # меню отродий
             # Возможные пункты меню
             if ('poisonous' in spawn_mod) and ('poison_guards' not in self.game.lair.upgrades) and marine_check:
-                spawn_menu.append((u"Выпустить в логово", 'poison_guards'))
+                spawn_menu.append((u"Выпустить в логово", u'poison_guards'))
             if ('servant' in spawn_mod) and ('servant' not in self.game.lair.upgrades) and marine_check:
                 spawn_menu.append((u"Сделать слугой", 'servant'))
             if ('warrior' in spawn_mod) and ('regular_guards' not in self.game.lair.upgrades) and marine_check:
@@ -291,7 +297,10 @@ class Girls_list(object):
             if ('elite' in spawn_mod) and ('elite_guards' not in self.game.lair.upgrades) and marine_check:
                 spawn_menu.append((u"Сделать элитным охранником", 'elite_guards'))
             spawn_menu.append((u"Выпустить в королевство", 'free'))
-            if (('servant' in spawn_mod) or ('warrior' in spawn_mod) or ('elite' in spawn_mod)) and ('marine' not in spawn_mod):
+            if (('servant' in spawn_mod) or
+                    ('warrior' in spawn_mod) or
+                    ('elite' in spawn_mod)) and \
+                    ('marine' not in spawn_mod):
                 spawn_menu.append((u"Отправить в армию тьмы", 'army_of_darkness'))
 
             menu_action = renpy.display_menu(spawn_menu)
@@ -308,12 +317,14 @@ class Girls_list(object):
                 # выдача сообщения о конце работы, если это необходимо
                 if 'replaces' in data.lair_upgrades[menu_action].keys():
                     replace = data.lair_upgrades[menu_action]['replaces']
-                    renpy.say(self.game.narrator, u"%s больше не требуются и уходят." % data.lair_upgrades[replace]['name'])
+                    renpy.say(self.game.narrator,
+                              u"%s больше не требуются и уходят." % data.lair_upgrades[replace]['name'])
                 # добавление в улучшение логова
                 self.game.lair.add_upgrade(menu_action)
         self.spawn = []
 
-    def free_spawn(self, power):
+    @staticmethod
+    def free_spawn(power):
         """
         Действия отродий на свободе
         """

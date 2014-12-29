@@ -25,7 +25,7 @@ class Thief(Sayer, Mortal):
         self.items = data.Container("thief_items")
         # Определяем способности вора
         ability_list = [a for a in data.thief_abilities]  # Составляем список из возможных способностей
-        ability_list = ability_list + [None for i in range(len(ability_list))]  # Добавляем невалидных вариантов
+        ability_list += [None for _ in range(len(ability_list))]  # Добавляем невалидных вариантов
         for level in range(self._skill):
             ab = random.choice(ability_list)
             if ab is not None and ab not in self.abilities:
@@ -135,10 +135,12 @@ class Thief(Sayer, Mortal):
                     self.die(upgrade)  # Умираем
                     thief.event("die_trap", trap=upgrade)
                     return
-                if upgrade in thief.abilities.list("avoids") or upgrade in thief.items.list("avoids"):  # Если у нас есть шмотка или скилл для обхода ловушки
+                # Если у нас есть шмотка или скилл для обхода ловушки
+                if upgrade in thief.abilities.list("avoids") or upgrade in thief.items.list("avoids"):
                     if renpy.config.debug:
                         thief(u"Я хорошо подготовился и предметы помогли обойти мне %s" % upgrade)
-                    continue  # Переходим к следущей
+                    # То переходим к следущей ловушке
+                    continue
                 for i in range(data.lair_upgrades[upgrade].protection):
                     if random.choice(range(3)) == 0:
                         luck -= 1
@@ -196,7 +198,8 @@ class Thief(Sayer, Mortal):
                 thief.event("receive_no_item")
         return
 
-    def check_luck(self, luck):
+    @staticmethod
+    def check_luck(luck):
         # TODO: Для чего вообще нужен этот метод?
         """
         Unused

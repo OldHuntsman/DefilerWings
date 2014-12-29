@@ -28,7 +28,7 @@ class Knight(Fighter):
         self.power = level
         self.abilities = data.Container("knight_abilities")
         ability_list = [a for a in data.knight_abilities]  # Составляем список из возможных способностей
-        ability_list += [None for i in range(len(ability_list))]  # Добавляем невалидных вариантов
+        ability_list += [None for _ in range(len(ability_list))]  # Добавляем невалидных вариантов
         for i in range(level):
             ab = random.choice(ability_list)
             if ab is not None and ab not in self.abilities:
