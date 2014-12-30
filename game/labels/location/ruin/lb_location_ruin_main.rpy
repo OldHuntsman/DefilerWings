@@ -1,11 +1,13 @@
 # coding=utf-8
-python:
-    witch = Sayer(game_ref=game)
-    witch.avatar = "img\avahuman\witch"
-    witch.name = "Ведьма"
-
 label lb_location_ruin_main:
     show expression 'img/bg/special/haunted.png' as bg
+
+    python:
+        witch = core.Sayer(game_ref=game)
+        witch.avatar = "img/avahuman/witch.jpg"
+        witch.name = "Ведьма"
+
+    witch "Приветствую тебя."
     
     menu:
         'Посетить загадочную ведьму':
