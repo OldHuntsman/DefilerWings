@@ -257,3 +257,13 @@ class Army(store.object):
         Устанавливает текущий процент мощи армии тьмы
         """
         self._force_residue = value
+
+    @property
+    def army_description(self):
+        from data import get_description_by_count, dark_army
+        description_str = get_description_by_count(dark_army['grunts'], self.grunts) + '\n'
+        description_str += get_description_by_count(dark_army['elites'], self.elites) + '\n'
+        description_str += get_description_by_count(dark_army['diversity'], self.diversity) + '\n'
+        description_str += get_description_by_count(dark_army['equipment'], self.equipment) + '\n'
+        description_str += get_description_by_count(dark_army['force'], self.force)
+        return description_str

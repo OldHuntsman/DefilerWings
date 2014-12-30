@@ -2097,16 +2097,13 @@ class Treasury(store.object):
 
     @staticmethod
     def get_mass_description(description_key, mass):
-        """
+        """ 
         :param description_key: ключ для словаря treasures_mass_description_rus
-        :param mass: масса, для которой нужно подобрать описание
+        :param mass: число, для которой нужно подобрать описание
         :return: описание массы в сокровищнице
         """
         if mass > 0:
-            mass_list = reversed(sorted(treasures_mass_description_rus[description_key].keys()))
-            for mass_i in mass_list:
-                if mass >= mass_i:
-                    return treasures_mass_description_rus[description_key][mass_i]
+            return data.get_description_by_count(treasures_mass_description_rus[description_key], mass)
         else:
             return u""
 
@@ -2204,7 +2201,7 @@ class Treasury(store.object):
         wealth = self.wealth
         if wealth > 0:
             wealth_str = Treasury.get_mass_description('wealth', wealth)
-            wealth_str += u"Общая стоимость сокровищ: " + number_conjugation_rus(wealth, u"фартинг")
+            wealth_str += u"Общая стоимость сокровищ: " + number_conjugation_rus(wealth, u"фартинг") + u"."
             return wealth_str 
         else:
             return u"Сокровищница пуста."
