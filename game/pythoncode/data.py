@@ -1602,6 +1602,19 @@ loot = {
         'taller',
         'dublon'
     ],
+
+    'church': [
+        'goblet',
+        'cup',
+        'casket',
+        'statue',
+        'tabernacle',
+        'icon',
+        'tome',
+        'seal',
+    ]
+}
+
     'any': [
         'farting',
         'taller',
