@@ -1612,8 +1612,7 @@ loot = {
         'icon',
         'tome',
         'seal',
-    ]
-}
+    ],
 
     'any': [
         'farting',
