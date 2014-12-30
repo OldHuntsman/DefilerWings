@@ -245,10 +245,7 @@ class Game(store.object):
         if thief_level is None:
             thief_level = Thief.start_level(self.dragon.reputation.level)
         if thief_level > 0:
-            self.thief = Thief(level=thief_level,
-                               treasury=self.lair.treasury,
-                               game_ref=self,
-                               base_character=self.adv_character)
+            self.thief = Thief(level=thief_level, treasury=self.lair.treasury, game_ref=self)
         else:
             self.thief = None
 
@@ -261,9 +258,7 @@ class Game(store.object):
         if knight_level is None:
             knight_level = Knight.start_level(self.dragon.reputation.level)
         if knight_level > 0:
-            self.knight = Knight(level=knight_level,
-                                 game_ref=self,
-                                 base_character=self.adv_character)
+            self.knight = Knight(level=knight_level, game_ref=self)
         else:
             self.knight = None
 
