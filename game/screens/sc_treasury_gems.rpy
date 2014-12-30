@@ -13,8 +13,7 @@ screen sc_treasury_gems:
         
         for i in range(0, len(game.lair.treasury.gems)):
             hbox:
-                text "Тип:%s Цена:%d" % (game.lair.treasury.gems[i].g_type,
-                                         game.lair.treasury.gems[i].cost)
+                text "Тип:%s Цена:%d" % (game.lair.treasury.gems[i].g_type, game.lair.treasury.gems[i].cost)
                 textbutton "Удалить" action del_gem(game.lair.treasury.gems, i)
     
     use sc_gem_creator

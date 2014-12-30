@@ -80,7 +80,9 @@ label lb_enc_ram:
         'Сожрать барана' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] ловит и пожирает барана.'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
         'Разорвать оленя' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] жестоко задирает барана просто ради забавы.'    
@@ -98,8 +100,10 @@ label lb_enc_bear:
             call lb_fight
             if game.dragon.hunger > 0:
                 'Дракон съедает медведя.'
-                $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                $ game.dragon.hunger -= 1
+                python:
+                    if game.dragon.bloodiness > 0:
+                        game.dragon.bloodiness = 0
+                    game.dragon.hunger -= 1
             else:
                 'Дракон торжествует победу.'
                 
@@ -150,8 +154,10 @@ label lb_enc_slavers:
             'Для работорговцев это не слишком большая потеря - они соглашаются отдать самого заморенного раба, чтобы [game.dragon.name] пропустил их без боя. Они даже жалеают дракону приятного аппетита.'
             $ game.dragon.drain_energy()
             'Дракон пожирает измождённого раба. Не самая лучшая закуска на свете, но голод не тётка...'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-            $ game.dragon.hunger -= 1
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
+                game.dragon.hunger -= 1
         
         'Потребовать невинную девушку' if game.dragon.lust > 0:
             $ game.dragon.drain_energy()

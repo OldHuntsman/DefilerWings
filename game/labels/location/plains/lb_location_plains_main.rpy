@@ -60,9 +60,10 @@ label lb_enc_fair:
     nvl clear
     menu:
         'Первая красавица':
-            $ game.dragon.drain_energy()
-            $ description = game.girls_list.new_girl('peasant')
-            $ txt = game.interpolate(random.choice(txt_enc_fair[1]))
+            python:
+                game.dragon.drain_energy()
+                description = game.girls_list.new_girl('peasant')
+                txt = game.interpolate(random.choice(txt_enc_fair[1]))
             '[txt]'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
@@ -80,9 +81,11 @@ label lb_enc_fair:
                     'Бык съеден. -1 к голоду, +1 к похоти. Ярость обнуляется.'
                     $ game.dragon.reputation.points += 1
                     '[game.dragon.reputation.gain_description]'
-                    $ game.dragon.bloodiness = 0
-                    $ if game.dragon.lust < 3: game.dragon.lust += 1
-                    $ game.dragon.hunger -= 1
+                    python:
+                        game.dragon.bloodiness = 0
+                        if game.dragon.lust < 3:
+                            game.dragon.lust += 1
+                        game.dragon.hunger -= 1
                 'Уйти':
                     return
             return
@@ -128,16 +131,21 @@ label lb_enc_berries:
                             menu:
                                 'Сожрать девицу' if game.dragon.hunger > 0:
                                     'Дракон пожирает девицу'
-                                    $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                                    $ game.dragon.hunger -= 1
+                                    python:
+                                        if game.dragon.bloodiness > 0:
+                                            game.dragon.bloodiness = 0
+                                        game.dragon.hunger -= 1
                                 'Отпустить':
                                     'Голая крестьянка убегает пытаясь прикрыть срам руками.'
                             return
                         'Сожрать девицу' if game.dragon.hunger > 0:
                             'Дракон обмазывает девушку ягодами из лукошка и съедает.'
-                            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                            $ if game.dragon.lust < 3: game.dragon.lust += 1
-                            $ game.dragon.hunger -= 1
+                            python:
+                                if game.dragon.bloodiness > 0:
+                                    game.dragon.bloodiness = 0
+                                if game.dragon.lust < 3:
+                                    game.dragon.lust += 1
+                                game.dragon.hunger -= 1
                             return
                         'Отпустить':
                             'Голая крестьянка убегает пытаясь прикрыть срам руками.'
@@ -148,19 +156,26 @@ label lb_enc_berries:
                     menu:
                         'Сожрать девицу' if game.dragon.hunger > 0:
                             'Дракон пожирает девицу'
-                            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                            $ game.dragon.hunger -= 1
+                            python:
+                                if game.dragon.bloodiness > 0:
+                                    game.dragon.bloodiness = 0
+                                game.dragon.hunger -= 1
                         'Отпустить':
                             'Голая крестьянка убегает пытаясь прикрыть срам руками.'
                     return
                 'Сожрать девицу' if game.dragon.hunger > 0:
                     'Дракон срывает с девушки одежду, обмазывает её ягодами из лукошка и съедает.'
-                    $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                    $ if game.dragon.lust < 3: game.dragon.lust += 1
-                    $ game.dragon.hunger -= 1
+                    python:
+                        if game.dragon.bloodiness > 0:
+                            game.dragon.bloodiness = 0
+                        if game.dragon.lust < 3:
+                            game.dragon.lust += 1
+                        game.dragon.hunger -= 1
                 'Отнять ягоды и отпустить':
                     'Дракон закусывает сладкими ягодками и уходит.'
-                    $ if game.dragon.lust < 3: game.dragon.lust += 1
+                    python:
+                        if game.dragon.lust < 3:
+                            game.dragon.lust += 1
                     return
                     
         'Оставить их в покое': 
@@ -205,17 +220,23 @@ label lb_enc_shrooms:
                             menu:
                                 'Сожрать девицу' if game.dragon.hunger > 0:
                                     'Дракон заставляет крестьянку нажарить грибов, затем потрошит её, фарширует грибами и пожирает.'
-                                    $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                                    $ if game.dragon.lust < 3: game.dragon.lust += 1
-                                    $ game.dragon.hunger -= 1
+                                    python:
+                                        if game.dragon.bloodiness > 0:
+                                            game.dragon.bloodiness = 0
+                                        if game.dragon.lust < 3:
+                                            game.dragon.lust += 1
+                                        game.dragon.hunger -= 1
                                 'Отпустить':
                                     'Голая крестьянка убегает пытаясь прикрыть срам руками.'
                             return
                         'Сожрать девицу' if game.dragon.hunger > 0:
                             'Дракон заставляет крестьянку нажарить грибов, затем потрошит её, фарширует грибами и пожирает.'
-                            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                            $ if game.dragon.lust < 3: game.dragon.lust += 1
-                            $ game.dragon.hunger -= 1
+                            python:
+                                if game.dragon.bloodiness > 0:
+                                    game.dragon.bloodiness = 0
+                                if game.dragon.lust < 3:
+                                    game.dragon.lust += 1
+                                game.dragon.hunger -= 1
                             return
                         'Отпустить':
                             'Голая крестьянка убегает пытаясь прикрыть срам руками.'
@@ -227,19 +248,26 @@ label lb_enc_shrooms:
                     menu:
                         'Сожрать девицу' if game.dragon.hunger > 0:
                             'Дракон заставляет крестьянку нажарить грибов, затем потрошит её, фарширует грибами и пожирает.'
-                            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                            $ game.dragon.hunger -= 1
+                            python:
+                                if game.dragon.bloodiness > 0:
+                                    game.dragon.bloodiness = 0
+                                game.dragon.hunger -= 1
                         'Отпустить':
                             'Голая крестьянка убегает пытаясь прикрыть срам руками.'
                     return
                 'Сожрать девицу' if game.dragon.hunger > 0:
                     'Дракон срывает с крестьянки одежду, потрошит и фарширует грибами а затем пожирает.'
-                    $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                    $ if game.dragon.lust < 3: game.dragon.lust += 1
-                    $ game.dragon.hunger -= 1
+                    python:
+                        if game.dragon.bloodiness > 0:
+                            game.dragon.bloodiness = 0
+                        if game.dragon.lust < 3:
+                            game.dragon.lust += 1
+                        game.dragon.hunger -= 1
                 'Отнять ягоды и отпустить':
                     'Дракон закусывает свежими грибами и уходит.'
-                    $ if game.dragon.lust < 3: game.dragon.lust += 1
+                    python:
+                        if game.dragon.lust < 3:
+                            game.dragon.lust += 1
                     return
                     
         'Оставить их в покое': 
@@ -287,7 +315,9 @@ label lb_enc_bath:
     return
     
 label lb_enc_militia:
-    $ if game.mobilization.level <= 0: renpy.jump('lb_encounter_plains')
+    python:
+        if game.mobilization.level <= 0:
+            renpy.jump('lb_encounter_plains')
     show expression 'img/scene/fight/militia.png' as bg
     'На поле тренируются ополченцы-новобранцы.'
     nvl clear
@@ -368,15 +398,19 @@ label lb_enc_gooze:
     menu:
         'Сожрать гусей' if game.dragon.hunger > 0:
             'Дракон ловит и проглатывает одного жирного гуся, но остальные разлетаются.'
-            $ game.dragon.drain_energy()
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness -= 1
+            python:
+                game.dragon.drain_energy()
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness -= 1
         'Сожрать девчёнку' if game.dragon.hunger > 0:
             'Дракон хватает девчёнку и съедает её.'
             $ game.dragon.drain_energy()
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-            $ game.dragon.hunger -= 1
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
+                game.dragon.hunger -= 1
         'Устрить побоище' if game.dragon.bloodiness >= 5:
             $ game.dragon.drain_energy()
             $ game.dragon.reputation.points += 1
@@ -398,8 +432,10 @@ label lb_enc_pigs:
             'Дракон съедает свинью.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-            $ game.dragon.hunger -= 1
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
+                game.dragon.hunger -= 1
         'Напасть на стадо' if game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('dog', gameRef=game, base_character=NVLCharacter)
@@ -424,8 +460,10 @@ label lb_enc_sheepherd:
             'Дракон съедает овцу.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-            $ game.dragon.hunger -= 1
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
+                game.dragon.hunger -= 1
         'Напасть на стадо' if game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('dog', gameRef=game, base_character=NVLCharacter)
@@ -448,8 +486,10 @@ label lb_enc_cattle:
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('bull', gameRef=game, base_character=NVLCharacter)
             call lb_fight
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-            $ game.dragon.hunger -= 1
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
+                game.dragon.hunger -= 1
             'Дракон съедает корову.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
@@ -574,9 +614,10 @@ label lb_village:
                 trs_list = game.lair.treasury.treasures_description(trs)
                 trs_descrptn = '\n'.join(trs_list)
             '[trs_descrptn]'
-            $ game.lair.treasury.receive_treasures(trs)
-            $ game.poverty.value += 1            
-            $ game.dragon.reputation.points += 5
+            python:
+                game.lair.treasury.receive_treasures(trs)
+                game.poverty.value += 1
+                game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
     
         'Отступить' if game.dragon.bloodiness < 5 and village_size > 0:

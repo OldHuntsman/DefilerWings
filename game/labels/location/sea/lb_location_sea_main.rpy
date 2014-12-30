@@ -41,7 +41,9 @@ label lb_enc_tuna:
         'Заглотнуть тунца' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] ловит и пожирает самую крупную рыбу из стаи. Вскоре на кровь сплываются многочисленные акулы, но увидив кто тут трапезничает, мгновенно уплывают прочь.'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
         'Забить косяк' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             'Хорошенько разогнавшись [game.dragon.name] врезается в косяк рыбы буквально взрывая его изнутри. Располосованная зубами и когтями рыба отчаянно бьётся в воде, так что кровь расплывается облаками и вода становится красной. Словно из ниоткуда появляются опьяневшие от крови акулы превнося в действие ещё больше хаоса и смерти. Неплохой способ выпустить ярость, кто бы подумал что можно получить столько радости от отдного единственного косяка?'    
@@ -59,9 +61,11 @@ label lb_enc_shark:
             call lb_fight
             if game.dragon.hunger > 0:
                 'Голодный [game.dragon.name] съедает разрывает поверженную акулу на куски и заглатывает самые крупные в то время как за куски помельче дерутся откуда ни возьмись маленькие акулы.'
-                $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                $ game.dragon.hunger -= 1
-                $ game.dragon.add_effect('boar_meat')
+                python:
+                    if game.dragon.bloodiness > 0:
+                        game.dragon.bloodiness = 0
+                    game.dragon.hunger -= 1
+                    game.dragon.add_effect('boar_meat')
             else:
                 '[game.dragon.fullname] сейчас не голоден, поэтому оставляет изрангенную акулу на растерзание её более мелким но агрессивным сородичам, приплывшим на запах крови.'
         'Скрыться на глубине' if game.dragon.bloodiness < 5:
@@ -75,8 +79,10 @@ label lb_enc_fishers:
         'Украсть рыбу' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             'Рыбаки кричат от удивления и ужаса, когда прямо из воды высовывается голова на длинной шее и хватает рыбу прямо у них из лодки. А потом ещё и ещё, до тех пор пока судно не причалило к берегу. Наверное рыбаки попрыгали бы от страху в море, если бы не знали что там ещё опасней.'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-            $ game.dragon.reputation.points += 1
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
+                game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
         'Перевернуть лодку' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()

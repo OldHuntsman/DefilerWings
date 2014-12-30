@@ -42,7 +42,9 @@ label lb_enc_swan:
         'Сожрать гуся' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] ловит и пожирает гуся.'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
         'Разогнать стаю' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] жестоко задирает вожака и ещё несколько птиц, а остальная стая в панике разлетается кто куда.'    
@@ -61,9 +63,11 @@ label lb_enc_griffin:
             call lb_fight
             if game.dragon.hunger > 0:
                 'Голодный [game.dragon.name] съедает грифона прямо в воздухе и бросает отсанки вниз на поживу шакалам.'
-                $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                $ game.dragon.hunger -= 1
-                $ game.dragon.add_effect('boar_meat')
+                python:
+                    if game.dragon.bloodiness > 0:
+                        game.dragon.bloodiness = 0
+                    game.dragon.hunger -= 1
+                    game.dragon.add_effect('boar_meat')
             else:
                 '[game.dragon.fullname] сейчас не голоден, поэтому он даёт смертельно раненому грифону упасть вниз и разбиться о скалы.'
         'Избежать столкновения' if game.dragon.bloodiness < 5:
@@ -72,9 +76,10 @@ label lb_enc_griffin:
     
 label lb_enc_skyboat:
     'Над облаками вздымается парус! Это один из воздушных кораблей цвергов, судя по всему торговый. А значит там может быть добыча..'
-    $ game.dragon.drain_energy()
-    $ game.foe = core.Enemy('airship', gameRef=game, base_character=NVLCharacter)
-    $ narrator(show_chances(game.foe))
+    python:
+        game.dragon.drain_energy()
+        game.foe = core.Enemy('airship', gameRef=game, base_character=NVLCharacter)
+        narrator(show_chances(game.foe))
     menu:
         'Напасть':
             call lb_fight
@@ -136,4 +141,3 @@ label lb_patrool_sky:
     call lb_fight
 
     return
-    
