@@ -1,13 +1,6 @@
 ﻿#!/usr/bin/env python
 # coding=utf-8
-from core import Sayer
 import random
-import math
-import data
-import copy
-import core
-from data import get_modifier
-from core import tuples_sum
 
 
 def calc_hit_def(hitdef):

@@ -99,7 +99,9 @@ label lb_enc_deer:
         'Сожрать оленя' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] ловит и пожирает оленя.'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
         'Разорвать оленя' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] жестоко задирает оленя просто ради забавы.'    
@@ -113,13 +115,15 @@ label lb_enc_boar:
     menu:
         'Сразиться с вепрем':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('boar', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('boar', game_ref=game)
             call lb_fight
             if game.dragon.hunger > 0:
                 'Дракон съедает вепря.'
-                $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                $ game.dragon.hunger -= 1
-                $ game.dragon.add_effect('boar_meat')
+                python:
+                    if game.dragon.bloodiness > 0:
+                        game.dragon.bloodiness = 0
+                    game.dragon.hunger -= 1
+                    game.dragon.add_effect('boar_meat')
             else:
                 'Дракон торжествует победу.'
         'Отступить' if game.dragon.bloodiness < 5:
@@ -137,7 +141,7 @@ label lb_enc_guardian:
     menu:
         'Атаковать стража':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('elf_ranger', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('elf_ranger', game_ref=game)
             call lb_fight
             python:
                 txt = game.interpolate(random.choice(txt_enc_forest_guardian[2]))
@@ -225,7 +229,7 @@ label lb_patrool_forest:
             patrool = 'angel'
             dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
     '[dtxt]'
-    $ game.foe = core.Enemy(patrool, gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy(patrool, game_ref=game)
     call lb_fight
     
     return

@@ -41,7 +41,9 @@ label lb_enc_tuna:
         'Заглотнуть тунца' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] ловит и пожирает самую крупную рыбу из стаи. Вскоре на кровь сплываются многочисленные акулы, но увидив кто тут трапезничает, мгновенно уплывают прочь.'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
         'Забить косяк' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             'Хорошенько разогнавшись [game.dragon.name] врезается в косяк рыбы буквально взрывая его изнутри. Располосованная зубами и когтями рыба отчаянно бьётся в воде, так что кровь расплывается облаками и вода становится красной. Словно из ниоткуда появляются опьяневшие от крови акулы превнося в действие ещё больше хаоса и смерти. Неплохой способ выпустить ярость, кто бы подумал что можно получить столько радости от отдного единственного косяка?'    
@@ -55,13 +57,15 @@ label lb_enc_shark:
     menu:
         'Сразиться с акулой':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('griffin', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('griffin', game_ref=game)
             call lb_fight
             if game.dragon.hunger > 0:
                 'Голодный [game.dragon.name] съедает разрывает поверженную акулу на куски и заглатывает самые крупные в то время как за куски помельче дерутся откуда ни возьмись маленькие акулы.'
-                $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                $ game.dragon.hunger -= 1
-                $ game.dragon.add_effect('boar_meat')
+                python:
+                    if game.dragon.bloodiness > 0:
+                        game.dragon.bloodiness = 0
+                    game.dragon.hunger -= 1
+                    game.dragon.add_effect('boar_meat')
             else:
                 '[game.dragon.fullname] сейчас не голоден, поэтому оставляет изрангенную акулу на растерзание её более мелким но агрессивным сородичам, приплывшим на запах крови.'
         'Скрыться на глубине' if game.dragon.bloodiness < 5:
@@ -75,8 +79,10 @@ label lb_enc_fishers:
         'Украсть рыбу' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             'Рыбаки кричат от удивления и ужаса, когда прямо из воды высовывается голова на длинной шее и хватает рыбу прямо у них из лодки. А потом ещё и ещё, до тех пор пока судно не причалило к берегу. Наверное рыбаки попрыгали бы от страху в море, если бы не знали что там ещё опасней.'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-            $ game.dragon.reputation.points += 1
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
+                game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
         'Перевернуть лодку' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
@@ -119,7 +125,7 @@ label lb_enc_bark:
             '[game.dragon.reputation.gain_description]'
         'Потопить корабль' if game.dragon.bloodiness >= 5:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('ship', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('ship', game_ref=game)
             call lb_fight
             'Пока накренившийся на борт корабль медленно идёт ко дну а оставшиеся в живых члены команды озабочены спасением своих жизней, [game.dragon.name] методично осматирвает трюм и каюту капитна, выгребая каждую монетку:'
             python:
@@ -141,7 +147,7 @@ label lb_enc_bark:
         
 label lb_enc_galeon:
     'А вот это называется "везёт по крупному" - паруса показавшиеся на горизонте принадлежат тяжело вооружённому галеону. Именно на таких судах люди короля перевозят золото из нового света. И суда по осадке у этой посудины трюмы отнюдь не пусты. Хотя опустошить их будет возможно не легко...'
-    $ game.foe = core.Enemy('battleship', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('battleship', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
         'Потопить галеон':
@@ -204,7 +210,7 @@ label lb_enc_mermaid:
     
 label lb_enc_merfolks:
     'Русалка и водяной плывут взявшись за руки. Водяной вооружен и вряд ли отдаст свою подругу без боя.'
-    $ game.foe = core.Enemy('merman', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('merman', game_ref=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -283,7 +289,7 @@ label lb_patrool_sea:
             patrool = 'triton'
             dtxt = '' % game.dragon.name
     '[dtxt]'
-    $ game.foe = core.Enemy(patrool, gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy(patrool, game_ref=game)
     $ narrator(show_chances(game.foe))
     call lb_fight
 

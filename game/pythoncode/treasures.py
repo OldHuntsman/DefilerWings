@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 import random
-import data
 import renpy.store as store
-import renpy.exports as renpy
 
 """Словарь для драгоценных камней, ключи - названия камней, значения - кортежи вида(шанс появления, ценность)"""
 gem_types = {
@@ -42,7 +40,9 @@ material_types = {
     "horn": (1, 10),
 }
 
-"""словарь для описания типов материалов, ключи - названия материалов, значения - словарь для различных падежей русского названия материала"""
+"""словарь для описания типов материалов,
+ключи - названия материалов,
+значения - словарь для различных падежей русского названия материала"""
 material_description_rus = {
     "jasper": {
         'nominative': u'яшма',
@@ -82,7 +82,9 @@ material_description_rus = {
     },
 }
 
-"""словарь для описания размеров материалов, ключи - названия размера материалов, значения - словарь для русского прилагательного, соответствующего размеру"""
+"""словарь для описания размеров материалов,
+ключи - названия размера материалов,
+значения - словарь для русского прилагательного, соответствующего размеру"""
 material_size_description_rus = {
     'small': {
         'he': {
@@ -99,7 +101,7 @@ material_size_description_rus = {
             'ablative': u"мелкими "
         }
     },
-    'common': { # этот размер не отображается
+    'common': {  # этот размер не отображается
         'he': {
             'nominative': u"",
             'ablative': u""
@@ -145,7 +147,9 @@ material_size_description_rus = {
         }
     }
 }
-"""словарь для описания степени обработки драгоценных камней, ключи - названия степени обработки, значения - словарь для соответствующего русского прилагательного"""
+"""словарь для описания степени обработки драгоценных камней,
+ключи - названия степени обработки,
+значения - словарь для соответствующего русского прилагательного"""
 gem_cut_description_rus = {
     ' ': {
         'he': {  # эта полировка не отображается
@@ -197,7 +201,9 @@ gem_cut_description_rus = {
     }
 }
 
-"""Словарь для драгоценных камней, ключ - тип драгоценного камня, значение - словарь с русским названием драгоценного камня в разных падежах"""
+"""Словарь для драгоценных камней,
+ключ - тип драгоценного камня,
+значение - словарь с русским названием драгоценного камня в разных падежах"""
 gem_description_rus = {
     "amber": {
         'he': {
@@ -470,7 +476,9 @@ treasure_types = {  # допилить типы сокровищ
     "chain": (3, "she", True, False, False, False, False),
     "fibula": (2, "she", True, False, False, False, True),
 }
-"""словарь для описания типов драгоценностей, ключ - тип драгоценностей, значение - словарь с русским названием драгоценности в разных падежах"""
+"""словарь для описания типов драгоценностей,
+ключ - тип драгоценностей,
+значение - словарь с русским названием драгоценности в разных падежах"""
 treasure_description_rus = {  # допилить типы сокровищ
     "dish": {'nominative': u'блюдо', 'ablative': u'блюде'},
     "goblet": {'nominative': u'кубок', 'ablative': u'кубке'},
@@ -561,7 +569,9 @@ image_types = {
         'mermaid_brushing_hair', 'playing_mermaid', 'mermaid_playing_with_pearl', 'awesome_sea_serpent',
         'flying_seagull', 'wriggling_octopus', 'kraken_drowning_sea_vessel', 'sailing_ship'),
 }
-"""словарь для описания изображений, ключ - вариант изображения, значение - словарь из рода изображения и описания изображения в различных падежах"""
+"""словарь для описания изображений,
+ключ - вариант изображения,
+значение - словарь из рода изображения и описания изображения в различных падежах"""
 image_description_rus = {
     'abstract_ornament': {
         'gender': 'he',
@@ -900,13 +910,19 @@ image_description_rus = {
     },
     'urist_makdvarf': {
         'gender': 'he',
-        'nominative': u'Урист МакДварф. Урист МакДварф ест мастерски сделанный ячий сыр. Изображение посвящено поеданию мастерски сделанного ячьего сыра цвергом Уристом МакДварфом ранней весной 1076 года.',
-        'accusative': u'Уриста МакДварфа. Урист МакДварф ест мастерски сделанный ячий сыр. Изображение посвящено поеданию мастерски сделанного ячьего сыра цвергом Уристом МакДварфом ранней весной 1076 года.',
+        'nominative': u'Урист МакДварф. Урист МакДварф ест мастерски сделанный ячий сыр. '
+                      u'Изображение посвящено поеданию мастерски сделанного ячьего сыра цвергом Уристом МакДварфом '
+                      u'ранней весной 1076 года.',
+        'accusative': u'Уриста МакДварфа. Урист МакДварф ест мастерски сделанный ячий сыр. '
+                      u'Изображение посвящено поеданию мастерски сделанного ячьего сыра цвергом '
+                      u'Уристом МакДварфом ранней весной 1076 года.',
     },
     'dragon_smaug': {
         'gender': 'they',
-        'nominative': u'Дракон Смауг и цверг Торин. Торин закрывается руками. Смауг стоит в угрожающей позе. Изображение посвящено убийству короля-под-горой в Эреборе поздним летом 2770 года.',
-        'accusative': u'Дракона Смауга и цверга Торина. Торин закрывается руками. Смауг стоит в угрожающей позе. Изображение посвящено убийству короля-под-горой в Эреборе поздним летом 2770 года.',
+        'nominative': u'Дракон Смауг и цверг Торин. Торин закрывается руками. Смауг стоит в угрожающей позе. '
+                      u'Изображение посвящено убийству короля-под-горой в Эреборе поздним летом 2770 года.',
+        'accusative': u'Дракона Смауга и цверга Торина. Торин закрывается руками. Смауг стоит в угрожающей позе. '
+                      u'Изображение посвящено убийству короля-под-горой в Эреборе поздним летом 2770 года.',
     },
     'wavy_pattern': {
         'gender': 'he',
@@ -974,7 +990,9 @@ image_description_rus = {
         'accusative': u'плывущий по волнам корабль',
     },
 }
-"""словарь для описания качества драгоценности, ключ - качество, значение - словарь с русским названием качества в разных родах"""
+"""словарь для описания качества драгоценности,
+ ключ - качество,
+ значение - словарь с русским названием качества в разных родах"""
 quality_description_rus = {
     'rough': {
         'he': u"грубый ",
@@ -1088,7 +1106,7 @@ def number_conjugation_rus(number, add_name, word_form='nominative', word_type=1
     return u"%s %s%s" % (number, add_name, description_end)
 
 
-def capitalizeFirst(string):
+def capitalize_first(string):
     if string:
         return string[0].upper() + string[1:]
     else:
@@ -1225,14 +1243,15 @@ class Gem(object):  # класс для генерации драг.камней
     def __eq__(self, other):
         if isinstance(other, Gem):
             return other and self.g_type == other.g_type and self.cut == other.cut \
-                   and self.size == other.size
+                and self.size == other.size
         else:
             return
 
     def description(self, custom=False, case='nominative', gender='he', language='rus'):
         """
         Создает описание для драгоценного камня
-        :custom: - если False - добавляет в описание "горсть"/"несколько" для мелких/обычных камней и меняет соответствующим образом род и падеж камней
+        :custom: - если False - добавляет в описание "горсть"/"несколько" для мелких/обычных камней и
+            меняет соответствующим образом род и падеж камней
         :case: - в каком падеже описываются камни
         :gender: - какого рода камни - 'he' (мужского), 'she' (женского) или 'they' (множественное число)
         """
@@ -1257,7 +1276,8 @@ class Gem(object):  # класс для генерации драг.камней
     @staticmethod
     def number_conjugation(gem_type, gem_count):
         """
-        Функция для вывода описания камней по типу (в формате тип/размер/огранка) и количеству (без учета умножения мелких/обычных камней)
+        Функция для вывода описания камней по типу (в формате тип/размер/огранка)
+        и количеству (без учета умножения мелких/обычных камней)
         """
         gem_param = gem_type.split(';')
         if gem_param[1] == 'small' or gem_param[1] == 'common':  # умножаем мелкие/обычные камни
@@ -1272,7 +1292,8 @@ class Gem(object):  # класс для генерации драг.камней
         else:
             gender = 'she'
         # выводим результат для каждого типа сопряжения
-        if conjugation_type == 0:  # единственное число - именительный падеж, род копируется
+        # единственное число - именительный падеж, род копируется
+        if conjugation_type == 0:
             if gem_count != 1:  # если камень один - не ставим число
                 return u"%s %s%s%s" % (gem_count, material_size_description_rus[gem_param[1]][gender]['nominative'],
                                        gem_cut_description_rus[gem_param[2]][gender]['nominative'],
@@ -1281,11 +1302,13 @@ class Gem(object):  # класс для генерации драг.камней
                 return u"%s%s%s" % (material_size_description_rus[gem_param[1]][gender]['nominative'],
                                     gem_cut_description_rus[gem_param[2]][gender]['nominative'],
                                     gem_description_rus[gem_param[0]][gender]['nominative'])
-        elif conjugation_type == 1:  # маломножественная форма - родительный падеж, тип в единственном числе, прилагательные - во множественном
+        # маломножественная форма - родительный падеж, тип в единственном числе, прилагательные - во множественном
+        elif conjugation_type == 1:
             return u"%s %s%s%s" % (gem_count, material_size_description_rus[gem_param[1]]['they']['genitive'],
                                    gem_cut_description_rus[gem_param[2]]['they']['genitive'],
                                    gem_description_rus[gem_param[0]][gender]['genitive'])
-        elif conjugation_type == 2:  # множественное число - родительный падеж множественного числа
+        # множественное число - родительный падеж множественного числа
+        elif conjugation_type == 2:
             gender = 'they'
             return u"%s %s%s%s" % (gem_count, material_size_description_rus[gem_param[1]][gender]['genitive'],
                                    gem_cut_description_rus[gem_param[2]][gender]['genitive'],
@@ -1317,8 +1340,8 @@ def generate_gem(count, *args):
                             size[v] = Gem.size_dict[v]
                 elif i.keys()[0] == "cut":
                     for v in i["cut"]:
-                        if v in cut_dict:
-                            cut[v] = cut_dict[v]
+                        if v in Gem.cut_dict:
+                            cut[v] = Gem.cut_dict[v]
             elif isinstance(i, list):
                 for item in i:
                     if item in gem_types:
@@ -1541,7 +1564,8 @@ class Treasure(object):  # класс для сокровищ
     def incrustation_cost(self):
         holder = 0
         if self.spangled is not None:
-            holder += self.spangled.cost * Gem.size_dict['small'][1] // Gem.size_dict['common'][1]  # из-за хака с размерами
+            # из-за хака с размерами нужно поделить
+            holder += self.spangled.cost * Gem.size_dict['small'][1] // Gem.size_dict['common'][1]
         if self.inlaid is not None:
             holder += self.inlaid.cost
         if self.huge is not None:
@@ -1550,8 +1574,9 @@ class Treasure(object):  # класс для сокровищ
 
     @property
     def cost(self):  # цена сокровища
-        return self.base_price * self.quality_mod * self.dec_mod * self.mat_price + \
-               self.incrustation_cost + self.random_mod
+        return \
+            self.base_price * self.quality_mod * self.dec_mod * self.mat_price + \
+            self.incrustation_cost + self.random_mod
 
     def __repr__(self):
         return "%s%s" % (self.material, self.treasure_type)
@@ -1560,7 +1585,8 @@ class Treasure(object):  # класс для сокровищ
         if language == 'rus':
             quality_str = quality_description_rus[self.quality][self.gender]  # мастерство исполнения
             treasure_str = treasure_description_rus[self.treasure_type]['nominative']  # тип драгоценности
-            if self.material in metal_types.keys():  # совмещаем мастерство исполнения, тип и материал, из которого изготовлено
+            # совмещаем мастерство исполнения, тип и материал, из которого изготовлено
+            if self.material in metal_types.keys():
                 if self.treasure_type == 'icon' or self.treasure_type == 'tome':
                     desc_str = u"%s%s в %s окладе" % (
                         quality_str, treasure_str, metal_description_rus[self.material]['prepositional'])
@@ -1666,7 +1692,7 @@ class Treasury(store.object):
     @money.setter
     def money(self, value):
         if value < 0:  # Защита от ухода денег в минус
-            raise NotImplementedError, u"Денег недостаточно для выполнения операции"
+            raise NotImplementedError(u"Денег недостаточно для выполнения операции")
         money_diff = value - self.money  # считаем разницу между прошлым значением и новым
         if money_diff < 0:
             # разница отрицательна или ноль - производим вычитание
@@ -1742,14 +1768,18 @@ class Treasury(store.object):
                 else:
                     self.metals[treas.metal_type] = treas.weight
             elif isinstance(treas, Material):
-                # сохраняется в словаре materials, где ключ - "название материала;размер материала", а значение - число материалов такого типа и размера
+                # сохраняется в словаре materials, где
+                # ключ - "название материала;размер материала", а
+                # значение - число материалов такого типа и размера
                 type_str = treas.m_type + ';' + treas.size
                 if type_str in self.materials:
                     self.materials[type_str] += 1
                 else:
                     self.materials[type_str] = 1
             elif isinstance(treas, Gem):
-                # сохраняется в словаре gems, где ключ - "название драгоценности;размер драгоценности;обработка драгоценности", а значение - число камней такого типа, размера и обработки
+                # сохраняется в словаре gems, где
+                # ключ - "название драгоценности;размер драгоценности;обработка драгоценности", а
+                # значение - число камней такого типа, размера и обработки
                 type_str = treas.g_type + ';' + treas.size + ';' + treas.cut
                 if type_str in self.gems:
                     self.gems[type_str] += 1
@@ -1758,7 +1788,8 @@ class Treasury(store.object):
             elif isinstance(treas, Treasure):
                 self.jewelry.append(treas)
 
-    def treasures_description(self, treasure_list):
+    @staticmethod
+    def treasures_description(treasure_list):
         """
         :param treasure_list: Список сокровищ, для которых требуется получить описание
         :return: Возвращает список с описанием сокровищ
@@ -1803,27 +1834,29 @@ class Treasury(store.object):
         for treas in coin_list.iterkeys():
             description_list.append(Coin.number_conjugation(treas, coin_list[treas]) + '.')
         for treas in ingot_list.iterkeys():
-            description_list.append(capitalizeFirst(Ingot.number_conjugation(treas, ingot_list[treas])) + '.')
+            description_list.append(capitalize_first(Ingot.number_conjugation(treas, ingot_list[treas])) + '.')
         for treas in gem_list.iterkeys():
             if gem_list[treas] > 1:
-                description_list.append(capitalizeFirst(Gem.number_conjugation(treas, gem_list[treas])) + '.')
+                description_list.append(capitalize_first(Gem.number_conjugation(treas, gem_list[treas])) + '.')
             else:
-                description_list.append(capitalizeFirst(Gem(*treas.split(';')).description()) + '.')
+                description_list.append(capitalize_first(Gem(*treas.split(';')).description()) + '.')
         for treas in material_list.iterkeys():
             if material_list[treas] > 1:
-                description_list.append(capitalizeFirst(Material.number_conjugation(treas, material_list[treas])) + '.')
+                description_list.append(capitalize_first(
+                    Material.number_conjugation(treas, material_list[treas])) + '.')
             else:
-                description_list.append(capitalizeFirst(Material(*treas.split(';')).description()) + '.')
+                description_list.append(capitalize_first(Material(*treas.split(';')).description()) + '.')
             # Выводим остальное
         for treas in treas_list:
-            description_list.append(capitalizeFirst(treas.description()) + '.')
+            description_list.append(capitalize_first(treas.description()) + '.')
         return description_list
 
     def take_ingot(self, ingot_type, weight=1):
         """
         :param ingot_type: название металла
         :param weight: вес, который мы хотели бы взять 
-        :return: Возвращает тип Ingot с указанным весом или максимально возможным, либо None, если такого металла в сокровищнице нет
+        :return: Возвращает тип Ingot с указанным весом или максимально возможным, либо None,
+            если такого металла в сокровищнице нет
         """
         if ingot_type in self.metals and self.metals[ingot_type] > 0:  # проверяем есть ли такой металл в сокровищнице
             ingot = Ingot(ingot_type)  # создаем слиток
@@ -1842,7 +1875,8 @@ class Treasury(store.object):
         :param material_name: описание материала в формате 'тип;размер'
         :return: Возвращает тип Material или None, если такого материала в сокровищнице нет
         """
-        if material_name in self.materials and self.materials[material_name] > 0:  # проверяем есть ли такой материал в сокровищнице
+        # проверяем есть ли такой материал в сокровищнице
+        if material_name in self.materials and self.materials[material_name] > 0:
             material_param = material_name.split(';')  # парсим строку
             material = Material(*material_param)  # получаем экземпляр класса с нужными параметрами
             self.materials[material_name] -= 1  # вычитаем один материал из списка сокровищницы
@@ -1867,7 +1901,8 @@ class Treasury(store.object):
         """
         :param coin_name: название монеты
         :param coin_count: сколько монет нам бы хотелось взять
-        :return: Возвращает тип Coin с указанным числом монет или максимально возможным, либо None, если таких монет в сокровищнице нет
+        :return: Возвращает тип Coin с указанным числом монет или максимально возможным, либо None,
+            если таких монет в сокровищнице нет
         """
         if coin_name == 'farting' and self.farting > 0:
             if coin_count < self.farting:
@@ -1918,11 +1953,15 @@ class Treasury(store.object):
                     self.threshold_value = abducted_list[-1].cost
                 return True
             else:
-                treasure_list.append(test_treasure)  # стоимость добавляемого меньше пороговой, возвращаем сокровище обратно в сокровищницу
+                # стоимость добавляемого меньше пороговой, возвращаем сокровище обратно в сокровищницу
+                treasure_list.append(test_treasure)
                 return False
 
-        for _ in reversed(xrange(len(self.jewelry))):  # цикл по всем сокровищам, начиная с конца списка, для соответствия индекса количеству вещей в списке
-            update_list(self.jewelry.pop())  # достаем сокровище из конца списка - там должны быть более дорогие сокровища и пробуем добавить их в список награбленного
+        # цикл по всем сокровищам, начиная с конца списка, для соответствия индекса количеству вещей в списке
+        for _ in reversed(xrange(len(self.jewelry))):
+            # достаем сокровище из конца списка - там должны быть более дорогие сокровища и
+            # пробуем добавить их в список награбленного
+            update_list(self.jewelry.pop())
         self.jewelry.extend(treasure_list)  # возвращаем сокровища в сокровищницу после поиска самых дорогих
         treasure_list = []  # очищаем список возвращаемого
         for gem_type in self.gems.keys():  # просматриваем список типов камней
@@ -1943,8 +1982,10 @@ class Treasury(store.object):
 
     def gem_name_count(self, gem_name):
         """
-        :param gem_name: Тип драгоценных камней (в формате 'тип;размер;обработка'), для которого необходимо подсчитать количество камней в сокровищнице
-        :return: количество камней такого типа в сокровищнице с учетом того, что мелкие идут группами по 25, а обычные - по 5
+        :param gem_name: Тип драгоценных камней (в формате 'тип;размер;обработка'), для которого необходимо подсчитать
+            количество камней в сокровищнице
+        :return: количество камней такого типа в сокровищнице с учетом того, что мелкие идут группами по 25, а
+            обычные - по 5
         """
         gem_count = self.gems[gem_name]  # берем данные о количестве из словаря
         gem_param = gem_name.split(';')  # парсим строку
@@ -1963,7 +2004,7 @@ class Treasury(store.object):
         gem_list = sorted(self.gems.keys())  # список драгоценных камней, отсортированных по типу/размеру/огранке
         for gem_name in gem_list:
             if self.gems[gem_name]:  # проверка наличия камней такого типа в сокровищнице
-                gem_str += u"%s.\n" % capitalizeFirst(Gem.number_conjugation(gem_name, self.gems[gem_name]))
+                gem_str += u"%s.\n" % capitalize_first(Gem.number_conjugation(gem_name, self.gems[gem_name]))
         return gem_str
 
     @property
@@ -1976,11 +2017,11 @@ class Treasury(store.object):
         for metal_name in metal_list:
             metal_weight = self.metals[metal_name]
             if metal_weight:
-                material_str += u"%s.\n" % capitalizeFirst(Ingot.number_conjugation(metal_name, metal_weight))
+                material_str += u"%s.\n" % capitalize_first(Ingot.number_conjugation(metal_name, metal_weight))
         mat_list = sorted(self.materials.keys())
         for mat_name in mat_list:
             if self.materials[mat_name]:
-                material_str += u"%s.\n" % capitalizeFirst(
+                material_str += u"%s.\n" % capitalize_first(
                     Material.number_conjugation(mat_name, self.materials[mat_name]))
         return material_str
 
@@ -2018,7 +2059,7 @@ class Treasury(store.object):
         if len(self.jewelry):
             most_expensive_i = self.most_expensive_jewelry_index
             return u"%s.\nСтоимость украшения: %s.\n%s" % (
-                capitalizeFirst(self.jewelry[most_expensive_i].description()),
+                capitalize_first(self.jewelry[most_expensive_i].description()),
                 number_conjugation_rus(self.jewelry[most_expensive_i].cost, u"фартинг"),
                 self.jewelry[most_expensive_i].obtained)
         else:
@@ -2036,10 +2077,11 @@ class Treasury(store.object):
                 if self.jewelry[jewelry_i].cost < cheapest_cost:
                     cheapest_cost = self.jewelry[jewelry_i].cost
                     most_cheapest_i = jewelry_i
-            return u"%s.\nСтоимость украшения: %s.\n%s" % (capitalizeFirst(self.jewelry[most_cheapest_i].description()),
-                                                           number_conjugation_rus(self.jewelry[most_cheapest_i].cost,
-                                                                                  u"фартинг"),
-                                                           self.jewelry[most_cheapest_i].obtained)
+            return u"%s.\nСтоимость украшения: %s.\n%s" % \
+                   (capitalize_first(self.jewelry[most_cheapest_i].description()),
+                    number_conjugation_rus(self.jewelry[most_cheapest_i].cost,
+                    u"фартинг"),
+                    self.jewelry[most_cheapest_i].obtained)
         else:
             return u"Украшений в сокровищнице нет"
 
@@ -2047,7 +2089,7 @@ class Treasury(store.object):
     def random_jewelry(self):
         if len(self.jewelry):
             random_jewelry = random.choice(self.jewelry)
-            return u"%s.\nСтоимость украшения: %s.\n%s" % (capitalizeFirst(random_jewelry.description()),
+            return u"%s.\nСтоимость украшения: %s.\n%s" % (capitalize_first(random_jewelry.description()),
                                                            number_conjugation_rus(random_jewelry.cost, u"фартинг"),
                                                            random_jewelry.obtained)
         else:
@@ -2169,13 +2211,14 @@ class Treasury(store.object):
         :param amount: требуемая сумма, фартингов
         :return: список того, что взяли, чтобы получить сумму, либо None, если в сокровищнице недостаточно денег.
         """
+        # TODO: Сделать рефакторинг без использования `self`
         self.salary_list = []  # список сокровищ, которые можно взять в качестве платы
         self.salary_item = None  # предмет, который можно взять в качестве платы
         self.min_salary_value = 0  # цена предмета
         self.max_salary_value = 0  # цена списка сокровищ
         self.treasure_list = []  # список сокровищ, которые не приглянулись гремлинам
-        
-        def update_list(test_treasure):  
+
+        def update_list(test_treasure):
             """
             функция добавления в список, возвращает истину если нужно добавить такую же вещь
             """
@@ -2183,11 +2226,11 @@ class Treasury(store.object):
                 return False  # попытка взять несуществующую вещь
             elif test_treasure.cost >= amount:
                 # стоимость сокровища больше или равно необходимой суммы, можно взять только его в качестве оплаты
-                if (self.min_salary_value == 0):
+                if self.min_salary_value == 0:
                     # это первая вещь, которая стоит дороже, чем нам нужно - берём её
                     self.min_salary_value = test_treasure.cost
                     self.salary_item = test_treasure
-                elif (self.min_salary_value > test_treasure.cost):
+                elif self.min_salary_value > test_treasure.cost:
                     # это не первая вещь, которая стоит дороже, чем нам нужно - берём её только если она дешевле прошлой
                     self.treasure_list.append(self.salary_item)  # возвращаем прошлую вещь в сокровищницу
                     self.min_salary_value = test_treasure.cost  # берём новую
@@ -2206,7 +2249,7 @@ class Treasury(store.object):
                     # стоимость списка достаточно, больше ничего не нужно
                     self.treasure_list.append(test_treasure)  # возвращаем вещь в сокровищницу
                     return False
-        
+
         if self.wealth >= amount:
             if self.money >= amount:
                 self.money -= amount
@@ -2216,8 +2259,11 @@ class Treasury(store.object):
                 for coin_type in Coin.coin_types.keys():  # просматриваем список типов монет
                     while update_list(self.take_coin(coin_type)):
                         pass  # пока в список добавляются монеты - добавляем
-                for _ in reversed(xrange(len(self.jewelry))):  # цикл по всем сокровищам, начиная с конца списка, для соответствия индекса количеству вещей в списке
-                    update_list(self.jewelry.pop())  # достаем сокровище из конца списка - там должны быть более дорогие сокровища и пробуем добавить их в список
+                # цикл по всем сокровищам, начиная с конца списка, для соответствия индекса количеству вещей в списке
+                for _ in reversed(xrange(len(self.jewelry))):
+                    # достаем сокровище из конца списка - там должны быть более дорогие сокровища и
+                    # пробуем добавить их в список
+                    update_list(self.jewelry.pop())
                 for gem_type in self.gems.keys():  # просматриваем список типов камней
                     while update_list(self.take_gem(gem_type)):
                         pass  # пока в список добавляются камни - добавляем
@@ -2233,7 +2279,7 @@ class Treasury(store.object):
                     self.salary_list = [self.salary_item]
                 elif self.salary_list:
                     self.treasure_list.append(self.salary_item)  # возвращаем предмет в сокровищницу - не пригодился
-                self.receive_treasures(self.treasure_list)  # возвращаем сокровища в сокровищницу    
+                self.receive_treasures(self.treasure_list)  # возвращаем сокровища в сокровищницу
                 return self.salary_list
         else:
             return None

@@ -28,7 +28,7 @@ class Knight(Fighter):
         self.power = level
         self.abilities = data.Container("knight_abilities")
         ability_list = [a for a in data.knight_abilities]  # Составляем список из возможных способностей
-        ability_list += [None for i in range(len(ability_list))]  # Добавляем невалидных вариантов
+        ability_list += [None for _ in range(len(ability_list))]  # Добавляем невалидных вариантов
         for i in range(level):
             ab = random.choice(ability_list)
             if ab is not None and ab not in self.abilities:
@@ -40,6 +40,11 @@ class Knight(Fighter):
         self.equip(data.knight_items.basic_shield)
         self.equip(data.knight_items.basic_horse)
         self.equip(data.knight_items.basic_follower)
+        # Имплементация способности "Первенец"
+        if 'firstborn' in self.abilities:
+            # Добавляем две шмотки
+            self.enchant_equip()
+            self.enchant_equip()
         self.bg = "img/scene/fight/knight/" + random.choice(
             os.listdir(os.path.join(renpy.config.basedir, "game/img/scene/fight/knight")))  # получаем название файла
         self.kind = 'knight'

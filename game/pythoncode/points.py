@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
 from core import call
-import math
 import girls_data
 from data import reputation_levels, reputation_gain, game_events
 import renpy.store as store
@@ -230,17 +229,18 @@ class Army(store.object):
         Возвращает уровень экипировки армии тьмы
         """
         equipment = 0
-        AoD_money = self.money
-        AoD_cost = (self.grunts + self.elites) * 1000
-        while AoD_money >= AoD_cost:
-            AoD_money //= 2
+        aod_money = self.money
+        aod_cost = (self.grunts + self.elites) * 1000
+        while aod_money >= aod_cost:
+            aod_money //= 2
             equipment += 1
         return equipment
 
     @property
     def force(self):
         """
-        Возвращает суммарную силу армии тьмы по формуле (force) = (grunts + 3 * elites) * diversity * equipment * текущий процент мощи 
+        Возвращает суммарную силу армии тьмы по формуле
+        (force) = (grunts + 3 * elites) * diversity * equipment * текущий процент мощи
         """
         return (self.grunts + 3 * self.elites) * self.diversity * self.equipment * self._force_residue // 100
 

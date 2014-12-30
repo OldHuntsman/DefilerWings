@@ -38,8 +38,8 @@ screen main_map:
         ]
     
     default map_tooltip = Tooltip("None")  # Подсказка на что сейчас наведена мышка
-    default status_bar_tooltip = Tooltip("None")  # Тултип для статусбара, если не объявить в родительском окне, то почему-то не работает.
-    
+    # Тултип для статусбара, если не объявить в родительском окне, то почему-то не работает.
+    default status_bar_tooltip = Tooltip("None")
     fixed:
         fit_first True  # Принимаем размер следущей картинки. Нужно для корректного отображения подсказки посередине.
         add "img/map/ground.png"

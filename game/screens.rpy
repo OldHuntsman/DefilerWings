@@ -75,8 +75,10 @@ init -2:
 #   condition - условие при котором опция доступна для выбора, по-умолчанию True
 # Пример листа:
 #  [("Пункт 1", 1, True, False), - Видимый, но недоступный для выбора пункт
-#   ("Пункт 2", 2, persistent.punkt2_visible) - пункт показываестя только если ранее переменная persistent.punkt2_visible была выставлена в True
-#   ("Пункт 3", 3, persistent.punkt3_visible, energy > 10)] - тоже самое что пункт2 + можно выбрать только при значении energy > 10
+#   ("Пункт 2", 2, persistent.punkt2_visible) - пункт показываестя только если ранее
+#       переменная persistent.punkt2_visible была выставлена в True
+#   ("Пункт 3", 3, persistent.punkt3_visible, energy > 10)] - тоже самое что пункт2 + можно выбрать только
+#       при значении energy > 10
 screen dw_choice(items):
     window:
         style "menu_window"
