@@ -394,14 +394,14 @@ knight_abilities = Container(
             "modifiers": ["swimming", "flight", "alpinism"]
         },
         "liberator": {
-            "name": u"Освободитель",  # TODO: implement
+            "name": u"Освободитель",
             "description": u"+1 к защите за каждую крестьянку, "
                            u"+1 к атаке за каждую богатую и "
                            u"+1 к атаке и защите за любую другую не великаншу томящуюся в логове дракона",
             "modifiers": []
         },
         "firstborn": {
-            "name": u"Первенец",  # TODO: implement
+            "name": u"Первенец",
             "description": u"Получает 2 шмотки сразу со старта",
             "modifiers": []
         },
@@ -538,7 +538,7 @@ knight_items = Container(
             "modifiers": ['def_up', 'def_up']
         },
         "mirror_shield": {
-            "name": u"Зерцальный щит",  # TODO: Implement
+            "name": u"Зерцальный щит",
             "description": u"2 верных защиты, если у дракона есть дыхание",
             "type": "shield",
             "basic": False,

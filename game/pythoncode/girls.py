@@ -23,22 +23,7 @@ class GirlsList(object):
         """
         Генерация новой девушки указанного типа.
         """
-        self.game.girl = core.Girl(game_ref=self.game)
-        self.game.girl.type = girl_type
-        # создание аватарки
-        # Состовляем относительный путь для папки с аватаркой
-        relative_path = "img/avahuman/" + girls_data.girls_info[girl_type]['avatar']
-        # Выбираем от туда аватарку
-        self.game.girl.avatar = core.get_avatar(relative_path)
-        # генерация имени
-        if girl_type + '_last' in girls_data.girls_names:
-            self.game.girl.name = u"%s %s" % (random.choice(girls_data.girls_names[girl_type + '_first']),
-                                              random.choice(girls_data.girls_names[girl_type + '_last']))
-        else:
-            if girl_type + '_first' in girls_data.girls_names:
-                self.game.girl.name = random.choice(girls_data.girls_names[girl_type + '_first'])
-            else:
-                self.game.girl.name = 'Неизвестная Красавица'
+        self.game.girl = core.Girl(game_ref=self.game, girl_type=girl_type)
         self.game.girl.treasure = self.gen_tres()
         return self.description('new')
 

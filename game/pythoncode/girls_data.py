@@ -103,7 +103,6 @@ girls_info = {
             'casket', 'statue', 'mirror', 'comb', 'phallos', 'band', 'earring', 'necklace',
             'pendant', 'ring', 'broch', 'armbrace', 'legbrace', 'fibula', 'farting'],
         # список возможных предметов в сокровищах
-
     },
     'citizen': {
         'magic_rating': 0,

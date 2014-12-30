@@ -2,6 +2,7 @@
 # coding=utf-8
 
 from core import Fighter, call, get_avatar
+import girls_data
 import renpy.exports as renpy
 import random
 import os
@@ -79,7 +80,33 @@ class Knight(Fighter):
         return u"\n".join(d)
 
     def modifiers(self):
-        return self._modifiers + self._ability_modifiers() + self._item_modifiers()
+        mods = self._modifiers + self._ability_modifiers() + self._item_modifiers()
+        # Освободитель
+        #   +1 к защите за каждую крестьянку,
+        #   +1 к атаке за каждую богатую и
+        #   +1 к атаке и защите за любую другую не великаншу томящуюся в логове дракона
+        # богатая - princess
+        if 'liberator' in self.abilities:
+            for girl in self._gameRef.girls_list.prisoners:
+                if girl.type == 'peasant':
+                    mods += ['def_up']
+                elif girl.type == 'princess':
+                    mods += ['atk_up']
+                elif not girls_data.girls_info[girl.type]['giantess']:
+                    mods += ['atk_up', 'def_up']
+        if 'mirror_shield' in self.items and (
+            'red' in self._gameRef.dragon.heads
+            or 'white' in self._gameRef.dragon.heads
+            or 'black' in self._gameRef.dragon.heads
+            or 'fire_heart' in self._gameRef.dragon.spells
+            or 'ice_heart' in self._gameRef.dragon.spells
+            or 'poison_heart' in self._gameRef.dragon.spells
+            or 'thunder_heart' in self._gameRef.dragon.spells
+            or 'lightning_heart' in self._gameRef.dragon.spells
+        ):
+            mods += ['sdef_up', 'sdef_up']
+
+        return mods
 
     def _ability_modifiers(self):
         # Возвращает список модификторов из способностей
