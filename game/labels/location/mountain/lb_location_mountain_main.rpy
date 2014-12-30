@@ -96,7 +96,7 @@ label lb_enc_bear:
     menu:
         'Сразиться с медведем':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('bear', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('bear', game_ref=game)
             call lb_fight
             if game.dragon.hunger > 0:
                 'Дракон съедает медведя.'
@@ -125,7 +125,7 @@ label lb_enc_smugglers:
             
         'Отнять весь товар':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('band', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('band', game_ref=game)
             call lb_fight
             python:
                 count = random.randint(5, 15)
@@ -162,7 +162,7 @@ label lb_enc_slavers:
         'Потребовать невинную девушку' if game.dragon.lust > 0:
             $ game.dragon.drain_energy()
             'Среди всех рабов, юная красавица самая ценная. Похоже чтобы получить её придётся разогнать охрану, так просто работорговцы её не отдадут...'
-            $ game.foe = core.Enemy('band', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('band', game_ref=game)
             call lb_fight
             'Дракон получает девушку.'
             $ description = game.girls_list.new_girl('citizen')
@@ -173,7 +173,7 @@ label lb_enc_slavers:
         'Перебить караван':
             $ game.dragon.drain_energy()
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('band', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('band', game_ref=game)
             call lb_fight
         
         'Отпустить их с миром' if game.dragon.bloodiness < 5:
@@ -197,7 +197,7 @@ label lb_enc_mines:
             
         'Ограбить рудник':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('xbow', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('xbow', game_ref=game)
             call lb_fight
             python:
                 count = random.randint(1, 15)
@@ -236,7 +236,7 @@ label lb_enc_cannontower:
             show expression 'img/scene/fight/steamgun.png' as bg
             'А! Они будут стрелять!'
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('steamgun', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('steamgun', game_ref=game)
             call lb_fight
             'Внутри бастиона нет никаких сокровищ, только железо, провиант и бумаги. В глубине был проход в подгорное цраство, но едва поняв что проигрывают бой, цверги взорвали заряд пороха который обрушил тоннель завалив его сотянми тонн камней. Через завал никому не пробораться.'
             menu:
@@ -271,7 +271,7 @@ label lb_patrool_mountain:
             patrool = 'angel'
             dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
     '[dtxt]'
-    $ game.foe = core.Enemy(patrool, gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy(patrool, game_ref=game)
     call lb_fight
     
     return

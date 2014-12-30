@@ -97,7 +97,7 @@ label lb_war_border:
     # Если дракон победил, но армия слишком слаба даём второй энкаунтер для дракона - воздушный флот цвергов приходит
     # на помощь осаждённым, дракон должен их победить.
     'Сражение у границ. Катапульты являются ключевым звеном обороны.'
-    $ game.foe = core.Enemy('catapult', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('catapult', game_ref=game)
     $ narrator(show_chances(game.foe))
             
     menu:
@@ -118,7 +118,7 @@ label lb_war_border:
             call lb_war_field
             
     'Воздушный флот цвергов приходит на помощь'
-    $ game.foe = core.Enemy('airfleet', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('airfleet', game_ref=game)
     $ narrator(show_chances(game.foe))
     
     call lb_war_field

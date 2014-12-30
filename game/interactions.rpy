@@ -95,3 +95,6 @@ label lb_knight_new:
     show expression 'img/bg/special/oath.png' as bg
     'Рыцарь дал клятву убить дракона.'
     return
+
+label lb_water_sex:
+    return

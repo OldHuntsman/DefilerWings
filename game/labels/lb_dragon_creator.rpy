@@ -2,7 +2,7 @@
 label lb_dragon_creator:
     python:
         save_blocked = True
-        child = core.Dragon(parent=game.dragon, gameRef=game, base_character=game.adv_character)
+        child = core.Dragon(parent=game.dragon, game_ref=game)
         game.dragon = child
         mods_left = 12
         game.dragon.heads = ['green']

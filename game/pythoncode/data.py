@@ -435,7 +435,6 @@ knight_abilities = Container(
 knight_items = Container(
     "knight_items",
     {
-        # TODO: implement
         # Нагрудники
         "basic_vest": {
             "name": u"Дубовая броня",

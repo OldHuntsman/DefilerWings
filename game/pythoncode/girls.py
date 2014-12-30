@@ -23,7 +23,7 @@ class GirlsList(object):
         """
         Генерация новой девушки указанного типа.
         """
-        self.game.girl = core.Girl(gameRef=self.game, base_character=self.character)
+        self.game.girl = core.Girl(game_ref=self.game)
         self.game.girl.type = girl_type
         # создание аватарки
         # Состовляем относительный путь для папки с аватаркой
