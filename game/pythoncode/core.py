@@ -46,7 +46,7 @@ class Game(store.object):
         self.thief = None  # Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
         self.knight = None  # Рыцаря не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
 
-        self.narrator = Sayer(game_ref=self, first=nvl_character, third=nvl_character)
+        self.narrator = nvl_character()
         self.girls_list = girls.GirlsList(game_ref=self, base_character=adv_character)
         self.foe = None
         self.girl = None
@@ -191,7 +191,6 @@ class Game(store.object):
                 # Идем на дело
                 if renpy.config.debug:
                     self.narrator(u"Рыцарь вызывает дракона на бой")
-                # TODO: Схватка рыцаря с драконом
                 fight_result = self.knight.fight_dragon()
                 if renpy.config.debug:
                     self.narrator(u"После схватки рыцаря")
@@ -239,6 +238,7 @@ class Game(store.object):
     def _create_thief(self, thief_level=None):
         """
         Проверка на появление вора.
+        :param thief_level: Начальный уровень вора. Если не указан, то уровень определяется исходя из Дурной славы.
         """
         from thief import Thief
 
@@ -247,7 +247,7 @@ class Game(store.object):
         if thief_level > 0:
             self.thief = Thief(level=thief_level,
                                treasury=self.lair.treasury,
-                               gameRef=self,
+                               game_ref=self,
                                base_character=self.adv_character)
         else:
             self.thief = None
@@ -262,7 +262,7 @@ class Game(store.object):
             knight_level = Knight.start_level(self.dragon.reputation.level)
         if knight_level > 0:
             self.knight = Knight(level=knight_level,
-                                 gameRef=self,
+                                 game_ref=self,
                                  base_character=self.adv_character)
         else:
             self.knight = None
@@ -552,18 +552,17 @@ class Sayer(store.object):
     Базовый класс для всего что умеет говорить
     """
 
-    def __init__(self, game_ref=None, first=None, third=None):
+    def __init__(self, game_ref=None):
         """
+        :type game_ref: Game
         :param game_ref: Game object
-        :param first: класс для вещания от первого лица
-        :param third: класс для вещания от третьего лица
         """
+        if game_ref is None:
+            raise Exception('No game reference specified')
         self.avatar = None  # По умолчанию аватарки нет
         self._gameRef = game_ref  # Проставляем ссылку на игру
-        self._adv_character = first  # На всякий случай если захотим пересоздать (но зачем?)
-        self._nvl_character = third
-        self._real_character = first()  # Создаем объект от которого будет вестись вещание
-        self._third_character = third()
+        self._real_character = game_ref.adv_character()  # Создаем объект от которого будет вестись вещание
+        self._third_character = game_ref.nvl_character()
 
     @property  # Задаем имя через свойство, чтобы при изменении его передавать в персонажа.
     def name(self):
@@ -644,7 +643,7 @@ class Fighter(Sayer, Mortal):
 
     def __init__(self, *args, **kwargs):
         """
-        :param gameRef: Game object
+        :param game_ref: Game object
         """
         super(Fighter, self).__init__(*args, **kwargs)
         self._modifiers = []
@@ -866,11 +865,10 @@ class Dragon(Fighter):
         """
         :return: Список модификаторов дракона
         """
-        # TODO: Проверить последнюю строчку на наличие смысла и/или заменить effect на `_`
         return self.anatomy + \
             [mod for head_color in self.heads for mod in data.dragon_heads[head_color]] + \
             [mod for spell in self.spells if spell in data.spell_list for mod in data.spell_list[spell]] + \
-            [mod for effect in self.spells if spell in data.effects_list for mod in data.effects_list[spell]]
+            [mod for effect in self.spells if effect in data.effects_list for mod in data.effects_list[effect]]
 
     def max_energy(self):
         """

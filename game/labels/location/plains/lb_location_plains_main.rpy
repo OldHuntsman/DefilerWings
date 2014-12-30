@@ -73,7 +73,7 @@ label lb_enc_fair:
 
         'Призовой бык':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('bull_champion', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('bull_champion', game_ref=game)
             call lb_fight
             menu:
                 'Сожрать призового быка' if game.dragon.hunger > 0:
@@ -294,7 +294,7 @@ label lb_enc_militia:
     menu:
         'Напасть':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('militia', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('militia', game_ref=game)
             call lb_fight
             '  Отряд ополченцев готовившийся пополнить армию больше не существует. Немногие выжившие новобранцы разбежались в ужасе. Теперь королю будет сложнее собирать свои патрульные отряды.'
             $game.dragon.reputation.points += 3
@@ -393,7 +393,7 @@ label lb_enc_pigs:
     menu:
         'Напасть на стадо' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('dog', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('dog', game_ref=game)
             call lb_fight
             'Дракон съедает свинью.'
             $ game.dragon.reputation.points += 1
@@ -402,7 +402,7 @@ label lb_enc_pigs:
             $ game.dragon.hunger -= 1
         'Напасть на стадо' if game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('dog', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('dog', game_ref=game)
             call lb_fight
             'Дракон догоняет и убивает свинопаса, после чего разгоняет стадо.'
             $ game.dragon.reputation.points += 3
@@ -419,7 +419,7 @@ label lb_enc_sheepherd:
     menu:
         'Напасть на стадо' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('dog', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('dog', game_ref=game)
             call lb_fight
             'Дракон съедает овцу.'
             $ game.dragon.reputation.points += 1
@@ -428,7 +428,7 @@ label lb_enc_sheepherd:
             $ game.dragon.hunger -= 1
         'Напасть на стадо' if game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('dog', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('dog', game_ref=game)
             call lb_fight
             'Дракон убивает несколько овец, хотя не хочет есть.'
             $ game.dragon.reputation.points += 3
@@ -446,7 +446,7 @@ label lb_enc_cattle:
     menu:
         'Напасть на стадо' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('bull', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('bull', game_ref=game)
             call lb_fight
             $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
             $ game.dragon.hunger -= 1
@@ -455,7 +455,7 @@ label lb_enc_cattle:
             '[game.dragon.reputation.gain_description]'
         'Напасть на стадо' if game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('bull', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('bull', game_ref=game)
             call lb_fight
             'Дракон убивает несколько коров и разгоняет стадо, хотя не хочет есть.'
             $ game.dragon.reputation.points += 3
@@ -541,7 +541,7 @@ label lb_village:
 
         'Ограбить' if village_size > 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy(village['deffence'][village_size], gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy(village['deffence'][village_size], game_ref=game)
             call lb_fight
             'Поселение успешно разграблено. Добыча:'
             python:
@@ -561,7 +561,7 @@ label lb_village:
         
         'Разорить' if village_size > 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy(village['deffence'][village_size], gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy(village['deffence'][village_size], game_ref=game)
             call lb_fight
             'Поселение разорено. Разруха в стране растёт. В разрушенных домах и на телах убитых нашлись кое-какие ценности:'
             python:
@@ -609,7 +609,7 @@ label lb_patrool_plains:
             patrool = 'angel'
             dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
     '[dtxt]'
-    $ game.foe = core.Enemy(patrool, gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy(patrool, game_ref=game)
     call lb_fight
     
     return

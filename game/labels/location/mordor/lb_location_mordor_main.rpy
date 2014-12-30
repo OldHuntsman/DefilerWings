@@ -97,7 +97,7 @@ label lb_war_border:
     #Чтобы пройти АТ нужно взять пограничную крепость. Дракон берёт на себя катапульты, армия штурмует стены. Если и дракон и армия победили, засчитываем победу. 
     #Если дракон победил, но армия слишком слаба даём второй энкаунтер для дракона - воздушный флот цвергов приходит на помощь осаждённым, дракон должен их победить. 
     'Сражение у границ. Катапульты являются ключевым звеном обороны.'
-    $ game.foe = core.Enemy('catapult', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('catapult', game_ref=game)
     $ narrator(show_chances(game.foe))
             
     menu:
@@ -117,7 +117,7 @@ label lb_war_border:
             call lb_war_field
             
     'Воздушный флот цвергов приходит на помощь'
-    $ game.foe = core.Enemy('airfleet', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('airfleet', game_ref=game)
     $ narrator(show_chances(game.foe))
     
     call lb_war_field

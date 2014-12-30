@@ -53,7 +53,7 @@ label lb_enc_swan:
 label lb_enc_griffin:
     'В вышине парит матёрый дикий грифон. Он облетает свои владения в поисках добычи и нарушителей, причём второе по его мнению относится и к драконам. Может быть стоит показать пернатому где его место?'
     $ game.dragon.drain_energy()
-    $ game.foe = core.Enemy('griffin', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('griffin', game_ref=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -73,7 +73,7 @@ label lb_enc_griffin:
 label lb_enc_skyboat:
     'Над облаками вздымается парус! Это один из воздушных кораблей цвергов, судя по всему торговый. А значит там может быть добыча..'
     $ game.dragon.drain_energy()
-    $ game.foe = core.Enemy('airship', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('airship', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
         'Напасть':
@@ -131,7 +131,7 @@ label lb_patrool_sky:
             patrool = 'angel'
             dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
     '[dtxt]'
-    $ game.foe = core.Enemy(patrool, gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy(patrool, game_ref=game)
     $ narrator(show_chances(game.foe))
     call lb_fight
 

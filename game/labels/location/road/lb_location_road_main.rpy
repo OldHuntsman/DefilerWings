@@ -40,7 +40,7 @@ label lb_enc_tornament:
     menu:
         'Вызвать победителя на бой':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('champion', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('champion', game_ref=game)
             call lb_fight
             'Увидев что их чемпион повержен, гости турнира в панике разбегаются бросая вещи и вопя от ужаса. [game.dragon.name] не обращает на них внимания, он забирает свой приз - "королеву любви и красоты" и её золотой венец.'
             $ game.dragon.reputation.points += 5
@@ -114,7 +114,7 @@ label lb_enc_carriage:
     nvl clear
     menu:
         'Перевернуть карету':
-            $ game.foe = core.Enemy('mounted_guard', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('mounted_guard', game_ref=game)
             call lb_fight
             'Внутри благородная дева.'
             $ game.dragon.reputation.points += 5
@@ -133,7 +133,7 @@ label lb_enc_questing_knight:
     menu:
         'Вызвать на бой':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('champion', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('champion', game_ref=game)
             call lb_fight
             $ game.dragon.reputation.points += 5
             'Рыцарь повержен. [game.dragon.reputation.gain_description]'
@@ -192,7 +192,7 @@ label lb_enc_caravan:
             '[game.dragon.reputation.gain_description]'
         'Разграбить корован':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('xbow_rider', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('xbow_rider', game_ref=game)
             call lb_fight
             'Дав волю своему гневу, [game.dragon.name] переворачивает фургон, убивает лошадь и разрывает караванщика на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
             python:
@@ -226,7 +226,7 @@ label lb_enc_lcaravan:
             '[game.dragon.reputation.gain_description]'
         'Разграбить корован':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('mounted_guard', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('mounted_guard', game_ref=game)
             call lb_fight
             'Перебив охрану и караванщиков, [game.dragon.name] отыскивает в разбитых телегах всё ценное. В основном тут разные не нужные уважающему себя дракону товары - ткани, специи, оливковое масло и тому подобное, но у купцов и наемников есть в кошельках звонкие монеты:'
             python:
@@ -252,7 +252,7 @@ label lb_enc_outpost:
     menu:
         'Напасть на заставу':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('footman', gameRef=game, base_character=NVLCharacter)
+            $ game.foe = core.Enemy('footman', game_ref=game)
             call lb_fight
             'Большинство стражников мертво, остальные бежали в ужасе, однако здание заставы всё ещё стоит у дороги и восстановить её работу будет не так уж сложно. Зато внутри находится сундук с собранными за последнее время торговыми пошлинами. Внутри приятно звенят монеты:'
             python:
@@ -316,7 +316,7 @@ label lb_patrool_road:
             patrool = 'angel'
             dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
     '[dtxt]'
-    $ game.foe = core.Enemy(patrool, gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy(patrool, game_ref=game)
     call lb_fight
     
     return
