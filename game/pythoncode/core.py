@@ -46,7 +46,7 @@ class Game(store.object):
         self.thief = None  # Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
         self.knight = None  # Рыцаря не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
 
-        self.narrator = nvl_character()
+        self.narrator = Sayer(game_ref=self, kind='nvl')
         self.girls_list = girls.GirlsList(game_ref=self, base_character=adv_character)
         self.foe = None
         self.girl = None
@@ -547,7 +547,7 @@ class Sayer(store.object):
     Базовый класс для всего что умеет говорить
     """
 
-    def __init__(self, game_ref=None):
+    def __init__(self, game_ref=None, kind='adv'):
         """
         :type game_ref: Game
         :param game_ref: Game object
@@ -556,7 +556,11 @@ class Sayer(store.object):
             raise Exception('No game reference specified')
         self.avatar = None  # По умолчанию аватарки нет
         self._gameRef = game_ref  # Проставляем ссылку на игру
-        self._real_character = game_ref.adv_character()  # Создаем объект от которого будет вестись вещание
+        # Создаем объект от которого будет вестись вещание
+        if kind == 'adv':
+            self._real_character = game_ref.adv_character()
+        else:
+            self._real_character = game_ref.nvl_character()
         self._third_character = game_ref.nvl_character()
 
     @property  # Задаем имя через свойство, чтобы при изменении его передавать в персонажа.
