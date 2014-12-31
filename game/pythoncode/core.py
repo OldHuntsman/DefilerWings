@@ -600,7 +600,7 @@ class Girl(Sayer):
     Базовый класс для всего, с чем можно заниматься сексом.
     """
 
-    def __init__(self, girl_type = 'peasant', *args, **kwargs):
+    def __init__(self, girl_type='peasant', *args, **kwargs):
         # Инициализируем родителя
         super(Girl, self).__init__(*args, **kwargs)
         # Указываем тип девушки (крестьянка, гигантша..)

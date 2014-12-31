@@ -80,7 +80,13 @@ class Knight(Fighter):
         return u"\n".join(d)
 
     def modifiers(self):
-        mods = self._modifiers + self._ability_modifiers() + self._item_modifiers()
+        return self._modifiers + self._ability_modifiers() + self._item_modifiers()
+
+    def _ability_modifiers(self):
+        # Возвращает список модификторов из способностей
+        result = []
+        for i in self.abilities:
+            result.extend(self.abilities[i].modifiers)
         # Освободитель
         #   +1 к защите за каждую крестьянку,
         #   +1 к атаке за каждую богатую и
@@ -89,11 +95,11 @@ class Knight(Fighter):
         if 'liberator' in self.abilities:
             for girl in self._gameRef.girls_list.prisoners:
                 if girl.type == 'peasant':
-                    mods += ['def_up']
+                    result += ['def_up']
                 elif girl.type == 'princess':
-                    mods += ['atk_up']
+                    result += ['atk_up']
                 elif not girls_data.girls_info[girl.type]['giantess']:
-                    mods += ['atk_up', 'def_up']
+                    result += ['atk_up', 'def_up']
         if 'mirror_shield' in self.items and (
             'red' in self._gameRef.dragon.heads
             or 'white' in self._gameRef.dragon.heads
@@ -104,16 +110,8 @@ class Knight(Fighter):
             or 'thunder_heart' in self._gameRef.dragon.spells
             or 'lightning_heart' in self._gameRef.dragon.spells
         ):
-            mods += ['sdef_up', 'sdef_up']
+            result += ['sdef_up', 'sdef_up']
 
-        return mods
-
-    def _ability_modifiers(self):
-        # Возвращает список модификторов из способностей
-        # TODO: implement
-        result = []
-        for i in self.abilities:
-            result.extend(self.abilities[i].modifiers)
         return result
 
     def _item_modifiers(self):
@@ -125,10 +123,6 @@ class Knight(Fighter):
 
     def attack(self):
         a = super(Knight, self).attack()
-        if "liberator" in self.modifiers():
-            # TODO: подумать как получаем ссылку на логово
-            # Увеличиваем атаку в соответствии со списком женщин в логове
-            raise NotImplementedError
         a_base = list(a['base'])
         a_base[0] += self.power
         a['base'] = tuple(a_base)
