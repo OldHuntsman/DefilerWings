@@ -424,6 +424,29 @@ class Game(store.object):
         else:
             return u"Задание нужно выполнить за %s лет." % str(number)
 
+    def choose_spell(self, back_message=u"Вернуться"):
+        """
+        Выводит меню для выбора заклинания
+        :param back_message: название для пункта меню с отказом от выбора.
+        :return: При выборе какого-либо умения кастует его и возвращает True,
+                 при отказе от выбора возвращает False.
+        """
+        spells_menu = []
+        for spell in data.spell_list.keys():
+            # Добавляем в список только актуальные заклинания.
+            if spell not in self.dragon.spells and (spell is not 'spellbound_trap' or 'magic_traps' not in self.lair.upgrades):
+                spells_menu.append((data.spell_list_rus[spell], spell))
+        spells_menu.append((back_message, 'back'))
+        spell_name = renpy.display_menu(spells_menu)
+        if spell_name == 'back':
+            return False
+        else:
+            if spell_name == 'spellbound_trap':
+                self.lair.add_upgrade('magic_traps')
+            else:
+                self.dragon.add_effect(spell_name)
+            return True
+
     @staticmethod
     def weighted_random(choice_options):
         """
