@@ -2,6 +2,7 @@
 # coding=utf-8
 
 from core import Fighter, call, get_avatar
+import girls_data
 import renpy.exports as renpy
 import random
 import os
@@ -83,10 +84,34 @@ class Knight(Fighter):
 
     def _ability_modifiers(self):
         # Возвращает список модификторов из способностей
-        # TODO: implement
         result = []
         for i in self.abilities:
             result.extend(self.abilities[i].modifiers)
+        # Освободитель
+        #   +1 к защите за каждую крестьянку,
+        #   +1 к атаке за каждую богатую и
+        #   +1 к атаке и защите за любую другую не великаншу томящуюся в логове дракона
+        # богатая - princess
+        if 'liberator' in self.abilities:
+            for girl in self._gameRef.girls_list.prisoners:
+                if girl.type == 'peasant':
+                    result += ['def_up']
+                elif girl.type == 'princess':
+                    result += ['atk_up']
+                elif not girls_data.girls_info[girl.type]['giantess']:
+                    result += ['atk_up', 'def_up']
+        if 'mirror_shield' in self.items and (
+            'red' in self._gameRef.dragon.heads
+            or 'white' in self._gameRef.dragon.heads
+            or 'black' in self._gameRef.dragon.heads
+            or 'fire_heart' in self._gameRef.dragon.spells
+            or 'ice_heart' in self._gameRef.dragon.spells
+            or 'poison_heart' in self._gameRef.dragon.spells
+            or 'thunder_heart' in self._gameRef.dragon.spells
+            or 'lightning_heart' in self._gameRef.dragon.spells
+        ):
+            result += ['sdef_up', 'sdef_up']
+
         return result
 
     def _item_modifiers(self):
@@ -98,10 +123,6 @@ class Knight(Fighter):
 
     def attack(self):
         a = super(Knight, self).attack()
-        if "liberator" in self.modifiers():
-            # TODO: подумать как получаем ссылку на логово
-            # Увеличиваем атаку в соответствии со списком женщин в логове
-            raise NotImplementedError
         a_base = list(a['base'])
         a_base[0] += self.power
         a['base'] = tuple(a_base)

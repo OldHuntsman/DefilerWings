@@ -2,6 +2,7 @@
 # coding=utf-8
 import random
 import data
+import girls_data
 import mob_data
 import girls
 import treasures
@@ -599,9 +600,13 @@ class Girl(Sayer):
     Базовый класс для всего, с чем можно заниматься сексом.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, girl_type='peasant', *args, **kwargs):
         # Инициализируем родителя
         super(Girl, self).__init__(*args, **kwargs)
+        # Указываем тип девушки (крестьянка, гигантша..)
+        self.type = girl_type
+        # Подбираем аватарку
+        self.avatar = get_avatar("img/avahuman/" + girls_data.girls_info[girl_type]['avatar'])
         # девственность = пригодность для оплодотворения драконом
         self.virgin = True
         # беременность: 0 - не беременна, 1 - беременна базовым отродьем, 2 - беременна продвинутым отродьем
@@ -609,7 +614,16 @@ class Girl(Sayer):
         # Репродуктивное качество женщины.
         # Если коварство дракона превышает её репродуктивное качество, то отродье будет продвинутым. Иначе базовым.
         self.quality = 0
-        self.name = ''
+        # генерация имени
+        # Если указано имя берем имя
+        if girl_type + '_first' in girls_data.girls_names:
+            self.game.girl.name = random.choice(girls_data.girls_names[girl_type + '_first'])
+            # Если есть фамилия, прибавляем к имени фамилию
+            if girl_type + '_last' in girls_data.girls_names:
+                self.game.girl.name += " " + random.choice(girls_data.girls_names[girl_type + '_last'])
+        # Не найти имя для девушки, считаем ее неизвестной
+        else:
+            self.game.girl.name = 'Неизвестная Красавица'
         self.jailed = False  # была ли уже в тюрьме, пригодится для описания
         self.treasure = []
 
