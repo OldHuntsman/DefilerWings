@@ -585,13 +585,13 @@ label lb_ifrit_empty:
     
 label lb_triton_found:
     'Дракон поднимается над облаками...'
-    show expression 'img/bg/special/undefwater.png' as bg
+    show expression 'img/bg/lair/underwater.png' as bg
     'И обнаруживает жилище огненного великана.'
     nvl clear
     jump lb_triton
     
 label lb_triton:   
-    show expression 'img/bg/special/undefwater.png' as bg
+    show expression 'img/bg/lair/underwater.png' as bg
     $ txt = game.interpolate(random.choice(txt_place_triton[0]))
     '[txt]'
     $ game.foe = core.Enemy('triton', game_ref=game)
@@ -623,12 +623,12 @@ label lb_triton_rob:
             return
  
 label lb_triton_empty:
-    show expression 'img/bg/lair/undefwater.png' as bg
+    show expression 'img/bg/lair/underwater.png' as bg
     $ txt = game.interpolate(random.choice(txt_place_triton[2]))
     '[txt]'
     menu:
         'Переместить логово':
-            $ game.create_lair('undefwater_mansion')
+            $ game.create_lair('underwater_mansion')
             $ game.dragon.del_special_place('triton')
         'Покинуть облачный замок':
             $ game.dragon.add_special_place('triton', 'triton_empty')
@@ -718,7 +718,7 @@ label lb_frontgates:
     show expression 'img/bg/special/gates_dwarf.png' as bg
     nvl clear
     menu:
-        'Проломить ворота' if game.dragon.size() > 3:
+        'Проломить ворота' if game.dragon.size > 3:
             'Жалкие укрепления коротышек не смогут устоять перед яростным отродьем Госпожи. [game.dragon.fullname] достаточно огромен и могуч чтобы проломиться сквозь ворота и ворваться в подгорное царство. Однако теперь отступать нельзя - если цвергов не прогнать, они укрепятся заново.'
             $ game.dragon.add_special_place('backdor', 'backdor_sealed')
             $ game.dragon.drain_energy()

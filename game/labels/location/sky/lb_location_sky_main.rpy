@@ -36,13 +36,15 @@ label lb_encounter_sky:
     return
     
 label lb_enc_swan:
-    'Величественно паря в облаках [self.game.dragon.fullname] видит стаю белых лебедей. Впереди летит огромный откормленный вожак - он отлично сгодиться в качестве закуски!'
+    'Величественно паря в облаках [game.dragon.fullname] видит стаю белых лебедей. Впереди летит огромный откормленный вожак - он отлично сгодиться в качестве закуски!'
     nvl clear
     menu:
         'Сожрать гуся' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] ловит и пожирает гуся.'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
         'Разогнать стаю' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] жестоко задирает вожака и ещё несколько птиц, а остальная стая в панике разлетается кто куда.'    
@@ -60,21 +62,24 @@ label lb_enc_griffin:
         'Сразиться с грифоном':
             call lb_fight
             if game.dragon.hunger > 0:
-                'Голодный [self.game.dragon.name] съедает грифона прямо в воздухе и бросает отсанки вниз на поживу шакалам.'
-                $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                $ game.dragon.hunger -= 1
-                $ game.dragon.add_effect('boar_meat')
+                'Голодный [game.dragon.name] съедает грифона прямо в воздухе и бросает отсанки вниз на поживу шакалам.'
+                python:
+                    if game.dragon.bloodiness > 0:
+                        game.dragon.bloodiness = 0
+                    game.dragon.hunger -= 1
+                    game.dragon.add_effect('boar_meat')
             else:
-                '[self.game.dragon.fullname] сейчас не голоден, поэтому он даёт смертельно раненому грифону упасть вниз и разбиться о скалы.'
+                '[game.dragon.fullname] сейчас не голоден, поэтому он даёт смертельно раненому грифону упасть вниз и разбиться о скалы.'
         'Избежать столкновения' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
     
 label lb_enc_skyboat:
     'Над облаками вздымается парус! Это один из воздушных кораблей цвергов, судя по всему торговый. А значит там может быть добыча..'
-    $ game.dragon.drain_energy()
-    $ game.foe = core.Enemy('airship', game_ref=game)
-    $ narrator(show_chances(game.foe))
+    python:
+        game.dragon.drain_energy()
+        game.foe = core.Enemy('airship', gameRef=game)
+        narrator(show_chances(game.foe))
     menu:
         'Напасть':
             call lb_fight
@@ -98,17 +103,17 @@ label lb_enc_skyboat:
     return
     
 label lb_enc_fair_sky:
-    'Паря в вышине [self.game.dragon.fullname] замечает внизу какие-то цветные пятна. Спустившись ниже становится понятно что это ярмарка, которую устроили люди.'
+    'Паря в вышине [game.dragon.fullname] замечает внизу какие-то цветные пятна. Спустившись ниже становится понятно что это ярмарка, которую устроили люди.'
     call lb_enc_fair
     return
     
 label lb_enc_militia_sky:
-    '[self.game.dragon.fullname] замечает какое-то шевеление на земле далеко внизу. Так и есть - это собрались на тренировку ополченцы наспех собранные из окрестных деревень.'
+    '[game.dragon.fullname] замечает какое-то шевеление на земле далеко внизу. Так и есть - это собрались на тренировку ополченцы наспех собранные из окрестных деревень.'
     call lb_enc_militia
     return
     
 label lb_enc_caravan_sky:
-    'Пролетая вдоль змеящейся по земле дороги, [self.game.dragon.fullname] замечает на ней несколько точек. Это крупный торговый караван.'
+    'Пролетая вдоль змеящейся по земле дороги, [game.dragon.fullname] замечает на ней несколько точек. Это крупный торговый караван.'
     return
     
 label lb_patrool_sky:
@@ -136,4 +141,3 @@ label lb_patrool_sky:
     call lb_fight
 
     return
-    

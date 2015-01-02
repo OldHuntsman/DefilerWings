@@ -32,7 +32,7 @@ label lb_location_forest_main:
 label lb_enc_lumberjack:
     'В лесу раздаётся топор дровосека. Дракон пытается подкрасться.'
     python:
-        if game.dragon.size() > 2: 
+        if game.dragon.size > 2: 
             succes = True
         else:
             succes = False
@@ -99,7 +99,9 @@ label lb_enc_deer:
         'Сожрать оленя' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] ловит и пожирает оленя.'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
         'Разорвать оленя' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] жестоко задирает оленя просто ради забавы.'    
@@ -117,9 +119,11 @@ label lb_enc_boar:
             call lb_fight
             if game.dragon.hunger > 0:
                 'Дракон съедает вепря.'
-                $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                $ game.dragon.hunger -= 1
-                $ game.dragon.add_effect('boar_meat')
+                python:
+                    if game.dragon.bloodiness > 0:
+                        game.dragon.bloodiness = 0
+                    game.dragon.hunger -= 1
+                    game.dragon.add_effect('boar_meat')
             else:
                 'Дракон торжествует победу.'
         'Отступить' if game.dragon.bloodiness < 5:
@@ -172,7 +176,7 @@ label lb_enc_lumbermill:
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Обследовать здание' if game.dragon.size() <= 3 and game.dragon.magic == 0:
+        'Обследовать здание' if game.dragon.size <= 3 and game.dragon.magic == 0:
             $ game.dragon.drain_energy()
             "[game.dragon.name] тщательно обследует необычное строение на предмет важности и уязвимых мест. Вращаемое потоком воды колесо приводит в движение скрытые внутри здания пилы, при помощи которых люди изготавливают из брёвен доски. Огромный штабель готовой продукции сложен неподалёку. Если бы только было чем это всё поджечь..."
             'Только время зря потерял. Придётся уйти несолоно хлебавши.'

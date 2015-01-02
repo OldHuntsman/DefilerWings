@@ -424,6 +424,29 @@ class Game(store.object):
         else:
             return u"Задание нужно выполнить за %s лет." % str(number)
 
+    def choose_spell(self, back_message=u"Вернуться"):
+        """
+        Выводит меню для выбора заклинания
+        :param back_message: название для пункта меню с отказом от выбора.
+        :return: При выборе какого-либо заклинания кастует его и возвращает True,
+                 при отказе от выбора возвращает False.
+        """
+        spells_menu = []
+        for spell in data.spell_list.keys():
+            # Добавляем в список только актуальные заклинания.
+            if spell not in self.dragon.spells and (spell is not 'spellbound_trap' or 'magic_traps' not in self.lair.upgrades):
+                spells_menu.append((data.spell_list_rus[spell], spell))
+        spells_menu.append((back_message, 'back'))
+        spell_name = renpy.display_menu(spells_menu)
+        if spell_name == 'back':
+            return False
+        else:
+            if spell_name == 'spellbound_trap':
+                self.lair.add_upgrade('magic_traps')
+            else:
+                self.dragon.add_effect(spell_name)
+            return True
+
     @staticmethod
     def weighted_random(choice_options):
         """
@@ -612,7 +635,7 @@ class Girl(Sayer):
         self.pregnant = 0
         # Репродуктивное качество женщины.
         # Если коварство дракона превышает её репродуктивное качество, то отродье будет продвинутым. Иначе базовым.
-        self.quality = 0
+        self.quality = girls_data.girls_info[girl_type]['magic_rating']
         # генерация имени
         # Если указано имя берем имя
         if girl_type + '_first' in girls_data.girls_names:
@@ -841,10 +864,10 @@ class Dragon(Fighter):
     def description(self):
         ddescription = u'  '
         mods = self.modifiers()
-        ddescription += self._accentuation(data.dragon_size[self.size() - 1], self._gift == 'size') + u' '
+        ddescription += self._accentuation(data.dragon_size[self.size - 1], self._gift == 'size') + u' '
         ddescription += self._accentuation(self.color, self.color_eng == self._gift) + u' '
-        ddescription += self.kind() + u'. '
-        ddescription += self._accentuation(data.dragon_size_description[self.size() - 1], self._gift == 'size')
+        ddescription += self.kind + u'. '
+        ddescription += self._accentuation(data.dragon_size_description[self.size - 1], self._gift == 'size')
         for i in xrange(len(self.heads)):
             dscrptn = u"Его %s голова " % data.head_num[i] + data.head_description[self.heads[i]]
             dscrptn = self._accentuation(dscrptn, self.heads[i] == self._gift)
@@ -852,14 +875,14 @@ class Dragon(Fighter):
                 dscrptn = self._accentuation(dscrptn, i == len(self.heads) - 1)
             ddescription += u"\n  " + dscrptn
 
-        if self.wings() == 0 and self.paws() == 0:
+        if self.wings == 0 and self.paws == 0:
             ddescription += '\n  ' + data.wings_description[0]
         else:
-            if self.wings() > 0:
-                ddescription += '\n  ' + self._accentuation(data.wings_description[self.wings()], self._gift == 'wings')
+            if self.wings > 0:
+                ddescription += '\n  ' + self._accentuation(data.wings_description[self.wings], self._gift == 'wings')
 
-            if self.paws() > 0:
-                ddescription += '\n  ' + self._accentuation(data.paws_description[self.paws()], self._gift == 'paws')
+            if self.paws > 0:
+                ddescription += '\n  ' + self._accentuation(data.paws_description[self.paws], self._gift == 'paws')
 
         for i in xrange(len(data.special_features)):
             if data.special_features[i] in mods:
@@ -972,12 +995,13 @@ class Dragon(Fighter):
         """
         return self.heads[0]
 
+    @property
     def kind(self):
         """
         :return: Текстовое представление 'вида' дракона
         """
-        wings = self.wings()
-        paws = self.paws()
+        wings = self.wings
+        paws = self.paws
         heads = len(self.heads)
         if wings == 0:
             if heads == 1:
@@ -1003,18 +1027,21 @@ class Dragon(Fighter):
             else:
                 return u"шестилапый дракон"  # название для дракона с paws == 3 and heads == 1
 
+    @property
     def size(self):
         """
         :return: Размер дракона(число от 1 до 6)
         """
         return self.modifiers().count('size')
 
+    @property
     def wings(self):
         """
         :return: Количество пар крыльев
         """
         return self.modifiers().count('wings')
 
+    @property
     def paws(self):
         """
         :return: Количество пар лап
@@ -1026,15 +1053,15 @@ class Dragon(Fighter):
         Возвращает способность, которую может получить дракон при рождении
         """
         dragon_leveling = 2 * ['head']
-        if self.size() < 6:
-            dragon_leveling += (6 - self.size()) * ['size']
-        if self.paws() < 3:
+        if self.size < 6:
+            dragon_leveling += (6 - self.size) * ['size']
+        if self.paws < 3:
             dragon_leveling += 2 * ['paws']
-        if self.wings() < 3:
+        if self.wings < 3:
             dragon_leveling += 2 * ['wings']
         if 'tough_scale' not in self.modifiers():
             dragon_leveling += ['tough_scale']
-        if 'clutches' not in self.modifiers() and self.paws() > 0:
+        if 'clutches' not in self.modifiers() and self.paws > 0:
             dragon_leveling += ['clutches']
         if 'fangs' not in self.modifiers():
             dragon_leveling += ['fangs']

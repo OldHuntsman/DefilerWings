@@ -102,8 +102,10 @@ label lb_enc_peasant_cart:
         'Сожрать лошадь' if game.dragon.hunger > 0: 
             $ game.dragon.drain_energy()
             'Пока [game.dragon.name] пожирает жилистую крестьянскую лошадку, хозяин повозки в ужасе убегает прочь. Ничего, пусть поведает жалким смертным о вашем величии.'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-            $ game.dragon.reputation.points += 1
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
+                game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
         'Пропустить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
@@ -268,22 +270,28 @@ label lb_enc_outpost:
                 if 'fire_breath' in game.dragon.modifiers(): 
                     doit = True
             menu:
-                'Развалить укрепления' if game.dragon.size() > 3:
+                'Развалить укрепления' if game.dragon.size > 3:
                     $ game.dragon.drain_energy()
                     "Я твой застава щаталь!"
-                    $ if game.mobilization.level >= 1: game.mobilization.level -= 1
+                    python:
+                        if game.mobilization.level >= 1:
+                            game.mobilization.level -= 1
                     '[game.dragon.reputation.gain_description]'
                 'Дыхнуть огнём' if doit:
                     $ game.dragon.drain_energy()
                     "Амбар сгорает."
-                    $ if game.mobilization.level >= 1: game.mobilization.level -= 1
+                    python:
+                        if game.mobilization.level >= 1:
+                            game.mobilization.level -= 1
                     '[game.dragon.reputation.gain_description]'
                 'Наложить проклятье' if game.dragon.mana > 0:
                     $ game.dragon.drain_energy()
                     "Аутпост проклят."
-                    $ if game.mobilization.level >= 1: game.mobilization.level -= 1
+                    python:
+                        if game.mobilization.level >= 1:
+                            game.mobilization.level -= 1
                     '[game.dragon.reputation.gain_description]'
-                'Обследовать укрепления' if game.dragon.size() <= 3 and game.dragon.mana == 0 and not doit:
+                'Обследовать укрепления' if game.dragon.size <= 3 and game.dragon.mana == 0 and not doit:
                     $ game.dragon.drain_energy()
                     "[game.dragon.name] тщательно обследует необычное строение на предмет важности и уязвимых мест. Укрепления, хорть и деревянные, но построены на славу. Сломать получается только хлипкие загородки которыми перекрывают дорогу, но их несложно сднелать заново. Чтобы сравнять заставу с землёй нужно использовать огонь или быть намного крупнее."
                     'Только время зря потерял. Придётся уйти несолоно хлебавши.'

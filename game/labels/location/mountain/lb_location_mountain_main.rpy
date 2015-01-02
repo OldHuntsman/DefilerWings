@@ -12,7 +12,12 @@ label lb_location_mountain_main:
     $ choices = [
         ("lb_enc_miner", 10),
         ("lb_enc_dklad", 10),
-        ("lb_enc_mines", 10),
+        ("lb_enc_mines_silver", 10),
+        ("lb_enc_mines_gold", 5),
+        ("lb_enc_mines_mithril", 3),
+        ("lb_enc_mines_adamantine", 2),
+        ("lb_enc_mines_gem_low", 15),
+        ("lb_enc_mines_gem_high", 5),
         ("lb_enc_ram", 10),
         ("lb_enc_bear", 10),
         ("lb_jotun_found", 10),
@@ -80,7 +85,9 @@ label lb_enc_ram:
         'Сожрать барана' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] ловит и пожирает барана.'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
         'Разорвать оленя' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] жестоко задирает барана просто ради забавы.'    
@@ -98,8 +105,10 @@ label lb_enc_bear:
             call lb_fight
             if game.dragon.hunger > 0:
                 'Дракон съедает медведя.'
-                $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-                $ game.dragon.hunger -= 1
+                python:
+                    if game.dragon.bloodiness > 0:
+                        game.dragon.bloodiness = 0
+                    game.dragon.hunger -= 1
             else:
                 'Дракон торжествует победу.'
                 
@@ -150,8 +159,10 @@ label lb_enc_slavers:
             'Для работорговцев это не слишком большая потеря - они соглашаются отдать самого заморенного раба, чтобы [game.dragon.name] пропустил их без боя. Они даже жалеают дракону приятного аппетита.'
             $ game.dragon.drain_energy()
             'Дракон пожирает измождённого раба. Не самая лучшая закуска на свете, но голод не тётка...'
-            $ if game.dragon.bloodiness > 0: game.dragon.bloodiness = 0
-            $ game.dragon.hunger -= 1
+            python:
+                if game.dragon.bloodiness > 0:
+                    game.dragon.bloodiness = 0
+                game.dragon.hunger -= 1
         
         'Потребовать невинную девушку' if game.dragon.lust > 0:
             $ game.dragon.drain_energy()
@@ -176,10 +187,12 @@ label lb_enc_slavers:
     
     return
 
-label lb_enc_mines:
+label lb_enc_mines_silver:
     'Серебрянный рудник. Охраняется небольшим отрядом арабалетчиков.'
+    $ game.foe = core.Enemy('xbow', game_ref=game)
+    $ narrator(show_chances(game.foe))
     menu:
-        'Вымогать серебро':
+        'Вымогать серебро' if game.dragon.fear > 3:
             $ game.dragon.drain_energy()
             'Начальник рудника отдаёт большой серебряный слиток, чтобы избежать конфликта.'
             python:
@@ -191,10 +204,9 @@ label lb_enc_mines:
             
         'Ограбить рудник':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('xbow', game_ref=game)
             call lb_fight
             python:
-                count = random.randint(1, 15)
+                count = random.randint(5, 20)
                 alignment = 'human'
                 min_cost = 1
                 max_cost = 1000000
@@ -213,7 +225,217 @@ label lb_enc_mines:
             'Человеческое серебро не стоит того чтобы получить в глаз их железо!'       
             $ game.dragon.gain_rage()
     return
-   
+
+label lb_enc_mines_gold:
+    'Золотой прииск. Охраняется небольшим отрядом тяжелой кавалерии.'
+    $ game.foe = core.Enemy('heavy_infantry', game_ref=game)
+    $ narrator(show_chances(game.foe))
+    menu:
+        'Вымогать серебро' if game.dragon.fear > 5:
+            $ game.dragon.drain_energy()
+            'Начальник прииска отдаёт золотой слиток, чтобы избежать конфликта.'
+            python:
+                gold_trs = treasures.Ingot('gold')
+                gold_trs.weight = 8
+                game.lair.treasury.receive_treasures([gold_trs])
+            $ game.dragon.reputation.points += 3
+            '[game.dragon.reputation.gain_description]'
+            
+        'Ограбить рудник':
+            $ game.dragon.drain_energy()
+            call lb_fight
+            python:
+                count = random.randint(3, 15)
+                alignment = 'human'
+                min_cost = 1
+                max_cost = 1000000
+                t_list = ['gold']
+                obtained = "Просто металл."
+                trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+                game.lair.treasury.receive_treasures(trs)
+            'На складе дракон находит драгоценный металл, выплавленный и готовый к отправке в казну:'
+            '[trs_descrptn]'
+            $ game.dragon.reputation.points += 5
+            '[game.dragon.reputation.gain_description]'
+            
+        'Пройти мимо' if game.dragon.bloodiness < 5:
+            'Человеческое золото не стоит того чтобы получить в глаз их железо!'       
+            $ game.dragon.gain_rage()
+    return
+
+label lb_enc_mines_mithril:
+    'Рудник цвергов, здесь они добывают драгоценный мифрил. Вход в шахту надёжно охраняется.'
+    $ game.foe = core.Enemy('dwarf_guards', game_ref=game)
+    $ narrator(show_chances(game.foe))
+    menu:
+        'Вымогать серебро' if game.dragon.fear > 7:
+            $ game.dragon.drain_energy()
+            'Главый цверг отдаёт небольшой слиток мифрила, чтобы избежать конфликта.'
+            python:
+                gold_trs = treasures.Ingot('mithril')
+                gold_trs.weight = 4
+                game.lair.treasury.receive_treasures([gold_trs])
+            $ game.dragon.reputation.points += 1
+            '[game.dragon.reputation.gain_description]'
+            
+        'Ограбить рудник':
+            $ game.dragon.drain_energy()
+            call lb_fight
+            python:
+                count = random.randint(2, 10)
+                alignment = 'human'
+                min_cost = 1
+                max_cost = 1000000
+                t_list = ['mithril']
+                obtained = "Просто металл."
+                trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+                game.lair.treasury.receive_treasures(trs)
+            'На складе дракон находит драгоценный металл, выплавленный и готовый к продаже альвам:'
+            '[trs_descrptn]'
+            $ game.dragon.reputation.points += 3
+            '[game.dragon.reputation.gain_description]'
+            
+        'Пройти мимо' if game.dragon.bloodiness < 5:
+            'Мифрил цвергов не стоит того чтобы получить в глаз их сталь!'       
+            $ game.dragon.gain_rage()
+    return
+
+label lb_enc_mines_adamantine:
+    'Рудник цвергов, здесь они добывают и выплавляют драгоценный адамант. На страже стоит практически неуязвимый стальной голем.'
+    $ game.foe = core.Enemy('golem', game_ref=game)
+    $ narrator(show_chances(game.foe))
+    menu:
+        'Вымогать серебро' if game.dragon.fear > 8:
+            $ game.dragon.drain_energy()
+            'Главый цверг отдаёт небольшой слиток адаманта, чтобы избежать конфликта.'
+            python:
+                gold_trs = treasures.Ingot('adamantine')
+                gold_trs.weight = 4
+                game.lair.treasury.receive_treasures([gold_trs])
+            $ game.dragon.reputation.points += 1
+            '[game.dragon.reputation.gain_description]'
+            
+        'Ограбить рудник':
+            $ game.dragon.drain_energy()
+            call lb_fight
+            python:
+                count = random.randint(1, 5)
+                alignment = 'human'
+                min_cost = 1
+                max_cost = 1000000
+                t_list = ['adamantine']
+                obtained = "Просто металл."
+                trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+                game.lair.treasury.receive_treasures(trs)
+            'На складе дракон находит драгоценный металл, выплавленный и готовый к продаже альвам:'
+            '[trs_descrptn]'
+            $ game.dragon.reputation.points += 3
+            '[game.dragon.reputation.gain_description]'
+            
+        'Пройти мимо' if game.dragon.bloodiness < 5:
+            'Мифрил цвергов не стоит того чтобы получить в глаз их сталь!'       
+            $ game.dragon.gain_rage()
+    return
+
+
+label lb_enc_mines_gem_low:
+    'На сколне гор виден вход в шахту. Судя по запаху тут добывают полудрагоценные камни. Прииск охраняется небольшим отрядом арабалетчиков.'
+    $ game.foe = core.Enemy('xbow', game_ref=game)
+    $ narrator(show_chances(game.foe))
+    menu:
+        'Вымогать камушки' if game.dragon.fear > 2:
+            $ game.dragon.drain_energy()
+            'Начальник рудника отдаёт кое-что чтобы задобрить дракона:'
+            python:
+                count = 1
+                alignment = 'human'
+                min_cost = 1
+                max_cost = 1000000
+                t_list = ['jasper', 'turquoise', 'jade', 'malachite', 'corall', 'agate', 'amber', 'crystall', 'beryll', 'tigereye', 'granate', 'turmaline', 'aqua']
+                obtained = "Просто самоцветы."
+                trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+                game.lair.treasury.receive_treasures(trs)
+            '[trs_descrptn]'
+            $ game.dragon.reputation.points += 1
+            '[game.dragon.reputation.gain_description]'
+            
+        'Ограбить шахту':
+            $ game.dragon.drain_energy()
+            call lb_fight
+            python:
+                count = random.randint(5, 20)
+                alignment = 'human'
+                min_cost = 1
+                max_cost = 1000000
+                t_list = ['jasper', 'turquoise', 'jade', 'malachite', 'corall', 'agate', 'amber', 'crystall', 'beryll', 'tigereye', 'granate', 'turmaline', 'aqua']
+                obtained = "Просто самоцветы."
+                trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+                game.lair.treasury.receive_treasures(trs)
+            'На складе дракон полудрагоценные камни самых разных форм, цветов и размеров:'
+            '[trs_descrptn]'
+            $ game.dragon.reputation.points += 3
+            '[game.dragon.reputation.gain_description]'
+            
+        'Пройти мимо' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()
+    return
+
+label lb_enc_mines_gem_high:
+    'На сколне гор виден вход в шахту. Судя по запаху тут добывают самоцветы, причём очень высокого качества. Аж слюнки текут. Но вход охраняет отряд тяжёлой панцирной пехоты.'
+    $ game.foe = core.Enemy('heavy_infantry', game_ref=game)
+    $ narrator(show_chances(game.foe))
+    menu:
+        'Вымогать камушки' if game.dragon.fear > 5:
+            $ game.dragon.drain_energy()
+            'Начальник рудника отдаёт кое-что чтобы задобрить дракона:'
+            python:
+                count = 1
+                alignment = 'human'
+                min_cost = 1
+                max_cost = 1000000
+                t_list = ['elven_beryll', 'topaz', 'saphire', 'ruby', 'emerald', 'goodruby', 'goodemerald', 'star', 'diamond', 'black_diamond', 'rose_diamond']
+                obtained = "Просто самоцветы."
+                trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+                game.lair.treasury.receive_treasures(trs)
+            '[trs_descrptn]'
+            $ game.dragon.reputation.points += 3
+            '[game.dragon.reputation.gain_description]'
+            
+        'Ограбить шахту':
+            $ game.dragon.drain_energy()
+            call lb_fight
+            python:
+                count = random.randint(3, 10)
+                alignment = 'human'
+                min_cost = 1
+                max_cost = 1000000
+                t_list = ['elven_beryll', 'topaz', 'saphire', 'ruby', 'emerald', 'goodruby', 'goodemerald', 'star', 'diamond', 'black_diamond', 'rose_diamond']
+                obtained = "Просто самоцветы."
+                trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+                game.lair.treasury.receive_treasures(trs)
+            'На складе дракон полудрагоценные камни самых разных форм, цветов и размеров:'
+            '[trs_descrptn]'
+            $ game.dragon.reputation.points += 5
+            '[game.dragon.reputation.gain_description]'
+            
+        'Пройти мимо' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()
+    return
+        
 label lb_enc_frontgates_found:
     'Блуждая среди горных круч, [game.dragon.fullname] наткнулся на...'
     show expression 'img/bg/special/gates_dwarf.png' as bg
