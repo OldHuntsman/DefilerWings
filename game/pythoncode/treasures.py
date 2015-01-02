@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # coding=utf-8
 import random
-import renpy.store as store
+import renpy
+# import renpy.store as store
+store = renpy.store
 
 """Словарь для драгоценных камней, ключи - названия камней, значения - кортежи вида(шанс появления, ценность)"""
 gem_types = {

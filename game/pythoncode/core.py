@@ -571,7 +571,6 @@ class Sayer(store.object):
     @name.setter
     def name(self, value):
         self._real_character.name = value
-        self._third_character.name = value
 
     def __call__(self, *args, **kwargs):
         """
@@ -617,13 +616,13 @@ class Girl(Sayer):
         # генерация имени
         # Если указано имя берем имя
         if girl_type + '_first' in girls_data.girls_names:
-            self.game.girl.name = random.choice(girls_data.girls_names[girl_type + '_first'])
+            self.name = random.choice(girls_data.girls_names[girl_type + '_first'])
             # Если есть фамилия, прибавляем к имени фамилию
             if girl_type + '_last' in girls_data.girls_names:
-                self.game.girl.name += " " + random.choice(girls_data.girls_names[girl_type + '_last'])
+                self.name += " " + random.choice(girls_data.girls_names[girl_type + '_last'])
         # Не найти имя для девушки, считаем ее неизвестной
         else:
-            self.game.girl.name = 'Неизвестная Красавица'
+            self.name = 'Неизвестная Красавица'
         self.jailed = False  # была ли уже в тюрьме, пригодится для описания
         self.treasure = []
 
@@ -668,6 +667,11 @@ class Fighter(Sayer, Mortal):
         self.bg = None  # Бекграунд для драк
 
     def modifiers(self):
+        """Список модификаторов бойца
+
+        :rtype: list
+        :return: Список модификаторов
+        """
         raise Exception("Need to be reimplemented in derived class")
 
     def protection(self):
@@ -685,7 +689,7 @@ class Fighter(Sayer, Mortal):
         return result
 
     def attack(self):
-        """
+        """Словарь с атаками бойца
         :rtype : dict
         :return: Словарик, ключами которого являются типы атаки(лед, огонь, яд...),
         а значениями кортежи вида (атака, верная атака)
@@ -1058,6 +1062,27 @@ class Dragon(Fighter):
         # Возвращаем один из доступных цветов
         return random.choice(available_colors)
 
+    def decapitate(self):
+        """Дракону отрубает голову.
+        :rtype: list[str]
+        :return:
+        """
+        if 'unbreakable_scale' in self.spells:
+            # потеря заклинания защиты головы
+            self.spells.remove('unbreakable_scale')
+            return ['lost_head', 'lost_virtual']
+        else:
+            # жизни закончились, рубим голову (последнюю в списке)
+            lost_head = self.heads.pop()
+            # ставим её на первое место, чтобы после объединения списков порядок голов не изменился
+            self.dead_heads.insert(0, lost_head)
+            # потеря головы, если головы закончились - значит смертушка пришла
+            if self.heads:
+                return ['lost_head', 'lost_' + lost_head]
+            else:
+                self.die()
+                return ['dragon_dead']
+
     def struck(self):
         """
         вызывается при получении удара, наносит урон, отрубает головы и выдает описание произошедшего
@@ -1071,30 +1096,24 @@ class Dragon(Fighter):
             else:
                 return ['dragon_wounded', 'dragon_heavily_wounded']
         else:
-            if 'unbreakable_scale' in self.spells:
-                # потеря заклинания защиты головы
-                self.spells.remove('unbreakable_scale')
-                return ['lost_head', 'lost_virtual']
-            else:
-                # жизни закончились, рубим голову (последнюю в списке)
-                lost_head = self.heads.pop()
-                # ставим её на первое место, чтобы после объединения списков порядок голов не изменился
-                self.dead_heads.insert(0, lost_head)
-                # потеря головы, если головы закончились - значит смертушка пришла
-                if self.heads:
-                    return ['lost_head', 'lost_' + lost_head]
-                else:
-                    self.die()
-                    return ['dragon_dead']
+            return self.decapitate()
 
     @property
     def injuries(self):
+        """ Количество ран дракона
+        0 - дракон не ранен
+        >0 - ранен
+        :rtype: int
+        :return: Количество ран дракона
+        """
+        # TODO: заменить "магическое" число 2
         return 2 - self.health
 
     @property
     def age(self):
-        """
-        Возраст дракона. integer
+        """ Возраст дракона.
+        :rtype: int
+        :return: Возраст дракона
         """
         return self._age
 

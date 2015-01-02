@@ -203,9 +203,8 @@ thief_abilities = Container(
             "name": u"Ловкач",
             "description": u"Не имеет шанса разбудить дракона",
             "provide": []
-        }
-    }
-)
+        },
+    })
 
 thief_items = Container(
     "thief_items",
@@ -280,12 +279,14 @@ thief_items_cursed = Container(
             "name": u"Дырявый мешок",  # Applied
             "cursed": True,
             "description": u"Вор не уносит никаких сокровищ",
-            "fails": []},
+            "fails": []
+        },
         "enchanted_dagger": {
             "name": u"Проклятый кинжал",  # Applied
             "cursed": True,
             "description": u"Автоматический успех обычных стражей",
-            "fails": ["regular_guards"]},
+            "fails": ["regular_guards"]
+        },
         "ring_of_invisibility": {
             "name": u"Кольцо мерцания",  # Applied
             "cursed": True,
@@ -312,9 +313,8 @@ thief_items_cursed = Container(
             "description": u"Вор зажаривается насмерть, если идет в ледяное логово",
             "fails": ["coldproof"],
             "provide": ["coldproof"]
-        }
-    }
-)
+        },
+    })
 
 thief_titles = [
     u"Мародер",
@@ -394,6 +394,7 @@ knight_abilities = Container(
             "modifiers": ["swimming", "flight", "alpinism"]
         },
         "liberator": {
+            # Implemented at Knight._ability_modifiers
             "name": u"Освободитель",
             "description": u"+1 к защите за каждую крестьянку, "
                            u"+1 к атаке за каждую богатую и "
@@ -401,6 +402,7 @@ knight_abilities = Container(
             "modifiers": []
         },
         "firstborn": {
+            # Implemented at Knight.__init__
             "name": u"Первенец",
             "description": u"Получает 2 шмотки сразу со старта",
             "modifiers": []
@@ -423,6 +425,7 @@ knight_items = Container(
     {
         # Нагрудники
         "basic_vest": {
+            "id": "basic_vest",
             "name": u"Дубовая броня",
             "description": u"Не дает преимуществ",
             "type": "vest",
@@ -430,6 +433,7 @@ knight_items = Container(
             "modifiers": []
         },
         "glittering_vest": {
+            "id": "glittering_vest",
             "name": u"Сверкающий доспех",
             "description": u"+2 к защите",
             "type": "vest",
@@ -437,6 +441,7 @@ knight_items = Container(
             "modifiers": ['def_up', 'def_up']
         },
         "gold_vest": {
+            "id": "gold_vest",
             "name": u"Золочёный доспех",
             "description": u"1 верная защита",
             "type": "vest",
@@ -444,7 +449,9 @@ knight_items = Container(
             "modifiers": ['sdef_up']
         },
         "magic_vest": {
-            "name": u"Волшебный доспех",  # TODO: implement
+            # Implemented at Knight.enchant_equip
+            "id": "magic_vest",
+            "name": u"Волшебный доспех",
             "description": u"защита от одного типа элементов",
             "type": "vest",
             "basic": False,
@@ -452,6 +459,7 @@ knight_items = Container(
         },
         # Копья
         "basic_spear": {
+            "id": "basic_spear",
             "name": u"Деревянное копье",
             "description": u"Не дает преимуществ",
             "type": "spear",
@@ -459,6 +467,7 @@ knight_items = Container(
             "modifiers": []
         },
         "blued_spear": {
+            "id": "blued_spear",
             "name": u"Вороненое копье",
             "description": u"+2 к атаке",
             "type": "spear",
@@ -466,6 +475,7 @@ knight_items = Container(
             "modifiers": ['atk_up', 'atk_up']
         },
         "spear_with_scarf": {
+            "id": "spear_with_scarf",
             "name": u"Копье с шарфом",
             "description": u"1 верная атака",
             "type": "spear",
@@ -473,6 +483,8 @@ knight_items = Container(
             "modifiers": ['satk_up']
         },
         "dragonslayer_spear": {
+            # implemented at Knight._item_modifiers and battle_action
+            "id": "dragonslayer_spear",
             "name": u"Копьё-драконобой",  # TODO: implement
             "description": u"+1 к атаке, если дракон ранен он вместо этого сразу теряет голову",
             "type": "spear",
@@ -481,6 +493,7 @@ knight_items = Container(
         },
         # Мечи
         "basic_sword": {
+            "id": "basic_sword",
             "name": u"Деревянный меч",
             "description": u"Не дает преимуществ",
             "type": "sword",
@@ -488,6 +501,7 @@ knight_items = Container(
             "modifiers": []
         },
         "glittering_sword": {
+            "id": "glittering_sword",
             "name": u"Сияющий клинок",
             "description": u"+2 к атаке",
             "type": "sword",
@@ -495,6 +509,7 @@ knight_items = Container(
             "modifiers": ['atk_up', 'atk_up']
         },
         "lake_woman_sword": {
+            "id": "lake_woman_sword",
             "name": u"Клинок озёрной девы",
             "description": u"1 верная атака",
             "type": "sword",
@@ -502,6 +517,7 @@ knight_items = Container(
             "modifiers": ['satk_up']
         },
         "flameberg_sword": {
+            "id": "flameberg_sword",
             "name": u"Пылающий фламберг",
             "description": u"2 верных атаки огнём",
             "type": "sword",
@@ -509,6 +525,7 @@ knight_items = Container(
             "modifiers": ['sfatk_up', 'sfatk_up']
         },
         "icecracker_sword": {
+            "id": "icecracker_sword",
             "name": u"Ледоруб-жыдобой ^_^",
             "description": u"2 верных атаки льдом",
             "type": "sword",
@@ -516,6 +533,7 @@ knight_items = Container(
             "modifiers": ['siatk_up', 'siatk_up']
         },
         "thunderer_sword": {
+            "id": "thunderer_sword",
             "name": u"Меч-громобой",
             "description": u"2 верных атаки молнией",
             "type": "sword",
@@ -524,6 +542,7 @@ knight_items = Container(
         },
         # Щиты
         "basic_shield": {
+            "id": "basic_shield",
             "name": u"Деревянный щит",
             "description": u"Не дает преимуществ",
             "type": "shield",
@@ -531,6 +550,7 @@ knight_items = Container(
             "modifiers": []
         },
         "polished_shield": {
+            "id": "polished_shield",
             "name": u"Полированный щит",
             "description": u"+2 к защите",
             "type": "shield",
@@ -538,6 +558,8 @@ knight_items = Container(
             "modifiers": ['def_up', 'def_up']
         },
         "mirror_shield": {
+            # Implemented at Knight._item_modifiers
+            "id": "mirror_shield",
             "name": u"Зерцальный щит",
             "description": u"2 верных защиты, если у дракона есть дыхание",
             "type": "shield",
@@ -546,6 +568,7 @@ knight_items = Container(
         },
         # Кони
         "basic_horse": {
+            "id": "basic_horse",
             "name": u"Деревянная лошадка",
             "description": u"Не дает преимуществ",
             "type": "horse",
@@ -553,6 +576,7 @@ knight_items = Container(
             "modifiers": []
         },
         "white_horse": {
+            "id": "white_horse",
             "name": u"Белый конь",
             "description": u"+1 к атаке, +1 к защите",
             "type": "horse",
@@ -560,6 +584,7 @@ knight_items = Container(
             "modifiers": ['atk_up', 'def_up']
         },
         "pegasus": {
+            "id": "pegasus",
             "name": u"Пегас",
             "description": u"даёт полёт",
             "type": "horse",
@@ -567,6 +592,7 @@ knight_items = Container(
             "modifiers": ['flight']
         },
         "firehorse": {
+            "id": "firehorse",
             "name": u"Конь-огонь",
             "description": u"даёт альпинизм и защиту от огня",
             "type": "horse",
@@ -574,6 +600,7 @@ knight_items = Container(
             "modifiers": ['alpinism', 'fire_immunity']
         },
         "sivka": {
+            "id": "sivka",
             "name": u"Сивка-Бурка",
             "description": u"даёт альпинизм и защиту от холода",
             "type": "horse",
@@ -581,6 +608,7 @@ knight_items = Container(
             "modifiers": []
         },
         "kelpie": {
+            "id": "kelpie",
             "name": u"Келпи",
             "description": u"игнорирует недоступность морского логова",
             "type": "horse",
@@ -588,6 +616,7 @@ knight_items = Container(
             "modifiers": ['swimming']
         },
         "griffon": {
+            "id": "griffon",
             "name": u"Боевой грифон",
             "description": u"+1 к атаке, +1 к защите, даёт полёт",
             "type": "horse",
@@ -596,6 +625,7 @@ knight_items = Container(
         },
         # Спутники
         "basic_follower": {
+            "id": "basic_follower",
             "name": u"Деревянный спутник",
             "description": u"Не дает преимуществ",
             "type": "follower",
@@ -603,6 +633,7 @@ knight_items = Container(
             "modifiers": []
         },
         "squire": {
+            "id": "squire",
             "name": u"Ловкий оруженосец",
             "description": u"даёт \"альпинизм\"",
             "type": "follower",
@@ -610,6 +641,7 @@ knight_items = Container(
             "modifiers": ['alpinism']
         },
         "veteran": {
+            "id": "veteran",
             "name": u"Старый ветеран",
             "description": u"даёт 1 верную защиту",
             "type": "follower",
@@ -617,6 +649,7 @@ knight_items = Container(
             "modifiers": ['sdef_up']
         },
         "pythoness": {
+            "id": "pythoness",
             "name": u"Прорицательница",
             "description": u"даёт 1 верную атаку",
             "type": "follower",
@@ -624,12 +657,13 @@ knight_items = Container(
             "modifiers": ['satk_up']
         },
         "thaumaturge": {
+            "id": "thaumaturge",
             "name": u"Кудесник",
             "description": u"даёт 1 верную атаку и 1 верную защиту",
             "type": "follower",
             "basic": False,
             "modifiers": ['satk_up', 'sdef_up']
-        }
+        },
     }
 )
 
@@ -1281,25 +1315,25 @@ special_places = {
 }
 
 quest_list = (  # TODO: внести все выполнимые на сегодня квесты
-    {  # только для дебага, не используется
-       'min_lvl': 25,  # минимальный уровень дракона для получения квеста
-       'max_lvl': 25,  # максимальный уровень дракона для получения квеста
-       'text': u"Проживи 5 лет.",  # текст квеста
-       'fixed_time': 25,  # количество лет на выполнение квеста, не зависящее от уровня дракона
-       'task': 'autocomplete',
-       # ключевое слово для описания задачи, 'autocomplete' - задача выполняется автоматически
+    {   # только для дебага, не используется
+        'min_lvl': 25,  # минимальный уровень дракона для получения квеста
+        'max_lvl': 25,  # максимальный уровень дракона для получения квеста
+        'text': u"Проживи 5 лет.",  # текст квеста
+        'fixed_time': 25,  # количество лет на выполнение квеста, не зависящее от уровня дракона
+        # ключевое слово для описания задачи, 'autocomplete' - задача выполняется автоматически
+        'task': 'autocomplete',
     },
-    {
+    {   # Породить любое потомство.
         'min_lvl': 1,  # минимальный уровень дракона для получения квеста
         'max_lvl': 1,  # максимальный уровень дракона для получения квеста
         'text': u"Породить любое потомство.",  # текст квеста
         'fixed_time': 5,  # количество лет на выполнение квеста, не зависящее от уровня дракона
         'task': 'offspring',  # ключевое слово для описания задачи, 'offspring' - породить потомство
-        'task_requirements': ('free_spawn', 'educated_spawn')
         # кортеж с требованиями, для выполнения задания нужно выполнить любое из них,
         # 'free_spawn' - потомство, рождённое на воле, 'educated_spawn' - воспитанное потомство
+        'task_requirements': ('free_spawn', 'educated_spawn')
     },
-    {
+    {   # Набрать дурной славы (уровень 2)
         'min_lvl': 2,  # минимальный уровень дракона для получения квеста
         'max_lvl': 2,  # максимальный уровень дракона для получения квеста
         # текст квеста, {0} будет заменён на требуемый уровень
@@ -1309,7 +1343,7 @@ quest_list = (  # TODO: внести все выполнимые на сегод
         'task': 'reputation',
         'fixed_threshold': 1,  # 'fixed_'+ ключевое слово для задания фиксированного требуемого значения
     },
-    {
+    {   # Снизить боеспособность королевства.
         'min_lvl': 3,  # минимальный уровень дракона для получения квеста
         'max_lvl': 3,  # максимальный уровень дракона для получения квеста
         'text': u"Снизить боеспособность королевства.",  # текст квеста
@@ -1318,7 +1352,7 @@ quest_list = (  # TODO: внести все выполнимые на сегод
         'task': 'poverty',
         'fixed_threshold': 1,  # 'fixed_'+ ключевое слово для задания фиксированного требуемого значения
     },
-    {
+    {   # Переселиться в приличное логово, сделать там любое улучшение, завести слуг и охрану.
         # минимальный уровень дракона для получения квеста
         'min_lvl': 4,
         # максимальный уровень дракона для получения квеста
@@ -1342,7 +1376,7 @@ quest_list = (  # TODO: внести все выполнимые на сегод
             ('poison_guards', 'regular_guards', 'elite_guards')
         )
     },
-    {
+    {   # Поймать вора или одолеть рыцаря в собственном логове.
         'min_lvl': 5,  # минимальный уровень дракона для получения квеста
         'max_lvl': 5,  # максимальный уровень дракона для получения квеста
         'text': u"Поймать вора или одолеть рыцаря в собственном логове.",  # текст квеста
@@ -1351,7 +1385,7 @@ quest_list = (  # TODO: внести все выполнимые на сегод
         # кортеж с требованиями, нужно либо 'thief_killer' - поймать вора, либо 'knight_killer' - убить рыцаря
         'task_requirements': ('thief_killer', 'knight_killer',),
     },
-    {
+    {   # Набрать дурной славы (уровни 6-11)
         'min_lvl': 6,  # минимальный уровень дракона для получения квеста
         'max_lvl': 11,  # максимальный уровень дракона для получения квеста
         # текст квеста, {0} будет заменён на требуемый уровень
@@ -1363,7 +1397,7 @@ quest_list = (  # TODO: внести все выполнимые на сегод
         # число, на которое нужно умножить уровень дракона, чтобы получить необходимый уровень
         'lvlscale_threshold': 1,
     },
-    {
+    {   # Набрать сокровищь
         'min_lvl': 6,  # минимальный уровень дракона для получения квеста
         'max_lvl': 11,  # максимальный уровень дракона для получения квеста
         # текст квеста, {0} будет заменён на требуемый уровень
@@ -1374,7 +1408,7 @@ quest_list = (  # TODO: внести все выполнимые на сегод
         # число, на которое нужно умножить уровень дракона, чтобы получить необходимый уровень
         'lvlscale_threshold': 1000,
     },
-    {
+    {   # Подарок владычице
         'min_lvl': 6,  # минимальный уровень дракона для получения квеста
         'max_lvl': 11,  # максимальный уровень дракона для получения квеста
         # текст квеста, {0} будет заменён на требуемый уровень
@@ -1384,7 +1418,7 @@ quest_list = (  # TODO: внести все выполнимые на сегод
         # число, на которое нужно умножить уровень дракона, чтобы получить необходимый уровень
         'lvlscale_threshold': 100,
     },
-    {
+    {   # Породить потомка от великанши.
         'min_lvl': 6,  # минимальный уровень дракона для получения квеста
         'max_lvl': 11,  # максимальный уровень дракона для получения квеста
         'text': u"Породить потомка от великанши.",  # текст квеста
@@ -1396,7 +1430,7 @@ quest_list = (  # TODO: внести все выполнимые на сегод
         # значение - ключ для game.unique, который добавится после выполнения
         'unique': 'giantess'
     },
-    {
+    {   # Разорить рощу альвов
         'min_lvl': 6,  # минимальный уровень дракона для получения квеста
         'max_lvl': 11,  # максимальный уровень дракона для получения квеста
         'text': u"Разорить священную рощу альвов.",  # текст квеста
@@ -1410,7 +1444,7 @@ quest_list = (  # TODO: внести все выполнимые на сегод
         # значение - ключ для game.unique, который добавится после выполнения
         'unique': 'ravage_sacred_grove'
     },
-    {
+    {   # Захватить столицу
         'min_lvl': 12,  # минимальный уровень дракона для получения квеста
         'max_lvl': 20,  # максимальный уровень дракона для получения квеста
         'text': u"Собрать армию тьмы и захватить столицу королевства для Темной Госпожи.",  # текст квеста
@@ -1675,7 +1709,7 @@ loot = {
         'diamond',
         'black_diamond',
         'rose_diamond'
-    ]
+    ],
 }
 
 # список специальных мест людей
@@ -1780,5 +1814,5 @@ dark_army = {
 
         u"За долгие годы подготовки Армия Тьмы не просто воспаряла, но и стала могущественнее чем когда либо. "
         u"Войско Вольных Народов будет смято и растоптано этой неодолимой силой."
-    ]
+    ],
 }

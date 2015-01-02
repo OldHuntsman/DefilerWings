@@ -87,7 +87,6 @@ class Thief(Sayer, Mortal):
         Вор пытается урасть что-нибудь.
         :param lair: Логово из которого происходит кража
         """
-        lair = lair
         thief = self
 
         if lair is None:  # Нет логова, нет краж. Вообще такого быть не должно.
@@ -197,14 +196,6 @@ class Thief(Sayer, Mortal):
             else:
                 thief.event("receive_no_item")
         return
-
-    @staticmethod
-    def check_luck(luck):
-        # TODO: Для чего вообще нужен этот метод?
-        """
-        Unused
-        """
-        pass
 
     def die(self, reason=None):
         """
