@@ -7,25 +7,11 @@ label lb_location_lair_main:
         'Осмотреть дракона':
             # чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
             game.dragon.third "[game.dragon.description]"
-        'Сотворить заклинание' if game.dragon.energy() > 0 and game.dragon.mana > 0:
-            python:
-                spells_menu = []
-                for spell in data.spell_list.keys():
-                    # добавляем в список только актуальные заклинания
-                    if spell not in game.dragon.spells and (spell is not 'spellbound_trap' or 'magic_traps' not in game.lair.upgrades):
-                        spells_menu.append((data.spell_list_rus[spell], spell))
-                spells_menu.append(('Вернуться в логово', 'back'))
-                spell_name = renpy.display_menu(spells_menu)
-                
-            if spell_name == 'back':
-                jump lb_location_lair_main
-            else:
-                python: 
-                    game.dragon.add_effect(spell_name)
+        'Сотворить заклинание' if game.dragon.bloodiness < 5 and game.dragon.mana > 0:
+            if game.choose_spell(u"Вернуться в логово"):
+                python:
                     game.dragon.drain_mana()
                     game.dragon.gain_rage()
-                if spell_name == 'spellbound_trap':
-                    $ game.lair.upgrades.add('magic_traps', deepcopy(data.lair_upgrades['magic_traps']))
 
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             python:

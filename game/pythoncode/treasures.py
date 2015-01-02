@@ -2103,7 +2103,8 @@ class Treasury(store.object):
         :return: описание массы в сокровищнице
         """
         if mass > 0:
-            return data.get_description_by_count(treasures_mass_description_rus[description_key], mass)
+            from data import get_description_by_count
+            return get_description_by_count(treasures_mass_description_rus[description_key], mass)
         else:
             return u""
 
