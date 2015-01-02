@@ -428,7 +428,7 @@ class Game(store.object):
         """
         Выводит меню для выбора заклинания
         :param back_message: название для пункта меню с отказом от выбора.
-        :return: При выборе какого-либо умения кастует его и возвращает True,
+        :return: При выборе какого-либо заклинания кастует его и возвращает True,
                  при отказе от выбора возвращает False.
         """
         spells_menu = []
@@ -636,17 +636,17 @@ class Girl(Sayer):
         self.pregnant = 0
         # Репродуктивное качество женщины.
         # Если коварство дракона превышает её репродуктивное качество, то отродье будет продвинутым. Иначе базовым.
-        self.quality = 0
+        self.quality = girls_data.girls_info[girl_type]['magic_rating']
         # генерация имени
         # Если указано имя берем имя
         if girl_type + '_first' in girls_data.girls_names:
-            self.game.girl.name = random.choice(girls_data.girls_names[girl_type + '_first'])
+            self.name = random.choice(girls_data.girls_names[girl_type + '_first'])
             # Если есть фамилия, прибавляем к имени фамилию
             if girl_type + '_last' in girls_data.girls_names:
-                self.game.girl.name += " " + random.choice(girls_data.girls_names[girl_type + '_last'])
+                self.name += " " + random.choice(girls_data.girls_names[girl_type + '_last'])
         # Не найти имя для девушки, считаем ее неизвестной
         else:
-            self.game.girl.name = 'Неизвестная Красавица'
+            self.name = 'Неизвестная Красавица'
         self.jailed = False  # была ли уже в тюрьме, пригодится для описания
         self.treasure = []
 
