@@ -1234,6 +1234,8 @@ modifiers = {
     'slatk_up': Modifier(attack=('lightning', (0, 1))),  # 1 верная атака молнией
     'def_up': Modifier(protection=('base', (1, 0))),  # 1 защита
     'sdef_up': Modifier(protection=('base', (0, 1))),  # 1 верная защита
+    'decapitator': Modifier(),  # Обезглавливатель, при наличии этого модификатора у врага дракон вместо получения урона
+                                # сразу теряет одну голову
     # Knight-specific
     'fearless': Modifier(),
     # Dragon-specific
