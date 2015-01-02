@@ -53,6 +53,10 @@ label lb_test_examples:
             "Начал говорить"
             while True:
                 "Продолжаю говорить"
+        "Девушка":
+            $ girl = core.Girl(game_ref = game)
+            girl "Прямая речь"
+            girl.third "Косвенная речь"
         "Назад":
             return
     return

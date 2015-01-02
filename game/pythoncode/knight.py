@@ -35,12 +35,12 @@ class Knight(Fighter):
             if ab is not None and ab not in self.abilities:
                 self.abilities.add(ab, deepcopy(data.knight_abilities[ab]))
         self._add_equip_slots(["vest", "spear", "sword", "shield", "horse", "follower"])
-        self.equip(data.knight_items.basic_vest)
-        self.equip(data.knight_items.basic_spear)
-        self.equip(data.knight_items.basic_sword)
-        self.equip(data.knight_items.basic_shield)
-        self.equip(data.knight_items.basic_horse)
-        self.equip(data.knight_items.basic_follower)
+        self.equip(deepcopy(data.knight_items.basic_vest))
+        self.equip(deepcopy(data.knight_items.basic_spear))
+        self.equip(deepcopy(data.knight_items.basic_sword))
+        self.equip(deepcopy(data.knight_items.basic_shield))
+        self.equip(deepcopy(data.knight_items.basic_horse))
+        self.equip(deepcopy(data.knight_items.basic_follower))
         # Имплементация способности "Первенец"
         if 'firstborn' in self.abilities:
             # Добавляем две шмотки
@@ -83,7 +83,10 @@ class Knight(Fighter):
         return self._modifiers + self._ability_modifiers() + self._item_modifiers()
 
     def _ability_modifiers(self):
-        # Возвращает список модификторов из способностей
+        """Возвращает список модификторов из способностей
+        :rtype: list
+        :return: Cписок модификторов из способностей
+        """
         result = []
         for i in self.abilities:
             result.extend(self.abilities[i].modifiers)
@@ -100,6 +103,16 @@ class Knight(Fighter):
                     result += ['atk_up']
                 elif not girls_data.girls_info[girl.type]['giantess']:
                     result += ['atk_up', 'def_up']
+        return result
+
+    def _item_modifiers(self):
+        """Возвращает список модификторов от вещей
+        :rtype : list
+        :return: Cписок модификторов от вещей
+        """
+        result = []
+        for i in self.items:
+            result.extend(self.items[i].modifiers)
         if 'mirror_shield' in self.items and (
             'red' in self._gameRef.dragon.heads
             or 'white' in self._gameRef.dragon.heads
@@ -111,14 +124,9 @@ class Knight(Fighter):
             or 'lightning_heart' in self._gameRef.dragon.spells
         ):
             result += ['sdef_up', 'sdef_up']
-
-        return result
-
-    def _item_modifiers(self):
-        # Возвращает список модификторов от вещей
-        result = []
-        for i in self.items:
-            result.extend(self.items[i].modifiers)
+        # В условии указано, что дракон не ранен, потому, что он "вместо" атаки теряет голову.
+        if 'dragonslayer_spear' in self.items and self._gameRef.dragon.injuries == 0:
+            result += ['atk_up']
         return result
 
     def attack(self):
@@ -130,9 +138,6 @@ class Knight(Fighter):
 
     def protection(self):
         p = super(Knight, self).protection()
-        if "liberator" in self.modifiers():
-            # Увеличиваем защиту в соответствии со списком женщин в логове
-            raise NotImplementedError
         p_base = list(p['base'])
         p_base[0] += self.power
         p['base'] = tuple(p_base)
@@ -140,7 +145,8 @@ class Knight(Fighter):
 
     @property
     def title(self):
-        """
+        """Текстовое представление 'звания' рыцаря.
+        :rtype : str
         :return: Текстовое представление 'звания' рыцаря.
         """
         try:
@@ -148,14 +154,14 @@ class Knight(Fighter):
         except:
             raise Exception(u"Недопустимое значение поля power")
 
-    def upgrade(self):
-        """
-        Метод вызвается если рыцать не пошел драться с драконом.
-        Добавляет новое снаряжение.
-        """
-        raise NotImplementedError
-
     def event(self, event_type, *args, **kwargs):
+        """
+
+        :type event_type: str
+        :param event_type: Строка-идентификатор события из data.knight_events
+        :return: None
+        :raise Exception: Генерируется исключение если событие не найдено.
+        """
         if event_type in data.knight_events:
             if data.knight_events[event_type] is not None:
                 call(data.knight_events[event_type], *args, knight=self, **kwargs)
@@ -163,21 +169,49 @@ class Knight(Fighter):
             raise Exception("Unknown event: %s" % event_type)
         return
 
-    def enchant_equip(self):
+    def enchant_equip(self, item=None):
         """
         Рыцарь готовится к бою улучшая шмот.
+        :type item: str
+        :param item: id новой вещи для рыцаря, ключ в словаре data.knight_items.
+            Если не указан, то будет выбрана не базовая вещь для слотав, в который экипирована базовая.
+        :rtype: None
         """
-        basic_types = [i for i in self.items if self.items[i].basic]  # Какой шмот у рыцаря базового типа
-        if len(basic_types) > 0:  # У рыцаря есть не улучшенный шмот
-            enchanted_type = random.choice(basic_types)
-            new_item = data.knight_items[
-                random.choice(data.knight_items.select([('type', enchanted_type), ("basic", False)]))]
-            self.equip(new_item)
-            self.last_received_item = new_item
-            self.event("receive_item", item=new_item)
+        # Вещь которую надеваем указана
+        if item is not None:
+            # Проверяем что такая вещь существует
+            if item not in data.knight_items:
+                raise Exception("Item %s not in data.knight_items")
+            new_item_id = item
+        # Вещь которую надеваем не указана, определяем что надеть
+        else:
+            basic_types = [i for i in self.items if self.items[i].basic]  # Какой шмот у рыцаря базового типа
+            if len(basic_types) > 0:  # У рыцаря есть не улучшенный шмот
+                enchanted_type = random.choice(basic_types)
+                new_item_id = random.choice(data.knight_items.select([('type', enchanted_type), ("basic", False)]))
+            # Все уже улучшено
+            else:
+                return
+        new_item = deepcopy(data.knight_items[new_item_id])
+        # Implementation of 'magic_vest' modifiers
+        if new_item_id == 'magic_vest':
+            random_element = random.choice([attack_type
+                                            for attack_type
+                                            in data.attack_types
+                                            if attack_type != 'base'])
+            new_item['modifiers'] += [random_element + '_imminity']
+        self.equip(new_item)
+        self.last_received_item = new_item
+        self.event("receive_item", item=new_item)
 
     @staticmethod
     def start_level(reputation=0):
+        """Начальный уровень рыцаря
+        :type reputation: int
+        :param reputation: Уровень дурная славы дракона. Чем больше, тем выше будет уровень рыцаря.
+        :rtype : int
+        :return: сумму (reputation + 3) бросков 1 к 3
+        """
         skill = 0
         for i in range(3 + reputation):
             if random.choice(range(3)) == 0:
@@ -185,6 +219,10 @@ class Knight(Fighter):
         return skill
 
     def fight_dragon(self):
+        """Рыцарь отправляется на схвату с драконом
+        :return: Результат битвы дракона с рыцарем. 'win'|'defeat'|'retreat'
+        :rtype: str
+        """
         retval = call("lb_fight", foe=self)
         if renpy.config.debug:
             self("knight post fight %s" % retval)

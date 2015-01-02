@@ -425,6 +425,12 @@ screen preferences:
 
                 textbutton _("Сброс сюжетной игры") action Game_Reset()
 
+            frame:
+                style_group "pref"
+                has vbox
+
+                textbutton _("Сброс свободной игры") action FreeGame_Reset()
+
         vbox:
             frame:
                 style_group "pref"
@@ -519,6 +525,10 @@ init -2:
         class Game_Reset(object):
             def __call__(self):
                 renpy.unlink_save("1-1")
+        class FreeGame_Reset(object):
+            def __call__(self):
+                renpy.unlink_save("1-3")
+
 
 ##############################################################################
 # Yes/No Prompt
