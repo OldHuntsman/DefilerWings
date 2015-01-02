@@ -16,13 +16,13 @@ init python:
     
 label start:
     python:
-        # Инициализируем game в начале игры, а не при инициализации. Для того чтобы
+        # Инициализируем game в начале игры, а не при инициализации. Для того чтобы она сохранялась.
         game = core.Game(adv_character=ADVCharacter, nvl_character=NVLCharacter)
         narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
     # Прокручиваем заставку.
     call screen sc_intro
     while not game.is_won or not game.is_lost:
-        # Если даркона нет выбираем его
+        # Если дракона нет выбираем его
         if game.dragon is None or game.dragon.is_dead:
             if not freeplay:
                 call lb_choose_dragon

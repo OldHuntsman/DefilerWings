@@ -125,8 +125,11 @@ class Knight(Fighter):
         ):
             result += ['sdef_up', 'sdef_up']
         # В условии указано, что дракон не ранен, потому, что он "вместо" атаки теряет голову.
-        if 'dragonslayer_spear' in self.items and self._gameRef.dragon.injuries == 0:
-            result += ['atk_up']
+        if 'dragonslayer_spear' in self.items:
+            if self._gameRef.dragon.injuries == 0:
+                result += ['atk_up']
+            else:
+                result += ['decapitator']
         return result
 
     def attack(self):
