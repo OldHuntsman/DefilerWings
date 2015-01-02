@@ -1,8 +1,7 @@
 ﻿#!/usr/bin/env python
 # coding=utf-8
 import random
-from knight import Knight
-from core import Dragon
+from core import Dragon, Enemy
 
 
 def calc_hit_def(hitdef):
@@ -24,6 +23,7 @@ def battle_action(dragon, foe):
     логика сражения.
     :type dragon: Dragon
     :param dragon: текущий дракон
+    :type foe: Enemy
     :param    foe: текущий противник
     :return: список, описывающий состояние боя
     """
@@ -64,8 +64,8 @@ def battle_action(dragon, foe):
     foe_hit = calc_hit_def(power)
     dragon_defence = calc_hit_def(dragon.protection())
     if foe_hit > dragon_defence:
-        # Если противник рыцарь и у него есть Копье-драконобой, то у раненого дракона отрубает голову.
-        if isinstance(foe, Knight) and dragon.injuries > 0 and foe.items['vest']['id'] == 'magic_vest':
+        # Если противник сразу обезглавливает дракона не наося ему ран.
+        if 'decapitator' in foe.modifiers():
             status.extend(dragon.decapitate())
         # А так просто наносим ранения.
         else:
