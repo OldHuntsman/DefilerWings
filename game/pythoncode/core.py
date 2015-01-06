@@ -742,12 +742,17 @@ class Fighter(Sayer, Mortal):
         :param dragon: ссылка на дракона, выступающего противником
         :return: текстовое описание боя
         """
+        insertion = {
+            'dragon_name': dragon.name,
+            'dragon_name_full': dragon.fullname,
+            'dragon_type': dragon.kind,
+        }
         desc_list = []  # список для возможных описаний момента боя
         curr_round = 100  # переменная для определения наимее использовавшегося описания
         # цикл по всем индексам списка self.descriptions
         for desc_i in range(len(self.descriptions)):
             # получаем список переменных для строки описания из списка
-            (require, desc_str, insertion, battle_round) = self.descriptions[desc_i]
+            (require, desc_str, battle_round) = self.descriptions[desc_i]
             # определяем подходит ли описание для текущего статуса
             desc_need = battle_round <= curr_round  # предварительно проверяем на количество использований
             for req in require:
@@ -757,20 +762,13 @@ class Fighter(Sayer, Mortal):
                     curr_round = battle_round  # выбираем наименьшее число использований описания
                     desc_list = []  # все предыдущие описания использовались чаще, очищаем список
                 # вставляем необходимые данные в описание
-                insert_list = []
-                for ins in insertion:
-                    if ins == 'foe_name':
-                        insert_list.append(self.name)
-                    elif ins == 'dragon_name':
-                        insert_list.append(dragon.name)
-                desc_str = desc_str.format(*insert_list)
+                desc_str = desc_str % insertion
                 # добавляем в список для описаний
-                desc_list.append([desc_str, desc_i])
+                desc_list.append((desc_str, desc_i))
         if desc_list:
             # выбираем случайное описание
-            dice = random.randint(0, len(desc_list) - 1)
-            desc = desc_list[dice]
-            self.descriptions[desc[1]][3] += 1  # увеличиваем число использований этого описания
+            desc = random.choice(desc_list)
+            self.descriptions[desc[1]][2] += 1  # увеличиваем число использований этого описания
             return desc[0]
         else:
             return status  # список описаний пуст, возвращаем информацию для дебага
