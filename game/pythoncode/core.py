@@ -1209,7 +1209,9 @@ class Enemy(Fighter):
         self.name = mob_data.mob[kind]['name']
         self.power = mob_data.mob[kind]['power']
         self.defence = mob_data.mob[kind]['defence']
-        self.descriptions = mob_data.mob[kind]['descriptions']
+        for description in mob_data.mob[kind]['descriptions']:
+            description.append(0)  # Число использований описания
+            self.descriptions.append(description)  # Добавляем в список
         self._modifiers = mob_data.mob[kind]['modifiers']
         self.abilities = []
         self.equipment = []
