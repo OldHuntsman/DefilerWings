@@ -2,6 +2,7 @@
 # coding=utf-8
 import random
 import renpy
+import core
 # import renpy.store as store
 store = renpy.store
 
@@ -516,33 +517,37 @@ metal_description_rus = {
         'he': u"серебряный",
         'she': u"серебряная",
         'it': u"серебряное",
-        'prepositional': u"серебряном",
         'they': u"серебряных",
+        'prepositional': u"серебряном",
+        'genitive' : u"серебра",
     },
     'gold': {
         'he': u"золотой",
         'she': u"золотая",
         'it': u"золотое",
-        'prepositional': u"золотом",
         'they': u"золотых",
+        'prepositional': u"золотом",
+        'genitive' : u"золота",
     },
     'mithril': {
         'he': u"мифрильный",
         'she': u"мифрильная",
         'it': u"мифрильное",
-        'prepositional': u"мифрильном",
         'they': u"мифрильных",
+        'prepositional': u"мифрильном",
+        'genitive' : u"мифрила",
     },
     'adamantine': {
         'he': u"адамантовый",
         'she': u"адамантовая",
         'it': u"адамантовое",
-        'prepositional': u"адамантовом",
         'they': u"адамантовых",
+        'prepositional': u"адамантовом",
+        'genitive' : u"адаманта",
     },
 }
 """словарь для изображений, ключ - тип культуры, значение - кортеж из вариантов изображений"""
-image_types = {
+image_types = { 
     'human': (
         'abstract_ornament', 'concentric_circles', 'round_dance', 'fire-breathing_dragon', 'flying_dragon',
         'wingless_dragon', 'snake_with_a_crown', 'winged_serpent', 'kokatriks', 'basilisk',
@@ -995,7 +1000,7 @@ image_description_rus = {
 """словарь для описания качества драгоценности,
  ключ - качество,
  значение - словарь с русским названием качества в разных родах"""
-quality_description_rus = {
+quality_description_rus = { 
     'rough': {
         'he': u"грубый ",
         'she': u"грубая ",
@@ -1462,17 +1467,17 @@ class Treasure(object):  # класс для сокровищ
         self.treasure_type = treasure_type
         self.base_price = treasure_types[self.treasure_type][0]
         self.gender = treasure_types[self.treasure_type][1]
-        self.metall = treasure_types[self.treasure_type][2]
-        self.nonmetall = treasure_types[self.treasure_type][3]
+        self.metal = treasure_types[self.treasure_type][2]
+        self.nonmetal = treasure_types[self.treasure_type][3]
         self.image = treasure_types[self.treasure_type][4]
         self.incrustable = treasure_types[self.treasure_type][5]
         self.decorable = treasure_types[self.treasure_type][6]
         self.alignment = alignment
         """дальше генерируем характеристики в зависимости от типа сокровища"""
         self.random_mod = random.randint(0, self.base_price * 10)
-        # размер 'common' - хак, чтобы не писалось "мелкими":
         if random.randint(1, 100) <= 50 and self.incrustable:
             self.spangled = generate_gem(1, {"size": ('common',)})[0]
+            # размер 'common' - хак, чтобы не писалось "мелкими":
         else:
             self.spangled = None
         if random.randint(1, 100) <= 15 and self.incrustable:
@@ -1484,7 +1489,7 @@ class Treasure(object):  # класс для сокровищ
         else:
             self.huge = None
 
-        def metalls_available():  # проверяем принадлежность к расе(из каких металов может быть сделано)
+        def metals_available():  # проверяем принадлежность к расе(из каких металов может быть сделано)
             if self.alignment == "human" or self.alignment == "cleric" or self.alignment == "knight":
                 return {"silver": (70,), "gold": (30,)}
             elif self.alignment == "elf" or self.alignment == "merman":
@@ -1493,25 +1498,21 @@ class Treasure(object):  # класс для сокровищ
                 return {"gold": (70,), "adamantine": (30,)}
 
         def material():
-            if self.metall and self.nonmetall:
+            if self.metal and self.nonmetal:
                 rnd = random.randint(1, 100)
                 if rnd > 50:
                     return weighted_select(material_types)
                 else:
-                    return weighted_select(metalls_available())
-            elif self.metall:
-                return weighted_select(metalls_available())
+                    return weighted_select(metals_available())
+            elif self.metal:
+                return weighted_select(metals_available())
             else:
                 return weighted_select(material_types)
 
         self.material = material()  # выбираем материал
-        if self.material in material_types:
-            self.mat_price = material_types[self.material][1]
-        else:
-            self.mat_price = metal_types[self.material]
 
         def decorate():
-            if self.decorable:  # todo: словарь, откуда будем брать варианты орнаментов
+            if self.decorable:
                 rnd = random.randint(1, 100)
                 if rnd <= 15:
                     rnd = random.randint(1, 100)
@@ -1529,10 +1530,6 @@ class Treasure(object):  # класс для сокровищ
         self.decoration = decorate()  # выбираем орнамент
         if self.image:
             self.decoration_image = random.choice(image_types[self.alignment])
-        if self.decoration is None:
-            self.dec_mod = 1
-        else:
-            self.dec_mod = 2  # равен двум если есть орнамент
 
         def q_choice():  # прокидываем качество вещи
             if self.alignment == "human" or self.alignment == "cleric" or self.alignment == "knight":
@@ -1544,7 +1541,7 @@ class Treasure(object):  # класс для сокровищ
                 return weighted_select(holder)
 
         self.quality = q_choice()
-        self.quality_mod = Treasure.quality_types[self.quality][1]
+        self.obtained = u""
 
     def incrustation(self, gem):  # метод для икрустации камней
         if not self.incrustable:
@@ -1562,17 +1559,69 @@ class Treasure(object):  # класс для сокровищ
                 self.huge = gem
             return
 
+    @property  # качество вещи
+    def quality(self):
+        return self._quality
+
+    @quality.setter
+    def quality(self, value):
+        self._quality = value
+        self.quality_mod = Treasure.quality_types[self._quality][1]
+
+    @property  # тип материала
+    def material(self):
+        return self._material
+
+    @material.setter
+    def material(self, value):
+        self._material = value
+        if self.material in material_types:
+            self.mat_price = material_types[self._material][1]
+        else:
+            self.mat_price = metal_types[self._material]
+
+    @property  # тип орнамента
+    def decoration(self):
+        return self._decoration
+
+    @decoration.setter
+    def decoration(self, value):
+        self._decoration = value
+        if value is None:
+            self.dec_mod = 1
+        else:
+            self.dec_mod = 2  # равен двум если есть орнамент
+
     @property  # цена вставленных камней
     def incrustation_cost(self):
         holder = 0
         if self.spangled is not None:
-            # из-за хака с размерами нужно поделить
+            # из-за хака с размерами нужно умножить на реальный размер и поделить на "хакнутый"
             holder += self.spangled.cost * Gem.size_dict['small'][1] // Gem.size_dict['common'][1]
         if self.inlaid is not None:
             holder += self.inlaid.cost
         if self.huge is not None:
             holder += self.huge.cost
         return holder
+
+    def craft_cost(self, base_cost, price_multiplier):  
+        """
+        Цена создания/покупки
+        :param base_cost: базовая стоимость работы (для ремесла)
+        :param price_multiplier: увеличение цены (для покупки, в процентах)
+        :return: созданная вещь либо None в случае отмены
+        """
+        price = self.cost * price_multiplier // 100
+        price += base_cost
+        if self.spangled:
+            price += base_cost
+        if self.inlaid:
+            price += base_cost
+        if self.huge:
+            price += base_cost
+        if self.decoration:
+            price += 2 * base_cost
+        return price
 
     @property
     def cost(self):  # цена сокровища
@@ -1600,8 +1649,8 @@ class Treasure(object):  # класс для сокровищ
                     quality_str, treasure_str, material_description_rus[self.material]['genitive'])
 
             if self.image:
-                desc_str += u", изображающая %s" % image_description_rus[self.decoration_image][
-                    'accusative']  # только изображение
+                desc_str += u", изображающая %s" % image_description_rus[self.decoration_image]['accusative']  
+                # только изображение
             else:
                 # добавляем различные украшения
                 enchant_list = []
@@ -1868,9 +1917,12 @@ class Treasury(store.object):
             else:
                 ingot.weight = self.metals[ingot_type]
             self.metals[ingot_type] -= ingot.weight  # вычитаем вес слитка из сокровищницы
+            if self.metals[ingot_type] == 0:
+                del self.metals[ingot_type]  # удаляем тип материала из списка сокровищницы
             return ingot
-        else:
-            return None
+        elif ingot_type in self.metals:
+            del self.metals[ingot_type]  # удаляем тип металла из списка сокровищницы
+        return None
 
     def take_material(self, material_name):
         """
@@ -1882,9 +1934,12 @@ class Treasury(store.object):
             material_param = material_name.split(';')  # парсим строку
             material = Material(*material_param)  # получаем экземпляр класса с нужными параметрами
             self.materials[material_name] -= 1  # вычитаем один материал из списка сокровищницы
+            if self.materials[material_name] == 0:
+                del self.materials[material_name]  # удаляем тип материала из списка сокровищницы
             return material
-        else:
-            return None
+        elif material_name in self.materials:
+            del self.materials[material_name]  # удаляем тип материала из списка сокровищницы
+        return None
 
     def take_gem(self, gem_name):
         """
@@ -1896,8 +1951,9 @@ class Treasury(store.object):
             gem = Gem(*gem_param)  # получаем экземпляр класса с нужными параметрами
             self.gems[gem_name] -= 1  # вычитаем один камень из списка сокровищницы
             return gem
-        else:
-            return None
+        elif gem_name in self.gems:
+            del self.gems[gem_name]  # удаляем тип камня из списка сокровищницы
+        return None
 
     def take_coin(self, coin_name, coin_count=1):
         """
@@ -2286,3 +2342,314 @@ class Treasury(store.object):
                 return self.salary_list
         else:
             return None
+
+    def check_gem_size(self, gem_size):
+        """
+        Функция для проверки есть ли в сокровищнице камень требуемого размера
+        :param gem_size: размер камня для проверки
+        :return: есть (True) или нет (False) в сокровищнице камень указанного размера
+        """
+        for gem_type in self.gems:
+            if gem_type.split(';')[1] == gem_size:
+                return True
+        return False
+
+    def available_materials(self, item_type):
+        """
+        Функция для проверки есть ли материал, из которого можно сделать вещь такого типа
+        :param item_type: тип вещи, который хочется смастерить
+        :return: список материалов, из которых можно сделать вещь
+        """
+        materials = []
+        if treasure_types[item_type][2]:
+            # вещь можно сделать из металла, добавляем доступный список металлов
+            materials += self.metals.keys()
+        if treasure_types[item_type][3]:
+            # вещь можно сделать из поделочного материала, добавляем доступный список материалов
+            for material_type in self.materials.keys():
+                # убираем повторы из-за возможной разницы в размерах поделочных материалов
+                material_name = material_type.split(';')[0]
+                if material_name not in materials:
+                    materials.append(material_name)
+        return materials
+
+    def is_craft_possible(self, item_type):
+        """
+        Функция для проверки достаточно ли материалов в сокровищнице для изготовления вещи
+        :param item_type: тип вещи, который хочется смастерить
+        :return: достаточно (True) или нет (False) материалов для создания вещи
+        """
+        return self.available_materials(item_type)
+
+    def craft_select_item(self, is_crafting):
+        """
+        Функция для вывода меню выбора типа покупаемой/создаваемой вещи
+        :param is_crafting: создаётся из материалов дракона (True) или покупается (False)
+        :return: выбранный тип вещи либо None в случае отмены
+        """
+        from renpy.exports import call_screen
+        treasure_list = sorted(treasure_types.keys(), key=lambda treas: treasure_description_rus[treas]['nominative'])
+        # получаем список возможных сокровищ
+        if is_crafting:
+            # если идёт создание вещи - ставим первыми в списке вещи, которые можем сделать
+            craft_possible = []
+            craft_impossible = []
+            for treasure_type in treasure_list:
+                if self.is_craft_possible(treasure_type):
+                    craft_possible.append(treasure_type)
+                else:
+                    craft_impossible.append(treasure_type)
+            treasure_list = craft_possible + craft_impossible
+        menu_choice = None
+        row_count = 10  # количество кнопок с отображаемым типом сокровища для создания/покупки
+        position = 0  # начальное значение 
+        while menu_choice not in treasure_list:
+            # цикл для выбора типа сокровища для создания/покупки
+            if row_count < len(treasure_list):
+                menu_options = [(u"На предыдущую страницу", 'dec', True, position > 0)]
+            else:
+                menu_options = [(u"", 'blank', True, False)]
+            for i in xrange(position, min(position + row_count, len(treasure_list))):
+                treasure_type = treasure_list[i]
+                treas_name = treasure_description_rus[treasure_type]['nominative'].capitalize()
+                if is_crafting:
+                    menu_options.append((treas_name, treasure_type, True, self.is_craft_possible(treasure_type)))
+                else:
+                    menu_options.append((treas_name, treasure_type, True, True))
+            while len(menu_options) < row_count + 1:
+                # заполняем пустыми вариантами для выравнивания меню
+                menu_options += [(u"", 'blank', True, False)]
+            if row_count < len(treasure_list):
+                menu_options += [(u"На следующую страницу", 'inc', True, position + row_count < len(treasure_list))]
+            else:
+                menu_options += [(u"", 'blank', True, False)]
+            menu_options += [(u"Отмена", 'return', True, True)]
+            menu_choice = call_screen("dw_choice", menu_options)
+            if menu_choice == 'dec':
+                position -= row_count
+            elif menu_choice == 'inc':
+                position += row_count
+            elif menu_choice == 'return':
+                return None
+        return menu_choice
+
+    def craft_select_material(self, materials):
+        """
+        Функция для вывода меню выбора из списка
+        :param materials: список материалов для выбора
+        :return: выбранный вариант из списка либо None в случае отмены
+        """
+        from renpy.exports import call_screen
+        menu_choice = None
+        row_count = 10  # количество кнопок для отображения списка материалов
+        position = 0  # начальное значение 
+        while menu_choice not in materials:
+            # цикл для выбора типа материала
+            if row_count < len(materials):
+                menu_options = [(u"На предыдущую страницу", 'dec', True, position > 0)]
+            else:
+                menu_options = [(u"", 'blank', True, False)]
+            for i in xrange(position, min(position + row_count, len(materials))):
+                material_type = materials[i]
+                if material_type in metal_types.keys():
+                    # получаем название материала на русском либо из списка металлов, либо из списка поделочных материалов
+                    option_name = u"Из %s" % metal_description_rus[material_type]['genitive']
+                else:
+                    option_name = u"Из %s" % material_description_rus[material_type]['genitive']
+                menu_options.append((option_name, material_type, True, True))
+            while len(menu_options) < row_count + 1:
+                # заполняем пустыми вариантами для выравнивания меню
+                menu_options += [(u"", 'blank', True, False)]
+            if row_count < len(materials):
+                menu_options += [(u"На следующую страницу", 'inc', True, position + row_count < len(materials))]
+            else:
+                menu_options += [(u"", 'blank', True, False)]
+            menu_options += [(u"", 'blank', True, False)]
+            menu_choice = call_screen("dw_choice", menu_options)
+            if menu_choice == 'dec':
+                position -= row_count
+            elif menu_choice == 'inc':
+                position += row_count
+        return menu_choice
+
+    def craft_select_gem(self, gem_size):
+        """
+        Функция для вывода меню выбора камня для инкрустации из всех доступных вариантов
+        После выбора автоматически вставляет (или убирает) камень нужного размера
+        :param gem_size: размер камня для инкрустации
+        :return: камень для инкрустации
+        """
+        from renpy.exports import call_screen
+        menu_choice = None
+        row_count = 10  # количество кнопок для отображения списка материалов
+        position = 0  # начальное значение
+        gem_list = []
+        for gem_type in self.gems:
+            # добавляем камни требуемого размера в список
+            gem_params = gem_type.split(';')
+            if gem_params[1] == gem_size:
+                if gem_size == 'small':
+                    # изменение размера для хака описания
+                    gem_params[1] = 'common'
+                gem_list.append(Gem(*gem_params))
+        while menu_choice is None or (menu_choice == 'inc') or (menu_choice == 'dec'):
+            # цикл для выбора типа камня
+            if row_count < len(gem_list):
+                menu_options = [(u"На предыдущую страницу", 'dec', True, position > 0)]
+            else:
+                menu_options = [(u"", 'blank', True, False)]
+            for i in xrange(position, min(position + row_count, len(gem_list))):
+                menu_options.append((gem_list[i].description(custom=True).capitalize(), i, True, True))
+            while len(menu_options) < row_count + 1:
+                # заполняем пустыми вариантами для выравнивания меню
+                menu_options += [(u"", 'blank', True, False)]
+            if row_count < len(gem_list):
+                menu_options += [(u"На следующую страницу", 'inc', True, position + row_count < len(gem_list))]
+            else:
+                menu_options += [(u"", 'blank', True, False)]
+            menu_options += [(u"Без камня", 'clear', True, True)]
+            menu_choice = call_screen("dw_choice", menu_options)
+            if menu_choice == 'dec':
+                position -= row_count
+            elif menu_choice == 'inc':
+                position += row_count
+        if menu_choice == 'clear':
+            return None
+        else:
+            return gem_list[menu_choice]
+
+    def craft(self, is_crafting, quality, alignment, decor_type, base_cost, price_multiplier):
+        """
+        Функция для вывода меню покупки/создания вещи
+        :param is_crafting: создаётся из материалов дракона (True) или покупается (False)
+        :param quality: список для выбора возможного качества создаваемой вещи, 
+            может быть rough, common, skillfully, mastery, 
+            либо random для случайного выбора из этих вариантов с весовыми коэффициентами
+        :param alignment: список для выбора возможного стиля создаваемой вещи, 
+            может быть human, knight, cleric, elf, dwarf, merman,
+            либо random для случайного выбора из этих вариантов
+        :param decor_type: список для выбора возможного типа украшения создаваемой вещи,     
+            может быть incuse, engrave, etching, carving,
+            либо random для случайного выбора из этих вариантов,
+            либо None вместо списка, если декорирование невозможно
+        :param base_cost: базовая стоимость работы (для ремесла)
+        :param price_multiplier: увеличение цены (для покупки, в процентах)
+        :return: созданная вещь либо None в случае отмены
+        """
+        from renpy.exports import call_screen
+        treasure_type = self.craft_select_item(is_crafting)
+        if treasure_type is None:
+            return None
+        if 'random' in alignment:
+            alignment = image_types.keys()
+        alignment = random.choice(alignment)
+        # случайный выбор стиля вещи из списка
+        item = Treasure(treasure_type, alignment)
+        if 'random' in quality or 'random' == quality:
+            # случайный выбор качества вещи
+            quality_list = (('rough', 25), ('common', 50), ('skillfully', 20), ('mastery', 10),)
+            quality = core.Game.weighted_random(quality_list)
+        else:
+            quality = random.choice(quality)
+        materials = self.available_materials(treasure_type)
+        item.material = self.craft_select_material(materials)
+        item.spangled = None
+        item.inlaid = None
+        item.huge = None
+        item.decoration = None
+        item.decoration_image = None
+        menu_choice = None
+        while menu_choice is not 'create':
+            menu_options = [(u"Отменить", 'return', True, True)]
+            treasure_name = treasure_description_rus[treasure_type]['nominative'].capitalize()
+            menu_options += [(treasure_name, treasure_type, True, False)]
+            # тип вещи - не может быть изменен
+            if item.material in metal_types.keys():
+                material_name = u"из %s" % metal_description_rus[item.material]['genitive']
+            else:
+                material_name = u"из %s" % material_description_rus[item.material]['genitive']
+            menu_options += [(material_name, 'material', True, True)]
+            # материал вещи
+            if treasure_types[treasure_type][5]:
+                # проверка на возможность инкрустации
+                if item.spangled:
+                    spangled_description = decoration_description_rus['spangled'][treasure_types[treasure_type][1]]
+                    spangled_description += u" " + item.spangled.description(True, 'ablative', 'they')
+                    menu_options += [(spangled_description, 'spangled', True, True)]
+                else:
+                    menu_options += [(u"без блёсток", 'spangled', True, not is_crafting or self.check_gem_size('small'))]
+                if item.inlaid:
+                    inlaid_description = decoration_description_rus['inlaid'][treasure_types[treasure_type][1]]
+                    inlaid_description += u" " + item.inlaid.description(True, 'ablative', 'they')
+                    menu_options += [(inlaid_description, 'inlaid', True, True)]
+                else:
+                    menu_options += [(u"без инкрустации", 'inlaid', True, not is_crafting or self.check_gem_size('common'))]
+                if item.huge:
+                    if item.huge.g_type == 'pearl' or item.huge.g_type == 'black_pearl':
+                        gem_gender = 'she'
+                    else:
+                        gem_gender = 'he'
+                    huge_description = u"c " + item.huge.description(True, 'ablative', gem_gender)
+                    menu_options += [(huge_description, 'huge', True, True)]
+                else:
+                    menu_options += [(u"без крупного камня", 'huge', True, not is_crafting or self.check_gem_size('large'))]
+            if decor_type and item.decorable:
+                if item.decoration:
+                    decor_image = decoration_description_rus['image'][image_description_rus[item.decoration_image]['gender']]
+                    decor_image += u" " + image_description_rus[item.decoration_image]['nominative']
+                else:
+                    decor_image = u"без изображения"
+                menu_options += [(decor_image, 'decoration', True, True)]
+            if is_crafting:
+                if item.craft_cost(base_cost, price_multiplier) > 0:
+                    price_msg = number_conjugation_rus(item.craft_cost(base_cost, price_multiplier), u"фартинг")
+                    craft_msg = u"Смастерить за %s (есть %s)" % (price_msg, self.money)
+                else:
+                    craft_msg = u"Смастерить"
+            else:
+                price_msg = number_conjugation_rus(item.craft_cost(base_cost, price_multiplier), u"фартинг")
+                craft_msg = u"Купить за %s (есть %s)" % (price_msg, self.money)
+            menu_options += [(craft_msg, 'create', True, item.craft_cost(base_cost, price_multiplier) <= self.money)]
+            menu_choice = call_screen("dw_choice", menu_options)
+            # показ меню
+            if menu_choice == 'return':
+                return None
+            elif menu_choice == 'material':
+                item.material = self.craft_select_material(materials)
+            elif menu_choice == 'spangled':
+                item.spangled = self.craft_select_gem('small')
+            elif menu_choice == 'inlaid':
+                item.inlaid = self.craft_select_gem('common')
+            elif menu_choice == 'huge':
+                item.huge = self.craft_select_gem('large')
+            elif menu_choice == 'decoration':
+                menu_options = [(u"Украсить изображением", 'yes', True, True)]
+                menu_options += [(u"Без изображения", 'no', True, True)]
+                menu_choice = call_screen("dw_choice", menu_options)
+                if menu_choice == 'yes':
+                    item.decoration_image = random.choice(image_types[item.alignment])
+                    if item.material in material_types:
+                        item.decoration = 'carving'
+                    else:
+                        item.decoration = weighted_select(Treasure.decorate_types)
+                else:
+                    item.decoration = None
+                    item.decoration_image = None
+        self.money -= item.craft_cost(base_cost, price_multiplier)
+        if item.material in material_types:
+            material = None
+            materials_size = sorted(Material.size_dict.keys(), key=lambda mat_size: Material.size_dict[mat_size][1]) 
+            # сортировка по размеру, т.к. дракон жадный - зачем отдавать большой кусок, если можно сделать из любого?
+            for material_size in materials_size:
+                # ищем из какого бы куска изготовить вещь
+                if not material:
+                    material = self.take_material(item.material + u";" + material_size)
+        else:
+            self.take_ingot(item.material)
+        if item.spangled:
+            self.take_gem(item.spangled.g_type + u';small;' + item.spangled.cut)
+        if item.inlaid:
+            self.take_gem(item.inlaid.g_type + u';common;' + item.inlaid.cut)
+        if item.huge:
+            self.take_gem(item.huge.g_type + u';large;' + item.huge.cut)
+        return item
