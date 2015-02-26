@@ -746,11 +746,14 @@ class Fighter(Sayer, Mortal):
             'dragon_name': dragon.name,
             'dragon_name_full': dragon.fullname,
             'dragon_type': dragon.kind,
+            'foe_name': self.name,
         }
         desc_list = []  # список для возможных описаний момента боя
         curr_round = 100  # переменная для определения наимее использовавшегося описания
         # цикл по всем индексам списка self.descriptions
         for desc_i in range(len(self.descriptions)):
+            if len(self.descriptions[desc_i]) > 3:  # ДЕБАГ!
+                return self.descriptions[desc_i]
             # получаем список переменных для строки описания из списка
             (require, desc_str, battle_round) = self.descriptions[desc_i]
             # определяем подходит ли описание для текущего статуса
@@ -1001,6 +1004,9 @@ class Dragon(Fighter):
         wings = self.wings
         paws = self.paws
         heads = len(self.heads)
+        # Защита от ошибок в случае мёртвого дракона
+        if heads == 0:
+            return u"останки дракона"
         if wings == 0:
             if heads == 1:
                 if paws == 0:
@@ -1210,9 +1216,11 @@ class Enemy(Fighter):
         self.power = mob_data.mob[kind]['power']
         self.defence = mob_data.mob[kind]['defence']
         for description in mob_data.mob[kind]['descriptions']:
-            description.append(0)  # Число использований описания
-            self.descriptions.append(description)  # Добавляем в список
-        self._modifiers = mob_data.mob[kind]['modifiers']
+            descript = deepcopy(description)  # Создаём новый объект для описания
+            descript.append(0)  # Число использований описания
+            self.descriptions.append(descript)  # Добавляем в список
+        if 'modifiers' in mob_data.mob[kind]:
+            self._modifiers = mob_data.mob[kind]['modifiers']
         self.abilities = []
         self.equipment = []
         self.bg = '' "img/scene/fight/%s.png" % mob_data.mob[kind]['image']
