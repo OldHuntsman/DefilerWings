@@ -2373,13 +2373,17 @@ class Treasury(store.object):
                     materials.append(material_name)
         return materials
 
-    def is_craft_possible(self, item_type):
+    def is_craft_possible(self, item_type, alignment):
         """
         Функция для проверки достаточно ли материалов в сокровищнице для изготовления вещи
         :param item_type: тип вещи, который хочется смастерить
         :return: достаточно (True) или нет (False) материалов для создания вещи
         """
-        return self.available_materials(item_type)
+        craft_possible = self.available_materials(item_type)
+        if treasure_types[item_type][4]:
+            # если сам предмет - изображение - нужен какой-то стиль
+            craft_possible = craft_possible and alignment
+        return craft_possible
 
     def craft_select_item(self, is_crafting):
         """
@@ -2452,7 +2456,7 @@ class Treasury(store.object):
             for i in xrange(position, min(position + row_count, len(materials))):
                 material_type = materials[i]
                 if material_type in metal_types.keys():
-                    # получаем название материала на русском либо из списка металлов, либо из списка поделочных материалов
+                    # получаем название материала на русском
                     option_name = u"Из %s" % metal_description_rus[material_type]['genitive']
                 else:
                     option_name = u"Из %s" % material_description_rus[material_type]['genitive']
@@ -2518,20 +2522,17 @@ class Treasury(store.object):
         else:
             return gem_list[menu_choice]
 
-    def craft(self, is_crafting, quality, alignment, decor_type, base_cost, price_multiplier):
+    def craft(self, is_crafting=True, quality=['random'], alignment=['random'], base_cost=0, price_multiplier=100):
         """
         Функция для вывода меню покупки/создания вещи
         :param is_crafting: создаётся из материалов дракона (True) или покупается (False)
         :param quality: список для выбора возможного качества создаваемой вещи, 
             может быть rough, common, skillfully, mastery, 
             либо random для случайного выбора из этих вариантов с весовыми коэффициентами
-        :param alignment: список для выбора возможного стиля создаваемой вещи, 
+        :param alignment: список для выбора возможного стиля декорации создаваемой вещи, 
             может быть human, knight, cleric, elf, dwarf, merman,
-            либо random для случайного выбора из этих вариантов
-        :param decor_type: список для выбора возможного типа украшения создаваемой вещи,     
-            может быть incuse, engrave, etching, carving,
             либо random для случайного выбора из этих вариантов,
-            либо None вместо списка, если декорирование невозможно
+            либо None, если сделать орнамент невозможно
         :param base_cost: базовая стоимость работы (для ремесла)
         :param price_multiplier: увеличение цены (для покупки, в процентах)
         :return: созданная вещь либо None в случае отмены
@@ -2540,7 +2541,7 @@ class Treasury(store.object):
         treasure_type = self.craft_select_item(is_crafting)
         if treasure_type is None:
             return None
-        if 'random' in alignment:
+        if 'random' in alignment or not alignment:
             alignment = image_types.keys()
         alignment = random.choice(alignment)
         # случайный выбор стиля вещи из списка
@@ -2593,7 +2594,7 @@ class Treasury(store.object):
                     menu_options += [(huge_description, 'huge', True, True)]
                 else:
                     menu_options += [(u"без крупного камня", 'huge', True, not is_crafting or self.check_gem_size('large'))]
-            if decor_type and item.decorable:
+            if alignment and item.decorable:
                 if item.decoration:
                     decor_image = decoration_description_rus['image'][image_description_rus[item.decoration_image]['gender']]
                     decor_image += u" " + image_description_rus[item.decoration_image]['nominative']
