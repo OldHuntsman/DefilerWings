@@ -42,7 +42,7 @@ label lb_location_lair_main:
                     $ description += u"%s" % treasures.number_conjugation_rus(game.lair.treasury.dublon, u"дублон")
                     "[description]"
                     nvl clear
-                '[game.lair.treasury.jewelry_mass_description]' if game.lair.treasury.jewelry_mass > 0:
+                '[game.lair.treasury.jewelry_mass_description]' if len(game.lair.treasury.jewelry) > 0:
                     menu:
                         'Самая дорогая в сокровищнице':
                             "[game.lair.treasury.most_expensive_jewelry]"

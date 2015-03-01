@@ -1114,10 +1114,7 @@ def number_conjugation_rus(number, add_name, word_form='nominative', word_type=1
 
 
 def capitalize_first(string):
-    if string:
-        return string[0].upper() + string[1:]
-    else:
-        return string[:]
+    return string.capitalize()
 
 
 def weighted_select(d):
@@ -2101,6 +2098,22 @@ class Treasury(store.object):
             return -1
 
     @property
+    def cheapest_jewelry_index(self):
+        """
+        Индекс самого дешёвого украшения в сокровищнице
+        """
+        if len(self.jewelry):
+            cheapest_i = 0
+            cheapest_cost = self.jewelry[cheapest_i].cost
+            for jewelry_i in xrange(len(self.jewelry)):
+                if self.jewelry[jewelry_i].cost < cheapest_cost:
+                    cheapest_cost = self.jewelry[jewelry_i].cost
+                    cheapest_i = jewelry_i
+            return cheapest_i
+        else:
+            return -1
+
+    @property
     def most_expensive_jewelry_cost(self):
         """
         Стоимость самого дорогого украшения в сокровищнице
@@ -2130,17 +2143,11 @@ class Treasury(store.object):
         Описание самого дешёвого украшения в сокровищнице
         """
         if len(self.jewelry):
-            most_cheapest_i = 0
-            cheapest_cost = self.jewelry[most_cheapest_i].cost
-            for jewelry_i in xrange(len(self.jewelry)):
-                if self.jewelry[jewelry_i].cost < cheapest_cost:
-                    cheapest_cost = self.jewelry[jewelry_i].cost
-                    most_cheapest_i = jewelry_i
-            return u"%s.\nСтоимость украшения: %s.\n%s" % \
-                   (capitalize_first(self.jewelry[most_cheapest_i].description()),
-                    number_conjugation_rus(self.jewelry[most_cheapest_i].cost,
-                    u"фартинг"),
-                    self.jewelry[most_cheapest_i].obtained)
+            cheapest_i = self.cheapest_jewelry_index
+            return u"%s.\nСтоимость украшения: %s.\n%s" % (
+                capitalize_first(self.jewelry[cheapest_i].description()),
+                number_conjugation_rus(self.jewelry[cheapest_i].cost, u"фартинг"),
+                self.jewelry[cheapest_i].obtained)
         else:
             return u"Украшений в сокровищнице нет"
 

@@ -27,12 +27,6 @@ label lb_test_main:
                     tmp += "\n  Сила армии Тьмы: [game.army.force] (армия сильна на [game.army.power_percentage] %)."
                     narrator(tmp)
                 return
-            "Ремесло":
-                $ new_item = game.lair.treasury.craft(**data.craft_options['jeweler_buy'])
-                if new_item:
-                    $ test_description = new_item.description()
-                    "Изготовлено: [test_description]."
-                    $ game.lair.treasury.receive_treasures([new_item])
             "Примеры":
                 call lb_test_examples
             "Отладка":
