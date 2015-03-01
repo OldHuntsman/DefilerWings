@@ -28,7 +28,7 @@ label lb_test_main:
                     narrator(tmp)
                 return
             "Ремесло":
-                $ new_item = game.lair.treasury.craft(True, ['random'], ['random'], 0, 100)
+                $ new_item = game.lair.treasury.craft(**data.craft_options['jeweler_buy'])
                 if new_item:
                     $ test_description = new_item.description()
                     "Изготовлено: [test_description]."

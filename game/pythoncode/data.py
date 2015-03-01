@@ -1789,8 +1789,40 @@ quest_list = (  # TODO: внести все выполнимые на сегод
 dragon_events = (
     'ravage_sacred_grove',  # Добавляется при уничтожении священной рощи альвов
     'thief_killer',  # Убил вора
-    'knight_killer',  # Убил дакона
+    'knight_killer',  # Убил рыцаря
 )
+
+# Словарь с набором параметров создания/покупки вещей для упрощения вызова
+craft_options = {
+    'jeweler_buy': {
+        'is_crafting': False, 
+        'quality': ['rough', 'common', 'skillfully', 'mastery'], 
+        'alignment': ['human'], 
+        'base_cost': 0, 
+        'price_multiplier': 200,
+    },
+    'jeweler_craft': {
+        'is_crafting': True, 
+        'quality': ['skillfully'], 
+        'alignment': ['human'], 
+        'base_cost': 200, 
+        'price_multiplier': 0,
+    },
+    'gremlin': {
+        'is_crafting': True, 
+        'quality': ['random'], 
+        'alignment': ['random'], 
+        'base_cost': 100, 
+        'price_multiplier': 0,
+    },
+    'servant': {
+        'is_crafting': True, 
+        'quality': ['common'], 
+        'alignment': [], 
+        'base_cost': 0, 
+        'price_multiplier': 0,
+    },
+}
 
 # Различный лут
 loot = {

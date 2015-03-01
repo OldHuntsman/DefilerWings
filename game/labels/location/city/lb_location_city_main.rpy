@@ -196,14 +196,20 @@ label lb_city_jewler:
     nvl clear
     menu:
         'Купить драгоценности':
-            'Плейсхолдер'
-            # TODO: схема покупки драгоценностей.
+            $ new_item = game.lair.treasury.craft(**data.craft_options['jeweler_buy'])
+            if new_item:
+                $ game.lair.treasury.receive_treasures([new_item])
+                $ test_description = new_item.description()
+                "Куплено: [test_description]."
         'Продать драгоценности':
             'Плейсхолдер'
             # TODO: схема продажи драгоценностей. Ювелир берёт вещь по 100% цене. Сделать как в сокровищнице: самая дорогая, самая дешёвая или случайная. Продемонстрировать и спросить продать / осавить?
         'Драгоценности на заказ':
-            'Плейсхолдер'
-            # TODO: схема крафта драгоценностей.
+            $ new_item = game.lair.treasury.craft(**data.craft_options['jeweler_craft'])
+            if new_item:
+                $ game.lair.treasury.receive_treasures([new_item])
+                $ test_description = new_item.description()
+                "Изготовлено: [test_description]."
         'Вернуться на площадь':
             call lb_city_walk
     

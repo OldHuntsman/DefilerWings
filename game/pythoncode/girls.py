@@ -211,7 +211,7 @@ class GirlsList(object):
                         if girl_type['giantess']:
                             girl_size = 'giantess'
                         else:
-                            girl_size = 'usual_size'
+                            girl_size = 'common_size'
                         if girl_size not in self.offspring:
                             self.offspring.append(girl_size)
 
@@ -238,7 +238,7 @@ class GirlsList(object):
                 if girl_type['giantess']:
                     girl_size = 'giantess'
                 else:
-                    girl_size = 'usual_size'
+                    girl_size = 'common_size'
                 if girl_size not in self.offspring:
                     self.offspring.append(girl_size)
 
