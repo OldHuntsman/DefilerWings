@@ -49,9 +49,15 @@ class Knight(Fighter):
         self.bg = "img/scene/fight/knight/" + random.choice(
             os.listdir(os.path.join(renpy.config.basedir, "game/img/scene/fight/knight")))  # получаем название файла
         self.kind = 'knight'
-        for description in mob_data.mob[self.kind]['descriptions']:
+        for description in mob_data.mob[kind]['descriptions']:
             descript = deepcopy(description)  # Создаём новый объект для описания
-            descript.append(0)  # Число использований описания
+            if len(descript) == 2:
+                descript.append(0)  # Добавляем число использований описания
+            elif type(descript[2]) <> int:
+                descript[2] = 0
+            if len(descript) > 3:
+                descript = descript[:3]
+                # Отсекание лишних данных, если таковые есть
             self.descriptions.append(descript)  # Добавляем в список
         self.avatar = get_avatar(u"img/avahuman/knight")
 

@@ -750,15 +750,13 @@ class Fighter(Sayer, Mortal):
         }
         desc_list = []  # список для возможных описаний момента боя
         curr_round = 100  # переменная для определения наимее использовавшегося описания
-        # цикл по всем индексам списка self.descriptions
         for desc_i in range(len(self.descriptions)):
-            if len(self.descriptions[desc_i]) > 3:  # ДЕБАГ!
-                return self.descriptions[desc_i]
-            # получаем список переменных для строки описания из списка
+            # цикл по всем индексам списка self.descriptions
             (require, desc_str, battle_round) = self.descriptions[desc_i]
-            # определяем подходит ли описание для текущего статуса
+            # получаем список переменных для строки описания из списка
             desc_need = battle_round <= curr_round  # предварительно проверяем на количество использований
             for req in require:
+                # определяем подходит ли описание для текущего статуса
                 desc_need = (req in status) and desc_need
             if desc_need:
                 if battle_round < curr_round:
@@ -769,8 +767,8 @@ class Fighter(Sayer, Mortal):
                 # добавляем в список для описаний
                 desc_list.append((desc_str, desc_i))
         if desc_list:
-            # выбираем случайное описание
             desc = random.choice(desc_list)
+            # выбираем случайное описание
             self.descriptions[desc[1]][2] += 1  # увеличиваем число использований этого описания
             return desc[0]
         else:
@@ -1217,7 +1215,13 @@ class Enemy(Fighter):
         self.defence = mob_data.mob[kind]['defence']
         for description in mob_data.mob[kind]['descriptions']:
             descript = deepcopy(description)  # Создаём новый объект для описания
-            descript.append(0)  # Число использований описания
+            if len(descript) == 2:
+                descript.append(0)  # Добавляем число использований описания
+            elif type(descript[2]) <> int:
+                descript[2] = 0
+            if len(descript) > 3:
+                descript = descript[:3]
+                # Отсекание лишних данных, если таковые есть
             self.descriptions.append(descript)  # Добавляем в список
         if 'modifiers' in mob_data.mob[kind]:
             self._modifiers = mob_data.mob[kind]['modifiers']
