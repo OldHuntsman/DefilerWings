@@ -132,12 +132,12 @@ label lb_wooden_fort:
     nvl clear
     $ txt = game.interpolate(random.choice(txt_place_wooden_fort[1]))
     '[txt]'    
-    $ game.foe = core.Enemy('old_knight', game_ref=game)
+    $ game.foe = core.Enemy('footman', game_ref=game)
     $ chances = show_chances(game.foe)
     '[chances]'
     nvl clear
     menu:
-        'Вызвать рыцаря на бой':
+        'Атаковать замок':
             $ game.dragon.drain_energy()
             call lb_fight
             $ txt = game.interpolate(random.choice(txt_place_wooden_fort[5]))
@@ -209,12 +209,12 @@ label lb_abbey:
     nvl clear
     $ txt = game.interpolate(random.choice(txt_place_abbey[1]))
     '[txt]'    
-    $ game.foe = core.Enemy('old_knight', game_ref=game)
+    $ game.foe = core.Enemy('templars', game_ref=game)
     $ chances = show_chances(game.foe)
     '[chances]'
     nvl clear
     menu:
-        'Вызвать рыцаря на бой':
+        'Атаковать монастырь':
             $ game.dragon.drain_energy()
             call lb_fight
             $ txt = game.interpolate(random.choice(txt_place_abbey[5]))
@@ -286,12 +286,12 @@ label lb_castle:
     nvl clear
     $ txt = game.interpolate(random.choice(txt_place_castle[1]))
     '[txt]'    
-    $ game.foe = core.Enemy('old_knight', game_ref=game)
+    $ game.foe = core.Enemy('castle_guard', game_ref=game)
     $ chances = show_chances(game.foe)
     '[chances]'
     nvl clear
     menu:
-        'Вызвать рыцаря на бой':
+        'Атаковать крепость':
             $ game.dragon.drain_energy()
             call lb_fight
             $ txt = game.interpolate(random.choice(txt_place_castle[5]))
@@ -369,7 +369,7 @@ label lb_palace:
     '[chances]'
     nvl clear
     menu:
-        'Вызвать рыцаря на бой':
+        'Атаковать замок':
             $ game.dragon.drain_energy()
             call lb_fight
             $ txt = game.interpolate(random.choice(txt_place_palace[5]))
