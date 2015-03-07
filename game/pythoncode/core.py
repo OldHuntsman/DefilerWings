@@ -746,6 +746,7 @@ class Fighter(Sayer, Mortal):
             'dragon_name': dragon.name,
             'dragon_name_full': dragon.fullname,
             'dragon_type': dragon.kind,
+            'dragon_type_cap': dragon.kind.capitalize(),
             'foe_name': self.name,
         }
         desc_list = []  # список для возможных описаний момента боя
