@@ -17,7 +17,7 @@ label lb_choose_dragon:
         child_choose = None
         child_selected = None
         togle_dragonchoose_button = None
-        if game.dragon and len(game.dragon.heads) == 0 and len(dragons_choosed) == 3:
+        if game.dragon and len(game.dragon.heads) == 0 and len(dragons_choosed) == len(dragons):
             lost = True
     if lost:  # TODO: Переделать что-то что происходит при поражении
         menu:

@@ -496,7 +496,7 @@ class Game(store.object):
 
     def win(self):
         """
-        Форсируем выгирать игру
+        Форсируем выиграть игру
         """
         self._win = True
 
