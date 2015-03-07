@@ -20,7 +20,7 @@ class Game(store.object):
     _sleep_lvl = 0
     _win = False
     _defeat = False
-    _dragons_used = 0  # Количество использованных за игру драконво
+    _dragons_used = 0  # Количество использованных за игру драконов
     lair = None
     _quest = None
     _quest_threshold = None
@@ -66,6 +66,8 @@ class Game(store.object):
         self._dragons_used += 1
         self.set_quest()
         self.create_lair()
+        self.thief = None
+        self.knight = None
 
     @property
     def year(self):
