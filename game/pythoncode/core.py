@@ -1213,7 +1213,7 @@ class Enemy(Fighter):
         self.name = mob_data.mob[kind]['name']
         self.power = mob_data.mob[kind]['power']
         self.defence = mob_data.mob[kind]['defence']
-        for description in mob_data.mob[kind]['descriptions']:
+        for description in mob_data.mob[self.kind]['descriptions']:
             descript = deepcopy(description)  # Создаём новый объект для описания
             if len(descript) == 2:
                 descript.append(0)  # Добавляем число использований описания
