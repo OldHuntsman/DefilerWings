@@ -1,7 +1,7 @@
 # coding=utf-8
 label lb_location_smuggler_main:
     $ place = 'smugglers'
-    show place
+    show expression get_place_bg(place) as bg
     
     if game.dragon.energy() == 0:
         'Даже драконам надо иногда спать. Особенно драконам!'
@@ -20,6 +20,7 @@ label lb_location_smuggler_main:
                 "Уйти":
                     pass
         'Продать драгоценности':
+            nvl clear
             menu:
                 'Самую дорогую' if len(game.lair.treasury.jewelry) > 0:
                     $ item_index = game.lair.treasury.most_expensive_jewelry_index
@@ -45,8 +46,17 @@ label lb_location_smuggler_main:
                         game.lair.treasury.jewelry.pop(item_index)
                 'Оставить':
                     pass
-        'Финансировать террор':
-            $ pass
+        'Финансировать террор' if game.mobilization.level > 0:
+            show expression 'img/scene/thief.png' as bg
+            $ terror_cost = game.mobilization.level * 100
+            'Войска королевства мобилизуются и безнаказанно творить зло становится всё сложнее. Но если обеспечить местных бандитов деньгами на оружие, снаряжение и снабжение они могут стать угрозой которая отвлечёт солдат от патрулирования. [terror_cost] фартингов будет достаточно, чтобы обстановка в тылах накалилась и армейские конвои снабжения начали пропадать в пути.'
+            menu:
+                'Отдать [terror_cost] фартингов разбойникам' if terror_cost <= game.lair.treasury.money:
+                    $ game.lair.treasury.money -= terror_cost
+                    $ game.mobilization.level -= 1
+                    call lb_location_smuggler_main
+                'Это того не стоит':
+                    call lb_location_smuggler_main
         'Уйти':
             $ pass
             
