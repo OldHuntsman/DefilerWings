@@ -356,27 +356,29 @@ class Game(store.object):
         elif task_name == 'event':  # проверка событий
             reached_list.extend(self.dragon.events)
         # проверка требований
-        quest_complete = True
-        if 'task_requirements' in self._quest:
-            quest_complete = False
-            # проходим все варианты выполнения квеста
+        if 'task_requirements' in self._quest and type(self._quest['task_requirements']) is str:
+            quest_complete = self._quest['task_requirements'] in reached_list
+        elif 'task_requirements' in self._quest:
+            quest_complete = True
             for require in self._quest['task_requirements']:
+                # нужно выполнить весь список требований
                 if type(require) is str:
                     reached_requirements = require in reached_list
                 else:
-                    # для этого варианта нужно выполнить целый список требований
-                    reached_requirements = True
+                    reached_requirements = False
                     for sub_require in require:
                         if type(sub_require) is str:
-                            reached_requirements = reached_requirements and sub_require in reached_list
+                            variant_reached = sub_require in reached_list
                         else:
                             # для этого требования в списке достаточно выполнить один из нескольких вариантов
-                            variant_reached = False
+                            variant_reached = True
                             for var_sub_require in sub_require:
-                                variant_reached = variant_reached or var_sub_require in reached_list
-                            reached_requirements = reached_requirements and variant_reached
-                quest_complete = quest_complete or reached_requirements
-                # проверка препятствий выполнения квеста
+                                variant_reached = variant_reached and var_sub_require in reached_list
+                        reached_requirements = reached_requirements or variant_reached
+                quest_complete = quest_complete and reached_requirements
+        else:
+            quest_complete = True
+        # проверка препятствий выполнения квеста
         if 'task_obstruction' in self._quest:
             for obstruction in self._quest['task_obstruction']:
                 quest_complete = quest_complete and obstruction not in reached_list
