@@ -53,7 +53,7 @@ class Knight(Fighter):
             descript = deepcopy(description)  # Создаём новый объект для описания
             if len(descript) == 2:
                 descript.append(0)  # Добавляем число использований описания
-            elif type(descript[2]) <> int:
+            elif type(descript[2]) is not int:
                 descript[2] = 0
             if len(descript) > 3:
                 descript = descript[:3]

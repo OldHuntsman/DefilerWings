@@ -138,8 +138,8 @@ class GirlsList(object):
         """
         Генерация описания ситуации для текущей девушки (self.game.girl).
         status - кодовое описание ситуации
-        say - если истина - описание выводится сразу на экран, возвращается None,
-              если ложь - возвращается текст описания
+        say - если истина - описание выводится сразу на экран
+        Возвращается текст описания или None, если текст в списке не найден
         """
         format_dict = {
             'dragon_name': self.game.dragon.name,
@@ -151,20 +151,20 @@ class GirlsList(object):
         girl_type = self.game.girl.type
         if girl_type not in girls_data.girls_texts or status not in girls_data.girls_texts[girl_type]:
             girl_type = 'girl'
-        if girls_data.girls_texts[girl_type][status]:
+        if status in girls_data.girls_texts[girl_type]:
             text = random.choice(girls_data.girls_texts[girl_type][status])
-            # TODO: Ситуативные описания
-            if status == 'spawn':
-                format_dict['situation'] = (girls_data.spawn_info[self.spawn[-1]]['name'])
-            elif status == 'rob':
+            if self.spawn:
+                # Если список отродий не пуст - получаем имя последнего для возможной подстановки
+                format_dict['spawn_name'] = girls_data.spawn_info[self.spawn[-1]]['name'].capitalize()
+            if status == 'rob':
                 treas_description = self.game.lair.treasury.treasures_description(self.game.girl.treasure)
-                treas_description = '\n'.join(treas_description)
+                treas_description = '\n'.join(treas_description) + u'.'
                 self.game.girl.treasure = []
-                format_dict['situation'] = treas_description
+                format_dict['rob_list'] = treas_description
             text = text % format_dict
         else:
-            text = "Описание для действия '%s' девушки типа '%s' отсутствует" % (status, self.game.girl.type)
-        if say:
+            text = None
+        if say and text:
             self.game.girl.third(text)  # выдача сообщения
             store.nvl_list = []  # вариант nvl clear на питоне
         else:

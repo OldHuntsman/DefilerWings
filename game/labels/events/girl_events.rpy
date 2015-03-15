@@ -12,7 +12,14 @@ label lb_event_girl_spawn(spawn_type):
     hide bg
     show expression spawn_image as bg
     nvl clear
-    $ spawn_description = game.girls_list.description('spawn')  # описание родов на воле
+    python:
+        spawn_description = game.girls_list.description(spawn_type)  # описание родов конкретного типа
+        if not spawn_description:
+            from pythoncode import girls_data
+            if 'elite' in girls_data.spawn_info[spawn_type]['modifier']:
+                spawn_description = game.girls_list.description('spawn_elite')
+            else:
+                spawn_description = game.girls_list.description('spawn_common')
     "[spawn_description]"
     return
 
