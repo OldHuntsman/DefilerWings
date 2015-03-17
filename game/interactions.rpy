@@ -43,8 +43,7 @@ label lb_lair_sex:
     nvl clear
     menu:
         'Надругаться' if game.girls_list.is_mating_possible:
-            $ description = game.girls_list.impregnate()
-            game.girl.third "[description]"
+            $ game.girls_list.impregnate()
         'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"
@@ -75,8 +74,7 @@ label lb_gigant_sex:
     nvl clear
     menu:
         'Надругаться' if game.girls_list.is_mating_possible:
-            $ description = game.girls_list.impregnate()
-            game.girl.third "[description]"
+            $ game.girls_list.impregnate()
         'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"

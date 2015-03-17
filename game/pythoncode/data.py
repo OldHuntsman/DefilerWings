@@ -139,9 +139,11 @@ def get_description_by_count(description_list, count):
     """ 
     :param description_list: словарь, ключ - минимальное целочисленное значение,
     при котором выведется значение с этим ключом.
-    Максимальное число, при котором выведется значение - минимальное значение - 1 следующего по размеру ключа
+    Максимальное число, при котором выведется значение - минимальное значение - 1 следующего по размеру ключ
     :param count: число, для которой нужно подобрать описание
     :return: описание для числа count из словаря description_list
+    Например, если description_list = {0:'A', 10:'B'}, 
+    то при count < 0 результат - None, при count = 0..9 - 'A', а при count >= 10 - 'B'
     """
     count_list = reversed(sorted(description_list.keys()))
     for count_i in count_list:
