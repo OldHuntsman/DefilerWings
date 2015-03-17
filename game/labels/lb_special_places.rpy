@@ -364,7 +364,7 @@ label lb_palace:
     nvl clear
     $ txt = game.interpolate(random.choice(txt_place_palace[1]))
     '[txt]'    
-    $ game.foe = core.Enemy('old_knight', game_ref=game)
+    $ game.foe = core.Enemy('palace_guards', game_ref=game)
     $ chances = show_chances(game.foe)
     '[chances]'
     nvl clear

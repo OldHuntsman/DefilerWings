@@ -1,7 +1,7 @@
 # coding=utf-8
 label lb_location_smuggler_main:
     $ place = 'smugglers'
-    show expression get_place_bg(place) as bg
+    show expression 'img/bg/special/smugglers.png' as bg
     
     if game.dragon.energy() == 0:
         'Даже драконам надо иногда спать. Особенно драконам!'
