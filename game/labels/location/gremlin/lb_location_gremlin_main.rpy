@@ -1,7 +1,7 @@
 # coding=utf-8
 label lb_location_gremlin_main:
     $ place = 'gremlins'
-    show place
+    show place as bg
       
     if game.dragon.energy() == 0:
         'Даже драконам надо иногда спать. Особенно драконам!'

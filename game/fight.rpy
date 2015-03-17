@@ -27,7 +27,7 @@ label lb_fight(foe=game.foe):
                 $ renpy.pop_return()
             return "defeat"
         elif 'foe_alive' in battle_status:
-            $ chances = show_chances(foe=foe)
+            $ chances = show_chances(foe)
             '[chances]'
             nvl clear
             menu:
