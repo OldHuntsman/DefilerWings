@@ -44,11 +44,8 @@ class Game(store.object):
         self.unique = []  # список уникальных действий для квестов
 
         self._dragon = None
-        self.thief = None  # Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
-        self.knight = None  # Рыцаря не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
 
         self.narrator = Sayer(game_ref=self, kind='nvl')
-        self.girls_list = girls.GirlsList(game_ref=self, base_character=adv_character)
         self.foe = None
         self.girl = None
 
@@ -65,9 +62,10 @@ class Game(store.object):
             self.year += 10  # накидываем 10 лет на вылупление и прочие взращивание-ботву
         self._dragons_used += 1
         self.set_quest()
+        self.thief = None  # Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
+        self.knight = None  # Рыцаря не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
+        self.girls_list = girls.GirlsList(game_ref=self, base_character=self.adv_character)
         self.create_lair()
-        self.thief = None
-        self.knight = None
 
     @property
     def year(self):

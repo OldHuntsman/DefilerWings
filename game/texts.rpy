@@ -2,33 +2,34 @@
 # здесь хранятся тексты для игры
 python early:
     
+    chance_win_texts = {
+        0: "{color=#ff0000}призрачные{/color}",
+        10: "{color=#ff00ff}невысокие{/color}",
+        30: "{color=#0000ff}приемлемые {/color}",
+        60: "{color=#EAC117}значительные{/color}",
+        90: "{color=#00ff00}отличные{/color}"
+    }
+    
+    chance_wound_texts = {
+        0: "{color=#00ff00}минимальная{/color}",
+        10: "{color=#EAC117}допустимая{/color}",
+        30: "{color=#0000ff}средняя{/color}",
+        60: "{color=#ff00ff}значительная{/color}",
+        90: "{color=#ff0000}катастрофическая{/color}"
+    }
+    
     def show_chances(foe):
         """
         Вывод шансов победы и ранения дракона для игрока 
         """
+        from pythoncode import data
         chance = battle.victory_chance(game.dragon, foe)
-        chance_win = '{color=#ff0000}призрачные{/color}'
-        if chance > 10:
-            chance_win = '{color=#ff00ff}невысокие{/color}'
-        elif chance > 30:
-            chance_win = '{color=#0000ff}приемлемые {/color}'
-        elif chance > 60:
-            chance_win = '{color=#EAC117}значительные{/color}'
-        elif chance > 90:
-            chance_win = '{color=#00ff00}отличные{/color}'
+        chance_win = data.get_description_by_count(chance_win_texts, chance)
 
         chance = battle.victory_chance(foe, game.dragon)
-        chance_wound = '{color=#00ff00}минимальная{/color}'
-        if chance > 10:
-            chance_wound = '{color=#EAC117}допустимая{/color}'
-        elif chance > 30:
-            chance_wound = '{color=#0000ff}средняя{/color}'
-        elif chance > 60:
-            chance_wound = '{color=#ff00ff}значительная{/color}'
-        elif chance > 90:
-            chance_wound = '{color=#ff0000}катастрофическая{/color}'
+        chance_wound = data.get_description_by_count(chance_wound_texts, chance)
         
-        return " Шансы на победу: %s \n Опасность ранения: %s" % (chance_win, chance_wound)
+        return " Шансы на победу: %s.\n Опасность ранения: %s." % (chance_win, chance_wound)
 
     # Описания дракона
     hunger_texts = {
