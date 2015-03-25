@@ -12,7 +12,6 @@ label lb_location_lair_main:
                 python:
                     game.dragon.drain_mana()
                     game.dragon.gain_rage()
-
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             python:
                 import random
@@ -43,7 +42,7 @@ label lb_location_lair_main:
                     $ description += u"%s" % treasures.number_conjugation_rus(game.lair.treasury.dublon, u"дублон")
                     "[description]"
                     nvl clear
-                '[game.lair.treasury.jewelry_mass_description]' if game.lair.treasury.jewelry_mass > 0:
+                '[game.lair.treasury.jewelry_mass_description]' if len(game.lair.treasury.jewelry) > 0:
                     menu:
                         'Самая дорогая в сокровищнице':
                             "[game.lair.treasury.most_expensive_jewelry]"
@@ -59,9 +58,20 @@ label lb_location_lair_main:
                 'Вернуться в логово':
                     jump lb_location_lair_main        
             call lb_location_lair_main
-
-        'Проведать пленниц' if game.girls_list.prisoners_count:
+        'Проведать пленниц' if game.girls_list.prisoners_count > 0:
             call screen girls_menu
+        'Смастерить вещь' if ('servant' in game.lair.upgrades) or ('gremlin_servant' in game.lair.upgrades):
+            $ new_item = game.lair.treasury.craft(**data.craft_options['servant'])
+            if new_item:
+                $ game.lair.treasury.receive_treasures([new_item])
+                $ test_description = new_item.description()
+                "Изготовлено: [test_description]."
+        'Уволить слуг-гремлинов' if 'gremlin_servant' in game.lair.upgrades:
+            $ del game.lair.upgrades['gremlin_servant']
+            "Гремлины уходят"
+        'Уволить охрану' if 'smuggler_guards' in game.lair.upgrades:
+            $ del game.lair.upgrades['gremlin_servant']
+            "Охрана покидает посты"
         'Лечь спать':
             nvl clear
             python:

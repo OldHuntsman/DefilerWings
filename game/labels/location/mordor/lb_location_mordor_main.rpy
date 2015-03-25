@@ -77,7 +77,7 @@ label lb_location_mordor_questtime:
         "Ты выполнил задание и за это положена награда."
         call lb_choose_dragon
     else:
-        $ game.defeat()
+        $ game.dragon.die()
         menu:
             "Квест провален. Ты проиграл. Какая досада."
             "Попробовать еще раз":

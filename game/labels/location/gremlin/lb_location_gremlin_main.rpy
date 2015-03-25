@@ -1,7 +1,7 @@
 # coding=utf-8
 label lb_location_gremlin_main:
     $ place = 'gremlins'
-    show place
+    show place as bg
       
     if game.dragon.energy() == 0:
         'Даже драконам надо иногда спать. Особенно драконам!'
@@ -40,6 +40,12 @@ label lb_location_gremlin_main:
                     $ game.lair.treasury.money -= fortification_cost
                 "Уйти":
                     pass
+        'Смастерить вещь':
+            $ new_item = game.lair.treasury.craft(**data.craft_options['gremlin'])
+            if new_item:
+                $ game.lair.treasury.receive_treasures([new_item])
+                $ test_description = new_item.description()
+                "Изготовлено: [test_description]."
         'Уйти':
             $ pass
         

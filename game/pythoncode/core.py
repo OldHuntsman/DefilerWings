@@ -20,7 +20,7 @@ class Game(store.object):
     _sleep_lvl = 0
     _win = False
     _defeat = False
-    _dragons_used = 0  # Количество использованных за игру драконво
+    _dragons_used = 0  # Количество использованных за игру драконов
     lair = None
     _quest = None
     _quest_threshold = None
@@ -44,11 +44,8 @@ class Game(store.object):
         self.unique = []  # список уникальных действий для квестов
 
         self._dragon = None
-        self.thief = None  # Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
-        self.knight = None  # Рыцаря не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
 
         self.narrator = Sayer(game_ref=self, kind='nvl')
-        self.girls_list = girls.GirlsList(game_ref=self, base_character=adv_character)
         self.foe = None
         self.girl = None
 
@@ -65,6 +62,9 @@ class Game(store.object):
             self.year += 10  # накидываем 10 лет на вылупление и прочие взращивание-ботву
         self._dragons_used += 1
         self.set_quest()
+        self.thief = None  # Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
+        self.knight = None  # Рыцаря не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
+        self.girls_list = girls.GirlsList(game_ref=self, base_character=self.adv_character)
         self.create_lair()
 
     @property
@@ -354,27 +354,29 @@ class Game(store.object):
         elif task_name == 'event':  # проверка событий
             reached_list.extend(self.dragon.events)
         # проверка требований
-        quest_complete = True
-        if 'task_requirements' in self._quest:
-            quest_complete = False
-            # проходим все варианты выполнения квеста
+        if 'task_requirements' in self._quest and type(self._quest['task_requirements']) is str:
+            quest_complete = self._quest['task_requirements'] in reached_list
+        elif 'task_requirements' in self._quest:
+            quest_complete = True
             for require in self._quest['task_requirements']:
+                # нужно выполнить весь список требований
                 if type(require) is str:
                     reached_requirements = require in reached_list
                 else:
-                    # для этого варианта нужно выполнить целый список требований
-                    reached_requirements = True
+                    reached_requirements = False
                     for sub_require in require:
                         if type(sub_require) is str:
-                            reached_requirements = reached_requirements and sub_require in reached_list
+                            variant_reached = sub_require in reached_list
                         else:
                             # для этого требования в списке достаточно выполнить один из нескольких вариантов
-                            variant_reached = False
+                            variant_reached = True
                             for var_sub_require in sub_require:
-                                variant_reached = variant_reached or var_sub_require in reached_list
-                            reached_requirements = reached_requirements and variant_reached
-                quest_complete = quest_complete or reached_requirements
-                # проверка препятствий выполнения квеста
+                                variant_reached = variant_reached and var_sub_require in reached_list
+                        reached_requirements = reached_requirements or variant_reached
+                quest_complete = quest_complete and reached_requirements
+        else:
+            quest_complete = True
+        # проверка препятствий выполнения квеста
         if 'task_obstruction' in self._quest:
             for obstruction in self._quest['task_obstruction']:
                 quest_complete = quest_complete and obstruction not in reached_list
@@ -496,7 +498,7 @@ class Game(store.object):
 
     def win(self):
         """
-        Форсируем выгирать игру
+        Форсируем выиграть игру
         """
         self._win = True
 
@@ -742,35 +744,35 @@ class Fighter(Sayer, Mortal):
         :param dragon: ссылка на дракона, выступающего противником
         :return: текстовое описание боя
         """
+        insertion = {
+            'dragon_name': dragon.name,
+            'dragon_name_full': dragon.fullname,
+            'dragon_type': dragon.kind,
+            'dragon_type_cap': dragon.kind.capitalize(),
+            'foe_name': self.name,
+        }
         desc_list = []  # список для возможных описаний момента боя
         curr_round = 100  # переменная для определения наимее использовавшегося описания
-        # цикл по всем индексам списка self.descriptions
         for desc_i in range(len(self.descriptions)):
+            # цикл по всем индексам списка self.descriptions
+            (require, desc_str, battle_round) = self.descriptions[desc_i]
             # получаем список переменных для строки описания из списка
-            (require, desc_str, insertion, battle_round) = self.descriptions[desc_i]
-            # определяем подходит ли описание для текущего статуса
             desc_need = battle_round <= curr_round  # предварительно проверяем на количество использований
             for req in require:
+                # определяем подходит ли описание для текущего статуса
                 desc_need = (req in status) and desc_need
             if desc_need:
                 if battle_round < curr_round:
                     curr_round = battle_round  # выбираем наименьшее число использований описания
                     desc_list = []  # все предыдущие описания использовались чаще, очищаем список
                 # вставляем необходимые данные в описание
-                insert_list = []
-                for ins in insertion:
-                    if ins == 'foe_name':
-                        insert_list.append(self.name)
-                    elif ins == 'dragon_name':
-                        insert_list.append(dragon.name)
-                desc_str = desc_str.format(*insert_list)
+                desc_str = desc_str % insertion
                 # добавляем в список для описаний
-                desc_list.append([desc_str, desc_i])
+                desc_list.append((desc_str, desc_i))
         if desc_list:
+            desc = random.choice(desc_list)
             # выбираем случайное описание
-            dice = random.randint(0, len(desc_list) - 1)
-            desc = desc_list[dice]
-            self.descriptions[desc[1]][3] += 1  # увеличиваем число использований этого описания
+            self.descriptions[desc[1]][2] += 1  # увеличиваем число использований этого описания
             return desc[0]
         else:
             return status  # список описаний пуст, возвращаем информацию для дебага
@@ -1003,6 +1005,9 @@ class Dragon(Fighter):
         wings = self.wings
         paws = self.paws
         heads = len(self.heads)
+        # Защита от ошибок в случае мёртвого дракона
+        if heads == 0:
+            return u"останки дракона"
         if wings == 0:
             if heads == 1:
                 if paws == 0:
@@ -1211,8 +1216,18 @@ class Enemy(Fighter):
         self.name = mob_data.mob[kind]['name']
         self.power = mob_data.mob[kind]['power']
         self.defence = mob_data.mob[kind]['defence']
-        self.descriptions = mob_data.mob[kind]['descriptions']
-        self._modifiers = mob_data.mob[kind]['modifiers']
+        for description in mob_data.mob[self.kind]['descriptions']:
+            descript = deepcopy(description)  # Создаём новый объект для описания
+            if len(descript) == 2:
+                descript.append(0)  # Добавляем число использований описания
+            elif type(descript[2]) <> int:
+                descript[2] = 0
+            if len(descript) > 3:
+                descript = descript[:3]
+                # Отсекание лишних данных, если таковые есть
+            self.descriptions.append(descript)  # Добавляем в список
+        if 'modifiers' in mob_data.mob[kind]:
+            self._modifiers = mob_data.mob[kind]['modifiers']
         self.abilities = []
         self.equipment = []
         self.bg = '' "img/scene/fight/%s.png" % mob_data.mob[kind]['image']

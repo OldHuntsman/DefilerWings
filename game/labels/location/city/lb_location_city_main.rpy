@@ -196,14 +196,44 @@ label lb_city_jewler:
     nvl clear
     menu:
         'Купить драгоценности':
-            'Плейсхолдер'
-            # TODO: схема покупки драгоценностей.
+            $ new_item = game.lair.treasury.craft(**data.craft_options['jeweler_buy'])
+            if new_item:
+                $ game.lair.treasury.receive_treasures([new_item])
+                $ test_description = new_item.description()
+                "Куплено: [test_description]."
         'Продать драгоценности':
-            'Плейсхолдер'
-            # TODO: схема продажи драгоценностей. Ювелир берёт вещь по 100% цене. Сделать как в сокровищнице: самая дорогая, самая дешёвая или случайная. Продемонстрировать и спросить продать / осавить?
+            menu:
+                'Самую дорогую' if len(game.lair.treasury.jewelry) > 0:
+                    $ item_index = game.lair.treasury.most_expensive_jewelry_index
+                'Самую дешёвую' if len(game.lair.treasury.jewelry) > 0:
+                    $ item_index = game.lair.treasury.cheapest_jewelry_index
+                'Случайную' if len(game.lair.treasury.jewelry) > 0:
+                    $ item_index = random.randint(0, len(game.lair.treasury.jewelry))
+                'Отмена':
+                    return
+            python:
+                from pythoncode import treasures
+                from treasures import number_conjugation_rus
+                description = u"%s.\nПродать украшение за %s?" % (
+                    game.lair.treasury.jewelry[item_index].description().capitalize(),
+                    treasures.number_conjugation_rus(game.lair.treasury.jewelry[item_index].cost, u"фартинг"))
+            menu:
+                "[description]"
+                'Продать':
+                    python:
+                        description = u"%s.\nПродано за %s" % (
+                            game.lair.treasury.jewelry[item_index].description().capitalize(),
+                            treasures.number_conjugation_rus(game.lair.treasury.jewelry[item_index].cost, u"фартинг"))
+                        game.lair.treasury.money += game.lair.treasury.jewelry[item_index].cost
+                        game.lair.treasury.jewelry.pop(item_index)
+                'Оставить':
+                    pass
         'Драгоценности на заказ':
-            'Плейсхолдер'
-            # TODO: схема крафта драгоценностей.
+            $ new_item = game.lair.treasury.craft(**data.craft_options['jeweler_craft'])
+            if new_item:
+                $ game.lair.treasury.receive_treasures([new_item])
+                $ test_description = new_item.description()
+                "Изготовлено: [test_description]."
         'Вернуться на площадь':
             call lb_city_walk
     
