@@ -52,7 +52,7 @@ label lb_witch_reward:
                 gain = game.dragon.level * 5
                 game.lair.treasury.dublon += gain
             witch 'Вот тебе [gain] дублонов.'
-        'Поколдуй для меня':
+        'Научи меня колдовству':
             witch 'Я передам тебе часть своей силы, но это не навсегда. Ты сможешь сотворить одно заклятье по своему выбору когда тебе потребуется...'
             $ game.dragon.spells.append('griffin_meat')
             # старый вариант "поколдуй для меня"

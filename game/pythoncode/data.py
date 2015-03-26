@@ -1061,7 +1061,7 @@ lair_types = Container(
         },
         "tower_ruin": {
             "name": u"Руины башни",
-            "inaccessability": 0,
+            "inaccessability": 1,
             "provide": ["magic_traps"]
         },
         "monastery_ruin": {
@@ -1076,7 +1076,7 @@ lair_types = Container(
         },
         "castle_ruin": {
             "name": u"Руины королевского замка",
-            "inaccessability": 1,
+            "inaccessability": 2,
             "require": []
         },
         "ice_citadel": {
