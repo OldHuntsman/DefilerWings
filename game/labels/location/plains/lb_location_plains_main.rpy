@@ -336,7 +336,6 @@ label lb_enc_militia:
     
     return
     
-    
 label lb_enc_mill:
     show expression 'img/bg/special/windmill.png' as bg
     'Ветряная мельница.'
@@ -353,6 +352,7 @@ label lb_enc_mill:
             "Амбар сгорает синим пламенем."
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 3
+            $ game.dragon.drain_mana()
             '[game.dragon.reputation.gain_description]'
         'Обследовать здание' if game.dragon.size <= 3 and game.dragon.mana == 0:
             $ game.dragon.drain_energy()
@@ -383,6 +383,7 @@ label lb_enc_granary:
             "Амбар сгорает синим пламенем."
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 5
+            $ game.dragon.drain_mana()
             '[game.dragon.reputation.gain_description]'
         'Обследовать здание' if not doit and game.dragon.mana == 0:
             $ game.dragon.drain_energy()

@@ -19,11 +19,11 @@ label lb_location_road_main:
         ("lb_enc_caravan", 10),
         ("lb_enc_lcaravan", 10),
         ("lb_enc_outpost", 10),
-        ("lb_manor_found", 10),
+        ("lb_manor_found", 15),
         ("lb_wooden_fort_found", 10),
         ("lb_abbey_found", 10),
-        ("lb_castle_found", 10),
-        ("lb_palace_found", 10),
+        ("lb_castle_found", 5),
+        ("lb_palace_found", 3),
         ("lb_patrool_road", 3 * game.mobilization.level),
         ("lb_enc_noting", nochance)]
     $ enc = core.Game.weighted_random(choices)
@@ -279,13 +279,14 @@ label lb_enc_outpost:
                     '[game.dragon.reputation.gain_description]'
                 'Дыхнуть огнём' if doit:
                     $ game.dragon.drain_energy()
-                    "Амбар сгорает."
+                    "Аутпост сгорает."
                     python:
                         if game.mobilization.level >= 1:
                             game.mobilization.level -= 1
                     '[game.dragon.reputation.gain_description]'
                 'Наложить проклятье' if game.dragon.mana > 0:
                     $ game.dragon.drain_energy()
+                    $ game.dragon.drain_mana()
                     "Аутпост проклят."
                     python:
                         if game.mobilization.level >= 1:

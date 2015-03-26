@@ -23,7 +23,7 @@ init:
         "place == 'underwater_grot'", "img/bg/lair/grotto.png",
         "place == 'underground_burrow'", "img/bg/lair/burrow.png",
         "place == 'dragon_castle'", "img/bg/lair/dragon_castle.png",
-        "place == 'castle'", "img/bg/lair/ruins_inside.png",
+        "place == 'castle'", "img/bg/lair/castle_lair.png",
         "place == 'ogre_den'", "img/bg/lair/cave.png",
         "place == 'broad_cave'", "img/bg/lair/cavelarge.png",
         "place == 'forest_heart'", "img/bg/lair/elfruin.png",

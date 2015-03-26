@@ -18,20 +18,138 @@ label lb_special_places:
     
 label lb_enchanted_forest:
     show expression 'img/bg/special/enchanted_forest.png' as bg
-    'Дракон входит под сень колдовских древ.'
+    'Даже зная путь в зачарованный лес, пройти через завесу магии альвов не просто. Нужно применить могучие чары.'
+    menu:
+        'Открыть путь колдовством' if game.dragon.mana > 0:
+            '[game.dragon.fullname] применяет чёрную магию чтобы разорвать завесу иллюзий, морока и сна которыми скрыты владения альвов. Незамеченный и смертоносный входит под сень [game.dragon.type] чародейсикх древ.'
+            call lb_enchanted_forest_enter
+        'Уйти прочь':
+            return
+        
+    return
+            
+
+label lb_enchanted_forest_enter:        
     menu:
         'Рыскать кругом':
-            # TODO добавить энкаунтеры зачарованного леса
-            $ pass
+            $ choices = [
+                ("lb_enchanted_forest_elfgirl", 10),
+                ("lb_enchanted_forest_druid", 10),
+                ]
+            $ enc = core.Game.weighted_random(choices)
+            $ renpy.call(enc)
+    
         'Напасть на Древо Жизни':
-            'Дерево жизни разрушено.'
-            $ game.dragon.add_event('ravage_sacred_grove')
-            call lb_dead_grove
-            # TODO сделать нормальный энкаунтер
+            call lb_enchanted_forest_grove
+            
     return
 
+label lb_enchanted_forest_elfgirl:
+    '[game.dragon.name] слышит непередаваемый аромат сотканный из ноток невинности, красоты и колдовских чар. Это лесная ведьма, альва из народа богини Дану. Нет плоти более сладкой и желанной, но взять её будет непросто ведь на её стороне колдовство.'
+    $ game.foe = core.Enemy('elf_witch', gameRef=game, base_character=NVLCharacter)
+    $ narrator(show_chances(game.foe))
+    nvl clear
+    menu:
+        'Напасть на фею':
+            $ game.foe = core.Enemy('mounted_guard', game_ref=game)
+            call lb_fight
+            'Несмотря на жестокое сопротивление, чародейка не получила особых повреждений. Она теперь безащитна, но цела... пока что.'
+            $ game.dragon.reputation.points += 3
+            '[game.dragon.reputation.gain_description]'
+            $ description = game.girls_list.new_girl('elf')
+            nvl clear
+            game.girl.third "[description]"
+            call lb_nature_sex      
+        
+        'Тихонько уйти прочь' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()        
+    return
+
+label lb_enchanted_forest_druid:
+    '[game.dragon.name] не долго остаётся незамеченным. На пути дракона, словно материализовавшись из листьев возникает вооруженный корявым посохом друид. Он не выглядит особенно внушительным, однако это впечатление обманичво. На стороне жрец Дану сама сила леса.'
+    $ game.foe = core.Enemy('druid', gameRef=game, base_character=NVLCharacter)
+    $ narrator(show_chances(game.foe))
+    menu:
+        'Вступить в бой':
+            $ game.dragon.drain_energy()
+            $ game.foe = core.Enemy('druid', game_ref=game)
+            call lb_fight
+            $ game.dragon.reputation.points += 3
+            'Друид повержен. [game.dragon.reputation.gain_description]'
+            '[game.dragon.name] находит на трупе кое-что ценное:'
+            python:
+                count = random.randint(1, 2)
+                alignment = 'elf'
+                min_cost = 25
+                max_cost = 500
+                obtained = "Это предмет принадлежал друиду - стражу зачарованого леса."
+                trs = treasures.gen_treas(count, data.loot['knight'], alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+            '[trs_descrptn]'
+        'Отступить и покинуть лес' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()   
+    return
+
+label lb_enchanted_forest_grove:
+    show expression 'img/bg/special/enchanted_forest.png' as bg
+    nvl clear
+    $ txt = game.interpolate(random.choice(txt_place_enfr[1]))
+    '[txt]'    
+    $ game.foe = core.Enemy('treant', game_ref=game)
+    $ chances = show_chances(game.foe)
+    '[chances]'
+    nvl clear
+    menu:
+        'Атаковать священное древо':
+            $ game.dragon.drain_energy()
+            call lb_fight
+            $ txt = game.interpolate(random.choice(txt_place_enfr[5]))
+            '[txt]' 
+            nvl clear
+            call lb_enchanted_forest_grove_rob
+        'Покинуть зачарованный лес' if game.dragon.bloodiness < 5:
+            $ game.dragon.gain_rage()
+            
+    return
+    
+label lb_enchanted_forest_grove_rob:
+    $ game.dragon.add_event('ravage_sacred_grove')
+    python:
+        count = random.randint(5, 10)
+        alignment = 'elf'
+        min_cost = 500
+        max_cost = 3000
+        obtained = "Это предмет из королевской сокровищницы альвов зачарованного леса."
+        trs = treasures.gen_treas(count, data.loot['palace'], alignment, min_cost, max_cost, obtained)
+        trs_list = game.lair.treasury.treasures_description(trs)
+        trs_descrptn = '\n'.join(trs_list)
+    menu:
+        'Осквернить священное древо':
+            show expression 'img/bg/lair/elfruin.png' as bg
+            $ txt = game.interpolate(random.choice(txt_place_enfr[2]))
+            '[txt]'    
+            '[trs_descrptn]'
+            nvl clear
+            show expression 'img/bg/special/bedroom.png' as bg
+            $ txt = game.interpolate(random.choice(txt_place_enfr[3]))
+            '[txt]'    
+            nvl clear
+            $ description = game.girls_list.new_girl('elf')
+            nvl clear
+            game.girl.third "[description]"
+            call lb_lair_sex     
+            call lb_dead_grove
+                                        
+        'Запомнить место и уйти':
+            $ game.dragon.add_special_place('enchanted_forest', 'dead_grove')
+            
+    return
+    
 label lb_dead_grove:
-    'Тут можно поселиться.'
+    show expression 'img/bg/lair/ruins_inside.png' as bg
+    $ txt = game.interpolate(random.choice(txt_place_enfr[4]))
+    '[txt]'   
     nvl clear
     menu:
         'Обустроить тут новое логово':
@@ -75,10 +193,10 @@ label lb_manor:
     
 label lb_manor_rob:
     python:
-        count = random.randint(4, 12)
+        count = random.randint(1, 5)
         alignment = 'knight'
         min_cost = 10
-        max_cost = 500
+        max_cost = 250
         obtained = "Это предмет из разграбленного рыцарского поместья."
         trs = treasures.gen_treas(count, data.loot['palace'], alignment, min_cost, max_cost, obtained)
         trs_list = game.lair.treasury.treasures_description(trs)
@@ -152,9 +270,9 @@ label lb_wooden_fort:
     
 label lb_wooden_fort_rob:
     python:
-        count = random.randint(4, 12)
+        count = random.randint(2, 6)
         alignment = 'knight'
-        min_cost = 10
+        min_cost = 25
         max_cost = 500
         obtained = "Это предмет найден в деревянном рыцарском замке."
         trs = treasures.gen_treas(count, data.loot['palace'], alignment, min_cost, max_cost, obtained)
@@ -229,7 +347,7 @@ label lb_abbey:
     
 label lb_abbey_rob:
     python:
-        count = random.randint(4, 12)
+        count = random.randint(4, 10)
         alignment = 'cleric'
         min_cost = 10
         max_cost = 500
@@ -306,10 +424,10 @@ label lb_castle:
     
 label lb_castle_rob:
     python:
-        count = random.randint(4, 12)
+        count = random.randint(3, 8)
         alignment = 'knight'
-        min_cost = 10
-        max_cost = 500
+        min_cost = 100
+        max_cost = 1000
         obtained = "Это предмет из разграбленного рыцарского поместья."
         trs = treasures.gen_treas(count, data.loot['palace'], alignment, min_cost, max_cost, obtained)
         trs_list = game.lair.treasury.treasures_description(trs)
@@ -384,10 +502,10 @@ label lb_palace:
     
 label lb_palace_rob:
     python:
-        count = random.randint(4, 12)
+        count = random.randint(5, 10)
         alignment = 'knight'
-        min_cost = 10
-        max_cost = 500
+        min_cost = 250
+        max_cost = 2500
         obtained = "Это предмет из разграбленного рыцарского поместья."
         trs = treasures.gen_treas(count, data.loot['palace'], alignment, min_cost, max_cost, obtained)
         trs_list = game.lair.treasury.treasures_description(trs)
@@ -794,12 +912,33 @@ label lb_dwarf_treashury:
     menu:
         'Сразиться с чемпионом':
             call lb_fight
-            call lb_dwarf_ruins
+            call lb_dwarf_rob
         'Бежать поджав хвост':
             'Обидно отутпать когда победа была так близка, но загнанные в угол цверги могут быть крайне опасными противниками. Иногда лучше не рисковать!'
             $ game.dragon.gain_rage()      
     return
-    
+
+label lb_dwarf_rob:
+    python:
+        count = random.randint(12)
+        alignment = 'dwarf'
+        min_cost = 500
+        max_cost = 5000
+        obtained = "Это предмет из сокровищницы короля-под-горой."
+        trs = treasures.gen_treas(count, data.loot['palace'], alignment, min_cost, max_cost, obtained)
+        trs_list = game.lair.treasury.treasures_description(trs)
+        trs_descrptn = '\n'.join(trs_list)
+    menu:
+        'Разграбить сокровищницу цвергов':
+            show expression 'img/bg/hoard/base.png' as bg
+            'Подлые цверги многое успели растащить, но даже от того что осталось разбегаются глаза. Нигде больше не найти столь богатой добычи!'    
+            '[trs_descrptn]'
+            nvl clear
+            call lb_dwarf_ruins
+                                        
+        'Запомнить место и уйти':
+            $ game.dragon.add_special_place('palace', 'palace_empty')
+            
 label lb_dwarf_ruins:
     show expression 'img/bg/special/moria.png' as bg
     'Когда-то тут жили цверги, но теперь это место опустошено и заброшено. Внутри можно устроить просторное и отлично защищённое логово.'

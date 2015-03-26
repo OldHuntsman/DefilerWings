@@ -1896,7 +1896,12 @@ loot = {
         'dublon',
         'dublon',
     ],
+    
     'jeweler': [
+        'taller',
+        'taller',
+        'dublon',
+        'dublon',
         'casket',
         'phallos',
         'band',
@@ -1913,6 +1918,7 @@ loot = {
         'chain',
         'fibula'
     ],
+    
     'smuggler': [
         'silver',
         'gold',
@@ -1952,6 +1958,7 @@ loot = {
         'taller',
         'dublon'
     ],
+    
     'klad': [
         'goblet',
         'statue',
@@ -2005,8 +2012,17 @@ loot = {
         'black_diamond',
         'rose_diamond',
         'taller',
-        'dublon'
+        'dublon',
+        'taller',
+        'dublon',
+        'taller',
+        'dublon',
+        'taller',
+        'dublon',
+        'taller',
+        'dublon',
     ],
+    
     'coins': [
         'farting',
         'taller',
@@ -2022,6 +2038,52 @@ loot = {
         'icon',
         'tome',
         'seal',
+    ],
+    
+    'raw_material': [
+        'silver',
+        'silver',
+        'silver',
+        'silver',
+        'silver',
+        'silver',
+        'silver',        
+        'gold',
+        'gold',
+        'gold',
+        'gold',
+        'gold',
+        'mithril',
+        'adamantine',
+        'jasper',
+        'turquoise',
+        'jade',
+        'malachite',
+        'corall',
+        'ivory',
+        'agate',
+        'shell',
+        'horn',
+        'amber',
+        'crystall',
+        'beryll',
+        'tigereye',
+        'granate',
+        'turmaline',
+        'aqua',
+        'pearl',
+        'elven_beryll',
+        'black_pearl',
+        'topaz',
+        'saphire',
+        'ruby',
+        'emerald',
+        'goodruby',
+        'goodemerald',
+        'star',
+        'diamond',
+        'black_diamond',
+        'rose_diamond'
     ],
 
     'any': [

@@ -45,9 +45,7 @@ label lb_city_raze:
             call lb_city_cathedral_atk
             
         'Богатые кварталы':
-            # TODO: Разграбление для богатого квартала.
-            'Плейсхолдер'
-            call lb_city_walk
+            call lb_city_jew_atk
             
         'Покинуть город':
             return
@@ -79,9 +77,9 @@ label lb_city_walk:
 
 label lb_city_palace:
     'Гордая цитадель возвышается на холме в центре города. Здесь находится зимняя резиденция короля. Изнутри доносятся соблазнительные ароматы драгоценностей и благородных дев. На воротах стоят бдительные гвардейцы.'
+    $ game.foe = core.Enemy('palace_guards', gameRef=game, base_character=NVLCharacter)
+    $ chances = show_chances(game.foe)
     nvl clear
-    $ game.foe = core.Enemy('heavy_infantry', gameRef=game, base_character=NVLCharacter)
-    $ narrator(show_chances(game.foe))
     menu:
         'Напасть':
             call lb_city_palace_atk
@@ -92,7 +90,8 @@ label lb_city_palace:
 
 label lb_city_palace_atk:
     $ game.dragon.drain_energy()
-    $ game.foe = core.Enemy('heavy_infantry', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('palace_guards', gameRef=game, base_character=NVLCharacter)
+    $ chances = show_chances(game.foe)
     call lb_fight
     'Пока остальные защитники цитадели находятся в замешательстве, у дракона появился отилинчый шанс для грабежа и разбоя.'
     $ game.dragon.reputation.points += 3
@@ -107,18 +106,18 @@ label lb_city_palace_atk:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex     
-        'Воровать и убивать':
+        'Вороватъ @ убиватъ':
             $ game.dragon.drain_energy()
             python:
-                count = random.randint(5, 15)
+                count = random.randint(4, 9)
                 alignment = 'knight'
-                min_cost = 100
-                max_cost = 1000
+                min_cost = 200
+                max_cost = 2000
                 obtained = "Это предмет из королевской сокровищницы."
                 trs = treasures.gen_treas(count, data.loot['palace'], alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
                 trs_descrptn = '\n'.join(trs_list)
-            'С демоническим хохотом [game.dragon.fullname] проносится по коридорам дворца убивая всех на своём пути и присваивая каждую понравившуся ему вещь:'
+            'С кровожадным рёвом [game.dragon.fullname] проносится по коридорам дворца убивая всех на своём пути и присваивая каждую понравившуся ему вещь:'
             '[trs_descrptn]'
             $ game.lair.treasury.receive_treasures(trs)
             $ game.dragon.reputation.points += 5
@@ -176,15 +175,15 @@ label lb_city_cathedral:
 label lb_city_cathedral_atk:
     $ game.dragon.drain_energy()
     python:
-        count = random.randint(3, 10)
+        count = random.randint(4, 10)
         alignment = 'cleric'
         min_cost = 10
-        max_cost = 1000
+        max_cost = 500
         obtained = "Это предмет из столичного кафедрального собора."
         trs = treasures.gen_treas(count, data.loot['church'], alignment, min_cost, max_cost, obtained)
         trs_list = game.lair.treasury.treasures_description(trs)
         trs_descrptn = '\n'.join(trs_list)
-    'С демоническим хохотом [game.dragon.fullname] проносится по коридорам дворца убивая всех на своём пути и присваивая каждую понравившуся ему вещь:'
+    'С демоническим хохотом [game.dragon.fullname] врывается в святилище, убивая всех на своём пути и присваивая каждую понравившуся ему вещь:'
     '[trs_descrptn]'
     $ game.lair.treasury.receive_treasures(trs)
     $ game.dragon.reputation.points += 5
@@ -192,7 +191,9 @@ label lb_city_cathedral_atk:
     return
 
 label lb_city_jewler:
-    'Мастерская ювелира'
+    'В этом богатом квартале работают самые искустные ремесленники - оружейники, ювелиры и краснодеревщики. Кругом стоит одуряющий запах сокровищ и благородных женщин вышедших за покупками. К сожалению стражи тут тоже много - стоят на каждом углу.'
+    $ game.foe = core.Enemy('city_guard', gameRef=game, base_character=NVLCharacter)
+    $ chances = show_chances(game.foe)
     nvl clear
     menu:
         'Купить драгоценности':
@@ -234,7 +235,63 @@ label lb_city_jewler:
                 $ game.lair.treasury.receive_treasures([new_item])
                 $ test_description = new_item.description()
                 "Изготовлено: [test_description]."
+        'Принять истинный облик':
+            call lb_city_jew_atk
         'Вернуться на площадь':
             call lb_city_walk
     
     return
+
+
+label lb_city_jew_atk:
+    $ game.dragon.drain_energy()
+    $ game.foe = core.Enemy('city_guard', gameRef=game, base_character=NVLCharacter)
+    call lb_fight
+    'В ближайшей округе не осталось ни одного живого стражника. Кругом царит паника, люди бегут прочь от дракона спасая самое ценное. [game.dragon.name] оглядывает сцену разрушения и хаоса. Толстый ювелир, тащит тяжелую деревянную шкатулку с драгоценностями. Благнородная девица с визгом убегает прочь. В подвале горящего дома, который вот вот обрушится лежат без присмотра драгоценные слитки и камни.'
+    $ game.dragon.reputation.points += 3
+    '[game.dragon.reputation.gain_description]'
+    menu:
+        'Схватить ювелира':
+            python:
+                count = random.randint(3, 10)
+                alignment = 'human'
+                min_cost = 10
+                max_cost = 500
+                obtained = "Это предмет из лавки ювелира."
+                trs = treasures.gen_treas(count, data.loot['jeweler'], alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+            'Ограбить неуклюжего ювелира всё равно что отнять конфетку у ребёнка. В шкатулке много интересного:'
+            '[trs_descrptn]'
+            $ game.lair.treasury.receive_treasures(trs)
+            $ game.dragon.reputation.points += 5
+            '[game.dragon.reputation.gain_description]' 
+    
+        'Догнать благородную девицу':
+            $ game.dragon.drain_energy()
+            $ description = game.girls_list.new_girl('princess')
+            'Дракон ловит благородную девицу'
+            $ game.dragon.reputation.points += 5
+            '[game.dragon.reputation.gain_description]'
+            nvl clear
+            game.girl.third "[description]"
+            call lb_nature_sex     
+            
+        'Спасти сокровища из горящего дома':
+            python:
+                count = random.randint(3, 10)
+                alignment = 'human'
+                min_cost = 10
+                max_cost = 1000
+                obtained = "Это предмет из лавки ювелира."
+                trs = treasures.gen_treas(count, data.loot['raw_material'], alignment, min_cost, max_cost, obtained)
+                trs_list = game.lair.treasury.treasures_description(trs)
+                trs_descrptn = '\n'.join(trs_list)
+            'Действовать надо быстро, пока горящий дом не обрушился и не похоронил под своими обломками ценности:'
+            '[trs_descrptn]'
+            $ game.lair.treasury.receive_treasures(trs)
+            $ game.dragon.reputation.points += 3
+            '[game.dragon.reputation.gain_description]' 
+    
+    return
+    
