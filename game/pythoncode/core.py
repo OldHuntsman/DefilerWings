@@ -308,9 +308,19 @@ class Game(store.object):
         for quest_i in xrange(len(data.quest_list)):
             quest = data.quest_list[quest_i]
             # находим квест, подходящий по уровню, не уникальный или ещё не выполненный за текущую игру
-            if quest['min_lvl'] <= lvl <= quest['max_lvl'] and \
-                    ('unique' not in quest or quest['unique'] not in self.unique) and \
-                    ('prerequisite' not in quest or quest['prerequisite'] in self.unique):
+            is_applicable = ('prerequisite' not in quest or quest['prerequisite'] in self.unique)
+            is_applicable = is_applicable and ('unique' not in quest or quest['unique'] not in self.unique)
+            is_applicable = is_applicable and quest['min_lvl'] <= lvl <= quest['max_lvl']
+            if 'anatomy_required' in quest:
+                any_applicable = False
+                for require in quest['anatomy_required']:
+                    curr_applicable = True
+                    for subrequire in require.keys():
+                        curr_applicable = curr_applicable and \
+                            self.dragon.modifiers().count(subrequire) >= require[subrequire]
+                    any_applicable = any_applicable or curr_applicable
+                is_applicable = is_applicable and any_applicable
+            if is_applicable:
                 quests.append(quest)
         self._quest = random.choice(quests)
         # Задание года окончания выполнения квеста

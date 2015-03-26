@@ -190,7 +190,8 @@ class GirlsList(object):
             # попытка побега
             if (random.randint(1, 2) == 1) and self.game.lair.reachable([]) and \
                     'regular_guards' not in self.game.lair.upgrades and \
-                    'elite_guards' not in self.game.lair.upgrades:
+                    'elite_guards' not in self.game.lair.upgrades and \
+                    'smuggler_guards' not in self.game.lair.upgrades:
                 # Девушка сбежала из камеры
                 del self.prisoners[girl_i]
                 self.event('escape')  # событие "побег из заключения"

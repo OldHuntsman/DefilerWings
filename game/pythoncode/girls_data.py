@@ -368,6 +368,11 @@ spawn_info = {
         'modifier': ['elite', 'marine'],
         'name': u'Нага',
     },
+    'ice_worm': {
+        'power': 5,
+        'modifier': ['poisonous'],
+        'name': u'Ледяной червь',
+    },
     'yettie': {
         'power': 5,
         'modifier': ['warrior'],
