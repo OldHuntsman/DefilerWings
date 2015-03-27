@@ -356,7 +356,7 @@ label lb_abbey_rob:
         trs_list = game.lair.treasury.treasures_description(trs)
         trs_descrptn = '\n'.join(trs_list)
     menu:
-        'Разграбить монастырь':
+        'Разграбить обитель':
             show expression 'img/bg/lair/ruins_inside.png' as bg
             $ txt = game.interpolate(random.choice(txt_place_abbey[2]))
             '[txt]'    
@@ -599,7 +599,7 @@ label lb_enc_create_ogre_lair:
 # Жльё морозного великана    
 
 label lb_jotun_found:
-    'Жилище ледяного великана.'
+    'Высоко в горах, где всё покрыто льдом и снегом стоит гигантский ледяной дворец. Интересно...'
     nvl clear
     jump lb_jotun
     
@@ -650,7 +650,7 @@ label lb_jotun_empty:
 # Жильё огненного великана
     
 label lb_ifrit_found:
-    'Жилище огненного великана.'
+    'Над жерлом вулкана возвышается башня из чёрного обсидиана. Интересно кто там живет...'
     nvl clear
     jump lb_ifrit
     
@@ -702,9 +702,9 @@ label lb_ifrit_empty:
 # Жильё тритона
     
 label lb_triton_found:
-    'Дракон поднимается над облаками...'
+    'Дракон проплывает вдоль прибрежной зоны...'
     show expression 'img/bg/lair/underwater.png' as bg
-    'И обнаруживает жилище огненного великана.'
+    'И обнаруживает подводную арку, украшенную кораллами и ракушками. Проём достаточно велик чтобы внутрь мог заплыть даже кашалот.'
     nvl clear
     jump lb_triton
     
@@ -757,7 +757,7 @@ label lb_triton_empty:
 label lb_titan_found:
     'Дракон поднимается над облаками...'
     show expression 'img/bg/special/cloud_castle.png' as bg
-    'И обнаруживает жилище огненного великана.'
+    'И обнаруживает летающий остров с прекрасным замком. Интересно кто его построил...'
     nvl clear
     jump lb_titan
     

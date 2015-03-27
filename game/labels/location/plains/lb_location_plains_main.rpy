@@ -528,7 +528,7 @@ label lb_village:
     '[txt1]'
     nvl clear
     menu:
-        'Наложить дань' if village_size > 0 and game.dragon.fear > 0:
+        'Наложить дань' if village_size > 0 and game.dragon.fear > village_size:
             $ game.dragon.drain_energy()
             show expression 'img/bg/special/fear.png' as bg
             if village_size == 1:
@@ -562,7 +562,7 @@ label lb_village:
                     count = 1
                     alignment = 'human'
                     min_cost = 100
-                    max_cost = 1000
+                    max_cost = 500
                     t_list = ['farting']
                     obtained = "Часть дани, выплаченной одной из деревень."
                     trs = treasures.gen_treas(count, t_list, alignment, min_cost, max_cost, obtained)
@@ -586,10 +586,10 @@ label lb_village:
             call lb_fight
             'Поселение успешно разграблено. Добыча:'
             python:
-                count = random.randint(3, 7)
+                count = random.randint(5, 10)
                 alignment = 'human'
-                min_cost = 10 * village_size
-                max_cost = 100 * village_size
+                min_cost = 5 * village_size
+                max_cost = 25 * village_size
                 obtained = "Это предмет из разграбленного людского поселения."
                 trs = treasures.gen_treas(count, data.loot['klad'], alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
@@ -606,10 +606,10 @@ label lb_village:
             call lb_fight
             'Поселение разорено. Разруха в стране растёт. В разрушенных домах и на телах убитых нашлись кое-какие ценности:'
             python:
-                count = random.randint(3, 7)
+                count = random.randint(5, 10)
                 alignment = 'human'
-                min_cost = 10 * village_size
-                max_cost = 100 * village_size
+                min_cost = 5 * village_size
+                max_cost = 25 * village_size
                 obtained = "Это предмет из разграбленного людского поселения."
                 trs = treasures.gen_treas(count, data.loot['klad'], alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
