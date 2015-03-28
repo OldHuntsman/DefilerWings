@@ -461,9 +461,10 @@ init -2 python:
 screen yesno_prompt:
 
     modal True
-
-    window:
-        style "gm_root"
+    
+    add "img/menu/quit.jpeg"
+    
+    tag menu
 
     frame:
         style_group "yesno"
