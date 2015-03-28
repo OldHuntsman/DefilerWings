@@ -223,6 +223,12 @@ screen main_menu:
         textbutton _("Выход") action Quit(confirm=False):
             xalign .966
             yalign .925
+    frame:
+        style_group "mm"
+        xalign .03
+        yalign .95
+        textbutton _("PayPal") xalign .03 yalign .95 xsize 60 ysize 40 action OpenURL("https://www.paypal.com/ru/cgi-bin/webscr?cmd=_flow&SESSION=P9wF7N37lkqY-SdkCoLSYUQEi2Kb46lJ9Sosxm8dIMP3Jyd_IKGXk4Y7Ety&dispatch=5885d80a13c0db1f8e263663d3faee8de62a88b92df045c56447d40d60b23a7c")
+        textbutton _("Yandex") xalign .32 yalign .95 xsize 60 ysize 40 action OpenURL("https://money.yandex.ru/embed/donate.xml?account=41001501798872&quickpay=donate&default-sum=&targets=%D0%9A%D1%80%D1%8B%D0%BB%D1%8C%D1%8F+%D0%9E%D1%81%D0%BA%D0%B2%D0%B5%D1%80%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F&project-name=%D0%9A%D1%80%D1%8B%D0%BB%D1%8C%D1%8F+%D0%9E%D1%81%D0%BA%D0%B2%D0%B5%D1%80%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F&project-site=http%3A%2F%2Foldhuntergames.blogspot.ru%2F&button-text=01&successURL=")
 
     # text "{font=fonts/Lombardina.ttf}Крылья":
         # xalign 0.94
@@ -254,13 +260,13 @@ init python:
     style.mm_button.hover_background = Frame("img/menu/button/hover.png", 10, 10)
     style.mm_button.selected_background = Frame("img/menu/button/selected.png", 10, 10)
     style.mm_button.selected_hover_background = Frame("img/menu/button/selected.png", 10, 10)
-    style.mm_frame.background = Frame("img/menu/frame.png", 125, 25)
+    style.mm_frame.background = None
 
     style.mm_button_text.size = 22
     style.mm_button_text.font = "fonts/PFMonumentaPro-Regular.ttf"
 
-    style.mm_button.yminimum = 70
-    style.mm_button.xminimum = 280
+    style.mm_button.ysize = 70
+    style.mm_button.xsize = 280
 
 ##############################################################################
 # Navigation
