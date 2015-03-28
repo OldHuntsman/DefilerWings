@@ -135,7 +135,7 @@ init -1 python hide:
         # The background of the game menu. This can be a color
         # beginning with '#', or an image filename. The latter
         # should take up the full height and width of the screen.
-        gm_root="img/menu/gm.png",  # фон менюшек (настройки, пауза и пр.)
+        #gm_root="img/menu/gmenu2.png",  # фон менюшек (настройки, пауза и пр.)
 
         # If this is True, the in-game window is rounded. If False,
         # the in-game window is square.
