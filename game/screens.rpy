@@ -227,8 +227,8 @@ screen main_menu:
         style_group "mm"
         xalign .03
         yalign .95
-        textbutton _("PayPal") xalign .03 yalign .95 xsize 60 ysize 40 action Help("page.html")
-        textbutton _("Yandex") xalign .32 yalign .95 xsize 60 ysize 40 action OpenURL("https://money.yandex.ru/embed/donate.xml?account=41001501798872&quickpay=donate&default-sum=&targets=%D0%9A%D1%80%D1%8B%D0%BB%D1%8C%D1%8F+%D0%9E%D1%81%D0%BA%D0%B2%D0%B5%D1%80%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F&project-name=%D0%9A%D1%80%D1%8B%D0%BB%D1%8C%D1%8F+%D0%9E%D1%81%D0%BA%D0%B2%D0%B5%D1%80%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F&project-site=http%3A%2F%2Foldhuntergames.blogspot.ru%2F&button-text=01&successURL=")
+        imagebutton auto "img/menu/paypal_%s.png" xalign .03 yalign .95 xsize 60 ysize 40 action Help("page.html")
+        imagebutton auto "img/menu/yandex_%s.png" xalign .13 yalign .95 xsize 60 ysize 40 action OpenURL("https://money.yandex.ru/embed/donate.xml?account=41001501798872&quickpay=donate&default-sum=&targets=%D0%9A%D1%80%D1%8B%D0%BB%D1%8C%D1%8F+%D0%9E%D1%81%D0%BA%D0%B2%D0%B5%D1%80%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F&project-name=%D0%9A%D1%80%D1%8B%D0%BB%D1%8C%D1%8F+%D0%9E%D1%81%D0%BA%D0%B2%D0%B5%D1%80%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F&project-site=http%3A%2F%2Foldhuntergames.blogspot.ru%2F&button-text=01&successURL=")
 
     # text "{font=fonts/Lombardina.ttf}Крылья":
         # xalign 0.94
