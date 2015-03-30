@@ -223,6 +223,12 @@ screen main_menu:
         textbutton _("Выход") action Quit(confirm=False):
             xalign .966
             yalign .925
+    frame:
+        style_group "mm"
+        xalign .03
+        yalign .95
+        textbutton _("PayPal") xalign .03 yalign .95 xsize 60 ysize 40 action OpenURL("https://www.paypal.com/ru/cgi-bin/webscr?cmd=_flow&SESSION=P9wF7N37lkqY-SdkCoLSYUQEi2Kb46lJ9Sosxm8dIMP3Jyd_IKGXk4Y7Ety&dispatch=5885d80a13c0db1f8e263663d3faee8de62a88b92df045c56447d40d60b23a7c")
+        textbutton _("Yandex") xalign .32 yalign .95 xsize 60 ysize 40 action OpenURL("https://money.yandex.ru/embed/donate.xml?account=41001501798872&quickpay=donate&default-sum=&targets=%D0%9A%D1%80%D1%8B%D0%BB%D1%8C%D1%8F+%D0%9E%D1%81%D0%BA%D0%B2%D0%B5%D1%80%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F&project-name=%D0%9A%D1%80%D1%8B%D0%BB%D1%8C%D1%8F+%D0%9E%D1%81%D0%BA%D0%B2%D0%B5%D1%80%D0%BD%D0%B8%D1%82%D0%B5%D0%BB%D1%8F&project-site=http%3A%2F%2Foldhuntergames.blogspot.ru%2F&button-text=01&successURL=")
 
     # text "{font=fonts/Lombardina.ttf}Крылья":
         # xalign 0.94
@@ -254,13 +260,13 @@ init python:
     style.mm_button.hover_background = Frame("img/menu/button/hover.png", 10, 10)
     style.mm_button.selected_background = Frame("img/menu/button/selected.png", 10, 10)
     style.mm_button.selected_hover_background = Frame("img/menu/button/selected.png", 10, 10)
-    style.mm_frame.background = Frame("img/menu/frame.png", 125, 25)
+    style.mm_frame.background = None
 
     style.mm_button_text.size = 22
     style.mm_button_text.font = "fonts/PFMonumentaPro-Regular.ttf"
 
-    style.mm_button.yminimum = 70
-    style.mm_button.xminimum = 280
+    style.mm_button.ysize = 70
+    style.mm_button.xsize = 280
 
 ##############################################################################
 # Navigation
@@ -269,32 +275,30 @@ init python:
 # navigation and background.
 # http://www.renpy.org/doc/html/screen_special.html#navigation
 screen navigation:
-
-    # The background of the game menu.
-    window:
-        style "gm_root"
-
     # The various buttons.
     frame:
-        style_group "gm_nav"
-        xalign .98
-        yalign .98
+        style_group "gmnav"
+        xpos 855
 
         has vbox
 
-        textbutton _("Обратно") action Return()
-        textbutton _("Настройки") action ShowMenu("preferences")
+        textbutton _("Обратно") ypos 285 action Return()
+        textbutton _("Настройки") ypos 295 action ShowMenu("preferences")
         # textbutton _("Сохранить игру") action ShowMenu("save")
         # textbutton _("Загрузить игру") action ShowMenu("load")
-        textbutton _("Главное меню") action MainMenu()
-        textbutton _("Помощь") action Help()
-        textbutton _("Выход") action Quit()
+        textbutton _("Главное меню") ypos 305 action MainMenu()
+        textbutton _("Помощь") ypos 315 action Help()
+        textbutton _("Выход") ypos 325 action Quit()
 
-init -2:
-
-    # Make all game menu navigation buttons the same size.
-    style gm_nav_button:
-        size_group "gm_nav"
+init -2 python:
+    style.gmnav_frame.background = None
+    style.gmnav_button.background = Frame("img/menu/button/idle.png",10,10)
+    style.gmnav_button.hover_background = Frame("img/menu/button/hover.png",10,10)
+    style.gmnav_button.selected_background = Frame("img/menu/button/selected.png",10,10)
+    style.gmnav_button.xsize = 300
+    style.gmnav_button.ysize = 60
+    style.gmnav_button_text.size = 20
+    style.gmnav_button_text.font = "fonts/PFMonumentaPro-Regular.ttf"
 
 
 ##############################################################################
@@ -309,7 +313,8 @@ init -2:
 # from simple load and save screens.
 
 screen file_picker:
-
+    #add "img/menu/gmenu2.png"
+    use navigation
     frame:
         style "file_picker_frame"
 
@@ -379,155 +384,72 @@ init -2:
 screen preferences:
 
     tag menu
-
+    add "img/menu/gmenu.png"
     # Include the navigation.
     use navigation
-
-    # Put the navigation columns in a three-wide grid.
-    grid 3 1:
-        style_group "prefs"
-        xfill True
-
-        # The left column.
-        vbox:
-            frame:
-                style_group "pref"
-                has vbox
-
-                label _("Экран")
-                textbutton _("В окне") action Preference("display", "window")
-                textbutton _("Полныйэкран") action Preference("display", "fullscreen")
-
-            frame:
-                style_group "pref"
-                has vbox
-
-                label _("Переход")
-                textbutton _("Все") action Preference("transitions", "all")
-                textbutton _("Ничего") action Preference("transitions", "none")
-
-            frame:
-                style_group "pref"
-                has vbox
-
-                label _("Скорость текста")
-                bar value Preference("text speed")
-
-            frame:
-                style_group "pref"
-                has vbox
-
-                textbutton _("Джостик...") action Preference("joystick")
-            
-            frame:
-                style_group "pref"
-                has vbox
-
-                textbutton _("Сброс сюжетной игры") action Game_Reset()
-
-            frame:
-                style_group "pref"
-                has vbox
-
-                textbutton _("Сброс свободной игры") action FreeGame_Reset()
-
-        vbox:
-            frame:
-                style_group "pref"
-                has vbox
-
-                label _("Пропуск")
-                textbutton _("Увиденные сцены") action Preference("skip", "seen")
-                textbutton _("Все сцены") action Preference("skip", "all")
-
-            frame:
-                style_group "pref"
-                has vbox
-
-                textbutton _("Начать пропуск") action Skip()
-
-            frame:
-                style_group "pref"
-                has vbox
-
-                label _("После выбора")
-                textbutton _("Закончить пропуск") action Preference("after choices", "stop")
-                textbutton _("Продолжить пропуск") action Preference("after choices", "skip")
-
-            frame:
-                style_group "pref"
-                has vbox
-
-                label _("Auto-Forward Time")
-                bar value Preference("auto-forward time")
-
-                if config.has_voice:
-                    textbutton _("Wait for Voice") action Preference("wait for voice", "toggle")
-
-        vbox:
-            frame:
-                style_group "pref"
-                has vbox
-
-                label _("Громкость музыки")
-                bar value Preference("music volume")
-
-            frame:
-                style_group "pref"
-                has vbox
-
-                label _("Громкость звука")
-                bar value Preference("sound volume")
-
-                if config.sample_sound:
-                    textbutton _("Тест звука"):
-                        action Play("sound", config.sample_sound)
-                        style "soundtest_button"
-
-            if config.has_voice:
-                frame:
-                    style_group "pref"
-                    has vbox
-
-                    label _("Громкость голоса")
-                    bar value Preference("voice volume")
-
-                    textbutton _("Voice Sustain") action Preference("voice sustain", "toggle")
-                    if config.sample_voice:
-                        textbutton _("Тест"):
-                            action Play("voice", config.sample_voice)
-                            style "soundtest_button"
-
-init -2:
-    style pref_frame:
-        xfill True
-        xmargin 5
-        top_margin 5
-
-    style pref_vbox:
-        xfill True
-
-    style pref_button:
-        size_group "pref"
-        xalign 1.0
-
-    style pref_slider:
-        xmaximum 192
-        xalign 1.0
-
-    style soundtest_button:
-        xalign 1.0
-
-    # style pref_root:
-    #    background img/menu/gmenu.png
     
-    python:
-        class Game_Reset(object):
-            def __call__(self):
-                renpy.unlink_save("1-1")
-        class FreeGame_Reset(object):
-            def __call__(self):
-                renpy.unlink_save("1-3")
+    frame:
+        style_group "pref"
+        has vbox
+        textbutton _("Полный экран") xpos 120 ypos 140 action Preference('display', 'fullscreen')
+        textbutton _("В окне") xpos 280 ypos 80 action Preference('display', 'window')
+    frame:
+        style_group "pref"
+        has vbox
+        textbutton _("Увиденное") xpos 490 ypos 140 action Preference('skip', 'seen')
+        textbutton _("Все") xpos 650 ypos 80 action Preference('skip', 'all')
+        textbutton _("Начать пропуск") xpos 490 ypos 140 xsize 300 ysize 40 action Preference('begin skipping')
+    frame:
+        style_group "pref"
+        has vbox
+        textbutton _("Все") xpos 120 ypos 300 action Preference("transitions", "all")
+        textbutton _("Ничего") xpos 280 ypos 240 action Preference("transitions", "none")
+    frame:
+        style_group "pref"
+        has vbox
+        textbutton _("Продолжить пропуск") xpos 490 ypos 400 action Preference('after choices', 'skip')
+        textbutton _("Закончить пропуск") xpos 650 ypos 340 action Preference('after choices', 'stop')
+    frame:
+        style_group "pref"
+        has vbox
+        #textbutton _("Сюжет") xpos 120 ypos 540 action Game_Reset()
+        #textbutton _("Свобод") xpos 280 ypos 480 action FreeGame_Reset()
+    
+    frame xpos 858 ypos 132:
+        style_group "pref"
+        has vbox
+        bar value Preference("music volume")
+    frame xpos 858 ypos 220:
+        style_group "pref"
+        has vbox
+        bar value Preference("sound volume")
+    frame xpos 123 ypos 455:
+        style_group "pref"
+        has vbox
+        bar value Preference("text speed")
+    frame xpos 488 ypos 540:
+        style_group "pref"
+        has vbox
+        bar value Preference("auto-forward time")
+        
+    # Put the navigation columns in a three-wide grid.
+
+init -2 python:
+    style.pref_frame.background = None
+    style.pref_slider.left_bar = "img/menu/bar_hover.png"
+    style.pref_slider.right_bar = "img/menu/bar_empty.png"
+    #style.pref_slider.hover_left_bar = "img/menu/bar_hover.png"
+    style.pref_slider.thumb = "img/menu/tumb.png"
+    style.pref_slider.xmaximum = 300
+    style.pref_slider.ymaximum = 14
+    
+    style.pref_button.background = Frame("img/menu/button/idle.png",10,10)
+    style.pref_button.hover_background = Frame("img/menu/button/hover.png",10,10)
+    style.pref_button.selected_background = Frame("img/menu/button/selected.png",10,10)
+    style.pref_button.xsize = 140
+    style.pref_button.ysize = 60
+    style.pref_button_text.size = 14
+    style.pref_button_text.font = "fonts/PFMonumentaPro-Regular.ttf"
 
 
 ##############################################################################
@@ -539,9 +461,10 @@ init -2:
 screen yesno_prompt:
 
     modal True
-
-    window:
-        style "gm_root"
+    
+    add "img/menu/quit.jpeg"
+    
+    tag menu
 
     frame:
         style_group "yesno"
@@ -575,15 +498,22 @@ screen yesno_prompt:
                     textbutton _("Да") action FileSave("3", confirm=False, page="1"), yes_action
             else:
                 textbutton _("Да") action yes_action
-            textbutton _("Нет") action no_action
+                textbutton _("Нет") action no_action
 
     # Right-click and escape answer "no".
     key "game_menu" action no_action
 
-init -2:
-    style yesno_button:
-        size_group "yesno"
+init -2 python:
+    style.yesno_frame.background = None
+    style.yesno_button.background = Frame("img/menu/button/idle.png",10,10)
+    style.yesno_button.hover_background = Frame("img/menu/button/hover.png",10,10)
+    style.yesno_button.selected_background = Frame("img/menu/button/selected.png",10,10)
+    style.yesno_button.xsize = 140
+    style.yesno_button.ysize = 60
+    style.yesno_button_text.size = 20
+    style.yesno_button_text.font = "fonts/PFMonumentaPro-Regular.ttf"
 
+init -2:
     style yesno_label_text:
         text_align 0.5
         layout "subtitle"
