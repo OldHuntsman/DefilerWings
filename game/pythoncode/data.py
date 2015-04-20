@@ -497,16 +497,16 @@ obj - вещь, которую получил вор
 '''
 thief_events = {
     "spawn": "lb_event_thief_spawn",
-    "lair_unreachable": None,
-    "prepare": None,
-    "prepare_usefull": None,
-    "prepare_useless": None,
-    "lair_enter": None,
-    "die_item": None,
-    "die_inaccessability": None,
-    "die_trap": None,
-    "pass_trap": None,
-    "receive_no_item": None,
+    "lair_unreachable": "lb_event_thief_lair_unreachable",
+    "prepare": "lb_event_thief_prepare",
+    "prepare_usefull": "lb_event_thief_prepare_usefull",
+    "prepare_useless": "lb_event_thief_prepare_useless",
+    "lair_enter": "lb_event_thief_lair_enter",
+    "die_item": "lb_event_thief_die_item",
+    "die_inaccessability": "lb_event_thief_die_inaccessability",
+    "die_trap": "lb_event_thief_die_trap",
+    "pass_trap": "lb_event_thief_pass_trap",
+    "receive_no_item": "lb_event_thief_receive_no_item",
     "receive_item": "lb_event_thief_receive_item",
     "steal_items": "lb_event_thief_steal_items",
 }
@@ -996,6 +996,9 @@ knight_events = {
     "prepare_usefull": None,
     "prepare_useless": None,
     "receive_item": "lb_event_knight_receive_item",
+    "challenge_start": "lb_event_knight_challenge_start",   # Должен возвращать True или False
+                                                            # True - бой с рыцарем начинается
+                                                            # False - нет
 }
 
 #

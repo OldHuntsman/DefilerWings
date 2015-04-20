@@ -164,7 +164,7 @@ class Game(store.object):
                 if renpy.config.debug:
                     self.narrator(u"Вору ссыкотно, надо бы подготовиться.")
                 self.thief.event("prepare")
-                if random.choice(range(2)) == 0:  # C 50% шансом получаем шмотку
+                if random.choice(range(3)) == 0:  # C 33% шансом получаем шмотку
                     self.thief.event("prepare_usefull")
                     self.thief.receive_item()
                     if renpy.config.debug:
@@ -192,17 +192,18 @@ class Game(store.object):
                 # Идем на дело
                 if renpy.config.debug:
                     self.narrator(u"Рыцарь вызывает дракона на бой")
-                fight_result = self.knight.fight_dragon()
-                if renpy.config.debug:
-                    self.narrator(u"После схватки рыцаря")
-                if fight_result in ["defeat", "retreat"]:
-                    return fight_result
-                    # renpy.call("lb_fight", foe=self.knight)
+                if self.knight.event("challenge_start"):
+                    fight_result = self.knight.fight_dragon()
+                    if renpy.config.debug:
+                        self.narrator(u"После схватки рыцаря")
+                    if fight_result in ["defeat", "retreat"]:
+                        return fight_result
+                        # renpy.call("lb_fight", foe=self.knight)
             else:
                 if renpy.config.debug:
                     self.narrator(u"Рыцарю ссыкотно, надо бы подготовиться.")
                 self.knight.event("prepare")
-                if random.choice(range(2)) == 0:  # C 50% шансом получаем шмотку
+                if random.choice(range(3)) == 0:  # C 33% шансом получаем шмотку
                     self.knight.event("prepare_usefull")
                     self.knight.enchant_equip()
                     if renpy.config.debug:
@@ -243,12 +244,15 @@ class Game(store.object):
         """
         from thief import Thief
 
+        # Если уровень вора не указан, то он может и не появится.
         if thief_level is None:
             thief_level = Thief.start_level(self.dragon.reputation.level)
-        if thief_level > 0:
+            if self.dragon.reputation.level in range(1, 5 + self.dragon.reputation.level, 1) and thief_level > 0:
+                self.thief = Thief(level=thief_level, treasury=self.lair.treasury, game_ref=self)
+            else:
+                self.thief = None
+        else:  # Уровень вора указан, герерируем вора.
             self.thief = Thief(level=thief_level, treasury=self.lair.treasury, game_ref=self)
-        else:
-            self.thief = None
 
     def _create_knight(self, knight_level=None):
         """
@@ -486,6 +490,8 @@ class Game(store.object):
             "dragon_name": self.dragon.name,
             "dragon_name_full": self.dragon.fullname,
         }
+        if self.foe is not None:
+            substitutes["foe_name"] = self.foe.name
         return substitutes
 
     @property

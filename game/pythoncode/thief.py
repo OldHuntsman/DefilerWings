@@ -213,7 +213,11 @@ class Thief(Sayer, Mortal):
         for i in range(3 + reputation):
             if random.choice(range(3)) == 0:
                 skill += 1
-        return skill
+        return skill if skill < Thief.max_level() else Thief.max_level()
+
+    @staticmethod
+    def max_level():
+        return len(data.thief_titles)
 
     def event(self, event_type, *args, **kwargs):
         if event_type in data.thief_events:

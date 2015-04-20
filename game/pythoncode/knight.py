@@ -29,11 +29,8 @@ class Knight(Fighter):
         self.power = level
         self.abilities = data.Container("knight_abilities")
         ability_list = [a for a in data.knight_abilities]  # Составляем список из возможных способностей
-        ability_list += [None for _ in range(len(ability_list))]  # Добавляем невалидных вариантов
-        for i in range(level):
-            ab = random.choice(ability_list)
-            if ab is not None and ab not in self.abilities:
-                self.abilities.add(ab, deepcopy(data.knight_abilities[ab]))
+        ab = random.choice(ability_list)
+        self.abilities.add(ab, deepcopy(data.knight_abilities[ab]))
         self._add_equip_slots(["vest", "spear", "sword", "shield", "horse", "follower"])
         self.equip(deepcopy(data.knight_items.basic_vest))
         self.equip(deepcopy(data.knight_items.basic_spear))
@@ -174,12 +171,13 @@ class Knight(Fighter):
         :return: None
         :raise Exception: Генерируется исключение если событие не найдено.
         """
+        retval = None
         if event_type in data.knight_events:
             if data.knight_events[event_type] is not None:
-                call(data.knight_events[event_type], *args, knight=self, **kwargs)
+                retval = call(data.knight_events[event_type], *args, knight=self, **kwargs)
         else:
             raise Exception("Unknown event: %s" % event_type)
-        return
+        return retval
 
     def enchant_equip(self, item=None):
         """
@@ -228,7 +226,15 @@ class Knight(Fighter):
         for i in range(3 + reputation):
             if random.choice(range(3)) == 0:
                 skill += 1
-        return skill
+        return skill if skill < Knight.max_level() else Knight.max_level()
+
+    @staticmethod
+    def max_level():
+        return len(data.knight_titles)
+
+    @property
+    def intro(self):
+        return random.choice([d for d in mob_data.mob['knight']['descriptions'] if 'foe_intro' in d[0]])[1]
 
     def fight_dragon(self):
         """Рыцарь отправляется на схвату с драконом

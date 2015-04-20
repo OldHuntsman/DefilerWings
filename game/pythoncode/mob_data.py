@@ -627,7 +627,7 @@ mob = {
         'name': u"Рыцарь",  # название моба применяемое в описании
         'descriptions': [
             [['foe_intro'], u"%(foe_name)s готовится к бою."],
-            [['foe_fear'],  u"%(foe_name)s бежит в страхе."],
+            [['foe_fear'], u"%(foe_name)s бежит в страхе."],
             [['foe_dead', 'dragon_undamaged'], u"%(dragon_name_full)s побеждает"],
             [['foe_dead', 'dragon_wounded'], u"%(foe_name)s наностит дракону ранение, но %(dragon_name)s побеждает"],
             [['foe_alive', 'dragon_wounded'], u"%(foe_name)s наносит дракону серьёзную рану"],
