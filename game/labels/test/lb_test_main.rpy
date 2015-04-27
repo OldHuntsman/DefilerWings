@@ -110,10 +110,16 @@ label lb_test_debug:
                             for upgrade in game.lair.upgrades.values():   
                                 lair_description += u" %s\n" % upgrade.name
                         narrator(lair_description)
+                "Добавить улучшение":
+                    python hide:
+                        upgrades_available = [(data.lair_upgrades[u].name, u) for u in data.lair_upgrades if u not in game.lair.upgrades]
+                        upg = menu(upgrades_available)
+                        game.lair.add_upgrade(upg)
+
                 "Работа с сокровищницей":
                     call lb_test_debug_treasury
                 "Добавить девушку":
-                    python:
+                    python hide:
                         from pythoncode import treasures
                         girls_menu = []
                         for girl_type in girls_data.girls_info.keys():
@@ -126,61 +132,46 @@ label lb_test_debug:
                     call screen sc_treasury_gems
                 "Редактировать воровские предметы":
                     call screen sc_container_editor(game.lair.treasury.thief_items, [data.thief_items, data.thief_items_cursed])
-                "Пустить вора на ограбление":
-                    if game.thief is not None and game.thief.is_alive():
+                "Пустить вора на ограбление" if game.thief is not None and game.thief.is_alive():
                         $ game.thief.steal(game.lair)
-                    else:
-                        "Вора нет или он мертв."
         "Вор":
             menu:
-                "(пере)Создать вора":
+                "(пере)Создать вора (через game)":
                     $ game._create_thief()
-                "Cоздать вора 1-го уровня":
-                    $ game._create_thief(thief_level=1)
-                "Изменить уровнень вора":
-                    # TODO: implement change of thief level
-                    pass
-                "Описать вора":
-                    if game.thief is not None:
-                        $ narrator(game.thief.description())
-                    else:
-                        "Вора нет"
-                "Редактировать умения":
-                    if game.thief is not None:
-                        call screen sc_container_editor(game.thief.abilities, [data.thief_abilities])
-                    else:
-                        "Вора нет"
-                "Редактировать предметы":
-                    if game.thief is not None:
-                        call screen sc_container_editor(game.thief.items, [data.thief_items, data.thief_items_cursed])
-                    else:
-                        "Вора нет"
-                "Пустить вора на ограбление":
-                    if game.thief is not None and game.thief.is_alive():
-                        $ game.thief.steal(game.lair)
-                    else:
-                        "Вора нет или он мертв."
+                "Cоздать вора (Определенного уровня)":
+                    python hide:
+                        lvls = []
+                        for i in data.thief_titles:
+                            lvls.append((i, data.thief_titles.index(i) + 1))
+                        thief_lvl = menu(lvls)
+                        game._create_thief(thief_level=1)
+                "Описать вора" if game.thief is not None:
+                    $ narrator(game.thief.description())
+                "Редактировать умения" if game.thief is not None:
+                    call screen sc_container_editor(game.thief.abilities, [data.thief_abilities])
+                "Редактировать предметы" if game.thief is not None:
+                    call screen sc_container_editor(game.thief.items, [data.thief_items, data.thief_items_cursed])
+                "Пустить вора на ограбление" if game.thief is not None and game.thief.is_alive:
+                    $ game.thief.steal(game.lair)
         "Рыцарь":
             menu:
-                "(пере)Создать рыцаря":
+                "(пере)Создать рыцаря (через game)":
                     $ game._create_knight()
-                "Cоздать рыцаря 1-го уровня":
-                    $ game._create_knight(knight_level=1)
-                "Описать рыцаря":
-                    if game.knight is not None:
-                        $ narrator(game.knight.description())
-                    else:
-                        "Рыцаря нет"
-                "Редактировать умения":
-                    if game.knight is not None:
-                        call screen sc_container_editor(game.knight.abilities, [data.knight_abilities])
-                    else:
-                        "Рыцаря нет"
-                "Редактировать предметы":
-                    if game.knight is not None:
-                        call screen sc_equip_editor(game.knight, [data.knight_items])
-                    else:
-                        "Рыцаря нет"
+                "Cоздать рыцаря (определенного уровня)":
+                    python hide:
+                        lvls = []
+                        for i in data.knight_titles:
+                            lvls.append((i, data.knight_titles.index(i) + 1))
+                        knight_lvl = menu(lvls)
+                        game._create_knight(knight_level=1)
+                "Описать рыцаря" if game.knight is not None:
+                    $ narrator(game.knight.description())
+                "Редактировать умения" if game.knight is not None:
+                    call screen sc_container_editor(game.knight.abilities, [data.knight_abilities])
+                "Редактировать предметы" if game.knight is not None:
+                    call screen sc_equip_editor(game.knight, [data.knight_items])
+                "Вызвать рыцарем дракона на бой" if game.knight is not None:
+                    $ renpy.call(data.knight_events['challenge_start'], game.knight)
         "Удалить сохранения":
             menu:
                 "Сохранение сюжетной игры":
