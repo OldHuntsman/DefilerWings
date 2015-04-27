@@ -2,10 +2,6 @@
 label lb_location_gremlin_main:
     $ place = 'gremlins'
     show place as bg
-      
-    if game.dragon.energy() == 0:
-        'Даже драконам надо иногда спать. Особенно драконам!'
-        return
         
     # Стоимость года работы гремлинов-слуг
     $ servant_cost = data.lair_upgrades['gremlin_servant']['cost']

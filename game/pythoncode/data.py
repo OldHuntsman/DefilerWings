@@ -1518,9 +1518,10 @@ effects_list = {
 modifiers = {
     # global
     'fire_immunity': Modifier(),
-    'ice_immunity': Modifier(),
+    'community': Modifier(),
     'poison_immunity': Modifier(),
     'lightning_immunity': Modifier(),
+    'ice_immunity': Modifier(),
     'sound_immunity': Modifier(),
     'magic_immunity': Modifier(),
 
@@ -1531,8 +1532,11 @@ modifiers = {
     'atk_up': Modifier(attack=('base', (1, 0))),  # 1 простая атака
     'satk_up': Modifier(attack=('base', (0, 1))),  # 1 верная атака
     'sfatk_up': Modifier(attack=('fire', (0, 1))),  # 1 верная атака огнем
+    'sfatk_2up': Modifier(attack=('fire', (0, 2))), # 2 верных атаки огнём
     'siatk_up': Modifier(attack=('ice', (0, 1))),  # 1 верная атака льдом
-    'slatk_up': Modifier(attack=('lightning', (0, 1))),  # 1 верная атака молнией
+    'siatk_2up': Modifier(attack=('ice', (0, 2))),  # 2 верных атаки льдом
+    'slatk_up': Modifier(attack=('lightning', (0, 1))),  # 1 верная атака молнией  
+    'slatk_2up': Modifier(attack=('lightning', (0, 2))),  # 2 верных атаки молнией    
     'def_up': Modifier(protection=('base', (1, 0))),  # 1 защита
     'sdef_up': Modifier(protection=('base', (0, 1))),  # 1 верная защита
     'decapitator': Modifier(),  # Обезглавливатель, при наличии этого модификатора у врага дракон вместо получения урона

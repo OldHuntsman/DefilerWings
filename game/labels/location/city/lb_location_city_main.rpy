@@ -5,7 +5,7 @@ label lb_location_city_main:
     show place as bg
     
     if game.dragon.energy() == 0:
-        dragon 'Даже драконам надо иногда спать. Особенно драконам!'
+        'Даже драконам надо иногда спать. Особенно драконам!'
         return      
         
     'Столица королевства людей.'
