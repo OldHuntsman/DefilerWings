@@ -192,10 +192,10 @@ label lb_enc_diver:
     return
     
 label lb_enc_mermaid:
-    'Русалочка сидит на камне и рассчёсывает волосы.'
+    'У берега на большом камне сидит русалочка, она рассчёсывает длинные волосы блестящим перламутровым гребнем. Похоже ждёт своего принца... или дракона.'
     nvl clear
     menu:
-        'Поймать русалку':
+        'Поймать русалочку':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('mermaid')
             'Дракон ловит русалку.'
@@ -235,7 +235,7 @@ label lb_enc_mermaids:
         'Поймать русалку':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('mermaid')
-            'Дракон ловит русалку.'
+            'Держась на глубине [game.dragon.name] подплывает к самому камню и поднимает из воды шею прямо перед испуганной водяной девой. Та в ужасе дергает хвостом и падает в воду, прямо в объятья морского змея.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             nvl clear
@@ -275,22 +275,23 @@ label lb_patrool_sea:
         chance = random.randint(0, game.mobilization.level)
         if chance < 4:
             patrool = 'merman'
-            dtxt = 'Водяной.'
+            dtxt = 'В прибрежных водах несёт дозоро вооружённый трезубцем водяной. Такому только акул гонять.'
         elif chance < 7:
             patrool = 'merman'
-            dtxt = 'Водяной.'
+            dtxt = 'В прибрежных водах несёт дозоро вооружённый трезубцем водяной. Такому только акул гонять.'
         elif chance < 11:
             patrool = 'griffin_rider'
-            dtxt = 'Всадник на грифоне.'
+            dtxt = 'Пронзительный кличь раздаётся с небес - это всадник на грифоне пикирует с высоты, завидев нв водной глади блеск драконьей чешуи.'
         elif chance < 16:
             patrool = 'battleship'
-            dtxt = '' % game.dragon.name
+            dtxt = 'Вдоль обжитых человеческих берегов рыщет патрульный корабль, вооружённый пушками. Люди серьёзно взялись за охрану своих берегов.'
         else:
             patrool = 'triton'
-            dtxt = '' % game.dragon.name
+            dtxt = 'Обычно на большой глубине морской змей не встречает никаких врагов, разве что шальная акула попадётся, но на этот раз судьба свела его с рыбохвостым морским великаном. Тритон вооружён и похоже специально вышел на охоту за досаждающим его подданным гадом.'
     '[dtxt]'
     $ game.foe = core.Enemy(patrool, game_ref=game)
     $ narrator(show_chances(game.foe))
     call lb_fight
 
     return
+    

@@ -279,13 +279,13 @@ label lb_enc_shrooms:
 
     
 label lb_enc_laundry:
-    'Прачки. Одна из них по запаху кажется невинной девушкой.'
+    'Громкий плеск и девичий смех приводят дракона на берег реки. Женщины стирают тут бельё и конечно среди них найдётся хотя бы одна девственница достойная вынносить отродье древней крови...'
     nvl clear
     menu:
         'Схватить невинную девицу':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('peasant')
-            'Сцена погони. Все разбегаются, дракон остаётся с пойманной девушкой.'
+            '[game.dragon.name] с рычанинем выбегает из кустов и бабы на берегу поднимают такой истошный визг, что ушам больно. Женшины разбегаются врассыпную, но даркону нужна только одна из них и он легко её настигает. Пройдёт вполне достаточно времени прежде чем на шум сбегутся вооруженные люди, можно не спешить...'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             nvl clear
@@ -298,13 +298,13 @@ label lb_enc_laundry:
     return
     
 label lb_enc_bath:
-    'Купальщицы. Одна из них по запаху кажется невинной девушкой.'
+    'Громкий плеск и женский смех приводят дракона на берег реки. Девушки купаются в поросшей камышом и кувшинками заводи у реки. Как это мило, даже бегать не прийдётся...'
     nvl clear
     menu:
-        'Схватить невинную девицу':
+        'Выловить девицу из реки':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('peasant')
-            'Сцена погони. Все разбегаются, дракон остаётся с пойманной девушкой.'
+            'Люди значительно лучше бегают чем плавают, так что сватить плескающуюся в воде девушку не представляет ни малейшего труда.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             nvl clear
@@ -319,7 +319,7 @@ label lb_enc_militia:
         if game.mobilization.level <= 0:
             renpy.jump('lb_encounter_plains')
     show expression 'img/scene/fight/militia.png' as bg
-    'На поле тренируются ополченцы-новобранцы.'
+    'На поле тренируются ополченцы-новобранцы. Они непредставляют такой большой угрозы как опытные бойцы, да и взять с них нечего, однако если не разогнать этот сброд, то со временем они пополнят ряды армии и будут мешаться...'
     nvl clear
     menu:
         'Напасть':
@@ -338,18 +338,18 @@ label lb_enc_militia:
     
 label lb_enc_mill:
     show expression 'img/bg/special/windmill.png' as bg
-    'Ветряная мельница.'
+    'На вершине холма стоит высокая деревянная башня с лопастями вращающимися под напором ветра. Очевидно это какой-то человеческий сельско-хозяйственный механизм. Не очень интересно, однако его разрушение может быть забавным, а главное это принесёт округе разорение и голод.'
     nvl clear
     menu:
         'Расшатать мельницу' if game.dragon.size > 3:
             $ game.dragon.drain_energy()
-            "Я твой мельница щаталь!"
+            "[game.dragon.name] достаточно огромен чтобы потягаться силами с этой винтокрылой башней. Слегка размявшись, дракон поднимается во весь рост и что есть мочи налегает на башню. Из рассыпающегося строения выскакивает обсыпанный мукой толстяк и смешно размахивая руками кубарем скатывается с холма. Вслед за ним летят облмки мельницы. Если людям будет нечего есть, они меньше станут думать о том как сражаться с драконами!"
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
         'Заклятье гнили' if game.dragon.mana > 0:
             $ game.dragon.drain_energy()
-            "Амбар сгорает синим пламенем."
+            "[game.dragon.name] шепчет заклинание призывающее магический огонь и тут же разворачивается чтобы уйти гордо подняв хвост. Понято же что произойдёт - возникшая на мельнице искра перекинется на взвесь мучной пыли в воздухе и та мгновенно сгорит вызвав детонацию по принципу объёмного взрыва. А драконы на взрывы не оглядываются!"
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 3
             $ game.dragon.drain_mana()
@@ -365,7 +365,7 @@ label lb_enc_mill:
     
 label lb_enc_granary:
     show expression 'img/bg/plain/9.png' as bg    
-    'Амбар полный зерна.'
+    'В полях, поодаль от деревень стоит здоровенный деревянный дом. Судя по запаху там никто не живёт, внутри просто лежит зерно. Люди почему-то очень любят есть зерно... глупые люди. Как можно жить без мяса?'
     nvl clear
     python:
         doit = False
@@ -374,13 +374,13 @@ label lb_enc_granary:
     menu:
         'Дыхнуть огнём' if doit:
             $ game.dragon.drain_energy()
-            "Амбар сгорает оставив людей без запасов зерна."
+            "[game.dragon.name] изрыгает поток жидкого пламени прямо на соломенную крышу амбара. Потушить его уже не удастся, а когда зерно сгорит, людям будет пора задуматься не о том как убивать драконов, а о том как набить животы."
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
-        'Наколдовать синее пламя' if game.dragon.mana > 0:
+        'Заклятье гнили' if game.dragon.mana > 0:
             $ game.dragon.drain_energy()
-            "Амбар сгорает синим пламенем."
+            "[game.dragon.name] произносит древнюю колдовскую формулу и подбрасывает в окно амбара дохлую лягушку. Всего за пару часов от неё по зерну расползётся чеёрна плесень, которая сделает зерно негодным. Людям не чем будет кормить войска, а значит дракону и его отродьем станет немного легче жить в следующем году."
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 5
             $ game.dragon.drain_mana()
@@ -394,17 +394,17 @@ label lb_enc_granary:
     return
 
 label lb_enc_gooze:
-    'Босоногая крестьянская девчёнка пасёт гусей. Слишком молода чтобы рожать.'
+    'Босоногая крестьянская девчёнка пасёт гусей. Она слишком молода чтобы рожать, однако достаточно аппетитна чтобы сойти на завтрак.'
     nvl clear
     menu:
         'Сожрать гусей' if game.dragon.hunger > 0:
-            'Дракон ловит и проглатывает одного жирного гуся, но остальные разлетаются.'
+            '[game.dragon.name] ловит и проглатывает одного жирного гуся, но остальные разлетаются.'
             python:
                 game.dragon.drain_energy()
                 if game.dragon.bloodiness > 0:
                     game.dragon.bloodiness -= 1
         'Сожрать девчёнку' if game.dragon.hunger > 0:
-            'Дракон хватает девчёнку и съедает её.'
+            '[game.dragon.name] хватает девчёнку и съедает её живьём, с хрустом разгрызая тоненькие косточки.'
             $ game.dragon.drain_energy()
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
@@ -416,21 +416,22 @@ label lb_enc_gooze:
             $ game.dragon.drain_energy()
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
-            'Дракон нападает, убивая девочку и всех гусей которых только может поймать, просто ради забавы.'    
+            '[game.dragon.name] нападает, убивая девочку и всех гусей которых только может поймать, просто ради забавы.'    
         'Оставить их в покое' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     
     return
     
 label lb_enc_pigs:
-    'Свиньи пасутся в дубовой роще. Свинопас убегает, стадо охраняет злая собака.'
+    'За полями пшеницы, в дубраве пасётся сдао свиней. Свинопас, который должен за ними наблюдать, дрыхнет под деревом укрыв лицо соломенной шляпой, но у свиней есть и другой сторож, куда более бдительный - здоровенный злой волкодав.'
+    $ game.foe = core.Enemy('dog', game_ref=game)
+    $ chances = show_chances(game.foe)
     nvl clear
     menu:
         'Напасть на стадо' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('dog', game_ref=game)
             call lb_fight
-            'Дракон съедает свинью.'
+            'К моменту когда собака повержена, и свиньи и свинопас уже успевают разбежаться, но бежать от дракона идея глупая - [game.dragon.name] обладает совершенным нюхом и никогда не теряет след намеченной жертвы. Вскоре одной жирненькой свиньёй в стаде становится меньше.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             python:
@@ -439,9 +440,8 @@ label lb_enc_pigs:
                 game.dragon.hunger -= 1
         'Напасть на стадо' if game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('dog', game_ref=game)
             call lb_fight
-            'Дракон догоняет и убивает свинопаса, после чего разгоняет стадо.'
+            'Разодрав в клочки собаку, [game.dragon.name] догоняет и убивает свинопаса. Свиньи разбегаются прочь, но это уже не важно.'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
         'Отступить' if game.dragon.bloodiness < 5:
@@ -451,14 +451,15 @@ label lb_enc_pigs:
     return    
 
 label lb_enc_sheepherd:
-    'Овцы на выпасе. Пастух убегает, остаётся собака.'
+    'В зелёных холмах, покрытых сочной травой старый чабан пасёт атару овец. Звидев приближение дракона, мудрый старик предпочитает по быстрому сделать ноги, а вот верная овчарка похоже готова охранять стадо до последнего вдохоа.'
+    $ game.foe = core.Enemy('dog', game_ref=game)
+    $ chances = show_chances(game.foe)
     nvl clear
     menu:
         'Напасть на стадо' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('dog', game_ref=game)
             call lb_fight
-            'Дракон съедает овцу.'
+            'Во время драки с собакой овцы разбежались, но их белая шерсть видна на зелёных холмах издалека. Так что поймать себе на обед жирненького барашка не составляет труда.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             python:
@@ -467,9 +468,8 @@ label lb_enc_sheepherd:
                 game.dragon.hunger -= 1
         'Напасть на стадо' if game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('dog', game_ref=game)
             call lb_fight
-            'Дракон убивает несколько овец, хотя не хочет есть.'
+            '[game.dragon.name] догоняет и убивает несколько овец, хотя не хочет есть. Просто иногда надо выпустить пар и дать волю первобытной ярости.'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
         'Отступить' if game.dragon.bloodiness < 5:
@@ -480,25 +480,25 @@ label lb_enc_sheepherd:
 
 
 label lb_enc_cattle:
-    'Коровы на выпасе. Пастух убегает, один из быков защищает стадо.'
+    'Ну какая же пасторальная картина без пасущихся коровок? [game.dragon.name] набредает на деревенское стадо, так и просящееся дракону на обед. Пастух в ужасе убегает прочь, но вот один из быков, самый крупный, полон решимости защитить стадо.'
+    $ game.foe = core.Enemy('bull', game_ref=game)
+    $ chances = show_chances(game.foe)
     nvl clear
     menu:
         'Напасть на стадо' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('bull', game_ref=game)
             call lb_fight
             python:
                 if game.dragon.bloodiness > 0:
                     game.dragon.bloodiness = 0
                 game.dragon.hunger -= 1
-            'Дракон съедает корову.'
+            '[game.dragon.name] разрывает быка в клочья и проглатывает куски дымящегося мяса, стремительно наедаясь.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
         'Напасть на стадо' if game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('bull', game_ref=game)
             call lb_fight
-            'Дракон убивает несколько коров и разгоняет стадо, хотя не хочет есть.'
+            '[game.dragon.name] убивает несколько коров и разгоняет стадо, хотя вовсе не хочет есть - он просто зол.'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
         'Отступить' if game.dragon.bloodiness < 5:
@@ -637,21 +637,22 @@ label lb_patrool_plains:
         chance = random.randint(0, game.mobilization.level)
         if chance < 4:
             patrool = 'archer'
-            dtxt = 'Стрелок шерифа.'
+            dtxt = 'Вдоль околицы прохаживается бородач с длинным луком, это стрелок местного шерифа отправленный в дозор чтобы защищать деревню.'
         elif chance < 7:
             patrool = 'xbow_rider'
-            dtxt = 'Конный разъезд.'
+            dtxt = 'Просёлочные дороги патрулирует отряд лёгкой кавалерии. Они готовы быстро отреагировать на любую угрозу будь то разбойники, монстры или даже дракон.'
         elif chance < 11:
             patrool = 'heavy_cavalry'
-            dtxt = 'Тяжелая кавалерия.'
+            dtxt = 'Дракон нарывается на отряд тяжелой кавалерии. Раз уж в деревенские патрули стали посылать рыцарей, люди видимо запуганы в край.'
         elif chance < 16:
             patrool = 'griffin_rider'
-            dtxt = 'Всадник на грифоне.'
+            dtxt = 'Пронзительный кличь раздаётся с небес - это всадник на грифоне пикирует с высоты, завидев в полях блеск драконьей чешуи.'
         else:
             patrool = 'angel'
             dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
     '[dtxt]'
     $ game.foe = core.Enemy(patrool, game_ref=game)
+    $ chances = show_chances(game.foe)
     call lb_fight
     
     return

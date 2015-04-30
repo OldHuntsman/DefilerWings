@@ -115,11 +115,12 @@ label lb_enc_deer:
 
 label lb_enc_boar:
     'Ветер доносит запах крупного зверя. В подлеске шуршит гигантский вепрь. Более метра в холке, толстокожий и массивный зверь вооружён огромными загнутыми клыками. Он не боится никого в лесу - непростая добыча, но она позволит набраться сил перед более серьёзными сражениями.'
+    $ game.foe = core.Enemy('boar', game_ref=game)
+    $ chances = show_chances(game.foe)
     nvl clear
     menu:
         'Сразиться с вепрем':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('boar', game_ref=game)
             call lb_fight
             if game.dragon.hunger > 0:
                 '[game.dragon.name] съедает поверженного вепря вепря. Сила заключённая в мясе старого кабана придаст ударам дракона убийственнуб мощь.'
@@ -140,12 +141,13 @@ label lb_enc_guardian:
     '[txt]'
     show expression 'img/scene/fight/elf_ranger.png' as bg
     $ txt = game.interpolate(random.choice(txt_enc_forest_guardian[1]))
+    $ game.foe = core.Enemy('elf_ranger', game_ref=game)
     '[txt]'
+    $ chances = show_chances(game.foe)
     nvl clear
     menu:
         'Атаковать стража':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('elf_ranger', game_ref=game)
             call lb_fight
             python:
                 txt = game.interpolate(random.choice(txt_enc_forest_guardian[2]))
@@ -219,21 +221,22 @@ label lb_patrool_forest:
         chance = random.randint(0, game.mobilization.level)
         if chance < 4:
             patrool = 'jagger'
-            dtxt = 'Егерь.'
+            dtxt = 'Леса патрулирует королевский егерь - следопыт вооруженный длинным тисовым луком и острым кинжалом.'
         elif chance < 7:
             patrool = 'footman'
-            dtxt = 'Пехотинцы.'
+            dtxt = 'По лесной дорогое марширует отряд солдат. Похоже они патрулируют местность в поисках разбойников и чудовищ. Ну, одно они нашли...'
         elif chance < 11:
             patrool = 'heavy_infantry'
-            dtxt = 'Латники.'
+            dtxt = 'Лесные дороги патрулируются отрядами тяжелой пехоты. Если люди так сильно пекутся о безопасности лесов что решили послать туда элитных бойцов, значит они действительно напуганы.'
         elif chance < 16:
             patrool = 'griffin_rider'
-            dtxt = 'Всадник на грифоне.'
+            dtxt = 'Пронзительный кличь раздаётся с небес - это всадник на грифоне пикирует с высоты, завидев между деревьями блеск драконьей чешуи.'
         else:
             patrool = 'angel'
             dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
     '[dtxt]'
     $ game.foe = core.Enemy(patrool, game_ref=game)
+    $ chances = show_chances(game.foe)
     call lb_fight
     
     return
