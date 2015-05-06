@@ -3,25 +3,14 @@ label lb_location_mordor_main:
     $ place = 'mordor' 
     show place as bg
     nvl clear
+    python:
+        mistress = core.Sayer(game_ref=game)
+        mistress.avatar = "img/avahuman/mistress.jpg"
+        mistress.name = "Владычица"
     
-    if game.dragon.energy() == 0:
-        'Даже драконам надо иногда спать. Особенно драконам!'
-        return
     menu:
-        'Я устал, я ухожу':
-            menu:
-                "Это действие сбросит текущую игру и позволит начать заново!"
-                "Сдаешься?"
-                "Да":
-                    python:
-                        if not freeplay:
-                            renpy.unlink_save("1-1")
-                            renpy.full_restart()
-                        else:
-                            renpy.unlink_save("1-3")
-                            renpy.full_restart()
-                "Нет":
-                    return
+        'В земли Вольных Народов':
+            $ pass
         'Армия Тьмы':
             show expression 'img/bg/special/army.png' as bg
             '[game.army.army_description]'
@@ -37,8 +26,20 @@ label lb_location_mordor_main:
             
         'Аудиенция с владычицей' if not freeplay:
             jump lb_mistress
-        'В земли Вольных Народов':
-            $ pass
+        'Я устал, я ухожу':
+            menu:
+                "Это действие сбросит текущую игру и позволит начать заново!"
+                "Сдаешься?"
+                "Да":
+                    python:
+                        if not freeplay:
+                            renpy.unlink_save("1-1")
+                            renpy.full_restart()
+                        else:
+                            renpy.unlink_save("1-3")
+                            renpy.full_restart()
+                "Нет":
+                    return
     return
     
 label lb_mistress:
@@ -47,6 +48,7 @@ label lb_mistress:
             # Если делаем подарок - удаляем его из списка сокровищ
             if game.quest_task == 'gift' and len(game.lair.treasury.jewelry) > 0:
                 $ del game.lair.treasury.jewelry[game.lair.treasury.most_expensive_jewelry_index]
+            mistress 'Иди ко мне'
             'Дракон оплодотворяет владычицу и на свет появляется новый выводок.'
             call lb_choose_dragon
             return

@@ -21,7 +21,7 @@ label lb_choose_dragon:
             lost = True
     if lost:  # TODO: Переделать что-то что происходит при поражении
         menu:
-            "Вы проиграли"
+            "GAME OVER"
             "Начать заново":
                 python:
                         renpy.unlink_save("1-1")
@@ -108,5 +108,5 @@ label lb_choose_dragon:
         $ game.dragon = child_selected
         $ dragons_choosed.append(game.dragon)
         show expression 'img/scene/mistress.png' as bg
-        "Нужно выполнить задание:\n[game.quest_text]"
+        "[game.quest_text]"
         jump lb_location_mordor_main
