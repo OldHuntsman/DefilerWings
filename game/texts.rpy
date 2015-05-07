@@ -217,6 +217,24 @@ python early:
     txt_dragon_mistress_fuck['многоглавый летучий гад'] = ['27',]
     txt_dragon_mistress_fuck['многоглавый виверн'] = ['28',]
     txt_dragon_mistress_fuck['многоглавый дракон'] = ['29',]
+
+    #Вор успешно обходит защиту логова
+    txt_thief_success = {}
+    txt_thief_success['mechanic_traps'] = ['Удачно. Механика',]
+    txt_thief_success['magic_traps'] = ['Удачно. Магия',]
+    txt_thief_success['poison_guards'] = ['Удачно. Ядовитые',]
+    txt_thief_success['regular_guards'] = ['Удачно. Охрана',]
+    txt_thief_success['smuggler_guards'] = ['Удачно. Наемники',]
+    txt_thief_success['elite_guards'] = ['Удачно. Монстр',]
+
+    #Вор убивается об защиту логова
+    txt_thief_fail = {}
+    txt_thief_fail['mechanic_traps'] = ['Неудачно. Механика',]
+    txt_thief_fail['magic_traps'] = ['Неудачно. Магия',]
+    txt_thief_fail['poison_guards'] = ['Неудачно. Ядовитые',]
+    txt_thief_fail['regular_guards'] = ['Неудачно. Охранники',]
+    txt_thief_fail['smuggler_guards'] = ['Неудачно. Наёмники',]
+    txt_thief_fail['elite_guards'] = ['Неудачно. Монстр',]
     
     """
     Шаблон

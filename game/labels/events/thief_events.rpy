@@ -45,19 +45,22 @@ label lb_event_thief_lair_enter(thief):
     return
 
 label lb_event_thief_die_item(thief, item):
-    thief "Я умер от [item.name]"
+    thief "Я умер от [item.name]. Это сообщение - ошибка."
     return
 
 label lb_event_thief_die_inaccessability(thief):
-    "[thief.title] [game.thief.name] умер так и не добравшись до логова."
+    "[thief.title] [game.thief.name] не смог даже забраться в логово - укрепления слишком надёжные."
+    thief 'Проклятый дракон окопался лучше чем король цвергов - стены, рвы, ставни, решётки и запоры... я не вижу ни единой лазейки. Видать такое дело мне не по зубам.'
     return
 
 label lb_event_thief_die_trap(thief, trap):
-    "Вор умер от ловушки [trap.name]"
+    $ txt = game.interpolate(random.choice(txt_thief_fail[trap.id]))
+    '[txt]' 
     return
 
 label lb_event_thief_pass_trap(thief):
-    "Вор обошел ловушку [trap.name]"
+    $ txt = game.interpolate(random.choice(txt_thief_success[trap.id]))
+    '[txt]' 
     return
 
 label lb_event_thief_receive_no_item(thief):

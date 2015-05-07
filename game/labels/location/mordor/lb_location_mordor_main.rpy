@@ -44,8 +44,8 @@ label lb_location_mordor_main:
     return
     
 label lb_mistress:
+    nvl clear
     menu:
-        nvl clear
         'Получить награду' if game.is_quest_complete:
             # Если делаем подарок - удаляем его из списка сокровищ
             if game.quest_task == 'gift' and len(game.lair.treasury.jewelry) > 0:

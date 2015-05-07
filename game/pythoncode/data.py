@@ -1128,21 +1128,21 @@ lair_upgrades = Container(
             "protection": 1
         },
         "poison_guards": {
-            "name": u"Ядовитые стражи",
+            "name": u"Ядовитые твари",
             "protection": 1
         },
         "regular_guards": {
-            "name": u"Обычные стражи",
+            "name": u"Стражи логова",
             "replaces": "smuggler_guards",  # какое улучшение автоматически заменяет
             "protection": 2
         },
         "smuggler_guards": {
-            "name": u"Охранники",
+            "name": u"Наёмные охранники",
             "cost": 100,
             "protection": 2
         },
         "elite_guards": {
-            "name": u"Элитные стражи",
+            "name": u"Элитный страж",
             "protection": 3
         },
         "gremlin_fortification": {
@@ -1568,9 +1568,7 @@ modifiers = {
     'wings_of_wind': Modifier(energy=1),
     #
     'size': Modifier(attack=('base', (1, 0)), protection=('base', (1, 0)), fear=1),
-    'paws': Modifier(attack=('base', (1, 0)), energy=1),
-    'wings': Modifier(protection=('base', (1, 0)), energy=1),
-    'tough_scale': Modifier(protection=('scale', (0, 1))),
+    'paws': Modifier(),
     'clutches': Modifier(attack=('base', (0, 1))),
     'fangs': Modifier(attack=('base', (2, 0)), fear=1),
     'horns': Modifier(protection=('base', (2, 0)), fear=1),
