@@ -8,7 +8,10 @@ label lb_nature_sex:
     nvl clear
     menu:
         'Надругаться' if game.girls_list.is_mating_possible:
+            # Alex: Added sex images:
+            show expression sex_imgs("girl") as xxx
             $ game.girls_list.impregnate()
+            hide xxx
         'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"
