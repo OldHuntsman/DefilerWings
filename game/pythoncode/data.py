@@ -1128,11 +1128,11 @@ lair_upgrades = Container(
             "protection": 1
         },
         "poison_guards": {
-            "name": u"Ядовитые твари",
+            "name": u"Ядовитые стражи",
             "protection": 1
         },
         "regular_guards": {
-            "name": u"Стражи логова",
+            "name": u"Обычные стражи",
             "replaces": "smuggler_guards",  # какое улучшение автоматически заменяет
             "protection": 2
         },
@@ -1142,7 +1142,7 @@ lair_upgrades = Container(
             "protection": 2
         },
         "elite_guards": {
-            "name": u"Элитный страж",
+            "name": u"Элитный стражи",
             "protection": 3
         },
         "gremlin_fortification": {
