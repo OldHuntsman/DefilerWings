@@ -16,12 +16,12 @@ label lb_location_road_main:
         ("lb_enc_carriage", 10),
         ("lb_enc_questing_knight", 10),
         ("lb_enc_trader", 10),
-        ("lb_enc_caravan", 10),
-        ("lb_enc_lcaravan", 10),
+        ("lb_enc_caravan", 7),
+        ("lb_enc_lcaravan", 3),
         ("lb_enc_outpost", 10),
         ("lb_manor_found", 15),
         ("lb_wooden_fort_found", 10),
-        ("lb_abbey_found", 10),
+        ("lb_abbey_found", 7),
         ("lb_castle_found", 5),
         ("lb_palace_found", 3),
         ("lb_patrool_road", 3 * game.mobilization.level),
@@ -252,7 +252,7 @@ label lb_enc_lcaravan:
     return
     
 label lb_enc_outpost:
-    'Для поддержания порядка и сбора поглин на дорогах королевства устроено множество застав. Гарнизон составляют обычные пехотинцы, сержант, повар и писарь. Зато внутри хранится касса с дорожными сборами за день!'
+    'Для поддержания порядка и сбора пошлин на дорогах королевства устроено множество застав. Гарнизон составляют обычные пехотинцы, сержант, повар и писарь. Зато внутри хранится касса с дорожными сборами за день!'
     $ game.foe = core.Enemy('footman', game_ref=game)
     nvl clear
     menu:

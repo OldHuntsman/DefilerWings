@@ -11,7 +11,7 @@ label lb_location_mordor_main:
     menu:
         'В земли Вольных Народов':
             $ pass
-        'Армия Тьмы':
+        'Армия Тьмы' if not freeplay:
             show expression 'img/bg/special/army.png' as bg
             '[game.army.army_description]'
             nvl clear
@@ -26,7 +26,7 @@ label lb_location_mordor_main:
             
         'Аудиенция с владычицей' if not freeplay:
             jump lb_mistress
-        'Я устал, я ухожу':
+        'Уйти на покой':
             menu:
                 "Это действие сбросит текущую игру и позволит начать заново!"
                 "Сдаешься?"
