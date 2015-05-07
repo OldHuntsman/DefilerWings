@@ -1,6 +1,7 @@
 # coding=utf-8
 label lb_location_mordor_main:
     $ place = 'mordor' 
+    hide bg
     show place as bg
     nvl clear
     python:
@@ -44,12 +45,14 @@ label lb_location_mordor_main:
     
 label lb_mistress:
     menu:
+        nvl clear
         'Получить награду' if game.is_quest_complete:
             # Если делаем подарок - удаляем его из списка сокровищ
             if game.quest_task == 'gift' and len(game.lair.treasury.jewelry) > 0:
                 $ del game.lair.treasury.jewelry[game.lair.treasury.most_expensive_jewelry_index]
-            mistress 'Иди ко мне'
-            'Дракон оплодотворяет владычицу и на свет появляется новый выводок.'
+            game.dragon 'Я выполнил твоё задание. Помнится мне была обещана награда...'    
+            mistress 'Иди ко мне, милый. Ты не пожалеешь, обещаю.'
+            call lb_mistress_fuck
             call lb_choose_dragon
             return
         'Уточнить задание' if not game.is_quest_complete:
@@ -76,17 +79,38 @@ label lb_location_mordor_questtime:
     show place as bg
     show screen status_bar
     if game.is_quest_complete:
-        "Ты выполнил задание и за это положена награда."
+        mistress '[game.dragon.name] ты слишком много времени тратишь на игры с людьми, я устала ждать. Разве ты забыл о своём задании?'
+        game.dragon 'Отнюдь, Владычица, я сделал всё о чём ты просила. Вот. Смотри.'
+        mistress 'Великолепно. В таком случае, тебе полагается заслуженная награда. Иди ко мне, милый.'
+        call lb_mistress_fuck
         call lb_choose_dragon
     else:
         $ game.dragon.die()
+        mistress 'Отпущенное тебе время истекло [game.dragon.name]. И я спрошу лишь один раз: выполнил ли ты моё задание?'
+        game.dragon 'Я не успел, Владычица. Мне нужно ещё немного времени. Прости меня.'
+        mistress 'Я не обижаюсь. Но и жалость мне не ведома. Ты подвёл меня а это можно сделать лишь однажды. Продолжателем рода станет кто-то другой, ты же доживай свои дни как пожелаешь. Изыди с глаз моих!'
         menu:
-            "Квест провален. Ты проиграл. Какая досада."
-            "Попробовать еще раз":
+            "Дать шанс другому дракону":
                 call lb_choose_dragon
                 return
     return
     
+
+label lb_mistress_fuck:
+    mistress 'Я могу принять любой облик, приятный тебе. Выбирай, каой ты хочешь меня видеть?'
+    menu:
+        'Облик прекрасной девы, мне милее всего':
+            $ txt = game.interpolate(random.choice(txt_human_mistress_fuck[game.dragon.kind]))
+            '[txt]'    
+        'Стань драконицей, я устал от немощных смертных дев':
+            $ txt = game.interpolate(random.choice(txt_dragon_mistress_fuck[game.dragon.kind]))
+            '[txt]'
+    show expression 'img/scene/mistress.png' as bg
+    mistress 'Благодарю тебя за твоё могучее семя, сын мой. Наши дети превзойдут всех рождённых ранее.'
+    game.dragon 'Пусть мои сыновья продолжат моё дело когда вырастут.'
+    mistress 'Когда они вылупятся, ты должен будешь выбрать своего приемника, возлюбленный мой.'
+    'Прошло девять месяцев и кладка новых яиц проклюнулась...'
+    return
 
 label lb_betrayal:
     # TODO: Сражение дракона и Госпожи. Подробности в диздоке, картинки готовы.

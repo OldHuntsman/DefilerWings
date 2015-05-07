@@ -1,6 +1,7 @@
 # coding=utf-8
 label lb_location_lair_main:
     $ place = game.lair.type_name
+    hide bg
     show place as bg
     
     menu:
