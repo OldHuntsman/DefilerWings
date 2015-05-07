@@ -412,8 +412,12 @@ screen preferences:
     frame:
         style_group "pref"
         has vbox
-        #textbutton _("Сюжет") xpos 120 ypos 540 action Game_Reset()
-        #textbutton _("Свобод") xpos 280 ypos 480 action FreeGame_Reset()
+        textbutton _("Сюжет") xpos 120 ypos 540 action SensitiveIf(renpy.can_load("1-1")), Show("yesno_prompt",
+                                                                                      yes_action=FileDelete("1", confirm=False, page="1"), no_action=NullAction(),
+                                                                                      message="Вы уверены что хотите удалить Сюжетную Игру?")
+        textbutton _("Свобод") xpos 280 ypos 480 action SensitiveIf(renpy.can_load("1-3")), Show("yesno_prompt",
+                                                                                      yes_action=FileDelete("3", confirm=False, page="1"), no_action=NullAction(),
+                                                                                      message="Вы уверены что хотите удалить Свободную Игру?")
     
     frame xpos 858 ypos 132:
         style_group "pref"
@@ -460,12 +464,12 @@ init -2 python:
 
 screen yesno_prompt:
 
-    modal True
+    # modal True
+    
+    tag menu
     
     add "img/menu/quit.jpeg"
     
-    tag menu
-
     frame:
         style_group "yesno"
 
@@ -496,6 +500,12 @@ screen yesno_prompt:
                     textbutton _("Да") action FileSave("1", confirm=False, page="1"), yes_action
                 else:
                     textbutton _("Да") action FileSave("3", confirm=False, page="1"), yes_action
+            elif message == "Вы уверены что хотите удалить Сюжетную Игру?":
+                textbutton _("Да") action yes_action, Hide("yesno_prompt"), ShowMenu("preferences")
+                textbutton _("Нет") action no_action, Hide("yesno_prompt"), ShowMenu("preferences")
+            elif message == "Вы уверены что хотите удалить Свободную Игру?":
+                textbutton _("Да") action yes_action, Hide("yesno_prompt"), ShowMenu("preferences")
+                textbutton _("Нет") action no_action, Hide("yesno_prompt"), ShowMenu("preferences")
             else:
                 textbutton _("Да") action yes_action
                 textbutton _("Нет") action no_action
