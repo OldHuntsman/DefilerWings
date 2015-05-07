@@ -1568,7 +1568,9 @@ modifiers = {
     'wings_of_wind': Modifier(energy=1),
     #
     'size': Modifier(attack=('base', (1, 0)), protection=('base', (1, 0)), fear=1),
-    'paws': Modifier(),
+    'paws': Modifier(attack=('base', (1, 0)), energy=1),
+    'wings': Modifier(protection=('base', (1, 0)), energy=1),
+    'tough_scale': Modifier(protection=('scale', (0, 1))),
     'clutches': Modifier(attack=('base', (0, 1))),
     'fangs': Modifier(attack=('base', (2, 0)), fear=1),
     'horns': Modifier(protection=('base', (2, 0)), fear=1),
