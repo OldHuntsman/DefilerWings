@@ -1,5 +1,6 @@
 # coding=utf-8
 label lb_location_ruin_main:
+    hide bg
     show expression 'img/bg/special/haunted.png' as bg
 
     python:

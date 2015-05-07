@@ -1,6 +1,7 @@
 # coding=utf-8
 label lb_location_road_main:
     $ place = 'road'
+    hide bg
     show expression get_place_bg(place) as bg
     nvl clear
     

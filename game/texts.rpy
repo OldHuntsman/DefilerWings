@@ -192,6 +192,32 @@ python early:
         ['Этот пустой ныне замок раньше принадлежал могучему титану. Старая магия всё ещё держит остров в небе, над уровнем облаков. Учитывая как не просто сюда забраться и как просторны и прочны здешие строения лучшее логово придумать сложно.']
     ]
     
+    #Сцены секса с госпожой в человеческом облике
+    txt_human_mistress_fuck = {}
+    txt_human_mistress_fuck['останки дракона'] = ['Это ошибка, текущий дракон мёртв.',]
+    txt_human_mistress_fuck['ползучий гад'] = ['11',]
+    txt_human_mistress_fuck['линдвурм'] = ['12',]
+    txt_human_mistress_fuck['гидрус'] = ['13',]
+    txt_human_mistress_fuck['летучий гад'] = ['14',]
+    txt_human_mistress_fuck['виверн'] = ['15',]
+    txt_human_mistress_fuck['дракон'] = ['16',]
+    txt_human_mistress_fuck['многоглавый летучий гад'] = ['17',]
+    txt_human_mistress_fuck['многоглавый виверн'] = ['18',]
+    txt_human_mistress_fuck['многоглавый дракон'] = ['19',]
+    
+    #Сцены секса с госпожой в драконьем облике
+    txt_dragon_mistress_fuck = {}
+    txt_dragon_mistress_fuck['останки дракона'] = ['Это ошибка, текущий дракон мертв.',]
+    txt_dragon_mistress_fuck['ползучий гад'] = ['21',]
+    txt_dragon_mistress_fuck['линдвурм'] = ['22',]
+    txt_dragon_mistress_fuck['гидрус'] = ['23',]
+    txt_dragon_mistress_fuck['летучий гад'] = ['24',]
+    txt_dragon_mistress_fuck['виверн'] = ['25',]
+    txt_dragon_mistress_fuck['дракон'] = ['26',]
+    txt_dragon_mistress_fuck['многоглавый летучий гад'] = ['27',]
+    txt_dragon_mistress_fuck['многоглавый виверн'] = ['28',]
+    txt_dragon_mistress_fuck['многоглавый дракон'] = ['29',]
+    
     """
     Шаблон
     txt_ = [[

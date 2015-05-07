@@ -2,6 +2,7 @@
 label lb_location_city_main:
         
     $ place = "city_gates"
+    hide bg
     show place as bg
     
     if game.dragon.energy() == 0:

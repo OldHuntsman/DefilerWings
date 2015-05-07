@@ -1036,17 +1036,17 @@ class Dragon(Fighter):
             if paws == 0 and heads == 1:
                 return u"летучий гад"
             elif paws == 0 and heads > 1:
-                return u"%s летучий гад" % data.head_count[heads]
+                return u"многоглавый летучий гад"
             elif paws == 1 and heads == 1:
                 return u"виверн"
             elif paws == 1 and heads > 1:
-                return u"%s виверн" % data.head_count[heads]
+                return u"многоглавый виверн"
             elif paws == 2 and heads == 1:
                 return u"дракон"
             elif paws > 1 and heads > 1:
-                return u"%s дракон" % data.head_count[heads]
+                return u"многоглавый дракон"
             else:
-                return u"шестилапый дракон"  # название для дракона с paws == 3 and heads == 1
+                return u"дракон"  # название для дракона с paws == 3 and heads == 1
 
     @property
     def size(self):

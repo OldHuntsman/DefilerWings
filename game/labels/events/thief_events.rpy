@@ -12,20 +12,20 @@ label lb_event_thief_steal_items(thief, items):
     show expression "img/scene/loot.png" as bg
     nvl clear
     "[game.thief.name] выкрал из сокровищницы: [descriptions]"
-    thief "Теперь я смогу бросить воровство и оплатить учебу в колледже!"
+    thief "Вот это дело! Еле живым ушел. Зато теперь я могу жить в роскоши как король до конца дней сових!"
     nvl clear
     return
 
 label lb_event_thief_lair_unreachable(thief):
-    thief "Не могу добраться до логова"
+    thief "Чертов дракон не мог выбрать себе логово в более доступном месте? Как туда добраться-то? Вот же гадство.."
     return
 
 label lb_event_thief_prepare(thief):
-    thief "Готовлюсь к ограблению логова"
+    thief "Если я хочу уйти из дракньей берлоги живым и богатым, мне лучше как следует подговоиться к Делу."
     return
 
 label lb_event_thief_prepare_usefull(thief):
-    thief "Подготовка не прошла даром"
+    thief "Подготовка не прошла даром."
     return
 
 label lb_event_thief_receive_item(thief, item):
@@ -37,11 +37,11 @@ label lb_event_thief_receive_item(thief, item):
     return
 
 label lb_event_thief_prepare_useless(thief):
-    thief "Ничего не вышло из моей подготовки"
+    thief "Чёрт! А я так надеялся получить что-то полезное для Большого Дела."
     return
 
 label lb_event_thief_lair_enter(thief):
-    thief "Я вхожу в логов"
+    thief "Ну вот и оно - логово дракона. Я войду словно тень и выскользну обратно с мешком сокровищ тяжким как мои грехи..."
     return
 
 label lb_event_thief_die_item(thief, item):
@@ -49,7 +49,7 @@ label lb_event_thief_die_item(thief, item):
     return
 
 label lb_event_thief_die_inaccessability(thief):
-    "Вор умер так и не добравшись до логова"
+    "[thief.title] [game.thief.name] умер так и не добравшись до логова."
     return
 
 label lb_event_thief_die_trap(thief, trap):

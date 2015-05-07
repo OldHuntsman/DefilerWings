@@ -17,6 +17,7 @@ label lb_event_knight_receive_item(knight, item):
 
 label lb_event_knight_challenge_start(knight):
     scene
+    show expression "img/scene/quest_knight.png" as bg
     nvl clear
     $ game.foe = knight
     "[knight.title] нашел логово где спит [game.dragon.name] [game.dragon.surname] и вызывает его на бой."
@@ -24,12 +25,11 @@ label lb_event_knight_challenge_start(knight):
     $ narrator(knight.intro % game.format_data)
     $ narrator(show_chances(knight))  #TODO: уровень опасности боя
     menu:
-        "Вы хотие вступить в бой?"
-        "Да!":
+        "Принять вызов и защитить логово":
             "Вы вступаете в бой"
             return True
-        "Бежать!":
-            # Тут, неверное должна быть проверка на успех побега дракона от рыцаря, но ее нет.
+        "Бежать и бросить логово":
+            # Тут, неверное должна быть проверка на успех побега дракона от рыцаря, но ее нет. (Нет, не нужна. Побег всегда успешен, просто дракон теряет логово, золото и баб - OH)
             if random.choice(range(4)) in range(3): # 75% что рыцарь останется
                 knight "Я все равно тебя найду!"
                 return False
