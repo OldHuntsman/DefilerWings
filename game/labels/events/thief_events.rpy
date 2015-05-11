@@ -25,7 +25,7 @@ label lb_event_thief_prepare(thief):
     return
 
 label lb_event_thief_prepare_usefull(thief):
-    thief "Подготовка не прошла даром."
+    thief "Хе-хе... точно по плану!."
     return
 
 label lb_event_thief_receive_item(thief, item):

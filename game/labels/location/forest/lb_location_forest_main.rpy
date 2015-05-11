@@ -19,7 +19,7 @@ label lb_location_forest_main:
         ("lb_enc_boar", 10),
         ("lb_enc_berries", 10),
         ("lb_enc_shrooms", 10),
-        ("lb_enc_guardian", 0),
+        ("lb_enc_guardian", 10),
         ("lb_enc_lumbermill", 10),
         ("lb_enc_klad", 5),
         ("lb_patrool_forest", 3 * game.mobilization.level),
@@ -107,6 +107,7 @@ label lb_enc_deer:
             python:
                 if game.dragon.bloodiness > 0:
                     game.dragon.bloodiness = 0
+                    game.dragon.hunger -= 1
         'Разорвать оленя' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] жестоко задирает оленя просто ради забавы.'    
@@ -124,7 +125,7 @@ label lb_enc_boar:
             $ game.dragon.drain_energy()
             call lb_fight
             if game.dragon.hunger > 0:
-                '[game.dragon.name] съедает поверженного вепря вепря. Сила заключённая в мясе старого кабана придаст ударам дракона убийственнуб мощь.'
+                '[game.dragon.name] съедает поверженного вепря вепря. Сила заключённая в мясе старого кабана придаст ударам дракона убийственную мощь.'
                 python:
                     if game.dragon.bloodiness > 0:
                         game.dragon.bloodiness = 0

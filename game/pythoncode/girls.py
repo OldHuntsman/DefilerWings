@@ -314,8 +314,8 @@ class GirlsList(object):
         """
         Действия отродий на свободе
         """
-        # TODO: Что тут вообще имелось ввиду? Очков мобилизации теперь нет. Зато есть разруха.
-        # self.game.mobilization.points -= power
+        # Растёт разруха. Надо проверить чтобы это срабатывало по одному разу на тип отродий.
+        game.poverty.value += 1
         pass
 
     def army_of_darkness(self, warrior_type):

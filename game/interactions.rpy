@@ -71,12 +71,15 @@ label lb_lair_sex:
             $ description = game.girls_list.free_girl()
             game.girl.third "[description]"
             return
-    jump lb_nature_sex
+    jump lb_lair_sex
 
 label lb_gigant_sex:
     nvl clear
     menu:
         'Надругаться' if game.girls_list.is_mating_possible:
+            $ game.girls_list.impregnate()
+        'Магический рост' if not game.girls_list.is_mating_possible and game.dragon.mana > 0:
+            $ game.dragon.drain_mana()
             $ game.girls_list.impregnate()
         'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
@@ -99,3 +102,4 @@ label lb_knight_new:
 
 label lb_water_sex:
     return
+    
