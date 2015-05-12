@@ -9,8 +9,11 @@ label lb_nature_sex:
     menu:
         'Надругаться' if game.girls_list.is_mating_possible:
             # Alex: Added sex images:
+            $ description = game.girls_list.impregnate()
+            game.girl "[description]"
             show expression sex_imgs("girl") as xxx
-            $ game.girls_list.impregnate()
+            play sound 'sound/sample.ogg'
+            pause (500.0)
             hide xxx
         'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
@@ -46,7 +49,12 @@ label lb_lair_sex:
     nvl clear
     menu:
         'Надругаться' if game.girls_list.is_mating_possible:
-            $ game.girls_list.impregnate()
+            $ description = game.girls_list.impregnate()
+            game.girl "[description]"
+            show expression sex_imgs("girl") as xxx
+            play sound 'sound/sample.ogg'
+            pause (500.0)
+            hide xxx
         'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"
@@ -77,10 +85,21 @@ label lb_gigant_sex:
     nvl clear
     menu:
         'Надругаться' if game.girls_list.is_mating_possible:
-            $ game.girls_list.impregnate()
+            $ description = game.girls_list.impregnate()
+            game.girl "[description]"
+            show expression sex_imgs("girl") as xxx
+            play sound 'sound/sample.ogg'
+            pause (500.0)
+            hide xxx
         'Магический рост' if not game.girls_list.is_mating_possible and game.dragon.mana > 0:
             $ game.dragon.drain_mana()
-            $ game.girls_list.impregnate()
+            game.dragon 'Заклятье временного роста!'
+            $ description = game.girls_list.impregnate()
+            game.girl "[description]"
+            show expression sex_imgs("girl") as xxx
+            play sound 'sound/sample.ogg'
+            pause (500.0)
+            hide xxx
         'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"

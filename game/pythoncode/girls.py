@@ -45,15 +45,16 @@ class GirlsList(object):
         """
         Осеменение женщины.
         """
-        self.description('prelude', True)
-        self.description('sex', True)
-        self.description('impregnate', True)
+        # self.description('prelude', True)
+        # self.description('sex', True)
+        # self.description('impregnate', True)
         self.game.girl.virgin = False
         if self.game.girl.quality < self.game.dragon.magic:
             self.game.girl.pregnant = 2
         else:
             self.game.girl.pregnant = 1
         self.game.dragon.lust -= 1
+        return self.description('shout')
 
     def free_girl(self):
         """
