@@ -15,7 +15,7 @@ label lb_fight(foe=game.foe):
 
         if 'dragon_dead' in battle_status:
             # TODO замена текущего дракона с возможностью выбора потомка
-            "Дракон умер - да здравствует Дракон!"
+            "[game.dragon.name] повержен!"
             if freeplay:
                 $ renpy.unlink_save("1-3")
                 $ renpy.full_restart()
@@ -33,13 +33,13 @@ label lb_fight(foe=game.foe):
             menu:
                 'Продолжать бой':
                     pass
-                'Отступить':
+                'Отступить' if not army_battle:
                     if foe.kind == 'knight':
                         # Отступаем в новое логово
-                        "Позорно бежав дракон укрылся в буреломном овраге"
+                        "Позорно бежав [game.dragon.name] укрылся в первом попавшемся укромном местечке"
                         $ game.create_lair()
                     else:
-                        "Вы бежали в логово"
+                        "[game.dragon.name] отступает в своё логово, чтобы собраться с силами и продумать новую стратегию."
                     hide foeimg
                     nvl clear
                     if foe.kind != 'knight':

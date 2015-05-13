@@ -122,49 +122,134 @@ label lb_war_border:
     # Если и дракон и армия победили, засчитываем победу.
     # Если дракон победил, но армия слишком слаба даём второй энкаунтер для дракона - воздушный флот цвергов приходит
     # на помощь осаждённым, дракон должен их победить.
-    'Сражение у границ. Катапульты являются ключевым звеном обороны.'
+    python:
+        army_battle = True #Из боя теперь нельзя отступить
+        actual_army_force = army.force
+        army_decimator = army.force/10
+    
+    show expression 'img/bg/special/dark_march.png' as bg
+    'Сражение у границ, Армия Тьмы вступает в битву. Катапульты являются ключевым звеном обороны.'
+    
     $ game.foe = core.Enemy('catapult', game_ref=game)
     $ narrator(show_chances(game.foe))
             
     menu:
-        # Тут должна быть проверка силы армии. Если армия не может победить, опция не должна быть активной.
-        'Наблюдать за битвой':
-            # TODO: Армия теряет дополнительно 10% от своей начальной боевой силы (в сумме 20%) и энкаунтер выигран без вмешательства дракона.
-            $ pass
+        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+            'Армия Тьмы несёт потери, но передовые отряды прорываются к катапультам и уничтожают их. Теперь победа всего в одном шаге.'
+            $ actual_army_force -= army_decimator
             
-        'Сокрушить катапульты': 
-            # TODO: Сделать бой без отступления.
+        'Сокрушить катапульты': #Дракон бережёт армию и сам уничтожает наиболее опасные очаги сопротивления
             call lb_fight
-            # TODO: Если армия недостаточно сильна чтобы победить, переходим к схватке с воздушным флотом. Если АТ сильная, сразу переходим на следующий энкаунтер (битва в поле). Армия теряет 10% начальной боевой силы.
-            call lb_war_field
 
-        'Молить Госпожу о помощи':
-            # TODO: Проверяем не использована ли ещё помощь Госпожи. Если нет - госпожа уничтожает катапульты и энкаунтер дракона выигран. Если уже использована - Госпожа отказываетося помогать. возвращаемсмя к прошлому выбору.
-            # TODO: Если армия недостаточно сильна чтобы победить, переходим к схватке с воздушным флотом. Если АТ сильная, сразу переходим на следующий энкаунтер (битва в поле)
-            call lb_war_field
-            
-    'Воздушный флот цвергов приходит на помощь'
+        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+            game.dragon '[reinforcement_ask]'
+            python:
+                if reinforcement_used:
+                    reinforcement_answer = reinforcement_refuse
+                else:
+                    reinforcement_answer = reinforcement_agree
+            mistress '[reinforcement_answer]'
+            if reinforcement_used:
+                call lb_war_border
+            else:
+                $ reinforcement_used = True
+
+    call lb_war_border_continue
+    return
+
+label lb_war_border_continue:
+    show expression 'img/bg/special/dark_march.png' as bg
+    'Сражение на земле практически выиграно, но [dragon.name] замечает новую опасность. Со стороны гор по воздуху приближается летучий флот цвергов. Если их не остановить они сбросят в гущу армии монстров бочки наполненные алхимическим огнём. Потери будут огромны.'
     $ game.foe = core.Enemy('airfleet', game_ref=game)
     $ narrator(show_chances(game.foe))
     
-    call lb_war_field
     menu:
-        'Уничтожить воздушный флот': 
-            # TODO: Сделать бой без отступления.
+        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+            'Тяжелые летучие крейсера демонстративно зависают над скоплением монстров и скидывают прямо на головы воинам Владычицы пузатые бочки с заженнйми фитилями. Земля озаряется вспышками и заливается текучим огнём. Объятые пламенем гоблины с визгоми разбегаются и катаются по земле пытвась погасить огонь. Когда запас бомб на кораблях подходит к концу, они мерно разворачиваются и уходят на базу невредимыми. Эта атака стоила Армии Тьмы днсятой части воинов!'
+            'Тем не менее, пограничные войска людей выдохнулись и вынуждены были отступить. Путь вглубь страны открыт.'
+            $ actual_army_force -= army_decimator
+            
+        'Перехватить летучие корабли': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             call lb_fight
-            # TODO: Если армия недостаточно сильна чтобы победить, переходим к схватке с воздушным флотом. Если АТ сильная, сразу переходим на следующий энкаунтер (битва в поле)
 
-        'Молить Госпожу о помощи':
-            $ pass
-            # TODO: Проверяем не использована ли ещё помощь Госпожи. Если нет - госпожа уничтожает воздушный флот и энкаунтер дракона выигран. Если уже использована - Госпожа отказываетося помогать. возвращаемсмя к прошлому выбору.
-
+        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+            game.dragon '[reinforcement_ask]'
+            python:
+                if reinforcement_used:
+                    reinforcement_answer = reinforcement_refuse
+                else:
+                    reinforcement_answer = reinforcement_agree
+            mistress '[reinforcement_answer]'
+            if reinforcement_used:
+                call lb_war_border_continue
+            else:
+                $ reinforcement_used = True
+    
     call lb_war_field
+    return
 
     
 label lb_war_field:
     # TODO: Армия продвигается вглубь страны и встречает объединённые войска Вольных Народов. Дракон должен победить титана, армия сражается с войском.
     # Если дракон и АТ победили, продвигаемся дальше. Если дракон победил а АТ проигрывает, даём дракону схватку против короля людей.
+    
+    show expression 'img/bg/special/great_force.png' as bg
     'Сражение в чистом поле'
+    $ game.foe = core.Enemy('titan', game_ref=game)
+    $ narrator(show_chances(game.foe))
+    
+    menu:
+        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+            ''
+            $ actual_army_force -= army_decimator
+            
+        'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
+            call lb_fight
+
+        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+            game.dragon '[reinforcement_ask]'
+            python:
+                if reinforcement_used:
+                    reinforcement_answer = reinforcement_refuse
+                else:
+                    reinforcement_answer = reinforcement_agree
+            mistress '[reinforcement_answer]'
+            if reinforcement_used:
+                call lb_war_border_continue
+            else:
+                $ reinforcement_used = True
+    call lb_war_field_continue
+    return
+
+label lb_war_field_continue:
+    # TODO: Армия продвигается вглубь страны и встречает объединённые войска Вольных Народов. Дракон должен победить титана, армия сражается с войском.
+    # Если дракон и АТ победили, продвигаемся дальше. Если дракон победил а АТ проигрывает, даём дракону схватку против короля людей.
+    
+    show expression 'img/bg/special/dark_march.png' as bg
+    'Сражение в чистом поле'
+    $ game.foe = core.Enemy('champion', game_ref=game)
+    $ narrator(show_chances(game.foe))
+    
+    menu:
+        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+            'Это становится переломным моментом битвы. На закате разрозненные и разбитые войска людей отступают, открывая чудовищам путь вглубь страны.'
+            $ actual_army_force -= army_decimator
+            
+        'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
+            call lb_fight
+
+        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+            game.dragon '[reinforcement_ask]'
+            python:
+                if reinforcement_used:
+                    reinforcement_answer = reinforcement_refuse
+                else:
+                    reinforcement_answer = reinforcement_agree
+            mistress '[reinforcement_answer]'
+            if reinforcement_used:
+                call lb_war_field_continue
+            else:
+                $ reinforcement_used = True
     call lb_war_siege
     return
     
@@ -172,18 +257,131 @@ label lb_war_siege:
     # TODO: Армия Тьмы осаждает столицу людей. Дракон должен пробить огромные ворота чтобы армия могла ворваться в город.
     # Если дракон и АТ победили, продвигаемся дальше. Если дракон победил а АТ проигрывает, даём дракону схватку
     # против городской стражи.
+    show expression 'img/bg/special/city_fire.png' as bg
     'Осада столицы'
-    call lb_war_final
+    $ game.foe = core.Enemy('city', game_ref=game)
+    $ narrator(show_chances(game.foe))
+    
+    menu:
+        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+            'Это становится переломным моментом битвы. На закате разрозненные и разбитые войска людей отступают, открывая чудовищам путь вглубь страны.'
+            $ actual_army_force -= army_decimator
+            
+        'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
+            call lb_fight
+
+        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+            game.dragon '[reinforcement_ask]'
+            python:
+                if reinforcement_used:
+                    reinforcement_answer = reinforcement_refuse
+                else:
+                    reinforcement_answer = reinforcement_agree
+            mistress '[reinforcement_answer]'
+            if reinforcement_used:
+                call lb_war_siege
+            else:
+                $ reinforcement_used = True
+                
+    call lb_war_siege_inside
     return
 
     
-label lb_war_final:
+label lb_war_siege_inside:
+    # TODO: Армия Тьмы осаждает столицу людей. Дракон должен пробить огромные ворота чтобы армия могла ворваться в город.
+    # Если дракон и АТ победили, продвигаемся дальше. Если дракон победил а АТ проигрывает, даём дракону схватку
+    # против городской стражи.
+    show expression 'img/bg/special/city_raze.png' as bg
+    'Осада столицы'
+    $ game.foe = core.Enemy('city_guard', game_ref=game)
+    $ narrator(show_chances(game.foe))
+    
+    menu:
+        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+            'Это становится переломным моментом битвы. На закате разрозненные и разбитые войска людей отступают, открывая чудовищам путь вглубь страны.'
+            $ actual_army_force -= army_decimator
+            
+        'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
+            call lb_fight
+
+        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+            game.dragon '[reinforcement_ask]'
+            python:
+                if reinforcement_used:
+                    reinforcement_answer = reinforcement_refuse
+                else:
+                    reinforcement_answer = reinforcement_agree
+            mistress '[reinforcement_answer]'
+            if reinforcement_used:
+                call lb_war_siege_inside
+            else:
+                $ reinforcement_used = True
+                
+    call lb_war_citadel
+    return
+
+label lb_war_citadel:
     # TODO: Армия Тьмы захватила город, но центральная цитадель ещё держится. Дракон должен схватиться в воздухе с ангелом-хранителем, пока АТ штурмует.
     # Если дракон и АТ победили, продвигаемся дальше. Если дракон победил а АТ проигрывает, даём дракону схватку
     # против стального стража цвергов.
     # После окончательной победы переходим к сцене финальной оргии и концу игры.
+    show expression 'img/bg/special/city_raze.png' as bg
     'Битва за цитадель'
+    $ game.foe = core.Enemy('angel', game_ref=game)
+    $ narrator(show_chances(game.foe))
+    
+    menu:
+        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+            'Это становится переломным моментом битвы. На закате разрозненные и разбитые войска людей отступают, открывая чудовищам путь вглубь страны.'
+            $ actual_army_force -= army_decimator
+            
+        'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
+            call lb_fight
+
+        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+            game.dragon '[reinforcement_ask]'
+            python:
+                if reinforcement_used:
+                    reinforcement_answer = reinforcement_refuse
+                else:
+                    reinforcement_answer = reinforcement_agree
+            mistress '[reinforcement_answer]'
+            if reinforcement_used:
+                call lb_war_citadel
+            else:
+                $ reinforcement_used = True
+                
+    call lb_war_final
+    return
+    
+label lb_war_final:
+    show expression 'img/bg/special/city_raze.png' as bg
+    'Последняя битва'
+    $ game.foe = core.Enemy('golem', game_ref=game)
+    $ narrator(show_chances(game.foe))
+    
+    menu:
+        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+            'Это становится переломным моментом битвы. На закате разрозненные и разбитые войска людей отступают, открывая чудовищам путь вглубь страны.'
+            $ actual_army_force -= army_decimator
+            
+        'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
+            call lb_fight
+
+        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+            game.dragon '[reinforcement_ask]'
+            python:
+                if reinforcement_used:
+                    reinforcement_answer = reinforcement_refuse
+                else:
+                    reinforcement_answer = reinforcement_agree
+            mistress '[reinforcement_answer]'
+            if reinforcement_used:
+                call lb_war_citadel
+            else:
+                $ reinforcement_used = True    
     jump lb_orgy
+    rerutn
     
 label lb_orgy:
     'Красочное описание победной оргии'

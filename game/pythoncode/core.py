@@ -10,7 +10,8 @@ from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
 import renpy.store as store
-
+army_battle = False
+reinforcement_used = False
 
 def tuples_sum(tuple_list):
     return sum([first for first, _ in tuple_list]), sum([second for _, second in tuple_list])
