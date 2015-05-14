@@ -114,8 +114,266 @@ label lb_mistress_fuck:
 
 label lb_betrayal:
     # TODO: Сражение дракона и Госпожи. Подробности в диздоке, картинки готовы.
+    $ atk_tp = 'pysical'
+    $ mistress_hp = 3
+    call lb_new_round
     return
 
+label lb_new_round:
+    if mistress_hp < 1:
+        mistress 'Я ещё вернусь!'
+        $ game.win()
+        return
+    $ aspect = 'lb_' + random.choice(['kali','garuda','shiva','agni','indra','pangea','nemesis','amphisbena','gekata','hell',])
+    $ renpy.call(aspect)
+    return
+
+label lb_tactics_choice:
+    menu:
+        'Рвать зубами':
+            $ atk_tp = 'pysical'
+        'Ударить заклятьем' if game.dragon.mana > 0:
+            $ atk_tp = 'magic'
+        'Изрыгнуть пламя' if 'fire_breath' in game.dragon.modifiers():
+            $ atk_tp = 'fire'
+        'Леденящее дыхание' if 'ice_breath' in game.dragon.modifiers():
+            $ atk_tp = 'ice'
+        'Громовой рёв' if 'sound_breath' in game.dragon.modifiers():
+            $ atk_tp = 'thunder'
+        'Ужалить ядом'  if 'poison_breath' in game.dragon.modifiers() or 'poisoned_sting' in game.dragon.modifiers():
+            $ atk_tp = 'poison'
+        'Взмыть в небеса' if game.dragon.can_fly:
+            $ atk_tp = 'air'
+        # 'Зарыться под землю' if game.dragon.can_dig: #TODO надо понять как это правильно проверить
+        #    $ atk_tp = 'earth'
+        'Юлить и уклоняться':
+            $ atk_tp = 'dodge'
+        'Спрятаться и затихнуть':
+            $ atk_tp = 'hide'
+    return
+
+label lb_kali:
+    show expression 'img/scene/fight/mistress/kali.png' as bg    
+    'Многорукий облик. Атака попадает если у дракона нет верной защиты. Уязвима для магической атаки.'
+    call lb_tactics_choice
+    if 'iron_scale' in game.dragon.modifiers() or 'bronze_scale' in game.dragon.modifiers() or 'tough_scale' in game.dragon.modifiers(): #TODO: сделал как мог, вообще тут должна быть проверка на минимум единицу верной защиты из любого источника
+        game.dragon 'Защищён'
+    else:
+        if dragon.decapitate() == 'dragon_dead':
+            mistress 'Убит'
+            $ renpy.full_restart()
+        else:
+            mistress 'Ранен'
+            
+    if atk_tp == 'magic':
+        game.dragon 'Попал!'
+        $ mistress_hp -= 1
+    else:
+        mistress 'Промазал!'
+    call lb_new_round
+    return
+
+label lb_garuda:
+    show expression 'img/scene/fight/mistress/garuda.png' as bg    
+    'Облик птицы. Атака попадает если дракон не закопался в землю. Уязвима для любой атаки.'
+    call lb_tactics_choice
+    if atk_tp = 'earth':
+        game.dragon 'Защищён'
+    else:
+        if dragon.decapitate() == 'dragon_dead':
+            mistress 'Убит'
+            $ renpy.full_restart()
+        else:
+            mistress 'Ранен'
+        
+    if atk_tp != 'dodge' and atk_tp != 'hide' and atk_tp != 'earth' and atk_tp != 'air':
+        game.dragon 'Попал!'
+        $ mistress_hp -= 1
+    else:
+        mistress 'Промазал!'   
+            
+    call lb_new_round
+    return
+    
+
+label lb_shiva:
+    show expression 'img/scene/fight/mistress/sheeva.png' as bg    
+    'Ледяной облик. Атака попадает если у дракона нет защиты от холода. Уязвима для огненного дыхания.'
+    call lb_tactics_choice
+    if 'ice_immunity' in game.dragon.modifiers():
+        game.dragon 'Защищён'
+    else:
+        if dragon.decapitate() == 'dragon_dead':
+            mistress 'Убит'
+            $ renpy.full_restart()
+        else:
+            mistress 'Ранен'
+
+    if atk_tp == 'fire':
+        game.dragon 'Попал!'
+        $ mistress_hp -= 1
+    else:
+        mistress 'Промазал!'
+            
+    call lb_new_round
+    return
+
+label lb_agni:
+    show expression 'img/scene/fight/mistress/agni.png' as bg    
+    'Огненный облик. Атака попадает если у дракона нет защиты от огня. Уязвима для ледяного дыхания.'
+    call lb_tactics_choice
+    if 'fire_immunity' in game.dragon.modifiers():
+        game.dragon 'Защищён'
+    else:
+        if dragon.decapitate() == 'dragon_dead':
+            mistress 'Убит'
+            $ renpy.full_restart()
+        else:
+            mistress 'Ранен'
+        
+    if atk_tp == 'ice':
+        game.dragon 'Попал!'
+        $ mistress_hp -= 1
+    else:
+        mistress 'Промазал!'
+                            
+    call lb_new_round
+    return
+
+label lb_indra:
+    show expression 'img/scene/fight/mistress/indra.png' as bg    
+    'Облик громовержца. Атака попадает если у дракона нет защиты от молний. Уязвима для ядовитого дыхания.'
+    call lb_tactics_choice
+    if 'lightning_immunity' in game.dragon.modifiers():
+        game.dragon 'Защищён'
+    else:
+        if dragon.decapitate() == 'dragon_dead':
+            mistress 'Убит'
+            $ renpy.full_restart()
+        else:
+            mistress 'Ранен'
+        
+    if atk_tp == 'poison':
+        game.dragon 'Попал!'
+        $ mistress_hp -= 1
+    else:
+        mistress 'Промазал!'
+                            
+    call lb_new_round
+    return
+    
+
+label lb_pangea:
+    show expression 'img/scene/fight/mistress/pangea.png' as bg    
+    'Кристаллический облик. Атака попадает если дракон имеет сумму обычной и верной брони менее пяти. Уязвима для громового рёва.'
+    call lb_tactics_choice
+    if True: #TODO защита > 5, не знаю как это проверить
+        game.dragon 'Защищён'
+    else:
+        if dragon.decapitate() == 'dragon_dead':
+            mistress 'Убит'
+            $ renpy.full_restart()
+        else:
+            mistress 'Ранен'
+        
+    if atk_tp == 'thunder':
+        game.dragon 'Попал!'
+        $ mistress_hp -= 1
+    else:
+        mistress 'Промазал!'   
+                            
+    call lb_new_round
+    return
+
+label lb_nemesis:
+    show expression 'img/scene/fight/mistress/nemesis.png' as bg    
+    'Облик возмездия. Атака попадает если дракон производит любое агрессивное действие. Неуязвима.'
+    call lb_tactics_choice
+    if atk_tp == 'dodge' or atk_tp == 'hide' or atk_tp == 'earth' or atk_tp == 'air':
+        game.dragon 'Защищён'
+    else:
+        if dragon.decapitate() == 'dragon_dead':
+            mistress 'Убит'
+            $ renpy.full_restart()
+        else:
+            mistress 'Ранен'
+        
+    if atk_tp != 'dodge' and atk_tp != 'hide' and atk_tp != 'earth' and atk_tp != 'air':
+        game.dragon 'Попал!'
+        $ mistress_hp -= 1
+    else:
+        mistress 'Промазал!'  
+                            
+    call lb_new_round
+    return
+
+label lb_amphisbena:
+    show expression 'img/scene/fight/mistress/amfisbena.png' as bg    
+    'Облик змеи. Атака попадает если дракон не взлетел в воздух. Уязвима для физической атаки при условии что у дракона есть хотя бы одна верная атака.'
+    call lb_tactics_choice
+    if atk_tp == 'air':
+        game.dragon 'Защищён'
+    else:
+        if dragon.decapitate() == 'dragon_dead':
+            mistress 'Убит'
+            $ renpy.full_restart()
+        else:
+            mistress 'Ранен'
+        
+    if atk_tp == 'pysical': #TODO нужна проверка есть ли у дракона хотя бы одна верная атака, пробивает только если есть
+        game.dragon 'Попал!'
+        $ mistress_hp -= 1
+    else:
+        mistress 'Промазал!'
+                            
+    call lb_new_round
+    return
+    
+
+label lb_gekata:
+    show expression 'img/scene/fight/mistress/gekata.png' as bg    
+    'Облик смерти. Атака попадает если дракон не спрятался. Уязвима для физической атаки если дракон имеет сумму обычной и верной атаки не менее пяти.'
+    call lb_tactics_choice
+    if atk_tp != 'hide':
+        game.dragon 'Защищён'
+    else:
+        if dragon.decapitate() == 'dragon_dead':
+            mistress 'Убит'
+            $ renpy.full_restart()
+        else:
+            mistress 'Ранен'
+        
+    if atk_tp == 'pysical': #TODO нужна проверка есть ли у дракона суммарная атака пять или выше, пробивает только если есть
+        game.dragon 'Попал!'
+        $ mistress_hp -= 1
+    else:
+        mistress 'Промазал!' 
+                            
+    call lb_new_round
+    return
+
+label lb_hell:
+    show expression 'img/scene/fight/mistress/hell.png' as bg    
+    'Облик великанши. Атака попадает если дракон не уклонялся. Уязвима для магической атаки.'
+    call lb_tactics_choice
+    if atk_tp == 'dodge':
+        game.dragon 'Защищён'
+    else:
+        if dragon.decapitate() == 'dragon_dead':
+            mistress 'Убит'
+            $ renpy.full_restart()
+        else:
+            mistress 'Ранен'
+        
+    if atk_tp == 'magic':
+        game.dragon 'Попал!'
+        $ mistress_hp -= 1
+    else:
+        mistress 'Промазал!'  
+                            
+    call lb_new_round
+    return
+    
 label lb_war_border:
     # TODO: Дракон ведёт свою армию на вольные земли. На протяжении всех событий отступать нельзя - дракон умрёт или победит. Один раз можно попросить госпожу одолеть любого врага вместо дракона.
     # Чтобы пройти АТ нужно взять пограничную крепость. Дракон берёт на себя катапульты, армия штурмует стены.
@@ -381,7 +639,6 @@ label lb_war_final:
             else:
                 $ reinforcement_used = True    
     jump lb_orgy
-    rerutn
     
 label lb_orgy:
     'Красочное описание победной оргии'
