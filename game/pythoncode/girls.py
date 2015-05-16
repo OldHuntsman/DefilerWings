@@ -310,8 +310,7 @@ class GirlsList(object):
                 self.game.lair.add_upgrade(menu_action)
         self.spawn = []
 
-    @staticmethod
-    def free_spawn(power):
+    def free_spawn(self, power):
         """
         Действия отродий на свободе
         """

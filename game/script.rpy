@@ -12,6 +12,7 @@ init python:
         persistent.seen_encounters = []
     freeplay = bool()
     save_blocked = False
+    army_battle = False
 # Начало игры
     
 label start:

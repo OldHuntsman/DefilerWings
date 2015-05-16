@@ -62,7 +62,7 @@ screen main_map:
                     xalign 0.5
         
         if game.dragon is not None:
-            text "%d/%d" % (game.dragon.age, game.year)
+            text u"{font=fonts/AnticvarShadow.ttf} Год %d э.д. (Прошло %d) {/font}" % (game.dragon.age, game.year)
                     
     # Выходим из под действия fixed
     use status_bar
