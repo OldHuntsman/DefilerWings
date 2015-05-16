@@ -316,7 +316,7 @@ class GirlsList(object):
         Действия отродий на свободе
         """
         # Растёт разруха. Надо проверить чтобы это срабатывало по одному разу на тип отродий.
-        game.poverty.value += 1
+        self.game.poverty.value += 1
         pass
 
     def army_of_darkness(self, warrior_type):

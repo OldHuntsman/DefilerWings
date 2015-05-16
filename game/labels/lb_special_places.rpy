@@ -106,6 +106,8 @@ label lb_enchanted_forest_grove:
             call lb_fight
             $ txt = game.interpolate(random.choice(txt_place_enfr[5]))
             '[txt]' 
+            $ game.dragon.reputation.points += 25
+            '[game.dragon.reputation.gain_description]' 
             nvl clear
             call lb_enchanted_forest_grove_rob
         'Покинуть зачарованный лес' if game.dragon.bloodiness < 5:
@@ -183,6 +185,8 @@ label lb_manor:
             call lb_fight
             $ txt = game.interpolate(random.choice(txt_place_manor[5]))
             '[txt]' 
+            $ game.dragon.reputation.points += 3
+            '[game.dragon.reputation.gain_description]'
             nvl clear
             call lb_manor_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
@@ -260,6 +264,8 @@ label lb_wooden_fort:
             call lb_fight
             $ txt = game.interpolate(random.choice(txt_place_wooden_fort[5]))
             '[txt]' 
+            $ game.dragon.reputation.points += 5
+            '[game.dragon.reputation.gain_description]'            
             nvl clear
             call lb_wooden_fort_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
@@ -327,6 +333,8 @@ label lb_abbey:
     nvl clear
     $ txt = game.interpolate(random.choice(txt_place_abbey[1]))
     '[txt]'    
+    $ game.dragon.reputation.points += 10
+    '[game.dragon.reputation.gain_description]'     
     $ game.foe = core.Enemy('templars', game_ref=game)
     $ chances = show_chances(game.foe)
     '[chances]'
@@ -414,6 +422,8 @@ label lb_castle:
             call lb_fight
             $ txt = game.interpolate(random.choice(txt_place_castle[5]))
             '[txt]' 
+            $ game.dragon.reputation.points += 10
+            '[game.dragon.reputation.gain_description]'                
             nvl clear
             call lb_castle_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
@@ -492,6 +502,8 @@ label lb_palace:
             call lb_fight
             $ txt = game.interpolate(random.choice(txt_place_palace[5]))
             '[txt]' 
+            $ game.dragon.reputation.points += 25
+            '[game.dragon.reputation.gain_description]'                 
             nvl clear
             call lb_palace_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
@@ -772,6 +784,8 @@ label lb_titan:
         'Вызвать титана на бой':
             $ game.dragon.drain_energy()
             call lb_fight
+            $ game.dragon.reputation.points += 10
+            '[game.dragon.reputation.gain_description]'   
             jump lb_titan_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
             $ game.dragon.add_special_place('titan', 'titan_full')
@@ -912,6 +926,8 @@ label lb_dwarf_treashury:
     menu:
         'Сразиться с чемпионом':
             call lb_fight
+            $ game.dragon.reputation.points += 25
+            '[game.dragon.reputation.gain_description]'     
             call lb_dwarf_rob
         'Бежать поджав хвост':
             'Обидно отутпать когда победа была так близка, но загнанные в угол цверги могут быть крайне опасными противниками. Иногда лучше не рисковать!'

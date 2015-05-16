@@ -20,7 +20,7 @@ label start:
         game = core.Game(adv_character=ADVCharacter, nvl_character=NVLCharacter)
         narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
         # Alex: Zexy Images :)
-        sex_imgs = DragonSexImagesDatabase()
+        sex_imgs = DragonSexImagesDatabase()        
         
     # Alex: I get lost in labels all the time...
     if config.developer:
@@ -30,6 +30,7 @@ label start:
     call screen sc_intro
     while not game.is_won or not game.is_lost:
         # Если дракона нет выбираем его
+        show black as low
         if game.dragon is None or game.dragon.is_dead:
             if not freeplay:
                 call lb_choose_dragon

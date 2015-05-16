@@ -500,6 +500,7 @@ class Game(store.object):
         substitutes = {
             "dragon_name": self.dragon.name,
             "dragon_name_full": self.dragon.fullname,
+            "dragon_type": self.dragon.kind,
         }
         if self.foe is not None:
             substitutes["foe_name"] = self.foe.name

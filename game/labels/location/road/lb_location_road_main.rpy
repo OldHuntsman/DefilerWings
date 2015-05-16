@@ -264,7 +264,7 @@ label lb_enc_outpost:
             'Большинство стражников мертво, остальные бежали в ужасе, однако здание заставы всё ещё стоит у дороги и восстановить её работу будет не так уж сложно. Зато внутри находится сундук с собранными за последнее время торговыми пошлинами. Внутри приятно звенят монеты:'
             python:
                 game.dragon.drain_energy()
-                passing_tool = random.randint(50, 250)
+                passing_tool = random.randint(10, 50)
                 slvr_trs = treasures.Coin('taller', passing_tool)
                 game.narrator(slvr_trs.description() + '.')
                 game.lair.treasury.receive_treasures([slvr_trs])

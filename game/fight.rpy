@@ -15,7 +15,7 @@ label lb_fight(foe=game.foe):
 
         if 'dragon_dead' in battle_status:
             # TODO замена текущего дракона с возможностью выбора потомка
-            "[game.dragon.name] повержен!"
+            game.dragon "Я подвёл тебя, мама..."
             if freeplay:
                 $ renpy.unlink_save("1-3")
                 $ renpy.full_restart()

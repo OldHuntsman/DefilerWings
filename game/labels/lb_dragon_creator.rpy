@@ -1,5 +1,7 @@
 # coding=utf-8
+  
 label lb_dragon_creator:
+    show expression 'img/scene/hatch/green/3.png' as bg    
     python:
         save_blocked = True
         child = core.Dragon(parent=game.dragon, game_ref=game)
@@ -37,10 +39,10 @@ label lb_dragon_creator:
                 renpy.restart_interaction()
     screen creator:
         window:
-            text "Осталось модификаций [mods_left]" xalign 0.45
+            text "Осталось модификаций [mods_left]" xalign 0.45 yalign 0.9
             hbox:
                 vbox:
-                    text "Анатомия"
+                    text "Добавить..."
                     textbutton "Голова" action SetVariable("mods_left", mods_left - 1), AddModifier("green", game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
                     if game.dragon.paws < 3:
                         textbutton "Лапы" action SetVariable("mods_left", mods_left - 1), AddModifier("paws", game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
@@ -52,7 +54,7 @@ label lb_dragon_creator:
                         textbutton special_features_rus[i] action SetVariable("mods_left", mods_left - 1), AddModifier(i, game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
                 if game.dragon.heads.count("green") > 0: 
                     vbox:
-                        text "Цветные головы"
+                        text "Покрасить голову"
                         for i in colored_heads:
                             textbutton data.heads_name_rus[i].capitalize() action SetVariable("mods_left", mods_left - 1), AddModifier(i, game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
             use status_bar
