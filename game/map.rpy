@@ -68,6 +68,7 @@ screen main_map:
         text "{font=fonts/AnticvarShadow.ttf} %d фартингов {/font}" % (game.lair.treasury.farting + game.lair.treasury.taller * 10 + game.lair.treasury.dublon * 100):
             xalign 0.7
             yalign 1
+            size 25
 
 
     # Выходим из под действия fixed
