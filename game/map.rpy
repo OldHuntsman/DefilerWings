@@ -63,7 +63,13 @@ screen main_map:
         
         if game.dragon is not None:
             text u"{font=fonts/AnticvarShadow.ttf} Год %d э.д. (Прошло %d) {/font}" % (game.dragon.age, game.year)
-                    
+    
+    if game.dragon is not None:
+        text "{font=fonts/AnticvarShadow.ttf} %d фартингов {/font}" % (game.lair.treasury.farting + game.lair.treasury.taller * 10 + game.lair.treasury.dublon * 100):
+            xalign 0.7
+            yalign 1
+
+
     # Выходим из под действия fixed
     use status_bar
     if game.lair is not None:
