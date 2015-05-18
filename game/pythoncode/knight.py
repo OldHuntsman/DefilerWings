@@ -220,10 +220,10 @@ class Knight(Fighter):
         :type reputation: int
         :param reputation: Уровень дурная славы дракона. Чем больше, тем выше будет уровень рыцаря.
         :rtype : int
-        :return: сумму (reputation + 3) бросков 1 к 3
+        :return: сумму (reputation + 2) бросков 1 к 3
         """
         skill = 0
-        for i in range(3 + reputation):
+        for i in range(2 + reputation):
             if random.choice(range(3)) == 0:
                 skill += 1
         return skill if skill < Knight.max_level() else Knight.max_level()

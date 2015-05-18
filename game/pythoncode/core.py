@@ -234,7 +234,7 @@ class Game(store.object):
         # Действия с девушками после конца сна    
         self.girls_list.after_awakening()
         # Проверка срока выполнения квеста
-        if self.quest_time <= 0:
+        if (self.quest_time <= 0) and not store.freeplay:
             call('lb_location_mordor_questtime')
         self._sleep_lvl -= 1
 
@@ -722,7 +722,6 @@ class Fighter(Sayer, Mortal):
 
     def modifiers(self):
         """Список модификаторов бойца
-
         :rtype: list
         :return: Список модификаторов
         """
@@ -731,7 +730,8 @@ class Fighter(Sayer, Mortal):
     def protection(self):
         """
         :rtype : dict
-        :return: Значение защиты данного бойца в виде котртежа (защита, верная защита).
+        :return: Словарь, ключами которого являются типы защиты,
+        а значениями - кортежи вида (защита, верная защита).
         """
         result = dict()
         for protect_type in data.protection_types:
@@ -741,6 +741,17 @@ class Fighter(Sayer, Mortal):
                  if get_modifier(mod).protection[0] == protect_type]
             )
         return result
+    
+    def defence_power(self):
+        """
+        :return: Суммарная защита бойца в виде кортежа (защита, верная защита).
+        """
+        defence = self.protection()
+        result = [0, 0]
+        for protect_type in defence.keys():
+            result[0] += defence[protect_type][0]
+            result[1] += defence[protect_type][1]
+        return tuple(result)
 
     def attack(self):
         """Словарь с атаками бойца
@@ -756,6 +767,20 @@ class Fighter(Sayer, Mortal):
                  if get_modifier(mod).attack[0] == attack_type]
             )
         return result
+
+    def attack_strength(self, target_immunity=[]):
+        """Вычисляет силу атаки по цели 
+        :target_immunity: список иммунитетов цели
+        :return: кортеж силы атаки по цели: (атака, верная атака)
+        """
+        power = self.attack()
+        result = [0, 0]
+        for attack_type in power.keys():
+            if attack_type not in target_immunity:
+                (r, p) = power[attack_type]
+                result[0] += r
+                result[1] += p
+        return tuple(result)
 
     def immunity(self):
         """

@@ -121,24 +121,15 @@ def victory_chance(objective, foe):
     :param    foe: текущий противник
     :return: вероятность победы в процентах
     """
-    power = objective.attack()
-    immun = foe.immunity()
-    defence = foe.protection()
     # вычисляем атаку
-    regular_attack = 0
-    perfect_attack = 0
-    for key in power.keys():
-        if key not in immun:
-            (r, p) = power[key]
-            regular_attack += r
-            perfect_attack += p
+    immun = foe.immunity()
+    power = objective.attack_strength(immun)
+    regular_attack = power[0]
+    perfect_attack = power[1]
     # вычисляем защиту
-    regular_defence = 0
-    perfect_defence = 0
-    for key in defence.keys():
-        (r, p) = defence[key]
-        regular_defence += r
-        perfect_defence += p
+    defence = foe.defence_power()
+    regular_defence = defence[0]
+    perfect_defence = defence[1]
     # вычисляем вероятность победы
     if perfect_attack + regular_attack < perfect_defence:
         return 0  # верную защиту невозможно пробить, победа невозможна

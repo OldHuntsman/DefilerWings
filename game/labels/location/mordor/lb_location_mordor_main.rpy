@@ -131,7 +131,7 @@ label lb_new_round:
 label lb_tactics_choice:
     menu:
         'Рвать зубами':
-            $ atk_tp = 'pysical'
+            $ atk_tp = 'physical'
         'Ударить заклятьем' if game.dragon.mana > 0:
             $ atk_tp = 'magic'
         'Изрыгнуть пламя' if 'fire_breath' in game.dragon.modifiers():
@@ -156,7 +156,7 @@ label lb_kali:
     show expression 'img/scene/fight/mistress/kali.png' as bg    
     'Многорукий облик. Атака попадает если у дракона нет верной защиты. Уязвима для магической атаки.'
     call lb_tactics_choice
-    if 'iron_scale' in game.dragon.modifiers() or 'bronze_scale' in game.dragon.modifiers() or 'tough_scale' in game.dragon.modifiers(): #TODO: сделал как мог, вообще тут должна быть проверка на минимум единицу верной защиты из любого источника
+    if game.dragon.defence_power()[1] > 0:
         game.dragon 'Защищён'
     else:
         if dragon.decapitate() == 'dragon_dead':
@@ -267,7 +267,7 @@ label lb_pangea:
     show expression 'img/scene/fight/mistress/pangea.png' as bg    
     'Кристаллический облик. Атака попадает если дракон имеет сумму обычной и верной брони менее пяти. Уязвима для громового рёва.'
     call lb_tactics_choice
-    if True: #TODO защита > 5, не знаю как это проверить
+    if game.dragon.defence_power()[0] + game.dragon.defence_power()[1] >= 5:
         game.dragon 'Защищён'
     else:
         if dragon.decapitate() == 'dragon_dead':
@@ -320,7 +320,7 @@ label lb_amphisbena:
         else:
             mistress 'Ранен'
         
-    if atk_tp == 'pysical': #TODO нужна проверка есть ли у дракона хотя бы одна верная атака, пробивает только если есть
+    if game.dragon.attack_strength()[1] > 0:
         game.dragon 'Попал!'
         $ mistress_hp -= 1
     else:
@@ -343,7 +343,7 @@ label lb_gekata:
         else:
             mistress 'Ранен'
         
-    if atk_tp == 'pysical': #TODO нужна проверка есть ли у дракона суммарная атака пять или выше, пробивает только если есть
+    if game.dragon.attack_strength()[0] + game.dragon.attack_strength()[1] >= 5:
         game.dragon 'Попал!'
         $ mistress_hp -= 1
     else:
@@ -382,8 +382,7 @@ label lb_war_border:
     # на помощь осаждённым, дракон должен их победить.
     python:
         army_battle = True #Из боя теперь нельзя отступить
-        actual_army_force = army.force
-        army_decimator = army.force/10
+        army_decimator = 10
     
     show expression 'img/bg/special/dark_march.png' as bg
     'Сражение у границ, Армия Тьмы вступает в битву. Катапульты являются ключевым звеном обороны.'
@@ -392,9 +391,9 @@ label lb_war_border:
     $ narrator(show_chances(game.foe))
             
     menu:
-        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Наблюдать за битвой' if game.army.force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Армия Тьмы несёт потери, но передовые отряды прорываются к катапультам и уничтожают их. Теперь победа всего в одном шаге.'
-            $ actual_army_force -= army_decimator
+            $ game.army.power_percentage -= army_decimator
             
         'Сокрушить катапульты': #Дракон бережёт армию и сам уничтожает наиболее опасные очаги сопротивления
             call lb_fight
@@ -422,10 +421,10 @@ label lb_war_border_continue:
     $ narrator(show_chances(game.foe))
     
     menu:
-        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Наблюдать за битвой' if game.army.force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Тяжелые летучие крейсера демонстративно зависают над скоплением монстров и скидывают прямо на головы воинам Владычицы пузатые бочки с заженнйми фитилями. Земля озаряется вспышками и заливается текучим огнём. Объятые пламенем гоблины с визгоми разбегаются и катаются по земле пытвась погасить огонь. Когда запас бомб на кораблях подходит к концу, они мерно разворачиваются и уходят на базу невредимыми. Эта атака стоила Армии Тьмы днсятой части воинов!'
             'Тем не менее, пограничные войска людей выдохнулись и вынуждены были отступить. Путь вглубь страны открыт.'
-            $ actual_army_force -= army_decimator
+            $ game.army.power_percentage -= army_decimator
             
         'Перехватить летучие корабли': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             call lb_fight
@@ -457,9 +456,9 @@ label lb_war_field:
     $ narrator(show_chances(game.foe))
     
     menu:
-        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Наблюдать за битвой' if game.army.force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             ''
-            $ actual_army_force -= army_decimator
+            $ game.army.power_percentage -= army_decimator
             
         'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             call lb_fight
@@ -489,9 +488,9 @@ label lb_war_field_continue:
     $ narrator(show_chances(game.foe))
     
     menu:
-        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Наблюдать за битвой' if game.army.force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Это становится переломным моментом битвы. На закате разрозненные и разбитые войска людей отступают, открывая чудовищам путь вглубь страны.'
-            $ actual_army_force -= army_decimator
+            $ game.army.power_percentage -= army_decimator
             
         'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             call lb_fight
@@ -521,9 +520,9 @@ label lb_war_siege:
     $ narrator(show_chances(game.foe))
     
     menu:
-        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Наблюдать за битвой' if game.army.force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Это становится переломным моментом битвы. На закате разрозненные и разбитые войска людей отступают, открывая чудовищам путь вглубь страны.'
-            $ actual_army_force -= army_decimator
+            $ game.army.power_percentage -= army_decimator
             
         'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             call lb_fight
@@ -555,9 +554,9 @@ label lb_war_siege_inside:
     $ narrator(show_chances(game.foe))
     
     menu:
-        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Наблюдать за битвой' if game.army.force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Это становится переломным моментом битвы. На закате разрозненные и разбитые войска людей отступают, открывая чудовищам путь вглубь страны.'
-            $ actual_army_force -= army_decimator
+            $ game.army.power_percentage -= army_decimator
             
         'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             call lb_fight
@@ -589,9 +588,9 @@ label lb_war_citadel:
     $ narrator(show_chances(game.foe))
     
     menu:
-        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Наблюдать за битвой' if game.army.force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Это становится переломным моментом битвы. На закате разрозненные и разбитые войска людей отступают, открывая чудовищам путь вглубь страны.'
-            $ actual_army_force -= army_decimator
+            $ game.army.power_percentage -= army_decimator
             
         'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             call lb_fight
@@ -619,9 +618,9 @@ label lb_war_final:
     $ narrator(show_chances(game.foe))
     
     menu:
-        'Наблюдать за битвой' if actual_army_force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Наблюдать за битвой' if game.army.force >= 0: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Это становится переломным моментом битвы. На закате разрозненные и разбитые войска людей отступают, открывая чудовищам путь вглубь страны.'
-            $ actual_army_force -= army_decimator
+            $ game.army.power_percentage -= army_decimator
             
         'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             call lb_fight
