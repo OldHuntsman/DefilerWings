@@ -65,7 +65,7 @@ screen main_map:
             text u"{font=fonts/AnticvarShadow.ttf} Год %d э.д. (Прошло %d) {/font}" % (game.dragon.age, game.year)
     
     if game.dragon is not None:
-        text "{font=fonts/AnticvarShadow.ttf} %d фартингов {/font}" % (game.lair.treasury.farting + game.lair.treasury.taller * 10 + game.lair.treasury.dublon * 100):
+        text "{font=fonts/AnticvarShadow.ttf} %d фартингов {/font}" % game.lair.treasury.money:
             xalign 0.7
             yalign 1
             size 25
