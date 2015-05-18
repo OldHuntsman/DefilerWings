@@ -649,6 +649,17 @@ class Girl(Sayer):
         self.type = girl_type
         # Подбираем аватарку
         self.avatar = get_avatar("img/avahuman/" + girls_data.girls_info[girl_type]['avatar'])
+        
+        # @Alex: Added haicolor taken from avatar:
+        hair_colors = ["black", "blond", "brown", "red", "unknown"]
+        fn = self.avatar.split("/")[-1]
+        for i in hair_colors:
+            if i in fn:
+                self.hair_color = i
+                break
+        else:
+            self.hair_color = None
+            
         # девственность = пригодность для оплодотворения драконом
         self.virgin = True
         # беременность: 0 - не беременна, 1 - беременна базовым отродьем, 2 - беременна продвинутым отродьем
