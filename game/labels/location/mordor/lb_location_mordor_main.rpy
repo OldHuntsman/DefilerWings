@@ -161,7 +161,7 @@ label lb_kali:
     else:
         if dragon.decapitate() == 'dragon_dead':
             mistress 'Убит'
-            $ renpy.full_restart()
+            jump lb_you_win
         else:
             mistress 'Ранен'
             
@@ -182,7 +182,7 @@ label lb_garuda:
     else:
         if dragon.decapitate() == 'dragon_dead':
             mistress 'Убит'
-            $ renpy.full_restart()
+            jump lb_you_win
         else:
             mistress 'Ранен'
         
@@ -205,7 +205,7 @@ label lb_shiva:
     else:
         if dragon.decapitate() == 'dragon_dead':
             mistress 'Убит'
-            $ renpy.full_restart()
+            jump lb_you_win
         else:
             mistress 'Ранен'
 
@@ -227,7 +227,7 @@ label lb_agni:
     else:
         if dragon.decapitate() == 'dragon_dead':
             mistress 'Убит'
-            $ renpy.full_restart()
+            jump lb_you_win
         else:
             mistress 'Ранен'
         
@@ -249,7 +249,7 @@ label lb_indra:
     else:
         if dragon.decapitate() == 'dragon_dead':
             mistress 'Убит'
-            $ renpy.full_restart()
+            jump lb_you_win
         else:
             mistress 'Ранен'
         
@@ -272,7 +272,7 @@ label lb_pangea:
     else:
         if dragon.decapitate() == 'dragon_dead':
             mistress 'Убит'
-            $ renpy.full_restart()
+            jump lb_you_win
         else:
             mistress 'Ранен'
         
@@ -294,7 +294,7 @@ label lb_nemesis:
     else:
         if dragon.decapitate() == 'dragon_dead':
             mistress 'Убит'
-            $ renpy.full_restart()
+            jump lb_you_win
         else:
             mistress 'Ранен'
         
@@ -316,7 +316,7 @@ label lb_amphisbena:
     else:
         if dragon.decapitate() == 'dragon_dead':
             mistress 'Убит'
-            $ renpy.full_restart()
+            jump lb_you_win
         else:
             mistress 'Ранен'
         
@@ -339,7 +339,7 @@ label lb_gekata:
     else:
         if dragon.decapitate() == 'dragon_dead':
             mistress 'Убит'
-            $ renpy.full_restart()
+            jump lb_you_win
         else:
             mistress 'Ранен'
         
@@ -361,7 +361,7 @@ label lb_hell:
     else:
         if dragon.decapitate() == 'dragon_dead':
             mistress 'Убит'
-            $ renpy.full_restart()
+            jump lb_you_win
         else:
             mistress 'Ранен'
         
@@ -651,4 +651,4 @@ label lb_orgy:
     show expression 'img/bg/special/orgy.png' as bg
     pause (500.0)    
     'Победная оргия'
-    $ game.win()
+    jump lb_you_win
