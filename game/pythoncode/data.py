@@ -491,7 +491,7 @@ thief_titles = [
 В качестве ключевых параметров передаются:
 thief - вор стриггеривший ивент
 Дополнительно для "die_trap" и "pass_trap":
-obj - улучшение которое вор обошел или умер
+obj - улучшение которое вор обошел или умер @Review: I think it's trap, not obj
 Дополнительно для "die_item", "receive_item":
 obj - вещь, которую получил вор
 '''
@@ -509,6 +509,20 @@ thief_events = {
     "receive_no_item": "lb_event_thief_receive_no_item",
     "receive_item": "lb_event_thief_receive_item",
     "steal_items": "lb_event_thief_steal_items",
+    # @Review: Alex: Added new event:label k/v to fill in the gaps:
+    "checking_items": "lb_event_thief_checking_items",
+    "checking_item": "lb_event_thief_checking_item",
+    "checking_items_success": "lb_event_thief_checking_items_success",
+    "checking_item_success": "lb_event_thief_checking_item_success",
+    "checking_accessability": "lb_event_thief_checking_accessability",
+    "checking_accessability_success": "lb_event_thief_checking_accessability_success",
+    "trying_to_avoid_traps_and_guards": "lb_event_thief_trying_to_avoid_traps_and_guards",
+    "retreat_and_try_next_year": "lb_event_thief_retreat_and_try_next_year",
+    "starting_to_rob_the_lair": "lb_event_thief_starting_to_rob_the_lair",
+    "took_an_item": "lb_event_thief_took_an_item",
+    "lair_empty": "lb_event_thief_lair_empty",
+    
+    
 }
 
 #
