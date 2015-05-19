@@ -18,7 +18,7 @@ label lb_fight(foe=game.foe):
             game.dragon "Я подвёл тебя, мама..."
             if freeplay:
                 $ renpy.unlink_save("1-3")
-                $ renpy.full_restart()
+                jump lb_game_over
             call lb_choose_dragon
             # Не вызываем дракона, потому что он вызвовется перед тем как нас выкинет на карту
             hide foeimg
