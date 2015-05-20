@@ -156,7 +156,7 @@ girls_info = {
             'fibula', 'taller', 'dublon'],
     },
     'princess': {
-        'magic_rating': 1,
+        'magic_rating': 0,
         'regular_spawn': 'krokk',
         'advanced_spawn': 'lizardman',
         'giantess': False,
@@ -173,7 +173,7 @@ girls_info = {
             'fibula'],
     },
     'elf': {
-        'magic_rating': 2,
+        'magic_rating': 1,
         'regular_spawn': 'gargoyle',
         'advanced_spawn': 'dragonborn',
         'giantess': False,
@@ -189,7 +189,7 @@ girls_info = {
             'necklace', 'pendant', 'ring', 'broch', 'gemring', 'armbrace', 'legbrace', 'chain'],
     },
     'mermaid': {
-        'magic_rating': 2,
+        'magic_rating': 1,
         'regular_spawn': 'octopus',
         'advanced_spawn': 'sea_bastard',
         'giantess': False,
@@ -273,7 +273,7 @@ girls_info = {
             'taller', 'dublon'],
     },
     'titan': {
-        'magic_rating': 3,
+        'magic_rating': 2,
         'regular_spawn': 'chimera',
         'advanced_spawn': 'troll',
         'giantess': True,

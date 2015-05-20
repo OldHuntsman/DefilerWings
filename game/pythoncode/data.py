@@ -1488,9 +1488,9 @@ spell_list = {
     # заговоры -- дают иммунитет к атаке выбранного типа
     'fire_protection': ['fire_immunity'],
     'ice_protection': ['ice_immunity'],
-    'poison_protection': ['poison_immunity'],
+    #'poison_protection': ['poison_immunity'],
     'lightning_protection': ['lightning_immunity'],
-    'sound_protection': ['sound_immunity'],
+    #'sound_protection': ['sound_immunity'],
     # сердца -- дают дыхание нужного типа
     'fire_heart': ['fire_breath'],
     'ice_heart': ['ice_breath'],
@@ -1507,22 +1507,22 @@ spell_list = {
 # Русское название для отображения заклинания
 spell_list_rus = {
     # заговоры -- дают иммунитет к атаке выбранного типа
-    'fire_protection': u"Заговор от огня",
-    'ice_protection': u"Заговор от льда",
-    'poison_protection': u"Заговор от яда",
-    'lightning_protection': u"Заговор от молнии",
-    'sound_protection': u"Заговор от грома",
+    'fire_protection': u"Защита от огня",
+    'ice_protection': u"Защита от холода",
+    #'poison_protection': u"Защита от яда",
+    'lightning_protection': u"Защита от молнии",
+    #'sound_protection': u"Защита от грома",
     # сердца -- дают дыхание нужного типа
-    'fire_heart': u"Огненное сердце",
-    'ice_heart': u"Ледяное сердце",
-    'poison_heart': u"Отравленное сердце",
-    'thunder_heart': u"Громовое сердце",
-    'lightning_heart': u"Сердце молнии",
+    'fire_heart': u"Повелитель пламени",
+    'ice_heart': u"Властитель хлада",
+    'poison_heart': u"Токсичный лорд",
+    'thunder_heart': u"Иерихонский рёв",
+    'lightning_heart': u"Сила громовержца",
     # прочие
     'wings_of_wind': u"Крылья ветра",
-    'aura_of_horror': u"Аура ужаса",
-    'unbreakable_scale': u"Второй шанс",
-    'spellbound_trap': u"Колдовская западня"
+    'aura_of_horror': u"Аура кошмаров",
+    'unbreakable_scale': u"Иллюзорная голова",
+    'spellbound_trap': u"Волшебные ловушки в логово"
 }
 
 effects_list = {

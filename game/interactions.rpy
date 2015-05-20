@@ -12,7 +12,7 @@ label lb_nature_sex:
             $ description = game.girls_list.impregnate()
             game.girl "[description]"
             show expression sex_imgs("girl") as xxx
-            play sound 'sound/sex/01.ogg'
+            play sound get_random_file("sound/sex")
             pause (500.0)
             hide xxx
         'Ограбить' if game.girl.treasure:
@@ -55,7 +55,7 @@ label lb_gigant_sex:
             $ description = game.girls_list.impregnate()
             game.girl "[description]"
             show expression sex_imgs("girl") as xxx
-            play sound 'sound//sex/01.ogg'
+            play sound get_random_file("sound/sex")
             pause (500.0)
             hide xxx
         'Магический рост' if not game.girls_list.is_mating_possible and game.dragon.mana > 0:

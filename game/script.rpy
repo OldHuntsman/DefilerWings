@@ -28,7 +28,8 @@ label start:
     #    show screen label_callback
         
     # Прокручиваем заставку.
-    call screen sc_intro
+    if not freeplay:
+        call screen sc_intro
     while not game.is_won or not game.is_lost:
         # Если дракона нет выбираем его
         show black as low

@@ -106,19 +106,25 @@ label lb_event_thief_trying_to_avoid_traps_and_guards(thief):
 label lb_event_thief_retreat_and_try_next_year(theif):
     # Could not get passed traps and guards but did not die either:
     # Debug message: thief(u"Ниосилить, попробую в следущем году")
+    thief "Пока что тут для меня крутовато... Надо подготовиться получше. Но я не сдамся!"
     return
     
 label lb_event_thief_starting_to_rob_the_lair(thief):
     # Got past all traps and guards, thief is starting to rob the lair:
     # Debug message: thief(u"Начинаю вычищать логово")
+    thief "Ух ты! Вот она сокровищница. И дракон, зараза прямо на золоте лежит... Ничего, я аккуратненько... надо только выбрать вещи поценнее."
     return
     
 label lb_event_thief_took_an_item(thief, item):
     # Got an item!
     # Debug message: thief(u"Взял шмотку %s" % stolen_items[i])
+    "[game.thief.name] аккуратно вытягивает из под брюха спящего дракона понравившийся предмет:"
+    $ itemd = stolen_items[i]
+    "[itemd]"
     return
     
 label lb_event_thief_lair_empty(thief):
     # There were no treasures in the lair:
     # Debug message: thief(u"В сокровищнице нечего брать. Сваливаю.")
+    thief "Тут больше нечем поживиться... проклятье, я думал драконы кудв богаче. Надо сваливать!"
     return
