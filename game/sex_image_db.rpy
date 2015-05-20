@@ -9,6 +9,18 @@ screen label_callback():
     
 init python:
     """
+    Added play random sound file function as per Hunters request on Skype:
+    """
+    def get_random_file(folder):
+        import os
+        
+        path = renpy.loader.transfn(folder)
+        files = os.listdir(path)
+        files = _list("/".join([folder, f]) for f in files)
+        
+        return renpy.random.choice(files)
+    
+    """
     Added by Alex on 07.05.2015
     Instructions to convert into code: https://github.com/OldHuntsman/DefilerWings/issues/51
     """
