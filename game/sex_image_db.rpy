@@ -56,7 +56,7 @@ init python:
                             img_path = "/".join([rp_path, folder, subfolder, image])
                             getattr(self, folder)["any"].add(img_path)
                             
-            # There are not sex images, but Hunter asked me to get a random from them so I'll add it here as well:
+            # These are not sex images, but Hunter asked me to get a random from them so I'll add it here as well:
             rp_path = 'img/scene/eat'
             path = renpy.loader.transfn(rp_path)
             eat_image_folder = os.listdir(path)
@@ -94,7 +94,7 @@ init python:
         def __call__(self, type):
             if type == "mistress": # @ Unique condition: Always get dragon images!
                 return renpy.random.sample(getattr(self, type)[store.game.dragon.color_eng], 1).pop()
-            if not self.has_image_with_color(type):
+            elif not self.has_image_with_color(type):
                 return self.get_any_image(type)
             elif renpy.random.randint(0, 2):
                 return self.get_any_image(type)
