@@ -9,6 +9,18 @@ screen label_callback():
     
 init python:
     """
+    Added play random sound file function as per Hunters request on Skype:
+    """
+    def get_random_file(folder):
+        import os
+        
+        path = renpy.loader.transfn(folder)
+        files = os.listdir(path)
+        files = _list("/".join([folder, f]) for f in files)
+        
+        return renpy.random.choice(files)
+    
+    """
     Added by Alex on 07.05.2015
     Instructions to convert into code: https://github.com/OldHuntsman/DefilerWings/issues/51
     """
@@ -44,7 +56,7 @@ init python:
                             img_path = "/".join([rp_path, folder, subfolder, image])
                             getattr(self, folder)["any"].add(img_path)
                             
-            # There are not sex images, but Hunter asked me to get a random from them so I'll add it here as well:
+            # These are not sex images, but Hunter asked me to get a random from them so I'll add it here as well:
             rp_path = 'img/scene/eat'
             path = renpy.loader.transfn(rp_path)
             eat_image_folder = os.listdir(path)
@@ -80,7 +92,9 @@ init python:
                 return renpy.random.sample(images, 1).pop()
                                 
         def __call__(self, type):
-            if not self.has_image_with_color(type):
+            if type == "mistress": # @ Unique condition: Always get dragon images!
+                return renpy.random.sample(getattr(self, type)[store.game.dragon.color_eng], 1).pop()
+            elif not self.has_image_with_color(type):
                 return self.get_any_image(type)
             elif renpy.random.randint(0, 2):
                 return self.get_any_image(type)

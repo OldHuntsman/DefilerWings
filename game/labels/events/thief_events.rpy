@@ -58,11 +58,67 @@ label lb_event_thief_die_trap(thief, trap):
     '[txt]' 
     return
 
-label lb_event_thief_pass_trap(thief):
+label lb_event_thief_pass_trap(thief, trap):
     $ txt = game.interpolate(random.choice(txt_thief_success[trap.id]))
     '[txt]' 
     return
 
 label lb_event_thief_receive_no_item(thief):
     "Вор ничего не получил"
+    return
+    
+# @Review: Alex: Added a bunch of new events to fill in the gaps:
+label lb_event_thief_checking_items(thief):
+    # Checking items before trying to rob the dragon.
+    # Debug message: thief(u"Проверяем предметы на работоспособность, чтобы попасть влогово")
+    return
+    
+label lb_event_thief_checking_items(thief, item):
+    # Checking items before trying to rob the dragon.
+    # Debug message: thief(u"Использую %s" % thief.items[i].name)
+    return
+    
+label lb_event_thief_checking_items_success(thief):
+    # All items are good for use!
+    # Debug message: thief(u"All items passed!")
+    return
+    
+label lb_event_thief_checking_items_success(thief, item):
+    # Item is good for use!
+    # Debug message: thief(u"Item: %s is good!" % thief.items[i].name)
+    return
+    
+label lb_event_thief_checking_accessability(thief):
+    # Checking if thief can get past layer defences:
+    # Debug message: thief(u"Проверяю неприступность")
+    return
+    
+label lb_event_thief_checking_accessability_success(thief):
+    # Thief can gain access:
+    # Debug message: thief(u"I can get into the Layer!")
+    return
+    
+label lb_event_thief_trying_to_avoid_traps_and_guards(thief):
+    # Their is trying to avoid traps and guargs:
+    # Debug message: thief(u"Пробую обойти ловушки и стражей")
+    return
+    
+label lb_event_thief_retreat_and_try_next_year(theif):
+    # Could not get passed traps and guards but did not die either:
+    # Debug message: thief(u"Ниосилить, попробую в следущем году")
+    return
+    
+label lb_event_thief_starting_to_rob_the_lair(thief):
+    # Got past all traps and guards, thief is starting to rob the lair:
+    # Debug message: thief(u"Начинаю вычищать логово")
+    return
+    
+label lb_event_thief_took_an_item(thief, item):
+    # Got an item!
+    # Debug message: thief(u"Взял шмотку %s" % stolen_items[i])
+    return
+    
+label lb_event_thief_lair_empty(thief):
+    # There were no treasures in the lair:
+    # Debug message: thief(u"В сокровищнице нечего брать. Сваливаю.")
     return

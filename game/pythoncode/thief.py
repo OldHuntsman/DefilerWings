@@ -99,9 +99,11 @@ class Thief(Sayer, Mortal):
             # Логика сломанных предметов
             if renpy.config.debug:
                 thief(u"Проверяем предметы на работоспособность, чтобы попасть влогово")
+            self.event("checking_items")
             for i in thief.items:
                 if renpy.config.debug:
                     thief(u"Использую %s" % thief.items[i].name)
+                self.event("checking_item", item=thief.items[i])
                 if thief.items[i].cursed:
                     for f in thief.items[i].fails:
                         if f in lair.requirements():
@@ -110,11 +112,25 @@ class Thief(Sayer, Mortal):
                             thief.die(i)
                             thief.event("die_item", item=thief.items[i])
                             return
+                    else:
+                        if renpy.config.debug:
+                            thief(u"Item: %s is good!" % thief.items[i].name)
+                        self.event("checking_item_success", item=thief.items[i])
+                else:
+                    if renpy.config.debug:
+                        thief(u"Item: %s is good!" % thief.items[i].name)
+                    self.event("checking_item_success", item=thief.items[i])
+
+            if renpy.config.debug:
+                thief(u"All items passed!")
+            self.event("checking_items_success")
+            
             # TODO: логика нормальных предметов
             luck = thief.skill
             # Проверка неприступности
             if renpy.config.debug:
                 thief(u"Проверяю неприступность")
+            self.event("checking_accessability")
             for i in range(lair.inaccessability):
                 if "scheme" not in thief.items and random.choice(range(3)) == 0:
                     luck -= 1
@@ -124,9 +140,17 @@ class Thief(Sayer, Mortal):
                 thief.die("inaccessability")
                 thief.event("die_inaccessability")
                 return
+                
+            if renpy.config.debug:
+                thief(u"I can get into the Layer!")
+            self.event("checking_accessability_success")
+            
+            
             # Проверка ловушек и стражей
             if renpy.config.debug:
                 thief(u"Пробую обойти ловушки и стражей")
+            self.event("trying_to_avoid_traps_and_guards")    
+                
             for upgrade in lair.upgrades:
                 if upgrade in thief.items.list("fails"):  # Если для апгрейда есть испорченный предмет
                     if renpy.config.debug:
@@ -138,6 +162,7 @@ class Thief(Sayer, Mortal):
                 if upgrade in thief.abilities.list("avoids") or upgrade in thief.items.list("avoids"):
                     if renpy.config.debug:
                         thief(u"Я хорошо подготовился и предметы помогли обойти мне %s" % upgrade)
+                    self.event("pass_trap", trap=upgrade)
                     # То переходим к следущей ловушке
                     continue
                 for i in range(data.lair_upgrades[upgrade].protection):
@@ -147,17 +172,20 @@ class Thief(Sayer, Mortal):
                         if renpy.config.debug:
                             thief("Не сумел обойти %s" % upgrade)
                         thief.die(upgrade)
+                        thief.event("die_trap", trap=upgrade)
                         return
             if luck == 0:
                 # Отступаем
                 if renpy.config.debug:
                     thief(u"Ниосилить, попробую в следущем году")
+                self.event("retreat_and_try_next_year") 
             else:
                 assert luck > 0
                 # Грабим логово
                 # TODO: Добавить проклятые вещи
                 if renpy.config.debug:
                     thief(u"Начинаю вычищать логово")
+                self.event("starting_to_rob_the_lair")
                 attempts = luck
                 if "greedy" in thief.abilities:
                     attempts += 1
@@ -174,6 +202,7 @@ class Thief(Sayer, Mortal):
                                 range(10)) in range(5 - thief.skill):
                             if renpy.config.debug:
                                 thief(u"Взял шмотку %s" % stolen_items[i])
+                            self.event("took_an_item", item=stolen_items[i])
                         else:
                             # Мы разбудили дракона
                             if renpy.config.debug:
@@ -185,6 +214,7 @@ class Thief(Sayer, Mortal):
                 else:
                     if renpy.config.debug:
                         thief(u"В сокровищнице нечего брать. Сваливаю.")
+                    self.event("lair_empty")
                     return
                 self.event('steal_items', items=stolen_items)
         else:  # До логова добраться не получилось, получаем предмет c 50%м шансом
