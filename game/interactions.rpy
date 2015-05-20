@@ -21,6 +21,9 @@ label lb_nature_sex:
         'Сожрать' if game.dragon.hunger > 0:
             $ description =  game.girls_list.eat_girl()
             game.girl "[description]"
+            show expression sex_imgs.get_eat_image() as eat_image
+            pause (500.0)
+            hide eat_image     
             return
         'Вернуть в темницу' if game.girl.jailed:
             $ description = game.girls_list.jail_girl()

@@ -132,7 +132,7 @@ label lb_enchanted_forest_grove_rob:
             $ txt = game.interpolate(random.choice(txt_place_enfr[2]))
             '[txt]'    
             '[trs_descrptn]'
-            game.lair.treasury.receive_treasures(trs)
+            $ game.lair.treasury.receive_treasures(trs)
             nvl clear
             show expression 'img/bg/special/bedroom.png' as bg
             $ txt = game.interpolate(random.choice(txt_place_enfr[3]))
@@ -212,7 +212,7 @@ label lb_manor_rob:
             $ txt = game.interpolate(random.choice(txt_place_manor[2]))
             '[txt]'    
             '[trs_descrptn]'
-            game.lair.treasury.receive_treasures(trs)
+            $ game.lair.treasury.receive_treasures(trs)
             nvl clear
             show expression 'img/bg/special/bedroom.png' as bg
             $ txt = game.interpolate(random.choice(txt_place_manor[3]))
@@ -292,7 +292,7 @@ label lb_wooden_fort_rob:
             $ txt = game.interpolate(random.choice(txt_place_wooden_fort[2]))
             '[txt]'    
             '[trs_descrptn]'
-            game.lair.treasury.receive_treasures(trs)
+            $ game.lair.treasury.receive_treasures(trs)
             nvl clear
             show expression 'img/bg/special/bedroom.png' as bg
             $ txt = game.interpolate(random.choice(txt_place_wooden_fort[3]))
@@ -372,7 +372,7 @@ label lb_abbey_rob:
             $ txt = game.interpolate(random.choice(txt_place_abbey[2]))
             '[txt]'    
             '[trs_descrptn]'
-            game.lair.treasury.receive_treasures(trs)
+            $ game.lair.treasury.receive_treasures(trs)
             nvl clear
             show expression 'img/bg/special/bedroom.png' as bg
             $ txt = game.interpolate(random.choice(txt_place_abbey[3]))
@@ -452,7 +452,7 @@ label lb_castle_rob:
             $ txt = game.interpolate(random.choice(txt_place_castle[2]))
             '[txt]'    
             '[trs_descrptn]'
-            game.lair.treasury.receive_treasures(trs)
+            $ game.lair.treasury.receive_treasures(trs)
             nvl clear
             show expression 'img/bg/special/bedroom.png' as bg
             $ txt = game.interpolate(random.choice(txt_place_castle[3]))
@@ -533,7 +533,7 @@ label lb_palace_rob:
             $ txt = game.interpolate(random.choice(txt_place_palace[2]))
             '[txt]'    
             '[trs_descrptn]'
-            game.lair.treasury.receive_treasures(trs)
+            $ game.lair.treasury.receive_treasures(trs)
             nvl clear
             show expression 'img/bg/special/bedroom.png' as bg
             $ txt = game.interpolate(random.choice(txt_place_palace[3]))
@@ -955,7 +955,7 @@ label lb_dwarf_rob:
             show expression 'img/bg/hoard/base.png' as bg
             'Подлые цверги многое успели растащить, но даже от того что осталось разбегаются глаза. Нигде больше не найти столь богатой добычи!'    
             '[trs_descrptn]'
-            game.lair.treasury.receive_treasures(trs)
+            $ game.lair.treasury.receive_treasures(trs)
             nvl clear
             call lb_dwarf_ruins
                                         

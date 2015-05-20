@@ -23,9 +23,9 @@ label start:
         # Alex: Zexy Images :)
         sex_imgs = DragonSexImagesDatabase()        
         
-    # Alex: I get lost in labels all the time...
-    if config.developer:
-        show screen label_callback
+    # Alex: Чтобы смотреть на какой находишься локации кода в игре
+    #if config.developer:
+    #    show screen label_callback
         
     # Прокручиваем заставку.
     call screen sc_intro
