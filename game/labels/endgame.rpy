@@ -14,7 +14,8 @@ label lb_you_win:
     hide all
     show black
     show text "нам нужен экран с титрами..."
-    pause (500.0)    
+    pause (500.0)
+    $ persistent.allow_freeplay = True
     $ renpy.unlink_save("1-1")
     $ game.win()
     $ renpy.full_restart()

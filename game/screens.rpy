@@ -206,10 +206,14 @@ screen main_menu:
             textbutton _("Продолжить сюжет") action FileLoad("1", confirm=False, page="1"):
                 xalign .966
                 yalign .465
-        if not renpy.can_load("1-3"):
-            textbutton _("Свободная игра") action SetVariable("freeplay", True), Start():
+        if not persistent.allow_freeplay and not config.developer:
+            textbutton _("Свободная игра"):
                 xalign .966
                 yalign .580
+        elif not renpy.can_load("1-3"):
+            textbutton _("Свободная игра") action SetVariable("freeplay", True), Start():
+                    xalign .966
+                    yalign .580
         else:
             textbutton _("Продолжить свободную")action FileLoad("3", confirm=False, page="1"):
                 xalign .966
@@ -493,13 +497,17 @@ screen yesno_prompt:
             if message == layout.QUIT and not main_menu and not save_blocked:
                 if not freeplay:
                     textbutton _("Да") action FileSave("1", confirm=False, page="1"), yes_action
+                    textbutton _("Нет") action no_action, Hide("yesno_prompt")
                 else:
                     textbutton _("Да") action FileSave("3", confirm=False, page="1"), yes_action
+                    textbutton _("Нет") action no_action, Hide("yesno_prompt")
             elif message == layout.MAIN_MENU and not save_blocked:
                 if not freeplay:
                     textbutton _("Да") action FileSave("1", confirm=False, page="1"), yes_action
+                    textbutton _("Нет") action no_action, Hide("yesno_prompt"), ShowMenu("navigation")
                 else:
                     textbutton _("Да") action FileSave("3", confirm=False, page="1"), yes_action
+                    textbutton _("Нет") action no_action, Hide("yesno_prompt"), ShowMenu("navigation")
             elif message == "Вы уверены что хотите удалить Сюжетную Игру?":
                 textbutton _("Да") action yes_action, Hide("yesno_prompt"), ShowMenu("preferences")
                 textbutton _("Нет") action no_action, Hide("yesno_prompt"), ShowMenu("preferences")

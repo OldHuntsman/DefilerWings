@@ -2264,3 +2264,75 @@ dark_army = {
               u"Войско Вольных Народов будет смято и растоптано этой неодолимой силой."
     }
 }
+#Achievements
+def achieve_target(target, tag=None):
+    for achievement in achievements_list:
+        if tag != "wealth" or tag != "treasure" or tag != "reputation":
+            if achievement.goal == tag and target in achievement.targets:
+                achievement.progress(target)
+        elif achievement.goal == tag:
+            achievement.progress(target)
+def achieve_restart(reason):
+    for achivement in achievements_list:
+        if achievement.restartif == reason:
+            achievement.restart()
+def achieve_fail(reason):
+    for achievement in achievements_list:
+        if achievement.failif == reason:
+            achievement.fail()
+class Achievement(object):
+    def __init__(self, name="", description="", goal=None, targets=None, restartif=None, failif=None, *args, **kwagrs):
+        self.name = name
+        self.description = description
+        self.unlocked = False
+        self.failed = False
+        self.restartif = restartif
+        self.failif = failif
+        self.goal = goal
+        self.targets = targets
+        self.targets_completed = []
+    def progress(self, target):
+        if self.targets:
+            if self.goal != "wealth" or self.goal != "treasure" or self.goal != "reputation":
+                self.targets_completed.append(target)
+                self.targets.remove(target)
+            else:
+                for i in self.targets:
+                    if target >= i:
+                        self.targets.remove(i)
+                        self.targets_completed.append(i)
+                    
+        elif not self.unlocked:
+            self.unlock()
+    def unlock(self):
+        if not self.failed:
+            self.unlocked = True
+    def fail(self):
+        self.failed = True
+    def restart(self):
+        for num in xrange(len(self.targets_completed)):
+            self.targets.append(self.targets_completed.pop(num-1))
+achievements_list = [Achievement(name = u"Великий змей",
+                                 description = u"Достиг победы в сюжетном режиме",
+                                 goal = "win"),
+                     Achievement(name = u"Осквернитель",
+                                 description=u"Сделал логово в эльфийском лесу",
+                                 goal = "lair",
+                                 targets = ["forest_heart"]),
+                     Achievement(name = u"Смауг Великолепный",
+                                 description = u"Сделал логово в подгорных чертогах",
+                                 goal = "lair",
+                                 targets = ["underground_palaces"]),
+                     Achievement(name = u"Великолепное ложе",
+                                 desctription = u"Достиг суммарной стоимости сокровищ 100.000 фартингов",
+                                 goal = "wealth",
+                                 targets = [100000]),
+                     Achievement(name = u"Венец коллекции",
+                                 descriprion = u"Иметь в сокровищнице предмет стоимостью больше 3000 фартингов",
+                                 goal = "treasure",
+                                 targets = [3000]),
+                     Achievement(name = u"Легендарный тиран",
+                                 description = u"Достичь уровня дурной славы больше 19",
+                                 goal = "reputation",
+                                 targets = [19])
+                    ]

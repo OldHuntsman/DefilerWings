@@ -6,7 +6,7 @@ label lb_dragon_creator:
         save_blocked = True
         child = core.Dragon(parent=game.dragon, game_ref=game)
         game.dragon = child
-        mods_left = 12
+        mods_left = len(persistent.achievements) if not config.developer else 12
         game.dragon.heads = ['green']
         game.dragon.anatomy = ['size']
         special_features_rus = {

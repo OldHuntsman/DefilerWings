@@ -280,6 +280,7 @@ class Game(store.object):
             save_treas = self.lair.treasury
             # Создаем новое логово
             self.lair = Lair(lair_type)
+            data.achieve_target(self.lair.type_name, "lair")#событие для ачивок
             # Копируем сокровищницу из прошлого логова
             self.lair.treasury = save_treas
         else:
@@ -305,6 +306,7 @@ class Game(store.object):
                 lair_list.insert(0, (u"Выберите логово:", None))
                 lair_type = renpy.display_menu(lair_list)  # в списке больше одного логова, даём список на выбор
             self.lair = Lair(lair_type)
+            data.achieve_target(self.lair.type_name, "lair")# событие для ачивок
 
     def set_quest(self):
         lvl = self.dragon.level
@@ -1158,6 +1160,7 @@ class Dragon(Fighter):
             self.spells.remove('unbreakable_scale')
             return ['lost_head', 'lost_virtual']
         else:
+            data.achieve_fail("lost_head")# событие для ачивок
             # жизни закончились, рубим голову (последнюю в списке)
             lost_head = self.heads.pop()
             # ставим её на первое место, чтобы после объединения списков порядок голов не изменился

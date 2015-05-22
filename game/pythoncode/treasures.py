@@ -1801,7 +1801,9 @@ class Treasury(store.object):
         Помещает сокровища в сокровищницу
         :param treasure_list: Список сокровищ, помещаемых в сокровищницу
         """
+        from data import achieve_target
         for treas in treasure_list:
+            achieve_target(treas, "treasure")#Событие для ачивок
             if isinstance(treas, Coin):
                 # сохраняется число медных, серебряных и золотых монет в соответствующих переменных
                 if treas.name == 'farting':
@@ -1836,6 +1838,7 @@ class Treasury(store.object):
                     self.gems[type_str] = 1
             elif isinstance(treas, Treasure):
                 self.jewelry.append(treas)
+        achieve_target(self.wealth, "wealth")#Событие для ачивок
 
     @staticmethod
     def treasures_description(treasure_list):
