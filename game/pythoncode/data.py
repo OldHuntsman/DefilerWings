@@ -2297,6 +2297,13 @@ def achieve_win(dragon):
     else:
         achieve_target(dragon.kind, "win")
     achieve_target(dragon.color_eng, "win")
+def store_achievements(storage_dict):
+    temporary_storage = {}
+    for achievement in achievements_list:
+        if achievement.unlocked and achievement.name not in storage_dict.keys():
+            storage_dict[achievement.name] = achievement.description
+            temporary_storage[achievement.name] = achievement.description
+    return temporary_storage
 class Achievement(object):
     def __init__(self, name="", description="", goal=None, targets=None, restartif=None, failif=None, *args, **kwagrs):
         self.name = name
@@ -2344,11 +2351,11 @@ achievements_list = [Achievement(name = u"Великий змей",
                                  goal = "lair",
                                  targets = ["underground_palaces"]),
                      Achievement(name = u"Великолепное ложе",
-                                 desctription = u"Достиг суммарной стоимости сокровищ 100.000 фартингов",
+                                 description = u"Достиг суммарной стоимости сокровищ 100.000 фартингов",
                                  goal = "wealth",
                                  targets = [100000]),
                      Achievement(name = u"Венец коллекции",
-                                 descriprion = u"Иметь в сокровищнице предмет стоимостью больше 3000 фартингов",
+                                 description = u"Иметь в сокровищнице предмет стоимостью больше 3000 фартингов",
                                  goal = "treasure",
                                  targets = [3000]),
                      Achievement(name = u"Легендарный тиран",
@@ -2376,7 +2383,7 @@ achievements_list = [Achievement(name = u"Великий змей",
                                  targets = ["golem", "angel", "titan"],
                                  restartif = "new_dragon"),
                      Achievement(name = u"Дитя предназначения",
-                                 dscription = u"Выйграть игру захватом земель вольных народов",
+                                 description = u"Выйграть игру захватом земель вольных народов",
                                  goal = "win",
                                  targets = ["conquer"]),
                      Achievement(name = u"Иуда",
@@ -2400,11 +2407,11 @@ achievements_list = [Achievement(name = u"Великий змей",
                                  goal = "win",
                                  targets = ["colored_head", "colored_head", "colored_head"]),
                      Achievement(name = u"Лернейская гидра",
-                                 description = "Достиг победы с 4+ головами",
+                                 description = u"Достиг победы с 4+ головами",
                                  goal = "win",
                                  targets = ["head", "head", "head", "head"]),
                      Achievement(name = u"Левиафан",
-                                 description = "Достиг победы драконом максимального размера",
+                                 description = u"Достиг победы драконом максимального размера",
                                  goal = "win",
                                  target = ["size", "size", "size", "size", "size", "size"]),
                      Achievement(name = "T-Rex",
@@ -2422,7 +2429,7 @@ achievements_list = [Achievement(name = u"Великий змей",
                                  targets = ["size"],
                                  failif = "too_big"),
                      Achievement(name = u"Недрёмное око",
-                                 description = "Достиг победы не потеряв ни одного сокровища из-за воров или рыцарей",
+                                 description = u"Достиг победы не потеряв ни одного сокровища из-за воров или рыцарей",
                                  goal = "win",
                                  targets = ["win"],
                                  failif = "lost_treasure")
