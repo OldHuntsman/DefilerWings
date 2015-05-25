@@ -80,6 +80,8 @@ class Reputation(store.object):
                 self._last_gain = delta
                 self._gain += delta
                 self._rp = int(value)
+                from data import achieve_target#событие для ачивок
+                achieve_target(self.level, "reputation")
             else:
                 raise Exception("Cannot raise reputation. Invalid gain.")
 

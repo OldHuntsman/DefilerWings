@@ -13,6 +13,9 @@ init python:
     freeplay = bool()
     save_blocked = False
     army_battle = False
+    if not persistent.achievements:
+        persistent.achievements = {}
+            
 # Начало игры
     
 label start:
@@ -21,7 +24,7 @@ label start:
         game = core.Game(adv_character=ADVCharacter, nvl_character=NVLCharacter)
         narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
         # Alex: Zexy Images :)
-        sex_imgs = DragonSexImagesDatabase()        
+        sex_imgs = DragonSexImagesDatabase()
         
     # Alex: Чтобы смотреть на какой находишься локации кода в игре
     #if config.developer:

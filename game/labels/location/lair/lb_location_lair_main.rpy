@@ -88,13 +88,20 @@ label lb_location_lair_main:
                     game_loaded = True
                     renpy.retain_after_load()
                     if not freeplay:
+                        this_turn_achievements = []
+                        for achievement in data.achievements_list:
+                            if achievement.unlocked and achievement.name not in persistent.achievements.keys():#сохраняем полученные ачивки
+                                this_turn_achievements.append(achievement.name)
+                                persistent.achievements[achievement.name] = achievement.description
                         game.save()
                     else:
                         game.save_freegame()
                     save_blocked = True
+                    
                     game.sleep()
                     save_blocked = False
                     del game_loaded
+            $this_turn_achievements = []
         'Покинуть логово':
             $ pass
             
