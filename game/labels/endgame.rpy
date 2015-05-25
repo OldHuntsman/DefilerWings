@@ -11,6 +11,7 @@ label lb_game_over:
     $ renpy.full_restart()
     
 label lb_you_win:
+    $ data.achieve_target("conquer", "win")
     $ data.achieve_win(game.dragon)
     hide all
     show black
