@@ -62,7 +62,8 @@ class Game(store.object):
         if self._dragons_used > 0:  # Если это не первый дракон, то
             self.year += 10  # накидываем 10 лет на вылупление и прочие взращивание-ботву
         self._dragons_used += 1
-        self.set_quest()
+        if not store.freeplay:
+            self.set_quest()
         self.thief = None  # Вора не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
         self.knight = None  # Рыцаря не создаем, потому что его по умолчанию нет. Он возможно появится в первый сон.
         self.girls_list = girls.GirlsList(game_ref=self, base_character=self.adv_character)

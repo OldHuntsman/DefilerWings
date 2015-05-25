@@ -100,11 +100,17 @@ label lb_mistress_fuck:
     mistress 'Я могу принять любой облик, приятный тебе. Выбирай, каой ты хочешь меня видеть?'
     menu:
         'Облик прекрасной девы, мне милее всего':
+            show expression sex_imgs("mistress") as xxx
+            pause (500.0)
             $ txt = game.interpolate(random.choice(txt_human_mistress_fuck[game.dragon.kind]))
             '[txt]'    
+            hide xxx
         'Стань драконицей, я устал от немощных смертных дев':
+            show expression sex_imgs("dragon") as xxx
+            pause (500.0)            
             $ txt = game.interpolate(random.choice(txt_dragon_mistress_fuck[game.dragon.kind]))
             '[txt]'
+            hide xxx
     show expression 'img/scene/mistress.png' as bg
     mistress 'Благодарю тебя за твоё могучее семя, сын мой. Наши дети превзойдут всех рождённых ранее.'
     game.dragon 'Пусть мои сыновья продолжат моё дело когда вырастут.'
