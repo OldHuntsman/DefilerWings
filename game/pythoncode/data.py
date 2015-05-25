@@ -2273,7 +2273,7 @@ def achieve_target(target, tag=None):
         elif achievement.goal == tag:
             achievement.progress(target)
 def achieve_restart(reason):
-    for achivement in achievements_list:
+    for achievement in achievements_list:
         if achievement.restartif == reason:
             achievement.restart()
 def achieve_fail(reason):
