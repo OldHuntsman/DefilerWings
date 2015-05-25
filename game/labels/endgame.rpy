@@ -13,6 +13,7 @@ label lb_game_over:
 label lb_you_win:
     $ data.achieve_target("conquer", "win")
     $ data.achieve_win(game.dragon)
+    call lb_achievement_acquired
     hide all
     show black
     show text "нам нужен экран с титрами..."
