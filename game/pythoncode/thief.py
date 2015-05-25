@@ -216,6 +216,8 @@ class Thief(Sayer, Mortal):
                         thief(u"В сокровищнице нечего брать. Сваливаю.")
                     self.event("lair_empty")
                     return
+                from data import achieve_fail
+                achieve_fail("lost_treasure")#событие для ачивок
                 self.event('steal_items', items=stolen_items)
         else:  # До логова добраться не получилось, получаем предмет c 50%м шансом
             if renpy.config.debug:

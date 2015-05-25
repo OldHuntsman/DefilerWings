@@ -2280,6 +2280,23 @@ def achieve_fail(reason):
     for achievement in achievements_list:
         if achievement.failif == reason:
             achievement.fail()
+def achieve_win(dragon):
+    achieve_target("win", "win")
+    if dragon.size > 1:
+        achieve_fail("too_big")
+    if dragon.magic > 0:
+        achieve_fail("dragon_magic")
+    for n in xrange(dragon.size):
+        achieve_target("size", "win")
+    for head in dragon.heads:
+        if head != "green":
+            achieve_target("colored_head", "win")
+        achieve_target("head", "win")
+    if dragon.wings == 1 and dragon.paws == 2 and len(dragon.heads) == 1:
+        achieve_target("archetype", "win")
+    else:
+        achieve_target(dragon.kind, "win")
+    achieve_target(dragon.color_eng, "win")
 class Achievement(object):
     def __init__(self, name="", description="", goal=None, targets=None, restartif=None, failif=None, *args, **kwagrs):
         self.name = name
@@ -2292,6 +2309,8 @@ class Achievement(object):
         self.targets = targets
         self.targets_completed = []
     def progress(self, target):
+        if self.failed:
+            return
         if self.targets:
             if self.goal != "wealth" or self.goal != "treasure" or self.goal != "reputation":
                 self.targets_completed.append(target)
@@ -2302,7 +2321,7 @@ class Achievement(object):
                         self.targets.remove(i)
                         self.targets_completed.append(i)
                     
-        elif not self.unlocked:
+        if not self.targets and not self.unlocked:
             self.unlock()
     def unlock(self):
         if not self.failed:
@@ -2314,7 +2333,8 @@ class Achievement(object):
             self.targets.append(self.targets_completed.pop(num-1))
 achievements_list = [Achievement(name = u"Великий змей",
                                  description = u"Достиг победы в сюжетном режиме",
-                                 goal = "win"),
+                                 goal = "win",
+                                 targets = ["win"]),
                      Achievement(name = u"Осквернитель",
                                  description=u"Сделал логово в эльфийском лесу",
                                  goal = "lair",
@@ -2334,5 +2354,76 @@ achievements_list = [Achievement(name = u"Великий змей",
                      Achievement(name = u"Легендарный тиран",
                                  description = u"Достичь уровня дурной славы больше 19",
                                  goal = "reputation",
-                                 targets = [19])
+                                 targets = [19]),
+                     Achievement(name = u"Осеменитель",
+                                 description = u"Спарился со всеми видами не-великанш играя за одного дракона",
+                                 goal = "impregnate",
+                                 targets = ["peasant", "citizen", "thief", "knight", "princess", "elf", "mermaid"],
+                                 restartif = "new_dragon"),
+                     Achievement(name = u"Отец титанов",
+                                 description = u"Спарился со всеми видами великанш играя за одного дракона",
+                                 goal = "impregnate",
+                                 targets = ["ice", "fire", "titan", "ogre", "siren"],
+                                 restartif = "new_dragon"),
+                     Achievement(name = u"Неуязвимый",
+                                 description = u"Достиг победы в сюжетном режиме не потеряв ни одной головы",
+                                 goal = "win",
+                                 targets = ["win"],
+                                 failif = "lost_head"),
+                     Achievement(name = u"Абсолютный хищник",
+                                 description = u"Победить ангела, титана, и железного голема одним и тем же драконом",
+                                 goal = "kill",
+                                 targets = ["golem", "angel", "titan"],
+                                 restartif = "new_dragon"),
+                     Achievement(name = u"Дитя предназначения",
+                                 dscription = u"Выйграть игру захватом земель вольных народов",
+                                 goal = "win",
+                                 targets = ["conquer"]),
+                     Achievement(name = u"Иуда",
+                                 description = u"Выйграть игру победой над владычицей",
+                                 goal = "win",
+                                 targets = ["betray"]),
+                     Achievement(name = u"Архетип",
+                                 description = u"Достиг победы в сюжетном режиме с подтипом: дракон",
+                                 goal = "win",
+                                 targets = ["archetype"]),
+                     Achievement(name = u"Йормунгард",
+                                 description = u"Достиг победы в сюжетном режиме драконом не имеющем крыльев и конечностей",
+                                 goal = "win",
+                                 targets = [u"ползучий гад"]),
+                     Achievement(name = u"Змей горыныч",
+                                 description = u"Достиг победы в сюжетном режиме с подтипом: многоглавый дракон",
+                                 goal = "win",
+                                 targets = [u"многоглавый дракон"]),
+                     Achievement(name = u"Наследие Тиамат",
+                                 description = u"Достиг победы драконом с 3+ разными цветами",
+                                 goal = "win",
+                                 targets = ["colored_head", "colored_head", "colored_head"]),
+                     Achievement(name = u"Лернейская гидра",
+                                 description = "Достиг победы с 4+ головами",
+                                 goal = "win",
+                                 targets = ["head", "head", "head", "head"]),
+                     Achievement(name = u"Левиафан",
+                                 description = "Достиг победы драконом максимального размера",
+                                 goal = "win",
+                                 target = ["size", "size", "size", "size", "size", "size"]),
+                     Achievement(name = "T-Rex",
+                                 description = u"Достиг победы зеленым линдвурмом без магии, с одной головой и размером больше 4",
+                                 goal = "win",
+                                 target = ["size", "size", "size", "size", u"линдвурм", "green"],
+                                 failif = "dragon_magic"),
+                     Achievement(name = u"Годзила",
+                                 description = u"Достиг победы красным линдвурмом с размером больше 4",
+                                 goal = "win",
+                                 targets = ["size", "size", "size", "size", u"линдвурм", "red"]),
+                     Achievement(name = u"Фейский дракончик",
+                                 description = u"Достиг победы драконом самого маленького размера",
+                                 goal = "win",
+                                 targets = ["size"],
+                                 failif = "too_big"),
+                     Achievement(name = u"Недрёмное око",
+                                 description = "Достиг победы не потеряв ни одного сокровища из-за воров или рыцарей",
+                                 goal = "win",
+                                 targets = ["win"],
+                                 failif = "lost_treasure")
                     ]

@@ -54,6 +54,8 @@ class GirlsList(object):
         else:
             self.game.girl.pregnant = 1
         self.game.dragon.lust -= 1
+        from data import achieve_target
+        achieve_target(self.game.girl.type, "impregnate")
         return self.description('shout')
 
     def free_girl(self):
