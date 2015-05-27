@@ -128,6 +128,7 @@ label lb_betrayal:
 label lb_new_round:
     if mistress_hp < 1:
         mistress 'Я ещё вернусь!'
+        $data.achieve_target("betray", "win")
         $ game.win()
         return
     $ aspect = 'lb_' + random.choice(['kali','garuda','shiva','agni','indra','pangea','nemesis','amphisbena','gekata','hell',])

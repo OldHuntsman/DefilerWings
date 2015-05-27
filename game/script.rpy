@@ -15,7 +15,6 @@ init python:
     army_battle = False
     if not persistent.achievements:
         persistent.achievements = {}
-            
 # Начало игры
     
 label start:

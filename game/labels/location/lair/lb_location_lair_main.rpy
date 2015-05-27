@@ -88,11 +88,7 @@ label lb_location_lair_main:
                     game_loaded = True
                     renpy.retain_after_load()
                     if not freeplay:
-                        this_turn_achievements = []
-                        for achievement in data.achievements_list:
-                            if achievement.unlocked and achievement.name not in persistent.achievements.keys():#сохраняем полученные ачивки
-                                this_turn_achievements.append(achievement.name)
-                                persistent.achievements[achievement.name] = achievement.description
+                        core.call ("lb_achievement_acquired")
                         game.save()
                     else:
                         game.save_freegame()
@@ -106,3 +102,4 @@ label lb_location_lair_main:
             $ pass
             
     return
+    

@@ -8,8 +8,7 @@ label lb_choose_dragon:
             dragons = []
             dragons_choosed = []
         elif game.dragon.is_alive and not game.is_lost:
-            from data import achieve_restart
-            achieve_restart("new_dragon")# событие для ачивок
+            data.achieve_restart("new_dragon")# событие для ачивок
             dragons = []
             dragons_choosed = []
             # добавляем 1 гоблина в армию тьмы
