@@ -99,7 +99,7 @@ label lb_event_thief_checking_accessability_success(thief):
     return
     
 label lb_event_thief_trying_to_avoid_traps_and_guards(thief):
-    # Their is trying to avoid traps and guargs:
+    # Thief is trying to avoid traps and guargs:
     # Debug message: thief(u"Пробую обойти ловушки и стражей")
     return
     
@@ -127,4 +127,9 @@ label lb_event_thief_lair_empty(thief):
     # There were no treasures in the lair:
     # Debug message: thief(u"В сокровищнице нечего брать. Сваливаю.")
     thief "Тут больше нечем поживиться... проклятье, я думал драконы кудв богаче. Надо сваливать!"
+    return
+    
+label lb_event_thief_awakened_dragon(thief, stolen_items):
+    # Thief awakens the dragon and gets killed... stolen_items: items that dragon takes back from the thief.
+    # Debug message: thief(u"Разбудил дракона")
     return

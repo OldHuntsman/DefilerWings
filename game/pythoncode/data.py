@@ -521,8 +521,7 @@ thief_events = {
     "starting_to_rob_the_lair": "lb_event_thief_starting_to_rob_the_lair",
     "took_an_item": "lb_event_thief_took_an_item",
     "lair_empty": "lb_event_thief_lair_empty",
-    
-    
+    "awakened_the_dragon": "lb_event_thief_awakened_dragon"
 }
 
 #

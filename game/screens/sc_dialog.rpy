@@ -9,5 +9,5 @@ screen sc_dialog(name='', avatar=None, what=''):
         pos(310, 370)
     viewport:
         pos(110, 420)
-        xysize(800, 500)
+        xysize(780, 500)
         text what id "what"

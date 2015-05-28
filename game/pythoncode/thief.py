@@ -209,6 +209,7 @@ class Thief(Sayer, Mortal):
                                 thief(u"Разбудил дракона")
                             self._gameRef.dragon.add_event('thief_killer')
                             lair.treasury.receive_treasures(stolen_items)  # Дракон возвращает что награбил вор.
+                            self.event("awakened_the_dragon", stolen_items=stolen_items)
                             thief.die("wake_up")
                             return
                 else:

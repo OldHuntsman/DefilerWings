@@ -9,16 +9,22 @@ screen label_callback():
     
 init python:
     """
-    Added play random sound file function as per Hunters request on Skype:
+    Added chain random music function as per Hunters request on Skype:
     """
-    def get_random_file(folder):
+    def get_random_files(folder, shuffle=True):
         import os
         
         path = renpy.loader.transfn(folder)
-        files = os.listdir(path)
-        files = _list("/".join([folder, f]) for f in files)
-        
-        return renpy.random.choice(files)
+        files = _list("/".join([folder, f]) for f in os.listdir(path))
+        if shuffle:
+            renpy.random.shuffle(files)
+        return files
+    
+    """
+    Added get random file function as per Hunters request on Skype:
+    """
+    def get_random_file(folder):
+        return renpy.random.choice(get_random_files(folder))
     
     """
     Added by Alex on 07.05.2015
@@ -80,11 +86,12 @@ init python:
             correct_hair_images = _list()
             
             # Get a list of images with correct hair colors:
-            if store.game.girl.hair_color:
-                for i in images:
-                    img_name = i.split("/")[-1]
-                    if store.game.girl.hair_color in img_name:
-                        correct_hair_images.append(i)
+            if type != "dragon": # We do not do this for dragon images.
+                if store.game.girl.hair_color:
+                    for i in images:
+                        img_name = i.split("/")[-1]
+                        if store.game.girl.hair_color in img_name:
+                            correct_hair_images.append(i)
                     
             if correct_hair_images:
                 return renpy.random.choice(correct_hair_images)
