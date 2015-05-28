@@ -61,7 +61,7 @@ label lb_dragon_creator:
             fixed:
                 xalign 1.0
                 xmaximum 320
-                textbutton "Выпустить":
+                textbutton "{font=fonts/Tchekhonin2.ttf}В{/font}{font=fonts/times.ttf}ыпустить{/font}":
                     pos(72, 649)
                     xysize(174, 36)
                     text_xalign 0.5
@@ -72,7 +72,7 @@ label lb_dragon_creator:
             fixed:
                 xalign 1.0
                 xmaximum 320
-                textbutton "Описание":
+                textbutton "{font=fonts/Tchekhonin2.ttf}О{/font}{font=fonts/times.ttf}писание{/font}":
                     pos(72, 600)
                     xysize(174, 36)
                     text_xalign 0.5
@@ -80,6 +80,15 @@ label lb_dragon_creator:
                     background "img/bg/logovo.png"
                     text_size 22
                     action Show("sc_dragon_description")
+                if not config.developer:
+                    textbutton "{font=fonts/Tchekhonin2.ttf}Д{/font}{font=fonts/times.ttf}остижения{/font}":
+                        pos(72, 549)
+                        xysize(174, 36)
+                        text_xalign 0.5
+                        text_yalign 0.5
+                        background "img/bg/logovo.png"
+                        text_size 22
+                        action Show("sc_achievements_list")
     screen sc_dragon_description:
         window:
             xmaximum 960

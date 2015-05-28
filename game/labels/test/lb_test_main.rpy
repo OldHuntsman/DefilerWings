@@ -31,6 +31,8 @@ label lb_test_main:
                 call lb_test_examples
             "Отладка":
                 call lb_test_debug
+            "Ачивки":
+                call lb_achievements_list
             "Назад":
                 return
     return

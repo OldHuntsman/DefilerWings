@@ -207,7 +207,7 @@ screen main_menu:
                 xalign .966
                 yalign .465
         if not persistent.allow_freeplay and not config.developer:
-            textbutton _("Свободная игра"):
+            textbutton _("Достижения") action Show("sc_achievements_list"):
                 xalign .966
                 yalign .580
         elif not renpy.can_load("1-3"):

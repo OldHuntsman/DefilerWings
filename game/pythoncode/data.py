@@ -2267,10 +2267,10 @@ dark_army = {
 #Achievements
 def achieve_target(target, tag=None):
     for achievement in achievements_list:
-        if tag != "wealth" or tag != "treasure" or tag != "reputation":
-            if achievement.goal == tag and target in achievement.targets:
-                achievement.progress(target)
-        elif achievement.goal == tag:
+        if tag == "wealth" or tag == "treasure" or tag == "reputation":
+            if achievement.goal == tag:
+                    achievement.progress(target)
+        elif achievement.goal == tag and target in achievement.targets:
             achievement.progress(target)
 def achieve_restart(reason):
     for achievement in achievements_list:
@@ -2319,14 +2319,15 @@ class Achievement(object):
         if self.failed:
             return
         if self.targets:
-            if self.goal != "wealth" or self.goal != "treasure" or self.goal != "reputation":
-                self.targets_completed.append(target)
-                self.targets.remove(target)
-            else:
+            if self.goal == "wealth" or self.goal == "treasure" or self.goal == "reputation":
                 for i in self.targets:
                     if target >= i:
                         self.targets.remove(i)
                         self.targets_completed.append(i)
+                
+            else:
+                self.targets_completed.append(target)
+                self.targets.remove(target)
                     
         if not self.targets and not self.unlocked:
             self.unlock()
@@ -2413,11 +2414,11 @@ achievements_list = [Achievement(name = u"Великий змей",
                      Achievement(name = u"Левиафан",
                                  description = u"Достиг победы драконом максимального размера",
                                  goal = "win",
-                                 target = ["size", "size", "size", "size", "size", "size"]),
+                                 targets = ["size", "size", "size", "size", "size", "size"]),
                      Achievement(name = "T-Rex",
                                  description = u"Достиг победы зеленым линдвурмом без магии, с одной головой и размером больше 4",
                                  goal = "win",
-                                 target = ["size", "size", "size", "size", u"линдвурм", "green"],
+                                 targets = ["size", "size", "size", "size", u"линдвурм", "green"],
                                  failif = "dragon_magic"),
                      Achievement(name = u"Годзила",
                                  description = u"Достиг победы красным линдвурмом с размером больше 4",
