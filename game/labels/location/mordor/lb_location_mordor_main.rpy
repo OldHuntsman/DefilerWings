@@ -647,14 +647,15 @@ label lb_war_final:
     jump lb_orgy
     
 label lb_orgy:
-    show expression 'img/bg/special/city_raze.png' as bg
+    show expression 'img/scene/city_raze.png' as bg
     game.dragon 'Мы победили!'
     mistress 'Да. Благодаря тебе, твоему роду и детям твоего рода... Как давно я ждала этого. Даю тебе и армии три дня на разграбление города, а затем мы начнём строить ПЕРВУЮ | ВСЕМИРНУЮ | ИМПЕРИЮ!'
     game.dragon 'Вы слышали Владычицу, воины мои. Тащите всех девок ко мне и кидайте в кучу!'    
-    show expression 'img/bg/special/girls.png' as bg
+    show expression 'img/scene/girls.png' as bg
     pause (500.0)
+    nvl clear
     'Прелюдия к победной оргии'
-    show expression 'img/bg/special/orgy.png' as bg
+    show expression 'img/scene/orgy.png' as bg
     pause (500.0)    
     'Победная оргия'
     jump lb_you_win
