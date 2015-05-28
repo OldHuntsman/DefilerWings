@@ -17,6 +17,10 @@ init python:
         persistent.achievements = {}
 # Начало игры
     
+screen controls_overwrite():
+    # Added by Alex on Hunters request, we overwrite default game menu leading to save screen:
+    key "game_menu" action ShowMenu("preferences")
+
 label start:
     python:
         # Инициализируем game в начале игры, а не при инициализации. Для того чтобы она сохранялась.
@@ -24,6 +28,8 @@ label start:
         narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
         # Alex: Zexy Images :)
         sex_imgs = DragonSexImagesDatabase()
+    # Added by Alex on Hunters request, we overwrite default game menu leading to save screen:
+    show screen controls_overwrite    
         
     # Alex: Чтобы смотреть на какой находишься локации кода в игре
     #if config.developer:
