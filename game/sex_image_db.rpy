@@ -11,12 +11,14 @@ init python:
     """
     Added chain random music function as per Hunters request on Skype:
     """
-    def get_random_files(folder):
+    def get_random_files(folder, shuffle=True):
         import os
         
         path = renpy.loader.transfn(folder)
-        files = os.listdir(path)
-        return _list("/".join([folder, f]) for f in files)
+        files = _list("/".join([folder, f]) for f in os.listdir(path))
+        if shuffle:
+            renpy.random.shuffle(files)
+        return files
     
     """
     Added get random file function as per Hunters request on Skype:
