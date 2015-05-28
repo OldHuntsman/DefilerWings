@@ -6,16 +6,20 @@ label splashscreen:
             if disclaimer_status:                                   # И если дисклеймер приняли, то
                 persistent.disclaimer_accepted = True               # Сохраняем этот факт на будущее
     
-    scene black
-    with Pause(1)
-
-    show text "Old Huntsman present..." with dissolve   # интро
-    with Pause(1)
+    image white = Solid("#fff")
+    scene white
+    with Pause(0.4)
     
-    show text "Defiler Wings" with dissolve
-    with Pause(2)
+    show expression 'img/logo.png'  at truecenter with zoomin
+    show text "{font=fonts/PFMonumentaPro-Regular.ttf}{size=+15}{color=#000}И{vspace=20} КОМПАНИЯ{/color}{/size}{vspace=60}{/font}" at center with zoomin
+    with Pause(3)
+    hide text with dissolve
+    hide expression 'img/logo.png' with dissolve
+    
+    show text "{font=fonts/PFMonumentaPro-Regular.ttf}{size=+15}{color=#000}ДОСТАВЛЯЮТ...{/color}{/size}{/font}" at truecenter with dissolve
+    with Pause(3)
 
     hide text with dissolve
-    with Pause(1)
 
     return
+    

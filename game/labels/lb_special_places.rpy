@@ -30,6 +30,8 @@ label lb_enchanted_forest:
             
 
 label lb_enchanted_forest_enter:        
+    stop music
+    play music "mus/forest.ogg"    
     menu:
         'Рыскать кругом':
             $ choices = [

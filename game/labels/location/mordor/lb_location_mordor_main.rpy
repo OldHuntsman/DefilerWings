@@ -3,6 +3,9 @@ label lb_location_mordor_main:
     $ place = 'mordor' 
     hide bg
     show place as bg
+    python:
+        if renpy.music.get_playing(channel='music') != "mus/dark.ogg":
+            renpy.music.play("mus/dark.ogg")        
     nvl clear
     python:
         mistress = core.Sayer(game_ref=game)
@@ -44,6 +47,10 @@ label lb_location_mordor_main:
     return
     
 label lb_mistress:
+    python:
+        if not persistent.isida_done:
+            renpy.movie_cutscene("mov/isida.ogv")
+            persistent.isida_done = True
     nvl clear
     menu:
         'Получить награду' if game.is_quest_complete:
@@ -115,17 +122,23 @@ label lb_mistress_fuck:
     mistress 'Благодарю тебя за твоё могучее семя, сын мой. Наши дети превзойдут всех рождённых ранее.'
     game.dragon 'Пусть мои сыновья продолжат моё дело когда вырастут.'
     mistress 'Когда они вылупятся, ты должен будешь выбрать своего приемника, возлюбленный мой.'
+    nvl clear
     'Прошло девять месяцев и кладка новых яиц проклюнулась...'
+    python:
+        if not persistent.lada_done:
+            renpy.movie_cutscene("mov/lada.ogv")
+            persistent.lada_done = True    
     return
 
 label lb_betrayal:
-    # TODO: Сражение дракона и Госпожи. Подробности в диздоке, картинки готовы.
+    $ renpy.movie_cutscene("mov/kali.ogv")
     $ atk_tp = 'pysical'
     $ mistress_hp = 3
     call lb_new_round
     return
 
 label lb_new_round:
+    nvl clear    
     if mistress_hp < 1:
         mistress 'Я ещё вернусь!'
         $data.achieve_target("betray", "win")
@@ -161,43 +174,45 @@ label lb_tactics_choice:
 
 label lb_kali:
     show expression 'img/scene/fight/mistress/kali.png' as bg    
-    'Многорукий облик. Атака попадает если у дракона нет верной защиты. Уязвима для магической атаки.'
+    'Владычица принимает облик многорукой богини Кали, с чёрной как уголь кожей и красным словно кровь языком. Она вооружена несколькими острыми серпами и очень опасна в ближнем бою.'
     call lb_tactics_choice
     if game.dragon.defence_power()[1] > 0:
-        game.dragon 'Защищён'
+        game.dragon 'Мою чешую невозможно разрубить, Мать. Ты родила меня неуязвимым!'
     else:
-        if dragon.decapitate() == 'dragon_dead':
-            mistress 'Убит'
+        'Одним взмахом острого серпа кали отрубает голову дракона.'
+        if game.dragon.decapitate() == 'dragon_dead':
+            mistress 'Вот и всё сынок... ты зря решил встать на путь Иуды.'
             jump lb_you_win
         else:
-            mistress 'Ранен'
+            mistress 'Одной головой меньше сынок. Жаль это уже не прибавит тебе ума!'
             
     if atk_tp == 'magic':
-        game.dragon 'Попал!'
+        game.dragon 'Твои серпы не защитят тебя от магии смерти, многорукая!!!'
         $ mistress_hp -= 1
     else:
-        mistress 'Промазал!'
+        mistress 'Так меня не одолеть, глупец!'
     call lb_new_round
     return
 
 label lb_garuda:
     show expression 'img/scene/fight/mistress/garuda.png' as bg    
-    'Облик птицы. Атака попадает если дракон не закопался в землю. Уязвима для любой атаки.'
+    'Целиком покрывшись яркими перьями и отрастив острые медные когти, Владычица принимает аспект Гаруды. Ни на земле ни в небесах нет места чтобы укрыться от её соколиного удара, но всё же сейчас она очень уязвима.'
     call lb_tactics_choice
     if atk_tp = 'earth':
-        game.dragon 'Защищён'
+        game.dragon 'Под землёй тебе меня не достать, пернатая тварь!'
     else:
-        if dragon.decapitate() == 'dragon_dead':
-            mistress 'Убит'
+        'С невероятной силой Гаруда терзает дракона когтями и отрывает ему голову.'
+        if game.dragon.decapitate() == 'dragon_dead':
+            mistress 'От змеи рождённый, умри как червь!'
             jump lb_you_win
         else:
-            mistress 'Ранен'
+            mistress 'Всё ещё жив змеёнышь?!'
         
     if atk_tp != 'dodge' and atk_tp != 'hide' and atk_tp != 'earth' and atk_tp != 'air':
-        game.dragon 'Попал!'
+        game.dragon 'Получи!'
         $ mistress_hp -= 1
     else:
-        mistress 'Промазал!'   
+        mistress 'Беги-беги! А ведь у тебя был шанс ранить меня, идиот!'   
             
     call lb_new_round
     return
@@ -205,66 +220,69 @@ label lb_garuda:
 
 label lb_shiva:
     show expression 'img/scene/fight/mistress/sheeva.png' as bg    
-    'Ледяной облик. Атака попадает если у дракона нет защиты от холода. Уязвима для огненного дыхания.'
+    'Аспект Шивы наделяет Владычицу неограниченной властью над холодом и льдом. От её поступи земля покрывается коркой инея и холодеет чешуя.'
     call lb_tactics_choice
     if 'ice_immunity' in game.dragon.modifiers():
-        game.dragon 'Защищён'
+        game.dragon 'Холод мне не страшен, Мать. Уж ты то должна была об этом помнить!'
     else:
-        if dragon.decapitate() == 'dragon_dead':
-            mistress 'Убит'
+        'Единственного прикосновения Шивы достаточно, чтобы превратить голову дракона в хрупкую ледышку и затём расколоть её на множество осколком одинм ударом.'
+        if game.dragon.decapitate() == 'dragon_dead':
+            mistress 'Да поглотит тебя ледяное безмолвие, неверный сын!'
             jump lb_you_win
         else:
-            mistress 'Ранен'
+            mistress 'Вот видишь, это даже не больно. Холод милостив. Но следующей голове повезёт меньше!'
 
     if atk_tp == 'fire':
-        game.dragon 'Попал!'
+        game.dragon 'Пламенем Я командую! Сгори, растай, испарись!!!'
         $ mistress_hp -= 1
     else:
-        mistress 'Промазал!'
+        mistress 'Лишь огонь мог бы тебе помочь, но тебе он неподвластен! Я знаю все твои слабости!'
             
     call lb_new_round
     return
 
 label lb_agni:
     show expression 'img/scene/fight/mistress/agni.png' as bg    
-    'Огненный облик. Атака попадает если у дракона нет защиты от огня. Уязвима для ледяного дыхания.'
+    'Принимая аспект Агни, Владычица закутывается в наряд из багряного пламени и удушающего черного дыма. От неё исходит испепеляющий всё живое жар выдержать который смог бы разве что Ифрит.'
     call lb_tactics_choice
     if 'fire_immunity' in game.dragon.modifiers():
-        game.dragon 'Защищён'
+        game.dragon 'Ха! Безумная старуха, неужели ты решила сжечь повелителя пламени? Я стану лишь сильнее от твоего жара, иди же ко мне!'
     else:
-        if dragon.decapitate() == 'dragon_dead':
-            mistress 'Убит'
+        "От касания Агни, голова дракона вспыхивает и мигом превращается в почергевшую головешку."
+        if game.dragon.decapitate() == 'dragon_dead':
+            mistress 'Почувствуй ярость огня моей души, жалкий предатель! УМРИ!!!'
             jump lb_you_win
         else:
-            mistress 'Ранен'
+            mistress 'Почувствуй ярость огня моей души! Ещё дергаешься, жалкий червяк?!'
         
     if atk_tp == 'ice':
-        game.dragon 'Попал!'
+        game.dragon 'Твой огонь умрёт скованный хладом моего дыхания, Агни!'
         $ mistress_hp -= 1
     else:
-        mistress 'Промазал!'
+        mistress 'Разве можно надеяться сокрушить само пламя, глупец?'
                             
     call lb_new_round
     return
 
 label lb_indra:
     show expression 'img/scene/fight/mistress/indra.png' as bg    
-    'Облик громовержца. Атака попадает если у дракона нет защиты от молний. Уязвима для ядовитого дыхания.'
+    'В аспекте Индры Владычица получает власть над молнией и громом небесным. Она неуязвима как сам чистый и свежий воздух и небо что питают её могущество. '
     call lb_tactics_choice
     if 'lightning_immunity' in game.dragon.modifiers():
-        game.dragon 'Защищён'
-    else:
+        game.dragon 'Титаны не могли поразить меня своими молниями. Не сможешь и ты, Индра. В штормовом облаке я как в родном доме!'
+    elsegame.:
+        'Удар молнии попадает точно в глову дракона, испепеляя её в одно мгновение!'
         if dragon.decapitate() == 'dragon_dead':
-            mistress 'Убит'
+            mistress 'Моё возмездие быстро как небесный гром. Тебе стоило подумать об этом, предатель!'
             jump lb_you_win
         else:
-            mistress 'Ранен'
+            mistress 'Минус одна. А теперь прощайся и со следующей головой!'
         
     if atk_tp == 'poison':
-        game.dragon 'Попал!'
+        game.dragon 'Я отравлю воздух дающий тебе силы! Никто не устоит перед токсическим смрадом, даже Небо, даже Аллах!'
         $ mistress_hp -= 1
     else:
-        mistress 'Промазал!'
+        mistress 'Да ты силён, но силы что повергнет сами чистые Небеса ты не сыщешь, предатель!'
                             
     call lb_new_round
     return
@@ -272,16 +290,17 @@ label lb_indra:
 
 label lb_pangea:
     show expression 'img/scene/fight/mistress/pangea.png' as bg    
-    'Кристаллический облик. Атака попадает если дракон имеет сумму обычной и верной брони менее пяти. Уязвима для громового рёва.'
+    'Тело владычицы превращается в один огромный живой кристалл, совершенное воплощение аспекта богини земли Пангеи. Её плоть тверда как алмаз.'
     call lb_tactics_choice
     if game.dragon.defence_power()[0] + game.dragon.defence_power()[1] >= 5:
-        game.dragon 'Защищён'
+        game.dragon 'Моя чешуя не мягче твоей алмазной кожи, Пангея! Ты даже не поцарапаешь меня.'
     else:
-        if dragon.decapitate() == 'dragon_dead':
-            mistress 'Убит'
+        "Пангея сжимает глову дракона мёртвой хваткой и давит её словно спелый арбуз."
+        if game.dragon.decapitate() == 'dragon_dead':
+            mistress 'Кто поднял руку на Мать, да будет сокрушён!'
             jump lb_you_win
         else:
-            mistress 'Ранен'
+            mistress 'Я сокрушу тебя! Каким бы живучим ты ни был, рано или поздно ты сдохнешь, поганец!'
         
     if atk_tp == 'thunder':
         game.dragon 'Попал!'
@@ -294,44 +313,46 @@ label lb_pangea:
 
 label lb_nemesis:
     show expression 'img/scene/fight/mistress/nemesis.png' as bg    
-    'Облик возмездия. Атака попадает если дракон производит любое агрессивное действие. Неуязвима.'
+    'Владычица принимает аспект богини Немезиды. Всё её тело покрывается острыми шипами, олицетворяя неминуемое возмездие. '
     call lb_tactics_choice
     if atk_tp == 'dodge' or atk_tp == 'hide' or atk_tp == 'earth' or atk_tp == 'air':
-        game.dragon 'Защищён'
+        game.dragon 'Я знаю справедливость Немезиды. Если я не буду атаковать, ты тоже не сможешь!'
     else:
-        if dragon.decapitate() == 'dragon_dead':
-            mistress 'Убит'
+        'Нападение на Немезиду ведёт к неотвратимому воздаянию. Дракон теряет голову.'
+        if game.dragon.decapitate() == 'dragon_dead':
+            mistress 'Такова судьба всех предателей - СМЕРТЬ!'
             jump lb_you_win
         else:
-            mistress 'Ранен'
+            mistress 'Моё возмездие ещё не завершено, но час твоей смерти уже близок, предатель!'
         
     if atk_tp != 'dodge' and atk_tp != 'hide' and atk_tp != 'earth' and atk_tp != 'air':
-        game.dragon 'Попал!'
+        game.dragon 'Но и тебе здоровой не уйти!'
         $ mistress_hp -= 1
     else:
-        mistress 'Промазал!'  
+        mistress 'Ты правильно делаешь что прячешься, проживёшь лишнюю минуту, а то и две!'  
                             
     call lb_new_round
     return
 
 label lb_amphisbena:
     show expression 'img/scene/fight/mistress/amfisbena.png' as bg    
-    'Облик змеи. Атака попадает если дракон не взлетел в воздух. Уязвима для физической атаки при условии что у дракона есть хотя бы одна верная атака.'
+    'Тело Владычицы покрывается яркой цветной чешуёй, когда она принимает аспект Амфисбены, ползучей ядовитой смерти несущей погибель всем тварям земным.'
     call lb_tactics_choice
     if atk_tp == 'air':
-        game.dragon 'Защищён'
+        game.dragon 'Рождённый ползать, летать не может. Попробуй-ка тут меня достать, тварь ползучая!'
     else:
-        if dragon.decapitate() == 'dragon_dead':
-            mistress 'Убит'
+        'От яда амфисбены голова дракона сморщивается и отсыхает.'
+        if game.dragon.decapitate() == 'dragon_dead':
+            mistress 'Я надеялась что ты будешь мучаться дольше, Иуда!'
             jump lb_you_win
         else:
-            mistress 'Ранен'
+            mistress 'Чувствуешь этот яд? Я рада что ты ещё трепыхаешься, так моя месть будет слаще.'
         
     if game.dragon.attack_strength()[1] > 0:
-        game.dragon 'Попал!'
+        game.dragon 'Я раздавлю тебя, гадюка!'
         $ mistress_hp -= 1
     else:
-        mistress 'Промазал!'
+        mistress 'И это всё на что ты способен?! Слабак!'
                             
     call lb_new_round
     return
@@ -339,44 +360,46 @@ label lb_amphisbena:
 
 label lb_gekata:
     show expression 'img/scene/fight/mistress/gekata.png' as bg    
-    'Облик смерти. Атака попадает если дракон не спрятался. Уязвима для физической атаки если дракон имеет сумму обычной и верной атаки не менее пяти.'
+    'Аспект Гекаты даёт Владычице силу самой Ночи и Смерти. Сражаться с ней может лишь смельчак не боящийся смертельных ран, но порой лучше быть трусом.'
     call lb_tactics_choice
     if atk_tp != 'hide':
-        game.dragon 'Защищён'
+        game.dragon 'Я укроюсь от Тьмы во Тьме.'
     else:
-        if dragon.decapitate() == 'dragon_dead':
-            mistress 'Убит'
+        'Смертоносная Геката с лёгкостью отрывает дракону голову.'
+        if game.dragon.decapitate() == 'dragon_dead':
+            mistress 'А твоё тело я скормлю шакалам, потому что ты падаль!'
             jump lb_you_win
         else:
-            mistress 'Ранен'
+            mistress 'Всё ещё дёргаешься, падаль?!'
         
     if game.dragon.attack_strength()[0] + game.dragon.attack_strength()[1] >= 5:
-        game.dragon 'Попал!'
+        game.dragon 'Вот тебе! Получай! Меня не так то просто убить.'
         $ mistress_hp -= 1
     else:
-        mistress 'Промазал!' 
+        mistress 'А я то надеялась что моё чадо будет бить сильнее чем крестьянская девчёнка...' 
                             
     call lb_new_round
     return
 
 label lb_hell:
     show expression 'img/scene/fight/mistress/hell.png' as bg    
-    'Облик великанши. Атака попадает если дракон не уклонялся. Уязвима для магической атаки.'
+    'Владычица выростает до небес, задевая макушкой облака, когда призывает на себя аспект великанши Хель - немёртвой владычицы нижнего мира. Её удары кажутся медленными, но они способны крушить даже гранитные скалы.'
     call lb_tactics_choice
     if atk_tp == 'dodge':
-        game.dragon 'Защищён'
+        game.dragon 'Слишком медленно! Тебе меня не достать.'
     else:
-        if dragon.decapitate() == 'dragon_dead':
-            mistress 'Убит'
+        "Сокрушающим землю ударом огромной руки, великанша расплющивает голову дракона."
+        if game.dragon.decapitate() == 'dragon_dead':
+            mistress 'ХА! И мокрого места не осталось.'
             jump lb_you_win
         else:
-            mistress 'Ранен'
+            mistress 'Познай боль! Я сокрушу тебя как мерзкого таракана!'
         
     if atk_tp == 'magic':
-        game.dragon 'Попал!'
+        game.dragon 'Мои чары превыше твоей грубой силы, Хель!'
         $ mistress_hp -= 1
     else:
-        mistress 'Промазал!'  
+        mistress 'Хорошая попытка малыш. Но для меня ты мелковат!'  
                             
     call lb_new_round
     return

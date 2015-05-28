@@ -1,6 +1,9 @@
 # coding=utf-8
   
 label lb_dragon_creator:
+    python:
+        if renpy.music.get_playing(channel='music') != "mus/lullaby.ogg":
+            renpy.music.play("mus/lullaby.ogg")     
     show expression 'img/scene/hatch/green/3.png' as bg    
     python:
         save_blocked = True

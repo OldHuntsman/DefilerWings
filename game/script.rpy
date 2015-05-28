@@ -31,6 +31,9 @@ label start:
         
     # Прокручиваем заставку.
     if not freeplay:
+        persistent.isida_done = False
+        persistent.lada_done = False
+        persistent.kali_done = False        
         call screen sc_intro
     while not game.is_won or not game.is_lost:
         # Если дракона нет выбираем его

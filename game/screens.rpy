@@ -291,7 +291,7 @@ screen navigation:
         # textbutton _("Сохранить игру") action ShowMenu("save")
         # textbutton _("Загрузить игру") action ShowMenu("load")
         textbutton _("Главное меню") ypos 305 action MainMenu()
-        textbutton _("Помощь") ypos 315 action Help()
+        textbutton _("От автора") ypos 315 action Help()
         textbutton _("Выход") ypos 325 action Quit()
 
 init -2 python:

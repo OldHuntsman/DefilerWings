@@ -2,6 +2,7 @@
 # локация взаимодействий
 
 label lb_nature_sex:
+    stop music
     if game.girl.jailed:
         $ place = 'prison'
         show place as bg
@@ -49,6 +50,7 @@ label lb_lair_sex:
     jump lb_nature_sex
 
 label lb_gigant_sex:
+    stop music    
     nvl clear
     menu:
         'Надругаться' if game.girls_list.is_mating_possible:

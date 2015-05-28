@@ -1,6 +1,9 @@
 # coding=utf-8
 label lb_choose_dragon:
     # Хардкод на трех драконов.
+    python:
+        if renpy.music.get_playing(channel='music') != "mus/lullaby.ogg":
+            renpy.music.play("mus/lullaby.ogg")           
     hide bg
     python:
         lost = False
