@@ -180,9 +180,9 @@ label lb_kali:
         game.dragon 'Мою чешую невозможно разрубить, Мать. Ты родила меня неуязвимым!'
     else:
         'Одним взмахом острого серпа кали отрубает голову дракона.'
-        if game.dragon.decapitate() == 'dragon_dead':
+        if 'dragon_dead' in game.dragon.decapitate():
             mistress 'Вот и всё сынок... ты зря решил встать на путь Иуды.'
-            jump lb_you_win
+            jump lb_game_over
         else:
             mistress 'Одной головой меньше сынок. Жаль это уже не прибавит тебе ума!'
             
@@ -202,9 +202,9 @@ label lb_garuda:
         game.dragon 'Под землёй тебе меня не достать, пернатая тварь!'
     else:
         'С невероятной силой Гаруда терзает дракона когтями и отрывает ему голову.'
-        if game.dragon.decapitate() == 'dragon_dead':
+        if 'dragon_dead' in game.dragon.decapitate():
             mistress 'От змеи рождённый, умри как червь!'
-            jump lb_you_win
+            jump lb_game_over
         else:
             mistress 'Всё ещё жив змеёнышь?!'
         
@@ -226,9 +226,9 @@ label lb_shiva:
         game.dragon 'Холод мне не страшен, Мать. Уж ты то должна была об этом помнить!'
     else:
         'Единственного прикосновения Шивы достаточно, чтобы превратить голову дракона в хрупкую ледышку и затём расколоть её на множество осколком одинм ударом.'
-        if game.dragon.decapitate() == 'dragon_dead':
+        if 'dragon_dead' in game.dragon.decapitate():
             mistress 'Да поглотит тебя ледяное безмолвие, неверный сын!'
-            jump lb_you_win
+            jump lb_game_over
         else:
             mistress 'Вот видишь, это даже не больно. Холод милостив. Но следующей голове повезёт меньше!'
 
@@ -249,9 +249,9 @@ label lb_agni:
         game.dragon 'Ха! Безумная старуха, неужели ты решила сжечь повелителя пламени? Я стану лишь сильнее от твоего жара, иди же ко мне!'
     else:
         "От касания Агни, голова дракона вспыхивает и мигом превращается в почергевшую головешку."
-        if game.dragon.decapitate() == 'dragon_dead':
+        if 'dragon_dead' in game.dragon.decapitate():
             mistress 'Почувствуй ярость огня моей души, жалкий предатель! УМРИ!!!'
-            jump lb_you_win
+            jump lb_game_over
         else:
             mistress 'Почувствуй ярость огня моей души! Ещё дергаешься, жалкий червяк?!'
         
@@ -270,11 +270,11 @@ label lb_indra:
     call lb_tactics_choice
     if 'lightning_immunity' in game.dragon.modifiers():
         game.dragon 'Титаны не могли поразить меня своими молниями. Не сможешь и ты, Индра. В штормовом облаке я как в родном доме!'
-    elsegame.:
+    else:
         'Удар молнии попадает точно в глову дракона, испепеляя её в одно мгновение!'
-        if dragon.decapitate() == 'dragon_dead':
+        if 'dragon_dead' in game.dragon.decapitate():
             mistress 'Моё возмездие быстро как небесный гром. Тебе стоило подумать об этом, предатель!'
-            jump lb_you_win
+            jump lb_game_over
         else:
             mistress 'Минус одна. А теперь прощайся и со следующей головой!'
         
@@ -296,9 +296,9 @@ label lb_pangea:
         game.dragon 'Моя чешуя не мягче твоей алмазной кожи, Пангея! Ты даже не поцарапаешь меня.'
     else:
         "Пангея сжимает глову дракона мёртвой хваткой и давит её словно спелый арбуз."
-        if game.dragon.decapitate() == 'dragon_dead':
+        if 'dragon_dead' in game.dragon.decapitate():
             mistress 'Кто поднял руку на Мать, да будет сокрушён!'
-            jump lb_you_win
+            jump lb_game_over
         else:
             mistress 'Я сокрушу тебя! Каким бы живучим ты ни был, рано или поздно ты сдохнешь, поганец!'
         
@@ -319,9 +319,9 @@ label lb_nemesis:
         game.dragon 'Я знаю справедливость Немезиды. Если я не буду атаковать, ты тоже не сможешь!'
     else:
         'Нападение на Немезиду ведёт к неотвратимому воздаянию. Дракон теряет голову.'
-        if game.dragon.decapitate() == 'dragon_dead':
+        if 'dragon_dead' in game.dragon.decapitate():
             mistress 'Такова судьба всех предателей - СМЕРТЬ!'
-            jump lb_you_win
+            jump lb_game_over
         else:
             mistress 'Моё возмездие ещё не завершено, но час твоей смерти уже близок, предатель!'
         
@@ -342,9 +342,9 @@ label lb_amphisbena:
         game.dragon 'Рождённый ползать, летать не может. Попробуй-ка тут меня достать, тварь ползучая!'
     else:
         'От яда амфисбены голова дракона сморщивается и отсыхает.'
-        if game.dragon.decapitate() == 'dragon_dead':
+        if 'dragon_dead' in game.dragon.decapitate():
             mistress 'Я надеялась что ты будешь мучаться дольше, Иуда!'
-            jump lb_you_win
+            jump lb_game_over
         else:
             mistress 'Чувствуешь этот яд? Я рада что ты ещё трепыхаешься, так моя месть будет слаще.'
         
@@ -366,9 +366,9 @@ label lb_gekata:
         game.dragon 'Я укроюсь от Тьмы во Тьме.'
     else:
         'Смертоносная Геката с лёгкостью отрывает дракону голову.'
-        if game.dragon.decapitate() == 'dragon_dead':
+        if 'dragon_dead' in game.dragon.decapitate():
             mistress 'А твоё тело я скормлю шакалам, потому что ты падаль!'
-            jump lb_you_win
+            jump lb_game_over
         else:
             mistress 'Всё ещё дёргаешься, падаль?!'
         
@@ -389,9 +389,9 @@ label lb_hell:
         game.dragon 'Слишком медленно! Тебе меня не достать.'
     else:
         "Сокрушающим землю ударом огромной руки, великанша расплющивает голову дракона."
-        if game.dragon.decapitate() == 'dragon_dead':
+        if 'dragon_dead' in game.dragon.decapitate():
             mistress 'ХА! И мокрого места не осталось.'
-            jump lb_you_win
+            jump lb_game_over
         else:
             mistress 'Познай боль! Я сокрушу тебя как мерзкого таракана!'
         
