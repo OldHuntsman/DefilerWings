@@ -33,6 +33,11 @@ label lb_test_main:
                 call lb_test_debug
             "Ачивки":
                 call lb_achievements_list
+            "Сбросить ачивки":
+                python:
+                    for a in persistent.achievements.keys():
+                        persistent.achievements.__delitem__(a)
+                "Список достижений очищен"
             "Назад":
                 return
     return

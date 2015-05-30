@@ -1803,7 +1803,7 @@ class Treasury(store.object):
         """
         from data import achieve_target
         for treas in treasure_list:
-            achieve_target(treas, "treasure")#Событие для ачивок
+            achieve_target(treas.cost, "treasure")#Событие для ачивок
             if isinstance(treas, Coin):
                 # сохраняется число медных, серебряных и золотых монет в соответствующих переменных
                 if treas.name == 'farting':
