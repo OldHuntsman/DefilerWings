@@ -2,7 +2,7 @@
 label lb_location_gremlin_main:
     python:
         if not renpy.music.is_playing():
-            renpy.music.play(get_random_files('mus/ambient'))    
+            renpy.music.play(get_random_files('mus/ambient'))
     $ place = 'gremlins'
     hide bg
     show place as bg
