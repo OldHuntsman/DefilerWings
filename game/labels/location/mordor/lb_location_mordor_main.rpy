@@ -68,7 +68,9 @@ label lb_mistress:
             "Текущее задание:\n[game.quest_text]\n[game.quest_time_text]"
             call lb_mistress
         'Завести разговор':
-            'Обсуждение'
+            $ txt = game.interpolate(random.choice(txt_advice))
+            mistress '[txt]'   
+            nvl clear            
             call lb_mistress
         'Предательски напасть':
             game.dragon 'Независимо от того выиграю ли я эту битву, мой род прервётся. Стоит ли убивать свою мать?'
