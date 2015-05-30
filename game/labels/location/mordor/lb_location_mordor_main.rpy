@@ -270,9 +270,9 @@ label lb_indra:
     call lb_tactics_choice
     if 'lightning_immunity' in game.dragon.modifiers():
         game.dragon 'Титаны не могли поразить меня своими молниями. Не сможешь и ты, Индра. В штормовом облаке я как в родном доме!'
-    elsegame.:
+    else:
         'Удар молнии попадает точно в глову дракона, испепеляя её в одно мгновение!'
-        if dragon.decapitate() == 'dragon_dead':
+        if game.dragon.decapitate() == 'dragon_dead':
             mistress 'Моё возмездие быстро как небесный гром. Тебе стоило подумать об этом, предатель!'
             jump lb_you_win
         else:

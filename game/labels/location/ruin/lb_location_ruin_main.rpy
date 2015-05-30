@@ -1,5 +1,8 @@
 # coding=utf-8
 label lb_location_ruin_main:
+    python:
+        if not renpy.music.is_playing():
+            renpy.music.play(get_random_files('mus/ambient'))    
     hide bg
     show expression 'img/bg/special/haunted.png' as bg
 

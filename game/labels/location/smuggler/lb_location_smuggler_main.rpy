@@ -1,5 +1,8 @@
 # coding=utf-8
 label lb_location_smuggler_main:
+    python:
+        if not renpy.music.is_playing():
+            renpy.music.play(get_random_files('mus/ambient'))    
     $ place = 'smugglers'
     show expression 'img/bg/special/smugglers.png' as bg
     

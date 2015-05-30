@@ -1,5 +1,8 @@
 # coding=utf-8
 label lb_location_sea_main:
+    python:
+        if not renpy.music.is_playing():
+            renpy.music.play(get_random_files('mus/ambient'))    
     $ place = 'sea'
     hide bg
     show expression get_place_bg(place) as bg

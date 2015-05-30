@@ -132,4 +132,8 @@ label lb_event_thief_lair_empty(thief):
 label lb_event_thief_awakened_dragon(thief, stolen_items):
     # Thief awakens the dragon and gets killed... stolen_items: items that dragon takes back from the thief.
     # Debug message: thief(u"Разбудил дракона")
+    "Зазевашийся вор обрушивает кучку монет, которые со звоном раскатываются по полу."
+    thief "Упс..."
+    game.dragon "Так-так... какая встреча. А я то думал кто тут шебуршится."
+    "Дракон раздирает неудачливого расхитителя сокровищь в клочья и перекусив снова ложится спать."
     return

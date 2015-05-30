@@ -30,7 +30,7 @@ label lb_enchanted_forest:
             
 
 label lb_enchanted_forest_enter:        
-    stop music
+    stop music fadeout 1.0
     play music "mus/forest.ogg"    
     menu:
         'Рыскать кругом':
@@ -835,7 +835,7 @@ label lb_backdor:
     nvl clear
     menu:
         'Пора вороватъ и убиватъ!':
-            stop music
+            stop music fadeout 1.0
             play music "mus/moria.ogg"
             show expression 'img/bg/special/moria.png' as bg
             'Нажав на неприметный камушек в правильном месте [game.dragon.name] открыл потайной проход в подгорное царство. Теперь отступать не стоит, если цвергов не добить, то они запечатают задний проход и укрепятся ещё основательнее.'
@@ -870,7 +870,7 @@ label lb_frontgates:
     return
     
 label lb_golem_guard:
-    stop music
+    stop music fadeout 1.0
     play music "mus/moria.ogg"
     show expression 'img/bg/special/moria.png' as bg
     'Даже после того как врата обрушились, пыль и мелкие камушки продолжают сыпаться с потолка. По центральной галерее гулко раздаются шаги стража ворот - выкованного целиком из закалённого адамантия механического гиганта. На свете не много противников равных ему по силе...'

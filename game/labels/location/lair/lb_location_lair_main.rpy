@@ -1,5 +1,8 @@
 # coding=utf-8
 label lb_location_lair_main:
+    python:
+        if not renpy.music.is_playing():
+            renpy.music.play(get_random_files('mus/ambient'))    
     $ place = game.lair.type_name
     hide bg
     show place as bg

@@ -258,6 +258,8 @@ init -1 python hide:
 
     #########################################
     # Transitions.
+    
+    config.fade_music = 2.0
 
     # Used when entering the game menu from the game.
     config.enter_transition = None
