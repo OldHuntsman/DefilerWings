@@ -17,14 +17,17 @@ label lb_event_thief_steal_items(thief, items):
     return
 
 label lb_event_thief_lair_unreachable(thief):
+    nvl clear    
     thief "Чертов дракон не мог выбрать себе логово в более доступном месте? Как туда добраться-то? Вот же гадство.."
     return
 
 label lb_event_thief_prepare(thief):
-    thief "Если я хочу уйти из дракньей берлоги живым и богатым, мне лучше как следует подговоиться к Делу."
+    nvl clear    
+    thief "Если я хочу уйти из дракньей берлоги живым и богатым, мне лучше как следует подготовиться к Делу."
     return
 
 label lb_event_thief_prepare_usefull(thief):
+    nvl clear    
     thief "Хе-хе... точно по плану!."
     return
 
@@ -37,10 +40,15 @@ label lb_event_thief_receive_item(thief, item):
     return
 
 label lb_event_thief_prepare_useless(thief):
-    thief "Чёрт! А я так надеялся получить что-то полезное для Большого Дела."
+    nvl clear
+    show expression "img/scene/quest_thief.png" as bg
+    '[game.thief.name] хочет найти логово дракона, но безуспешно.'
+    thief "Да где же прячется эта змеюка... Чёрт!"
     return
 
 label lb_event_thief_lair_enter(thief):
+    nvl clear
+    show expression "img/scene/quest_thief.png" as bg
     thief "Ну вот и оно - логово дракона. Я войду словно тень и выскользну обратно с мешком сокровищ тяжким как мои грехи..."
     return
 
@@ -54,6 +62,7 @@ label lb_event_thief_die_inaccessability(thief):
     return
 
 label lb_event_thief_die_trap(thief, trap):
+    nvl clear    
     $ txt = game.interpolate(random.choice(txt_thief_fail[trap.id]))
     '[txt]' 
     return
@@ -64,6 +73,7 @@ label lb_event_thief_pass_trap(thief, trap):
     return
 
 label lb_event_thief_receive_no_item(thief):
+    nvl clear    
     "Вор ничего не получил"
     return
     

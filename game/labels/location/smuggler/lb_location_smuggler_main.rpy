@@ -1,5 +1,6 @@
 # coding=utf-8
 label lb_location_smuggler_main:
+    nvl clear
     python:
         if not renpy.music.is_playing():
             renpy.music.play(get_random_files('mus/ambient'))    
@@ -15,11 +16,11 @@ label lb_location_smuggler_main:
         
     menu:
         'Нанять охрану' if 'smuggler_guards' not in game.lair.upgrades and 'regular_guards' not in game.lair.upgrades:
-            "Наёмные головорезы не дадут наглым ворам растащить драконье достояние. Всего за [guards_cost] фартингов в год"
+            "Наёмные головорезы не дадут наглым ворам растащить драконье достояние. Всего за [guards_cost] фартингов в год."
             menu:
-                "Заплатить им" if guards_cost <= game.lair.treasury.wealth:
+                "Заключить контракт" if guards_cost <= game.lair.treasury.wealth:
                     $ game.lair.upgrades.add('smuggler_guards', deepcopy(data.lair_upgrades['smuggler_guards']))
-                    "Ох рано встаёт охрана..."
+                    "Наемные головорезы будут сторожить логово, пока дракон спит."
                 "Уйти":
                     pass
         'Продать драгоценности':
@@ -57,6 +58,7 @@ label lb_location_smuggler_main:
                 'Отдать [terror_cost] фартингов разбойникам' if terror_cost <= game.lair.treasury.money:
                     $ game.lair.treasury.money -= terror_cost
                     $ game.mobilization.level -= 1
+                    'По приказанию дракона, разбойники будут поджигать продовольственные склады, отравлять колодцы и перехватывать армейские обозы. Мобилизационный потенциал королевства снижается.'
                     call lb_location_smuggler_main
                 'Это того не стоит':
                     call lb_location_smuggler_main

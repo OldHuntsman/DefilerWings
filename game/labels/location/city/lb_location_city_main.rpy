@@ -14,7 +14,8 @@ label lb_location_city_main:
     'Столица королевства людей.'
     menu:
         'Тайный визит' if game.dragon.mana > 0:
-            'Дракон превращается в человека и проходит в город.'
+            'Дракон превращается в человека и проходит в город. На это пришлось потратить драгоценную волшебную силу...'
+            $ game.dragon.drain_mana()
             nvl clear
             call lb_city_walk
         'Штурморвать ворота' if not game.dragon.can_fly:

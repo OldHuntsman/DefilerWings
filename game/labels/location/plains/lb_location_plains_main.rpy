@@ -455,7 +455,7 @@ label lb_enc_pigs:
     return    
 
 label lb_enc_sheepherd:
-    'В зелёных холмах, покрытых сочной травой старый чабан пасёт атару овец. Звидев приближение дракона, мудрый старик предпочитает по быстрому сделать ноги, а вот верная овчарка похоже готова охранять стадо до последнего вдохоа.'
+    'В зелёных холмах, покрытых сочной травой старый чабан пасёт атару овец. Звидев приближение дракона, мудрый старик предпочитает по быстрому сделать ноги, а вот верная овчарка похоже готова охранять стадо до последнего вздоха.'
     $ game.foe = core.Enemy('dog', game_ref=game)
     $ chances = show_chances(game.foe)
     nvl clear
@@ -530,6 +530,8 @@ label lb_village:
         txt1 = village['overview'][village_size]
     show expression 'img/bg/special/village.png' as bg     
     '[txt1]'
+    $ game.foe = core.Enemy(village['deffence'][village_size], game_ref=game)    
+    $ chances = show_chances(game.foe)    
     nvl clear
     menu:
         'Наложить дань' if village_size > 0 and game.dragon.fear > village_size:
@@ -586,7 +588,6 @@ label lb_village:
 
         'Ограбить' if village_size > 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy(village['deffence'][village_size], game_ref=game)
             call lb_fight
             'Поселение успешно разграблено. Добыча:'
             python:

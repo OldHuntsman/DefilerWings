@@ -338,8 +338,6 @@ label lb_abbey:
     nvl clear
     $ txt = game.interpolate(random.choice(txt_place_abbey[1]))
     '[txt]'    
-    $ game.dragon.reputation.points += 10
-    '[game.dragon.reputation.gain_description]'     
     $ game.foe = core.Enemy('templars', game_ref=game)
     $ chances = show_chances(game.foe)
     '[chances]'
@@ -350,6 +348,8 @@ label lb_abbey:
             call lb_fight
             $ txt = game.interpolate(random.choice(txt_place_abbey[5]))
             '[txt]' 
+            $ game.dragon.reputation.points += 10
+            '[game.dragon.reputation.gain_description]'  
             nvl clear
             call lb_abbey_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
