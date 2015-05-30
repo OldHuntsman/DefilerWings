@@ -73,7 +73,7 @@ label lb_event_thief_checking_items(thief):
     # Debug message: thief(u"Проверяем предметы на работоспособность, чтобы попасть влогово")
     return
     
-label lb_event_thief_checking_items(thief, item):
+label lb_event_thief_checking_item(thief, item):
     # Checking items before trying to rob the dragon.
     # Debug message: thief(u"Использую %s" % thief.items[i].name)
     return
@@ -83,7 +83,7 @@ label lb_event_thief_checking_items_success(thief):
     # Debug message: thief(u"All items passed!")
     return
     
-label lb_event_thief_checking_items_success(thief, item):
+label lb_event_thief_checking_item_success(thief, item):
     # Item is good for use!
     # Debug message: thief(u"Item: %s is good!" % thief.items[i].name)
     return
