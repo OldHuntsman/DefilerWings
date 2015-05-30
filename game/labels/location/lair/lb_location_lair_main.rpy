@@ -6,11 +6,12 @@ label lb_location_lair_main:
     $ place = game.lair.type_name
     hide bg
     show place as bg
+    nvl clear
     
     menu:
         'Осмотреть дракона':
             # чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
-            game.dragon.third "[game.dragon.description]"
+            game.dragon.third "{font=fonts/AnticvarShadow.ttf}{size=+5} [game.dragon.fullname] {/size}{/font} \n\n[game.dragon.description]"
         'Сотворить заклинание' if game.dragon.bloodiness < 5 and game.dragon.mana > 0:
             if game.choose_spell(u"Вернуться в логово"):
                 python:

@@ -5,8 +5,7 @@ label lb_location_mordor_main:
     show place as bg
     python:
         if renpy.music.get_playing(channel='music') != "mus/dark.ogg":
-            renpy.music.play("mus/dark.ogg")
-            renpy.music.queue(get_random_files('mus/ambient'))
+            renpy.music.play("mus/dark.ogg")        
     nvl clear
     python:
         mistress = core.Sayer(game_ref=game)
@@ -53,7 +52,6 @@ label lb_mistress:
             renpy.movie_cutscene("mov/isida.ogv")
             persistent.isida_done = True
     nvl clear
-    show expression 'img/scene/mistress.png' as bg    
     menu:
         'Получить награду' if game.is_quest_complete:
             # Если делаем подарок - удаляем его из списка сокровищ
@@ -106,7 +104,7 @@ label lb_location_mordor_questtime:
     
 
 label lb_mistress_fuck:
-    mistress 'Я могу принять любой облик, приятный тебе. Выбирай, какой ты хочешь меня видеть?'
+    mistress 'Я могу принять любой облик, приятный тебе. Выбирай, каой ты хочешь меня видеть?'
     menu:
         'Облик прекрасной девы, мне милее всего':
             show expression sex_imgs("mistress") as xxx
@@ -679,10 +677,8 @@ label lb_orgy:
     show expression 'img/scene/girls.png' as bg
     pause (500.0)
     nvl clear
-    'Отродья дракона прочесали горящий город, похватав всех красивых и молодых женщин чтобы сорвать с них всю одежду и собрать в разгромленном тронном зале цитадели. Сотни обнаженных красавиц заполнили огромный зал до отказа так что дракону пришлось буквально плыть в море обнаженных тел чтобы добраться до середины.'
-    game.dragon 'Сегодня вы можете насладиться победой месте со мной, дети мои! Делайте с этими девками всё что пожелаете.' 
+    'Прелюдия к победной оргии'
     show expression 'img/scene/orgy.png' as bg
     pause (500.0)    
-    nvl clear
-    'Началось столпотворение. Озлобленные после отчаянного боя солдаты тьмы набросились на женщин словно безумные. Глядя на творящуюся вокруг оргию, дракон и сам не терял времени. Сдавленный обнаженными телами он не глядя вонзил в упругую женскую плоть одновременно и зубы и член, начав кровавый танец сочетающий в себе голод и ярость, алчность и похоть. Этот танец продлится до тех пор пока хотя бы одна женщина в зале сохранит способность визжать и дёргаться... '
+    'Победная оргия'
     jump lb_you_win

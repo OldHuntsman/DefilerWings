@@ -11,8 +11,6 @@ label lb_location_ruin_main:
         witch.avatar = "img/avahuman/witch.jpg"
         witch.name = "Ведьма"
 
-    witch "Приветствую тебя."
-    
     menu:
         'Посетить загадочную ведьму':
             show expression 'img/scene/witch.png' as bg

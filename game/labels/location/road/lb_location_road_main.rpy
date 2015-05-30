@@ -40,11 +40,12 @@ label lb_enc_tornament:
     'Шум вдалеке...'
     show expression 'img/bg/special/tornament.png' as bg
     '...это рыцарский турнир. Победитель готов возложить золотой венец на "королеву любви и красоты".'
+    $ game.foe = core.Enemy('champion', game_ref=game)
+    $ chances = show_chances(game.foe)
     nvl clear
     menu:
         'Вызвать победителя на бой':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('champion', game_ref=game)
             call lb_fight
             'Увидев что их чемпион повержен, гости турнира в панике разбегаются бросая вещи и вопя от ужаса. [game.dragon.name] не обращает на них внимания, он забирает свой приз - "королеву любви и красоты" и её золотой венец.'
             $ game.dragon.reputation.points += 5
