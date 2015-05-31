@@ -22,7 +22,7 @@ label lb_location_city_main:
             'Заметив приближение опасности бдительные стражники закрывают ворота. Прийдётся порываться с боем...'
             call lb_city_gates
         'Влететь внутрь' if game.dragon.can_fly:
-            'Легко перемахнув через городскую стену, [game.dragon.type] оказывается в самом центре города. От летучего врага укрепления не спасут...'
+            'Легко перемахнув через городскую стену, [game.dragon.kind] оказывается в самом центре города. От летучего врага укрепления не спасут...'
             call lb_city_raze
         'Уйти прочь':
             return
@@ -31,7 +31,7 @@ label lb_location_city_main:
 
 label lb_city_gates:
     $ game.dragon.drain_energy()
-    $ game.foe = core.Enemy('city', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('city', gameRef=game)
     call lb_city_raze
     return
 
@@ -81,7 +81,7 @@ label lb_city_walk:
 
 label lb_city_palace:
     'Гордая цитадель возвышается на холме в центре города. Здесь находится зимняя резиденция короля. Изнутри доносятся соблазнительные ароматы драгоценностей и благородных дев. На воротах стоят бдительные гвардейцы.'
-    $ game.foe = core.Enemy('palace_guards', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('palace_guards', gameRef=game)
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
@@ -94,7 +94,7 @@ label lb_city_palace:
 
 label lb_city_palace_atk:
     $ game.dragon.drain_energy()
-    $ game.foe = core.Enemy('palace_guards', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('palace_guards', gameRef=game)
     $ chances = show_chances(game.foe)
     call lb_fight
     'Пока остальные защитники цитадели находятся в замешательстве, у дракона появился отилинчый шанс для грабежа и разбоя.'
@@ -104,7 +104,7 @@ label lb_city_palace_atk:
         'Обесчестить благородную девицу':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('princess')
-            'Дракон ловит благородную девицу'
+            '[game.dragon.fullname] ловит благородную девицу'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             nvl clear
@@ -127,7 +127,7 @@ label lb_city_palace_atk:
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
         'Убежать':
-            'Решив не искушать судьбу и использовать поднявшуюся суматоху для безопасного отхода, [game.dragon.type] уходит прочь из города.'
+            'Решив не искушать судьбу и использовать поднявшуюся суматоху для безопасного отхода, [game.dragon.kind] уходит прочь из города.'
     return
 
 label lb_city_market:
@@ -149,13 +149,15 @@ label lb_city_market_atk:
     menu:
         'Устроить резню':
             $ game.dragon.drain_energy()
-            'Кровь, кишки, распидорасило...'
-            $ game.dragon.reputation.points += 5
+            play sound "sound/eat.ogg"
+            show expression 'img/scene/fire.png' as bg
+            'Зря эти обыватели думали, что за стенами столицы они в безопсности. [game.dragon.fullname] отрывается по полной, чтобы люди уж точно его не забыли. Кровь, кишки, распидорасило...'
+            $ game.dragon.reputation.points += 10
             '[game.dragon.reputation.gain_description]'
         'Схватить девицу':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('citizen')
-            'Дракон ловит девицу вышедшую за покупками.'
+            '[game.dragon.fullname] ловит девицу покрасивее да побогаче. Благородных дам на рынке конечно не найти, но вот дочери богатеев тут иногда появляются.'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
             nvl clear
@@ -197,7 +199,7 @@ label lb_city_cathedral_atk:
 
 label lb_city_jewler:
     'В этом богатом квартале работают самые искустные ремесленники - оружейники, ювелиры и краснодеревщики. Кругом стоит одуряющий запах сокровищ и благородных женщин вышедших за покупками. К сожалению стражи тут тоже много - стоят на каждом углу.'
-    $ game.foe = core.Enemy('city_guard', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('city_guard', gameRef=game)
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
@@ -219,7 +221,6 @@ label lb_city_jewler:
                     return
             python:
                 from pythoncode import treasures
-                from treasures import number_conjugation_rus
                 description = u"%s.\nПродать украшение за %s?" % (
                     game.lair.treasury.jewelry[item_index].description().capitalize(),
                     treasures.number_conjugation_rus(game.lair.treasury.jewelry[item_index].cost, u"фартинг"))
@@ -250,7 +251,7 @@ label lb_city_jewler:
 
 label lb_city_jew_atk:
     $ game.dragon.drain_energy()
-    $ game.foe = core.Enemy('city_guard', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('city_guard', gameRef=game)
     call lb_fight
     'В ближайшей округе не осталось ни одного живого стражника. Кругом царит паника, люди бегут прочь от дракона спасая самое ценное. [game.dragon.name] оглядывает сцену разрушения и хаоса. Толстый ювелир, тащит тяжелую деревянную шкатулку с драгоценностями. Благнородная девица с визгом убегает прочь. В подвале горящего дома, который вот вот обрушится лежат без присмотра драгоценные слитки и камни.'
     $ game.dragon.reputation.points += 3

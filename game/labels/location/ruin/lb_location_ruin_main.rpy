@@ -25,9 +25,11 @@ label lb_location_ruin_main:
     return
     
 label lb_witch_agree:
+    nvl clear
     witch 'Услуга за услугу. Я помогу тебе если ты поделишься со мной своей уникальной спермой. Она нужна мне для алхимических нужд. Не бойся, процесс приятный, тебе понравится. Только учти - я высосу из тебя всё до капли!'
     menu:
         'Дать себя подоить':
+            $ game.dragon.drain_energy()            
             stop music fadeout 1.0            
             show expression "img/scene/witch_sex.png" as xxx
             play sound "sound/milking.ogg"
@@ -44,11 +46,13 @@ label lb_witch_agree:
     return
 
 label lb_witch_refuse:
+    nvl clear    
     witch 'Я бы рада тебе помочь, но всё на свете требует оплаты. А ты уже потратил слишком много семени на деревенских потаскушек. Мне не нужны жалкие остатки. Возвращайся когда отдохнёшь.'
     
     return
 
 label lb_witch_reward:
+    nvl clear    
     witch 'Мммм... Какая густота, какие объёмы. На год-другой мне этого хватит. Удружил чешуйчатый. Проси чего хочешь!'
     menu:
         'Исцели меня' if game.dragon.health < 2:
