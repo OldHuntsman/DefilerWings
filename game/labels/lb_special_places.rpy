@@ -143,7 +143,7 @@ label lb_enchanted_forest_grove_rob:
             $ description = game.girls_list.new_girl('elf')
             nvl clear
             game.girl.third "[description]"
-            call lb_lair_sex     
+            call lb_nature_sex     
             call lb_dead_grove
                                         
         'Запомнить место и уйти':
@@ -223,7 +223,7 @@ label lb_manor_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_lair_sex     
+            call lb_nature_sex     
             call lb_manor_empty
                                         
         'Запомнить место и уйти':
@@ -303,7 +303,7 @@ label lb_wooden_fort_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_lair_sex     
+            call lb_nature_sex     
             call lb_wooden_fort_empty
                                         
         'Запомнить место и уйти':
@@ -383,7 +383,7 @@ label lb_abbey_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_lair_sex     
+            call lb_nature_sex     
             call lb_manor_empty
                                         
         'Запомнить место и уйти':
@@ -463,7 +463,7 @@ label lb_castle_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_lair_sex     
+            call lb_nature_sex     
             call lb_castle_empty
                                         
         'Запомнить место и уйти':
@@ -544,7 +544,7 @@ label lb_palace_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_lair_sex     
+            call lb_nature_sex     
             call lb_palace_empty
                                         
         'Запомнить место и уйти':
