@@ -46,9 +46,9 @@ label start:
         show black as low
         if game.dragon is None or game.dragon.is_dead:
             if not freeplay:
-                call lb_choose_dragon
+                call lb_choose_dragon from _call_lb_choose_dragon_4
             else:
-                call lb_dragon_creator
+                call lb_dragon_creator from _call_lb_dragon_creator
         $ renpy.block_rollback()
         $ target_label = renpy.call_screen("main_map")
         if renpy.has_label(target_label):

@@ -15,7 +15,7 @@ label lb_location_sea_main:
     if not game.dragon.can_swim: 
         '[game.dragon.name] пробует когтем солёную морскую влагу. Если бы только он умел дышать под водой...'
     else:
-        call lb_encounter_sea
+        call lb_encounter_sea from _call_lb_encounter_sea
     return
     
 label lb_encounter_sea:
@@ -62,7 +62,7 @@ label lb_enc_shark:
         'Сразиться с акулой':
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('griffin', game_ref=game)
-            call lb_fight
+            call lb_fight from _call_lb_fight_20
             if game.dragon.hunger > 0:
                 'Голодный [game.dragon.name] съедает разрывает поверженную акулу на куски и заглатывает самые крупные в то время как за куски помельче дерутся откуда ни возьмись маленькие акулы.'
                 python:
@@ -110,7 +110,7 @@ label lb_enc_yacht:
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex      
+            call lb_nature_sex from _call_lb_nature_sex_12      
         'Оставить яхту в покое' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()    
     return
@@ -130,7 +130,7 @@ label lb_enc_bark:
         'Потопить корабль' if game.dragon.bloodiness >= 5:
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('ship', game_ref=game)
-            call lb_fight
+            call lb_fight from _call_lb_fight_21
             'Пока накренившийся на борт корабль медленно идёт ко дну а оставшиеся в живых члены команды озабочены спасением своих жизней, [game.dragon.name] методично осматирвает трюм и каюту капитна, выгребая каждую монетку:'
             python:
                 count = random.randint(5, 15)
@@ -156,7 +156,7 @@ label lb_enc_galeon:
     menu:
         'Потопить галеон':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_22
             python:
                 count = random.randint(10, 25)
                 alignment = 'human'
@@ -190,7 +190,7 @@ label lb_enc_diver:
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex      
+            call lb_nature_sex from _call_lb_nature_sex_13      
         'Поискать другую добычу' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
@@ -207,7 +207,7 @@ label lb_enc_mermaid:
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_water_sex      
+            call lb_water_sex from _call_lb_water_sex      
         'Поискать другую добычу' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()    
     return
@@ -220,14 +220,14 @@ label lb_enc_merfolks:
     menu:
         'Напасть':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_23
             $ description = game.girls_list.new_girl('mermaid')
             'Дракон ловит русалку.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_water_sex      
+            call lb_water_sex from _call_lb_water_sex_1      
         'Не связываться' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()       
     return
@@ -244,7 +244,7 @@ label lb_enc_mermaids:
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_water_sex      
+            call lb_water_sex from _call_lb_water_sex_2      
         'Поискать другую добычу' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()       
     return
@@ -295,7 +295,7 @@ label lb_patrool_sea:
     '[dtxt]'
     $ game.foe = core.Enemy(patrool, game_ref=game)
     $ narrator(show_chances(game.foe))
-    call lb_fight
+    call lb_fight from _call_lb_fight_24
 
     return
     

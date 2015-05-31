@@ -46,14 +46,14 @@ label lb_enc_tornament:
     menu:
         'Вызвать победителя на бой':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_13
             'Увидев что их чемпион повержен, гости турнира в панике разбегаются бросая вещи и вопя от ужаса. [game.dragon.name] не обращает на них внимания, он забирает свой приз - "королеву любви и красоты" и её золотой венец.'
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex      
+            call lb_nature_sex from _call_lb_nature_sex_10      
         'Не ввязываться' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             'Осторожность не повредит. Если этот рыцарь действительно лучше в округе, он может быть опасен. А девицу и кусок золота можно найти где-нибудь ещё...'
@@ -123,14 +123,14 @@ label lb_enc_carriage:
     nvl clear
     menu:
         'Атаковать кортеж':
-            call lb_fight
+            call lb_fight from _call_lb_fight_14
             'Теперь когда охрана не представляет угрозы, можно заглянуть внутрь кареты. Разодрав её кузов словно шуршащую подарочную упаковку, [game.dragon.name] обнаруживает внутри трёх женщин - очевидно мать, дочь и служанку. Старухи не представляют никаого интереса, а вот с девицей можно отлично развлечься!'
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex      
+            call lb_nature_sex from _call_lb_nature_sex_11      
         
         'Пропустить' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()        
@@ -143,7 +143,7 @@ label lb_enc_questing_knight:
     menu:
         'Принять вызов':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_15
             $ game.dragon.reputation.points += 5
             'Рыцарь повержен. [game.dragon.reputation.gain_description]'
             '[game.dragon.name] находит на трупе кое-что ценное:'
@@ -202,7 +202,7 @@ label lb_enc_caravan:
             '[game.dragon.reputation.gain_description]'
         'Разграбить корован':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_16
             'Дав волю своему гневу, [game.dragon.name] переворачивает фургон, убивает лошадь и разрывает караванщика на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
             python:
                 count = random.randint(5, 15)
@@ -237,7 +237,7 @@ label lb_enc_lcaravan:
             '[game.dragon.reputation.gain_description]'
         'Разграбить корован':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_17
             'Перебив охрану и караванщиков, [game.dragon.name] отыскивает в разбитых телегах всё ценное. В основном тут разные не нужные уважающему себя дракону товары - ткани, специи, оливковое масло и тому подобное, но у купцов и наемников есть в кошельках звонкие монеты:'
             python:
                 count = random.randint(5, 15)
@@ -264,7 +264,7 @@ label lb_enc_outpost:
         'Напасть на заставу':
             $ game.dragon.drain_energy()
             $ chances = show_chances(game.foe)
-            call lb_fight
+            call lb_fight from _call_lb_fight_18
             'Большинство стражников мертво, остальные бежали в ужасе, однако здание заставы всё ещё стоит у дороги и восстановить её работу будет не так уж сложно. Зато внутри находится сундук с собранными за последнее время торговыми пошлинами. Внутри приятно звенят монеты:'
             python:
                 game.dragon.drain_energy()
@@ -303,6 +303,6 @@ label lb_patrool_road:
     '[dtxt]'
     $ game.foe = core.Enemy(patrool, game_ref=game)
     $ chances = show_chances(game.foe)
-    call lb_fight
+    call lb_fight from _call_lb_fight_19
     
     return

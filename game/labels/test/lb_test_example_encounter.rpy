@@ -2,9 +2,9 @@
 label lb_test_example_encounter:
     menu:
         "Простой пример взвешенного выбора с распределением 2:1:1":
-            call lb_test_example_encounter_static
+            call lb_test_example_encounter_static from _call_lb_test_example_encounter_static
         "Более сложный пример с динамическим формированием списка":
-            call lb_test_example_encounter_dynamic
+            call lb_test_example_encounter_dynamic from _call_lb_test_example_encounter_dynamic
     return
 
 

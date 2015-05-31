@@ -59,9 +59,9 @@ label lb_location_smuggler_main:
                     $ game.lair.treasury.money -= terror_cost
                     $ game.mobilization.level -= 1
                     'По приказанию дракона, разбойники будут поджигать продовольственные склады, отравлять колодцы и перехватывать армейские обозы. Мобилизационный потенциал королевства снижается.'
-                    call lb_location_smuggler_main
+                    call lb_location_smuggler_main from _call_lb_location_smuggler_main
                 'Это того не стоит':
-                    call lb_location_smuggler_main
+                    call lb_location_smuggler_main from _call_lb_location_smuggler_main_1
         'Уйти':
             $ pass
             

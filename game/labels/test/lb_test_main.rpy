@@ -28,11 +28,11 @@ label lb_test_main:
                     narrator(tmp)
                 return
             "Примеры":
-                call lb_test_examples
+                call lb_test_examples from _call_lb_test_examples
             "Отладка":
-                call lb_test_debug
+                call lb_test_debug from _call_lb_test_debug
             "Ачивки":
-                call lb_achievements_list
+                call lb_achievements_list from _call_lb_achievements_list
             "Сбросить ачивки":
                 python:
                     for a in persistent.achievements.keys():
@@ -46,13 +46,13 @@ label lb_test_examples:
     menu:
         "Примеры"
         "Цикл с возвратом":
-            call lb_test_example_returnLoop
+            call lb_test_example_returnLoop from _call_lb_test_example_returnLoop
         "Схватка":
-            call lb_test_example_fight
+            call lb_test_example_fight from _call_lb_test_example_fight
         "Случайный энкаунтер":
-            call lb_test_example_encounter
+            call lb_test_example_encounter from _call_lb_test_example_encounter
         "Меню с недоступными вариантами":
-            call lb_test_example_inaccessible_menu
+            call lb_test_example_inaccessible_menu from _call_lb_test_example_inaccessible_menu
         "Прямая и косвенная речь":
             game.dragon "Прямая речь"
             game.dragon.third "Косвенная речь"
@@ -105,11 +105,11 @@ label lb_test_debug:
                             head_menu.append((data.heads_name_rus[head_type], head_type))
                         game.dragon.heads[0] = renpy.display_menu(head_menu)
                 "Создать потомство":
-                    call lb_choose_dragon
+                    call lb_choose_dragon from _call_lb_choose_dragon_3
         "Логово":
             menu:
                 "Создать логово":
-                    call lb_test_debug_create_lair
+                    call lb_test_debug_create_lair from _call_lb_test_debug_create_lair
                 "Описать логово":
                     nvl clear
                     python hide:
@@ -128,7 +128,7 @@ label lb_test_debug:
                         game.lair.add_upgrade(upg)
 
                 "Работа с сокровищницей":
-                    call lb_test_debug_treasury
+                    call lb_test_debug_treasury from _call_lb_test_debug_treasury
                 "Добавить девушку":
                     python hide:
                         from pythoncode import treasures
