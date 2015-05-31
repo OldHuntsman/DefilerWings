@@ -7,7 +7,7 @@ label lb_nature_sex:
         show place as bg
     nvl clear
     menu:
-        'Надругаться':
+        'Надругаться' if game.girls_list.is_mating_possible:
             # Alex: Added sex images:
             $ description = game.girls_list.impregnate()
             stop music fadeout 1.0            

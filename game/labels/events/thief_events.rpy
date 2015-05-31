@@ -48,7 +48,7 @@ label lb_event_thief_prepare_useless(thief):
 
 label lb_event_thief_lair_enter(thief):
     nvl clear
-    show expression "img/scene/quest_thief.png" as bg
+    show expression "img/scene/thief_in_lair.png" as bg
     thief "Ну вот и оно - логово дракона. Я войду словно тень и выскользну обратно с мешком сокровищ тяжким как мои грехи..."
     return
 
@@ -63,17 +63,20 @@ label lb_event_thief_die_inaccessability(thief):
 
 label lb_event_thief_die_trap(thief, trap):
     nvl clear    
+    show expression "img/scene/thief_in_lair.png" as bg    
     $ txt = game.interpolate(random.choice(txt_thief_fail[trap.id]))
     '[txt]' 
     return
 
 label lb_event_thief_pass_trap(thief, trap):
+    show expression "img/scene/thief_in_lair.png" as bg    
     $ txt = game.interpolate(random.choice(txt_thief_success[trap.id]))
     '[txt]' 
     return
 
 label lb_event_thief_receive_no_item(thief):
     nvl clear    
+    show expression "img/scene/thief_in_lair.png" as bg    
     "Вор ничего не получил"
     return
     
