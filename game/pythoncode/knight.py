@@ -240,7 +240,7 @@ class Knight(Fighter):
         if renpy.config.debug:
             self._gameRef.narrator(u"Рыцарь вызывает дракона на бой")
         if self.event("challenge_start"):
-            fight_result = self.knight.fight_dragon()
+            fight_result = self.fight_dragon()
             if renpy.config.debug:
                 self._gameRef.narrator(u"После схватки рыцаря")
             self.event("challenge_end", result=fight_result)
