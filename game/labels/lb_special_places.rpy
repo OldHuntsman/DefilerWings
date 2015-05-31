@@ -709,7 +709,7 @@ label lb_ifrit_rob:
             return
  
 label lb_ifrit_empty:
-    show expression 'img/bg/lair/icecastle.png' as bg
+    show expression 'img/bg/lair/volcanoforge.png' as bg
     $ txt = game.interpolate(random.choice(txt_place_ifrit[2]))
     '[txt]'
     menu:

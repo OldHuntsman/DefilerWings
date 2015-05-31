@@ -65,7 +65,7 @@ label lb_gigant_sex:
             pause (500.0)
             stop sound fadeout 1.0            
             hide xxx
-        'Магический рост' if not game.girls_list.is_mating_possible and game.dragon.mana > 0:
+        'Магический рост' if not game.girls_list.is_mating_possible and game.dragon.mana > 0 and game.dragon.lust > 0:
             $ game.dragon.drain_mana()
             game.dragon 'Заклятье временного роста!'
             $ description = game.girls_list.impregnate()
