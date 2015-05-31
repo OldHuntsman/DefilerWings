@@ -25,7 +25,6 @@ class Knight(Fighter):
         self._alive = True
         self.name = u"Сер Ланселот Озёрный"
         self.name = u"Сэр %s %s" % (random.choice(data.knight_first_names), random.choice(data.knight_last_names))
-        self.lelel = level
         self.power = level
         self.abilities = data.Container("knight_abilities")
         ability_list = [a for a in data.knight_abilities]  # Составляем список из возможных способностей
