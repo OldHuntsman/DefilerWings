@@ -1522,7 +1522,7 @@ spell_list_rus = {
     # прочие
     'wings_of_wind': u"Крылья ветра",
     'aura_of_horror': u"Аура кошмаров",
-    'unbreakable_scale': u"Иллюзорная голова",
+    'unbreakable_scale': u"Отрастить фантомную голову",
     'spellbound_trap': u"Волшебные ловушки в логово"
 }
 

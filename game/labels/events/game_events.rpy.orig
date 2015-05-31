@@ -3,6 +3,10 @@ label lb_event_mobilization_increase:
     show expression core.get_img("img/scene/mobilization") as bg
     nvl clear
     "Правители вольных народов обеспокоены бесчинством дракона. Они мобилизуют войска и усиливают охрану в своих владениях."
+<<<<<<< HEAD
+=======
+    "Мобилизация выросла"
+>>>>>>> 5f6ecf076a260c3e6b59641840b83800ec530c47
     return
 
 label lb_event_poverty_increase:

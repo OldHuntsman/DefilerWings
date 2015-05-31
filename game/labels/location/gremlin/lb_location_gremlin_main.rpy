@@ -10,9 +10,9 @@ label lb_location_gremlin_main:
     # Стоимость года работы гремлинов-слуг
     $ servant_cost = data.lair_upgrades['gremlin_servant']['cost']
     # Стоимость установки механических ловушек
-    $ mechanic_traps_cost = 100
+    $ mechanic_traps_cost = 500
     # Стоимость строительства укреплений
-    $ fortification_cost = 100
+    $ fortification_cost = 1000
     nvl clear
         
     menu:

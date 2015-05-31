@@ -21,7 +21,9 @@ label lb_enchanted_forest:
     'Даже зная путь в зачарованный лес, пройти через завесу магии альвов не просто. Нужно применить могучие чары.'
     menu:
         'Открыть путь колдовством' if game.dragon.mana > 0:
-            '[game.dragon.fullname] применяет чёрную магию чтобы разорвать завесу иллюзий, морока и сна которыми скрыты владения альвов. Незамеченный и смертоносный входит под сень [game.dragon.type] чародейсикх древ.'
+            $ game.dragon.drain_mana()
+            '[game.dragon.fullname] применяет чёрную магию чтобы разорвать завесу иллюзий, морока и сна которыми скрыты владения альвов. Незамеченный и смертоносный [game.dragon.kind] входит под сень чародейсикх древ.'
+            nvl clear
             call lb_enchanted_forest_enter
         'Уйти прочь':
             return
@@ -48,7 +50,7 @@ label lb_enchanted_forest_enter:
 
 label lb_enchanted_forest_elfgirl:
     '[game.dragon.name] слышит непередаваемый аромат сотканный из ноток невинности, красоты и колдовских чар. Это лесная ведьма, альва из народа богини Дану. Нет плоти более сладкой и желанной, но взять её будет непросто ведь на её стороне колдовство.'
-    $ game.foe = core.Enemy('elf_witch', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('elf_witch', gameRef=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -69,7 +71,7 @@ label lb_enchanted_forest_elfgirl:
 
 label lb_enchanted_forest_druid:
     '[game.dragon.name] не долго остаётся незамеченным. На пути дракона, словно материализовавшись из листьев возникает вооруженный корявым посохом друид. Он не выглядит особенно внушительным, однако это впечатление обманичво. На стороне жрец Дану сама сила леса.'
-    $ game.foe = core.Enemy('druid', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('druid', gameRef=game)
     $ narrator(show_chances(game.foe))
     menu:
         'Вступить в бой':
