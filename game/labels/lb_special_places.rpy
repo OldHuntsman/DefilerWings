@@ -304,7 +304,7 @@ label lb_wooden_fort_rob:
             nvl clear
             game.girl.third "[description]"
             call lb_lair_sex     
-            call lb_manor_empty
+            call lb_wooden_fort_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('wooden_fort', 'wooden_fort_empty')
@@ -401,7 +401,7 @@ label lb_abbey_empty:
             $ game.create_lair('castle')
             $ game.dragon.del_special_place('abbey')
         
-        'Покинуть заброшенную усадьбу':
+        'Покинуть осквернённый монастырь':
             $ game.dragon.add_special_place('abbey', 'abbey_empty')
             
     return
@@ -481,7 +481,7 @@ label lb_castle_empty:
             $ game.create_lair('castle')
             $ game.dragon.del_special_place('castle')
         
-        'Покинуть заброшенную усадьбу':
+        'Покинуть пустой замок':
             $ game.dragon.add_special_place('castle', 'castle_empty')
             
     return
@@ -562,7 +562,7 @@ label lb_palace_empty:
             $ game.create_lair('castle')
             $ game.dragon.del_special_place('palace')
         
-        'Покинуть заброшенную усадьбу':
+        'Покинуть разграбленный замок':
             $ game.dragon.add_special_place('palace', 'palace_empty')
             
     return

@@ -22,8 +22,8 @@ label lb_event_thief_lair_unreachable(thief):
     return
 
 label lb_event_thief_prepare(thief):
-    nvl clear    
-    thief "Если я хочу уйти из дракньей берлоги живым и богатым, мне лучше как следует подготовиться к Делу."
+    # nvl clear    
+    # thief "Если я хочу уйти из дракньей берлоги живым и богатым, мне лучше как следует подготовиться к Делу."
     return
 
 label lb_event_thief_prepare_usefull(thief):
@@ -130,7 +130,7 @@ label lb_event_thief_took_an_item(thief, item):
     # Debug message: thief(u"Взял шмотку %s" % stolen_items[i])
     "[game.thief.name] аккуратно вытягивает из под брюха спящего дракона понравившийся предмет:"
     $ itemd = stolen_items[i]
-    "[itemd]"
+    "[item]"
     return
     
 label lb_event_thief_lair_empty(thief):
