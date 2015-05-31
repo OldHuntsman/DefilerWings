@@ -37,11 +37,6 @@ class Knight(Fighter):
         self.equip(deepcopy(data.knight_items.basic_shield))
         self.equip(deepcopy(data.knight_items.basic_horse))
         self.equip(deepcopy(data.knight_items.basic_follower))
-        # Имплементация способности "Первенец"
-        if 'firstborn' in self.abilities:
-            # Добавляем две шмотки
-            self.enchant_equip()
-            self.enchant_equip()
         self.bg = "img/scene/fight/knight/" + random.choice(
             os.listdir(os.path.join(renpy.config.basedir, "game/img/scene/fight/knight")))  # получаем название файла
         self.kind = 'knight'
