@@ -2343,8 +2343,10 @@ class Achievement(object):
     def fail(self):
         self.failed = True
     def restart(self):
-        for num in xrange(len(self.targets_completed)):
-            self.targets.append(self.targets_completed.pop(num-1))
+        if not self.unlocked and self.targets_completed:
+            for i in self.targets_completed:
+                self.targets_completed.remove(i)
+                self.targets.append(i)
 achievements_list = [Achievement(name = u"Великий змей",
                                  description = u"Достиг победы в сюжетном режиме",
                                  goal = "win",
