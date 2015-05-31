@@ -1012,6 +1012,8 @@ knight_events = {
     "challenge_start": "lb_event_knight_challenge_start",   # Должен возвращать True или False
                                                             # True - бой с рыцарем начинается
                                                             # False - нет
+    "challenge_end": "lb_event_knight_challenge_end",       # В ивент передается параметр result, содержащий
+                                                            # теги исхода битвы дракона с рыцарем
 }
 
 #
@@ -2186,6 +2188,11 @@ human_special_places = [
 game_events = {
     "mobilization_increased": "lb_event_mobilization_increase",
     "poverty_increased": "lb_event_poverty_increase",
+    "no_thief": "lb_event_no_thief",    # Не было активного вора и новый не нашелся
+    "no_knight": "lb_event_no_knight",  # Не было активного рыцаря и новый не нашелся
+    "sleep_start": "lb_event_sleep_start",
+    "sleep_new_year": "lb_event_sleep_new_year",
+    "sleep_end": "lb_event_sleep_end",
 }
 
 dark_army = {

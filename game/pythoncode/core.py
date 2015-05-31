@@ -18,7 +18,6 @@ def tuples_sum(tuple_list):
 
 
 class Game(store.object):
-    _sleep_lvl = 0
     _win = False
     _defeat = False
     _dragons_used = 0  # Количество использованных за игру драконов
@@ -104,6 +103,7 @@ class Game(store.object):
         Попытки бегства женщин.
         Что-то ещё?
         """
+        call(data.game_events["sleep_new_year"])
         self.year += 1
         self.dragon.age += 1
         # Платим за службу, проверяется в начале года
@@ -151,6 +151,7 @@ class Game(store.object):
             if self.thief is None:
                 if renpy.config.debug:
                     self.narrator(u"Вор не появился.")
+                call(data.game_events["no_thief"])
             else:
                 if renpy.config.debug:
                     self.narrator(u"Вор появился.")
@@ -183,6 +184,7 @@ class Game(store.object):
             if self.knight is None:
                 if renpy.config.debug:
                     self.narrator(u"Рыцарь не появился.")
+                call(data.game_events["no_knight"])
             else:
                 if renpy.config.debug:
                     self.narrator(u"Рыцарь появился.")
@@ -192,15 +194,7 @@ class Game(store.object):
             if random.choice(range(7)) in range(
                     1 + len([i for i in self.knight.items if not self.knight.items[i].basic])):
                 # Идем на дело
-                if renpy.config.debug:
-                    self.narrator(u"Рыцарь вызывает дракона на бой")
-                if self.knight.event("challenge_start"):
-                    fight_result = self.knight.fight_dragon()
-                    if renpy.config.debug:
-                        self.narrator(u"После схватки рыцаря")
-                    if fight_result in ["defeat", "retreat"]:
-                        return fight_result
-                        # renpy.call("lb_fight", foe=self.knight)
+                self.knight.go_challenge()
             else:
                 if renpy.config.debug:
                     self.narrator(u"Рыцарю ссыкотно, надо бы подготовиться.")
@@ -214,22 +208,27 @@ class Game(store.object):
                     if renpy.config.debug:
                         self.narrator(u"Но вместо этого рыцарь весь год бухает.")
                     self.knight.event("prepare_useless")
+        return
 
     def sleep(self):
         """
         Рассчитывается количество лет которое дракон проспит.
         Сброс характеристик дракона.
         """
-        self._sleep_lvl += 1
+        call(data.game_events["sleep_start"])
         time_to_sleep = self.dragon.injuries + 1
         # Сбрасываем характеристики дракона
         self.dragon.rest()
         # Действия с девушками до начала сна
         self.girls_list.before_sleep()
         # Спим
-        for i in xrange(time_to_sleep):
-            if self.next_year() in ["defeat", "retreat"]:
-                break
+        i = 0
+        while self.dragon.is_alive and i < time_to_sleep:
+            i += 1
+            self.next_year()
+            # По идее тут мы должны завершить сон
+            # if self.dragon.is_dead:
+            #    return
         # Обнуляем накопленные за бодрствование очки мобилизации
         self.dragon.reputation.reset_gain()
         # Действия с девушками после конца сна    
@@ -237,7 +236,7 @@ class Game(store.object):
         # Проверка срока выполнения квеста
         if (self.quest_time <= 0) and not store.freeplay:
             call('lb_location_mordor_questtime')
-        self._sleep_lvl -= 1
+        call(data.game_events["sleep_end"])
 
     def _create_thief(self, thief_level=None):
         """
@@ -258,7 +257,7 @@ class Game(store.object):
 
     def _create_knight(self, knight_level=None):
         """
-        Проверка на появление рыцаря.
+        Создание рыцаря.
         """
         from knight import Knight
 
