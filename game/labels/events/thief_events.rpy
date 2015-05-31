@@ -64,13 +64,13 @@ label lb_event_thief_die_inaccessability(thief):
 label lb_event_thief_die_trap(thief, trap):
     nvl clear    
     show expression "img/scene/thief_in_lair.png" as bg    
-    $ txt = game.interpolate(random.choice(txt_thief_fail[trap.id]))
+    $ txt = game.interpolate(random.choice(txt_thief_fail[trap]))
     '[txt]' 
     return
 
 label lb_event_thief_pass_trap(thief, trap):
     show expression "img/scene/thief_in_lair.png" as bg    
-    $ txt = game.interpolate(random.choice(txt_thief_success[trap.id]))
+    $ txt = game.interpolate(random.choice(txt_thief_success[trap]))
     '[txt]' 
     return
 

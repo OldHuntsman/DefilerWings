@@ -6,6 +6,7 @@ label lb_location_city_main:
     $ place = "city_gates"
     hide bg
     show place as bg
+    nvl clear
     
     if game.dragon.energy() == 0:
         'Даже драконам надо иногда спать. Особенно драконам!'
@@ -31,7 +32,7 @@ label lb_location_city_main:
 
 label lb_city_gates:
     $ game.dragon.drain_energy()
-    $ game.foe = core.Enemy('city', gameRef=game)
+    $ game.foe = core.Enemy('city')
     call lb_city_raze
     return
 
@@ -81,7 +82,7 @@ label lb_city_walk:
 
 label lb_city_palace:
     'Гордая цитадель возвышается на холме в центре города. Здесь находится зимняя резиденция короля. Изнутри доносятся соблазнительные ароматы драгоценностей и благородных дев. На воротах стоят бдительные гвардейцы.'
-    $ game.foe = core.Enemy('palace_guards', gameRef=game)
+    $ game.foe = core.Enemy('palace_guards')
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
@@ -94,7 +95,7 @@ label lb_city_palace:
 
 label lb_city_palace_atk:
     $ game.dragon.drain_energy()
-    $ game.foe = core.Enemy('palace_guards', gameRef=game)
+    $ game.foe = core.Enemy('palace_guards')
     $ chances = show_chances(game.foe)
     call lb_fight
     'Пока остальные защитники цитадели находятся в замешательстве, у дракона появился отилинчый шанс для грабежа и разбоя.'
@@ -199,7 +200,7 @@ label lb_city_cathedral_atk:
 
 label lb_city_jewler:
     'В этом богатом квартале работают самые искустные ремесленники - оружейники, ювелиры и краснодеревщики. Кругом стоит одуряющий запах сокровищ и благородных женщин вышедших за покупками. К сожалению стражи тут тоже много - стоят на каждом углу.'
-    $ game.foe = core.Enemy('city_guard', gameRef=game)
+    $ game.foe = core.Enemy('city_guard')
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
@@ -251,7 +252,7 @@ label lb_city_jewler:
 
 label lb_city_jew_atk:
     $ game.dragon.drain_energy()
-    $ game.foe = core.Enemy('city_guard', gameRef=game)
+    $ game.foe = core.Enemy('city_guard')
     call lb_fight
     'В ближайшей округе не осталось ни одного живого стражника. Кругом царит паника, люди бегут прочь от дракона спасая самое ценное. [game.dragon.name] оглядывает сцену разрушения и хаоса. Толстый ювелир, тащит тяжелую деревянную шкатулку с драгоценностями. Благнородная девица с визгом убегает прочь. В подвале горящего дома, который вот вот обрушится лежат без присмотра драгоценные слитки и камни.'
     $ game.dragon.reputation.points += 3

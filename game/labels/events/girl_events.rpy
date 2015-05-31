@@ -20,7 +20,7 @@ label lb_event_girl_spawn(spawn_type):
                 spawn_description = game.girls_list.description('spawn_elite')
             else:
                 spawn_description = game.girls_list.description('spawn_common')
-    "[spawn_description]"
+    game.girl.third "[spawn_description]"
     return
 
 label lb_event_girl_free_spawn(spawn_type):
@@ -29,7 +29,7 @@ label lb_event_girl_free_spawn(spawn_type):
     show expression spawn_image as bg
     nvl clear
     $ free_spawn_description = game.girls_list.description('free_spawn')  # описание родов на воле
-    "[free_spawn_description]"
+    game.girl.third "[free_spawn_description]"
     return
 
 label lb_event_girl_hunger_death:
