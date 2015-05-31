@@ -45,7 +45,7 @@ def battle_action(dragon, foe):
     foe_defence = calc_hit_def(foe.protection())
     if dragon_hit > foe_defence:
         from data import achieve_target
-        achieve_target(foe.name, "kill")# событие для ачивок
+        achieve_target(foe.name, "kill")    # событие для ачивок
         foe.die()
         status.append('foe_dead')
     else:
@@ -177,6 +177,7 @@ def check_fear(dragon, foe):
         (r, p) = protect[key]
         total += r + p
     if fear > total:
+        foe.die()
         return ['foe_fear', 'foe_dead']
     else:
         return ['foe_intro', 'foe_alive']

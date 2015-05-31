@@ -25,7 +25,6 @@ class Knight(Fighter):
         self._alive = True
         self.name = u"Сер Ланселот Озёрный"
         self.name = u"Сэр %s %s" % (random.choice(data.knight_first_names), random.choice(data.knight_last_names))
-        self.lelel = level
         self.power = level
         self.abilities = data.Container("knight_abilities")
         ability_list = [a for a in data.knight_abilities]  # Составляем список из возможных способностей
@@ -38,11 +37,6 @@ class Knight(Fighter):
         self.equip(deepcopy(data.knight_items.basic_shield))
         self.equip(deepcopy(data.knight_items.basic_horse))
         self.equip(deepcopy(data.knight_items.basic_follower))
-        # Имплементация способности "Первенец"
-        if 'firstborn' in self.abilities:
-            # Добавляем две шмотки
-            self.enchant_equip()
-            self.enchant_equip()
         self.bg = "img/scene/fight/knight/" + random.choice(
             os.listdir(os.path.join(renpy.config.basedir, "game/img/scene/fight/knight")))  # получаем название файла
         self.kind = 'knight'

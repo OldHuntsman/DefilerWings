@@ -245,15 +245,14 @@ class Game(store.object):
         """
         from thief import Thief
 
-        # Если уровень вора не указан, то он может и не появится.
-        if thief_level is None:
+        # Если уровень вора не указан, то идет стандартная проверка на появление.
+        if thief_level is None and random.choice(range(1, 5 + (self.dragon.reputation.level + 1), 1)) in \
+                    range(self.dragon.reputation.level + 1):
             thief_level = Thief.start_level(self.dragon.reputation.level)
-            if self.dragon.reputation.level in range(1, 5 + self.dragon.reputation.level, 1) and thief_level > 0:
-                self.thief = Thief(level=thief_level, treasury=self.lair.treasury, game_ref=self)
-            else:
-                self.thief = None
-        else:  # Уровень вора указан, герерируем вора.
+        if thief_level > 0:
             self.thief = Thief(level=thief_level, treasury=self.lair.treasury, game_ref=self)
+        else:
+            self.thief = None
 
     def _create_knight(self, knight_level=None):
         """
@@ -261,7 +260,9 @@ class Game(store.object):
         """
         from knight import Knight
 
-        if knight_level is None:
+        # Если уровень рыцаря не указан, то идет стандартная проверка на появление.
+        if knight_level is None and random.choice(range(1, 5 + (self.dragon.reputation.level + 1), 1)) in \
+                    range(self.dragon.reputation.level + 1):
             knight_level = Knight.start_level(self.dragon.reputation.level)
         if knight_level > 0:
             self.knight = Knight(level=knight_level, game_ref=self)

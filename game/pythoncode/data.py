@@ -729,12 +729,6 @@ knight_abilities = Container(
                            u"+1 к атаке и защите за любую другую не великаншу томящуюся в логове дракона",
             "modifiers": []
         },
-        "firstborn": {
-            # Implemented at Knight.__init__
-            "name": u"Первенец",
-            "description": u"Получает 2 шмотки сразу со старта",
-            "modifiers": []
-        },
         "fiery": {
             "name": u"Вспыльчивый",
             "description": u"+2 к атаке",
