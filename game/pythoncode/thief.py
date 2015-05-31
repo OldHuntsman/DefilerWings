@@ -145,7 +145,6 @@ class Thief(Sayer, Mortal):
                 thief(u"I can get into the Layer!")
             self.event("checking_accessability_success")
             
-            
             # Проверка ловушек и стражей
             if renpy.config.debug:
                 thief(u"Пробую обойти ловушки и стражей")
@@ -212,6 +211,8 @@ class Thief(Sayer, Mortal):
                             self.event("awakened_the_dragon", stolen_items=stolen_items)
                             thief.die("wake_up")
                             return
+                    # Закончили грабить. Уходим на пенсию.
+                        self.retire()
                 else:
                     if renpy.config.debug:
                         thief(u"В сокровищнице нечего брать. Сваливаю.")
@@ -239,6 +240,11 @@ class Thief(Sayer, Mortal):
         if renpy.config.debug:
             self(u"Я погиб!")
         self._alive = False
+
+    def retire(self):
+        # Делаем вид что умерли и концы в воду.
+        self._alive = False
+        return
 
     @staticmethod
     def start_level(reputation=0):
