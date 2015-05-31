@@ -740,7 +740,7 @@ image_description_rus = {
         'nominative': u'ангел с огненным мечом',
         'accusative': u'ангела с огненным мечом',
     },
-    'Angel_winning_serpent': {
+    'angel_winning_serpent': {
         'gender': 'he',
         'nominative': u'ангел, побеждающий змия',
         'accusative': u'ангела, побеждающего змия',
@@ -1900,7 +1900,9 @@ class Treasury(store.object):
                 description_list.append(capitalize_first(Material(*treas.split(';')).description()) + '.')
             # Выводим остальное
         for treas in treas_list:
-            description_list.append(capitalize_first(treas.description()) + '.')
+            # TODO: найти откуда в списке сокровищ при воровстве может быть None
+            if treas:
+                description_list.append(capitalize_first(treas.description()) + '.')
         return description_list
 
     def take_ingot(self, ingot_type, weight=1):
