@@ -169,7 +169,7 @@ label lb_test_debug:
                         for i in data.knight_titles:
                             lvls.append((i, data.knight_titles.index(i) + 1))
                         knight_lvl = menu(lvls)
-                        game._create_knight(knight_level=1)
+                        game._create_knight(knight_level=knight_lvl)
                 "Описать рыцаря" if game.knight is not None:
                     $ narrator(game.knight.description())
                 "Редактировать умения" if game.knight is not None:

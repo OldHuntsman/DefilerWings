@@ -47,5 +47,4 @@ label lb_fight(foe=game.foe):
                     return "retreat"
     hide foeimg
     nvl clear
-    $ foe.die()
     return "win"
