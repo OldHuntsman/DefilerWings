@@ -603,7 +603,6 @@ label lb_village:
             $ game.lair.treasury.receive_treasures(trs)
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-            'Очков репутации: [game.dragon.reputation.points]'
         
         'Разорить' if village_size > 0:
             $ game.dragon.drain_energy()

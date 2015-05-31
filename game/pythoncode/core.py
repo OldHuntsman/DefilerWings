@@ -585,7 +585,8 @@ class Lair(object):
         """
         self.upgrades.add(upgrade, deepcopy(data.lair_upgrades[upgrade]))
         # замена улучшений, если это необходимо
-        if 'replaces' in self.upgrades[upgrade].keys():
+        if 'replaces' in self.upgrades[upgrade].keys() and \
+            self.upgrades[upgrade]['replaces'] in self.upgrades:
             del self.upgrades[self.upgrades[upgrade]['replaces']]
 
 
@@ -1072,7 +1073,7 @@ class Dragon(Fighter):
                 else:
                     return u"линдвурм"
             else:
-                return u"%s гидрус" % data.head_count[heads]
+                return u"гидрус"
         else:
             if paws == 0 and heads == 1:
                 return u"летучий гад"

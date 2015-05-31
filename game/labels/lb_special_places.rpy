@@ -50,7 +50,7 @@ label lb_enchanted_forest_enter:
 
 label lb_enchanted_forest_elfgirl:
     '[game.dragon.name] слышит непередаваемый аромат сотканный из ноток невинности, красоты и колдовских чар. Это лесная ведьма, альва из народа богини Дану. Нет плоти более сладкой и желанной, но взять её будет непросто ведь на её стороне колдовство.'
-    $ game.foe = core.Enemy('elf_witch', gameRef=game)
+    $ game.foe = core.Enemy('elf_witch', game_ref=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -71,7 +71,7 @@ label lb_enchanted_forest_elfgirl:
 
 label lb_enchanted_forest_druid:
     '[game.dragon.name] не долго остаётся незамеченным. На пути дракона, словно материализовавшись из листьев возникает вооруженный корявым посохом друид. Он не выглядит особенно внушительным, однако это впечатление обманичво. На стороне жрец Дану сама сила леса.'
-    $ game.foe = core.Enemy('druid', gameRef=game)
+    $ game.foe = core.Enemy('druid', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
         'Вступить в бой':
@@ -709,7 +709,7 @@ label lb_ifrit_rob:
             return
  
 label lb_ifrit_empty:
-    show expression 'img/bg/lair/icecastle.png' as bg
+    show expression 'img/bg/lair/volcanoforge.png' as bg
     $ txt = game.interpolate(random.choice(txt_place_ifrit[2]))
     '[txt]'
     menu:

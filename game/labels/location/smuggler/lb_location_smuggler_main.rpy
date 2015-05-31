@@ -31,7 +31,7 @@ label lb_location_smuggler_main:
                 'Самую дешёвую' if len(game.lair.treasury.jewelry) > 0:
                     $ item_index = game.lair.treasury.cheapest_jewelry_index
                 'Случайную' if len(game.lair.treasury.jewelry) > 0:
-                    $ item_index = random.randint(0, len(game.lair.treasury.jewelry))
+                    $ item_index = random.randint(0, len(game.lair.treasury.jewelry) - 1)
                 'Отмена':
                     return
             python:

@@ -151,7 +151,7 @@ label lb_enc_questing_knight:
                 count = random.randint(1, 5)
                 alignment = 'knight'
                 min_cost = 10
-                max_cost = 100
+                max_cost = 250
                 obtained = "Это предмет принадлежал когда-то беззвестному странствующему рыцарю."
                 trs = treasures.gen_treas(count, data.loot['knight'], alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)

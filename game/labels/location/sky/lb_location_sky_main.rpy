@@ -82,7 +82,7 @@ label lb_enc_skyboat:
     'Над облаками вздымается парус! Это один из воздушных кораблей цвергов, судя по всему торговый. А значит там может быть добыча..'
     python:
         game.dragon.drain_energy()
-        game.foe = core.Enemy('airship', gameRef=game)
+        game.foe = core.Enemy('airship', game_ref=game)
         narrator(show_chances(game.foe))
     menu:
         'Напасть':

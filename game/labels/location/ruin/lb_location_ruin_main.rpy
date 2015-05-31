@@ -10,7 +10,11 @@ label lb_location_ruin_main:
         witch = core.Sayer(game_ref=game)
         witch.avatar = "img/avahuman/witch.jpg"
         witch.name = "Ведьма"
-
+    
+    if game.dragon.energy() == 0:
+        'Даже драконам надо иногда спать. Особенно драконам!'
+        return
+        
     menu:
         'Посетить ведьму':
             show expression 'img/scene/witch.png' as bg

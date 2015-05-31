@@ -15,6 +15,7 @@ label lb_nature_sex:
             show expression sex_imgs("girl") as xxx
             play sound get_random_file("sound/sex")
             pause (500.0)
+            stop sound fadeout 1.0
             hide xxx
         'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
@@ -62,8 +63,9 @@ label lb_gigant_sex:
             show expression sex_imgs("girl") as xxx
             play sound get_random_file("sound/sex")
             pause (500.0)
+            stop sound fadeout 1.0            
             hide xxx
-        'Магический рост' if not game.girls_list.is_mating_possible and game.dragon.mana > 0:
+        'Магический рост' if not game.girls_list.is_mating_possible and game.dragon.mana > 0 and game.dragon.lust > 0:
             $ game.dragon.drain_mana()
             game.dragon 'Заклятье временного роста!'
             $ description = game.girls_list.impregnate()
@@ -71,6 +73,7 @@ label lb_gigant_sex:
             show expression sex_imgs("girl") as xxx
             play sound 'sound//sex/01.ogg'
             pause (500.0)
+            stop sound fadeout 1.0
             hide xxx
         'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
