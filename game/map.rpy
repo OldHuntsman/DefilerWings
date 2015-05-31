@@ -191,7 +191,7 @@ screen to_lair_button:
     fixed:
         xalign 1.0
         xmaximum 320
-        textbutton "{font=fonts/Tchekhonin2.ttf}В{/font} {font=fonts/times.ttf}пещеру{/font}":
+        textbutton "{font=fonts/Tchekhonin2.ttf}Л{/font}{font=fonts/times.ttf}огово{/font}":
             pos(72, 649)
             xysize(174, 36)
             text_xalign 0.5

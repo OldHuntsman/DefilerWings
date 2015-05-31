@@ -2,7 +2,6 @@
 # локация взаимодействий
 
 label lb_nature_sex:
-    stop music
     if game.girl.jailed:
         $ place = 'prison'
         show place as bg
@@ -11,6 +10,7 @@ label lb_nature_sex:
         'Надругаться' if game.girls_list.is_mating_possible:
             # Alex: Added sex images:
             $ description = game.girls_list.impregnate()
+            stop music fadeout 1.0            
             game.girl "[description]"
             show expression sex_imgs("girl") as xxx
             play sound get_random_file("sound/sex")
@@ -22,6 +22,7 @@ label lb_nature_sex:
         'Сожрать' if game.dragon.hunger > 0:
             $ description =  game.girls_list.eat_girl()
             game.girl "[description]"
+            play sound "sound/eat.ogg"
             show expression sex_imgs.get_eat_image() as eat_image
             pause (500.0)
             hide eat_image     
@@ -47,14 +48,16 @@ label lb_nature_sex:
 
 
 label lb_lair_sex:
+    $ description = game.girls_list.impregnate()
+    game.girl "[description]"    
     jump lb_nature_sex
 
 label lb_gigant_sex:
-    stop music    
     nvl clear
     menu:
         'Надругаться' if game.girls_list.is_mating_possible:
             $ description = game.girls_list.impregnate()
+            stop music fadeout 1.0   
             game.girl "[description]"
             show expression sex_imgs("girl") as xxx
             play sound get_random_file("sound/sex")
@@ -75,6 +78,10 @@ label lb_gigant_sex:
         'Сожрать' if game.dragon.hunger > 0:
             $ description = game.girls_list.eat_girl()
             game.girl.third "[description]"
+            show expression sex_imgs.get_eat_image() as eat_image
+            play sound "sound/eat.ogg"
+            pause (500.0)
+            hide eat_image                 
             return
         'Отпустить восвояси':
             $ description = game.girls_list.free_girl()
@@ -89,5 +96,6 @@ label lb_knight_new:
     return
 
 label lb_water_sex:
+    jump lb_nature_sex
     return
     

@@ -292,7 +292,7 @@ screen navigation:
         # textbutton _("Загрузить игру") action ShowMenu("load")
         textbutton _("Главное меню") ypos 305 action MainMenu()
         textbutton _("От автора") ypos 315 action Help()
-        textbutton _("Выход") ypos 325 action Quit()
+        textbutton _("Сохранить и выйти") ypos 325 action Quit()
 
 init -2 python:
     style.gmnav_frame.background = None
@@ -608,7 +608,7 @@ screen girls_menu:
                     $ position_i += 1
                     $ girl_i = girl_page * girls_cells + girl_position_priority[position_i]
                     if girl_i < game.girls_list.prisoners_count:
-                        imagebutton idle Image(im.Grayscale(game.girls_list.prisoners[girl_i].avatar)) hover game.girls_list.prisoners[girl_i].avatar action[Function(game.girls_list.set_active, girl_i), Jump('lb_nature_sex')]
+                        imagebutton idle Image(im.Grayscale(game.girls_list.prisoners[girl_i].avatar)) hover game.girls_list.prisoners[girl_i].avatar action[Function(game.girls_list.set_active, girl_i), Jump('lb_lair_sex')]
                     else:
                         null
 

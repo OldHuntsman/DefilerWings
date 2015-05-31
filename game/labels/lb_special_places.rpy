@@ -21,7 +21,9 @@ label lb_enchanted_forest:
     'Даже зная путь в зачарованный лес, пройти через завесу магии альвов не просто. Нужно применить могучие чары.'
     menu:
         'Открыть путь колдовством' if game.dragon.mana > 0:
-            '[game.dragon.fullname] применяет чёрную магию чтобы разорвать завесу иллюзий, морока и сна которыми скрыты владения альвов. Незамеченный и смертоносный входит под сень [game.dragon.type] чародейсикх древ.'
+            $ game.dragon.drain_mana()
+            '[game.dragon.fullname] применяет чёрную магию чтобы разорвать завесу иллюзий, морока и сна которыми скрыты владения альвов. Незамеченный и смертоносный [game.dragon.kind] входит под сень чародейсикх древ.'
+            nvl clear
             call lb_enchanted_forest_enter
         'Уйти прочь':
             return
@@ -48,7 +50,7 @@ label lb_enchanted_forest_enter:
 
 label lb_enchanted_forest_elfgirl:
     '[game.dragon.name] слышит непередаваемый аромат сотканный из ноток невинности, красоты и колдовских чар. Это лесная ведьма, альва из народа богини Дану. Нет плоти более сладкой и желанной, но взять её будет непросто ведь на её стороне колдовство.'
-    $ game.foe = core.Enemy('elf_witch', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('elf_witch', gameRef=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -69,7 +71,7 @@ label lb_enchanted_forest_elfgirl:
 
 label lb_enchanted_forest_druid:
     '[game.dragon.name] не долго остаётся незамеченным. На пути дракона, словно материализовавшись из листьев возникает вооруженный корявым посохом друид. Он не выглядит особенно внушительным, однако это впечатление обманичво. На стороне жрец Дану сама сила леса.'
-    $ game.foe = core.Enemy('druid', gameRef=game, base_character=NVLCharacter)
+    $ game.foe = core.Enemy('druid', gameRef=game)
     $ narrator(show_chances(game.foe))
     menu:
         'Вступить в бой':
@@ -143,7 +145,7 @@ label lb_enchanted_forest_grove_rob:
             $ description = game.girls_list.new_girl('elf')
             nvl clear
             game.girl.third "[description]"
-            call lb_lair_sex     
+            call lb_nature_sex     
             call lb_dead_grove
                                         
         'Запомнить место и уйти':
@@ -223,7 +225,7 @@ label lb_manor_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_lair_sex     
+            call lb_nature_sex     
             call lb_manor_empty
                                         
         'Запомнить место и уйти':
@@ -303,8 +305,8 @@ label lb_wooden_fort_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_lair_sex     
-            call lb_manor_empty
+            call lb_nature_sex     
+            call lb_wooden_fort_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('wooden_fort', 'wooden_fort_empty')
@@ -338,8 +340,6 @@ label lb_abbey:
     nvl clear
     $ txt = game.interpolate(random.choice(txt_place_abbey[1]))
     '[txt]'    
-    $ game.dragon.reputation.points += 10
-    '[game.dragon.reputation.gain_description]'     
     $ game.foe = core.Enemy('templars', game_ref=game)
     $ chances = show_chances(game.foe)
     '[chances]'
@@ -350,6 +350,8 @@ label lb_abbey:
             call lb_fight
             $ txt = game.interpolate(random.choice(txt_place_abbey[5]))
             '[txt]' 
+            $ game.dragon.reputation.points += 10
+            '[game.dragon.reputation.gain_description]'  
             nvl clear
             call lb_abbey_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
@@ -383,7 +385,7 @@ label lb_abbey_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_lair_sex     
+            call lb_nature_sex     
             call lb_manor_empty
                                         
         'Запомнить место и уйти':
@@ -401,7 +403,7 @@ label lb_abbey_empty:
             $ game.create_lair('castle')
             $ game.dragon.del_special_place('abbey')
         
-        'Покинуть заброшенную усадьбу':
+        'Покинуть осквернённый монастырь':
             $ game.dragon.add_special_place('abbey', 'abbey_empty')
             
     return
@@ -463,7 +465,7 @@ label lb_castle_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_lair_sex     
+            call lb_nature_sex     
             call lb_castle_empty
                                         
         'Запомнить место и уйти':
@@ -481,7 +483,7 @@ label lb_castle_empty:
             $ game.create_lair('castle')
             $ game.dragon.del_special_place('castle')
         
-        'Покинуть заброшенную усадьбу':
+        'Покинуть пустой замок':
             $ game.dragon.add_special_place('castle', 'castle_empty')
             
     return
@@ -544,7 +546,7 @@ label lb_palace_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_lair_sex     
+            call lb_nature_sex     
             call lb_palace_empty
                                         
         'Запомнить место и уйти':
@@ -562,7 +564,7 @@ label lb_palace_empty:
             $ game.create_lair('castle')
             $ game.dragon.del_special_place('palace')
         
-        'Покинуть заброшенную усадьбу':
+        'Покинуть разграбленный замок':
             $ game.dragon.add_special_place('palace', 'palace_empty')
             
     return
