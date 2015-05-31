@@ -516,7 +516,7 @@ screen yesno_prompt:
                 textbutton _("Нет") action no_action, Hide("yesno_prompt"), ShowMenu("preferences")
             else:
                 textbutton _("Да") action yes_action
-                textbutton _("Нет") action no_action
+                textbutton _("Нет") action no_action, ShowMenu("preferences")
 
     # Right-click and escape answer "no".
     key "game_menu" action no_action

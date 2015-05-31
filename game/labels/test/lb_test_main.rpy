@@ -85,6 +85,8 @@ label lb_test_debug:
             menu:
                 "Потратить одно очко здоровья":
                     $ game.dragon.struck()
+                "Добавить одно очко здоровья":
+                    $ game.dragon.health += 1
                 "Потратить одну энергию":
                     $ res = game.dragon.drain_energy()
                     if res:
@@ -105,12 +107,14 @@ label lb_test_debug:
                     call lb_test_debug_create_lair
                 "Описать логово":
                     nvl clear
-                    $ lair_description = u"Логово: %s.\n" % game.lair.type.name
-                    python:
+                    python hide:
+                        lair_description = u"Логово: %s.\n" % game.lair.type.name
                         if len(game.lair.upgrades) > 0: 
                             lair_description += u"Улучшения:\n"
                             for upgrade in game.lair.upgrades.values():   
                                 lair_description += u" %s\n" % upgrade.name
+                        else:
+                            lair_description += u"Улучшений нет"
                         narrator(lair_description)
                 "Добавить улучшение":
                     python hide:
@@ -173,7 +177,7 @@ label lb_test_debug:
                 "Редактировать предметы" if game.knight is not None:
                     call screen sc_equip_editor(game.knight, [data.knight_items])
                 "Вызвать рыцарем дракона на бой" if game.knight is not None:
-                    $ renpy.call(data.knight_events['challenge_start'], game.knight)
+                    $ game.knight.go_challenge()
         "Удалить сохранения":
             menu:
                 "Сохранение сюжетной игры":

@@ -36,3 +36,9 @@ label lb_event_knight_challenge_start(knight):
             else:
                 knight "Ты подлый трус [game.dragon.kind], такой враг меня не достоин"
                 return False
+
+label lb_event_knight_challenge_end(knight, result):
+    if result in ["defeat", "retreat"]:
+        "Дракон был повержен доблестным рыцарем."
+    if result in ["win"]:
+        "Дракон разорвал в клочья рыцаря."

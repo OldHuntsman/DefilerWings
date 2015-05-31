@@ -236,6 +236,15 @@ class Knight(Fighter):
     def intro(self):
         return random.choice([d for d in mob_data.mob['knight']['descriptions'] if 'foe_intro' in d[0]])[1]
 
+    def go_challenge(self):
+        if renpy.config.debug:
+            self._gameRef.narrator(u"Рыцарь вызывает дракона на бой")
+        if self.event("challenge_start"):
+            fight_result = self.knight.fight_dragon()
+            if renpy.config.debug:
+                self._gameRef.narrator(u"После схватки рыцаря")
+            self.event("challenge_end", result=fight_result)
+
     def fight_dragon(self):
         """Рыцарь отправляется на схвату с драконом
         :return: Результат битвы дракона с рыцарем. 'win'|'defeat'|'retreat'
