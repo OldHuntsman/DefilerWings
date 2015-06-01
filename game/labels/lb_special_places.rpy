@@ -55,7 +55,6 @@ label lb_enchanted_forest_elfgirl:
     nvl clear
     menu:
         'Напасть на фею':
-            $ game.foe = core.Enemy('mounted_guard', game_ref=game)
             call lb_fight from _call_lb_fight_25
             'Несмотря на жестокое сопротивление, чародейка не получила особых повреждений. Она теперь безащитна, но цела... пока что.'
             $ game.dragon.reputation.points += 3

@@ -1,6 +1,7 @@
 #Окончание игры
 
 label lb_game_over:
+    hide bg
     if freeplay:
         $ renpy.unlink_save("1-3")
     else:
