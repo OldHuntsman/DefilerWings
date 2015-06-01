@@ -1496,7 +1496,8 @@ spell_list = {
     'wings_of_wind': ['wings_of_wind'],
     'aura_of_horror': ['aura_of_horror'],
     'unbreakable_scale': ['virtual_head'],
-    'spellbound_trap': ['spellbound_trap']
+    'spellbound_trap': ['spellbound_trap'],
+    'impregnator': ['impregnator']
 }
 
 # Русское название для отображения заклинания
@@ -1517,7 +1518,8 @@ spell_list_rus = {
     'wings_of_wind': u"Крылья ветра",
     'aura_of_horror': u"Аура кошмаров",
     'unbreakable_scale': u"Отрастить фантомную голову",
-    'spellbound_trap': u"Волшебные ловушки в логово"
+    'spellbound_trap': u"Волшебные ловушки в логово",
+    'impregnator': u"Осеменитель"
 }
 
 effects_list = {
@@ -1560,6 +1562,7 @@ modifiers = {
     'greedy': Modifier(),
     'virtual_head': Modifier(),
     'spellbound_trap': Modifier(),
+    'impregnator': Modifier(),
 
     'fire_breath': Modifier(attack=('fire', (0, 1))),
     'ice_breath': Modifier(attack=('ice', (0, 1))),
