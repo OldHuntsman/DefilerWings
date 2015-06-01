@@ -1966,27 +1966,20 @@ class Treasury(store.object):
             если таких монет в сокровищнице нет
         """
         if coin_name == 'farting' and self.farting > 0:
-            if coin_count < self.farting:
-                coin_count = coin_count
-            else:
+            if coin_count > self.farting:
                 coin_count = self.farting
             self.farting -= coin_count
-            return Coin(coin_name, coin_count)
         elif coin_name == 'taller' and self.taller > 0:
-            if coin_count < self.taller:
-                coin_count = coin_count
-            else:
+            if coin_count > self.taller:
                 coin_count = self.taller
             self.taller -= coin_count
-            return Coin(coin_name, coin_count)
         elif coin_name == 'dublon' and self.dublon > 0:
-            if coin_count < self.dublon:
-                coin_count = coin_count
-            else:
+            if coin_count > self.dublon:
                 coin_count = self.dublon
             self.dublon -= coin_count
-            return Coin(coin_name, coin_count)
-        return None
+        else:
+            return None
+        return Coin(coin_name, coin_count)
 
     def rob_treasury(self, treasure_count=1):
         """
