@@ -33,6 +33,7 @@ label lb_location_city_main:
 label lb_city_gates:
     $ game.dragon.drain_energy()
     $ game.foe = core.Enemy('city', game_ref=game)
+    call lb_fight
     call lb_city_raze
     return
 
