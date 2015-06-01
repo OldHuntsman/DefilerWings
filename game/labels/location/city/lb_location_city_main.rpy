@@ -211,6 +211,7 @@ label lb_city_jewler:
                 $ game.lair.treasury.receive_treasures([new_item])
                 $ test_description = new_item.description()
                 "Куплено: [test_description]."
+            call lb_city_jewler
         'Продать драгоценности':
             menu:
                 'Самую дорогую' if len(game.lair.treasury.jewelry) > 0:
@@ -220,7 +221,7 @@ label lb_city_jewler:
                 'Случайную' if len(game.lair.treasury.jewelry) > 0:
                     $ item_index = random.randint(0, len(game.lair.treasury.jewelry) - 1)
                 'Отмена':
-                    return
+                    call lb_city_jewler
             python:
                 from pythoncode import treasures
                 description = u"%s.\nПродать украшение за %s?" % (
@@ -235,19 +236,20 @@ label lb_city_jewler:
                             treasures.number_conjugation_rus(game.lair.treasury.jewelry[item_index].cost, u"фартинг"))
                         game.lair.treasury.money += game.lair.treasury.jewelry[item_index].cost
                         game.lair.treasury.jewelry.pop(item_index)
+                    call lb_city_jewler
                 'Оставить':
-                    pass
+                    call lb_city_jewler
         'Драгоценности на заказ':
             $ new_item = game.lair.treasury.craft(**data.craft_options['jeweler_craft'])
             if new_item:
                 $ game.lair.treasury.receive_treasures([new_item])
                 $ test_description = new_item.description()
                 "Изготовлено: [test_description]."
+            call lb_city_jewler
         'Принять истинный облик':
             call lb_city_jew_atk from _call_lb_city_jew_atk_1
         'Вернуться на площадь':
             call lb_city_walk from _call_lb_city_walk_5
-    call lb_city_jewler
     return
 
 

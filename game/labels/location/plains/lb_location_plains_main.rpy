@@ -410,7 +410,7 @@ label lb_enc_gooze:
         'Сожрать девчёнку' if game.dragon.hunger > 0:
             '[game.dragon.name] хватает девчёнку и съедает её живьём, с хрустом разгрызая тоненькие косточки.'
             $ game.dragon.drain_energy()
-            $ game.dragon.reputation.points += 1
+            $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
             python:
                 if game.dragon.bloodiness > 0:

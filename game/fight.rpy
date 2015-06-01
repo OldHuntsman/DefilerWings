@@ -16,7 +16,6 @@ label lb_fight(foe=game.foe):
         if 'dragon_dead' in battle_status:
             game.dragon "Я подвёл тебя, мама..."
             if freeplay or army_battle:
-                $ renpy.unlink_save("1-3")
                 jump lb_game_over
             hide foeimg
             nvl clear

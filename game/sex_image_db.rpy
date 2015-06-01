@@ -86,7 +86,7 @@ init python:
             correct_hair_images = _list()
             
             # Get a list of images with correct hair colors:
-            if type != "dragon": # We do not do this for dragon images.
+            if type != "dragon": # We do not do this for dragon frecking the mistress images.
                 if store.game.girl.hair_color:
                     for i in images:
                         img_name = i.split("/")[-1]
@@ -99,8 +99,13 @@ init python:
                 return renpy.random.sample(images, 1).pop()
                                 
         def __call__(self, type):
+            
             if type == "mistress": # @ Unique condition: Always get dragon images!
-                return renpy.random.sample(getattr(self, type)[store.game.dragon.color_eng], 1).pop()
+                if self.has_image_with_color(type):
+                    return renpy.random.sample(getattr(self, type)[store.game.dragon.color_eng], 1).pop()
+                else:
+                    return self.get_any_image(type)
+                    
             elif not self.has_image_with_color(type):
                 return self.get_any_image(type)
             elif renpy.random.randint(0, 2):
