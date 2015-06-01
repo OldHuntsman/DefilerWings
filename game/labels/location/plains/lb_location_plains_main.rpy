@@ -14,23 +14,23 @@ label lb_location_plains_main:
         
     menu:
         'Рыскать за околицей':
-            call lb_encounter_plains
+            call lb_encounter_plains from _call_lb_encounter_plains
             return
         'Одинокий хутор':
             $ village_size = 1
-            call lb_village
+            call lb_village from _call_lb_village
         'Маленький посёлок':
             $ village_size = 2
-            call lb_village
+            call lb_village from _call_lb_village_1
         'Деревня':
             $ village_size = 3
-            call lb_village
+            call lb_village from _call_lb_village_2
         'Село':
             $ village_size = 4
-            call lb_village
+            call lb_village from _call_lb_village_3
         'Городок':
             $ village_size = 5
-            call lb_village
+            call lb_village from _call_lb_village_4
         'Прочь отсюда':
             return
         
@@ -73,13 +73,13 @@ label lb_enc_fair:
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex      
+            call lb_nature_sex from _call_lb_nature_sex_3      
             return
 
         'Призовой бык':
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('bull_champion', game_ref=game)
-            call lb_fight
+            call lb_fight from _call_lb_fight_2
             menu:
                 'Сожрать призового быка' if game.dragon.hunger > 0:
                     'Бык съеден. -1 к голоду, +1 к похоти. Ярость обнуляется.'
@@ -114,7 +114,7 @@ label lb_enc_berries:
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex      
+            call lb_nature_sex from _call_lb_nature_sex_4      
             return
             
         'Девица с ягодами':
@@ -201,7 +201,7 @@ label lb_enc_shrooms:
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex      
+            call lb_nature_sex from _call_lb_nature_sex_5      
             return
             
         'Девица с грибным лукошком':
@@ -294,7 +294,7 @@ label lb_enc_laundry:
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex      
+            call lb_nature_sex from _call_lb_nature_sex_6      
             return        
         'Оставить их в покое' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
@@ -313,7 +313,7 @@ label lb_enc_bath:
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex      
+            call lb_nature_sex from _call_lb_nature_sex_7      
         'Оставить их в покое' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
@@ -329,7 +329,7 @@ label lb_enc_militia:
         'Напасть':
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('militia', game_ref=game)
-            call lb_fight
+            call lb_fight from _call_lb_fight_3
             '  Отряд ополченцев готовившийся пополнить армию больше не существует. Немногие выжившие новобранцы разбежались в ужасе. Теперь королю будет сложнее собирать свои патрульные отряды.'
             $game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
@@ -410,7 +410,7 @@ label lb_enc_gooze:
         'Сожрать девчёнку' if game.dragon.hunger > 0:
             '[game.dragon.name] хватает девчёнку и съедает её живьём, с хрустом разгрызая тоненькие косточки.'
             $ game.dragon.drain_energy()
-            $ game.dragon.reputation.points += 1
+            $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
             python:
                 if game.dragon.bloodiness > 0:
@@ -434,7 +434,7 @@ label lb_enc_pigs:
     menu:
         'Напасть на стадо' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_4
             'К моменту когда собака повержена, и свиньи и свинопас уже успевают разбежаться, но бежать от дракона идея глупая - [game.dragon.name] обладает совершенным нюхом и никогда не теряет след намеченной жертвы. Вскоре одной жирненькой свиньёй в стаде становится меньше.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
@@ -444,7 +444,7 @@ label lb_enc_pigs:
                 game.dragon.hunger -= 1
         'Напасть на стадо' if game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_5
             'Разодрав в клочки собаку, [game.dragon.name] догоняет и убивает свинопаса. Свиньи разбегаются прочь, но это уже не важно.'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
@@ -462,7 +462,7 @@ label lb_enc_sheepherd:
     menu:
         'Напасть на стадо' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_6
             'Во время драки с собакой овцы разбежались, но их белая шерсть видна на зелёных холмах издалека. Так что поймать себе на обед жирненького барашка не составляет труда.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
@@ -472,7 +472,7 @@ label lb_enc_sheepherd:
                 game.dragon.hunger -= 1
         'Напасть на стадо' if game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_7
             '[game.dragon.name] догоняет и убивает несколько овец, хотя не хочет есть. Просто иногда надо выпустить пар и дать волю первобытной ярости.'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
@@ -491,7 +491,7 @@ label lb_enc_cattle:
     menu:
         'Напасть на стадо' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_8
             python:
                 if game.dragon.bloodiness > 0:
                     game.dragon.bloodiness = 0
@@ -501,7 +501,7 @@ label lb_enc_cattle:
             '[game.dragon.reputation.gain_description]'
         'Напасть на стадо' if game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_9
             '[game.dragon.name] убивает несколько коров и разгоняет стадо, хотя вовсе не хочет есть - он просто зол.'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
@@ -548,7 +548,7 @@ label lb_village:
                 $ description = game.girls_list.new_girl('peasant')
                 nvl clear
                 game.girl.third "[description]"
-                call lb_nature_sex                   
+                call lb_nature_sex from _call_lb_nature_sex_8                   
             elif village_size == 3:
                 'Жена старосты отдаёт своё самое дорогое украшение:'
                 python:
@@ -581,14 +581,14 @@ label lb_village:
                 $ description = game.girls_list.new_girl('citizen')
                 nvl clear
                 game.girl.third "[description]"
-                call lb_nature_sex        
+                call lb_nature_sex from _call_lb_nature_sex_9        
             
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
 
         'Ограбить' if village_size > 0:
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_10
             'Поселение успешно разграблено. Добыча:'
             python:
                 count = random.randint(5, 10)
@@ -607,7 +607,7 @@ label lb_village:
         'Разорить' if village_size > 0:
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy(village['deffence'][village_size], game_ref=game)
-            call lb_fight
+            call lb_fight from _call_lb_fight_11
             'Поселение разорено. Разруха в стране растёт. В разрушенных домах и на телах убитых нашлись кое-какие ценности:'
             python:
                 count = random.randint(5, 10)
@@ -657,6 +657,6 @@ label lb_patrool_plains:
     '[dtxt]'
     $ game.foe = core.Enemy(patrool, game_ref=game)
     $ chances = show_chances(game.foe)
-    call lb_fight
+    call lb_fight from _call_lb_fight_12
     
     return

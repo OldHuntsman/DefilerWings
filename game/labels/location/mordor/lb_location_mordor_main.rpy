@@ -24,11 +24,11 @@ label lb_location_mordor_main:
             menu:
                 'Собрать армию и начать войну!':
                     $ mistrss_helps = True
-                    call lb_war_border
+                    call lb_war_border from _call_lb_war_border
                 'Продолжить подготовку':
                     'Армия пока не готова.'
                     
-            call lb_location_mordor_main
+            call lb_location_mordor_main from _call_lb_location_mordor_main
             
         'Аудиенция с владычицей' if not freeplay:
             jump lb_mistress
@@ -51,7 +51,7 @@ label lb_location_mordor_main:
 label lb_mistress:
     python:
         if not persistent.isida_done:
-            renpy.movie_cutscene("mov/isida.ogv")
+            renpy.movie_cutscene("mov/isida.webm")
             persistent.isida_done = True
     nvl clear
     show expression 'img/scene/mistress.png' as bg    
@@ -62,17 +62,17 @@ label lb_mistress:
                 $ del game.lair.treasury.jewelry[game.lair.treasury.most_expensive_jewelry_index]
             game.dragon 'Я выполнил твоё задание. Помнится мне была обещана награда...'    
             mistress 'Иди ко мне, милый. Ты не пожалеешь, обещаю.'
-            call lb_mistress_fuck
-            call lb_choose_dragon
+            call lb_mistress_fuck from _call_lb_mistress_fuck
+            call lb_choose_dragon from _call_lb_choose_dragon
             return
         'Уточнить задание' if not game.is_quest_complete:
             "Текущее задание:\n[game.quest_text]\n[game.quest_time_text]"
-            call lb_mistress
+            call lb_mistress from _call_lb_mistress
         'Завести разговор':
             $ txt = game.interpolate(random.choice(txt_advice))
             mistress '[txt]'   
             nvl clear            
-            call lb_mistress
+            call lb_mistress from _call_lb_mistress_1
         'Предательски напасть':
             game.dragon 'Независимо от того выиграю ли я эту битву, мой род прервётся. Стоит ли убивать свою мать?'
             menu:
@@ -80,10 +80,10 @@ label lb_mistress:
                     jump lb_betrayal
                 'Она же всётаки Мать...':
                     'От Госпожи не укрылось напряжение сына, но она лишь загадочно улыбнулась не высказывая ни малейшего беспокойства.'
-                    call lb_location_mordor_main
+                    call lb_location_mordor_main from _call_lb_location_mordor_main_1
         'Лизнуть её руку и уйти':
             'Иногда просто хочется прикоснуться к ней ещё раз...'  
-            call lb_location_mordor_main
+            call lb_location_mordor_main from _call_lb_location_mordor_main_2
     return
 
 label lb_location_mordor_questtime:
@@ -94,8 +94,8 @@ label lb_location_mordor_questtime:
         mistress '[game.dragon.name] ты слишком много времени тратишь на игры с людьми, я устала ждать. Разве ты забыл о своём задании?'
         game.dragon 'Отнюдь, Владычица, я сделал всё о чём ты просила. Вот. Смотри.'
         mistress 'Великолепно. В таком случае, тебе полагается заслуженная награда. Иди ко мне, милый.'
-        call lb_mistress_fuck
-        call lb_choose_dragon
+        call lb_mistress_fuck from _call_lb_mistress_fuck_1
+        call lb_choose_dragon from _call_lb_choose_dragon_1
     else:
         $ game.dragon.die()
         mistress 'Отпущенное тебе время истекло [game.dragon.name]. И я спрошу лишь один раз: выполнил ли ты моё задание?'
@@ -103,7 +103,7 @@ label lb_location_mordor_questtime:
         mistress 'Я не обижаюсь. Но и жалость мне не ведома. Ты подвёл меня а это можно сделать лишь однажды. Продолжателем рода станет кто-то другой, ты же доживай свои дни как пожелаешь. Изыди с глаз моих!'
         menu:
             "Дать шанс другому дракону":
-                call lb_choose_dragon
+                call lb_choose_dragon from _call_lb_choose_dragon_2
                 return
     return
     
@@ -131,15 +131,15 @@ label lb_mistress_fuck:
     'Прошло девять месяцев и кладка новых яиц проклюнулась...'
     python:
         if not persistent.lada_done:
-            renpy.movie_cutscene("mov/lada.ogv")
+            renpy.movie_cutscene("mov/lada.webm")
             persistent.lada_done = True    
     return
 
 label lb_betrayal:
-    $ renpy.movie_cutscene("mov/kali.ogv")
+    $ renpy.movie_cutscene("mov/kali.webm")
     $ atk_tp = 'pysical'
     $ mistress_hp = 3
-    call lb_new_round
+    call lb_new_round from _call_lb_new_round
     return
 
 label lb_new_round:
@@ -180,7 +180,7 @@ label lb_tactics_choice:
 label lb_kali:
     show expression 'img/scene/fight/mistress/kali.png' as bg    
     'Владычица принимает облик многорукой богини Кали, с чёрной как уголь кожей и красным словно кровь языком. Она вооружена несколькими острыми серпами и очень опасна в ближнем бою.'
-    call lb_tactics_choice
+    call lb_tactics_choice from _call_lb_tactics_choice
     if game.dragon.defence_power()[1] > 0:
         game.dragon 'Мою чешую невозможно разрубить, Мать. Ты родила меня неуязвимым!'
     else:
@@ -196,13 +196,13 @@ label lb_kali:
         $ mistress_hp -= 1
     else:
         mistress 'Так меня не одолеть, глупец!'
-    call lb_new_round
+    call lb_new_round from _call_lb_new_round_1
     return
 
 label lb_garuda:
     show expression 'img/scene/fight/mistress/garuda.png' as bg    
     'Целиком покрывшись яркими перьями и отрастив острые медные когти, Владычица принимает аспект Гаруды. Ни на земле ни в небесах нет места чтобы укрыться от её соколиного удара, но всё же сейчас она очень уязвима.'
-    call lb_tactics_choice
+    call lb_tactics_choice from _call_lb_tactics_choice_1
     if atk_tp = 'earth':
         game.dragon 'Под землёй тебе меня не достать, пернатая тварь!'
     else:
@@ -219,14 +219,14 @@ label lb_garuda:
     else:
         mistress 'Беги-беги! А ведь у тебя был шанс ранить меня, идиот!'   
             
-    call lb_new_round
+    call lb_new_round from _call_lb_new_round_2
     return
     
 
 label lb_shiva:
     show expression 'img/scene/fight/mistress/sheeva.png' as bg    
     'Аспект Шивы наделяет Владычицу неограниченной властью над холодом и льдом. От её поступи земля покрывается коркой инея и холодеет чешуя.'
-    call lb_tactics_choice
+    call lb_tactics_choice from _call_lb_tactics_choice_2
     if 'ice_immunity' in game.dragon.modifiers():
         game.dragon 'Холод мне не страшен, Мать. Уж ты то должна была об этом помнить!'
     else:
@@ -243,13 +243,13 @@ label lb_shiva:
     else:
         mistress 'Лишь огонь мог бы тебе помочь, но тебе он неподвластен! Я знаю все твои слабости!'
             
-    call lb_new_round
+    call lb_new_round from _call_lb_new_round_3
     return
 
 label lb_agni:
     show expression 'img/scene/fight/mistress/agni.png' as bg    
     'Принимая аспект Агни, Владычица закутывается в наряд из багряного пламени и удушающего черного дыма. От неё исходит испепеляющий всё живое жар выдержать который смог бы разве что Ифрит.'
-    call lb_tactics_choice
+    call lb_tactics_choice from _call_lb_tactics_choice_3
     if 'fire_immunity' in game.dragon.modifiers():
         game.dragon 'Ха! Безумная старуха, неужели ты решила сжечь повелителя пламени? Я стану лишь сильнее от твоего жара, иди же ко мне!'
     else:
@@ -266,13 +266,13 @@ label lb_agni:
     else:
         mistress 'Разве можно надеяться сокрушить само пламя, глупец?'
                             
-    call lb_new_round
+    call lb_new_round from _call_lb_new_round_4
     return
 
 label lb_indra:
     show expression 'img/scene/fight/mistress/indra.png' as bg    
     'В аспекте Индры Владычица получает власть над молнией и громом небесным. Она неуязвима как сам чистый и свежий воздух и небо что питают её могущество. '
-    call lb_tactics_choice
+    call lb_tactics_choice from _call_lb_tactics_choice_4
     if 'lightning_immunity' in game.dragon.modifiers():
         game.dragon 'Титаны не могли поразить меня своими молниями. Не сможешь и ты, Индра. В штормовом облаке я как в родном доме!'
     else:
@@ -289,14 +289,14 @@ label lb_indra:
     else:
         mistress 'Да ты силён, но силы что повергнет сами чистые Небеса ты не сыщешь, предатель!'
                             
-    call lb_new_round
+    call lb_new_round from _call_lb_new_round_5
     return
     
 
 label lb_pangea:
     show expression 'img/scene/fight/mistress/pangea.png' as bg    
     'Тело владычицы превращается в один огромный живой кристалл, совершенное воплощение аспекта богини земли Пангеи. Её плоть тверда как алмаз.'
-    call lb_tactics_choice
+    call lb_tactics_choice from _call_lb_tactics_choice_5
     if game.dragon.defence_power()[0] + game.dragon.defence_power()[1] >= 5:
         game.dragon 'Моя чешуя не мягче твоей алмазной кожи, Пангея! Ты даже не поцарапаешь меня.'
     else:
@@ -313,13 +313,13 @@ label lb_pangea:
     else:
         mistress 'Промазал!'   
                             
-    call lb_new_round
+    call lb_new_round from _call_lb_new_round_6
     return
 
 label lb_nemesis:
     show expression 'img/scene/fight/mistress/nemesis.png' as bg    
     'Владычица принимает аспект богини Немезиды. Всё её тело покрывается острыми шипами, олицетворяя неминуемое возмездие. '
-    call lb_tactics_choice
+    call lb_tactics_choice from _call_lb_tactics_choice_6
     if atk_tp == 'dodge' or atk_tp == 'hide' or atk_tp == 'earth' or atk_tp == 'air':
         game.dragon 'Я знаю справедливость Немезиды. Если я не буду атаковать, ты тоже не сможешь!'
     else:
@@ -336,13 +336,13 @@ label lb_nemesis:
     else:
         mistress 'Ты правильно делаешь что прячешься, проживёшь лишнюю минуту, а то и две!'  
                             
-    call lb_new_round
+    call lb_new_round from _call_lb_new_round_7
     return
 
 label lb_amphisbena:
     show expression 'img/scene/fight/mistress/amfisbena.png' as bg    
     'Тело Владычицы покрывается яркой цветной чешуёй, когда она принимает аспект Амфисбены, ползучей ядовитой смерти несущей погибель всем тварям земным.'
-    call lb_tactics_choice
+    call lb_tactics_choice from _call_lb_tactics_choice_7
     if atk_tp == 'air':
         game.dragon 'Рождённый ползать, летать не может. Попробуй-ка тут меня достать, тварь ползучая!'
     else:
@@ -359,14 +359,14 @@ label lb_amphisbena:
     else:
         mistress 'И это всё на что ты способен?! Слабак!'
                             
-    call lb_new_round
+    call lb_new_round from _call_lb_new_round_8
     return
     
 
 label lb_gekata:
     show expression 'img/scene/fight/mistress/gekata.png' as bg    
     'Аспект Гекаты даёт Владычице силу самой Ночи и Смерти. Сражаться с ней может лишь смельчак не боящийся смертельных ран, но порой лучше быть трусом.'
-    call lb_tactics_choice
+    call lb_tactics_choice from _call_lb_tactics_choice_8
     if atk_tp != 'hide':
         game.dragon 'Я укроюсь от Тьмы во Тьме.'
     else:
@@ -383,13 +383,13 @@ label lb_gekata:
     else:
         mistress 'А я то надеялась что моё чадо будет бить сильнее чем крестьянская девчёнка...' 
                             
-    call lb_new_round
+    call lb_new_round from _call_lb_new_round_9
     return
 
 label lb_hell:
     show expression 'img/scene/fight/mistress/hell.png' as bg    
     'Владычица выростает до небес, задевая макушкой облака, когда призывает на себя аспект великанши Хель - немёртвой владычицы нижнего мира. Её удары кажутся медленными, но они способны крушить даже гранитные скалы.'
-    call lb_tactics_choice
+    call lb_tactics_choice from _call_lb_tactics_choice_9
     if atk_tp == 'dodge':
         game.dragon 'Слишком медленно! Тебе меня не достать.'
     else:
@@ -406,7 +406,7 @@ label lb_hell:
     else:
         mistress 'Хорошая попытка малыш. Но для меня ты мелковат!'  
                             
-    call lb_new_round
+    call lb_new_round from _call_lb_new_round_10
     return
     
 label lb_war_border:
@@ -431,7 +431,7 @@ label lb_war_border:
             $ game.army.power_percentage -= army_decimator
             
         'Сокрушить катапульты': #Дракон бережёт армию и сам уничтожает наиболее опасные очаги сопротивления
-            call lb_fight
+            call lb_fight from _call_lb_fight_42
 
         'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
@@ -442,12 +442,12 @@ label lb_war_border:
                     reinforcement_answer = reinforcement_agree
             mistress '[reinforcement_answer]'
             if reinforcement_used:
-                call lb_war_border
+                call lb_war_border from _call_lb_war_border_1
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")
+                $ renpy.movie_cutscene("mov/kali.webm")
                 $ reinforcement_used = True
 
-    call lb_war_border_continue
+    call lb_war_border_continue from _call_lb_war_border_continue
     return
 
 label lb_war_border_continue:
@@ -464,7 +464,7 @@ label lb_war_border_continue:
             $ game.army.power_percentage -= army_decimator
             
         'Перехватить летучие корабли': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
-            call lb_fight
+            call lb_fight from _call_lb_fight_43
 
         'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
@@ -475,12 +475,12 @@ label lb_war_border_continue:
                     reinforcement_answer = reinforcement_agree
             mistress '[reinforcement_answer]'
             if reinforcement_used:
-                call lb_war_border_continue
+                call lb_war_border_continue from _call_lb_war_border_continue_1
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")
+                $ renpy.movie_cutscene("mov/kali.webm")
                 $ reinforcement_used = True
     
-    call lb_war_field
+    call lb_war_field from _call_lb_war_field
     return
 
     
@@ -501,7 +501,7 @@ label lb_war_field:
             
         'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             '[game.dragon.fullname] лично вступает в битву с Титаном, чтобы сберечь войска.'
-            call lb_fight
+            call lb_fight from _call_lb_fight_44
 
         'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
@@ -512,11 +512,11 @@ label lb_war_field:
                     reinforcement_answer = reinforcement_agree
             mistress '[reinforcement_answer]'
             if reinforcement_used:
-                call lb_war_border_continue
+                call lb_war_border_continue from _call_lb_war_border_continue_2
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")
+                $ renpy.movie_cutscene("mov/kali.webm")
                 $ reinforcement_used = True
-    call lb_war_field_continue
+    call lb_war_field_continue from _call_lb_war_field_continue
     return
 
 label lb_war_field_continue:
@@ -536,7 +536,7 @@ label lb_war_field_continue:
             
         'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             'Битву можно выиграть всего одним точным ударом. [game.dragon.fullname] бросает вызов королю людей!'
-            call lb_fight
+            call lb_fight from _call_lb_fight_45
 
         'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
@@ -547,11 +547,11 @@ label lb_war_field_continue:
                     reinforcement_answer = reinforcement_agree
             mistress '[reinforcement_answer]'
             if reinforcement_used:
-                call lb_war_field_continue
+                call lb_war_field_continue from _call_lb_war_field_continue_1
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")
+                $ renpy.movie_cutscene("mov/kali.webm")
                 $ reinforcement_used = True
-    call lb_war_siege
+    call lb_war_siege from _call_lb_war_siege
     return
     
 label lb_war_siege:
@@ -572,7 +572,7 @@ label lb_war_siege:
             
         'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             'Если проломить главные ворота, обороняющиеся войска окажутся беззащитны перед монстрами Владычицы. [game.dragon.fullname] бросается на штурм. '
-            call lb_fight
+            call lb_fight from _call_lb_fight_46
 
         'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
@@ -583,12 +583,12 @@ label lb_war_siege:
                     reinforcement_answer = reinforcement_agree
             mistress '[reinforcement_answer]'
             if reinforcement_used:
-                call lb_war_siege
+                call lb_war_siege from _call_lb_war_siege_1
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")
+                $ renpy.movie_cutscene("mov/kali.webm")
                 $ reinforcement_used = True
                 
-    call lb_war_siege_inside
+    call lb_war_siege_inside from _call_lb_war_siege_inside
     return
 
     
@@ -609,7 +609,7 @@ label lb_war_siege_inside:
             
         'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             '[game.dragon.fullname] лично возглавляет атаку своих войск, помогая уничтожить стражей.'
-            call lb_fight
+            call lb_fight from _call_lb_fight_47
 
         'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
@@ -620,12 +620,12 @@ label lb_war_siege_inside:
                     reinforcement_answer = reinforcement_agree
             mistress '[reinforcement_answer]'
             if reinforcement_used:
-                call lb_war_siege_inside
+                call lb_war_siege_inside from _call_lb_war_siege_inside_1
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")
+                $ renpy.movie_cutscene("mov/kali.webm")
                 $ reinforcement_used = True
                 
-    call lb_war_citadel
+    call lb_war_citadel from _call_lb_war_citadel
     return
 
 label lb_war_citadel:
@@ -646,7 +646,7 @@ label lb_war_citadel:
             
         'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             'С этим противником [game.dragon.fullname] решает сразиться сам - обычным гоблинам он не по зубам.'
-            call lb_fight
+            call lb_fight from _call_lb_fight_48
 
         'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
@@ -657,12 +657,12 @@ label lb_war_citadel:
                     reinforcement_answer = reinforcement_agree
             mistress '[reinforcement_answer]'
             if reinforcement_used:
-                call lb_war_citadel
+                call lb_war_citadel from _call_lb_war_citadel_1
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")   
+                $ renpy.movie_cutscene("mov/kali.webm")   
                 $ reinforcement_used = True
                 
-    call lb_war_final
+    call lb_war_final from _call_lb_war_final
     return
     
 label lb_war_final:
@@ -679,7 +679,7 @@ label lb_war_final:
             
         'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             'Как бы могуч не был железный страж, это всё что стоит на пути к окочательной победы. [game.dragon.fullname] бросается в атаку.'
-            call lb_fight
+            call lb_fight from _call_lb_fight_49
 
         'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
@@ -690,9 +690,9 @@ label lb_war_final:
                     reinforcement_answer = reinforcement_agree
             mistress '[reinforcement_answer]'
             if reinforcement_used:
-                call lb_war_final
+                call lb_war_final from _call_lb_war_final_1
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")               
+                $ renpy.movie_cutscene("mov/kali.webm")               
                 $ reinforcement_used = True    
     jump lb_orgy
 

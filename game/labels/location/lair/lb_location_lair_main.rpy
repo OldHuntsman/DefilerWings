@@ -22,13 +22,13 @@ label lb_location_lair_main:
                 else:
                     lair_description += u"Улучшений нет"
                 narrator(lair_description)
-            call lb_location_lair_main
+            call lb_location_lair_main from _call_lb_location_lair_main
         'Сотворить заклинание' if game.dragon.bloodiness < 5 and game.dragon.mana > 0:
             if game.choose_spell(u"Вернуться в логово"):
                 python:
                     game.dragon.drain_mana()
                     game.dragon.gain_rage()
-            call lb_location_lair_main
+            call lb_location_lair_main from _call_lb_location_lair_main_1
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             python:
                 import random
@@ -74,25 +74,25 @@ label lb_location_lair_main:
                             jump lb_location_lair_main   
                 'Вернуться в логово':
                     jump lb_location_lair_main        
-            call lb_location_lair_main
+            call lb_location_lair_main from _call_lb_location_lair_main_2
         'Проведать пленниц' if game.girls_list.prisoners_count > 0:
             call screen girls_menu
-            call lb_location_lair_main            
+            call lb_location_lair_main from _call_lb_location_lair_main_3            
         'Смастерить вещь' if ('servant' in game.lair.upgrades) or ('gremlin_servant' in game.lair.upgrades):
             $ new_item = game.lair.treasury.craft(**data.craft_options['servant'])
             if new_item:
                 $ game.lair.treasury.receive_treasures([new_item])
                 $ test_description = new_item.description()
                 "Изготовлено: [test_description]."
-            call lb_location_lair_main                
+            call lb_location_lair_main from _call_lb_location_lair_main_4                
         'Уволить слуг-гремлинов' if 'gremlin_servant' in game.lair.upgrades:
             $ del game.lair.upgrades['gremlin_servant']
             "Гремлины уходят"
-            call lb_location_lair_main            
+            call lb_location_lair_main from _call_lb_location_lair_main_5            
         'Уволить охрану' if 'smuggler_guards' in game.lair.upgrades:
             $ del game.lair.upgrades['gremlin_servant']
             "Охрана покидает посты"
-            call lb_location_lair_main
+            call lb_location_lair_main from _call_lb_location_lair_main_6
         'Лечь спать':
             nvl clear
             python:

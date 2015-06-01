@@ -19,9 +19,9 @@ label lb_location_ruin_main:
         'Посетить ведьму':
             show expression 'img/scene/witch.png' as bg
             if game.dragon.lust == 3: 
-                call lb_witch_agree
+                call lb_witch_agree from _call_lb_witch_agree
             else:
-                call lb_witch_refuse
+                call lb_witch_refuse from _call_lb_witch_refuse
             
         'Уйти прочь':
             return
@@ -42,7 +42,7 @@ label lb_witch_agree:
             hide xxx  
             $ game.dragon.lust = 0
             stop sound fadeout 1.0
-            call lb_witch_reward
+            call lb_witch_reward from _call_lb_witch_reward
             
         'Уйти':
             return

@@ -49,8 +49,7 @@ label lb_nature_sex:
 
 
 label lb_lair_sex:
-    $ description = game.girls_list.impregnate()
-    game.girl "[description]"    
+    game.girl "Я хочу домой. Ну пожалуйста..."    
     jump lb_nature_sex
 
 label lb_gigant_sex:

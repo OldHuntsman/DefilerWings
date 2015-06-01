@@ -49,7 +49,8 @@ class GirlsList(object):
         # self.description('sex', True)
         # self.description('impregnate', True)
         self.game.girl.virgin = False
-        if self.game.girl.quality < self.game.dragon.magic:
+        if self.game.girl.quality < self.game.dragon.magic or \
+                'impregnator' in self.game.dragon.modifiers():
             self.game.girl.pregnant = 2
         else:
             self.game.girl.pregnant = 1

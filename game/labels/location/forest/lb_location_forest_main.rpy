@@ -51,12 +51,12 @@ label lb_enc_lumberjack:
                 'Не прошло и часа, как на тропинке появляется ещё одна фигура, женская. У неё в руках тяжелая корзинка, накрытая белой тряпицей. [game.dragon.name] втягивает нозрями воздух и определяет с точностью - девица! Хотя и низкородная...'
                 game.girl 'Папааааш! Я тебе покушать принесла. У меня тут в корзинке сладкий хлеб.'
                 nvl clear
-                'Девушка бежит к отцу чтобы бнять его, но тот замирает в ужасе глядя за спину дочери где в полный рост встаёт [game.dragon.name]. Не давая людям опомниться, [game.dragon.name] убивает дровосека и сбивает с ног его дочь.'
+                'Девушка бежит к отцу чтобы обнять его, но тот замирает в ужасе глядя за спину дочери где в полный рост встаёт [game.dragon.name]. Не давая людям опомниться, [game.dragon.name] убивает дровосека и сбивает с ног его дочь.'
                 $ game.dragon.reputation.points += 1
                 '[game.dragon.reputation.gain_description]'
                 nvl clear
                 game.girl.third "[description]"
-                call lb_nature_sex      
+                call lb_nature_sex from _call_lb_nature_sex_21      
                 return        
             'Оставить его в покое' if game.dragon.bloodiness < 5:
                 $ game.dragon.gain_rage()
@@ -79,7 +79,7 @@ label lb_enc_onegirl:
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex      
+            call lb_nature_sex from _call_lb_nature_sex_22      
         'Отпустить её' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
@@ -96,7 +96,7 @@ label lb_enc_wandergirl:
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex      
+            call lb_nature_sex from _call_lb_nature_sex_23      
         'Отпустить её' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
@@ -127,7 +127,7 @@ label lb_enc_boar:
     menu:
         'Сразиться с вепрем':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_53
             if game.dragon.hunger > 0:
                 '[game.dragon.name] съедает поверженного вепря вепря. Сила заключённая в мясе старого кабана придаст ударам дракона убийственную мощь.'
                 python:
@@ -154,7 +154,7 @@ label lb_enc_guardian:
     menu:
         'Атаковать стража':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_54
             python:
                 txt = game.interpolate(random.choice(txt_enc_forest_guardian[2]))
                 if game.dragon.magic > 0:
@@ -243,6 +243,6 @@ label lb_patrool_forest:
     '[dtxt]'
     $ game.foe = core.Enemy(patrool, game_ref=game)
     $ chances = show_chances(game.foe)
-    call lb_fight
+    call lb_fight from _call_lb_fight_55
     
     return
