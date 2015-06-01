@@ -2678,4 +2678,6 @@ class Treasury(store.object):
                 self.take_gem(item.inlaid.g_type + u';common;' + item.inlaid.cut)
             if item.huge:
                 self.take_gem(item.huge.g_type + u';large;' + item.huge.cut)
+            if item.image:
+                item.decoration_image = random.choice(image_types[item.alignment])
         return item
