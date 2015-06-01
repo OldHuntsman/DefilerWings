@@ -456,6 +456,7 @@ class Game(store.object):
             # Добавляем в список только актуальные заклинания.
             if spell not in self.dragon.spells and (spell is not 'spellbound_trap' or 'magic_traps' not in self.lair.upgrades):
                 spells_menu.append((data.spell_list_rus[spell], spell))
+        spells_menu = sorted(spells_menu, key=lambda spell: spell[0])
         spells_menu.append((back_message, 'back'))
         spell_name = renpy.display_menu(spells_menu)
         if spell_name == 'back':
