@@ -51,7 +51,7 @@ label lb_location_mordor_main:
 label lb_mistress:
     python:
         if not persistent.isida_done:
-            renpy.movie_cutscene("mov/isida.ogv")
+            renpy.movie_cutscene("mov/isida.webm")
             persistent.isida_done = True
     nvl clear
     show expression 'img/scene/mistress.png' as bg    
@@ -131,12 +131,12 @@ label lb_mistress_fuck:
     'Прошло девять месяцев и кладка новых яиц проклюнулась...'
     python:
         if not persistent.lada_done:
-            renpy.movie_cutscene("mov/lada.ogv")
+            renpy.movie_cutscene("mov/lada.webm")
             persistent.lada_done = True    
     return
 
 label lb_betrayal:
-    $ renpy.movie_cutscene("mov/kali.ogv")
+    $ renpy.movie_cutscene("mov/kali.webm")
     $ atk_tp = 'pysical'
     $ mistress_hp = 3
     call lb_new_round from _call_lb_new_round
@@ -444,7 +444,7 @@ label lb_war_border:
             if reinforcement_used:
                 call lb_war_border from _call_lb_war_border_1
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")
+                $ renpy.movie_cutscene("mov/kali.webm")
                 $ reinforcement_used = True
 
     call lb_war_border_continue from _call_lb_war_border_continue
@@ -477,7 +477,7 @@ label lb_war_border_continue:
             if reinforcement_used:
                 call lb_war_border_continue from _call_lb_war_border_continue_1
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")
+                $ renpy.movie_cutscene("mov/kali.webm")
                 $ reinforcement_used = True
     
     call lb_war_field from _call_lb_war_field
@@ -514,7 +514,7 @@ label lb_war_field:
             if reinforcement_used:
                 call lb_war_border_continue from _call_lb_war_border_continue_2
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")
+                $ renpy.movie_cutscene("mov/kali.webm")
                 $ reinforcement_used = True
     call lb_war_field_continue from _call_lb_war_field_continue
     return
@@ -549,7 +549,7 @@ label lb_war_field_continue:
             if reinforcement_used:
                 call lb_war_field_continue from _call_lb_war_field_continue_1
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")
+                $ renpy.movie_cutscene("mov/kali.webm")
                 $ reinforcement_used = True
     call lb_war_siege from _call_lb_war_siege
     return
@@ -585,7 +585,7 @@ label lb_war_siege:
             if reinforcement_used:
                 call lb_war_siege from _call_lb_war_siege_1
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")
+                $ renpy.movie_cutscene("mov/kali.webm")
                 $ reinforcement_used = True
                 
     call lb_war_siege_inside from _call_lb_war_siege_inside
@@ -622,7 +622,7 @@ label lb_war_siege_inside:
             if reinforcement_used:
                 call lb_war_siege_inside from _call_lb_war_siege_inside_1
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")
+                $ renpy.movie_cutscene("mov/kali.webm")
                 $ reinforcement_used = True
                 
     call lb_war_citadel from _call_lb_war_citadel
@@ -659,7 +659,7 @@ label lb_war_citadel:
             if reinforcement_used:
                 call lb_war_citadel from _call_lb_war_citadel_1
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")   
+                $ renpy.movie_cutscene("mov/kali.webm")   
                 $ reinforcement_used = True
                 
     call lb_war_final from _call_lb_war_final
@@ -692,7 +692,7 @@ label lb_war_final:
             if reinforcement_used:
                 call lb_war_final from _call_lb_war_final_1
             else:
-                $ renpy.movie_cutscene("mov/kali.ogv")               
+                $ renpy.movie_cutscene("mov/kali.webm")               
                 $ reinforcement_used = True    
     jump lb_orgy
 

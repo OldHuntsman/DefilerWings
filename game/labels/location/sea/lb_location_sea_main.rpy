@@ -61,7 +61,7 @@ label lb_enc_shark:
     menu:
         'Сразиться с акулой':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('griffin', game_ref=game)
+            $ game.foe = core.Enemy('shark', game_ref=game)
             call lb_fight from _call_lb_fight_20
             if game.dragon.hunger > 0:
                 'Голодный [game.dragon.name] съедает разрывает поверженную акулу на куски и заглатывает самые крупные в то время как за куски помельче дерутся откуда ни возьмись маленькие акулы.'
@@ -69,7 +69,7 @@ label lb_enc_shark:
                     if game.dragon.bloodiness > 0:
                         game.dragon.bloodiness = 0
                     game.dragon.hunger -= 1
-                    game.dragon.add_effect('boar_meat')
+                    game.dragon.add_effect('shark_meat')
             else:
                 '[game.dragon.fullname] сейчас не голоден, поэтому оставляет изрангенную акулу на растерзание её более мелким но агрессивным сородичам, приплывшим на запах крови.'
         'Скрыться на глубине' if game.dragon.bloodiness < 5:

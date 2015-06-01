@@ -946,7 +946,7 @@ label lb_dwarf_treashury:
 
 label lb_dwarf_rob:
     python:
-        count = random.randint(12)
+        count = random.randint(12,15)
         alignment = 'dwarf'
         min_cost = 500
         max_cost = 5000
