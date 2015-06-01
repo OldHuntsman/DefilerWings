@@ -135,7 +135,7 @@ label lb_test_debug:
                         girls_menu = []
                         for girl_type in girls_data.girls_info.keys():
                             girl_type_name = girls_data.girls_info[girl_type]['description']
-                            girls_menu.append((treasures.capitalizeFirst(girl_type_name), girl_type))
+                            girls_menu.append((girl_type_name, girl_type))
                         girl_type = renpy.display_menu(girls_menu)
                         game.girls_list.new_girl(girl_type)
                         game.girls_list.jail_girl()
@@ -183,6 +183,8 @@ label lb_test_debug:
                     call screen sc_equip_editor(game.knight, [data.knight_items])
                 "Вызвать рыцарем дракона на бой" if game.knight is not None:
                     $ game.knight.go_challenge()
+                "Обязать рыцаря вызвать дракона на бой" if game.knight is not None:
+                    $ game.knight.forced_to_challenge = True
         "Удалить сохранения":
             menu:
                 "Сохранение сюжетной игры":
