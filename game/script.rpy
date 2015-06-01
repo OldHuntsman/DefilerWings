@@ -22,6 +22,7 @@ screen controls_overwrite():
     key "game_menu" action ShowMenu("preferences")
 
 label start:
+    $ renpy.block_rollback()
     python:
         # Инициализируем game в начале игры, а не при инициализации. Для того чтобы она сохранялась.
         game = core.Game(adv_character=ADVCharacter, nvl_character=NVLCharacter)
@@ -49,7 +50,7 @@ label start:
                 call lb_choose_dragon from _call_lb_choose_dragon_4
             else:
                 call lb_dragon_creator from _call_lb_dragon_creator
-        $ renpy.block_rollback()
+
         $ target_label = renpy.call_screen("main_map")
         if renpy.has_label(target_label):
             $ renpy.call(target_label)

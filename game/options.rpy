@@ -417,6 +417,10 @@ init python:
         config.use_cpickle = False
 
     config.save_dump = True
+    
+    # Getting rid of rollback:
+    config.hard_rollback_limit = 0
+    config.rollback_enabled = False
 
     # Дополнительная переменная для вывода всякой дополнительной инфы.
     config.debug = False
