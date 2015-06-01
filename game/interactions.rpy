@@ -49,7 +49,7 @@ label lb_nature_sex:
 
 
 label lb_lair_sex:
-    game.girl "[description]"    
+    game.girl "Я хочу домой. Ну пожалуйста..."    
     jump lb_nature_sex
 
 label lb_gigant_sex:
