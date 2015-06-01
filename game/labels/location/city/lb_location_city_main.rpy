@@ -18,13 +18,13 @@ label lb_location_city_main:
             'Дракон превращается в человека и проходит в город. На это пришлось потратить драгоценную волшебную силу...'
             $ game.dragon.drain_mana()
             nvl clear
-            call lb_city_walk
+            call lb_city_walk from _call_lb_city_walk
         'Штурморвать ворота' if not game.dragon.can_fly:
             'Заметив приближение опасности бдительные стражники закрывают ворота. Прийдётся порываться с боем...'
-            call lb_city_gates
+            call lb_city_gates from _call_lb_city_gates
         'Влететь внутрь' if game.dragon.can_fly:
             'Легко перемахнув через городскую стену, [game.dragon.kind] оказывается в самом центре города. От летучего врага укрепления не спасут...'
-            call lb_city_raze
+            call lb_city_raze from _call_lb_city_raze
         'Уйти прочь':
             return
             
@@ -42,16 +42,16 @@ label lb_city_raze:
     nvl clear
     menu:
         'Королевский дворец':
-            call lb_city_palace_atk
+            call lb_city_palace_atk from _call_lb_city_palace_atk
 
         'Рыночная площадь':
-            call lb_city_market_atk
+            call lb_city_market_atk from _call_lb_city_market_atk
 
         'Кафедральный собор':
-            call lb_city_cathedral_atk
+            call lb_city_cathedral_atk from _call_lb_city_cathedral_atk
             
         'Богатые кварталы':
-            call lb_city_jew_atk
+            call lb_city_jew_atk from _call_lb_city_jew_atk
             
         'Покинуть город':
             return
@@ -65,16 +65,16 @@ label lb_city_walk:
 
     menu:
         'Королевский дворец':
-            call lb_city_palace
+            call lb_city_palace from _call_lb_city_palace
 
         'Рыночная площадь':
-            call lb_city_market
+            call lb_city_market from _call_lb_city_market
 
         'Кафедральный собор':
-            call lb_city_cathedral
+            call lb_city_cathedral from _call_lb_city_cathedral
             
         'Мастерская ювелира':
-            call lb_city_jewler
+            call lb_city_jewler from _call_lb_city_jewler
             
         'Покинуть город':
             return
@@ -88,9 +88,9 @@ label lb_city_palace:
     nvl clear
     menu:
         'Напасть':
-            call lb_city_palace_atk
+            call lb_city_palace_atk from _call_lb_city_palace_atk_1
         'Уйти':
-            call lb_city_walk
+            call lb_city_walk from _call_lb_city_walk_1
     
     return
 
@@ -98,7 +98,7 @@ label lb_city_palace_atk:
     $ game.dragon.drain_energy()
     $ game.foe = core.Enemy('palace_guards', game_ref=game)
     $ chances = show_chances(game.foe)
-    call lb_fight
+    call lb_fight from _call_lb_fight
     'Пока остальные защитники цитадели находятся в замешательстве, у дракона появился отилинчый шанс для грабежа и разбоя.'
     $ game.dragon.reputation.points += 3
     '[game.dragon.reputation.gain_description]'
@@ -111,7 +111,7 @@ label lb_city_palace_atk:
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex     
+            call lb_nature_sex from _call_lb_nature_sex     
         'Вороватъ @ убиватъ':
             $ game.dragon.drain_energy()
             python:
@@ -138,9 +138,9 @@ label lb_city_market:
     nvl clear
     menu:
         'Принять истинный облик':
-            call lb_city_market_atk
+            call lb_city_market_atk from _call_lb_city_market_atk_1
         'Уйти':
-            call lb_city_walk
+            call lb_city_walk from _call_lb_city_walk_2
 
     return
 
@@ -164,9 +164,9 @@ label lb_city_market_atk:
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex     
+            call lb_nature_sex from _call_lb_nature_sex_1     
         'Покинуть площадь':
-            call lb_city_walk
+            call lb_city_walk from _call_lb_city_walk_3
     return
 
 label lb_city_cathedral:
@@ -175,10 +175,10 @@ label lb_city_cathedral:
     menu:
         'Разграбить собор':
             'Загадочный незнакомец входит под своды храма и прямо на глазах у молящихся преображается в чудовище.'
-            call lb_city_cathedral_atk
+            call lb_city_cathedral_atk from _call_lb_city_cathedral_atk_1
 
         'Уйти':
-            call lb_city_walk
+            call lb_city_walk from _call_lb_city_walk_4
     return
 
 label lb_city_cathedral_atk:
@@ -244,17 +244,17 @@ label lb_city_jewler:
                 $ test_description = new_item.description()
                 "Изготовлено: [test_description]."
         'Принять истинный облик':
-            call lb_city_jew_atk
+            call lb_city_jew_atk from _call_lb_city_jew_atk_1
         'Вернуться на площадь':
-            call lb_city_walk
-    
+            call lb_city_walk from _call_lb_city_walk_5
+    call lb_city_jewler
     return
 
 
 label lb_city_jew_atk:
     $ game.dragon.drain_energy()
     $ game.foe = core.Enemy('city_guard', game_ref=game)
-    call lb_fight
+    call lb_fight from _call_lb_fight_1
     'В ближайшей округе не осталось ни одного живого стражника. Кругом царит паника, люди бегут прочь от дракона спасая самое ценное. [game.dragon.name] оглядывает сцену разрушения и хаоса. Толстый ювелир, тащит тяжелую деревянную шкатулку с драгоценностями. Благнородная девица с визгом убегает прочь. В подвале горящего дома, который вот вот обрушится лежат без присмотра драгоценные слитки и камни.'
     $ game.dragon.reputation.points += 3
     '[game.dragon.reputation.gain_description]'
@@ -283,7 +283,7 @@ label lb_city_jew_atk:
             '[game.dragon.reputation.gain_description]'
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex     
+            call lb_nature_sex from _call_lb_nature_sex_2     
             
         'Спасти сокровища из горящего дома':
             python:

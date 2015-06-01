@@ -15,7 +15,7 @@ label lb_location_sky_main:
     if not game.dragon.can_fly: 
         '[game.dragon.name] с тоской смотрит в небо. Если бы только он умел летать...'
     else:
-        call lb_encounter_sky
+        call lb_encounter_sky from _call_lb_encounter_sky
     return
     
 label lb_encounter_sky:
@@ -59,12 +59,12 @@ label lb_enc_swan:
 label lb_enc_griffin:
     'В вышине парит матёрый дикий грифон. Он облетает свои владения в поисках добычи и нарушителей, причём второе по его мнению относится и к драконам. Может быть стоит показать пернатому где его место?'
     $ game.dragon.drain_energy()
-    $ game.foe = core.Enemy('griffin', game_ref=game)
+    $ game.foe = core.Enemy('griffin')
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
         'Сразиться с грифоном':
-            call lb_fight
+            call lb_fight from _call_lb_fight_50
             if game.dragon.hunger > 0:
                 'Голодный [game.dragon.name] съедает грифона прямо в воздухе и бросает отсанки вниз на поживу шакалам.'
                 python:
@@ -82,11 +82,11 @@ label lb_enc_skyboat:
     'Над облаками вздымается парус! Это один из воздушных кораблей цвергов, судя по всему торговый. А значит там может быть добыча..'
     python:
         game.dragon.drain_energy()
-        game.foe = core.Enemy('airship', game_ref=game)
+        game.foe = core.Enemy('airship')
         narrator(show_chances(game.foe))
     menu:
         'Напасть':
-            call lb_fight
+            call lb_fight from _call_lb_fight_51
             '[game.dragon.name] стремительно обыскивает падающий вниз корабль и выгребает всё ценное:'
             python:
                 count = random.randint(5, 15)
@@ -108,12 +108,12 @@ label lb_enc_skyboat:
     
 label lb_enc_fair_sky:
     'Паря в вышине [game.dragon.fullname] замечает внизу какие-то цветные пятна. Спустившись ниже становится понятно что это ярмарка, которую устроили люди.'
-    call lb_enc_fair
+    call lb_enc_fair from _call_lb_enc_fair
     return
     
 label lb_enc_militia_sky:
     '[game.dragon.fullname] замечает какое-то шевеление на земле далеко внизу. Так и есть - это собрались на тренировку ополченцы наспех собранные из окрестных деревень.'
-    call lb_enc_militia
+    call lb_enc_militia from _call_lb_enc_militia
     return
     
 label lb_enc_caravan_sky:
@@ -140,8 +140,8 @@ label lb_patrool_sky:
             patrool = 'angel'
             dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
     '[dtxt]'
-    $ game.foe = core.Enemy(patrool, game_ref=game)
+    $ game.foe = core.Enemy(patrool)
     $ narrator(show_chances(game.foe))
-    call lb_fight
+    call lb_fight from _call_lb_fight_52
 
     return

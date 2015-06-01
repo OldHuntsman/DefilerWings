@@ -10,9 +10,9 @@ label lb_test_example_returnLoop:
         menu:
             "Некоторый выбор"
             "Вариант 1":
-                call lb_test_example_choice1
+                call lb_test_example_choice1 from _call_lb_test_example_choice1
             "Вариант 2":
-                call lb_test_example_choice2
+                call lb_test_example_choice2 from _call_lb_test_example_choice2
             "Закончить цикл":
                 return
     return
