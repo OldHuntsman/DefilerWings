@@ -1527,6 +1527,7 @@ effects_list = {
     'boar_meat': ['atk_up'],
     'bear_meat': ['def_up'],
     'griffin_meat': ['mg_up'],
+    'shark_meat': ['mg_up'],
 }
 
 modifiers = {
