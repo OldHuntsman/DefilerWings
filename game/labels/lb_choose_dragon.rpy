@@ -21,7 +21,7 @@ label lb_choose_dragon:
         child_choose = None
         child_selected = None
         togle_dragonchoose_button = None
-        if game.dragon and len(game.dragon.heads) == 0 and len(dragons_choosed) == len(dragons):
+        if game.dragon and game.dragon.is_dead and len(dragons_choosed) == len(dragons):
             lost = True
     if lost:
         jump lb_game_over
