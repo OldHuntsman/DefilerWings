@@ -24,7 +24,7 @@ label lb_enchanted_forest:
             $ game.dragon.drain_mana()
             '[game.dragon.fullname] применяет чёрную магию чтобы разорвать завесу иллюзий, морока и сна которыми скрыты владения альвов. Незамеченный и смертоносный [game.dragon.kind] входит под сень чародейсикх древ.'
             nvl clear
-            call lb_enchanted_forest_enter
+            call lb_enchanted_forest_enter from _call_lb_enchanted_forest_enter
         'Уйти прочь':
             return
         
@@ -44,7 +44,7 @@ label lb_enchanted_forest_enter:
             $ renpy.call(enc)
     
         'Напасть на Древо Жизни':
-            call lb_enchanted_forest_grove
+            call lb_enchanted_forest_grove from _call_lb_enchanted_forest_grove
             
     return
 
@@ -56,14 +56,14 @@ label lb_enchanted_forest_elfgirl:
     menu:
         'Напасть на фею':
             $ game.foe = core.Enemy('mounted_guard', game_ref=game)
-            call lb_fight
+            call lb_fight from _call_lb_fight_25
             'Несмотря на жестокое сопротивление, чародейка не получила особых повреждений. Она теперь безащитна, но цела... пока что.'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
             $ description = game.girls_list.new_girl('elf')
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex      
+            call lb_nature_sex from _call_lb_nature_sex_14      
         
         'Тихонько уйти прочь' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()        
@@ -77,7 +77,7 @@ label lb_enchanted_forest_druid:
         'Вступить в бой':
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('druid', game_ref=game)
-            call lb_fight
+            call lb_fight from _call_lb_fight_26
             $ game.dragon.reputation.points += 3
             'Друид повержен. [game.dragon.reputation.gain_description]'
             '[game.dragon.name] находит на трупе кое-что ценное:'
@@ -107,13 +107,13 @@ label lb_enchanted_forest_grove:
     menu:
         'Атаковать священное древо':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_27
             $ txt = game.interpolate(random.choice(txt_place_enfr[5]))
             '[txt]' 
             $ game.dragon.reputation.points += 25
             '[game.dragon.reputation.gain_description]' 
             nvl clear
-            call lb_enchanted_forest_grove_rob
+            call lb_enchanted_forest_grove_rob from _call_lb_enchanted_forest_grove_rob
         'Покинуть зачарованный лес' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             
@@ -145,8 +145,8 @@ label lb_enchanted_forest_grove_rob:
             $ description = game.girls_list.new_girl('elf')
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex     
-            call lb_dead_grove
+            call lb_nature_sex from _call_lb_nature_sex_15     
+            call lb_dead_grove from _call_lb_dead_grove
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('enchanted_forest', 'dead_grove')
@@ -187,13 +187,13 @@ label lb_manor:
     menu:
         'Вызвать рыцаря на бой':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_28
             $ txt = game.interpolate(random.choice(txt_place_manor[5]))
             '[txt]' 
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
             nvl clear
-            call lb_manor_rob
+            call lb_manor_rob from _call_lb_manor_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
             $ game.dragon.add_special_place('manor', 'manor_full')
             $ game.dragon.gain_rage()
@@ -225,8 +225,8 @@ label lb_manor_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex     
-            call lb_manor_empty
+            call lb_nature_sex from _call_lb_nature_sex_16     
+            call lb_manor_empty from _call_lb_manor_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('manor', 'manor_empty')
@@ -267,13 +267,13 @@ label lb_wooden_fort:
     menu:
         'Атаковать замок':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_29
             $ txt = game.interpolate(random.choice(txt_place_wooden_fort[5]))
             '[txt]' 
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'            
             nvl clear
-            call lb_wooden_fort_rob
+            call lb_wooden_fort_rob from _call_lb_wooden_fort_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
             $ game.dragon.add_special_place('wooden_fort', 'wooden_fort_full')
             $ game.dragon.gain_rage()
@@ -305,8 +305,8 @@ label lb_wooden_fort_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex     
-            call lb_wooden_fort_empty
+            call lb_nature_sex from _call_lb_nature_sex_17     
+            call lb_wooden_fort_empty from _call_lb_wooden_fort_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('wooden_fort', 'wooden_fort_empty')
@@ -347,13 +347,13 @@ label lb_abbey:
     menu:
         'Атаковать монастырь':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_30
             $ txt = game.interpolate(random.choice(txt_place_abbey[5]))
             '[txt]' 
             $ game.dragon.reputation.points += 10
             '[game.dragon.reputation.gain_description]'  
             nvl clear
-            call lb_abbey_rob
+            call lb_abbey_rob from _call_lb_abbey_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
             $ game.dragon.add_special_place('abbey', 'abbey_full')
             $ game.dragon.gain_rage()
@@ -385,8 +385,8 @@ label lb_abbey_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex     
-            call lb_manor_empty
+            call lb_nature_sex from _call_lb_nature_sex_18     
+            call lb_manor_empty from _call_lb_manor_empty_1
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('abbey', 'abbey_empty')
@@ -427,13 +427,13 @@ label lb_castle:
     menu:
         'Атаковать крепость':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_31
             $ txt = game.interpolate(random.choice(txt_place_castle[5]))
             '[txt]' 
             $ game.dragon.reputation.points += 10
             '[game.dragon.reputation.gain_description]'                
             nvl clear
-            call lb_castle_rob
+            call lb_castle_rob from _call_lb_castle_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
             $ game.dragon.add_special_place('castle', 'castle_full')
             $ game.dragon.gain_rage()
@@ -465,8 +465,8 @@ label lb_castle_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex     
-            call lb_castle_empty
+            call lb_nature_sex from _call_lb_nature_sex_19     
+            call lb_castle_empty from _call_lb_castle_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('castle', 'castle_empty')
@@ -508,13 +508,13 @@ label lb_palace:
     menu:
         'Атаковать замок':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_32
             $ txt = game.interpolate(random.choice(txt_place_palace[5]))
             '[txt]' 
             $ game.dragon.reputation.points += 25
             '[game.dragon.reputation.gain_description]'                 
             nvl clear
-            call lb_palace_rob
+            call lb_palace_rob from _call_lb_palace_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
             $ game.dragon.add_special_place('palace', 'palace_full')
             $ game.dragon.gain_rage()
@@ -546,8 +546,8 @@ label lb_palace_rob:
             $ description = game.girls_list.new_girl('princess')
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex     
-            call lb_palace_empty
+            call lb_nature_sex from _call_lb_nature_sex_20     
+            call lb_palace_empty from _call_lb_palace_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('palace', 'palace_empty')
@@ -584,7 +584,7 @@ label lb_enc_fight_ogre:
     menu:
         'Вызвать великана на бой':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_33
             '[game.dragon.name] победил.'
             jump lb_enc_explore_ogre_den
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
@@ -599,7 +599,7 @@ label lb_enc_explore_ogre_den:
             $ description = game.girls_list.new_girl('ogre')
             nvl clear
             game.girl.third "[description]"
-            call lb_gigant_sex     
+            call lb_gigant_sex from _call_lb_gigant_sex     
             jump lb_enc_create_ogre_lair
                                         
         'Запомнить место и уйти':
@@ -635,7 +635,7 @@ label lb_jotun:
     menu:
         'Вызвать йотуна на бой':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_34
             jump lb_jotun_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
             $ game.dragon.add_special_place('jotun', 'jotun_full')
@@ -650,7 +650,7 @@ label lb_jotun_rob:
             $ description = game.girls_list.new_girl('ice')
             nvl clear
             game.girl.third "[description]"
-            call lb_gigant_sex     
+            call lb_gigant_sex from _call_lb_gigant_sex_1     
             jump lb_jotun_empty
                                         
         'Запомнить место и уйти':
@@ -686,7 +686,7 @@ label lb_ifrit:
     menu:
         'Вызвать ифрита на бой':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_35
             jump lb_ifrit_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
             $ game.dragon.add_special_place('ifrit', 'ifrit_full')
@@ -701,7 +701,7 @@ label lb_ifrit_rob:
             $ description = game.girls_list.new_girl('fire')
             nvl clear
             game.girl.third "[description]"
-            call lb_gigant_sex     
+            call lb_gigant_sex from _call_lb_gigant_sex_2     
             jump lb_ifrit_empty
                                         
         'Запомнить место и уйти':
@@ -740,7 +740,7 @@ label lb_triton:
     menu:
         'Вызвать титана на бой':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_36
             jump lb_triton_rob
         'Запомнить место и уйти' if game.dragon.bloodiness < 5:
             $ game.dragon.add_special_place('triton', 'triton_full')
@@ -755,7 +755,7 @@ label lb_triton_rob:
             $ description = game.girls_list.new_girl('siren')
             nvl clear
             game.girl.third "[description]"
-            call lb_gigant_sex     
+            call lb_gigant_sex from _call_lb_gigant_sex_3     
             jump lb_triton_empty
                                         
         'Запомнить место и уйти':
@@ -793,7 +793,7 @@ label lb_titan:
     menu:
         'Вызвать титана на бой':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_37
             $ game.dragon.reputation.points += 10
             '[game.dragon.reputation.gain_description]'   
             jump lb_titan_rob
@@ -810,7 +810,7 @@ label lb_titan_rob:
             $ description = game.girls_list.new_girl('titan')
             nvl clear
             game.girl.third "[description]"
-            call lb_gigant_sex     
+            call lb_gigant_sex from _call_lb_gigant_sex_4     
             jump lb_titan_empty
                                         
         'Запомнить место и уйти':
@@ -864,7 +864,7 @@ label lb_frontgates:
             'Жалкие укрепления коротышек не смогут устоять перед яростным отродьем Госпожи. [game.dragon.fullname] достаточно огромен и могуч чтобы проломиться сквозь ворота и ворваться в подгорное царство. Однако теперь отступать нельзя - если цвергов не прогнать, они укрепятся заново.'
             $ game.dragon.add_special_place('backdor', 'backdor_sealed')
             $ game.dragon.drain_energy()
-            call lb_golem_guard
+            call lb_golem_guard from _call_lb_golem_guard
         'Убраться пока они не зарядили пушки...':
             'Шататься перед главными воротами цвергов без дела будет не лучшей идеей, они ведь могут и пальнуть чем нибудь...'
             $ game.dragon.gain_rage()
@@ -882,7 +882,7 @@ label lb_golem_guard:
     menu:
         'Сразиться с механическим стражем':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_38
             jump lb_dwarf_army
         'Бежать поджав хвост' if game.dragon.bloodiness < 5:
             'Сегодня коротыкам повезло, но даже если они восстановят ворота, не долго им осталось пребывать в покое...'
@@ -896,14 +896,14 @@ label lb_dwarf_army:
     $ narrator(show_chances(game.foe))
     menu:
         'Атаковать без жалости':
-            call lb_fight
+            call lb_fight from _call_lb_fight_39
             'Теперь, когда основные силы цвергов разбиты и деморализованы, надо выбрать направление финального удара. Ремесленные кварталы почти беззащиты и там цвергов можно будет перебить во множестве, пока они не успели сбежать. С другой стороны, самые главные ценности должны храниться ниже, в главной сокровищнице. Если не наведаться туда прямо сейчас, хитрые цверги вынесут всё до последней монетки.'
             menu:
                 'Вниз - за сокровищами!':
-                    call lb_dwarf_treashury
+                    call lb_dwarf_treashury from _call_lb_dwarf_treashury
                     
                 'Разорить ремесленные цеха':
-                    call lb_dwarf_houses
+                    call lb_dwarf_houses from _call_lb_dwarf_houses
                     
                 'Отступить':
                     'Обидно отступать, когда победа была так близка, но загнанные в угол цверги могут быть крайне опасными противниками. Иногда лучше не рисковать!'
@@ -921,8 +921,8 @@ label lb_dwarf_houses:
     nvl clear
     menu:
         'Наброситься на цвергов':
-            call lb_fight
-            call lb_dwarf_ruins
+            call lb_fight from _call_lb_fight_40
+            call lb_dwarf_ruins from _call_lb_dwarf_ruins
         'Отступить':
             'Обидно отутпать когда победа была так близка, но загнанные в угол цверги могут быть крайне опасными противниками. Иногда лучше не рисковать!'
             $ game.dragon.gain_rage()        
@@ -935,10 +935,10 @@ label lb_dwarf_treashury:
     nvl clear
     menu:
         'Сразиться с чемпионом':
-            call lb_fight
+            call lb_fight from _call_lb_fight_41
             $ game.dragon.reputation.points += 25
             '[game.dragon.reputation.gain_description]'     
-            call lb_dwarf_rob
+            call lb_dwarf_rob from _call_lb_dwarf_rob
         'Бежать поджав хвост':
             'Обидно отутпать когда победа была так близка, но загнанные в угол цверги могут быть крайне опасными противниками. Иногда лучше не рисковать!'
             $ game.dragon.gain_rage()      
@@ -961,7 +961,7 @@ label lb_dwarf_rob:
             '[trs_descrptn]'
             $ game.lair.treasury.receive_treasures(trs)
             nvl clear
-            call lb_dwarf_ruins
+            call lb_dwarf_ruins from _call_lb_dwarf_ruins_1
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('palace', 'palace_empty')

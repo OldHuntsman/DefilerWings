@@ -106,7 +106,7 @@ label lb_enc_bear:
         'Сразиться с медведем':
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('bear', game_ref=game)
-            call lb_fight
+            call lb_fight from _call_lb_fight_56
             if game.dragon.hunger > 0:
                 'Мясо пещерного медведя богато полезными минералами и витаминами, хорошо влияющими на чешую. Может быть это и не очень вкусно, зато плезно. Благодаря такому обеду защита от вражеского оружия будет немного выше.'
                 python:
@@ -137,7 +137,7 @@ label lb_enc_smugglers:
             
         'Отнять весь товар':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_57
             python:
                 count = random.randint(5, 15)
                 alignment = 'human'
@@ -175,18 +175,18 @@ label lb_enc_slavers:
         'Потребовать невинную девушку' if game.dragon.lust > 0:
             $ game.dragon.drain_energy()
             'Среди всех рабов, юная красавица самая ценная. Похоже чтобы получить её придётся разогнать охрану, так просто работорговцы её не отдадут...'
-            call lb_fight
+            call lb_fight from _call_lb_fight_58
             'Дракон получает девушку.'
             $ description = game.girls_list.new_girl('citizen')
             nvl clear
             game.girl.third "[description]"
-            call lb_nature_sex    
+            call lb_nature_sex from _call_lb_nature_sex_24    
         
         'Перебить караван':
             $ game.dragon.drain_energy()
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('band', game_ref=game)
-            call lb_fight
+            call lb_fight from _call_lb_fight_59
         
         'Отпустить их с миром' if game.dragon.bloodiness < 5:
             'Пусть налаживают торговлю, чем богаче станет страна тем больше можно будет нажиться ограбляя её!'        
@@ -211,7 +211,7 @@ label lb_enc_mines_silver:
             
         'Ограбить рудник':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_60
             python:
                 count = random.randint(5, 20)
                 alignment = 'human'
@@ -250,7 +250,7 @@ label lb_enc_mines_gold:
             
         'Ограбить рудник':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_61
             python:
                 count = random.randint(3, 15)
                 alignment = 'human'
@@ -289,7 +289,7 @@ label lb_enc_mines_mithril:
             
         'Ограбить рудник':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_62
             python:
                 count = random.randint(2, 10)
                 alignment = 'human'
@@ -328,7 +328,7 @@ label lb_enc_mines_adamantine:
             
         'Ограбить рудник':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_63
             python:
                 count = random.randint(1, 5)
                 alignment = 'human'
@@ -376,7 +376,7 @@ label lb_enc_mines_gem_low:
             
         'Ограбить шахту':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_64
             python:
                 count = random.randint(5, 20)
                 alignment = 'human'
@@ -422,7 +422,7 @@ label lb_enc_mines_gem_high:
             
         'Ограбить шахту':
             $ game.dragon.drain_energy()
-            call lb_fight
+            call lb_fight from _call_lb_fight_65
             python:
                 count = random.randint(3, 10)
                 alignment = 'human'
@@ -448,7 +448,7 @@ label lb_enc_frontgates_found:
     show expression 'img/bg/special/gates_dwarf.png' as bg
     'Врата в Подгорное Царство!'
     $ game.dragon.add_special_place('frontgates', 'frontgates_guarded')
-    call lb_frontgates    
+    call lb_frontgates from _call_lb_frontgates    
     return
     
 label lb_enc_cannontower:
@@ -460,7 +460,7 @@ label lb_enc_cannontower:
             'А! Они будут стрелять!'
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('steamgun', game_ref=game)
-            call lb_fight
+            call lb_fight from _call_lb_fight_66
             'Внутри бастиона нет никаких сокровищ, только железо, провиант и бумаги. В глубине был проход в подгорное цраство, но едва поняв что проигрывают бой, цверги взорвали заряд пороха который обрушил тоннель завалив его сотянми тонн камней. Через завал никому не пробораться.'
             menu:
                 'Расшифровать архивы':
@@ -495,6 +495,6 @@ label lb_patrool_mountain:
             dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
     '[dtxt]'
     $ game.foe = core.Enemy(patrool, game_ref=game)
-    call lb_fight
+    call lb_fight from _call_lb_fight_67
     
     return

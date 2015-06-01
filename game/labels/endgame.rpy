@@ -19,7 +19,7 @@ label lb_game_over:
 label lb_you_win:
     $ data.achieve_target("conquer", "win")
     $ data.achieve_win(game.dragon)
-    call lb_achievement_acquired
+    call lb_achievement_acquired from _call_lb_achievement_acquired
     hide all
     play music 'mus/outro.ogg'
     show black
