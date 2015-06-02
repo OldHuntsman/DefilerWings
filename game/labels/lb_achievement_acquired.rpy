@@ -1,4 +1,8 @@
 label lb_achievement_acquired:
+    python:
+        if u"Пасхальный кролик" not in persistent.achievements.keys():            
+            for egg in persistent.easter_eggs:
+                data.achieve_target(egg, "easter_eggs")
     $ achieved = data.store_achievements(persistent.achievements)
     $ names_list = achieved.keys()
     while len(names_list) != 0:

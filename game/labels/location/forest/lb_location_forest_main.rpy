@@ -34,9 +34,9 @@ label lb_location_forest_main:
     return
     
 label lb_enc_domiki:
-    if persistent.domiki_done:
+    if "domiki_done" in persistent.easter_eggs:
         jump lb_location_forest_main
-    $ persistent.domiki_done = True
+    $ persistent.easter_eggs.append("domiki_done")
     "ВНЕЗАПНО! Из лесной чащи на дракона набигает..."
     show expression 'img/scene/fight/domik.png' as bg    
     'ДЕРЕВЯННЫЙ ДОМИК?!!!! Видимо это легендарное творение древнего безумного странствующего Архимага Кирилла "Коровануса"  - боевой деревянный голем. Он явно агрессивен...'

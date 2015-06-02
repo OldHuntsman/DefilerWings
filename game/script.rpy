@@ -15,6 +15,8 @@ init python:
     army_battle = False
     if not persistent.achievements:
         persistent.achievements = {}
+    if not persistent.easter_eggs:
+        persistent.easter_eggs = []
 # Начало игры
     
 screen controls_overwrite():

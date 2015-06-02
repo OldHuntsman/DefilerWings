@@ -2439,5 +2439,9 @@ achievements_list = [Achievement(name = u"Великий змей",
                                  description = u"Достиг победы не потеряв ни одного сокровища из-за воров или рыцарей",
                                  goal = "win",
                                  targets = ["win"],
-                                 failif = "lost_treasure")
+                                 failif = "lost_treasure"),
+                     Achievement(name = u"Пасхальный кролик",
+                                 description = u"Собрать все пасхалки",
+                                 goal = "easter_eggs",
+                                 targets = ["domiki_done", "redhood_done"])
                     ]
