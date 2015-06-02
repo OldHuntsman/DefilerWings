@@ -31,12 +31,7 @@ class Knight(Fighter):
         ab = random.choice(ability_list)
         self.abilities.add(ab, deepcopy(data.knight_abilities[ab]))
         self._add_equip_slots(["vest", "spear", "sword", "shield", "horse", "follower"])
-        self.equip(deepcopy(data.knight_items.basic_vest))
-        self.equip(deepcopy(data.knight_items.basic_spear))
-        self.equip(deepcopy(data.knight_items.basic_sword))
-        self.equip(deepcopy(data.knight_items.basic_shield))
-        self.equip(deepcopy(data.knight_items.basic_horse))
-        self.equip(deepcopy(data.knight_items.basic_follower))
+        self.equip_basic()
         self.bg = "img/scene/fight/knight/" + random.choice(
             os.listdir(os.path.join(renpy.config.basedir, "game/img/scene/fight/knight")))  # получаем название файла
         self.kind = 'knight'
@@ -208,6 +203,25 @@ class Knight(Fighter):
         self.equip(new_item)
         self.last_received_item = new_item
         self.event("receive_item", item=new_item)
+
+    @property
+    def enchanted_equip_count(self):
+        """ Количество небазового шмота на рыцаре.
+        :rtype: int
+        :return: Количество небазового шмота на рыцаре.
+        """
+        return len([i for i in self.items if not self.items[i].basic])
+
+    def equip_basic(self):
+        """ Одевает рыцаря в базовый шмот
+        :return:
+        """
+        self.equip(deepcopy(data.knight_items.basic_vest))
+        self.equip(deepcopy(data.knight_items.basic_spear))
+        self.equip(deepcopy(data.knight_items.basic_sword))
+        self.equip(deepcopy(data.knight_items.basic_shield))
+        self.equip(deepcopy(data.knight_items.basic_horse))
+        self.equip(deepcopy(data.knight_items.basic_follower))
 
     @staticmethod
     def start_level(reputation=0):

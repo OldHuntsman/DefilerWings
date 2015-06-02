@@ -77,6 +77,18 @@ label lb_location_smuggler_main:
                     pass
                 "Уйти." if game.lair.treasury.farting >= 10:
                     pass
+        'Откупиться от вора':
+            $ price = game.dragon.reputation.level * 50
+            $ narrator("Это не бесплатно. %d фартингов" % price)
+            menu:
+                "Заплатить [price] фартингов"
+                "Да" if game.lair.treasury.farting >= price:
+                    $ game.lair.treasury.farting -= price
+                    $ game.thief.retire()
+                "Уйти. (Недостаточно денег)" if game.lair.treasury.farting < price:
+                    pass
+                "Уйти." if game.lair.treasury.farting >= price:
+                    pass
         'Разузнать о рыцаре':
             "Это не бесплатно. 10 фартингов."
             menu:
@@ -91,6 +103,18 @@ label lb_location_smuggler_main:
                 "Уйти. (Недостаточно денег)" if game.lair.treasury.farting < 10:
                     pass
                 "Уйти." if game.lair.treasury.farting >= 10:
+                    pass
+        'Ограбить рыцаря':
+            $ price = game.knight.enchanted_equip_count * 100
+            $ narrator("Это не бесплатно. %d фартингов" % price)
+            menu:
+                "Заплатить [price] фартингов"
+                "Да" if game.lair.treasury.farting >= price:
+                    $ game.lair.treasury.farting -= price
+                    $ game.knight.equip_basic()
+                "Уйти. (Недостаточно денег)" if game.lair.treasury.farting < price:
+                    pass
+                "Уйти." if game.lair.treasury.farting >= price:
                     pass
         'Уйти':
             $ pass
