@@ -25,6 +25,7 @@ label lb_location_forest_main:
         ("lb_enc_guardian", 10),
         ("lb_enc_lumbermill", 10),
         ("lb_enc_klad", 5),
+        ("lb_enc_domiki", 3),
         ("lb_patrool_forest", 3 * game.mobilization.level),
         ("lb_enc_noting", nochance)]
     $ enc = core.Game.weighted_random(choices)
@@ -32,7 +33,19 @@ label lb_location_forest_main:
     
     return
     
-    
+label lb_enc_domiki:
+    if persistent.domiki_done:
+        jump lb_location_forest_main
+    $ persistent.domiki_done = True
+    "ВНЕЗАПНО! Из лесной чащи на дракона набигает..."
+    show expression 'img/scene/fight/domik.png' as bg    
+    'ДЕРЕВЯННЫЙ ДОМИК?!!!! Видимо это легендарное творение древнего безумного странствующего Архимага Кирилла "Коровануса"  - боевой деревянный голем. Он явно агрессивен...'
+    $ game.foe = core.Enemy('domik', game_ref=game)    
+    $ chances = show_chances(game.foe)   
+    call lb_fight    
+    'Среди обломков домика находится табличка: "Изготовлено по заказу Злого (имя я пока не придумал)". Что за безумное и гениальное творение...'
+    return
+
 label lb_enc_lumberjack:
     'Неподалёку слышны ритмичные удары, гулко разносящиеся по всему лесу. Похоже на топор дровосека. Сам по себе дровосек добыча совершенно безынтересная, но время сейчас как раз обеденное, а по человеческой традиции еду работающим вдали от дома приносит старшая из незамужих дочерей. Стоит подкрасться и поглядеть...'
     nvl clear

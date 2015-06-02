@@ -33,8 +33,8 @@ label lb_location_city_main:
 label lb_city_gates:
     $ game.dragon.drain_energy()
     $ game.foe = core.Enemy('city', game_ref=game)
-    call lb_fight
-    call lb_city_raze
+    call lb_fight from _call_lb_fight_68
+    call lb_city_raze from _call_lb_city_raze_1
     return
 
 label lb_city_raze:
@@ -211,7 +211,7 @@ label lb_city_jewler:
                 $ game.lair.treasury.receive_treasures([new_item])
                 $ test_description = new_item.description()
                 "Куплено: [test_description]."
-            call lb_city_jewler
+            call lb_city_jewler from _call_lb_city_jewler_1
         'Продать драгоценности':
             menu:
                 'Самую дорогую' if len(game.lair.treasury.jewelry) > 0:
@@ -221,7 +221,7 @@ label lb_city_jewler:
                 'Случайную' if len(game.lair.treasury.jewelry) > 0:
                     $ item_index = random.randint(0, len(game.lair.treasury.jewelry) - 1)
                 'Отмена':
-                    call lb_city_jewler
+                    call lb_city_jewler from _call_lb_city_jewler_2
             python:
                 from pythoncode import treasures
                 description = u"%s.\nПродать украшение за %s?" % (
@@ -236,16 +236,16 @@ label lb_city_jewler:
                             treasures.number_conjugation_rus(game.lair.treasury.jewelry[item_index].cost, u"фартинг"))
                         game.lair.treasury.money += game.lair.treasury.jewelry[item_index].cost
                         game.lair.treasury.jewelry.pop(item_index)
-                    call lb_city_jewler
+                    call lb_city_jewler from _call_lb_city_jewler_3
                 'Оставить':
-                    call lb_city_jewler
+                    call lb_city_jewler from _call_lb_city_jewler_4
         'Драгоценности на заказ':
             $ new_item = game.lair.treasury.craft(**data.craft_options['jeweler_craft'])
             if new_item:
                 $ game.lair.treasury.receive_treasures([new_item])
                 $ test_description = new_item.description()
                 "Изготовлено: [test_description]."
-            call lb_city_jewler
+            call lb_city_jewler from _call_lb_city_jewler_5
         'Принять истинный облик':
             call lb_city_jew_atk from _call_lb_city_jew_atk_1
         'Вернуться на площадь':
