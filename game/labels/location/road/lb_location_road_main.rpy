@@ -155,7 +155,7 @@ label lb_enc_questing_knight:
                 obtained = "Это предмет принадлежал когда-то беззвестному странствующему рыцарю."
                 trs = treasures.gen_treas(count, data.loot['knight'], alignment, min_cost, max_cost, obtained)
                 trs_list = game.lair.treasury.treasures_description(trs)
-                game.lair.treasury.receive_treasures([trs])                
+                game.lair.treasury.receive_treasures(trs)                
                 trs_descrptn = '\n'.join(trs_list)
             '[trs_descrptn]'
         'Пропустить' if game.dragon.bloodiness < 5:

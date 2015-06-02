@@ -51,6 +51,7 @@ class Knight(Fighter):
                 # Отсекание лишних данных, если таковые есть
             self.descriptions.append(descript)  # Добавляем в список
         self.avatar = get_avatar(u"img/avahuman/knight")
+        self.forced_to_challenge = False    # Обязан ли рыцарь бросить вызов дракону, когда тот пойдет спать.
 
     def description(self):
         """

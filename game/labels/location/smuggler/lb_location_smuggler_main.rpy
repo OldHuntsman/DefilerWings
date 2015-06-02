@@ -62,6 +62,36 @@ label lb_location_smuggler_main:
                     call lb_location_smuggler_main from _call_lb_location_smuggler_main
                 'Это того не стоит':
                     call lb_location_smuggler_main from _call_lb_location_smuggler_main_1
+        'Разузнать о воре':
+            "Это не бесплатно. 10 фартингов."
+            menu:
+                "Заплатить 10 фартингов?"
+                "Да. Заплатить 10 фартингов." if game.lair.treasury.farting >= 10:
+                    python:
+                        game.lair.treasury.farting -= 10
+                        if game.thief is not None:
+                            narrator(game.thief.description())
+                        else:
+                            narrator("Не появился пока вор на твое злато.")
+                "Уйти. (Недостаточно денег)" if game.lair.treasury.farting < 10:
+                    pass
+                "Уйти." if game.lair.treasury.farting >= 10:
+                    pass
+        'Разузнать о рыцаре':
+            "Это не бесплатно. 10 фартингов."
+            menu:
+                "Заплатить 10 фартингов?"
+                "Да. Заплатить 10 фартингов." if game.lair.treasury.farting >= 10:
+                    python:
+                        game.lair.treasury.farting -= 10
+                        if game.knight is not None:
+                            narrator(game.knight.description())
+                        else:
+                            narrator("Не появился пока рыцарь желающий убить тебя.")
+                "Уйти. (Недостаточно денег)" if game.lair.treasury.farting < 10:
+                    pass
+                "Уйти." if game.lair.treasury.farting >= 10:
+                    pass
         'Уйти':
             $ pass
             

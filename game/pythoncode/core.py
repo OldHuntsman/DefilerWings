@@ -191,10 +191,12 @@ class Game(store.object):
                 self.knight.event("spawn")
         else:  # Иначе пробуем его пустить на дело
             # Шанс 1 + количество небазового шмота на рыцаре из 7, что он пойдет на дело
-            if random.choice(range(7)) in range(
+            if self.knight.forced_to_challenge or \
+               random.choice(range(7)) in range(
                     1 + len([i for i in self.knight.items if not self.knight.items[i].basic])):
                 # Идем на дело
                 self.knight.go_challenge()
+            # Если рыцарь не идет на дело, то он пробует подготовиться получше.
             else:
                 if renpy.config.debug:
                     self.narrator(u"Рыцарю ссыкотно, надо бы подготовиться.")

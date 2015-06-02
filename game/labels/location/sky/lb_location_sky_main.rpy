@@ -91,7 +91,6 @@ label lb_enc_skyboat:
             python:
                 count = random.randint(5, 15)
                 alignment = 'dwarf'
-                loot
                 min_cost = 1
                 max_cost = 10000
                 obtained = "Это предмет с разграбленного воздушного судна цвергов."
