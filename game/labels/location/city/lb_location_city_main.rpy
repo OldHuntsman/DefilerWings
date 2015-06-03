@@ -165,8 +165,8 @@ label lb_city_market_atk:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_1     
-        'Покинуть площадь':
-            call lb_city_walk from _call_lb_city_walk_3
+        'Покинуть город':
+            return
     return
 
 label lb_city_cathedral:

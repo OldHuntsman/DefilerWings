@@ -838,6 +838,7 @@ label lb_backdor:
         'Пора вороватъ и убиватъ!':
             stop music fadeout 1.0
             play music "mus/moria.ogg"
+            $ renpy.music.queue(get_random_files('mus/ambient'))           
             show expression 'img/bg/special/moria.png' as bg
             'Нажав на неприметный камушек в правильном месте [game.dragon.name] открыл потайной проход в подгорное царство. Теперь отступать не стоит, если цвергов не добить, то они запечатают задний проход и укрепятся ещё основательнее.'
             $ game.dragon.add_special_place('backdor', 'backdor_sealed')
@@ -873,6 +874,7 @@ label lb_frontgates:
 label lb_golem_guard:
     stop music fadeout 1.0
     play music "mus/moria.ogg"
+    $ renpy.music.queue(get_random_files('mus/ambient')) 
     show expression 'img/bg/special/moria.png' as bg
     'Даже после того как врата обрушились, пыль и мелкие камушки продолжают сыпаться с потолка. По центральной галерее гулко раздаются шаги стража ворот - выкованного целиком из закалённого адамантия механического гиганта. На свете не много противников равных ему по силе...'
     $ game.foe = core.Enemy('golem', game_ref=game)

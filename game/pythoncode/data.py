@@ -1648,7 +1648,7 @@ special_places = {
     'backdor_sealed': (u"Задний проход", 'lb_backdor_sealed'),
     # мория
     'frontgates_guarded': (u"Врата Подгорного Царства", 'lb_frontgates'),
-    'frontgates_open': (u"Разбитые врата", 'lb_frontgates_open'),
+    'frontgates_open': (u"Разбитые врата", 'lb_dwarf_ruins'),
 }
 
 quest_list = (

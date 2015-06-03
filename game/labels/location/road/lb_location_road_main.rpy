@@ -14,10 +14,10 @@ label lb_location_road_main:
         
     $ nochance = game.poverty.value * 3
     $ choices = [
-        ("lb_enc_tornament", 10),
-        ("lb_enc_inn", 10),
-        ("lb_enc_peasant_cart", 10),
-        ("lb_enc_carriage", 10),
+        ("lb_enc_tornament", 5),
+        ("lb_enc_inn", 15),
+        ("lb_enc_peasant_cart", 15),
+        ("lb_enc_carriage", 5),
         ("lb_enc_questing_knight", 10),
         ("lb_enc_trader", 10),
         ("lb_enc_caravan", 7),
@@ -101,7 +101,7 @@ label lb_enc_peasant_cart:
     menu:
         'Убить крестьянина' if game.dragon.bloodiness >= 5:
             $ game.dragon.drain_energy()
-            'Дав волю своему гневу, [game.dragon.name] переворачивает повозку, убивает лошадь и разрывает крестьянина на куски. У жалкого смертного нет ничего ценного! Да как он посмел встретить дракона если с него и взять нечего?!'
+            'Дав волю своему гневу, [game.dragon.kind] переворачивает повозку, убивает лошадь и разрывает крестьянина на куски. У жалкого смертного нет ничего ценного! Да как он посмел встретить дракона если с него и взять нечего?!'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
         'Сожрать лошадь' if game.dragon.hunger > 0: 

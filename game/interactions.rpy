@@ -89,7 +89,7 @@ label lb_gigant_sex:
             $ description = game.girls_list.free_girl()
             game.girl.third "[description]"
             return
-    jump lb_nature_sex
+    jump lb_gigant_sex
 
 
 label lb_knight_new:
