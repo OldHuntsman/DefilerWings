@@ -74,59 +74,59 @@ label lb_location_smuggler_main:
                     call lb_location_smuggler_main from _call_lb_location_smuggler_main
                 'Это того не стоит':
                     call lb_location_smuggler_main from _call_lb_location_smuggler_main_1
-        'Разузнать о воре':
+        'Разузнать о воре' if game.thief is not None:
             "Это не бесплатно. 10 фартингов."
             menu:
                 "Заплатить 10 фартингов?"
-                "Да. Заплатить 10 фартингов." if game.lair.treasury.farting >= 10:
+                "Да. Заплатить 10 фартингов." if game.lair.treasury.money >= 10:
                     python:
-                        game.lair.treasury.farting -= 10
+                        game.lair.treasury.pay_money(10)
                         if game.thief is not None:
                             narrator(game.thief.description())
                         else:
                             narrator("Не появился пока вор на твое злато.")
-                "Уйти. (Недостаточно денег)" if game.lair.treasury.farting < 10:
+                "Уйти. (Недостаточно денег)" if game.lair.treasury.money < 10:
                     pass
-                "Уйти." if game.lair.treasury.farting >= 10:
+                "Уйти." if game.lair.treasury.money >= 10:
                     pass
-        'Откупиться от вора':
+        'Откупиться от вора' if game.thief is not None:
             $ price = game.dragon.reputation.level * 50
             $ narrator("Это не бесплатно. %d фартингов" % price)
             menu:
                 "Заплатить [price] фартингов"
-                "Да" if game.lair.treasury.farting >= price:
-                    $ game.lair.treasury.farting -= price
+                "Да" if game.lair.treasury.money >= price:
+                    $ game.lair.treasury.pay_money(price)
                     $ game.thief.retire()
-                "Уйти. (Недостаточно денег)" if game.lair.treasury.farting < price:
+                "Уйти. (Недостаточно денег)" if game.lair.treasury.money < price:
                     pass
-                "Уйти." if game.lair.treasury.farting >= price:
+                "Уйти." if game.lair.treasury.money >= price:
                     pass
-        'Разузнать о рыцаре':
+        'Разузнать о рыцаре' if game.knight is not None:
             "Это не бесплатно. 10 фартингов."
             menu:
                 "Заплатить 10 фартингов?"
-                "Да. Заплатить 10 фартингов." if game.lair.treasury.farting >= 10:
+                "Да. Заплатить 10 фартингов." if game.lair.treasury.money >= 10:
                     python:
-                        game.lair.treasury.farting -= 10
+                        game.lair.treasury.pay_money(10)
                         if game.knight is not None:
                             narrator(game.knight.description())
                         else:
                             narrator("Не появился пока рыцарь желающий убить тебя.")
-                "Уйти. (Недостаточно денег)" if game.lair.treasury.farting < 10:
+                "Уйти. (Недостаточно денег)" if game.lair.treasury.money < 10:
                     pass
-                "Уйти." if game.lair.treasury.farting >= 10:
+                "Уйти." if game.lair.treasury.money >= 10:
                     pass
-        'Ограбить рыцаря':
+        'Ограбить рыцаря' if game.knight is not None:
             $ price = game.knight.enchanted_equip_count * 100
             $ narrator("Это не бесплатно. %d фартингов" % price)
             menu:
                 "Заплатить [price] фартингов"
-                "Да" if game.lair.treasury.farting >= price:
-                    $ game.lair.treasury.farting -= price
+                "Да" if game.lair.treasury.money >= price:
+                    $ game.lair.treasury.pay_money(price)
                     $ game.knight.equip_basic()
-                "Уйти. (Недостаточно денег)" if game.lair.treasury.farting < price:
+                "Уйти. (Недостаточно денег)" if game.lair.treasury.money < price:
                     pass
-                "Уйти." if game.lair.treasury.farting >= price:
+                "Уйти." if game.lair.treasury.money >= price:
                     pass
         'Уйти':
             $ pass

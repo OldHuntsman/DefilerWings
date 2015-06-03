@@ -1840,6 +1840,40 @@ class Treasury(store.object):
                 self.jewelry.append(treas)
         achieve_target(self.wealth, "wealth")#Событие для ачивок
 
+    def pay_money(self, farting_price):
+        
+        if(farting_price > self.money):
+            raise NotImplementedError(u"Денег недостаточно для выполнения операции")
+        
+        # Оплата фартингами, если недостаточно, то обнуляем фартинги и
+        # уменьшаем farting_price на self.farting
+        if(farting_price > self.farting):
+            farting_price -= self.farting
+            self.farting = 0
+        else:
+            self.farting -= farting_price
+            return
+        
+        # Оплата таллерами, если недостаточно, то обнуляем таллеры и
+        # уменьшаем farting_price на calc_fartings, где calc_fartings
+        # это таллеры дракона в номинале фартингов
+        calc_fartings = self.taller * 10
+        if(farting_price > calc_fartings):
+            farting_price -= calc_fartings
+            self.taller = 0
+        else:
+            calc_fartings -= farting_price
+            self.farting = calc_fartings
+            return             
+         
+        # Оплата дублонами, здесь calc_fartings
+        # это дублоны дракона в номинале фартингов   
+        calc_fartings = self.dublon * 100
+        calc_fartings -= farting_price
+        self.farting = calc_fartings 
+        self.dublon = 0
+        return 
+
     @staticmethod
     def treasures_description(treasure_list):
         """
