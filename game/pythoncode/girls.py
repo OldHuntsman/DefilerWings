@@ -337,6 +337,4 @@ class GirlsList(object):
         mating_possible = self.game.girl.virgin and self.game.dragon.lust > 0
         if girls_data.girls_info[self.game.girl.type]['giantess']:
             mating_possible = self.game.dragon.size > 3 and mating_possible
-        else:
-            mating_possible = self.game.dragon.size < 5 and mating_possible
         return mating_possible
