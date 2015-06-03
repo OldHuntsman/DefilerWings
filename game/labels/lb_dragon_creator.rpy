@@ -38,7 +38,10 @@ label lb_dragon_creator:
                 else:
                     self.dragon.anatomy.append(self.mod)
                     if self.mod in special_features_rus.keys():
-                        special_features_rus.pop(self.mod)
+                        if self.mod != "cunning":
+                            special_features_rus.pop(self.mod)
+                        elif self.dragon.modifiers().count("cunning") >= 9:
+                            special_features_rus.pop(self.mod)
                 renpy.restart_interaction()
     screen creator:
         window:
@@ -46,7 +49,8 @@ label lb_dragon_creator:
             hbox:
                 vbox:
                     text "Добавить..."
-                    textbutton "Голова" action SetVariable("mods_left", mods_left - 1), AddModifier("green", game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
+                    if len(game.dragon.heads) < 10:
+                        textbutton "Голова" action SetVariable("mods_left", mods_left - 1), AddModifier("green", game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
                     if game.dragon.paws < 3:
                         textbutton "Лапы" action SetVariable("mods_left", mods_left - 1), AddModifier("paws", game.dragon), If(mods_left == 1, (Hide("creator"), Return("return")))
                     if game.dragon.wings < 3:
