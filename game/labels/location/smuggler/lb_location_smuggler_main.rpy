@@ -32,22 +32,34 @@ label lb_location_smuggler_main:
                     $ item_index = game.lair.treasury.cheapest_jewelry_index
                 'Случайную' if len(game.lair.treasury.jewelry) > 0:
                     $ item_index = random.randint(0, len(game.lair.treasury.jewelry) - 1)
+                'Продать все украшения' if len(game.lair.treasury.jewelry) > 0:
+                    $ item_index = None
                 'Отмена':
                     return
             python:
                 from pythoncode import treasures
-                description = u"%s.\nПродать украшение за %s?" % (
-                    game.lair.treasury.jewelry[item_index].description().capitalize(),
-                    treasures.number_conjugation_rus(game.lair.treasury.jewelry[item_index].cost * 75 // 100, u"фартинг"))
+                if (item_index is None):
+                    description = u"Продать все украшения за %s?" % (
+                        treasures.number_conjugation_rus(game.lair.treasury.all_jewelries, u"фартинг"))
+                else:
+                    description = u"%s.\nПродать украшение за %s?" % (
+                        game.lair.treasury.jewelry[item_index].description().capitalize(),
+                        treasures.number_conjugation_rus(game.lair.treasury.jewelry[item_index].cost * 75 // 100, u"фартинг"))
             menu:
                 "[description]"
                 'Продать':
                     python:
-                        description = u"%s.\nПродано за %s" % (
-                            game.lair.treasury.jewelry[item_index].description().capitalize(),
-                            treasures.number_conjugation_rus(game.lair.treasury.jewelry[item_index].cost * 75 // 100, u"фартинг"))
-                        game.lair.treasury.money += game.lair.treasury.jewelry[item_index].cost * 75 // 100
-                        game.lair.treasury.jewelry.pop(item_index)
+                        if (item_index is None):
+                            description = u"Все украшения проданы за %s?" % (
+                                treasures.number_conjugation_rus(game.lair.treasury.all_jewelries, u"фартинг"))
+                            game.lair.treasury.money += game.lair.treasury.all_jewelries
+                            game.lair.treasury.jewelry = []
+                        else:
+                            description = u"%s.\nПродано за %s" % (
+                                game.lair.treasury.jewelry[item_index].description().capitalize(),
+                                treasures.number_conjugation_rus(game.lair.treasury.jewelry[item_index].cost * 75 // 100, u"фартинг"))
+                            game.lair.treasury.money += game.lair.treasury.jewelry[item_index].cost * 75 // 100
+                            game.lair.treasury.jewelry.pop(item_index)
                 'Оставить':
                     pass
         'Финансировать террор' if game.mobilization.level > 0:

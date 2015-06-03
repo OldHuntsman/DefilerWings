@@ -2159,6 +2159,16 @@ class Treasury(store.object):
         else:
             return u"Украшений в сокровищнице нет"
 
+    @property
+    def all_jewelries(self):
+        """
+        Стоимость всех украшений дракона
+        """
+        calc_all_jewelries = 0
+        for treas_i in xrange(len(self.jewelry)):  
+            calc_all_jewelries += self.jewelry[treas_i].cost
+        return calc_all_jewelries
+
     @staticmethod
     def get_mass_description(description_key, mass):
         """ 
