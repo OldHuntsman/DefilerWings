@@ -159,7 +159,7 @@ class GirlsList(object):
             text = random.choice(girls_data.girls_texts[girl_type][status])
             if self.spawn:
                 # Если список отродий не пуст - получаем имя последнего для возможной подстановки
-                format_dict['spawn_name'] = girls_data.spawn_info[self.spawn[-1]]['name'].capitalize()
+                format_dict['spawn_name'] = girls_data.spawn_info[self.spawn[-1]]['born'].capitalize()
             if status == 'rob':
                 treas_description = self.game.lair.treasury.treasures_description(self.game.girl.treasure)
                 treas_description = '\n'.join(treas_description) + u'.'
