@@ -286,6 +286,7 @@ label lb_city_jew_atk:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_2     
+            return
             
         'Спасти сокровища из горящего дома':
             python:
