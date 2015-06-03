@@ -240,6 +240,14 @@ class Game(store.object):
             call('lb_location_mordor_questtime')
         call(data.game_events["sleep_end"])
 
+    def create_foe(self, foe_type):
+        """ Создание противника заданного типа
+
+        :param foe_type: Тип создаваемого противника
+        :return:
+        """
+        self.foe = Enemy(foe_type)
+
     def _create_thief(self, thief_level=None):
         """
         Проверка на появление вора.
