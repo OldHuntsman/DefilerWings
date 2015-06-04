@@ -55,6 +55,7 @@ label lb_enchanted_forest_elfgirl:
     nvl clear
     menu:
         'Напасть на фею':
+            $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_25
             'Несмотря на жестокое сопротивление, чародейка не получила особых повреждений. Она теперь безащитна, но цела... пока что.'
             $ game.dragon.reputation.points += 3
@@ -385,7 +386,7 @@ label lb_abbey_rob:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_18     
-            call lb_manor_empty from _call_lb_manor_empty_1
+            call lb_abbey_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('abbey', 'abbey_empty')
@@ -445,7 +446,7 @@ label lb_castle_rob:
         alignment = 'knight'
         min_cost = 100
         max_cost = 1000
-        obtained = "Это предмет из разграбленного рыцарского поместья."
+        obtained = "Это предмет из разграбленной крепости."
         trs = treasures.gen_treas(count, data.loot['palace'], alignment, min_cost, max_cost, obtained)
         trs_list = game.lair.treasury.treasures_description(trs)
         trs_descrptn = '\n'.join(trs_list)
@@ -526,7 +527,7 @@ label lb_palace_rob:
         alignment = 'knight'
         min_cost = 250
         max_cost = 2500
-        obtained = "Это предмет из разграбленного рыцарского поместья."
+        obtained = "Это предмет из королевской сокровищницы."
         trs = treasures.gen_treas(count, data.loot['palace'], alignment, min_cost, max_cost, obtained)
         trs_list = game.lair.treasury.treasures_description(trs)
         trs_descrptn = '\n'.join(trs_list)

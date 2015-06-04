@@ -316,53 +316,53 @@ thief_abilities = Container(
     {
         "climber": {
             "name": u"Альпинист",
-            "description": u"Дает \"Альпинизм\"",
+            "description": u"лазает по скалам",
             "provide": ["alpinism"]
         },
         "diver": {
             "name": u"Ныряльщик",
-            "description": u"Дает \"Плавание\"",
+            "description": u"надолго задерживает дыхание",
             "provide": ["swimming"]
         },
         "greedy": {
             "name": u"Жадина",
-            "description": u"Пытается украсть одно дополнительное сокровище",
+            "description": u"крадёт больше сокровищ",
             "provide": []
         },
         "mechanic": {
             "name": u"Механик",
-            "description": u"Игнорирует механические ловушки",
+            "description": u"легко обходит обычные ловушки",
             "avoids": ["mechanic_traps"],
             "provide": []
         },
         "magicproof": {
             "name": u"Знаток магии",
-            "description": u"Игнорирует магические ловушки",
+            "description": u"разряжает магические ловушки",
             "avoids": ["magic_traps"],
             "provide": []
         },
         "poisoner": {
             "name": u"Отравитель",
-            "description": u"Игнорирует ядовитых стражей",
+            "description": u"игнорирует ядовитых стражей",
             "avoids": ["poison_guargs"],
             "provide": []
         },
         "assassin": {
             "name": u"Ассасин",
-            "description": u"Игнорирует обычных стражей",
+            "description": u"игнорирует обычных стражей",
             "avoids": ["regular_guargs"],
             "provide": []
         },
         "night_shadow": {
             "name": u"Ночная тень",
-            "description": u"Игнорирует элитных стражей",
+            "description": u"игнорирует элитных стражей",
             "avoids": ["elite_guards"],
             # Это странно, что он может быть пойман обычными стражами
             "provide": []
         },
         "trickster": {
             "name": u"Ловкач",
-            "description": u"Не имеет шанса разбудить дракона",
+            "description": u"не имеет шанса разбудить дракона",
             "provide": []
         },
     })
@@ -373,54 +373,54 @@ thief_items = Container(
         "plan": {
             "name": u"План ограбления",
             "level": 1,
-            "description": u"+1 к уровню вора"
+            "description": u"лучше шансы на успех"
         },
         "scheme": {
             "name": u"Схема тайных проходов",
-            "description": u"Позволяет игнорировать неприступность логова"
+            "description": u"заберётся в любое логово"
         },
         "sleep_dust": {
             "name": u"Сонный порошок",
-            "description": u"Вор не имеет шанса разбудить дракона"
+            "description": u"дракон не проснётся при грабеже"
         },
         "bottomless_sac": {
             "name": u"Бездонный мешок",
             "dropable": True,
-            "description": u"Удваивает попытки кражи"
+            "description": u"уносит вдвое больще сокровищ"
         },
         "antidot": {
             "name": u"Антидот",
-            "description": u"Вор игнорирует ядовитых стражей",
+            "description": u"спасает от ядовитых стражей",
             "avoids": ["poison_guargs"]
         },
         "enchanted_dagger": {
             "name": u"Зачарованный кинжал",  # Applied
             "dropable": True,
-            "description": u"Вор игнорирует обычных стражей",
+            "description": u"эффективен против охранников",
             "avoids": ["regular_guargs"]
         },
         "ring_of_invisibility": {
             "name": u"Кольцо-невидимка",  # Applied
             "dropable": True,
-            "description": u"Вор элитных стражей",
+            "description": u"проходит мимо стража сокровищницы",
             "avoids": ["elite_guargs"]
         },
         "flying_boots": {
             "name": u"Летучие сандалии",  # Applied
             "dropable": True,
-            "description": u"Дает \"Полёт\"",
+            "description": u"может летать",
             "provide": ["flight"]
         },
         "cooling_amulet": {
             "name": u"Охлаждающий амулет",  # Applied
             "dropable": True,
-            "description": u"Дает \"защиту от огня\"",
+            "description": u"защищает от огня",
             "provide": ["fireproof"]
         },
         "warming_amulet": {
             "name": u"Согревающий амулет",  # Applied
             "dropable": True,
-            "description": u"Дает \"защиту от холода\"",
+            "description": u"защищает от мороза",
             "provide": ["coldproof"]
         }
     })
@@ -748,8 +748,8 @@ knight_items = Container(
         # Нагрудники
         "basic_vest": {
             "id": "basic_vest",
-            "name": u"Дубовая броня",
-            "description": u"Не дает преимуществ",
+            "name": u"Кольчуга",
+            "description": u"не дает преимуществ",
             "type": "vest",
             "basic": True,
             "modifiers": []
@@ -757,7 +757,7 @@ knight_items = Container(
         "glittering_vest": {
             "id": "glittering_vest",
             "name": u"Сверкающий доспех",
-            "description": u"+2 к защите",
+            "description": u"усиленная защита",
             "type": "vest",
             "basic": False,
             "modifiers": ['def_up', 'def_up']
@@ -765,7 +765,7 @@ knight_items = Container(
         "gold_vest": {
             "id": "gold_vest",
             "name": u"Золочёный доспех",
-            "description": u"1 верная защита",
+            "description": u"отменная защита",
             "type": "vest",
             "basic": False,
             "modifiers": ['sdef_up']
@@ -782,7 +782,7 @@ knight_items = Container(
         # Копья
         "basic_spear": {
             "id": "basic_spear",
-            "name": u"Деревянное копье",
+            "name": u"Стальная пика",
             "description": u"Не дает преимуществ",
             "type": "spear",
             "basic": True,
@@ -791,15 +791,15 @@ knight_items = Container(
         "blued_spear": {
             "id": "blued_spear",
             "name": u"Вороненое копье",
-            "description": u"+2 к атаке",
+            "description": u"усиленная атака",
             "type": "spear",
             "basic": False,
             "modifiers": ['atk_up', 'atk_up']
         },
         "spear_with_scarf": {
             "id": "spear_with_scarf",
-            "name": u"Копье с шарфом",
-            "description": u"1 верная атака",
+            "name": u"Копье с шарфом дамы",
+            "description": u"отменная атака",
             "type": "spear",
             "basic": False,
             "modifiers": ['satk_up']
@@ -808,7 +808,7 @@ knight_items = Container(
             # implemented at Knight._item_modifiers and battle_action
             "id": "dragonslayer_spear",
             "name": u"Копьё-драконобой",  # TODO: implement
-            "description": u"+1 к атаке, если дракон ранен он вместо этого сразу теряет голову",
+            "description": u"бьёт наповал",
             "type": "spear",
             "basic": False,
             "modifiers": []
@@ -816,8 +816,8 @@ knight_items = Container(
         # Мечи
         "basic_sword": {
             "id": "basic_sword",
-            "name": u"Деревянный меч",
-            "description": u"Не дает преимуществ",
+            "name": u"Стальной меч",
+            "description": u"не дает преимуществ",
             "type": "sword",
             "basic": True,
             "modifiers": []
@@ -825,7 +825,7 @@ knight_items = Container(
         "glittering_sword": {
             "id": "glittering_sword",
             "name": u"Сияющий клинок",
-            "description": u"+2 к атаке",
+            "description": u"усиленная атака",
             "type": "sword",
             "basic": False,
             "modifiers": ['atk_up', 'atk_up']
@@ -833,7 +833,7 @@ knight_items = Container(
         "lake_woman_sword": {
             "id": "lake_woman_sword",
             "name": u"Клинок озёрной девы",
-            "description": u"1 верная атака",
+            "description": u"неотразимая атака",
             "type": "sword",
             "basic": False,
             "modifiers": ['satk_up']
@@ -841,15 +841,15 @@ knight_items = Container(
         "flameberg_sword": {
             "id": "flameberg_sword",
             "name": u"Пылающий фламберг",
-            "description": u"2 верных атаки огнём",
+            "description": u"огненная атака",
             "type": "sword",
             "basic": False,
             "modifiers": ['sfatk_up', 'sfatk_up']
         },
         "icecracker_sword": {
             "id": "icecracker_sword",
-            "name": u"Ледоруб-жыдобой ^_^",
-            "description": u"2 верных атаки льдом",
+            "name": u"Ледоруб-жыдобой",
+            "description": u"ледяная атка",
             "type": "sword",
             "basic": False,
             "modifiers": ['siatk_up', 'siatk_up']
@@ -857,7 +857,7 @@ knight_items = Container(
         "thunderer_sword": {
             "id": "thunderer_sword",
             "name": u"Меч-громобой",
-            "description": u"2 верных атаки молнией",
+            "description": u"атака молнией",
             "type": "sword",
             "basic": False,
             "modifiers": ['slatk_up', 'slatk_up']
@@ -865,7 +865,7 @@ knight_items = Container(
         # Щиты
         "basic_shield": {
             "id": "basic_shield",
-            "name": u"Деревянный щит",
+            "name": u"Геральдический щит",
             "description": u"Не дает преимуществ",
             "type": "shield",
             "basic": True,
@@ -874,7 +874,7 @@ knight_items = Container(
         "polished_shield": {
             "id": "polished_shield",
             "name": u"Полированный щит",
-            "description": u"+2 к защите",
+            "description": u"усиленная защита",
             "type": "shield",
             "basic": False,
             "modifiers": ['def_up', 'def_up']
@@ -883,7 +883,7 @@ knight_items = Container(
             # Implemented at Knight._item_modifiers
             "id": "mirror_shield",
             "name": u"Зерцальный щит",
-            "description": u"2 верных защиты, если у дракона есть дыхание",
+            "description": u"отражает драконье дыхание",
             "type": "shield",
             "basic": False,
             "modifiers": []
@@ -891,7 +891,7 @@ knight_items = Container(
         # Кони
         "basic_horse": {
             "id": "basic_horse",
-            "name": u"Деревянная лошадка",
+            "name": u"Гнедой конь",
             "description": u"Не дает преимуществ",
             "type": "horse",
             "basic": True,
@@ -900,7 +900,7 @@ knight_items = Container(
         "white_horse": {
             "id": "white_horse",
             "name": u"Белый конь",
-            "description": u"+1 к атаке, +1 к защите",
+            "description": u"усиленная атака и защита",
             "type": "horse",
             "basic": False,
             "modifiers": ['atk_up', 'def_up']
@@ -908,7 +908,7 @@ knight_items = Container(
         "pegasus": {
             "id": "pegasus",
             "name": u"Пегас",
-            "description": u"даёт полёт",
+            "description": u"способен летать",
             "type": "horse",
             "basic": False,
             "modifiers": ['flight']
@@ -916,7 +916,7 @@ knight_items = Container(
         "firehorse": {
             "id": "firehorse",
             "name": u"Конь-огонь",
-            "description": u"даёт альпинизм и защиту от огня",
+            "description": u"прыгает по скалам, неуязим для огня",
             "type": "horse",
             "basic": False,
             "modifiers": ['alpinism', 'fire_immunity']
@@ -924,7 +924,7 @@ knight_items = Container(
         "sivka": {
             "id": "sivka",
             "name": u"Сивка-Бурка",
-            "description": u"даёт альпинизм и защиту от холода",
+            "description": u"прыгает по скалам, неуязвим для холода",
             "type": "horse",
             "basic": False,
             "modifiers": []
@@ -932,7 +932,7 @@ knight_items = Container(
         "kelpie": {
             "id": "kelpie",
             "name": u"Келпи",
-            "description": u"игнорирует недоступность морского логова",
+            "description": u"плавает под водой",
             "type": "horse",
             "basic": False,
             "modifiers": ['swimming']
@@ -940,7 +940,7 @@ knight_items = Container(
         "griffon": {
             "id": "griffon",
             "name": u"Боевой грифон",
-            "description": u"+1 к атаке, +1 к защите, даёт полёт",
+            "description": u"усиленная атака, защита и полёт",
             "type": "horse",
             "basic": False,
             "modifiers": ['atk_up', 'def_up', 'flight']
@@ -948,7 +948,7 @@ knight_items = Container(
         # Спутники
         "basic_follower": {
             "id": "basic_follower",
-            "name": u"Деревянный спутник",
+            "name": u"Юный оруженосец",
             "description": u"Не дает преимуществ",
             "type": "follower",
             "basic": True,
@@ -957,31 +957,31 @@ knight_items = Container(
         "squire": {
             "id": "squire",
             "name": u"Ловкий оруженосец",
-            "description": u"даёт \"альпинизм\"",
+            "description": u"карабкается по скалам",
             "type": "follower",
             "basic": False,
             "modifiers": ['alpinism']
         },
         "veteran": {
             "id": "veteran",
-            "name": u"Старый ветеран",
-            "description": u"даёт 1 верную защиту",
+            "name": u"Закалённый оруженосец",
+            "description": u"улучшенная защита",
             "type": "follower",
             "basic": False,
             "modifiers": ['sdef_up']
         },
         "pythoness": {
             "id": "pythoness",
-            "name": u"Прорицательница",
-            "description": u"даёт 1 верную атаку",
+            "name": u"Ясновидящая спутница",
+            "description": u"знает слабости, улучшенная атака",
             "type": "follower",
             "basic": False,
             "modifiers": ['satk_up']
         },
         "thaumaturge": {
             "id": "thaumaturge",
-            "name": u"Кудесник",
-            "description": u"даёт 1 верную атаку и 1 верную защиту",
+            "name": u"Мудрый наставник",
+            "description": u"отменная атака и защита",
             "type": "follower",
             "basic": False,
             "modifiers": ['satk_up', 'sdef_up']
@@ -1027,7 +1027,7 @@ lair_types = Container(
             "require": ["aplinism"],
             'prerequisite': ['wings']
         },
-        "solitude_сitadel": {
+        "solitude_citadel": {
             "name": u"Цитадель одиночества",
             "inaccessability": 0,
             "require": ["aplinism", "coldproof"],

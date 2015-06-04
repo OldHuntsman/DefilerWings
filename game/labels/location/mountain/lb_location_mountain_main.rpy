@@ -48,6 +48,7 @@ label lb_enc_miner:
                 gold_trs = treasures.Ingot('gold')
                 gold_trs.weight = 1
                 game.lair.treasury.receive_treasures([gold_trs])
+                game.dragon.drain_energy()
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             
@@ -183,7 +184,6 @@ label lb_enc_slavers:
             call lb_nature_sex from _call_lb_nature_sex_24    
         
         'Перебить караван':
-            $ game.dragon.drain_energy()
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('band', game_ref=game)
             call lb_fight from _call_lb_fight_59

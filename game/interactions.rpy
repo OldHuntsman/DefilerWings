@@ -85,6 +85,15 @@ label lb_gigant_sex:
             pause (500.0)
             hide eat_image                 
             return
+        'Утащить в логово' if not game.girl.jailed:
+            $ description = game.girls_list.steal_girl()
+            game.girl.third "[description]"
+            $ place = game.lair.type_name
+            show place
+            nvl clear
+            $ description = game.girls_list.jail_girl()
+            game.girl.third "[description]"
+            return            
         'Отпустить восвояси':
             $ description = game.girls_list.free_girl()
             game.girl.third "[description]"
