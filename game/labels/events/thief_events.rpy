@@ -69,6 +69,8 @@ label lb_event_thief_die_trap(thief, trap):
     return
 
 label lb_event_thief_pass_trap(thief, trap):
+    if config.debug:
+        'pass_trap [trap]'
     show expression "img/scene/thief_in_lair.png" as bg    
     $ txt = game.interpolate(random.choice(txt_thief_success[trap]))
     '[txt]' 
@@ -112,7 +114,7 @@ label lb_event_thief_checking_accessability_success(thief):
     return
     
 label lb_event_thief_trying_to_avoid_traps_and_guards(thief):
-    # Thief is trying to avoid traps and guargs:
+    # Thief is trying to avoid traps and guards:
     # Debug message: thief(u"Пробую обойти ловушки и стражей")
     return
     

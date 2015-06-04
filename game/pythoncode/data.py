@@ -344,13 +344,13 @@ thief_abilities = Container(
         "poisoner": {
             "name": u"Отравитель",
             "description": u"игнорирует ядовитых стражей",
-            "avoids": ["poison_guargs"],
+            "avoids": ["poison_guards"],
             "provide": []
         },
         "assassin": {
             "name": u"Ассасин",
             "description": u"игнорирует обычных стражей",
-            "avoids": ["regular_guargs"],
+            "avoids": ["regular_guards"],
             "provide": []
         },
         "night_shadow": {
@@ -391,19 +391,19 @@ thief_items = Container(
         "antidot": {
             "name": u"Антидот",
             "description": u"спасает от ядовитых стражей",
-            "avoids": ["poison_guargs"]
+            "avoids": ["poison_guards"]
         },
         "enchanted_dagger": {
             "name": u"Зачарованный кинжал",  # Applied
             "dropable": True,
             "description": u"эффективен против охранников",
-            "avoids": ["regular_guargs"]
+            "avoids": ["regular_guards"]
         },
         "ring_of_invisibility": {
             "name": u"Кольцо-невидимка",  # Applied
             "dropable": True,
             "description": u"проходит мимо стража сокровищницы",
-            "avoids": ["elite_guargs"]
+            "avoids": ["elite_guards"]
         },
         "flying_boots": {
             "name": u"Летучие сандалии",  # Applied
@@ -490,10 +490,12 @@ thief_titles = [
 списке в указанном порядке.
 В качестве ключевых параметров передаются:
 thief - вор стриггеривший ивент
-Дополнительно для "die_trap" и "pass_trap":
-obj - улучшение которое вор обошел или умер @Review: I think it's trap, not obj
+Дополнительно для "start_trap", "die_trap", "pass_trap", "pass_trap_by_luck", "pass_trap_no_influence", "end_trap":
+trap - улучшение, которое стриггерило ивент
+Дополнительно для "pass_trap_by_luck":
+drain_luck - количество удачи, которое отнято у вора прошедшего эту ловушку.
 Дополнительно для "die_item", "receive_item":
-obj - вещь, которую получил вор
+item - вещь, которую получил вор
 '''
 thief_events = {
     "spawn": "lb_event_thief_spawn",
@@ -504,8 +506,12 @@ thief_events = {
     "lair_enter": "lb_event_thief_lair_enter",
     "die_item": "lb_event_thief_die_item",
     "die_inaccessability": "lb_event_thief_die_inaccessability",
+    "start_trap": None,
     "die_trap": "lb_event_thief_die_trap",
     "pass_trap": "lb_event_thief_pass_trap",
+    "pass_trap_by_luck": None,
+    "pass_trap_no_influence": None,
+    "end_trap": None,
     "receive_no_item": "lb_event_thief_receive_no_item",
     "receive_item": "lb_event_thief_receive_item",
     "steal_items": "lb_event_thief_steal_items",

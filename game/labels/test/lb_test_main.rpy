@@ -107,44 +107,47 @@ label lb_test_debug:
                 "Создать потомство":
                     call lb_choose_dragon from _call_lb_choose_dragon_3
         "Логово":
-            menu:
-                "Создать логово":
-                    call lb_test_debug_create_lair from _call_lb_test_debug_create_lair
-                "Описать логово":
-                    nvl clear
-                    python hide:
-                        lair_description = u"Логово: %s.\n" % game.lair.type.name
-                        if len(game.lair.upgrades) > 0: 
-                            lair_description += u"Улучшения:\n"
-                            for upgrade in game.lair.upgrades.values():   
-                                lair_description += u" %s\n" % upgrade.name
-                        else:
-                            lair_description += u"Улучшений нет"
-                        narrator(lair_description)
-                "Добавить улучшение":
-                    python hide:
-                        upgrades_available = [(data.lair_upgrades[u].name, u) for u in data.lair_upgrades if u not in game.lair.upgrades]
-                        upg = menu(upgrades_available)
-                        game.lair.add_upgrade(upg)
+            while True:
+                menu:
+                    "Создать логово":
+                        call lb_test_debug_create_lair from _call_lb_test_debug_create_lair
+                    "Описать логово":
+                        nvl clear
+                        python hide:
+                            lair_description = u"Логово: %s.\n" % game.lair.type.name
+                            if len(game.lair.upgrades) > 0:
+                                lair_description += u"Улучшения:\n"
+                                for upgrade in game.lair.upgrades.values():
+                                    lair_description += u" %s\n" % upgrade.name
+                            else:
+                                lair_description += u"Улучшений нет"
+                            narrator(lair_description)
+                    "Добавить улучшение":
+                        python hide:
+                            upgrades_available = [(data.lair_upgrades[u].name, u) for u in data.lair_upgrades if u not in game.lair.upgrades]
+                            upg = menu(upgrades_available)
+                            game.lair.add_upgrade(upg)
 
-                "Работа с сокровищницей":
-                    call lb_test_debug_treasury from _call_lb_test_debug_treasury
-                "Добавить девушку":
-                    python hide:
-                        from pythoncode import treasures
-                        girls_menu = []
-                        for girl_type in girls_data.girls_info.keys():
-                            girl_type_name = girls_data.girls_info[girl_type]['description']
-                            girls_menu.append((girl_type_name, girl_type))
-                        girl_type = renpy.display_menu(girls_menu)
-                        game.girls_list.new_girl(girl_type)
-                        game.girls_list.jail_girl()
-                "Редактировать гемы в сокровищнице":
-                    call screen sc_treasury_gems
-                "Редактировать воровские предметы":
-                    call screen sc_container_editor(game.lair.treasury.thief_items, [data.thief_items, data.thief_items_cursed])
-                "Пустить вора на ограбление" if game.thief is not None and game.thief.is_alive:
-                        $ game.thief.steal(game.lair)
+                    "Работа с сокровищницей":
+                        call lb_test_debug_treasury from _call_lb_test_debug_treasury
+                    "Добавить девушку":
+                        python hide:
+                            from pythoncode import treasures
+                            girls_menu = []
+                            for girl_type in girls_data.girls_info.keys():
+                                girl_type_name = girls_data.girls_info[girl_type]['description']
+                                girls_menu.append((girl_type_name, girl_type))
+                            girl_type = renpy.display_menu(girls_menu)
+                            game.girls_list.new_girl(girl_type)
+                            game.girls_list.jail_girl()
+                    "Редактировать гемы в сокровищнице":
+                        call screen sc_treasury_gems
+                    "Редактировать воровские предметы":
+                        call screen sc_container_editor(game.lair.treasury.thief_items, [data.thief_items, data.thief_items_cursed])
+                    "Пустить вора на ограбление" if game.thief is not None and game.thief.is_alive:
+                            $ game.thief.steal(game.lair)
+                    "Назад":
+                        return
         "Вор":
             menu:
                 "(пере)Создать вора (через game)":
@@ -155,7 +158,7 @@ label lb_test_debug:
                         for i in data.thief_titles:
                             lvls.append((i, data.thief_titles.index(i) + 1))
                         thief_lvl = menu(lvls)
-                        game._create_thief(thief_level=1)
+                        game._create_thief(thief_level=thief_lvl)
                 "Описать вора" if game.thief is not None:
                     $ narrator(game.thief.description())
                 "Редактировать умения" if game.thief is not None:
