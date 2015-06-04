@@ -271,6 +271,7 @@ class GirlsList(object):
         for spawn_i in xrange(len(self.spawn)):
             spawn_type = self.spawn[spawn_i]  # упрощение обращения к типу отродий
             spawn = girls_data.spawn_info[spawn_type]  # упрощение обращения к данным отродий
+            renpy.show("meow", what=store.Image("img/scene/spawn/%s.png" % spawn_type))
             spawn_mod = spawn['modifier']  # упрощение обращения к списку модификаторов отродий
             # Делаем проверку. Истина, если не морское отродье или морское в подводном логове
             # TODO: Возможно стоит сделать умирание слуги, если оно не морское и в морском логове.
@@ -311,6 +312,8 @@ class GirlsList(object):
                               u"%s больше не требуются и уходят." % data.lair_upgrades[replace]['name'])
                 # добавление в улучшение логова
                 self.game.lair.add_upgrade(menu_action)
+                
+        renpy.hide("meow")
         self.spawn = []
 
     def free_spawn(self, power):
