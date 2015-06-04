@@ -82,7 +82,7 @@ label lb_location_smuggler_main:
             menu:
                 "Уготить всех пивом (10 фартингов)" if game.lair.treasury.money >= 10:
                     python:
-                        game.lair.treasury.pay_money(10)
+                        game.lair.treasury.money -= 10
                         if game.thief is not None:
                             game.thief.third('[game.thief.name] \n\n' + game.thief.description())
                         else:
@@ -96,7 +96,7 @@ label lb_location_smuggler_main:
             $ game.thief.third("За %d фартингов мы с ребятами объясним этому корешу что он не с той ящерицей связался, босс!" % price)
             menu:
                 "Заплатить [price] фартингов" if game.lair.treasury.money >= price:
-                    $ game.lair.treasury.pay_money(price)
+                    $ game.lair.treasury.money -= price
                     $ game.thief.retire()
                     call lb_location_smuggler_main from _call_lb_location_smuggler_main_9 
                 "Слишком дорого" if game.lair.treasury.money < price:
@@ -109,7 +109,7 @@ label lb_location_smuggler_main:
             menu:
                 "Уготить всех пивом (10 фартингов)" if game.lair.treasury.money >= 10:
                     python:
-                        game.lair.treasury.pay_money(10)
+                        game.lair.treasury.money -= 10
                         if game.knight is not None:
                             game.knight.third('[game.knight.name] \n\n' + game.knight.description())
                         else:
@@ -125,7 +125,7 @@ label lb_location_smuggler_main:
             nvl clear
             menu:
                 "Заплатить [price] фартингов" if game.lair.treasury.money >= price:
-                    $ game.lair.treasury.pay_money(price)
+                    $ game.lair.treasury.money -= price
                     $ game.knight.equip_basic()
                     call lb_location_smuggler_main from _call_lb_location_smuggler_main_15 
                 "Слишком дорого" if game.lair.treasury.money < price:
