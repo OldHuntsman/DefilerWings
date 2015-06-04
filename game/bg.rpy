@@ -33,7 +33,7 @@ init:
         "place == 'castle_ruin'", "img/bg/lair/palace_lair.png",
         "place == 'ice_citadel'", "img/bg/lair/icecastle.png",
         "place == 'vulcanic_forge'", "img/bg/lair/volcanoforge.png",
-        "place == 'cloud_castle'", "img/bg/lair/cloud_lair.png",
+        "place == 'cloud_castle'", "img/bg/lair/cloud_castle.png",
         "place == 'underwater_mansion'", "img/bg/lair/underwater.png",
         "place == 'underground_palaces'", "img/bg/lair/dwarfruin.png",
         "place == 'forest'", "img/bg/forest/1.png",
