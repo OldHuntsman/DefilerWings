@@ -220,22 +220,35 @@ label lb_city_jewler:
                     $ item_index = game.lair.treasury.cheapest_jewelry_index
                 'Случайную' if len(game.lair.treasury.jewelry) > 0:
                     $ item_index = random.randint(0, len(game.lair.treasury.jewelry) - 1)
+                'Продать все украшения' if len(game.lair.treasury.jewelry) > 0:
+                    $ item_index = None
                 'Отмена':
                     call lb_city_jewler from _call_lb_city_jewler_2
             python:
                 from pythoncode import treasures
-                description = u"%s.\nПродать украшение за %s?" % (
-                    game.lair.treasury.jewelry[item_index].description().capitalize(),
-                    treasures.number_conjugation_rus(game.lair.treasury.jewelry[item_index].cost, u"фартинг"))
+                if (item_index is None):
+                    description = u"Продать все украшения за %s?" % (
+                        treasures.number_conjugation_rus(game.lair.treasury.all_jewelries, u"фартинг"))
+                else:
+                    description = u"%s.\nПродать украшение за %s?" % (
+                        game.lair.treasury.jewelry[item_index].description().capitalize(),
+                        treasures.number_conjugation_rus(game.lair.treasury.jewelry[item_index].cost, u"фартинг"))
             menu:
                 "[description]"
                 'Продать':
                     python:
-                        description = u"%s.\nПродано за %s" % (
-                            game.lair.treasury.jewelry[item_index].description().capitalize(),
-                            treasures.number_conjugation_rus(game.lair.treasury.jewelry[item_index].cost, u"фартинг"))
-                        game.lair.treasury.money += game.lair.treasury.jewelry[item_index].cost
-                        game.lair.treasury.jewelry.pop(item_index)
+                        if (item_index is None):
+                            description = u"Все украшения проданы за %s?" % (
+                                treasures.number_conjugation_rus(game.lair.treasury.all_jewelries, u"фартинг"))
+                            game.lair.treasury.money += game.lair.treasury.all_jewelries
+                            game.lair.treasury.jewelry = []
+                        else:
+                            description = u"%s.\nПродано за %s" % (
+                                game.lair.treasury.jewelry[item_index].description().capitalize(),
+                                treasures.number_conjugation_rus(game.lair.treasury.jewelry[item_index].cost, u"фартинг"))
+                            game.lair.treasury.money += game.lair.treasury.jewelry[item_index].cost
+                            game.lair.treasury.jewelry.pop(item_index)
+
                     call lb_city_jewler from _call_lb_city_jewler_3
                 'Оставить':
                     call lb_city_jewler from _call_lb_city_jewler_4
@@ -286,6 +299,7 @@ label lb_city_jew_atk:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_2     
+            return
             
         'Спасти сокровища из горящего дома':
             python:

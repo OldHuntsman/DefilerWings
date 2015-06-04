@@ -18,7 +18,7 @@ init:
         "place == 'city_gates'", "img/bg/city/outside.png",    # определение фонов для разных мест (потребует доработки)
         "place == 'impassable_coomb'", "img/bg/lair/ravine.png",
         "place == 'impregnable_peak'", "img/bg/lair/cavelarge.png",
-        "place == 'solitude_сitadel'", "img/bg/lair/icecave.png",
+        "place == 'solitude_citadel'", "img/bg/lair/icecave.png",
         "place == 'vulcano_chasm'", "img/bg/lair/volcanocave.png",
         "place == 'underwater_grot'", "img/bg/lair/grotto.png",
         "place == 'underground_burrow'", "img/bg/lair/burrow.png",
@@ -33,7 +33,7 @@ init:
         "place == 'castle_ruin'", "img/bg/lair/palace_lair.png",
         "place == 'ice_citadel'", "img/bg/lair/icecastle.png",
         "place == 'vulcanic_forge'", "img/bg/lair/volcanoforge.png",
-        "place == 'cloud_castle'", "img/bg/lair/cloud_lair.png",
+        "place == 'cloud_castle'", "img/bg/lair/cloud_castle.png",
         "place == 'underwater_mansion'", "img/bg/lair/underwater.png",
         "place == 'underground_palaces'", "img/bg/lair/dwarfruin.png",
         "place == 'forest'", "img/bg/forest/1.png",

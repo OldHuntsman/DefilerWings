@@ -22,12 +22,12 @@ gem_types = {
     "saphire": (2, 50),
     "ruby": (2, 50),
     "emerald": (2, 25),
-    "goodruby": (1, 250),
-    "goodemerald": (1, 250),
-    "star": (1, 200),
-    "diamond": (1, 200),
-    "black_diamond": (1, 200),
-    "rose_diamond": (1, 200),
+    "goodruby": (1, 100),
+    "goodemerald": (1, 100),
+    "star": (1, 100),
+    "diamond": (1, 75),
+    "black_diamond": (1, 100),
+    "rose_diamond": (1, 100),
 }
 
 """словарь для типов материалов, ключи - названия материалов, значения - (шанс, ценность)"""
@@ -39,7 +39,7 @@ material_types = {
     "corall": (4, 5),
     "ivory": (4, 10),
     "agate": (3, 5),
-    "shell": (3, 10),
+    "shell": (3, 5),
     "horn": (1, 25),
 }
 
@@ -444,7 +444,7 @@ metal_types = {
     "silver": 1,
     "gold": 10,
     "mithril": 25,
-    "adamantine": 50,
+    "adamantine": 30,
 }
 """словарь для типов сокровищ, ключ - тип сокровища,
 значение - (базовая цена, пол, можно ли сделать из метала(булевое), можно ли
@@ -1840,6 +1840,40 @@ class Treasury(store.object):
                 self.jewelry.append(treas)
         achieve_target(self.wealth, "wealth")#Событие для ачивок
 
+    def pay_money(self, farting_price):
+        
+        if(farting_price > self.money):
+            raise NotImplementedError(u"Денег недостаточно для выполнения операции")
+        
+        # Оплата фартингами, если недостаточно, то обнуляем фартинги и
+        # уменьшаем farting_price на self.farting
+        if(farting_price > self.farting):
+            farting_price -= self.farting
+            self.farting = 0
+        else:
+            self.farting -= farting_price
+            return
+        
+        # Оплата таллерами, если недостаточно, то обнуляем таллеры и
+        # уменьшаем farting_price на calc_fartings, где calc_fartings
+        # это таллеры дракона в номинале фартингов
+        calc_fartings = self.taller * 10
+        if(farting_price > calc_fartings):
+            farting_price -= calc_fartings
+            self.taller = 0
+        else:
+            calc_fartings -= farting_price
+            self.farting = calc_fartings
+            return             
+         
+        # Оплата дублонами, здесь calc_fartings
+        # это дублоны дракона в номинале фартингов   
+        calc_fartings = self.dublon * 100
+        calc_fartings -= farting_price
+        self.farting = calc_fartings 
+        self.dublon = 0
+        return 
+
     @staticmethod
     def treasures_description(treasure_list):
         """
@@ -2158,6 +2192,16 @@ class Treasury(store.object):
                                                            random_jewelry.obtained)
         else:
             return u"Украшений в сокровищнице нет"
+
+    @property
+    def all_jewelries(self):
+        """
+        Стоимость всех украшений дракона
+        """
+        calc_all_jewelries = 0
+        for treas_i in xrange(len(self.jewelry)):  
+            calc_all_jewelries += self.jewelry[treas_i].cost
+        return calc_all_jewelries
 
     @staticmethod
     def get_mass_description(description_key, mass):

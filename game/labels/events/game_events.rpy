@@ -11,18 +11,22 @@ label lb_event_poverty_increase:
     "Деяния дракона привели к росту бедности и разрухи в стране. Люди голодают, многие остались без крова и средств к существованию. Мобилизационный потенциал уменьшается."
     return
 label lb_event_no_thief:
-    "Не нашлось вора, готового ограбить драконa."
+    "Ни один вор не позарился пока на сокровища, которые собрал у себя в логове [game.dragon.fullname]."
     return
 
 label lb_event_no_knight:
-    "Не нашлось рыцаря, готового бросить вызов дракону."
+    "Во всём королевстве не нашлось героя, желающего бросить вызов дракону. Видимо [game.dragon.fullname] просто не успел ещё прославиться."
     return
 
 label lb_event_sleep_start:
+    '[game.dragon.fullname] засыпает, устав от нечестивых дел. Его сон продлится долго...'
+    nvl clear
     return
 
 label lb_event_sleep_new_year:
     return
 
 label lb_event_sleep_end:
+    nvl clear
+    'Полный сил и коварной злобы, [game.dragon.fullname] просыпается в своём логове. Время для грабежа и насилия!'
     return

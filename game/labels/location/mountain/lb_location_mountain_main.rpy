@@ -48,6 +48,7 @@ label lb_enc_miner:
                 gold_trs = treasures.Ingot('gold')
                 gold_trs.weight = 1
                 game.lair.treasury.receive_treasures([gold_trs])
+                game.dragon.drain_energy()
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             
@@ -88,6 +89,7 @@ label lb_enc_ram:
     menu:
         'Сожрать барана' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
+            $ game.dragon.hunger -= 1
             '[game.dragon.name] ловит и пожирает барана.'
             python:
                 if game.dragon.bloodiness > 0:
@@ -184,7 +186,6 @@ label lb_enc_slavers:
         
         'Перебить караван':
             $ game.dragon.drain_energy()
-            $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('band', game_ref=game)
             call lb_fight from _call_lb_fight_59
         
@@ -234,7 +235,7 @@ label lb_enc_mines_silver:
     return
 
 label lb_enc_mines_gold:
-    'Золотой прииск. Охраняется небольшим отрядом тяжелой кавалерии.'
+    'Золотой прииск. Охраняется небольшим отрядом тяжелой панцирной пехоты.'
     $ game.foe = core.Enemy('heavy_infantry', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
