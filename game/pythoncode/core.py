@@ -157,7 +157,8 @@ class Game(store.object):
                     self.narrator(u"Вор появился.")
                 self.thief.event("spawn")
         else:  # Иначе пробуем его пустить на дело
-            if random.choice(range(6)) in range(
+            if self.thief.forced_to_rob or \
+               random.choice(range(6)) in range(
                     1 + len(self.thief.items)):  # Шанс 1 + количество шмота на воре, что он пойдет на дело
                 # Идем на дело
                 if renpy.config.debug:
@@ -239,6 +240,14 @@ class Game(store.object):
         if (self.quest_time <= 0) and not store.freeplay:
             call('lb_location_mordor_questtime')
         call(data.game_events["sleep_end"])
+
+    def create_foe(self, foe_type):
+        """ Создание противника заданного типа
+
+        :param foe_type: Тип создаваемого противника
+        :return:
+        """
+        self.foe = Enemy(foe_type)
 
     def _create_thief(self, thief_level=None):
         """

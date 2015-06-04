@@ -33,6 +33,7 @@ class Thief(Sayer, Mortal):
         # прочее
         self.treasury = treasury  # Ссылка на сокровищницу.
         self.avatar = get_avatar(u"img/avahuman/thief")
+        self.forced_to_rob = False    # Обязан ли ограбить дракона, когда тот пойдет спать.
 
     @property  # Read-Only
     def skill(self):
@@ -151,6 +152,9 @@ class Thief(Sayer, Mortal):
             self.event("trying_to_avoid_traps_and_guards")    
                 
             for upgrade in lair.upgrades:
+                if renpy.config.debug:
+                    thief(u"Обхожу %s" % upgrade)
+                thief.event("start_trap", trap=upgrade)
                 if upgrade in thief.items.list("fails"):  # Если для апгрейда есть испорченный предмет
                     if renpy.config.debug:
                         thief(u"Предмет для %s подвел меня" % upgrade)
@@ -164,15 +168,30 @@ class Thief(Sayer, Mortal):
                     self.event("pass_trap", trap=upgrade)
                     # То переходим к следущей ловушке
                     continue
-                for i in range(data.lair_upgrades[upgrade].protection):
-                    if random.choice(range(3)) == 0:
-                        luck -= 1
-                    if luck < 0:
-                        if renpy.config.debug:
-                            thief("Не сумел обойти %s" % upgrade)
-                        thief.die(upgrade)
-                        thief.event("die_trap", trap=upgrade)
-                        return
+                # Если улучшение не дает защиты
+                if data.lair_upgrades[upgrade].protection == 0:
+                    if renpy.config.debug:
+                        thief(u"Обошел %s, т.к. он не защищает от меня." % upgrade)
+                    thief.event("pass_trap_no_influence", trap=upgrade)
+                else:
+                    for i in range(data.lair_upgrades[upgrade].protection):
+                        luck_drain = 0
+                        if random.choice(range(3)) == 0:
+                            if renpy.config.debug:
+                                thief(u"luck -= 1, %d remaining" % luck)
+                            luck -= 1
+                            luck_drain += 1
+                        else:
+                            thief(u"На удаче затащил %s" % upgrade)
+                        if luck >= 0:
+                            thief.event("pass_trap_by_luck", trap=upgrade, luck_drain=luck_drain)
+                        if luck < 0:
+                            if renpy.config.debug:
+                                thief(u"Не сумел обойти %s" % upgrade)
+                            thief.die(upgrade)
+                            thief.event("die_trap", trap=upgrade)
+                            return
+                thief.event("end_trap", trap=upgrade)
             if luck == 0:
                 # Отступаем
                 if renpy.config.debug:
@@ -212,7 +231,7 @@ class Thief(Sayer, Mortal):
                             thief.die("wake_up")
                             return
                     # Закончили грабить. Уходим на пенсию.
-                        self.retire()
+                    self.retire()
                 else:
                     if renpy.config.debug:
                         thief(u"В сокровищнице нечего брать. Сваливаю.")

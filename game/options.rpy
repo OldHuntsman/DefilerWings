@@ -417,7 +417,7 @@ init python:
     if config.developer:
         config.use_cpickle = False
 
-    config.save_dump = True
+    config.save_dump = False
     
     # Getting rid of rollback:
     config.hard_rollback_limit = 0
