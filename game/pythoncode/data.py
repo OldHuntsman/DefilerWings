@@ -1024,19 +1024,19 @@ lair_types = Container(
         "impregnable_peak": {
             "name": u"Неприступная вершина",
             "inaccessability": 0,
-            "require": ["aplinism"],
+            "require": ["alpinism"],
             'prerequisite': ['wings']
         },
         "solitude_citadel": {
             "name": u"Цитадель одиночества",
             "inaccessability": 0,
-            "require": ["aplinism", "coldproof"],
+            "require": ["alpinism", "coldproof"],
             'prerequisite': ['wings', 'ice_immunity']
         },
         "vulcano_chasm": {
             "name": u"Вулканическая расселина",
             "inaccessability": 0,
-            "require": ["aplinism", "fireproof"],
+            "require": ["alpinism", "fireproof"],
             'prerequisite': ['wings', 'fire_immunity']
         },
         "underwater_grot": {
@@ -1094,12 +1094,12 @@ lair_types = Container(
         "ice_citadel": {
             "name": u"Ледяная цитадель",
             "inaccessability": 1,
-            "require": ["aplinism", "coldproof"]
+            "require": ["alpinism", "coldproof"]
         },
         "vulcanic_forge": {
             "name": u"Вулканическая кузница",
             "inaccessability": 1,
-            "require": ["aplinism", "fireproof"]
+            "require": ["alpinism", "fireproof"]
         },
         "forest_heart": {
             "name": u"Дупло Великого Древа",
@@ -1119,7 +1119,7 @@ lair_types = Container(
         "underground_palaces": {
             "name": u"Подгорные чертоги",
             "inaccessability": 2,
-            "require": ["aplinism"],
+            "require": ["alpinism"],
             "provide": ["mechanic_traps"]
         },
     }
