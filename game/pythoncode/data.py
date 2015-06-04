@@ -516,6 +516,7 @@ thief_events = {
     "receive_no_item": "lb_event_thief_receive_no_item",
     "receive_item": "lb_event_thief_receive_item",
     "steal_items": "lb_event_thief_steal_items",
+    "retire": None,
     # @Review: Alex: Added new event:label k/v to fill in the gaps:
     "checking_items": "lb_event_thief_checking_items",
     "checking_item": "lb_event_thief_checking_item",

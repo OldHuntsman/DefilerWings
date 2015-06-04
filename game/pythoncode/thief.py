@@ -230,16 +230,18 @@ class Thief(Sayer, Mortal):
                             self.event("awakened_the_dragon", stolen_items=stolen_items)
                             thief.die("wake_up")
                             return
-                    # Закончили грабить. Уходим на пенсию.
-                    self.retire()
                 else:
                     if renpy.config.debug:
                         thief(u"В сокровищнице нечего брать. Сваливаю.")
                     self.event("lair_empty")
+                    # Закончили грабить. Уходим на пенсию.
+                    self.retire()
                     return
                 from data import achieve_fail
                 achieve_fail("lost_treasure")#событие для ачивок
                 self.event('steal_items', items=stolen_items)
+                # Закончили грабить. Уходим на пенсию.
+                self.retire()
         else:  # До логова добраться не получилось, получаем предмет c 50%м шансом
             if renpy.config.debug:
                 thief(u"Не добрался до логова")
@@ -261,6 +263,7 @@ class Thief(Sayer, Mortal):
         self._alive = False
 
     def retire(self):
+        self.event("retire")
         # Делаем вид что умерли и концы в воду.
         self._alive = False
         return
