@@ -702,15 +702,11 @@ class Mortal(object):
 
     @property
     def is_alive(self):
-        if self._alive:
-            return True
-        return False
+        return self._alive
 
     @property
     def is_dead(self):
-        if not self._alive:
-            return True
-        return False
+        return not self._alive
 
     def die(self):
         self._alive = False
