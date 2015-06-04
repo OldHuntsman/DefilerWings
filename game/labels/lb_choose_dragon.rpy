@@ -4,6 +4,7 @@ label lb_choose_dragon:
     python:
         if renpy.music.get_playing(channel='music') != "mus/lullaby.ogg":
             renpy.music.play("mus/lullaby.ogg")           
+    $ game.mobilization.level = 0
     hide bg
     python:
         lost = False

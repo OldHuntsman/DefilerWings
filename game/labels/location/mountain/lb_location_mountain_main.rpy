@@ -347,7 +347,7 @@ label lb_enc_mines_adamantine:
             '[game.dragon.reputation.gain_description]'
             
         'Пройти мимо' if game.dragon.bloodiness < 5:
-            'Мифрил цвергов не стоит того чтобы получить в глаз их сталь!'       
+            'Адамант цвергов не стоит того чтобы получить в глаз их сталь!'       
             $ game.dragon.gain_rage()
     return
 
