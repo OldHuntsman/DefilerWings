@@ -22,12 +22,12 @@ gem_types = {
     "saphire": (2, 50),
     "ruby": (2, 50),
     "emerald": (2, 25),
-    "goodruby": (1, 250),
-    "goodemerald": (1, 250),
-    "star": (1, 200),
-    "diamond": (1, 200),
-    "black_diamond": (1, 200),
-    "rose_diamond": (1, 200),
+    "goodruby": (1, 100),
+    "goodemerald": (1, 100),
+    "star": (1, 100),
+    "diamond": (1, 75),
+    "black_diamond": (1, 100),
+    "rose_diamond": (1, 100),
 }
 
 """словарь для типов материалов, ключи - названия материалов, значения - (шанс, ценность)"""
@@ -39,7 +39,7 @@ material_types = {
     "corall": (4, 5),
     "ivory": (4, 10),
     "agate": (3, 5),
-    "shell": (3, 10),
+    "shell": (3, 5),
     "horn": (1, 25),
 }
 
@@ -444,7 +444,7 @@ metal_types = {
     "silver": 1,
     "gold": 10,
     "mithril": 25,
-    "adamantine": 50,
+    "adamantine": 30,
 }
 """словарь для типов сокровищ, ключ - тип сокровища,
 значение - (базовая цена, пол, можно ли сделать из метала(булевое), можно ли

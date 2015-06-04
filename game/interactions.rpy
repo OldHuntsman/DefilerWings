@@ -20,14 +20,6 @@ label lb_nature_sex:
         'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"
-        'Сожрать' if game.dragon.hunger > 0:
-            $ description =  game.girls_list.eat_girl()
-            game.girl "[description]"
-            play sound "sound/eat.ogg"
-            show expression sex_imgs.get_eat_image() as eat_image
-            pause (500.0)
-            hide eat_image     
-            return
         'Вернуть в темницу' if game.girl.jailed:
             $ description = game.girls_list.jail_girl()
             game.girl.third "[description]"
@@ -45,11 +37,22 @@ label lb_nature_sex:
             $ description = game.girls_list.free_girl()
             game.girl.third "[description]"
             return
+        'Сожрать' if game.dragon.hunger > 0:
+            $ description =  game.girls_list.eat_girl()
+            game.girl "[description]"
+            play sound "sound/eat.ogg"
+            show expression sex_imgs.get_eat_image() as eat_image
+            pause (500.0)
+            hide eat_image     
+            return
     jump lb_nature_sex
 
 
 label lb_lair_sex:
-    game.girl "Я хочу домой. Ну пожалуйста..."    
+    game.girl "Я хочу домой. Ну пожалуйста..."
+    python:
+        if game.girl.type == 'ice' or game.girl.type == 'fire' or game.girl.type == 'ogre' or game.girl.type == 'titan' or game.girl.type == 'siren':
+            renpy.jump('lb_gigant_sex')
     jump lb_nature_sex
 
 label lb_gigant_sex:
@@ -77,14 +80,6 @@ label lb_gigant_sex:
         'Ограбить' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"
-        'Сожрать' if game.dragon.hunger > 0:
-            $ description = game.girls_list.eat_girl()
-            game.girl.third "[description]"
-            show expression sex_imgs.get_eat_image() as eat_image
-            play sound "sound/eat.ogg"
-            pause (500.0)
-            hide eat_image                 
-            return
         'Утащить в логово' if not game.girl.jailed:
             $ description = game.girls_list.steal_girl()
             game.girl.third "[description]"
@@ -93,10 +88,22 @@ label lb_gigant_sex:
             nvl clear
             $ description = game.girls_list.jail_girl()
             game.girl.third "[description]"
+            return          
+        'Вернуть в темницу' if game.girl.jailed:
+            $ description = game.girls_list.jail_girl()
+            game.girl.third "[description]"
             return            
         'Отпустить восвояси':
             $ description = game.girls_list.free_girl()
             game.girl.third "[description]"
+            return
+        'Сожрать' if game.dragon.hunger > 0:
+            $ description = game.girls_list.eat_girl()
+            game.girl.third "[description]"
+            show expression sex_imgs.get_eat_image() as eat_image
+            play sound "sound/eat.ogg"
+            pause (500.0)
+            hide eat_image                 
             return
     jump lb_gigant_sex
 

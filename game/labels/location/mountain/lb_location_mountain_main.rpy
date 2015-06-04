@@ -89,6 +89,7 @@ label lb_enc_ram:
     menu:
         'Сожрать барана' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
+            $ game.dragon.hunger -= 1
             '[game.dragon.name] ловит и пожирает барана.'
             python:
                 if game.dragon.bloodiness > 0:
@@ -234,7 +235,7 @@ label lb_enc_mines_silver:
     return
 
 label lb_enc_mines_gold:
-    'Золотой прииск. Охраняется небольшим отрядом тяжелой кавалерии.'
+    'Золотой прииск. Охраняется небольшим отрядом тяжелой панцирной пехоты.'
     $ game.foe = core.Enemy('heavy_infantry', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:

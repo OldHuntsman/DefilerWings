@@ -230,7 +230,7 @@ class Army(store.object):
         """
         Возвращает уровень экипировки армии тьмы
         """
-        equipment = 0
+        equipment = 1
         aod_money = self.money
         aod_cost = (self.grunts + self.elites) * 1000
         while aod_money >= aod_cost:
