@@ -33,6 +33,7 @@ class Thief(Sayer, Mortal):
         # прочее
         self.treasury = treasury  # Ссылка на сокровищницу.
         self.avatar = get_avatar(u"img/avahuman/thief")
+        self.forced_to_rob = False    # Обязан ли ограбить дракона, когда тот пойдет спать.
 
     @property  # Read-Only
     def skill(self):

@@ -157,7 +157,8 @@ class Game(store.object):
                     self.narrator(u"Вор появился.")
                 self.thief.event("spawn")
         else:  # Иначе пробуем его пустить на дело
-            if random.choice(range(6)) in range(
+            if self.thief.forced_to_rob or \
+               random.choice(range(6)) in range(
                     1 + len(self.thief.items)):  # Шанс 1 + количество шмота на воре, что он пойдет на дело
                 # Идем на дело
                 if renpy.config.debug:

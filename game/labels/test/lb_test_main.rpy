@@ -143,7 +143,7 @@ label lb_test_debug:
                     call screen sc_treasury_gems
                 "Редактировать воровские предметы":
                     call screen sc_container_editor(game.lair.treasury.thief_items, [data.thief_items, data.thief_items_cursed])
-                "Пустить вора на ограбление" if game.thief is not None and game.thief.is_alive():
+                "Пустить вора на ограбление" if game.thief is not None and game.thief.is_alive:
                         $ game.thief.steal(game.lair)
         "Вор":
             menu:
