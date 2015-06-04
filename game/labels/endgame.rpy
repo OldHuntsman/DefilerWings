@@ -29,7 +29,7 @@ label lb_you_win:
     hide text with dissolve
     show expression 'img/scene/ge1.jpg' at right
     with dissolve
-    show text "      НАД ПРОЕКТОМ РАБОТАЛИ: \n\n\n Anonimous №13 \n\n Denkun \n\n ImG \n\n Graylor \n\n OldHuntsman \n\n HikkeKun \n\n Titlish \n\n Vladimir Sudalov \n\n Xela00 \n\n\n и другие..." at topleft
+    show text "      НАД ПРОЕКТОМ РАБОТАЛИ: \n\n\n Anonimous №13 \n\n Denkun \n\n ImG \n\n Graylor \n\n Roldand \n\n OldHuntsman \n\n HikkeKun \n\n Titlish \n\n Vladimir Sudalov \n\n Xela00 \n\n\n и другие..." at topleft
     with dissolve
     pause (30.0)
     hide expression 'img/scene/ge1.jpg'

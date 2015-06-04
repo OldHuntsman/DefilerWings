@@ -146,7 +146,6 @@ label lb_enchanted_forest_grove_rob:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_15     
-            call lb_dead_grove from _call_lb_dead_grove
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('enchanted_forest', 'dead_grove')
@@ -226,7 +225,6 @@ label lb_manor_rob:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_16     
-            call lb_manor_empty from _call_lb_manor_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('manor', 'manor_empty')
@@ -306,7 +304,6 @@ label lb_wooden_fort_rob:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_17     
-            call lb_wooden_fort_empty from _call_lb_wooden_fort_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('wooden_fort', 'wooden_fort_empty')
@@ -386,7 +383,6 @@ label lb_abbey_rob:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_18     
-            call lb_abbey_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('abbey', 'abbey_empty')
@@ -466,7 +462,6 @@ label lb_castle_rob:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_19     
-            call lb_castle_empty from _call_lb_castle_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('castle', 'castle_empty')
@@ -547,7 +542,6 @@ label lb_palace_rob:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_20     
-            call lb_palace_empty from _call_lb_palace_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('palace', 'palace_empty')
@@ -600,7 +594,6 @@ label lb_enc_explore_ogre_den:
             nvl clear
             game.girl.third "[description]"
             call lb_gigant_sex from _call_lb_gigant_sex     
-            jump lb_enc_create_ogre_lair
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('ogre', 'create_ogre_lair')
@@ -651,7 +644,6 @@ label lb_jotun_rob:
             nvl clear
             game.girl.third "[description]"
             call lb_gigant_sex from _call_lb_gigant_sex_1     
-            jump lb_jotun_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('jotun', 'jotun_empty')
@@ -702,7 +694,6 @@ label lb_ifrit_rob:
             nvl clear
             game.girl.third "[description]"
             call lb_gigant_sex from _call_lb_gigant_sex_2     
-            jump lb_ifrit_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('ifrit', 'ifrit_empty')
@@ -756,7 +747,6 @@ label lb_triton_rob:
             nvl clear
             game.girl.third "[description]"
             call lb_gigant_sex from _call_lb_gigant_sex_3     
-            jump lb_triton_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('triton', 'triton_empty')
@@ -811,7 +801,6 @@ label lb_titan_rob:
             nvl clear
             game.girl.third "[description]"
             call lb_gigant_sex from _call_lb_gigant_sex_4     
-            jump lb_titan_empty
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('titan', 'titan_empty')
