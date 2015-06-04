@@ -409,7 +409,7 @@ thief_items = Container(
             "name": u"Летучие сандалии",  # Applied
             "dropable": True,
             "description": u"может летать",
-            "provide": ["flight"]
+            "provide": ["flight", "alpinism"]
         },
         "cooling_amulet": {
             "name": u"Охлаждающий амулет",  # Applied
@@ -458,8 +458,8 @@ thief_items_cursed = Container(
             "name": u"Ощипанные сандалии",  # Applied
             "cursed": True,
             "description": u"Вор автоматически разбивается насмерть, если идет в логово требующее полета",
-            "fails": ["flight"],
-            "provide": ["flight"]
+            "fails": ["flight", "alpinism"],
+            "provide": ["flight", "alpinism"]
         },
         "cooling_amulet": {
             "name": u"Морозильный амулет",  # Applied
