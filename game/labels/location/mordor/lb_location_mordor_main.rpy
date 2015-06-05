@@ -148,7 +148,7 @@ label lb_new_round:
         mistress 'Я ещё вернусь!'
         $data.achieve_target("betray", "win")
         $ game.win()
-        return
+        jump lb_you_win
     $ aspect = 'lb_' + random.choice(['kali','garuda','shiva','agni','indra','pangea','nemesis','amphisbena','gekata','hell',])
     $ renpy.call(aspect)
     return

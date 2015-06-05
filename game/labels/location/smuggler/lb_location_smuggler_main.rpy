@@ -11,9 +11,10 @@ label lb_location_smuggler_main:
         'Даже драконам надо иногда спать. Особенно драконам!'
         return
         
+    $ item_index = None
     # Стоимость года работы охранников
     $ guards_cost = data.lair_upgrades['smuggler_guards']['cost']
-        
+    
     menu:
         'Нанять охрану' if 'smuggler_guards' not in game.lair.upgrades and 'regular_guards' not in game.lair.upgrades:
             "Наёмные головорезы не дадут наглым ворам растащить драконье достояние. Всего за [guards_cost] фартингов в год."
@@ -22,12 +23,12 @@ label lb_location_smuggler_main:
                     $ game.lair.upgrades.add('smuggler_guards', deepcopy(data.lair_upgrades['smuggler_guards']))
                     "Наемные головорезы будут сторожить логово, пока дракон спит."
                     call lb_location_smuggler_main from _call_lb_location_smuggler_main_2 
-                "Отказатьсмя":
+                "Отказаться":
                     call lb_location_smuggler_main from _call_lb_location_smuggler_main_3 
-        'Продать драгоценности':
+        'Продать драгоценности' if len(game.lair.treasury.jewelry) > 0:
             nvl clear
             menu:
-                'Самую дорогую' if len(game.lair.treasury.jewelry) > 0:
+                'Самую дорогую':
                     $ item_index = game.lair.treasury.most_expensive_jewelry_index
                 'Самую дешёвую' if len(game.lair.treasury.jewelry) > 0:
                     $ item_index = game.lair.treasury.cheapest_jewelry_index
@@ -36,7 +37,7 @@ label lb_location_smuggler_main:
                 'Продать все украшения' if len(game.lair.treasury.jewelry) > 0:
                     $ item_index = None
                 'Отмена':
-                    call lb_location_smuggler_main from _call_lb_location_smuggler_main_4 
+                    jump lb_location_smuggler_main 
             python:
                 from pythoncode import treasures
                 if (item_index is None):
@@ -133,6 +134,7 @@ label lb_location_smuggler_main:
                 "Уйти." if game.lair.treasury.money >= price:
                     call lb_location_smuggler_main from _call_lb_location_smuggler_main_17 
         'Уйти':
-            $ pass
+            return
             
     return
+    
