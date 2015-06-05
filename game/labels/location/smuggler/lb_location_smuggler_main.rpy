@@ -10,8 +10,7 @@ label lb_location_smuggler_main:
     if game.dragon.energy() == 0:
         'Даже драконам надо иногда спать. Особенно драконам!'
         return
-        
-    $ item_index = None
+
     # Стоимость года работы охранников
     $ guards_cost = data.lair_upgrades['smuggler_guards']['cost']
     
@@ -42,7 +41,7 @@ label lb_location_smuggler_main:
                 from pythoncode import treasures
                 if (item_index is None):
                     description = u"Продать все украшения за %s?" % (
-                        treasures.number_conjugation_rus(game.lair.treasury.all_jewelries, u"фартинг"))
+                        treasures.number_conjugation_rus(game.lair.treasury.all_jewelries * 75 // 100, u"фартинг"))
                 else:
                     description = u"%s.\nПродать украшение за %s?" % (
                         game.lair.treasury.jewelry[item_index].description().capitalize(),
@@ -53,8 +52,8 @@ label lb_location_smuggler_main:
                     python:
                         if (item_index is None):
                             description = u"Все украшения проданы за %s?" % (
-                                treasures.number_conjugation_rus(game.lair.treasury.all_jewelries, u"фартинг"))
-                            game.lair.treasury.money += game.lair.treasury.all_jewelries
+                                treasures.number_conjugation_rus(game.lair.treasury.all_jewelries  * 75 // 100, u"фартинг"))
+                            game.lair.treasury.money += game.lair.treasury.all_jewelries  * 75 // 100
                             game.lair.treasury.jewelry = []
                         else:
                             description = u"%s.\nПродано за %s" % (
