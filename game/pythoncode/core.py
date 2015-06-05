@@ -959,7 +959,7 @@ class Dragon(Fighter):
         if self.modifiers().count('cunning') > 0 and self.modifiers().count('cunning') <= 3:
             dscrptn = data.special_description[len(data.special_features) - 1 + self.modifiers().count('cunning')]
             ddescription += '\n  ' + self._accentuation(dscrptn, self._gift == 'cunning')
-        else:
+        elif self.modifiers().count('cunning') > 3:
             dscrptn = data.special_description[len(data.special_features) - 1 + 3]
             ddescription += '\n  ' + self._accentuation(dscrptn, self._gift == 'cunning')
 
