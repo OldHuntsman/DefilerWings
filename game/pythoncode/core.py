@@ -956,12 +956,13 @@ class Dragon(Fighter):
             if data.special_features[i] in mods:
                 ddescription += '\n  ' + self._accentuation(data.special_description[i],
                                                             self._gift == data.special_features[i])
-        if self.modifiers().count('cunning') > 0 and self.modifiers().count('cunning') <= 3:
-            dscrptn = data.special_description[len(data.special_features) - 1 + self.modifiers().count('cunning')]
-            ddescription += '\n  ' + self._accentuation(dscrptn, self._gift == 'cunning')
-        elif self.modifiers().count('cunning') > 3:
-            dscrptn = data.special_description[len(data.special_features) - 1 + 3]
-            ddescription += '\n  ' + self._accentuation(dscrptn, self._gift == 'cunning')
+        if 'cunning' in self.modifiers():
+            if self.modifiers().count('cunning') <= 3:
+                dscrptn = data.cunning_description[self.modifiers().count('cunning') - 1]
+                ddescription += '\n  ' + self._accentuation(dscrptn, self._gift == 'cunning')
+            else:
+                dscrptn = data.cunning_description[-1]  # Выдаем последнее описание (как самое мощное)
+                ddescription += '\n  ' + self._accentuation(dscrptn, self._gift == 'cunning')
 
         return ddescription
 
@@ -1133,18 +1134,7 @@ class Dragon(Fighter):
             dragon_leveling += 2 * ['paws']
         if self.wings < 3:
             dragon_leveling += 2 * ['wings']
-        if 'tough_scale' not in self.modifiers():
-            dragon_leveling += ['tough_scale']
-        if 'clutches' not in self.modifiers() and self.paws > 0:
-            dragon_leveling += ['clutches']
-        if 'fangs' not in self.modifiers():
-            dragon_leveling += ['fangs']
-        if 'horns' not in self.modifiers():
-            dragon_leveling += ['horns']
-        if 'ugly' not in self.modifiers():
-            dragon_leveling += ['ugly']
-        if 'poisoned_sting' not in self.modifiers():
-            dragon_leveling += ['poisoned_sting']
+        dragon_leveling += self.available_features
         if self.modifiers().count('cunning') < 3:
             dragon_leveling += 2 * ['cunning']
         if self.heads.count('green') > 0:
@@ -1155,13 +1145,26 @@ class Dragon(Fighter):
         new_ability = random.choice(dragon_leveling)
         return new_ability
 
+    @property
+    def available_head_colors(self):
+        return [color for color in data.dragon_heads if color not in self.heads and color not in self.dead_heads]
+
+    @property
+    def available_features(self):
+        ret = []
+        ret += [feature for feature in data.special_features
+                if feature not in self.modifiers() and feature != 'clutches']
+        if 'clutches' not in self.modifiers() and self.paws > 0:
+            ret += 'clutches'
+        return ret
+
     def _colorize_head(self):
         # На всякий случай проверяем есть ли зеленые головы.
         assert self.heads.count('green') > 0
-        # Считаем доступные цвета
-        available_colors = [color for color in data.dragon_heads if color not in self.heads]
+        # На всякий случай проверяем есть ли доступные цвета
+        assert len(self.available_head_colors) > 0
         # Возвращаем один из доступных цветов
-        return random.choice(available_colors)
+        return random.choice(self.available_head_colors)
 
     def decapitate(self):
         """Дракону отрубает голову.
