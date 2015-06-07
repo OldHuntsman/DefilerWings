@@ -293,9 +293,12 @@ label lb_patrool_sea:
             patrool = 'triton'
             dtxt = 'Обычно на большой глубине морской змей не встречает никаких врагов, разве что шальная акула попадётся, но на этот раз судьба свела его с рыбохвостым морским великаном. Тритон вооружён и похоже специально вышел на охоту за досаждающим его подданным гадом.'
     '[dtxt]'
-    $ game.foe = core.Enemy(patrool, game_ref=game)
-    $ narrator(show_chances(game.foe))
-    call lb_fight from _call_lb_fight_24
-
+    python:
+        game.foe = core.Enemy(patrool, game_ref=game)
+        battle_status = battle.check_fear(game.dragon, game.foe)
+    if 'foe_fear' in battle.check_fear(game.dragon, game.foe):
+        $ narrator(game.foe.battle_description(battle_status, game.dragon))
+        return
+    $ game.dragon.drain_energy()
+    call lb_fight(skip_fear=True)
     return
-    

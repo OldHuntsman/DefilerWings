@@ -254,8 +254,12 @@ label lb_patrool_forest:
             patrool = 'angel'
             dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
     '[dtxt]'
-    $ game.foe = core.Enemy(patrool, game_ref=game)
-    $ chances = show_chances(game.foe)
-    call lb_fight from _call_lb_fight_55
-    
+    python:
+        game.foe = core.Enemy(patrool, game_ref=game)
+        battle_status = battle.check_fear(game.dragon, game.foe)
+    if 'foe_fear' in battle.check_fear(game.dragon, game.foe):
+        $ narrator(game.foe.battle_description(battle_status, game.dragon))
+        return
+    $ game.dragon.drain_energy()
+    call lb_fight(skip_fear=True)
     return
