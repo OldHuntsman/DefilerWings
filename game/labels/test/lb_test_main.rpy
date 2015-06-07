@@ -27,8 +27,6 @@ label lb_test_main:
                     tmp += "\n  Сила армии Тьмы: [game.army.force] (армия сильна на [game.army.power_percentage] %)."
                     narrator(tmp)
                 return
-            "Примеры":
-                call lb_test_examples from _call_lb_test_examples
             "Отладка":
                 call lb_test_debug from _call_lb_test_debug
             "Ачивки":
@@ -40,32 +38,6 @@ label lb_test_main:
                 "Список достижений очищен"
             "Назад":
                 return
-    return
-    
-label lb_test_examples:
-    menu:
-        "Примеры"
-        "Цикл с возвратом":
-            call lb_test_example_returnLoop from _call_lb_test_example_returnLoop
-        "Схватка":
-            call lb_test_example_fight from _call_lb_test_example_fight
-        "Случайный энкаунтер":
-            call lb_test_example_encounter from _call_lb_test_example_encounter
-        "Меню с недоступными вариантами":
-            call lb_test_example_inaccessible_menu from _call_lb_test_example_inaccessible_menu
-        "Прямая и косвенная речь":
-            game.dragon "Прямая речь"
-            game.dragon.third "Косвенная речь"
-        "Прокрутка при переполнении окна диалога":
-            "Начал говорить"
-            while True:
-                "Продолжаю говорить"
-        "Девушка":
-            $ girl = core.Girl(game_ref = game)
-            girl "Прямая речь"
-            girl.third "Косвенная речь"
-        "Назад":
-            return
     return
     
 label lb_test_debug:
@@ -87,25 +59,62 @@ label lb_test_debug:
                 "Ослабить армию Тьмы":
                     $ game.army.power_percentage -= 10
         "Дракон":
-            menu:
-                "Потратить одно очко здоровья":
-                    $ game.dragon.struck()
-                "Добавить одно очко здоровья":
-                    $ game.dragon.health += 1
-                "Потратить одну энергию":
-                    $ res = game.dragon.drain_energy()
-                    if res:
-                        game.dragon "Силы покинули меня."
-                    else:
-                        game.dragon "Я и так истощен."
-                "Тип дракона":
-                    python:
-                        head_menu = []
-                        for head_type in data.dragon_heads.iterkeys():
-                            head_menu.append((data.heads_name_rus[head_type], head_type))
-                        game.dragon.heads[0] = renpy.display_menu(head_menu)
-                "Создать потомство":
-                    call lb_choose_dragon from _call_lb_choose_dragon_3
+            while True:
+                menu:
+                    "Потратить одно очко здоровья":
+                        $ game.dragon.struck()
+                    "Добавить одно очко здоровья" if game.dragon.health < 2:
+                        $ game.dragon.health += 1
+                    "Потратить одну энергию":
+                        $ res = game.dragon.drain_energy()
+                        if res:
+                            game.dragon "Силы покинули меня."
+                        else:
+                            game.dragon "Я и так истощен."
+                    "Добавить одну энергию" if game.dragon._tiredness > 0:
+                        $ game.dragon._tiredness -= 1
+                    "Тип дракона":
+                        python hide:
+                            head_menu = []
+                            for head_type in data.dragon_heads.iterkeys():
+                                head_menu.append((data.heads_name_rus[head_type], head_type))
+                            game.dragon.heads[0] = renpy.display_menu(head_menu)
+                    "Добавить голову":
+                        $ game.dragon.heads.append('green')
+                        game.dragon "У меня стало на голову больше"
+                    "Покрасить голову" if 'green' in game.dragon.heads:
+                        python hide:
+                            head_colors = []
+                            for color in game.dragon.available_head_colors:
+                                head_colors.append((data.heads_name_rus[color], color))
+                            color = menu(head_colors)
+                            game.dragon.heads[game.dragon.heads.index('green')] = color
+                    "Добавить особенность" if len(game.dragon.available_features) > 0:
+                        python hide:
+                            special_features = []
+                            if game.dragon.size < 6:  # TODO: magic number!
+                                special_features.append(("Увеличение размера на одну категорию", 'size'))
+                            if game.dragon.paws < 3:  # TODO: magic number!
+                                special_features.append(("Лапы", 'paws'))
+                            if game.dragon.wings < 3:  # TODO: magic number!
+                                special_features.append(("Крылья", 'wings'))
+                            for feature in game.dragon.available_features:
+                                special_features.append((data.special_features_rus[feature], feature))
+                            special_features.append(("Коварство", 'cunning'))
+                            feature = renpy.display_menu(special_features)
+                            game.dragon.anatomy.append(feature)
+                    "Наложить заклятие":
+                        python hide:
+                            spells = []
+                            available_spell = [spell for spell in data.spell_list_rus if spell not in game.dragon.spells]
+                            for spell in available_spell:
+                                spells.append((data.spell_list_rus[spell], spell))
+                            spell = menu(spells)
+                            game.dragon.add_effect(spell)
+                    "Создать потомство":
+                        call lb_choose_dragon from _call_lb_choose_dragon_3
+                    "Назад":
+                        return
         "Логово":
             while True:
                 menu:
@@ -199,24 +208,6 @@ label lb_test_debug:
                 "Назад":
                     pass
     return
-    
-label lb_test_example_inaccessible_menu:
-    nvl clear
-    python:
-        # Составляем список параметров для выбора.
-        menu_options = [("Делать что-нибудь (Заблокировано:нужен остаток энергии меньше 2)", 1, game.dragon.energy() >= 2, game.dragon.energy() < 2),
-                        ("Делать что-нибудь", 2, game.dragon.energy() < 2, game.dragon.energy() < 2),
-                        ("Назад", 3, True, True)]
-        # Для описания параметров см описание экрана "dw_choice", в данный момент он находится в screens.rpy
-        result = renpy.call_screen("dw_choice", menu_options)
-        if result == 1:
-            pass
-        elif result == 2:
-            narrator("что-то сделано")
-        elif result == 3:
-            pass
-    "Возвращаемся"
-    return
 
 label lb_test_debug_create_lair:
     python:
@@ -282,5 +273,3 @@ label lb_test_debug_treasury:
                 return
     return
 
-label lb_mob_inc:
-    "Оророро"
