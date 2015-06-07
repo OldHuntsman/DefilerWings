@@ -2,10 +2,13 @@
 init python:
     from pythoncode import battle
 
-label lb_fight(foe=game.foe):
+label lb_fight(foe=game.foe, skip_fear=False):
     show expression foe.bg as foeimg
     nvl clear
-    $ battle_status = battle.check_fear(game.dragon, foe)
+    if not skip_fear:
+        $ battle_status = battle.check_fear(game.dragon, foe)
+    else:
+        $ battle_status = ['foe_intro', 'foe_alive']
     $ narrator(foe.battle_description(battle_status, game.dragon))
 
     while 'foe_alive' in battle_status:
