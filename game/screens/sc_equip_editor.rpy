@@ -37,6 +37,7 @@ screen sc_equip_editor(object, equip_variants):
             for d in equip_variants:
                 viewport:
                     scrollbars "vertical"
+                    mousewheel True
                     vbox:
                         text "%s:" % d.id
                         for type in object._equip_slots:
