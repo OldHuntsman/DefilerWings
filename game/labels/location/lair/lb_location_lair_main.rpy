@@ -90,7 +90,7 @@ label lb_location_lair_main:
             "Гремлины уходят"
             call lb_location_lair_main from _call_lb_location_lair_main_5            
         'Уволить охрану' if 'smuggler_guards' in game.lair.upgrades:
-            $ del game.lair.upgrades['gremlin_servant']
+            $ del game.lair.upgrades['smuggler_guards']
             "Охрана покидает посты"
             call lb_location_lair_main from _call_lb_location_lair_main_6
         'Лечь спать':
