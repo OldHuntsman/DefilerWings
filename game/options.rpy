@@ -14,8 +14,7 @@ init -1 python hide:
     # set to False before the game is released, so the user can't
     # cheat using developer tools.
 
-    config.developer = True
-    config.console = True
+    config.developer = False
 
     # These control the width and height of the screen.
 
@@ -89,7 +88,7 @@ init -1 python hide:
         return "Unknown"                # Возвращаем "Unknown", если ничего не получилось.
 
     # config.version = get_version()
-    config.version = "0.4.1 b"
+    config.version = "0.5.0 b"
 
     #########################################
     # Themes
@@ -256,7 +255,7 @@ init -1 python hide:
     # - A file name relative to the base directory, which is opened in a
     #   web browser.
     # - None, to disable help.
-    config.help = "readme.txt"
+    config.help = "manual.pdf"
 
     #########################################
     # Transitions.
