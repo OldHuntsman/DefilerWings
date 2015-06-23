@@ -60,17 +60,15 @@ label lb_choose_dragon:
 
         def get_breedbg():
             import random
-            import os
-            rel_path = "img/scene/hatch"
-            abs_path = os.path.join(renpy.config.basedir, "game", rel_path)
+                                    
             if game.dragon is not None:
-                if game.dragon.heads and game.dragon.color_eng in os.listdir(abs_path):
-                    color_filename = random.choice(os.listdir(os.path.join(abs_path, game.dragon.color_eng)))
-                    return rel_path + "/" + game.dragon.color_eng + "/" + color_filename
-                else:
-                    return "img/scene/hatch/base.png"
-            else:
-                return "img/scene/hatch/base.png"
+                hatches_colored = [f for f in renpy.list_files() if f.startswith("img/scene/hatch/%s" % game.dragon.color_eng)]
+                
+                if len(hatches_colored) > 0:
+                    return random.choice(hatches_colored)
+
+            return "img/scene/hatch/base.png"
+                            
         renpy.breedbg = ui.image(get_breedbg())
 
     screen ava_screen:
