@@ -12,7 +12,7 @@ init python:
     Added chain random music function as per Hunters request on Skype:
     """
     def get_random_files(folder, shuffle=True):
-        files = [f for f in renpy.list_files() if f.startswith("mus/ambient")]
+        files = [f for f in renpy.list_files() if f.startswith(folder)]
 
         if shuffle:
             renpy.random.shuffle(files)
