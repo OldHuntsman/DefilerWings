@@ -1341,13 +1341,14 @@ def get_avatar(folder, regex='.*', used_avatars=None):
     if used_avatars is None:
         used_avatars = []
 
-    absolute_path = os.path.join(renpy.config.basedir, "game", folder)  # Cоставляем абсолютный путь где искать
+    files = [f for f in renpy.list_files() if f.startswith(folder)]
+    
     regex = re.compile(regex, re.IGNORECASE)
-    reg_list = filter(regex.search, os.listdir(absolute_path))
-    reg_list = [item for item in reg_list if folder + "/" + item not in used_avatars]
+    reg_list = filter(regex.search, files)
+    reg_list = [item for item in reg_list if item not in used_avatars]
     if len(reg_list) == 0:
         raise StopIteration
-    return folder + "/" + random.choice(reg_list)  # Возвращаем правильно случайно выбранное значение
+    return random.choice(reg_list)  # Возвращаем правильно случайно выбранное значение
 
 
 get_img = get_avatar
