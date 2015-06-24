@@ -318,7 +318,24 @@ init -1 python hide:
     # is run, so the persistent information can be found by the init code.)
 python early:
     config.save_directory = "Defiler Wings"
-
+    
+    # Monkey patch для того, чтобы focus_mask воспринимала callable.
+    # Без этого код пытается интерпретировать callable как displayable и падает.
+    # Вообще говоря надо патчить renpy.styledata.styleutil.expand_focus_mask,
+    # но renpy как-то хитро к нему обращается и при замене всё равно работает
+    # старая версия.
+    # TODO: Убрать костыль после патча в RenPy.
+    
+    source_displayable = renpy.easy.displayable
+    
+    def displayable(d):
+        if callable(d):
+            return d
+        else:
+            return source_displayable(d)
+        
+    renpy.easy.displayable = displayable
+    
 init -1 python hide:
     #########################################
     # Default values of Preferences.
