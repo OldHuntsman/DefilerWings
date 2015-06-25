@@ -1,4 +1,10 @@
 ﻿# coding=utf-8
+
+init python hide:
+    from pythoncode import shims
+    
+    shims.renpy_easy_monkey_patch()
+
 init python:
     # Импортируем нужные библиотеки. Возможно это надо засунуть в какой-то отдельный файл инициализации.
     from pythoncode import data
