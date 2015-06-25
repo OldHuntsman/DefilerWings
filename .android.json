@@ -1,0 +1,1 @@
+{"layout": null, "package": "com.domain.df", "include_pil": false, "numeric_version": "50", "expansion": false, "name": "DefilerWings", "source": false, "icon_name": "DW", "version": "0.5.0", "target_version": 14, "permissions": ["VIBRATE", "INTERNET"], "include_sqlite": false, "store": "none", "orientation": "sensorLandscape"}

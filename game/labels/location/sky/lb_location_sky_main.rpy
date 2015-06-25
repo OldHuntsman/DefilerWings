@@ -146,5 +146,5 @@ label lb_patrool_sky:
         $ narrator(game.foe.battle_description(battle_status, game.dragon))
         return
     $ game.dragon.drain_energy()
-    call lb_fight(skip_fear=True)
+    call lb_fight(skip_fear=True) from _call_lb_fight_52
     return
