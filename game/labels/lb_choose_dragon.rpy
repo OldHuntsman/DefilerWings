@@ -60,8 +60,9 @@ label lb_choose_dragon:
 
         def get_breedbg():
             import random
-                                    
-            if game.dragon is not None:
+                               
+            # Важно проверить количество голов. color_eng берёт цвет из первой головы, но иногда её почему-то нет.
+            if (game.dragon is not None) and (len(game.dragon.heads) > 0):
                 hatches_colored = [f for f in renpy.list_files() if f.startswith("img/scene/hatch/%s" % game.dragon.color_eng)]
                 
                 if len(hatches_colored) > 0:
