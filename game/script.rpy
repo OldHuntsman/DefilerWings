@@ -10,7 +10,11 @@ init python:
     from pythoncode import data
     from pythoncode import core
     from pythoncode import treasures
+    from pythoncode import focus_mask_ext
     from copy import deepcopy
+    
+    focus_mask_ext.load_focus_mask_data()
+    
     # Заряжаем пасхалки. Их можно будет встретить в игре лишь однажды
     # Встреченную пасхалку следует добавить в persistent.seen_encounters
     # Проверить была ли встречена пасхалка: if <encounter> (not) in persistent.seen_encounters
