@@ -32,12 +32,9 @@ label lb_location_lair_main:
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             python:
                 import random
-                import os
-                rel_path = "img/bg/hoard"
-                abs_path = os.path.join(renpy.config.basedir, "game", rel_path)
-                if game.dragon.color_eng in os.listdir(abs_path):
-                    color_filename = random.choice(os.listdir(os.path.join(abs_path, game.dragon.color_eng)))
-                    treasurybg = rel_path + "/" + game.dragon.color_eng + "/" + color_filename
+                files = [f for f in renpy.list_files() if f.startswith("img/bg/hoard/%s" % game.dragon.color_eng)]    
+                if len(files) > 0:
+                    treasurybg = random.choice(files)
                 else:
                     treasurybg = "img/bg/hoard/base.png"
                 renpy.treasurybg = ui.image(treasurybg)

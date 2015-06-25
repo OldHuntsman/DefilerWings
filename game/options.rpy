@@ -319,7 +319,10 @@ init -1 python hide:
     # is run, so the persistent information can be found by the init code.)
 python early:
     config.save_directory = "Defiler Wings"
-
+    
+    
+    
+    
 init -1 python hide:
     #########################################
     # Default values of Preferences.

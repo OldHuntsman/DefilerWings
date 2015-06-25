@@ -1,10 +1,20 @@
 ﻿# coding=utf-8
+
+init python hide:
+    from pythoncode import shims
+    
+    shims.renpy_easy_monkey_patch()
+
 init python:
     # Импортируем нужные библиотеки. Возможно это надо засунуть в какой-то отдельный файл инициализации.
     from pythoncode import data
     from pythoncode import core
     from pythoncode import treasures
+    from pythoncode import focus_mask_ext
     from copy import deepcopy
+    
+    focus_mask_ext.load_focus_mask_data()
+    
     # Заряжаем пасхалки. Их можно будет встретить в игре лишь однажды
     # Встреченную пасхалку следует добавить в persistent.seen_encounters
     # Проверить была ли встречена пасхалка: if <encounter> (not) in persistent.seen_encounters
