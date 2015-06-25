@@ -18,11 +18,16 @@
 # Составляем стиль для подсказки.
 # TODO: выпилить, сделав нормальный стиль для prompt
 init python:
+    from pythoncode.focus_mask_ext import FocusMaskCallable
+    
     style.map_tooltip = Style("prompt")
     style.map_tooltip.background = Frame("img/bg/logovo.png", 5, 5)
 
 screen main_map:
     python:
+        # После добавления новых кнопок или их обновления НЕОБХОДИМО сгенерировать новые координаты
+        # при помощи функции focus_mask_ext.create_focus_mask_data. Получившийся в итоге файл должен
+        # располагаться в focus_mask_ext.COORDINATES_FILE_PATH.
         map_data = [
             ("sea", "Море"),
             ("mordor", "Земли Владычицы"),
@@ -48,7 +53,7 @@ screen main_map:
             imagebutton:  # target
                 auto "img/map/button_" + target + "_%s.png"
                 action Return("lb_location_%s_main" % target)
-                focus_mask True
+                focus_mask FocusMaskCallable(target)
                 hovered map_tooltip.Action(description)
     
         if map_tooltip.value != "None":  # Костыль-костылык. Не показываем подсказу если у нее значение по умолчанию
