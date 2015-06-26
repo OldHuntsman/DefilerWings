@@ -8,6 +8,8 @@ screen label_callback():
     text "[last_label]" align (0.5, 0) size 25
     
 init python:
+    import re
+    
     """
     Added chain random music function as per Hunters request on Skype:
     """
@@ -33,10 +35,7 @@ init python:
         def __init__(self):
             self.sex_images = {}
             self.eat_images = set()
-            
-            # Регекспы для вычленения из путей к файлам с изображениями нужных нам данных.
-            import re
-            
+                        
             # Первая группа - категория, вторая группа - цвет.
             self.regexp_color = re.compile("img/scene/sex/(.*)/color/(\w+)")
             # Здесь нам нужна только категория. Цвет - any.
