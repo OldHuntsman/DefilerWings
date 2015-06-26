@@ -1,4 +1,7 @@
 # coding=utf-8
+init python:
+    from pythoncode import treasures
+    
 label lb_location_city_main:
     python:
         if not renpy.music.is_playing():
@@ -225,7 +228,6 @@ label lb_city_jewler:
                 'Отмена':
                     call lb_city_jewler from _call_lb_city_jewler_2
             python:
-                from pythoncode import treasures
                 if (item_index is None):
                     description = u"Продать все украшения за %s?" % (
                         treasures.number_conjugation_rus(game.lair.treasury.all_jewelries, u"фартинг"))

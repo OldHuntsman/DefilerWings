@@ -1,4 +1,7 @@
 # coding=utf-8
+init python:
+    import random
+    
 label lb_choose_dragon:
     # Хардкод на трех драконов.
     python:
@@ -58,9 +61,7 @@ label lb_choose_dragon:
         except IndexError:
             pass
 
-        def get_breedbg():
-            import random
-                               
+        def get_breedbg():                               
             # Важно проверить количество голов. color_eng берёт цвет из первой головы, но иногда её почему-то нет.
             if (game.dragon is not None) and (len(game.dragon.heads) > 0):
                 hatches_colored = [f for f in renpy.list_files() if f.startswith("img/scene/hatch/%s" % game.dragon.color_eng)]
