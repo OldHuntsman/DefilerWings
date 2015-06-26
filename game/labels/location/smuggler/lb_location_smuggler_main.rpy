@@ -1,4 +1,7 @@
 # coding=utf-8
+init python:
+    from pythoncode import treasures
+    
 label lb_location_smuggler_main:
     nvl clear
     python:
@@ -38,7 +41,6 @@ label lb_location_smuggler_main:
                 'Отмена':
                     jump lb_location_smuggler_main 
             python:
-                from pythoncode import treasures
                 if (item_index is None):
                     description = u"Продать все украшения за %s?" % (
                         treasures.number_conjugation_rus(game.lair.treasury.all_jewelries * 75 // 100, u"фартинг"))

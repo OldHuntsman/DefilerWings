@@ -1,4 +1,7 @@
 # coding=utf-8
+init python:
+    from pythoncode import girls_data
+    
 label lb_event_girl_escape:
     $ place = game.lair.type_name
     hide bg
@@ -15,7 +18,6 @@ label lb_event_girl_spawn(spawn_type):
     python:
         spawn_description = game.girls_list.description(spawn_type)  # описание родов конкретного типа
         if not spawn_description:
-            from pythoncode import girls_data
             if 'elite' in girls_data.spawn_info[spawn_type]['modifier']:
                 spawn_description = game.girls_list.description('spawn_elite')
             else:

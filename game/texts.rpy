@@ -1,7 +1,8 @@
 # coding=utf-8
 # здесь хранятся тексты для игры
 python early:
-    
+    from pythoncode import data
+     
     chance_win_texts = {
         0: "{color=#ff0000}призрачные{/color}",
         10: "{color=#ff00ff}невысокие{/color}",
@@ -22,7 +23,6 @@ python early:
         """
         Вывод шансов победы и ранения дракона для игрока 
         """
-        from pythoncode import data
         chance = battle.victory_chance(game.dragon, foe)
         chance_win = data.get_description_by_count(chance_win_texts, chance)
 
