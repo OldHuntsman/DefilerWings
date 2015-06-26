@@ -32,8 +32,7 @@ class Knight(Fighter):
         self.abilities.add(ab, deepcopy(data.knight_abilities[ab]))
         self._add_equip_slots(["vest", "spear", "sword", "shield", "horse", "follower"])
         self.equip_basic()
-        self.bg = "img/scene/fight/knight/" + random.choice(
-            os.listdir(os.path.join(renpy.config.basedir, "game/img/scene/fight/knight")))  # получаем название файла
+        self.bg = random.choice(filter(lambda path: path.startswith("img/scene/fight/knight/"), renpy.list_files()))
         self.kind = 'knight'
         for description in mob_data.mob[self.kind]['descriptions']:
             descript = deepcopy(description)  # Создаём новый объект для описания
