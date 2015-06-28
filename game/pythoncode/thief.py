@@ -6,9 +6,9 @@
 import random
 import data
 import renpy.exports as renpy
-from core import Mortal, call, get_avatar
+from core import call, get_avatar
 from copy import deepcopy
-from characters import Talker
+from characters import Mortal, Talker
 
 class Thief(Talker, Mortal):
     """
