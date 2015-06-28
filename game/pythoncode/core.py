@@ -10,7 +10,7 @@ from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
 import renpy.store as store
-from characters import Talker
+from characters import Mortal, Talker
 
 army_battle = False
 reinforcement_used = False
@@ -646,21 +646,6 @@ class Girl(Talker):
             self.name = 'Неизвестная Красавица'
         self.jailed = False  # была ли уже в тюрьме, пригодится для описания
         self.treasure = []
-
-
-class Mortal(object):
-    _alive = True  # По умолчанию все живые
-
-    @property
-    def is_alive(self):
-        return self._alive
-
-    @property
-    def is_dead(self):
-        return not self._alive
-
-    def die(self):
-        self._alive = False
 
 
 class Fighter(Talker, Mortal):
