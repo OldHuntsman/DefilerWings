@@ -6,6 +6,8 @@ import core
 # import renpy.store as store
 store = renpy.store
 
+from utils import weighted_random
+
 """Словарь для драгоценных камней, ключи - названия камней, значения - кортежи вида(шанс появления, ценность)"""
 gem_types = {
     "amber": (5, 3),
@@ -2661,7 +2663,7 @@ class Treasury(store.object):
         if item.quality =='random':
             # случайный выбор качества вещи
             quality_list = (('rough', 25), ('common', 50), ('skillfully', 20), ('mastery', 10),)
-            item.quality = core.Game.weighted_random(quality_list)
+            item.quality = weighted_random(quality_list)
         self.money -= item.craft_cost(base_cost, price_multiplier)
         if is_crafting:
             # если делается из материалов дракона - убираем материалы из сокровищницы

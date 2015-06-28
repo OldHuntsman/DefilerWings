@@ -1,4 +1,7 @@
 # coding=utf-8
+init python:
+    from pythoncode.utils import weighted_random
+    
 label lb_special_places:
     nvl clear
     python:
@@ -40,7 +43,7 @@ label lb_enchanted_forest_enter:
                 ("lb_enchanted_forest_elfgirl", 10),
                 ("lb_enchanted_forest_druid", 10),
                 ]
-            $ enc = core.Game.weighted_random(choices)
+            $ enc = weighted_random(choices)
             $ renpy.call(enc)
     
         'Напасть на Древо Жизни':

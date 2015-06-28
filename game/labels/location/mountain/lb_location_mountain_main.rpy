@@ -1,4 +1,7 @@
 # coding=utf-8
+init python:
+    from pythoncode.utils import weighted_random
+    
 label lb_location_mountain_main:
     python:
         if not renpy.music.is_playing():
@@ -32,7 +35,7 @@ label lb_location_mountain_main:
         ("lb_enc_cannontower", 10),
         ("lb_patrool_mountain", 3 * game.mobilization.level),
         ("lb_enc_noting", nochance)]
-    $ enc = core.Game.weighted_random(choices)
+    $ enc = weighted_random(choices)
     $ renpy.call(enc)
         
     return
