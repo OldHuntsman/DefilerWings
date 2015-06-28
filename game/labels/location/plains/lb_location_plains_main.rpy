@@ -1,4 +1,7 @@
 # coding=utf-8
+init python:
+    from pythoncode.characters import Talker
+    
 label lb_location_plains_main:
     python:
         if not renpy.music.is_playing():
@@ -60,7 +63,7 @@ label lb_encounter_plains:
   
 label lb_enc_redhood:
     python: #делаем аватарку волка для диалогового окна
-        wolf = core.Sayer(game_ref=game)
+        wolf = Talker(game_ref=game)
         wolf.avatar = "img/avahuman/wolf.jpg"
         wolf.name = 'Сергей "BBW" Волков'    
     if "redhood_done" in persistent.easter_eggs: #проверяем не было ли уже этого энкаунтера за всё время игры

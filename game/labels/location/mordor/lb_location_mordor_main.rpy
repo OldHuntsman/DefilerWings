@@ -1,4 +1,7 @@
 # coding=utf-8
+init python:
+    from pythoncode.characters import Talker
+    
 label lb_location_mordor_main:
     $ reinforcement_used = False
     $ place = 'mordor' 
@@ -10,7 +13,7 @@ label lb_location_mordor_main:
             renpy.music.queue(get_random_files('mus/ambient'))
     nvl clear
     python:
-        mistress = core.Sayer(game_ref=game)
+        mistress = Talker(game_ref=game)
         mistress.avatar = "img/avahuman/mistress.jpg"
         mistress.name = "Владычица"
     
