@@ -1,6 +1,7 @@
 # coding=utf-8
 init python:
     from pythoncode.characters import Talker
+    from pythoncode.utils import weighted_random
     
 label lb_location_plains_main:
     python:
@@ -57,7 +58,7 @@ label lb_encounter_plains:
         ("lb_enc_redhood", 3),        
         ("lb_patrool_plains", 3 * game.mobilization.level),
         ("lb_enc_noting", nochance)]
-    $ enc = core.Game.weighted_random(choices)
+    $ enc = weighted_random(choices)
     $ renpy.call(enc)
     return
   

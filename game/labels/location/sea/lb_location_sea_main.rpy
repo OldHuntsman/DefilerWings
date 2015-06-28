@@ -1,4 +1,7 @@
 # coding=utf-8
+init python:
+    from pythoncode.utils import weighted_random
+    
 label lb_location_sea_main:
     python:
         if not renpy.music.is_playing():
@@ -33,7 +36,7 @@ label lb_encounter_sea:
         ("lb_enc_mermaids", 10),
         ("lb_enc_shipwreck", 10),
         ("lb_patrool_sea", 3 * game.mobilization.level)]
-    $ enc = core.Game.weighted_random(choices)
+    $ enc = weighted_random(choices)
     $ renpy.call(enc)
 
     return 

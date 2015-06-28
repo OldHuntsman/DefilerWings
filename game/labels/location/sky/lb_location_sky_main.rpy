@@ -1,4 +1,7 @@
 # coding=utf-8
+init python:
+    from pythoncode.utils import weighted_random
+    
 label lb_location_sky_main:
     python:
         if not renpy.music.is_playing():
@@ -34,7 +37,7 @@ label lb_encounter_sky:
         ("lb_jotun_found", 10),
         ("lb_ifrit_found", 10),
         ("lb_patrool_sky", 3 * game.mobilization.level)]
-    $ enc = core.Game.weighted_random(choices)
+    $ enc = weighted_random(choices)
     $ renpy.call(enc)
 
     return
