@@ -6,11 +6,11 @@
 import random
 import data
 import renpy.exports as renpy
-from core import Sayer, Mortal, call, get_avatar
+from core import Mortal, call, get_avatar
 from copy import deepcopy
+from characters import Talker
 
-
-class Thief(Sayer, Mortal):
+class Thief(Talker, Mortal):
     """
     Класс вора.
     """
