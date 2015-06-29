@@ -1,5 +1,6 @@
 # coding=utf-8
 init python:
+    from pythoncode import battle
     from pythoncode.characters import Enemy, Talker
     
 label lb_location_mordor_main:
@@ -419,7 +420,7 @@ label lb_war_border:
     # Если дракон победил, но армия слишком слаба даём второй энкаунтер для дракона - воздушный флот цвергов приходит
     # на помощь осаждённым, дракон должен их победить.
     python:
-        army_battle = True #Из боя теперь нельзя отступить
+        battle.army_battle = True #Из боя теперь нельзя отступить
         army_decimator = 10
     
     show expression 'img/scene/dark_march.png' as bg

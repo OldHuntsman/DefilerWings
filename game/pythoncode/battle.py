@@ -2,6 +2,7 @@
 
 import random
 
+army_battle = False
 
 def calc_hit_def(hitdef):
     """
