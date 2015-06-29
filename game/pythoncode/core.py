@@ -10,7 +10,7 @@ from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
 import renpy.store as store
-from characters import Fighter, Mortal, Talker, Thief
+from characters import Fighter, Mortal, Talker, Thief, Knight
 from utils import call, tuples_sum, get_random_image
 
 army_battle = False
@@ -266,8 +266,6 @@ class Game(store.object):
         """
         Создание рыцаря.
         """
-        from knight import Knight
-
         # Если уровень рыцаря не указан, то идет стандартная проверка на появление.
         if knight_level is None and random.choice(range(1, 5 + (self.dragon.reputation.level + 1), 1)) in \
                     range(self.dragon.reputation.level + 1):
