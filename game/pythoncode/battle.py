@@ -1,7 +1,6 @@
-﻿#!/usr/bin/env python
-# coding=utf-8
+﻿# coding=utf-8
+
 import random
-from core import Dragon, Enemy
 
 
 def calc_hit_def(hitdef):

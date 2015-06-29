@@ -1,12 +1,10 @@
-#!/usr/bin/env python
 # coding=utf-8
+
 import random
-import renpy
-import core
-# import renpy.store as store
-store = renpy.store
+from renpy import store
 
 from utils import weighted_random
+
 
 """Словарь для драгоценных камней, ключи - названия камней, значения - кортежи вида(шанс появления, ценность)"""
 gem_types = {
