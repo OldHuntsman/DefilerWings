@@ -18,7 +18,7 @@ label lb_fight(foe=game.foe, skip_fear=False):
 
         if 'dragon_dead' in battle_status:
             game.dragon "Я подвёл тебя, мама..."
-            if freeplay or army_battle:
+            if freeplay or battle.army_battle:
                 jump lb_game_over
             hide foeimg
             nvl clear
@@ -32,7 +32,7 @@ label lb_fight(foe=game.foe, skip_fear=False):
             menu:
                 'Продолжать бой':
                     pass
-                'Отступить' if not army_battle:
+                'Отступить' if not battle.army_battle:
                     if foe.kind == 'knight':
                         # Отступаем в новое логово
                         "Позорно бежав [game.dragon.name] укрылся в первом попавшемся укромном местечке"
