@@ -11,6 +11,7 @@ init python:
     from pythoncode import core
     from pythoncode import treasures
     from pythoncode import focus_mask_ext
+    from pythoncode.game import Game
     from copy import deepcopy
     
     focus_mask_ext.load_focus_mask_data()
@@ -37,7 +38,7 @@ label start:
     $ renpy.block_rollback()
     python:
         # Инициализируем game в начале игры, а не при инициализации. Для того чтобы она сохранялась.
-        game = core.Game(adv_character=ADVCharacter, nvl_character=NVLCharacter)
+        game = Game(adv_character=ADVCharacter, nvl_character=NVLCharacter)
         narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
         # Alex: Zexy Images :)
         sex_imgs = DragonSexImagesDatabase()
