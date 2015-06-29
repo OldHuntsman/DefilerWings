@@ -40,4 +40,7 @@ def call(label, *args, **kwargs):
     elif type(label) is list:
         for i in label:
             return _call(i, *args, **kwargs)
+            
+def tuples_sum(tuple_list):
+    return sum([first for first, _ in tuple_list]), sum([second for _, second in tuple_list])            
     

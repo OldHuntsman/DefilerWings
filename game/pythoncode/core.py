@@ -11,14 +11,10 @@ from copy import deepcopy
 import renpy.exports as renpy
 import renpy.store as store
 from characters import Mortal, Talker
-from utils import call
+from utils import call, tuples_sum
 
 army_battle = False
 reinforcement_used = False
-
-def tuples_sum(tuple_list):
-    return sum([first for first, _ in tuple_list]), sum([second for _, second in tuple_list])
-
 
 class Game(store.object):
     _win = False
