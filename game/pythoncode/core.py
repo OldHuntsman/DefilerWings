@@ -1155,7 +1155,7 @@ class Dragon(Fighter):
         ret += [feature for feature in data.special_features
                 if feature not in self.modifiers() and feature != 'clutches']
         if 'clutches' not in self.modifiers() and self.paws > 0:
-            ret += 'clutches'
+            ret.append("clutches")
         return ret
 
     def _colorize_head(self):
