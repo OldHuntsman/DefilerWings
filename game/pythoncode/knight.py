@@ -6,7 +6,8 @@ import girls_data
 import renpy.exports as renpy
 import data
 import mob_data
-from core import Fighter, get_avatar
+from characters import Fighter
+from core import get_avatar
 from utils import call
 from copy import deepcopy
 

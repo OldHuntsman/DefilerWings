@@ -1,2 +1,3 @@
-from talker import Talker
+from fighter import Fighter
 from mortal import Mortal
+from talker import Talker
