@@ -6,8 +6,7 @@
 import random
 import data
 import renpy.exports as renpy
-from core import get_avatar
-from utils import call
+from utils import call, get_random_image
 from copy import deepcopy
 from characters import Mortal, Talker
 
@@ -33,7 +32,7 @@ class Thief(Talker, Mortal):
                 self.abilities.add(ab, deepcopy(data.thief_abilities[ab]))
         # прочее
         self.treasury = treasury  # Ссылка на сокровищницу.
-        self.avatar = get_avatar(u"img/avahuman/thief")
+        self.avatar = get_random_image(u"img/avahuman/thief")
         self.forced_to_rob = False    # Обязан ли ограбить дракона, когда тот пойдет спать.
 
     @property  # Read-Only
