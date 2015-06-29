@@ -2,12 +2,10 @@
 # coding=utf-8
 
 import random
-import girls_data
+from pythoncode import girls_data, data, mob_data
 import renpy.exports as renpy
-import data
-import mob_data
-from characters import Fighter
-from utils import call, get_random_image
+from fighter import Fighter
+from pythoncode.utils import call, get_random_image
 from copy import deepcopy
 
 
