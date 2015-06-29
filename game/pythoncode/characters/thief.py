@@ -4,12 +4,15 @@
 # TODO: реврайт вора через modifiers
 
 import random
-import data
+from pythoncode import data
 import renpy.exports as renpy
-from utils import call, get_random_image
+from pythoncode.utils import call, get_random_image
+from pythoncode.data import achieve_fail
 from copy import deepcopy
-from characters import Mortal, Talker
-
+from mortal import Mortal
+from talker import Talker
+                
+                
 class Thief(Talker, Mortal):
     """
     Класс вора.
@@ -237,7 +240,7 @@ class Thief(Talker, Mortal):
                     # Закончили грабить. Уходим на пенсию.
                     self.retire()
                     return
-                from data import achieve_fail
+
                 achieve_fail("lost_treasure")#событие для ачивок
                 self.event('steal_items', items=stolen_items)
                 # Закончили грабить. Уходим на пенсию.

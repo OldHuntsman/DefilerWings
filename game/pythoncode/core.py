@@ -10,7 +10,7 @@ from data import get_modifier
 from copy import deepcopy
 import renpy.exports as renpy
 import renpy.store as store
-from characters import Fighter, Mortal, Talker
+from characters import Fighter, Mortal, Talker, Thief
 from utils import call, tuples_sum, get_random_image
 
 army_battle = False
@@ -253,8 +253,6 @@ class Game(store.object):
         Проверка на появление вора.
         :param thief_level: Начальный уровень вора. Если не указан, то уровень определяется исходя из Дурной славы.
         """
-        from thief import Thief
-
         # Если уровень вора не указан, то идет стандартная проверка на появление.
         if thief_level is None and random.choice(range(1, 5 + (self.dragon.reputation.level + 1), 1)) in \
                     range(self.dragon.reputation.level + 1):
