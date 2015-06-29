@@ -1,7 +1,8 @@
 # coding=utf-8
 init python:
     from pythoncode.utils import weighted_random
-    
+    from pythoncode.characters import Enemy
+        
 label lb_location_sea_main:
     python:
         if not renpy.music.is_playing():
@@ -64,7 +65,7 @@ label lb_enc_shark:
     menu:
         'Сразиться с акулой':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('shark', game_ref=game)
+            $ game.foe = Enemy('shark', game_ref=game)
             call lb_fight from _call_lb_fight_20
             if game.dragon.hunger > 0:
                 'Голодный [game.dragon.name] съедает разрывает поверженную акулу на куски и заглатывает самые крупные в то время как за куски помельче дерутся откуда ни возьмись маленькие акулы.'
@@ -132,7 +133,7 @@ label lb_enc_bark:
             '[game.dragon.reputation.gain_description]'
         'Потопить корабль' if game.dragon.bloodiness >= 5:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('ship', game_ref=game)
+            $ game.foe = Enemy('ship', game_ref=game)
             call lb_fight from _call_lb_fight_21
             'Пока накренившийся на борт корабль медленно идёт ко дну а оставшиеся в живых члены команды озабочены спасением своих жизней, [game.dragon.name] методично осматирвает трюм и каюту капитна, выгребая каждую монетку:'
             python:
@@ -154,7 +155,7 @@ label lb_enc_bark:
         
 label lb_enc_galeon:
     'А вот это называется "везёт по крупному" - паруса показавшиеся на горизонте принадлежат тяжело вооружённому галеону. Именно на таких судах люди короля перевозят золото из нового света. И суда по осадке у этой посудины трюмы отнюдь не пусты. Хотя опустошить их будет возможно не легко...'
-    $ game.foe = core.Enemy('battleship', game_ref=game)
+    $ game.foe = Enemy('battleship', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
         'Потопить галеон':
@@ -217,7 +218,7 @@ label lb_enc_mermaid:
     
 label lb_enc_merfolks:
     'Русалка и водяной плывут взявшись за руки. Водяной вооружен и вряд ли отдаст свою подругу без боя.'
-    $ game.foe = core.Enemy('merman', game_ref=game)
+    $ game.foe = Enemy('merman', game_ref=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -297,7 +298,7 @@ label lb_patrool_sea:
             dtxt = 'Обычно на большой глубине морской змей не встречает никаких врагов, разве что шальная акула попадётся, но на этот раз судьба свела его с рыбохвостым морским великаном. Тритон вооружён и похоже специально вышел на охоту за досаждающим его подданным гадом.'
     '[dtxt]'
     python:
-        game.foe = core.Enemy(patrool, game_ref=game)
+        game.foe = Enemy(patrool, game_ref=game)
         battle_status = battle.check_fear(game.dragon, game.foe)
     if 'foe_fear' in battle.check_fear(game.dragon, game.foe):
         $ narrator(game.foe.battle_description(battle_status, game.dragon))

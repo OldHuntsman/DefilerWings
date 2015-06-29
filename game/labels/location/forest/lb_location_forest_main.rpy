@@ -1,7 +1,8 @@
 ﻿# coding=utf-8
 init python:
     from pythoncode.utils import weighted_random
-    
+    from pythoncode.characters import Enemy
+        
 label lb_location_forest_main:
     python:
         if not renpy.music.is_playing():
@@ -43,7 +44,7 @@ label lb_enc_domiki:
     "ВНЕЗАПНО! Из лесной чащи на дракона набигает..."
     show expression 'img/scene/fight/domik.png' as bg    
     'ДЕРЕВЯННЫЙ ДОМИК?!!!! Видимо это легендарное творение древнего безумного странствующего Архимага Кирилла "Коровануса"  - боевой деревянный голем. Он явно агрессивен...'
-    $ game.foe = core.Enemy('domik', game_ref=game)    
+    $ game.foe = Enemy('domik', game_ref=game)    
     $ chances = show_chances(game.foe)   
     call lb_fight from _call_lb_fight_69    
     'Среди обломков домика находится табличка: "Изготовлено по заказу Злого (имя я пока не придумал)". Что за безумное и гениальное творение...'
@@ -137,7 +138,7 @@ label lb_enc_deer:
 
 label lb_enc_boar:
     'Ветер доносит запах крупного зверя. В подлеске шуршит гигантский вепрь. Более метра в холке, толстокожий и массивный зверь вооружён огромными загнутыми клыками. Он не боится никого в лесу - непростая добыча, но она позволит набраться сил перед более серьёзными сражениями.'
-    $ game.foe = core.Enemy('boar', game_ref=game)
+    $ game.foe = Enemy('boar', game_ref=game)
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
@@ -163,7 +164,7 @@ label lb_enc_guardian:
     '[txt]'
     show expression 'img/scene/fight/elf_ranger.png' as bg
     $ txt = game.interpolate(random.choice(txt_enc_forest_guardian[1]))
-    $ game.foe = core.Enemy('elf_ranger', game_ref=game)
+    $ game.foe = Enemy('elf_ranger', game_ref=game)
     '[txt]'
     $ chances = show_chances(game.foe)
     nvl clear
@@ -258,7 +259,7 @@ label lb_patrool_forest:
             dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
     '[dtxt]'
     python:
-        game.foe = core.Enemy(patrool, game_ref=game)
+        game.foe = Enemy(patrool, game_ref=game)
         battle_status = battle.check_fear(game.dragon, game.foe)
     if 'foe_fear' in battle.check_fear(game.dragon, game.foe):
         $ narrator(game.foe.battle_description(battle_status, game.dragon))
