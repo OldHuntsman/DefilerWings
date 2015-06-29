@@ -44,3 +44,18 @@ def call(label, *args, **kwargs):
 def tuples_sum(tuple_list):
     return sum([first for first, _ in tuple_list]), sum([second for _, second in tuple_list])            
     
+def get_random_image(folder, used_avatars=None):
+    """
+    Возвращает строку-путь с случайной картинкой подходящей под регекспу regex
+    Исключает из рассмотрения список used_avatars
+    """
+    reg_list = [f for f in renpy.list_files() if f.startswith(folder)]
+    
+    if used_avatars is not None:
+        reg_list = [item for item in reg_list if item not in used_avatars]
+    
+    if len(reg_list) == 0:
+        raise StopIteration
+        
+    return random.choice(reg_list)  # Возвращаем правильно случайно выбранное значение    
+    

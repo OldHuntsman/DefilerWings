@@ -11,7 +11,7 @@ from copy import deepcopy
 import renpy.exports as renpy
 import renpy.store as store
 from characters import Fighter, Mortal, Talker
-from utils import call, tuples_sum
+from utils import call, tuples_sum, get_random_image
 
 army_battle = False
 reinforcement_used = False
@@ -587,7 +587,7 @@ class Girl(Talker):
         # Указываем тип девушки (крестьянка, гигантша..)
         self.type = girl_type
         # Подбираем аватарку
-        self.avatar = get_avatar("img/avahuman/" + girls_data.girls_info[girl_type]['avatar'])
+        self.avatar = get_random_image("img/avahuman/" + girls_data.girls_info[girl_type]['avatar'])
         
         # @Alex: Added haicolor taken from avatar:
         hair_colors = ["black", "blond", "brown", "red", "unknown"]
@@ -673,7 +673,7 @@ class Dragon(Fighter):
             self.heads[self.heads.index('green')] = self._gift
         else:
             self.anatomy.append(self._gift)
-        self.avatar = get_avatar("img/avadragon/" + self.color_eng, used_avatars=used_avatars)  # Назначаем аватарку
+        self.avatar = get_random_image("img/avadragon/" + self.color_eng, used_avatars)  # Назначаем аватарку
 
     @property
     def fullname(self):
@@ -1064,26 +1064,3 @@ class Enemy(Fighter):
 
     def protection(self):
         return self.defence
-
-def get_avatar(folder, regex='.*', used_avatars=None):
-    """
-    Возвращает строку-путь с случайной картинкой подходящей под регекспу regex
-    Исключает из рассмотрения список used_avatars
-    """
-    import re
-    import os
-
-    if used_avatars is None:
-        used_avatars = []
-
-    files = [f for f in renpy.list_files() if f.startswith(folder)]
-    
-    regex = re.compile(regex, re.IGNORECASE)
-    reg_list = filter(regex.search, files)
-    reg_list = [item for item in reg_list if item not in used_avatars]
-    if len(reg_list) == 0:
-        raise StopIteration
-    return random.choice(reg_list)  # Возвращаем правильно случайно выбранное значение
-
-
-get_img = get_avatar
