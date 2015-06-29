@@ -3,6 +3,8 @@ init python:
     from pythoncode import battle
     from pythoncode.characters import Enemy, Talker
     
+    reinforcement_used = False
+    
 label lb_location_mordor_main:
     $ reinforcement_used = False
     $ place = 'mordor' 
