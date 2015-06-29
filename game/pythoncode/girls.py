@@ -1,13 +1,14 @@
-﻿#!/usr/bin/env python
-# coding=utf-8
+﻿# coding=utf-8
+
 import random
 import data
-import core
 import renpy.exports as renpy
 import renpy.store as store
 import girls_data
 from treasures import gen_treas
 from utils import call
+from characters import Girl
+
 
 class GirlsList(object):
     def __init__(self, game_ref, base_character):
@@ -23,7 +24,7 @@ class GirlsList(object):
         """
         Генерация новой девушки указанного типа.
         """
-        self.game.girl = core.Girl(game_ref=self.game, girl_type=girl_type)
+        self.game.girl = Girl(game_ref=self.game, girl_type=girl_type)
         self.game.girl.treasure = self.gen_tres()
         return self.description('new')
 
