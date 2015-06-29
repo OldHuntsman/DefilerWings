@@ -7,7 +7,7 @@ import renpy.exports as renpy
 import renpy.store as store
 import girls_data
 from treasures import gen_treas
-
+from utils import call
 
 class GirlsList(object):
     def __init__(self, game_ref, base_character):
@@ -176,7 +176,6 @@ class GirlsList(object):
 
     @staticmethod
     def event(event_type, *args, **kwargs):
-        from core import call
         if event_type in girls_data.girl_events:
             if girls_data.girl_events[event_type] is not None:
                 call(girls_data.girl_events[event_type], *args, **kwargs)

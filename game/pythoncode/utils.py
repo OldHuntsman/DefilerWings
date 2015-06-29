@@ -2,6 +2,8 @@
 
 import bisect, random
 
+import renpy.exports as renpy
+
 def weighted_random(choice_options):
     """
     :param choice_options: list of tuples (option, weight), где option - возвращаемый вариант, а
@@ -24,3 +26,18 @@ def weighted_random(choice_options):
         r = random.random() * accumulated[-1]
         return choice_options[bisect.bisect(accumulated, r)][0]
     return None
+    
+def _call(label, *args, **kwargs):
+    if renpy.has_label(label):
+        return renpy.call_in_new_context(label, *args, **kwargs)
+    else:
+        return renpy.call_in_new_context("lb_missed", label=label)
+
+
+def call(label, *args, **kwargs):
+    if type(label) is str:
+        return _call(label, *args, **kwargs)
+    elif type(label) is list:
+        for i in label:
+            return _call(i, *args, **kwargs)
+    
