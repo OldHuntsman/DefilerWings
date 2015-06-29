@@ -1,7 +1,9 @@
 # coding=utf-8
+
 init python:
     from pythoncode.utils import weighted_random
-    
+    from pythoncode.characters import Enemy
+        
 label lb_location_road_main:
     python:
         if not renpy.music.is_playing():
@@ -43,7 +45,7 @@ label lb_enc_tornament:
     'Шум вдалеке...'
     show expression 'img/bg/special/tornament.png' as bg
     '...это рыцарский турнир. Победитель готов возложить золотой венец на "королеву любви и красоты".'
-    $ game.foe = core.Enemy('champion', game_ref=game)
+    $ game.foe = Enemy('champion', game_ref=game)
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
@@ -121,7 +123,7 @@ label lb_enc_peasant_cart:
     
 label lb_enc_carriage:
     'На дороге пыль стоит столбом, это едет карета благородной дамы с тяжело-вооруженными конными арбалетчиками в качестве охраны. Добрая добыча, хотя и не самая простая...'
-    $ game.foe = core.Enemy('mounted_guard', game_ref=game)
+    $ game.foe = Enemy('mounted_guard', game_ref=game)
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
@@ -141,7 +143,7 @@ label lb_enc_carriage:
     
 label lb_enc_questing_knight:
     'По дороге едет облачённый в броню всадник, в сопровождении оседлавшего ослика слуги. Странствующему рыцарю просто грех не вызвать на поединок дракона, только вот сможет ли он пережить такой бой чтобы рассказать о нём?'
-    $ game.foe = core.Enemy('champion', game_ref=game)
+    $ game.foe = Enemy('champion', game_ref=game)
     $ chances = show_chances(game.foe)
     menu:
         'Принять вызов':
@@ -192,7 +194,7 @@ label lb_enc_trader:
     
 label lb_enc_caravan:
     '[game.dragon.name] натыкается на торговый караван, сулящий неплохую добычу. К сожалению торговцы не стали экономить на охране - их сопровождает взвод конных арбалетчиков.'
-    $ game.foe = core.Enemy('xbow_rider', game_ref=game)
+    $ game.foe = Enemy('xbow_rider', game_ref=game)
     $ chances = show_chances(game.foe)
     menu:
         'Вымогать деньги' if game.dragon.fear > 3:
@@ -227,7 +229,7 @@ label lb_enc_caravan:
    
 label lb_enc_lcaravan:
     '[game.dragon.name] решает подойти к вопросу обстоятельно и залегает в засаду в укрытой кустами придорожной канаве. Полдня ожидания наконецт-то приносят достойную награду - на дороге появляется богатый купеческий караван. Судя по качеству и количеству охраны, эти торговцы платят золотом.'
-    $ game.foe = core.Enemy('mounted_guard', game_ref=game)
+    $ game.foe = Enemy('mounted_guard', game_ref=game)
     $ chances = show_chances(game.foe)
     menu:
         'Вымогать деньги' if game.dragon.fear > 6:
@@ -262,7 +264,7 @@ label lb_enc_lcaravan:
     
 label lb_enc_outpost:
     'Для поддержания порядка и сбора пошлин на дорогах королевства устроено множество застав. Гарнизон составляют обычные пехотинцы, сержант, повар и писарь. Зато внутри хранится касса с дорожными сборами за день!'
-    $ game.foe = core.Enemy('footman', game_ref=game)
+    $ game.foe = Enemy('footman', game_ref=game)
     nvl clear
     menu:
         'Напасть на заставу':
@@ -306,7 +308,7 @@ label lb_patrool_road:
             dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
     '[dtxt]'
     python:
-        game.foe = core.Enemy(patrool, game_ref=game)
+        game.foe = Enemy(patrool, game_ref=game)
         battle_status = battle.check_fear(game.dragon, game.foe)
     if 'foe_fear' in battle.check_fear(game.dragon, game.foe):
         $ narrator(game.foe.battle_description(battle_status, game.dragon))

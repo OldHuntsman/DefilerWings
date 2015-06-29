@@ -1,6 +1,7 @@
 # coding=utf-8
 init python:
     from pythoncode.utils import weighted_random
+    from pythoncode.characters import Enemy
     
 label lb_location_mountain_main:
     python:
@@ -110,7 +111,7 @@ label lb_enc_bear:
     menu:
         'Сразиться с медведем':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('bear', game_ref=game)
+            $ game.foe = Enemy('bear', game_ref=game)
             call lb_fight from _call_lb_fight_56
             if game.dragon.hunger > 0:
                 'Мясо пещерного медведя богато полезными минералами и витаминами, хорошо влияющими на чешую. Может быть это и не очень вкусно, зато плезно. Благодаря такому обеду защита от вражеского оружия будет немного выше.'
@@ -129,7 +130,7 @@ label lb_enc_bear:
     
 label lb_enc_smugglers:
     'На горном перевале [game.dragon.name] натыкается на караван контрабандистов. Они вооружены но вероятно предпочтут откупиться чтобы не вступать в бой. Конечно если цена прохода будет разумной...'
-    $ game.foe = core.Enemy('band', game_ref=game)
+    $ game.foe = Enemy('band', game_ref=game)
     $ chances = show_chances(game.foe)
     menu:
         'Вымогать деньги':
@@ -165,7 +166,7 @@ label lb_enc_smugglers:
     
 label lb_enc_slavers:
     'На высокогорном перевале [game.dragon.name] подкарауливает караван разбойников-работорговцев. Они ведут несколько рабов на веревке, среди рабынь есть одна невинная девушка. Разбойнии вооружены не слишком то хорошо и скорее предпочтут отдать одного бесполезного раба чем сражаться.'
-    $ game.foe = core.Enemy('band', game_ref=game)
+    $ game.foe = Enemy('band', game_ref=game)
     $ chances = show_chances(game.foe)
     menu:
         'Потребовать бесполезного раба' if game.dragon.hunger > 0:
@@ -189,7 +190,7 @@ label lb_enc_slavers:
         
         'Перебить караван':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('band', game_ref=game)
+            $ game.foe = Enemy('band', game_ref=game)
             call lb_fight from _call_lb_fight_59
         
         'Отпустить их с миром' if game.dragon.bloodiness < 5:
@@ -200,7 +201,7 @@ label lb_enc_slavers:
 
 label lb_enc_mines_silver:
     'Серебрянный рудник. Охраняется небольшим отрядом арабалетчиков.'
-    $ game.foe = core.Enemy('xbow', game_ref=game)
+    $ game.foe = Enemy('xbow', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
         'Вымогать серебро' if game.dragon.fear > 3:
@@ -239,7 +240,7 @@ label lb_enc_mines_silver:
 
 label lb_enc_mines_gold:
     'Золотой прииск. Охраняется небольшим отрядом тяжелой панцирной пехоты.'
-    $ game.foe = core.Enemy('heavy_infantry', game_ref=game)
+    $ game.foe = Enemy('heavy_infantry', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
         'Вымогать серебро' if game.dragon.fear > 5:
@@ -278,7 +279,7 @@ label lb_enc_mines_gold:
 
 label lb_enc_mines_mithril:
     'Рудник цвергов, здесь они добывают драгоценный мифрил. Вход в шахту надёжно охраняется.'
-    $ game.foe = core.Enemy('dwarf_guards', game_ref=game)
+    $ game.foe = Enemy('dwarf_guards', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
         'Вымогать серебро' if game.dragon.fear > 7:
@@ -317,7 +318,7 @@ label lb_enc_mines_mithril:
 
 label lb_enc_mines_adamantine:
     'Рудник цвергов, здесь они добывают и выплавляют драгоценный адамант. На страже стоит практически неуязвимый стальной голем.'
-    $ game.foe = core.Enemy('golem', game_ref=game)
+    $ game.foe = Enemy('golem', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
         'Вымогать серебро' if game.dragon.fear > 8:
@@ -357,7 +358,7 @@ label lb_enc_mines_adamantine:
 
 label lb_enc_mines_gem_low:
     'На сколне гор виден вход в шахту. Судя по запаху тут добывают полудрагоценные камни. Прииск охраняется небольшим отрядом арабалетчиков.'
-    $ game.foe = core.Enemy('xbow', game_ref=game)
+    $ game.foe = Enemy('xbow', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
         'Вымогать камушки' if game.dragon.fear > 2:
@@ -403,7 +404,7 @@ label lb_enc_mines_gem_low:
 
 label lb_enc_mines_gem_high:
     'На сколне гор виден вход в шахту. Судя по запаху тут добывают самоцветы, причём очень высокого качества. Аж слюнки текут. Но вход охраняет отряд тяжёлой панцирной пехоты.'
-    $ game.foe = core.Enemy('heavy_infantry', game_ref=game)
+    $ game.foe = Enemy('heavy_infantry', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
         'Вымогать камушки' if game.dragon.fear > 5:
@@ -463,7 +464,7 @@ label lb_enc_cannontower:
             show expression 'img/scene/fight/steamgun.png' as bg
             'А! Они будут стрелять!'
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('steamgun', game_ref=game)
+            $ game.foe = Enemy('steamgun', game_ref=game)
             call lb_fight from _call_lb_fight_66
             'Внутри бастиона нет никаких сокровищ, только железо, провиант и бумаги. В глубине был проход в подгорное цраство, но едва поняв что проигрывают бой, цверги взорвали заряд пороха который обрушил тоннель завалив его сотянми тонн камней. Через завал никому не пробораться.'
             menu:
@@ -499,7 +500,7 @@ label lb_patrool_mountain:
             dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
     '[dtxt]'
     python:
-        game.foe = core.Enemy(patrool, game_ref=game)
+        game.foe = Enemy(patrool, game_ref=game)
         battle_status = battle.check_fear(game.dragon, game.foe)
     if 'foe_fear' in battle.check_fear(game.dragon, game.foe):
         $ narrator(game.foe.battle_description(battle_status, game.dragon))

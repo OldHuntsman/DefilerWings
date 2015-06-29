@@ -1,7 +1,8 @@
 # coding=utf-8
 init python:
     from pythoncode.utils import weighted_random
-    
+    from pythoncode.characters import Enemy
+        
 label lb_location_sky_main:
     python:
         if not renpy.music.is_playing():
@@ -62,7 +63,7 @@ label lb_enc_swan:
 label lb_enc_griffin:
     'В вышине парит матёрый дикий грифон. Он облетает свои владения в поисках добычи и нарушителей, причём второе по его мнению относится и к драконам. Может быть стоит показать пернатому где его место?'
     $ game.dragon.drain_energy()
-    $ game.foe = core.Enemy('griffin', game_ref=game)
+    $ game.foe = Enemy('griffin', game_ref=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -85,7 +86,7 @@ label lb_enc_skyboat:
     'Над облаками вздымается парус! Это один из воздушных кораблей цвергов, судя по всему торговый. А значит там может быть добыча..'
     python:
         game.dragon.drain_energy()
-        game.foe = core.Enemy('airship', game_ref=game)
+        game.foe = Enemy('airship', game_ref=game)
         narrator(show_chances(game.foe))
     menu:
         'Напасть':
@@ -143,7 +144,7 @@ label lb_patrool_sky:
             dtxt = '[game.dragon.fullname] вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.'
     '[dtxt]'
     python:
-        game.foe = core.Enemy(patrool, game_ref=game)
+        game.foe = Enemy(patrool, game_ref=game)
         battle_status = battle.check_fear(game.dragon, game.foe)
     if 'foe_fear' in battle.check_fear(game.dragon, game.foe):
         $ narrator(game.foe.battle_description(battle_status, game.dragon))
