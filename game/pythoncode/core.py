@@ -11,6 +11,7 @@ from copy import deepcopy
 import renpy.exports as renpy
 import renpy.store as store
 from characters import Mortal, Talker
+from utils import call
 
 army_battle = False
 reinforcement_used = False
@@ -1224,22 +1225,6 @@ class Enemy(Fighter):
 
     def protection(self):
         return self.defence
-
-
-def _call(label, *args, **kwargs):
-    if renpy.has_label(label):
-        return renpy.call_in_new_context(label, *args, **kwargs)
-    else:
-        return renpy.call_in_new_context("lb_missed", label=label)
-
-
-def call(label, *args, **kwargs):
-    if type(label) is str:
-        return _call(label, *args, **kwargs)
-    elif type(label) is list:
-        for i in label:
-            return _call(i, *args, **kwargs)
-
 
 def get_avatar(folder, regex='.*', used_avatars=None):
     """

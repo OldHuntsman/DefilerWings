@@ -6,7 +6,8 @@
 import random
 import data
 import renpy.exports as renpy
-from core import call, get_avatar
+from core import get_avatar
+from utils import call
 from copy import deepcopy
 from characters import Mortal, Talker
 

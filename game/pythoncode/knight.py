@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-from core import Fighter, call, get_avatar
+import random
 import girls_data
 import renpy.exports as renpy
-import random
-import os
 import data
 import mob_data
+from core import Fighter, get_avatar
+from utils import call
 from copy import deepcopy
 
 
