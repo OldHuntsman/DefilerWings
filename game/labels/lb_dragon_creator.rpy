@@ -1,5 +1,7 @@
 # coding=utf-8
-  
+init python:
+      from pythoncode.characters import Dragon
+      
 label lb_dragon_creator:
     python:
         if renpy.music.get_playing(channel='music') != "mus/lullaby.ogg":
@@ -7,7 +9,7 @@ label lb_dragon_creator:
     show expression 'img/scene/hatch/green/3.png' as bg    
     python:
         save_blocked = True
-        child = core.Dragon(parent=game.dragon, game_ref=game)
+        child = Dragon(parent=game.dragon, game_ref=game)
         game.dragon = child
         mods_left = len(persistent.achievements) if not config.developer else 12
         game.dragon.heads = ['green']
