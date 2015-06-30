@@ -8,7 +8,7 @@ label lb_location_smuggler_main:
         if not renpy.music.is_playing():
             renpy.music.play(get_random_files('mus/ambient'))    
     $ place = 'smugglers'
-    show expression 'img/bg/special/smugglers.png' as bg
+    show expression 'img/bg/special/smugglers.jpg' as bg
     
     if game.dragon.energy() == 0:
         'Даже драконам надо иногда спать. Особенно драконам!'
@@ -67,7 +67,7 @@ label lb_location_smuggler_main:
                 'Оставить':
                     call lb_location_smuggler_main from _call_lb_location_smuggler_main_6 
         'Финансировать террор' if game.mobilization.level > 0:
-            show expression 'img/scene/thief.png' as bg
+            show expression 'img/scene/thief.jpg' as bg
             $ terror_cost = game.mobilization.level * 100
             'Войска королевства мобилизуются и безнаказанно творить зло становится всё сложнее. Но если обеспечить местных бандитов деньгами на оружие, снаряжение и снабжение они могут стать угрозой которая отвлечёт солдат от патрулирования. [terror_cost] фартингов будет достаточно, чтобы обстановка в тылах накалилась и армейские конвои снабжения начали пропадать в пути.'
             menu:

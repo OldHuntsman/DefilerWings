@@ -1,7 +1,7 @@
 # coding=utf-8
 label lb_event_knight_spawn(knight):
     scene
-    show expression "img/scene/oath.png" as bg
+    show expression "img/scene/oath.jpg" as bg
     nvl clear
     "[knight.title] принимает на себя священный обет убить дракона"
     knight "Готовься исчадие зла, я иду за тобой!"
@@ -9,7 +9,7 @@ label lb_event_knight_spawn(knight):
 
 label lb_event_knight_receive_item(knight, item):
     scene
-    show expression "img/scene/quest_knight.png" as bg
+    show expression "img/scene/quest_knight.jpg" as bg
     nvl clear
     "Рыцарь выполняет квест и получает [item.name]"
     knight "Теперь дракону не уйти от моего возмездия!"
@@ -17,7 +17,7 @@ label lb_event_knight_receive_item(knight, item):
 
 label lb_event_knight_challenge_start(knight):
     scene
-    show expression "img/scene/quest_knight.png" as bg
+    show expression "img/scene/quest_knight.jpg" as bg
     nvl clear
     $ game.foe = knight
     "[knight.title] нашел логово где спит [game.dragon.name] [game.dragon.surname] и вызывает его на бой."

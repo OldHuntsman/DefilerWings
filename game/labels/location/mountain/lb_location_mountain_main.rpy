@@ -446,7 +446,7 @@ label lb_enc_mines_gem_high:
         
 label lb_enc_frontgates_found:
     'Блуждая среди горных круч, [game.dragon.fullname] наткнулся на...'
-    show expression 'img/bg/special/gates_dwarf.png' as bg
+    show expression 'img/bg/special/gates_dwarf.jpg' as bg
     'Врата в Подгорное Царство!'
     $ game.dragon.add_special_place('frontgates', 'frontgates_guarded')
     call lb_frontgates from _call_lb_frontgates    
@@ -457,7 +457,7 @@ label lb_enc_cannontower:
     menu:
         'Подобраться и заглянуть в бойницу':
             'В прорезь бойницы видны суетящиеся цверги. Они готовят ПУШКУ... зачем?'
-            show expression 'img/scene/fight/steamgun.png' as bg
+            show expression 'img/scene/fight/steamgun.jpg' as bg
             'А! Они будут стрелять!'
             $ game.dragon.drain_energy()
             $ game.foe = core.Enemy('steamgun', game_ref=game)

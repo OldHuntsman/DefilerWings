@@ -47,7 +47,7 @@ screen main_map:
     default status_bar_tooltip = Tooltip("None")
     fixed:
         fit_first True  # Принимаем размер следущей картинки. Нужно для корректного отображения подсказки посередине.
-        add "img/map/ground.png"
+        add "img/map/ground.jpg"
     
         for target, description in map_data:
             imagebutton:  # target

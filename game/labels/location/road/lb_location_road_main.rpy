@@ -38,7 +38,7 @@ label lb_location_road_main:
     
 label lb_enc_tornament:
     'Шум вдалеке...'
-    show expression 'img/bg/special/tornament.png' as bg
+    show expression 'img/bg/special/tornament.jpg' as bg
     '...это рыцарский турнир. Победитель готов возложить золотой венец на "королеву любви и красоты".'
     $ game.foe = core.Enemy('champion', game_ref=game)
     $ chances = show_chances(game.foe)
@@ -60,7 +60,7 @@ label lb_enc_tornament:
     return
     
 label lb_enc_inn:
-    show expression 'img/bg/special/tabern.png' as bg    
+    show expression 'img/bg/special/tabern.jpg' as bg    
     'На оживлённом торговом перекрёстке стоит двухэтажный трактир. При виде дракона безоружные люди в ужасе забегают в здание и баррикадируют двери и окна.'
     nvl clear
     python:
@@ -81,7 +81,7 @@ label lb_enc_inn:
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
         'Потребовать бочку эля':
-            show expression 'img/bg/special/fear.png' as bg  
+            show expression 'img/bg/special/fear.jpg' as bg  
             $ game.dragon.drain_energy()
             "[game.dragon.name] получает от испуганного хозяина трактира целую бочку лучшего эля. После такой выпивки так и тянет на женщин и хорошую закуску!"
             python:

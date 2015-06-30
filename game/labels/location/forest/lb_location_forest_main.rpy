@@ -38,7 +38,7 @@ label lb_enc_domiki:
         jump lb_location_forest_main
     $ persistent.easter_eggs.append("domiki_done")
     "ВНЕЗАПНО! Из лесной чащи на дракона набигает..."
-    show expression 'img/scene/fight/domik.png' as bg    
+    show expression 'img/scene/fight/domik.jpg' as bg    
     'ДЕРЕВЯННЫЙ ДОМИК?!!!! Видимо это легендарное творение древнего безумного странствующего Архимага Кирилла "Коровануса"  - боевой деревянный голем. Он явно агрессивен...'
     $ game.foe = core.Enemy('domik', game_ref=game)    
     $ chances = show_chances(game.foe)   
@@ -158,7 +158,7 @@ label lb_enc_boar:
 label lb_enc_guardian:
     $ txt = game.interpolate(random.choice(txt_enc_forest_guardian[0]))
     '[txt]'
-    show expression 'img/scene/fight/elf_ranger.png' as bg
+    show expression 'img/scene/fight/elf_ranger.jpg' as bg
     $ txt = game.interpolate(random.choice(txt_enc_forest_guardian[1]))
     $ game.foe = core.Enemy('elf_ranger', game_ref=game)
     '[txt]'
@@ -180,7 +180,7 @@ label lb_enc_guardian:
     return
 
 label lb_enc_lumbermill:
-    show expression 'img/bg/special/lumbermill.png' as bg
+    show expression 'img/bg/special/lumbermill.jpg' as bg
     'На берегу лесной реки стоит деревянное здание заключающее в себе какой-то огромный механизм, приводимый в движение водяным колесом. Скорее всего люди тут обрабатывают древесину.'
     nvl clear
     python:

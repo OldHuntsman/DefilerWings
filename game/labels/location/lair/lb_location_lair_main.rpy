@@ -36,7 +36,7 @@ label lb_location_lair_main:
                 if len(files) > 0:
                     treasurybg = random.choice(files)
                 else:
-                    treasurybg = "img/bg/hoard/base.png"
+                    treasurybg = "img/bg/hoard/base.jpg"
                 renpy.treasurybg = ui.image(treasurybg)
                     
             show image renpy.treasurybg as bg
