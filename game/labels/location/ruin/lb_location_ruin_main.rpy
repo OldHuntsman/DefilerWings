@@ -4,7 +4,7 @@ label lb_location_ruin_main:
         if not renpy.music.is_playing():
             renpy.music.play(get_random_files('mus/ambient'))    
     hide bg
-    show expression 'img/bg/special/haunted.png' as bg
+    show expression 'img/bg/special/haunted.jpg' as bg
 
     python:
         witch = core.Sayer(game_ref=game)
@@ -17,7 +17,7 @@ label lb_location_ruin_main:
         
     menu:
         'Посетить ведьму':
-            show expression 'img/scene/witch.png' as bg
+            show expression 'img/scene/witch.jpg' as bg
             if game.dragon.lust == 3: 
                 call lb_witch_agree from _call_lb_witch_agree
             else:
@@ -35,7 +35,7 @@ label lb_witch_agree:
         'Дать себя подоить':
             $ game.dragon.drain_energy()            
             stop music fadeout 1.0            
-            show expression "img/scene/witch_sex.png" as xxx
+            show expression "img/scene/witch_sex.jpg" as xxx
             play sound "sound/milking.ogg"
             pause (500.0)
             'Ведьма достаёт ведро и приступает к долгому но приятному процессу. Чтобы выдоить дракона досуха, ей приходится без устали работать ротиком и руками в течение нескольких часов, но похоже она ОЧЕНЬ хочет драконье семя. Всё что только можно добыть.'
