@@ -11,7 +11,7 @@ label lb_event_girl_escape:
     return
 
 label lb_event_girl_spawn(spawn_type):
-    $ spawn_image = "img/scene/spawn/%s.png" % spawn_type
+    $ spawn_image = "img/scene/spawn/%s.jpg" % spawn_type
     hide bg
     show expression spawn_image as bg
     nvl clear
@@ -26,7 +26,7 @@ label lb_event_girl_spawn(spawn_type):
     return
 
 label lb_event_girl_free_spawn(spawn_type):
-    $ spawn_image = 'img/scene/spawn/%s.png' % spawn_type
+    $ spawn_image = 'img/scene/spawn/%s.jpg' % spawn_type
     hide bg
     show expression spawn_image as bg
     nvl clear
@@ -44,7 +44,7 @@ label lb_event_girl_hunger_death:
 
 label lb_event_girl_kill:
     hide bg
-    show expression 'img/scene/girl_death.png' as bg
+    show expression 'img/scene/girl_death.jpg' as bg
     nvl clear
     $ game.girls_list.description('kill', True)  # убивают из-за беременности
     return

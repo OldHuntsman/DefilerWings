@@ -7,10 +7,10 @@ label lb_game_over:
     else:
         $ renpy.unlink_save("1-1")
     play music 'mus/outro.ogg'
-    show expression 'img/scene/game_over.png' as bg with irisin
+    show expression 'img/scene/game_over.jpg' as bg with irisin
     show text "{size=+15}GAME OVER{/size}"
     pause
-    hide expression 'img/scene/game_over.png' 
+    hide expression 'img/scene/game_over.jpg' 
     with dissolve    
     stop music fadeout 1.0
     hide text

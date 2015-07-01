@@ -69,7 +69,7 @@ label lb_choose_dragon:
                 if len(hatches_colored) > 0:
                     return random.choice(hatches_colored)
 
-            return "img/scene/hatch/base.png"
+            return "img/scene/hatch/base.jpg"
                             
         renpy.breedbg = ui.image(get_breedbg())
 
@@ -107,6 +107,6 @@ label lb_choose_dragon:
         call screen ava_screen
         $ game.dragon = child_selected
         $ dragons_choosed.append(game.dragon)
-        show expression 'img/scene/mistress.png' as bg
+        show expression 'img/scene/mistress.jpg' as bg
         "[game.quest_text]"
         jump lb_location_mordor_main
