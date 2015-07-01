@@ -317,7 +317,7 @@ init -2 python:
 # from simple load and save screens.
 
 screen file_picker:
-    #add "img/menu/gmenu2.png"
+    #add "img/menu/gmenu2.jpg"
     use navigation
     frame:
         style "file_picker_frame"
@@ -388,7 +388,7 @@ init -2:
 screen preferences:
 
     tag menu
-    add "img/menu/gmenu.png"
+    add "img/menu/gmenu.jpg"
     # Include the navigation.
     use navigation
     
@@ -592,7 +592,7 @@ screen girls_menu:
     # This ensures that any other menu screen is replaced.
     tag menu
 
-    frame background "img/scene/prison.png":
+    frame background "img/scene/prison.jpg":
         if girl_page * girls_cells > game.girls_list.prisoners_count:
             $ girl_page = 0
         $ next_girl_page = girl_page + 1

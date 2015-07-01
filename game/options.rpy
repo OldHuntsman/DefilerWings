@@ -132,7 +132,7 @@ init -1 python hide:
         # The background of the main menu. This can be a color
         # beginning with '#', or an image filename. The latter
         # should take up the full height and width of the screen.
-        mm_root="img/menu/mmenu.png",  # фон главного экрана
+        mm_root="img/menu/mmenu.jpg",  # фон главного экрана
 
         # The background of the game menu. This can be a color
         # beginning with '#', or an image filename. The latter

@@ -62,7 +62,7 @@ label lb_city_raze:
     return
 
 label lb_city_walk:
-    show expression 'img/bg/city/inside.png' as bg
+    show expression 'img/bg/city/inside.jpg' as bg
     'Загадочный путник проходит мимо бдительной стражи и входит в бурлящий жизнью город.'
     nvl clear
 
@@ -136,7 +136,7 @@ label lb_city_palace_atk:
     return
 
 label lb_city_market:
-    show expression 'img/bg/city/market.png' as bg
+    show expression 'img/bg/city/market.jpg' as bg
     'Рыночная площадь полна народу. Люди покупают и продают всевозможные ненужные вещи вроде картошки и одежды. Глупые смертные даже не догадываются что прямо здесь стоит их самый жуткий ночной кошмар. Они беззащитны перед внезапной атакой.'
     nvl clear
     menu:
@@ -148,14 +148,14 @@ label lb_city_market:
     return
 
 label lb_city_market_atk:
-    show expression 'img/bg/city/market.png' as bg
+    show expression 'img/bg/city/market.jpg' as bg
     'Дракон возвращает себе истинную форму. Люди в ужасе разбегаются.'
     nvl clear
     menu:
         'Устроить резню':
             $ game.dragon.drain_energy()
             play sound "sound/eat.ogg"
-            show expression 'img/scene/fire.png' as bg
+            show expression 'img/scene/fire.jpg' as bg
             'Зря эти обыватели думали, что за стенами столицы они в безопсности. [game.dragon.fullname] отрывается по полной, чтобы люди уж точно его не забыли. Кровь, кишки, распидорасило...'
             $ game.dragon.reputation.points += 10
             '[game.dragon.reputation.gain_description]'

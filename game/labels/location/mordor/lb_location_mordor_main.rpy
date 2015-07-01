@@ -18,7 +18,7 @@ label lb_location_mordor_main:
         'В земли Вольных Народов':
             $ pass
         'Армия Тьмы' if not freeplay:
-            show expression 'img/bg/special/army.png' as bg
+            show expression 'img/bg/special/army.jpg' as bg
             '[game.army.army_description]'
             nvl clear
             menu:
@@ -54,7 +54,7 @@ label lb_mistress:
             renpy.movie_cutscene("mov/isida.webm")
             persistent.isida_done = True
     nvl clear
-    show expression 'img/scene/mistress.png' as bg    
+    show expression 'img/scene/mistress.jpg' as bg    
     menu:
         'Получить награду' if game.is_quest_complete:
             # Если делаем подарок - удаляем его из списка сокровищ
@@ -123,7 +123,7 @@ label lb_mistress_fuck:
             $ txt = game.interpolate(random.choice(txt_dragon_mistress_fuck[game.dragon.kind]))
             '[txt]'
             hide xxx
-    show expression 'img/scene/mistress.png' as bg
+    show expression 'img/scene/mistress.jpg' as bg
     mistress 'Благодарю тебя за твоё могучее семя, сын мой. Наши дети превзойдут всех рождённых ранее.'
     game.dragon 'Пусть мои сыновья продолжат моё дело когда вырастут.'
     mistress 'Когда они вылупятся, ты должен будешь выбрать своего приемника, возлюбленный мой.'
@@ -178,7 +178,7 @@ label lb_tactics_choice:
     return
 
 label lb_kali:
-    show expression 'img/scene/fight/mistress/kali.png' as bg    
+    show expression 'img/scene/fight/mistress/kali.jpg' as bg    
     'Владычица принимает облик многорукой богини Кали, с чёрной как уголь кожей и красным словно кровь языком. Она вооружена несколькими острыми серпами и очень опасна в ближнем бою.'
     call lb_tactics_choice from _call_lb_tactics_choice
     if game.dragon.defence_power()[1] > 0:
@@ -200,7 +200,7 @@ label lb_kali:
     return
 
 label lb_garuda:
-    show expression 'img/scene/fight/mistress/garuda.png' as bg    
+    show expression 'img/scene/fight/mistress/garuda.jpg' as bg    
     'Целиком покрывшись яркими перьями и отрастив острые медные когти, Владычица принимает аспект Гаруды. Ни на земле ни в небесах нет места чтобы укрыться от её соколиного удара, но всё же сейчас она очень уязвима.'
     call lb_tactics_choice from _call_lb_tactics_choice_1
     if atk_tp == 'earth':
@@ -224,7 +224,7 @@ label lb_garuda:
     
 
 label lb_shiva:
-    show expression 'img/scene/fight/mistress/sheeva.png' as bg    
+    show expression 'img/scene/fight/mistress/sheeva.jpg' as bg    
     'Аспект Шивы наделяет Владычицу неограниченной властью над холодом и льдом. От её поступи земля покрывается коркой инея и холодеет чешуя.'
     call lb_tactics_choice from _call_lb_tactics_choice_2
     if 'ice_immunity' in game.dragon.modifiers():
@@ -247,7 +247,7 @@ label lb_shiva:
     return
 
 label lb_agni:
-    show expression 'img/scene/fight/mistress/agni.png' as bg    
+    show expression 'img/scene/fight/mistress/agni.jpg' as bg    
     'Принимая аспект Агни, Владычица закутывается в наряд из багряного пламени и удушающего черного дыма. От неё исходит испепеляющий всё живое жар выдержать который смог бы разве что Ифрит.'
     call lb_tactics_choice from _call_lb_tactics_choice_3
     if 'fire_immunity' in game.dragon.modifiers():
@@ -270,7 +270,7 @@ label lb_agni:
     return
 
 label lb_indra:
-    show expression 'img/scene/fight/mistress/indra.png' as bg    
+    show expression 'img/scene/fight/mistress/indra.jpg' as bg    
     'В аспекте Индры Владычица получает власть над молнией и громом небесным. Она неуязвима как сам чистый и свежий воздух и небо что питают её могущество. '
     call lb_tactics_choice from _call_lb_tactics_choice_4
     if 'lightning_immunity' in game.dragon.modifiers():
@@ -294,7 +294,7 @@ label lb_indra:
     
 
 label lb_pangea:
-    show expression 'img/scene/fight/mistress/pangea.png' as bg    
+    show expression 'img/scene/fight/mistress/pangea.jpg' as bg    
     'Тело владычицы превращается в один огромный живой кристалл, совершенное воплощение аспекта богини земли Пангеи. Её плоть тверда как алмаз.'
     call lb_tactics_choice from _call_lb_tactics_choice_5
     if game.dragon.defence_power()[0] + game.dragon.defence_power()[1] >= 5:
@@ -317,7 +317,7 @@ label lb_pangea:
     return
 
 label lb_nemesis:
-    show expression 'img/scene/fight/mistress/nemesis.png' as bg    
+    show expression 'img/scene/fight/mistress/nemesis.jpg' as bg    
     'Владычица принимает аспект богини Немезиды. Всё её тело покрывается острыми шипами, олицетворяя неминуемое возмездие. '
     call lb_tactics_choice from _call_lb_tactics_choice_6
     if atk_tp == 'dodge' or atk_tp == 'hide' or atk_tp == 'earth' or atk_tp == 'air':
@@ -340,7 +340,7 @@ label lb_nemesis:
     return
 
 label lb_amphisbena:
-    show expression 'img/scene/fight/mistress/amfisbena.png' as bg    
+    show expression 'img/scene/fight/mistress/amfisbena.jpg' as bg    
     'Тело Владычицы покрывается яркой цветной чешуёй, когда она принимает аспект Амфисбены, ползучей ядовитой смерти несущей погибель всем тварям земным.'
     call lb_tactics_choice from _call_lb_tactics_choice_7
     if atk_tp == 'air':
@@ -364,7 +364,7 @@ label lb_amphisbena:
     
 
 label lb_gekata:
-    show expression 'img/scene/fight/mistress/gekata.png' as bg    
+    show expression 'img/scene/fight/mistress/gekata.jpg' as bg    
     'Аспект Гекаты даёт Владычице силу самой Ночи и Смерти. Сражаться с ней может лишь смельчак не боящийся смертельных ран, но порой лучше быть трусом.'
     call lb_tactics_choice from _call_lb_tactics_choice_8
     if atk_tp != 'hide':
@@ -387,7 +387,7 @@ label lb_gekata:
     return
 
 label lb_hell:
-    show expression 'img/scene/fight/mistress/hell.png' as bg    
+    show expression 'img/scene/fight/mistress/hell.jpg' as bg    
     'Владычица выростает до небес, задевая макушкой облака, когда призывает на себя аспект великанши Хель - немёртвой владычицы нижнего мира. Её удары кажутся медленными, но они способны крушить даже гранитные скалы.'
     call lb_tactics_choice from _call_lb_tactics_choice_9
     if atk_tp == 'dodge':
@@ -419,7 +419,7 @@ label lb_war_border:
         army_battle = True #Из боя теперь нельзя отступить
         army_decimator = 10
     
-    show expression 'img/scene/dark_march.png' as bg
+    show expression 'img/scene/dark_march.jpg' as bg
     'Сражение у границ, Армия Тьмы вступает в битву. Катапульты являются ключевым звеном обороны.'
     
     $ game.foe = core.Enemy('catapult', game_ref=game)
@@ -452,7 +452,7 @@ label lb_war_border:
 
 label lb_war_border_continue:
     nvl clear
-    show expression 'img/scene/dark_march.png' as bg
+    show expression 'img/scene/dark_march.jpg' as bg
     'Сражение на земле практически выиграно, но дракон замечает новую опасность. Со стороны гор по воздуху приближается летучий флот цвергов. Если их не остановить они сбросят в гущу армии монстров бочки наполненные алхимическим огнём. Потери будут огромны.'
     $ game.foe = core.Enemy('airfleet', game_ref=game)
     $ narrator(show_chances(game.foe))
@@ -489,7 +489,7 @@ label lb_war_field:
     # Если дракон и АТ победили, продвигаемся дальше. Если дракон победил а АТ проигрывает, даём дракону схватку против короля людей.
 
     nvl clear    
-    show expression 'img/scene/great_force.png' as bg
+    show expression 'img/scene/great_force.jpg' as bg
     'Битва на границе была просто цветочками. Теперь Вольные Народы собрали объединённую армию чтобы встретить тёмное воинство в чистом поле. Опаснее всех остальных врагов выглядит исполин в золотой броне - Титан решил сразиться на стороне вольных!'
     $ game.foe = core.Enemy('titan', game_ref=game)
     $ narrator(show_chances(game.foe))
@@ -524,7 +524,7 @@ label lb_war_field_continue:
     # Если дракон и АТ победили, продвигаемся дальше. Если дракон победил а АТ проигрывает, даём дракону схватку против короля людей.
     
     nvl clear
-    show expression 'img/scene/dark_march.png' as bg
+    show expression 'img/scene/dark_march.jpg' as bg
     'Король людей воодушевляет бойцов и не даёт им отступать. Когда он будет повержен, битву можно считать выигранной.'
     $ game.foe = core.Enemy('king', game_ref=game)
     $ narrator(show_chances(game.foe))
@@ -560,7 +560,7 @@ label lb_war_siege:
     # против городской стражи.
 
     nvl clear
-    show expression 'img/scene/city_fire.png' as bg
+    show expression 'img/scene/city_fire.jpg' as bg
     'Разбив главные силы Вольных Народов, Силы Тьмы подступают к стенам столицы. В этом отлично укреплённом городе сопортивление может продолжаться годами. Пока столица не взята, говорить о подчинении Вольных Земель не приходится.'
     $ game.foe = core.Enemy('city', game_ref=game)
     $ narrator(show_chances(game.foe))
@@ -597,7 +597,7 @@ label lb_war_siege_inside:
     # Если дракон и АТ победили, продвигаемся дальше. Если дракон победил а АТ проигрывает, даём дракону схватку
     # против городской стражи.
     nvl clear
-    show expression 'img/scene/city_raze.png' as bg
+    show expression 'img/scene/city_raze.jpg' as bg
     'На улице города идут ожесточённые бои. Основу сопротивления составляюти элитные отряды городской стражи.'
     $ game.foe = core.Enemy('city_guard', game_ref=game)
     $ narrator(show_chances(game.foe))
@@ -634,7 +634,7 @@ label lb_war_citadel:
     # против стального стража цвергов.
     # После окончательной победы переходим к сцене финальной оргии и концу игры.
     nvl clear
-    show expression 'img/scene/city_raze.png' as bg
+    show expression 'img/scene/city_raze.jpg' as bg
     'Хотя город взят и уже полыхает, в цитадели на холме всё ещё есть недобитые защитники. Учитывая что именно там хранятся все драгоценнсоти короны, взять это укрепление совершенно необходимо. К сожалению над цитаделью парит ангел-защитник, посланный Небесами в ответ на мольбы невинных. Этот пернатый воин один стоит целой армии.'
     $ game.foe = core.Enemy('angel', game_ref=game)
     $ narrator(show_chances(game.foe))
@@ -667,7 +667,7 @@ label lb_war_citadel:
     
 label lb_war_final:
     nvl clear
-    show expression 'img/scene/city_raze.png' as bg
+    show expression 'img/scene/city_raze.jpg' as bg
     'Воодушевлённые победой над ангелом выродки дракона врываются внутрь цитадели, но тут же выкатываются обратно. Внутренние ворота охраняет огромный механический страж цвергов - несокрушимый железный голем.'
     $ game.foe = core.Enemy('golem', game_ref=game)
     $ narrator(show_chances(game.foe))
@@ -698,17 +698,17 @@ label lb_war_final:
 
 label lb_orgy:
     nvl clear
-    show expression 'img/scene/city_raze.png' as bg
+    show expression 'img/scene/city_raze.jpg' as bg
     'Послений защитник пал и Земли Вольных Народов отныне под властью Владычицы, Матери Драконов!'
     game.dragon 'Мы победили!'
     mistress 'Да. Благодаря тебе, твоему роду и детям твоего рода... Как давно я ждала этого. Даю тебе и армии три дня на разграбление города, а затем мы начнём строить ПЕРВУЮ | ВСЕМИРНУЮ | ИМПЕРИЮ!'
     game.dragon 'Вы слышали Владычицу, воины мои. Тащите всех девок ко мне и кидайте в кучу!'    
-    show expression 'img/scene/girls.png' as bg
+    show expression 'img/scene/girls.jpg' as bg
     pause (500.0)
     nvl clear
     'Отродья дракона прочесали горящий город, похватав всех красивых и молодых женщин чтобы сорвать с них всю одежду и собрать в разгромленном тронном зале цитадели. Сотни обнаженных красавиц заполнили огромный зал до отказа так что дракону пришлось буквально плыть в море обнаженных тел чтобы добраться до середины.'
     game.dragon 'Сегодня вы можете насладиться победой месте со мной, дети мои! Делайте с этими девками всё что пожелаете.' 
-    show expression 'img/scene/orgy.png' as bg
+    show expression 'img/scene/orgy.jpg' as bg
     pause (500.0)    
     nvl clear
     'Началось столпотворение. Озлобленные после отчаянного боя солдаты тьмы набросились на женщин словно безумные. Глядя на творящуюся вокруг оргию, дракон и сам не терял времени. Сдавленный обнаженными телами он не глядя вонзил в упругую женскую плоть одновременно и зубы и член, начав кровавый танец сочетающий в себе голод и ярость, алчность и похоть. Этот танец продлится до тех пор пока хотя бы одна женщина в зале сохранит способность визжать и дёргаться... '

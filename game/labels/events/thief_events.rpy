@@ -1,6 +1,6 @@
 # coding=utf-8
 label lb_event_thief_spawn(thief):
-    show expression "img/scene/thief.png" as bg
+    show expression "img/scene/thief.jpg" as bg
     nvl clear
     "[thief.title] по имени [game.thief.name] хочет порыться в сокровищнице дракона"
     nvl clear
@@ -9,7 +9,7 @@ label lb_event_thief_spawn(thief):
 
 label lb_event_thief_steal_items(thief, items):
     $ descriptions = "\n".join(game.lair.treasury.treasures_description(items))
-    show expression "img/scene/loot.png" as bg
+    show expression "img/scene/loot.jpg" as bg
     nvl clear
     "[game.thief.name] выкрал из сокровищницы: [descriptions]"
     thief "Вот это дело! Еле живым ушел. Зато теперь я могу жить в роскоши как король до конца дней своих!"
@@ -32,7 +32,7 @@ label lb_event_thief_prepare_usefull(thief):
     return
 
 label lb_event_thief_receive_item(thief, item):
-    show expression "img/scene/quest_thief.png" as bg
+    show expression "img/scene/quest_thief.jpg" as bg
     nvl clear
     "[game.thief.name] планомерно готовится к большому делу. Его новое приобретение: [item.name]"
     thief "Это мне пригодится!"
@@ -41,14 +41,14 @@ label lb_event_thief_receive_item(thief, item):
 
 label lb_event_thief_prepare_useless(thief):
     nvl clear
-    show expression "img/scene/quest_thief.png" as bg
+    show expression "img/scene/quest_thief.jpg" as bg
     '[game.thief.name] хочет найти логово дракона, но безуспешно.'
     thief "Да где же прячется эта змеюка... Чёрт!"
     return
 
 label lb_event_thief_lair_enter(thief):
     nvl clear
-    show expression "img/scene/thief_in_lair.png" as bg
+    show expression "img/scene/thief_in_lair.jpg" as bg
     thief "Ну вот и оно - логово дракона. Я войду словно тень и выскользну обратно с мешком сокровищ тяжким как мои грехи..."
     return
 
@@ -63,7 +63,7 @@ label lb_event_thief_die_inaccessability(thief):
 
 label lb_event_thief_die_trap(thief, trap):
     nvl clear    
-    show expression "img/scene/thief_in_lair.png" as bg    
+    show expression "img/scene/thief_in_lair.jpg" as bg    
     $ txt = game.interpolate(random.choice(txt_thief_fail[trap]))
     '[txt]' 
     return
@@ -71,14 +71,14 @@ label lb_event_thief_die_trap(thief, trap):
 label lb_event_thief_pass_trap(thief, trap):
     if config.debug:
         'pass_trap [trap]'
-    show expression "img/scene/thief_in_lair.png" as bg    
+    show expression "img/scene/thief_in_lair.jpg" as bg    
     $ txt = game.interpolate(random.choice(txt_thief_success[trap]))
     '[txt]' 
     return
 
 label lb_event_thief_receive_no_item(thief):
     nvl clear    
-    show expression "img/scene/thief_in_lair.png" as bg    
+    show expression "img/scene/thief_in_lair.jpg" as bg    
     "Вор ничего не получил"
     return
     
@@ -127,14 +127,14 @@ label lb_event_thief_retreat_and_try_next_year(thief):
 label lb_event_thief_starting_to_rob_the_lair(thief):
     # Got past all traps and guards, thief is starting to rob the lair:
     # Debug message: thief(u"Начинаю вычищать логово")
-    show expression "img/scene/loot.png" as bg    
+    show expression "img/scene/loot.jpg" as bg    
     thief "Ух ты! Вот она сокровищница. И [game.dragon.kind], зараза прямо на золоте лежит... Ничего, я аккуратненько... надо только выбрать вещи поценнее."
     return
 
 label lb_event_thief_took_an_item(thief, item):
     # Got an item!
     # Debug message: thief(u"Взял шмотку %s" % stolen_items[i])
-    # show expression "img/scene/loot.png" as bg    
+    # show expression "img/scene/loot.jpg" as bg    
     # "[game.thief.name] аккуратно вытягивает из под брюха спящего дракона понравившийся предмет:"
     # "[item]"
     return
@@ -142,14 +142,14 @@ label lb_event_thief_took_an_item(thief, item):
 label lb_event_thief_lair_empty(thief):
     # There were no treasures in the lair:
     # Debug message: thief(u"В сокровищнице нечего брать. Сваливаю.")
-    show expression "img/scene/thief_in_lair.png" as bg        
+    show expression "img/scene/thief_in_lair.jpg" as bg        
     thief "Тут больше нечем поживиться... проклятье, я думал драконы кудв богаче. Надо сваливать!"
     return
     
 label lb_event_thief_awakened_dragon(thief, stolen_items):
     # Thief awakens the dragon and gets killed... stolen_items: items that dragon takes back from the thief.
     # Debug message: thief(u"Разбудил дракона")
-    show expression "img/scene/wokeup.png" as bg    
+    show expression "img/scene/wokeup.jpg" as bg    
     "Зазевашийся вор обрушивает кучку монет, которые со звоном раскатываются по полу."
     thief "Упс..."
     game.dragon "Так-так... какая встреча. А я то думал кто тут шебуршится."

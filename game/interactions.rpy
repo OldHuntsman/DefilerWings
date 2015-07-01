@@ -109,7 +109,7 @@ label lb_gigant_sex:
 
 
 label lb_knight_new:
-    show expression 'img/bg/special/oath.png' as bg
+    show expression 'img/bg/special/oath.jpg' as bg
     'Рыцарь дал клятву убить дракона.'
     return
 
