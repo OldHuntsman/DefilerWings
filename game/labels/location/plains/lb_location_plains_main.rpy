@@ -1,4 +1,8 @@
 # coding=utf-8
+init python:
+    from pythoncode.characters import Enemy, Talker
+    from pythoncode.utils import weighted_random
+    
 label lb_location_plains_main:
     python:
         if not renpy.music.is_playing():
@@ -54,13 +58,13 @@ label lb_encounter_plains:
         ("lb_enc_redhood", 3),        
         ("lb_patrool_plains", 3 * game.mobilization.level),
         ("lb_enc_noting", nochance)]
-    $ enc = core.Game.weighted_random(choices)
+    $ enc = weighted_random(choices)
     $ renpy.call(enc)
     return
   
 label lb_enc_redhood:
     python: #делаем аватарку волка для диалогового окна
-        wolf = core.Sayer(game_ref=game)
+        wolf = Talker(game_ref=game)
         wolf.avatar = "img/avahuman/wolf.jpg"
         wolf.name = 'Сергей "BBW" Волков'    
     if "redhood_done" in persistent.easter_eggs: #проверяем не было ли уже этого энкаунтера за всё время игры
@@ -112,7 +116,7 @@ label lb_enc_fair:
 
         'Призовой бык':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('bull_champion', game_ref=game)
+            $ game.foe = Enemy('bull_champion', game_ref=game)
             call lb_fight from _call_lb_fight_2
             menu:
                 'Сожрать призового быка' if game.dragon.hunger > 0:
@@ -362,7 +366,7 @@ label lb_enc_militia:
     menu:
         'Напасть':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('militia', game_ref=game)
+            $ game.foe = Enemy('militia', game_ref=game)
             call lb_fight from _call_lb_fight_3
             '  Отряд ополченцев готовившийся пополнить армию больше не существует. Немногие выжившие новобранцы разбежались в ужасе. Теперь королю будет сложнее собирать свои патрульные отряды.'
             $game.dragon.reputation.points += 3
@@ -462,7 +466,7 @@ label lb_enc_gooze:
     
 label lb_enc_pigs:
     'За полями пшеницы, в дубраве пасётся сдао свиней. Свинопас, который должен за ними наблюдать, дрыхнет под деревом укрыв лицо соломенной шляпой, но у свиней есть и другой сторож, куда более бдительный - здоровенный злой волкодав.'
-    $ game.foe = core.Enemy('dog', game_ref=game)
+    $ game.foe = Enemy('dog', game_ref=game)
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
@@ -490,7 +494,7 @@ label lb_enc_pigs:
 
 label lb_enc_sheepherd:
     'В зелёных холмах, покрытых сочной травой старый чабан пасёт атару овец. Звидев приближение дракона, мудрый старик предпочитает по быстрому сделать ноги, а вот верная овчарка похоже готова охранять стадо до последнего вздоха.'
-    $ game.foe = core.Enemy('dog', game_ref=game)
+    $ game.foe = Enemy('dog', game_ref=game)
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
@@ -519,7 +523,7 @@ label lb_enc_sheepherd:
 
 label lb_enc_cattle:
     'Ну какая же пасторальная картина без пасущихся коровок? [game.dragon.name] набредает на деревенское стадо, так и просящееся дракону на обед. Пастух в ужасе убегает прочь, но вот один из быков, самый крупный, полон решимости защитить стадо.'
-    $ game.foe = core.Enemy('bull', game_ref=game)
+    $ game.foe = Enemy('bull', game_ref=game)
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
@@ -564,7 +568,7 @@ label lb_village:
         txt1 = village['overview'][village_size]
     show expression 'img/bg/special/village.jpg' as bg     
     '[txt1]'
-    $ game.foe = core.Enemy(village['deffence'][village_size], game_ref=game)    
+    $ game.foe = Enemy(village['deffence'][village_size], game_ref=game)    
     $ chances = show_chances(game.foe)    
     nvl clear
     menu:
@@ -640,7 +644,7 @@ label lb_village:
         
         'Разорить' if village_size > 0:
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy(village['deffence'][village_size], game_ref=game)
+            $ game.foe = Enemy(village['deffence'][village_size], game_ref=game)
             call lb_fight from _call_lb_fight_11
             'Поселение разорено. Разруха в стране растёт. В разрушенных домах и на телах убитых нашлись кое-какие ценности:'
             python:
@@ -689,7 +693,7 @@ label lb_patrool_plains:
             dtxt = '%s вынужден зажмуриться от яркого света бьющего в глаза. Громогласный оклик возвещает: "Умри мерзкое порождение греха!!!". Это ангел-хранитель посланный людям Небесами для защиты.' % game.dragon.name
     '[dtxt]'
     python:
-        game.foe = core.Enemy(patrool, game_ref=game)
+        game.foe = Enemy(patrool, game_ref=game)
         battle_status = battle.check_fear(game.dragon, game.foe)
     if 'foe_fear' in battle.check_fear(game.dragon, game.foe):
         $ narrator(game.foe.battle_description(battle_status, game.dragon))

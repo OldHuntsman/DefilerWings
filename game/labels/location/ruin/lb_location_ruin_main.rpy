@@ -1,4 +1,7 @@
 # coding=utf-8
+init python:
+    from pythoncode.characters import Talker
+    
 label lb_location_ruin_main:
     python:
         if not renpy.music.is_playing():
@@ -7,7 +10,7 @@ label lb_location_ruin_main:
     show expression 'img/bg/special/haunted.jpg' as bg
 
     python:
-        witch = core.Sayer(game_ref=game)
+        witch = Talker(game_ref=game)
         witch.avatar = "img/avahuman/witch.jpg"
         witch.name = "Ведьма"
     

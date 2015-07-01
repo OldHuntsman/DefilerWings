@@ -1,8 +1,8 @@
-﻿#!/usr/bin/env python
-# coding=utf-8
-import random
-from core import Dragon, Enemy
+﻿# coding=utf-8
 
+import random
+
+army_battle = False
 
 def calc_hit_def(hitdef):
     """

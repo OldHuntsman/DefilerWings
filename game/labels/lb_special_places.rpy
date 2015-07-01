@@ -1,4 +1,9 @@
 # coding=utf-8
+
+init python:
+    from pythoncode.utils import weighted_random
+    from pythoncode.characters import Enemy
+    
 label lb_special_places:
     nvl clear
     python:
@@ -40,7 +45,7 @@ label lb_enchanted_forest_enter:
                 ("lb_enchanted_forest_elfgirl", 10),
                 ("lb_enchanted_forest_druid", 10),
                 ]
-            $ enc = core.Game.weighted_random(choices)
+            $ enc = weighted_random(choices)
             $ renpy.call(enc)
     
         'Напасть на Древо Жизни':
@@ -50,7 +55,7 @@ label lb_enchanted_forest_enter:
 
 label lb_enchanted_forest_elfgirl:
     '[game.dragon.name] слышит непередаваемый аромат сотканный из ноток невинности, красоты и колдовских чар. Это лесная ведьма, альва из народа богини Дану. Нет плоти более сладкой и желанной, но взять её будет непросто ведь на её стороне колдовство.'
-    $ game.foe = core.Enemy('elf_witch', game_ref=game)
+    $ game.foe = Enemy('elf_witch', game_ref=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -71,12 +76,12 @@ label lb_enchanted_forest_elfgirl:
 
 label lb_enchanted_forest_druid:
     '[game.dragon.name] не долго остаётся незамеченным. На пути дракона, словно материализовавшись из листьев возникает вооруженный корявым посохом друид. Он не выглядит особенно внушительным, однако это впечатление обманичво. На стороне жрец Дану сама сила леса.'
-    $ game.foe = core.Enemy('druid', game_ref=game)
+    $ game.foe = Enemy('druid', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
         'Вступить в бой':
             $ game.dragon.drain_energy()
-            $ game.foe = core.Enemy('druid', game_ref=game)
+            $ game.foe = Enemy('druid', game_ref=game)
             call lb_fight from _call_lb_fight_26
             $ game.dragon.reputation.points += 3
             'Друид повержен. [game.dragon.reputation.gain_description]'
@@ -100,7 +105,7 @@ label lb_enchanted_forest_grove:
     nvl clear
     $ txt = game.interpolate(random.choice(txt_place_enfr[1]))
     '[txt]'    
-    $ game.foe = core.Enemy('treant', game_ref=game)
+    $ game.foe = Enemy('treant', game_ref=game)
     $ chances = show_chances(game.foe)
     '[chances]'
     nvl clear
@@ -180,7 +185,7 @@ label lb_manor:
     nvl clear
     $ txt = game.interpolate(random.choice(txt_place_manor[1]))
     '[txt]'    
-    $ game.foe = core.Enemy('old_knight', game_ref=game)
+    $ game.foe = Enemy('old_knight', game_ref=game)
     $ chances = show_chances(game.foe)
     '[chances]'
     nvl clear
@@ -260,7 +265,7 @@ label lb_wooden_fort:
     nvl clear
     $ txt = game.interpolate(random.choice(txt_place_wooden_fort[1]))
     '[txt]'    
-    $ game.foe = core.Enemy('footman', game_ref=game)
+    $ game.foe = Enemy('footman', game_ref=game)
     $ chances = show_chances(game.foe)
     '[chances]'
     nvl clear
@@ -340,7 +345,7 @@ label lb_abbey:
     nvl clear
     $ txt = game.interpolate(random.choice(txt_place_abbey[1]))
     '[txt]'    
-    $ game.foe = core.Enemy('templars', game_ref=game)
+    $ game.foe = Enemy('templars', game_ref=game)
     $ chances = show_chances(game.foe)
     '[chances]'
     nvl clear
@@ -420,7 +425,7 @@ label lb_castle:
     nvl clear
     $ txt = game.interpolate(random.choice(txt_place_castle[1]))
     '[txt]'    
-    $ game.foe = core.Enemy('castle_guard', game_ref=game)
+    $ game.foe = Enemy('castle_guard', game_ref=game)
     $ chances = show_chances(game.foe)
     '[chances]'
     nvl clear
@@ -501,7 +506,7 @@ label lb_palace:
     nvl clear
     $ txt = game.interpolate(random.choice(txt_place_palace[1]))
     '[txt]'    
-    $ game.foe = core.Enemy('palace_guards', game_ref=game)
+    $ game.foe = Enemy('palace_guards', game_ref=game)
     $ chances = show_chances(game.foe)
     '[chances]'
     nvl clear
@@ -578,7 +583,7 @@ label lb_enc_ogre:
     jump lb_enc_fight_ogre
     
 label lb_enc_fight_ogre:   
-    $ game.foe = core.Enemy('ogre', game_ref=game)
+    $ game.foe = Enemy('ogre', game_ref=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -629,7 +634,7 @@ label lb_jotun:
     show expression 'img/bg/lair/icecastle.jpg' as bg
     $ txt = game.interpolate(random.choice(txt_place_jotun[0]))
     '[txt]'
-    $ game.foe = core.Enemy('jotun', game_ref=game)
+    $ game.foe = Enemy('jotun', game_ref=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -680,7 +685,7 @@ label lb_ifrit:
     show expression 'img/bg/lair/volcanoforge.jpg' as bg
     $ txt = game.interpolate(random.choice(txt_place_ifrit[0]))
     '[txt]'
-    $ game.foe = core.Enemy('ifrit', game_ref=game)
+    $ game.foe = Enemy('ifrit', game_ref=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -734,7 +739,7 @@ label lb_triton:
     show expression 'img/bg/lair/underwater.jpg' as bg
     $ txt = game.interpolate(random.choice(txt_place_triton[0]))
     '[txt]'
-    $ game.foe = core.Enemy('triton', game_ref=game)
+    $ game.foe = Enemy('triton', game_ref=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -787,7 +792,7 @@ label lb_titan:
     show expression 'img/bg/special/cloud_castle.jpg' as bg
     $ txt = game.interpolate(random.choice(txt_place_titan[0]))
     '[txt]'
-    $ game.foe = core.Enemy('titan', game_ref=game)
+    $ game.foe = Enemy('titan', game_ref=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -878,7 +883,7 @@ label lb_golem_guard:
     $ renpy.music.queue(get_random_files('mus/ambient')) 
     show expression 'img/bg/special/moria.jpg' as bg
     'Даже после того как врата обрушились, пыль и мелкие камушки продолжают сыпаться с потолка. По центральной галерее гулко раздаются шаги стража ворот - выкованного целиком из закалённого адамантия механического гиганта. На свете не много противников равных ему по силе...'
-    $ game.foe = core.Enemy('golem', game_ref=game)
+    $ game.foe = Enemy('golem', game_ref=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -894,7 +899,7 @@ label lb_golem_guard:
     
 label lb_dwarf_army:
     'Подобно несущему смерть урагану [game.dragon.fullname] ворвался во внутренние палаты подгорного царства. Однако цверги всё ещё не беззащитны, дорогу дракону заступает в спешке собранный ударный отряд...'
-    $ game.foe = core.Enemy('dwarf_guards', game_ref=game)
+    $ game.foe = Enemy('dwarf_guards', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
         'Атаковать без жалости':
@@ -918,7 +923,7 @@ label lb_dwarf_army:
     
 label lb_dwarf_houses:
     'Хотя большинство цвергов бегают в панике и пытаются спасти себя и свои пожитки, при виде дракона многие хватаются за ломы, кирки и тпоры чтобы дать отпор супостату...'
-    $ game.foe = core.Enemy('dwarf_citizen', game_ref=game)
+    $ game.foe = Enemy('dwarf_citizen', game_ref=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
@@ -932,7 +937,7 @@ label lb_dwarf_houses:
     
 label lb_dwarf_treashury:
     'Понимая что их королевство стоит на грани катастрофы, цверги пытаются спасти две самые большие ценности - короля и сокровища. Бойцов у них осталось не много, однако среди них есть один равный по силе целой армии - закованный в доспехи до самых глаз чемпион цвергов выступает вперёд потрясая массивным но острым топором.'
-    $ game.foe = core.Enemy('dwarf_champion', game_ref=game)
+    $ game.foe = Enemy('dwarf_champion', game_ref=game)
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:

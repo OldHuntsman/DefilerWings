@@ -1,4 +1,8 @@
 # coding=utf-8
+
+init python:
+    from pythoncode import utils
+    
 label lb_location_lair_main:
     python:
         if not renpy.music.is_playing():
@@ -105,7 +109,7 @@ label lb_location_lair_main:
                     game_loaded = True
                     renpy.retain_after_load()
                     if not freeplay:
-                        core.call ("lb_achievement_acquired")
+                        utils.call ("lb_achievement_acquired")
                         game.save()
                     else:
                         game.save_freegame()

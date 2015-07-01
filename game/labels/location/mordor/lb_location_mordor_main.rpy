@@ -1,4 +1,10 @@
 # coding=utf-8
+init python:
+    from pythoncode import battle
+    from pythoncode.characters import Enemy, Talker
+    
+    reinforcement_used = False
+    
 label lb_location_mordor_main:
     $ reinforcement_used = False
     $ place = 'mordor' 
@@ -10,7 +16,7 @@ label lb_location_mordor_main:
             renpy.music.queue(get_random_files('mus/ambient'))
     nvl clear
     python:
-        mistress = core.Sayer(game_ref=game)
+        mistress = Talker(game_ref=game)
         mistress.avatar = "img/avahuman/mistress.jpg"
         mistress.name = "Владычица"
     
@@ -416,13 +422,13 @@ label lb_war_border:
     # Если дракон победил, но армия слишком слаба даём второй энкаунтер для дракона - воздушный флот цвергов приходит
     # на помощь осаждённым, дракон должен их победить.
     python:
-        army_battle = True #Из боя теперь нельзя отступить
+        battle.army_battle = True #Из боя теперь нельзя отступить
         army_decimator = 10
     
     show expression 'img/scene/dark_march.jpg' as bg
     'Сражение у границ, Армия Тьмы вступает в битву. Катапульты являются ключевым звеном обороны.'
     
-    $ game.foe = core.Enemy('catapult', game_ref=game)
+    $ game.foe = Enemy('catapult', game_ref=game)
     $ narrator(show_chances(game.foe))
             
     menu:
@@ -454,7 +460,7 @@ label lb_war_border_continue:
     nvl clear
     show expression 'img/scene/dark_march.jpg' as bg
     'Сражение на земле практически выиграно, но дракон замечает новую опасность. Со стороны гор по воздуху приближается летучий флот цвергов. Если их не остановить они сбросят в гущу армии монстров бочки наполненные алхимическим огнём. Потери будут огромны.'
-    $ game.foe = core.Enemy('airfleet', game_ref=game)
+    $ game.foe = Enemy('airfleet', game_ref=game)
     $ narrator(show_chances(game.foe))
     
     menu:
@@ -491,7 +497,7 @@ label lb_war_field:
     nvl clear    
     show expression 'img/scene/great_force.jpg' as bg
     'Битва на границе была просто цветочками. Теперь Вольные Народы собрали объединённую армию чтобы встретить тёмное воинство в чистом поле. Опаснее всех остальных врагов выглядит исполин в золотой броне - Титан решил сразиться на стороне вольных!'
-    $ game.foe = core.Enemy('titan', game_ref=game)
+    $ game.foe = Enemy('titan', game_ref=game)
     $ narrator(show_chances(game.foe))
     
     menu:
@@ -526,7 +532,7 @@ label lb_war_field_continue:
     nvl clear
     show expression 'img/scene/dark_march.jpg' as bg
     'Король людей воодушевляет бойцов и не даёт им отступать. Когда он будет повержен, битву можно считать выигранной.'
-    $ game.foe = core.Enemy('king', game_ref=game)
+    $ game.foe = Enemy('king', game_ref=game)
     $ narrator(show_chances(game.foe))
     
     menu:
@@ -562,7 +568,7 @@ label lb_war_siege:
     nvl clear
     show expression 'img/scene/city_fire.jpg' as bg
     'Разбив главные силы Вольных Народов, Силы Тьмы подступают к стенам столицы. В этом отлично укреплённом городе сопортивление может продолжаться годами. Пока столица не взята, говорить о подчинении Вольных Земель не приходится.'
-    $ game.foe = core.Enemy('city', game_ref=game)
+    $ game.foe = Enemy('city', game_ref=game)
     $ narrator(show_chances(game.foe))
     
     menu:
@@ -599,7 +605,7 @@ label lb_war_siege_inside:
     nvl clear
     show expression 'img/scene/city_raze.jpg' as bg
     'На улице города идут ожесточённые бои. Основу сопротивления составляюти элитные отряды городской стражи.'
-    $ game.foe = core.Enemy('city_guard', game_ref=game)
+    $ game.foe = Enemy('city_guard', game_ref=game)
     $ narrator(show_chances(game.foe))
     
     menu:
@@ -636,7 +642,7 @@ label lb_war_citadel:
     nvl clear
     show expression 'img/scene/city_raze.jpg' as bg
     'Хотя город взят и уже полыхает, в цитадели на холме всё ещё есть недобитые защитники. Учитывая что именно там хранятся все драгоценнсоти короны, взять это укрепление совершенно необходимо. К сожалению над цитаделью парит ангел-защитник, посланный Небесами в ответ на мольбы невинных. Этот пернатый воин один стоит целой армии.'
-    $ game.foe = core.Enemy('angel', game_ref=game)
+    $ game.foe = Enemy('angel', game_ref=game)
     $ narrator(show_chances(game.foe))
     
     menu:
@@ -669,7 +675,7 @@ label lb_war_final:
     nvl clear
     show expression 'img/scene/city_raze.jpg' as bg
     'Воодушевлённые победой над ангелом выродки дракона врываются внутрь цитадели, но тут же выкатываются обратно. Внутренние ворота охраняет огромный механический страж цвергов - несокрушимый железный голем.'
-    $ game.foe = core.Enemy('golem', game_ref=game)
+    $ game.foe = Enemy('golem', game_ref=game)
     $ narrator(show_chances(game.foe))
     
     menu:
