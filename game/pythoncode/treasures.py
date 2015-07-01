@@ -169,7 +169,7 @@ gem_cut_description_rus = {
             'ablative': u''
         }
     },
-    'polished': {
+    'rough': {
         'he': {
             'nominative': u'необработанный ',
             'ablative': u''  # 'ablative' не отображается, чтобы не портить описание вещи
@@ -180,7 +180,7 @@ gem_cut_description_rus = {
             'ablative': u''
         }
     },
-    'rough': {
+    'polished': {
         'he': {
             'nominative': u'полированный ',
             'ablative': u'полированным '
@@ -2370,32 +2370,44 @@ class Treasury(store.object):
                 return True
         return False
 
-    def available_materials(self, item_type):
+    def available_materials(self, is_crafting, item_type):
         """
         Функция для проверки есть ли материал, из которого можно сделать вещь такого типа
         :param item_type: тип вещи, который хочется смастерить
+        :param is_crafting: материалы дракона (True) или все доступные (False)
         :return: список материалов, из которых можно сделать вещь
         """
         materials = []
         if treasure_types[item_type][2]:
             # вещь можно сделать из металла, добавляем доступный список металлов
-            materials += self.metals.keys()
+            if is_crafting:
+                # все типы металлов у дракона
+                materials += self.metals.keys()
+            else:
+                # все типы металлов в игре
+                materials += metal_types.keys()
         if treasure_types[item_type][3]:
             # вещь можно сделать из поделочного материала, добавляем доступный список материалов
-            for material_type in self.materials.keys():
-                # убираем повторы из-за возможной разницы в размерах поделочных материалов
-                material_name = material_type.split(';')[0]
-                if material_name not in materials:
-                    materials.append(material_name)
+            if is_crafting:
+                # все типы материалов у дракона
+                for material_type in self.materials.keys():
+                    # убираем повторы из-за возможной разницы в размерах поделочных материалов
+                    material_name = material_type.split(';')[0]
+                    if material_name not in materials:
+                        materials.append(material_name)
+            else:
+                # все типы материалов в игре
+                materials += material_types.keys()
         return materials
 
     def is_craft_possible(self, item_type, alignment):
         """
         Функция для проверки достаточно ли материалов в сокровищнице для изготовления вещи
         :param item_type: тип вещи, который хочется смастерить
+        :param alignment: стиль вещи, которую хочется смастерить
         :return: достаточно (True) или нет (False) материалов для создания вещи
         """
-        craft_possible = self.available_materials(item_type)
+        craft_possible = self.available_materials(True, item_type)
         if treasure_types[item_type][4]:
             # если сам предмет - изображение - нужен какой-то стиль
             craft_possible = craft_possible and alignment
@@ -2492,11 +2504,12 @@ class Treasury(store.object):
                 position += row_count
         return menu_choice
 
-    def craft_select_gem(self, gem_size):
+    def craft_select_gem(self, is_crafting, gem_size):
         """
         Функция для вывода меню выбора камня для инкрустации из всех доступных вариантов
         После выбора автоматически вставляет (или убирает) камень нужного размера
         :param gem_size: размер камня для инкрустации
+        :param is_crafting: из сокровищницы дракона (True) или покупается (False)
         :return: камень для инкрустации
         """
         from renpy.exports import call_screen
@@ -2504,14 +2517,32 @@ class Treasury(store.object):
         row_count = 10  # количество кнопок для отображения списка материалов
         position = 0  # начальное значение
         gem_list = []
-        for gem_type in self.gems:
-            # добавляем камни требуемого размера в список
-            gem_params = gem_type.split(';')
-            if gem_params[1] == gem_size:
-                if gem_size == 'small':
-                    # изменение размера для хака описания
-                    gem_params[1] = 'common'
-                gem_list.append(Gem(*gem_params))
+        if is_crafting:
+            # подходящие камни из сокровищницы дракона
+            for gem_type in self.gems:
+                # добавляем камни требуемого размера в список
+                gem_params = gem_type.split(';')
+                if gem_params[1] == gem_size:
+                    if gem_size == 'small':
+                        # изменение размера для хака описания
+                        gem_params[1] = 'common'
+                    gem_list.append(Gem(*gem_params))
+        else:
+            # все типы камней в игре
+            gem_params = [None, gem_size, None]
+            if gem_size == 'small':
+                # изменение размера для хака описания
+                gem_params[1] = 'common'
+            gem_types_keys = sorted(gem_types.keys(), key=lambda gt: gem_description_rus[gt]['he']['nominative'])
+            for gem_type in gem_types_keys:
+                gem_params[0] = gem_type
+                if gem_type == "pearl" or gem_type == "black_pearl":
+                    gem_params[2] = " "
+                    gem_list.append(Gem(*gem_params))
+                else:
+                    for gem_cut in ('rough', 'polished', 'faceted'):
+                        gem_params[2] = gem_cut
+                        gem_list.append(Gem(*gem_params))
         while menu_choice is None or (menu_choice == 'inc') or (menu_choice == 'dec'):
             # цикл для выбора типа камня
             if row_count < len(gem_list):
@@ -2571,7 +2602,7 @@ class Treasury(store.object):
         }
         item.quality = quality[0]
         # первоначальный выбор качества - первый в списке
-        materials = self.available_materials(treasure_type)
+        materials = self.available_materials(is_crafting, treasure_type)
         item.material = self.craft_select_material(materials)
         item.spangled = None
         item.inlaid = None
@@ -2640,11 +2671,11 @@ class Treasury(store.object):
             elif menu_choice == 'material':
                 item.material = self.craft_select_material(materials)
             elif menu_choice == 'spangled':
-                item.spangled = self.craft_select_gem('small')
+                item.spangled = self.craft_select_gem(is_crafting, 'small')
             elif menu_choice == 'inlaid':
-                item.inlaid = self.craft_select_gem('common')
+                item.inlaid = self.craft_select_gem(is_crafting, 'common')
             elif menu_choice == 'huge':
-                item.huge = self.craft_select_gem('large')
+                item.huge = self.craft_select_gem(is_crafting, 'large')
             elif menu_choice == 'decoration':
                 menu_options = [(u"Украсить изображением", 'yes', True, True)]
                 menu_options += [(u"Без изображения", 'no', True, True)]
