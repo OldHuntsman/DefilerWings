@@ -4,13 +4,16 @@
 # TODO: реврайт вора через modifiers
 
 import random
-import data
+from pythoncode import data
 import renpy.exports as renpy
-from core import Sayer, Mortal, call, get_avatar
+from pythoncode.utils import call, get_random_image
+from pythoncode.data import achieve_fail
 from copy import deepcopy
-
-
-class Thief(Sayer, Mortal):
+from mortal import Mortal
+from talker import Talker
+                
+                
+class Thief(Talker, Mortal):
     """
     Класс вора.
     """
@@ -32,7 +35,7 @@ class Thief(Sayer, Mortal):
                 self.abilities.add(ab, deepcopy(data.thief_abilities[ab]))
         # прочее
         self.treasury = treasury  # Ссылка на сокровищницу.
-        self.avatar = get_avatar(u"img/avahuman/thief")
+        self.avatar = get_random_image(u"img/avahuman/thief")
         self.forced_to_rob = False    # Обязан ли ограбить дракона, когда тот пойдет спать.
 
     @property  # Read-Only
@@ -237,7 +240,7 @@ class Thief(Sayer, Mortal):
                     # Закончили грабить. Уходим на пенсию.
                     self.retire()
                     return
-                from data import achieve_fail
+
                 achieve_fail("lost_treasure")#событие для ачивок
                 self.event('steal_items', items=stolen_items)
                 # Закончили грабить. Уходим на пенсию.

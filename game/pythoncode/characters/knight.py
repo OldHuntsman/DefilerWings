@@ -1,13 +1,11 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-from core import Fighter, call, get_avatar
-import girls_data
-import renpy.exports as renpy
 import random
-import os
-import data
-import mob_data
+from pythoncode import girls_data, data, mob_data
+import renpy.exports as renpy
+from fighter import Fighter
+from pythoncode.utils import call, get_random_image
 from copy import deepcopy
 
 
@@ -44,7 +42,7 @@ class Knight(Fighter):
                 descript = descript[:3]
                 # Отсекание лишних данных, если таковые есть
             self.descriptions.append(descript)  # Добавляем в список
-        self.avatar = get_avatar(u"img/avahuman/knight")
+        self.avatar = get_random_image(u"img/avahuman/knight")
         self.forced_to_challenge = False    # Обязан ли рыцарь бросить вызов дракону, когда тот пойдет спать.
 
     def description(self):

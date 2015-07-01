@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
-from core import call
+from utils import call
 import girls_data
 from data import reputation_levels, reputation_gain, game_events
 import renpy.store as store

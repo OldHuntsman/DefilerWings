@@ -1,6 +1,8 @@
 # coding=utf-8
 init python:
     import random
+
+    from pythoncode.characters import Dragon
     
 label lb_choose_dragon:
     # Хардкод на трех драконов.
@@ -39,7 +41,7 @@ label lb_choose_dragon:
 
         for x in xrange(3):
             try:
-                child = core.Dragon(parent=game.dragon, used_gifts=used_gifts, used_avatars=used_avatars, game_ref=game)
+                child = Dragon(parent=game.dragon, used_gifts=used_gifts, used_avatars=used_avatars, game_ref=game)
             except StopIteration:
                 break  # TODO: действие в случае когда драконы закончились
             dragons.append(child)
