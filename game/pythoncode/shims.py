@@ -8,6 +8,7 @@
 # TODO: Убрать костыль после патча в RenPy.
 
 import renpy.exports as renpy
+import pygame
 
 def renpy_easy_monkey_patch():
     if not hasattr(renpy_easy_monkey_patch, 'patched'):
@@ -22,12 +23,21 @@ def renpy_easy_monkey_patch():
         renpy.easy.displayable = displayable_patched
         
         renpy_easy_monkey_patch.patched = True
-        
+                
 def screen_displayable_monkey_patch():
     if not hasattr(screen_displayable_monkey_patch, 'patched'):
         event_origin = renpy.display.screen.ScreenDisplayable.event
         
         def event_patched(self, ev, x, y, st):
+            # Обработка фокуса.
+            if ev.type == pygame.ACTIVEEVENT:
+                # Клавиатура или сворачивание.
+                if (ev.state & 2) or (ev.state & 4):
+                    if ev.gain:
+                        renpy.audio.audio.unpause_all()
+                    else:
+                        renpy.audio.audio.pause_all()
+                                                
             return event_origin(self, ev, x, y, st)
                 
         renpy.display.screen.ScreenDisplayable.event = event_patched
