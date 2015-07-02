@@ -23,7 +23,10 @@ def renpy_easy_monkey_patch():
         renpy.easy.displayable = displayable_patched
         
         renpy_easy_monkey_patch.patched = True
-                
+        
+# Monkey patch для того, чтобы внедриться в pygame event loop. Таким образом 
+# мы можем получать все возникающие события и реагировать на нужные нам, 
+# а именно на события изменения фокуса клавиатуры и сворачивания окна.
 def screen_displayable_monkey_patch():
     if not hasattr(screen_displayable_monkey_patch, 'patched'):
         event_origin = renpy.display.screen.ScreenDisplayable.event
