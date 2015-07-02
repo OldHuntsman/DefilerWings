@@ -22,4 +22,15 @@ def renpy_easy_monkey_patch():
         renpy.easy.displayable = displayable_patched
         
         renpy_easy_monkey_patch.patched = True
+        
+def screen_displayable_monkey_patch():
+    if not hasattr(screen_displayable_monkey_patch, 'patched'):
+        event_origin = renpy.display.screen.ScreenDisplayable.event
+        
+        def event_patched(self, ev, x, y, st):
+            return event_origin(self, ev, x, y, st)
+                
+        renpy.display.screen.ScreenDisplayable.event = event_patched
+        
+        screen_displayable_monkey_patch.patched = True    
                         
