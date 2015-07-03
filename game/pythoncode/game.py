@@ -12,6 +12,7 @@ import renpy.exports as renpy
 import renpy.store as store
 from characters import Fighter, Mortal, Talker, Thief, Knight, Enemy
 from utils import call, tuples_sum, get_random_image
+from points import Mobilization, Poverty, Army
 
 class Game(store.object):
     _win = False
@@ -27,8 +28,6 @@ class Game(store.object):
         :param adv_character: Базовый класс для ADV-режима
         :param nvl_character: Базовый класс для NVL-режима
         """
-        from points import Mobilization, Poverty, Army
-
         self.adv_character = adv_character
         self.nvl_character = nvl_character
         self.mobilization = Mobilization()  # Мобилизацию нужно ввести до того как появится первый дракон

@@ -1,6 +1,5 @@
 # coding=utf-8
 init python:
-    import os
     import random
 
     def get_place_bg(type):
