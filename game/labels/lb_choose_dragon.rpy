@@ -86,7 +86,7 @@ label lb_choose_dragon:
         use status_bar
 
     screen text_screen:
-        $renpy.childtext = child_choose.description
+        $renpy.childtext = "%s %s\n\n%s" % (child_choose.name, child_choose.surname, child_choose.description)
         window:
             xsize 760
             xpos 200
