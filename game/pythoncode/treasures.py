@@ -1,10 +1,13 @@
 # coding=utf-8
 
 import random
+
 from renpy import store
-
+from renpy.exports import call_screen
+from copy import deepcopy
+                
 from utils import weighted_random
-
+from data import achieve_target, get_description_by_count
 
 """Словарь для драгоценных камней, ключи - названия камней, значения - кортежи вида(шанс появления, ценность)"""
 gem_types = {
@@ -1536,7 +1539,6 @@ class Treasure(object):  # класс для сокровищ
             if self.alignment == "human" or self.alignment == "cleric" or self.alignment == "knight":
                 return weighted_select(Treasure.quality_types)
             else:
-                from copy import deepcopy
                 holder = deepcopy(Treasure.quality_types)
                 holder.__delitem__('rough')
                 return weighted_select(holder)
@@ -1801,7 +1803,6 @@ class Treasury(store.object):
         Помещает сокровища в сокровищницу
         :param treasure_list: Список сокровищ, помещаемых в сокровищницу
         """
-        from data import achieve_target
         for treas in treasure_list:
             achieve_target(treas.cost, "treasure")#Событие для ачивок
             if isinstance(treas, Coin):
@@ -1846,8 +1847,6 @@ class Treasury(store.object):
         :param treasure_list: Список сокровищ, для которых требуется получить описание
         :return: Возвращает список с описанием сокровищ
         """
-        from copy import deepcopy
-
         treas_list = deepcopy(treasure_list)
         description_list = []
         # Группируем монеты, слитки, драгоценные камни и материалы
@@ -2177,7 +2176,6 @@ class Treasury(store.object):
         :return: описание массы в сокровищнице
         """
         if mass > 0:
-            from data import get_description_by_count
             return get_description_by_count(treasures_mass_description_rus[description_key], mass)
         else:
             return u""
@@ -2419,7 +2417,6 @@ class Treasury(store.object):
         :param is_crafting: создаётся из материалов дракона (True) или покупается (False)
         :return: выбранный тип вещи либо None в случае отмены
         """
-        from renpy.exports import call_screen
         treasure_list = sorted(treasure_types.keys(), key=lambda treas: treasure_description_rus[treas]['nominative'])
         # получаем список возможных сокровищ
         if is_crafting:
@@ -2471,7 +2468,6 @@ class Treasury(store.object):
         :param materials: список материалов для выбора
         :return: выбранный вариант из списка либо None в случае отмены
         """
-        from renpy.exports import call_screen
         menu_choice = None
         row_count = 10  # количество кнопок для отображения списка материалов
         position = 0  # начальное значение 
@@ -2512,7 +2508,6 @@ class Treasury(store.object):
         :param is_crafting: из сокровищницы дракона (True) или покупается (False)
         :return: камень для инкрустации
         """
-        from renpy.exports import call_screen
         menu_choice = None
         row_count = 10  # количество кнопок для отображения списка материалов
         position = 0  # начальное значение
@@ -2584,7 +2579,6 @@ class Treasury(store.object):
         :param price_multiplier: увеличение цены (для покупки, в процентах)
         :return: созданная вещь либо None в случае отмены
         """
-        from renpy.exports import call_screen
         if 'random' in alignment or not alignment:
             alignment = image_types.keys()
         alignment = random.choice(alignment)

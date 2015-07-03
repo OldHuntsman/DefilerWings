@@ -1,6 +1,8 @@
 # coding=utf-8
 
 init python:
+    import random
+    
     from pythoncode import utils
     
 label lb_location_lair_main:
@@ -35,7 +37,6 @@ label lb_location_lair_main:
             call lb_location_lair_main from _call_lb_location_lair_main_1
         'Чахнуть над златом' if game.lair.treasury.wealth > 0:
             python:
-                import random
                 files = [f for f in renpy.list_files() if f.startswith("img/bg/hoard/%s" % game.dragon.color_eng)]    
                 if len(files) > 0:
                     treasurybg = random.choice(files)
