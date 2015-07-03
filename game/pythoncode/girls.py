@@ -8,7 +8,7 @@ import girls_data
 from treasures import gen_treas
 from utils import call
 from characters import Girl
-
+from data import achieve_target
 
 class GirlsList(object):
     def __init__(self, game_ref, base_character):
@@ -56,7 +56,6 @@ class GirlsList(object):
         else:
             self.game.girl.pregnant = 1
         self.game.dragon.lust -= 1
-        from data import achieve_target
         achieve_target(self.game.girl.type, "impregnate")
         return self.description('shout')
 

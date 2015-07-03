@@ -1,9 +1,9 @@
-#!/usr/bin/env python
 # coding=utf-8
-from utils import call
-import girls_data
-from data import reputation_levels, reputation_gain, game_events
+
 import renpy.store as store
+import girls_data
+from utils import call
+from data import reputation_levels, reputation_gain, game_events, achieve_target, get_description_by_count, dark_army
 
 
 class Mobilization(store.object):
@@ -80,7 +80,6 @@ class Reputation(store.object):
                 self._last_gain = delta
                 self._gain += delta
                 self._rp = int(value)
-                from data import achieve_target#событие для ачивок
                 achieve_target(self.level, "reputation")
             else:
                 raise Exception("Cannot raise reputation. Invalid gain.")
@@ -262,7 +261,6 @@ class Army(store.object):
 
     @property
     def army_description(self):
-        from data import get_description_by_count, dark_army
         description_str = get_description_by_count(dark_army['grunts'], self.grunts) + '\n'
         description_str += get_description_by_count(dark_army['elites'], self.elites) + '\n'
         description_str += get_description_by_count(dark_army['diversity'], self.diversity) + '\n'
