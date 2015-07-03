@@ -36,17 +36,21 @@ label lb_choose_dragon:
     python hide:
         used_gifts = []
         used_avatars = []
+        
         if game.dragon is not None:
-            used_avatars.append(game.dragon.avatar)
+            if game.dragon.avatar not in used_avatars:
+                used_avatars.append(game.dragon.avatar)
 
-        for x in xrange(3):
-            try:
-                child = Dragon(parent=game.dragon, used_gifts=used_gifts, used_avatars=used_avatars, game_ref=game)
-            except StopIteration:
-                break  # TODO: действие в случае когда драконы закончились
-            dragons.append(child)
-            used_gifts.append(child._gift)
-            used_avatars.append(child.avatar)
+        if len(dragons) == 0:
+            for x in xrange(3):
+                try:
+                    child = Dragon(parent=game.dragon, used_gifts=used_gifts, used_avatars=used_avatars, game_ref=game)
+                except StopIteration:
+                    break  # TODO: действие в случае когда драконы закончились
+                dragons.append(child)
+                used_gifts.append(child._gift)
+                used_avatars.append(child.avatar)
+                
         if dragons[0] not in dragons_choosed:
             renpy.childimg1 = ui.image(dragons[0].avatar)
         else:
