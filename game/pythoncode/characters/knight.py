@@ -66,10 +66,7 @@ class Knight(Fighter):
                 d.append(u"    %s: %s" % (self.items[item].name, self.items[item].description))
         else:
             d.append(u"Вещи отсутствуют")
-        if len(self.modifiers()) > 0:
-            d.append(u"Модификаторы: ")
-            for i in self.modifiers():
-                d.append(u"    %s" % i)
+
         return u"\n".join(d)
 
     def modifiers(self):
