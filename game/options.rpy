@@ -15,7 +15,7 @@ init -1 python hide:
     # cheat using developer tools.
 
     config.developer = False
-    config.use_cpickle = False
+    config.use_cpickle = True
 
     # These control the width and height of the screen.
 
@@ -89,7 +89,7 @@ init -1 python hide:
         return "Unknown"                # Возвращаем "Unknown", если ничего не получилось.
 
     # config.version = get_version()
-    config.version = "0.5.1 b"
+    config.version = "0.6.0 b"
 
     #########################################
     # Themes

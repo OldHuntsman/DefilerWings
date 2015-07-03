@@ -80,7 +80,7 @@ label lb_enc_inn:
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
         'Наколдовать ядовитый туман' if game.dragon.magic > 0:
-            $ game.dragon.drain_energy()
+            $ game.dragon.drain_mana()
             "[game.dragon.name] призывает тёмную магию, чтобы заполнить помещения где заперлись испуганные люди ядовитым туманом. Трактир остаётся невредимым, но внутри все мертвы."
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 5
