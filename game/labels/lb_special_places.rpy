@@ -972,6 +972,7 @@ label lb_dwarf_rob:
                                         
         'Запомнить место и уйти':
             $ game.dragon.add_special_place('palace', 'palace_empty')
+    return
             
 label lb_dwarf_ruins:
     show expression 'img/bg/special/moria.jpg' as bg

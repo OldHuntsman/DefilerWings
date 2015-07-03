@@ -238,7 +238,7 @@ label lb_enc_lcaravan:
                 passing_tool = random.randint(20, 100)
                 gold_trs = treasures.Coin('dublon', passing_tool)
                 game.lair.treasury.receive_treasures([gold_trs])
-            'Караванщик с ворчанием отдаёт дракону увесистый кошель с золотыми дублонами, чтобы тот не трогал повозки и пропустил из дальше.'
+            'Караванщик с ворчанием отдаёт дракону увесистый кошель с золотыми дублонами, чтобы тот не трогал повозки и пропустил их дальше.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
         'Разграбить корован':
