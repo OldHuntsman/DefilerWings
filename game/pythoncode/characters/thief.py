@@ -175,7 +175,7 @@ class Thief(Talker, Mortal):
                 if data.lair_upgrades[upgrade].protection == 0:
                     if renpy.config.debug:
                         thief(u"Обошел %s, т.к. он не защищает от меня." % upgrade)
-                    thief.event("pass_trap_no_influence", trap=upgrade)
+                    thief.event("pass_trap", trap=upgrade)
                 else:
                     for i in range(data.lair_upgrades[upgrade].protection):
                         luck_drain = 0
@@ -185,9 +185,10 @@ class Thief(Talker, Mortal):
                             luck -= 1
                             luck_drain += 1
                         else:
-                            thief(u"На удаче затащил %s" % upgrade)
+                            if renpy.config.debug:
+                                thief(u"На удаче затащил %s" % upgrade)
                         if luck >= 0:
-                            thief.event("pass_trap_by_luck", trap=upgrade, luck_drain=luck_drain)
+                            thief.event("pass_trap", trap=upgrade)
                         if luck < 0:
                             if renpy.config.debug:
                                 thief(u"Не сумел обойти %s" % upgrade)
