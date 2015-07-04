@@ -17,6 +17,8 @@ label lb_choose_dragon:
             dragons = []
             dragons_choosed = []
         elif game.dragon.is_alive and not game.is_lost:
+            game.dragon_parent = game.dragon
+            
             data.achieve_restart("new_dragon")# событие для ачивок
             dragons = []
             dragons_choosed = []
@@ -36,17 +38,21 @@ label lb_choose_dragon:
     python hide:
         used_gifts = []
         used_avatars = []
+        
         if game.dragon is not None:
-            used_avatars.append(game.dragon.avatar)
+            if game.dragon.avatar not in used_avatars:
+                used_avatars.append(game.dragon.avatar)
 
-        for x in xrange(3):
-            try:
-                child = Dragon(parent=game.dragon, used_gifts=used_gifts, used_avatars=used_avatars, game_ref=game)
-            except StopIteration:
-                break  # TODO: действие в случае когда драконы закончились
-            dragons.append(child)
-            used_gifts.append(child._gift)
-            used_avatars.append(child.avatar)
+        if len(dragons) == 0:
+            for x in xrange(3):
+                try:
+                    child = Dragon(parent=game.dragon, used_gifts=used_gifts, used_avatars=used_avatars, game_ref=game)
+                except StopIteration:
+                    break  # TODO: действие в случае когда драконы закончились
+                dragons.append(child)
+                used_gifts.append(child._gift)
+                used_avatars.append(child.avatar)
+                
         if dragons[0] not in dragons_choosed:
             renpy.childimg1 = ui.image(dragons[0].avatar)
         else:
@@ -65,8 +71,8 @@ label lb_choose_dragon:
 
         def get_breedbg():                               
             # Важно проверить количество голов. color_eng берёт цвет из первой головы, но иногда её почему-то нет.
-            if (game.dragon is not None) and (len(game.dragon.heads) > 0):
-                hatches_colored = [f for f in renpy.list_files() if f.startswith("img/scene/hatch/%s" % game.dragon.color_eng)]
+            if game.dragon_parent:
+                hatches_colored = [f for f in renpy.list_files() if f.startswith("img/scene/hatch/%s" % game.dragon_parent.color_eng)]
                 
                 if len(hatches_colored) > 0:
                     return random.choice(hatches_colored)
