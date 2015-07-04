@@ -155,9 +155,17 @@ class Thief(Talker, Mortal):
             self.event("trying_to_avoid_traps_and_guards")    
                 
             for upgrade in lair.upgrades:
+                
+                # Для апгрейдов с нулевым уровнем защиты у нас нет текстов, да и проверять их прохождение не требуется.
+                # TODO: Добавить специальный признак необходимости проверки ловушки или разделить их на несколько списков по типам.
+                if data.lair_upgrades[upgrade].protection == 0:
+                    continue
+                
                 if renpy.config.debug:
                     thief(u"Обхожу %s" % upgrade)
+                    
                 thief.event("start_trap", trap=upgrade)
+
                 if upgrade in thief.items.list("fails"):  # Если для апгрейда есть испорченный предмет
                     if renpy.config.debug:
                         thief(u"Предмет для %s подвел меня" % upgrade)
@@ -171,37 +179,31 @@ class Thief(Talker, Mortal):
                     self.event("pass_trap", trap=upgrade)
                     # То переходим к следущей ловушке
                     continue
-                # Если улучшение не дает защиты
-                if data.lair_upgrades[upgrade].protection == 0:
-                    if renpy.config.debug:
-                        thief(u"Обошел %s, т.к. он не защищает от меня." % upgrade)
-                        
-                    thief.event("pass_trap", trap=upgrade)
-                else:
-                    upgrade_protection = data.lair_upgrades[upgrade].protection
+
+                upgrade_protection = data.lair_upgrades[upgrade].protection
                                         
-                    for i in range(upgrade_protection):
-                        if random.choice(range(3)) > 0:
-                            luck -= 1
-                    
-                    if luck > 0:
-                        if renpy.config.debug:
-                            thief(u"На удаче затащил %s" % upgrade)
-                                                    
-                        thief.event("pass_trap", trap=upgrade)
-                    elif luck == 0:
-                        if renpy.config.debug:
-                            thief(u"Ниосилить, попробую в следущем году")
-                            
-                        self.event("retreat_and_try_next_year") 
-                        return
-                    elif luck < 0:
-                        if renpy.config.debug:
-                            thief(u"Не сумел обойти %s" % upgrade)
-                            
-                        thief.die(upgrade)
-                        thief.event("die_trap", trap=upgrade)
-                        return                        
+                for i in range(upgrade_protection):
+                    if random.choice(range(3)) > 0:
+                        luck -= 1
+                
+                if luck > 0:
+                    if renpy.config.debug:
+                        thief(u"На удаче затащил %s" % upgrade)
+                                                
+                    thief.event("pass_trap", trap=upgrade)
+                elif luck == 0:
+                    if renpy.config.debug:
+                        thief(u"Ниосилить, попробую в следущем году")
+                        
+                    self.event("retreat_and_try_next_year") 
+                    return
+                elif luck < 0:
+                    if renpy.config.debug:
+                        thief(u"Не сумел обойти %s" % upgrade)
+                        
+                    thief.die(upgrade)
+                    thief.event("die_trap", trap=upgrade)
+                    return                   
                     
                 thief.event("end_trap", trap=upgrade)
             if luck == 0:
