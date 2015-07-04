@@ -44,6 +44,8 @@ class Game(store.object):
         self.foe = None
         self.girl = None
 
+        self.dragon_parent = None
+        
     @property
     def dragon(self):
         return self._dragon

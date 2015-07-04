@@ -17,6 +17,8 @@ label lb_choose_dragon:
             dragons = []
             dragons_choosed = []
         elif game.dragon.is_alive and not game.is_lost:
+            game.dragon_parent = game.dragon
+            
             data.achieve_restart("new_dragon")# событие для ачивок
             dragons = []
             dragons_choosed = []
@@ -69,8 +71,8 @@ label lb_choose_dragon:
 
         def get_breedbg():                               
             # Важно проверить количество голов. color_eng берёт цвет из первой головы, но иногда её почему-то нет.
-            if (game.dragon is not None) and (len(game.dragon.heads) > 0):
-                hatches_colored = [f for f in renpy.list_files() if f.startswith("img/scene/hatch/%s" % game.dragon.color_eng)]
+            if game.dragon_parent:
+                hatches_colored = [f for f in renpy.list_files() if f.startswith("img/scene/hatch/%s" % game.dragon_parent.color_eng)]
                 
                 if len(hatches_colored) > 0:
                     return random.choice(hatches_colored)
