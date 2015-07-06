@@ -89,7 +89,7 @@ init -1 python hide:
         return "Unknown"                # Возвращаем "Unknown", если ничего не получилось.
 
     # config.version = get_version()
-    config.version = "0.6.0 b"
+    config.version = "0.6.1 b"
 
     #########################################
     # Themes
