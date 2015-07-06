@@ -31,9 +31,9 @@ label lb_encounter_sky:
         ("lb_abbey_found", 10),
         ("lb_castle_found", 10),
         ("lb_palace_found", 10),
-        ("lb_enc_fair_sky", 10),
+        ("lb_enc_fair_sky", 1000),
         ("lb_enc_caravan_sky", 10),
-        ("lb_enc_militia_sky", 10),
+        ("lb_enc_militia_sky", 1000),
         ("lb_enc_cannontower", 10),
         ("lb_jotun_found", 10),
         ("lb_ifrit_found", 10),
@@ -111,16 +111,17 @@ label lb_enc_skyboat:
     
 label lb_enc_fair_sky:
     'Паря в вышине [game.dragon.fullname] замечает внизу какие-то цветные пятна. Спустившись ниже становится понятно что это ярмарка, которую устроили люди.'
-    call lb_enc_fair from _call_lb_enc_fair
+    call lb_enc_fair
     return
     
 label lb_enc_militia_sky:
     '[game.dragon.fullname] замечает какое-то шевеление на земле далеко внизу. Так и есть - это собрались на тренировку ополченцы наспех собранные из окрестных деревень.'
-    call lb_enc_militia from _call_lb_enc_militia
+    call lb_enc_militia_true
     return
     
 label lb_enc_caravan_sky:
     'Пролетая вдоль змеящейся по земле дороги, [game.dragon.fullname] замечает на ней несколько точек. Это крупный торговый караван.'
+    call lb_enc_lcaravan
     return
     
 label lb_patrool_sky:

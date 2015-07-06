@@ -360,6 +360,11 @@ label lb_enc_militia:
     python:
         if game.mobilization.level <= 0:
             renpy.jump('lb_encounter_plains')
+        else:
+            renpy.jump('lb_enc_militia_true')
+    return
+
+label lb_enc_militia_true:
     show expression 'img/scene/fight/militia.jpg' as bg
     'На поле тренируются ополченцы-новобранцы. Они непредставляют такой большой угрозы как опытные бойцы, да и взять с них нечего, однако если не разогнать этот сброд, то со временем они пополнят ряды армии и будут мешаться...'
     nvl clear
