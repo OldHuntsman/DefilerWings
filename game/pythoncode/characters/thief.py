@@ -47,10 +47,9 @@ class Thief(Talker, Mortal):
         """
         :return: Текстовое представление 'звания' вора.
         """
-        try:
-            return data.thief_titles[self.skill - 1]
-        except:
-            raise Exception("Cannot determine title for skill level %s" % self.skill)
+        skill_title = self._skill if self._skill < Thief.max_level() else Thief.max_level() - 1
+        
+        return data.thief_titles[skill_title]
 
     def receive_item(self):
         item_list = [i for i in data.thief_items if i not in self.items]
