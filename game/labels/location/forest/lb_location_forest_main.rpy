@@ -240,7 +240,6 @@ label lb_enc_klad:
 
 label lb_patrool_forest:
     python:
-        game.dragon.drain_energy()
         chance = random.randint(0, game.mobilization.level)
         if chance < 4:
             patrool = 'jagger'
@@ -261,7 +260,7 @@ label lb_patrool_forest:
     python:
         game.foe = Enemy(patrool, game_ref=game)
         battle_status = battle.check_fear(game.dragon, game.foe)
-    if 'foe_fear' in battle.check_fear(game.dragon, game.foe):
+    if 'foe_fear' in battle_status:
         $ narrator(game.foe.battle_description(battle_status, game.dragon))
         return
     $ game.dragon.drain_energy()

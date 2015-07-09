@@ -289,7 +289,6 @@ label lb_enc_outpost:
     
 label lb_patrool_road:
     python:
-        game.dragon.drain_energy()
         chance = random.randint(0, game.mobilization.level)
         if chance < 4:
             patrool = 'archer'
@@ -310,7 +309,7 @@ label lb_patrool_road:
     python:
         game.foe = Enemy(patrool, game_ref=game)
         battle_status = battle.check_fear(game.dragon, game.foe)
-    if 'foe_fear' in battle.check_fear(game.dragon, game.foe):
+    if 'foe_fear' in battle_status:
         $ narrator(game.foe.battle_description(battle_status, game.dragon))
         return
     $ game.dragon.drain_energy()
