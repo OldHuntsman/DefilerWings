@@ -22,7 +22,13 @@ class Thief(Talker, Mortal):
     def __init__(self, level=1, treasury=None, *args, **kwargs):
         super(Thief, self).__init__(*args, **kwargs)
         self._alive = True
+        # Проверка что мы можем создать вора указанного уровня
+        if level < 1:
+            level = 1
+        elif level > Thief.max_level():
+            level = Thief.max_level()
         self._skill = level
+        self._title = data.thief_titles[level - 1]
         self.name = "%s %s" % (random.choice(data.thief_first_names), random.choice(data.thief_last_names))
         self.abilities = data.Container("thief_abilities")
         self.items = data.Container("thief_items")
@@ -47,9 +53,7 @@ class Thief(Talker, Mortal):
         """
         :return: Текстовое представление 'звания' вора.
         """
-        skill_title = self._skill if self._skill <= Thief.max_level() else Thief.max_level()
-        
-        return data.thief_titles[skill_title - 1]
+        return self._title
 
     def receive_item(self):
         item_list = [i for i in data.thief_items if i not in self.items]

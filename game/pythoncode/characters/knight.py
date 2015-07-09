@@ -23,7 +23,13 @@ class Knight(Fighter):
         self._alive = True
         self.name = u"Сер Ланселот Озёрный"
         self.name = u"Сэр %s %s" % (random.choice(data.knight_first_names), random.choice(data.knight_last_names))
+        # Проверка что мы можем создать рыцаря указанного уровня
+        if level < 1:
+            level = 1
+        elif level > Knight.max_level():
+            level = Knight.max_level()
         self.power = level
+        self._title = data.knight_titles[level - 1]
         self.abilities = data.Container("knight_abilities")
         ability_list = [a for a in data.knight_abilities]  # Составляем список из возможных способностей
         ab = random.choice(ability_list)
@@ -142,10 +148,7 @@ class Knight(Fighter):
         :rtype : str
         :return: Текстовое представление 'звания' рыцаря.
         """
-        try:
-            return data.knight_titles[self.power - 1]
-        except:
-            raise Exception(u"Недопустимое значение поля power")
+        return self._title
 
     def event(self, event_type, *args, **kwargs):
         """
