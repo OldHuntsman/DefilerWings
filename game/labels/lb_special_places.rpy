@@ -775,7 +775,7 @@ label lb_triton_empty:
         'Переместить логово':
             $ game.create_lair('underwater_mansion')
             $ game.dragon.del_special_place('triton')
-        'Покинуть облачный замок':
+        'Покинуть подводные хоромы':
             $ game.dragon.add_special_place('triton', 'triton_empty')
     return 
     
