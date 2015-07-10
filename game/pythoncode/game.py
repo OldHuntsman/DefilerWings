@@ -161,7 +161,7 @@ class Game(store.object):
                 # Идем на дело
                 if renpy.config.debug:
                     self.narrator(u"Вор идет на дело")
-                self.thief.steal(self.lair)
+                self.thief.steal(lair=self.lair, dragon=self.dragon)
             else:
                 if renpy.config.debug:
                     self.narrator(u"Вору ссыкотно, надо бы подготовиться.")

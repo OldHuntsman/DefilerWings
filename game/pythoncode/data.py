@@ -482,7 +482,7 @@ thief_titles = [
     u"Грабитель",
     u"Взломшик",
     u"Расхититель гробниц",
-    u"Мастер-вор"
+    u"Мастер-вор",
     u"Глава гильдии"
 ]
 
@@ -505,23 +505,16 @@ thief_events = {
     "prepare_usefull": "lb_event_thief_prepare_usefull",
     "prepare_useless": "lb_event_thief_prepare_useless",
     "lair_enter": "lb_event_thief_lair_enter",
-    "die_item": "lb_event_thief_die_item",
     "die_inaccessability": "lb_event_thief_die_inaccessability",
     "start_trap": None,
     "die_trap": "lb_event_thief_die_trap",
     "pass_trap": "lb_event_thief_pass_trap",
-    "pass_trap_by_luck": None,
-    "pass_trap_no_influence": None,
     "end_trap": None,
     "receive_no_item": "lb_event_thief_receive_no_item",
     "receive_item": "lb_event_thief_receive_item",
     "steal_items": "lb_event_thief_steal_items",
     "retire": None,
     # @Review: Alex: Added new event:label k/v to fill in the gaps:
-    "checking_items": "lb_event_thief_checking_items",
-    "checking_item": "lb_event_thief_checking_item",
-    "checking_items_success": "lb_event_thief_checking_items_success",
-    "checking_item_success": "lb_event_thief_checking_item_success",
     "checking_accessability": "lb_event_thief_checking_accessability",
     "checking_accessability_success": "lb_event_thief_checking_accessability_success",
     "trying_to_avoid_traps_and_guards": "lb_event_thief_trying_to_avoid_traps_and_guards",
@@ -1136,29 +1129,72 @@ lair_upgrades = Container(
     {
         "mechanic_traps": {
             "name": u"Механические ловушки",
-            "protection": 1
+            "protection": 1,
+            "success": [
+                u'Ворюга успешно преодолевает механические ловушки.',
+            ],
+            "fail": [
+                u'Незадачливый расхититель сокровищ наступает на нажимную плиту активирует '
+                u'смертоносную механическую ловушку.',
+            ]
         },
         "magic_traps": {
             "name": u"Магические ловушки",
-            "protection": 1
+            "protection": 1,
+            "success": [
+                u'Вовремя заметив свечение магической ловушки, вор избегает её и проходит дальше.',
+            ],
+            "fail": [
+                u'Магическая ловушка распыляет неудачливого вора на атомы.',
+            ]
         },
         "poison_guards": {
             "name": u"Ядовитые стражи",
-            "protection": 1
+            "protection": 1,
+            "success": [
+                u'Ядовитые твари не сумели остановить расхитителя сокровищ.',
+            ],
+            "fail": [
+                u'Ядовитая тварь неожиданно напала на вора из темноты и ужалила его. '
+                u'Смерть от токсина медленная и мучительная...',
+            ]
         },
         "regular_guards": {
             "name": u"Обычные стражи",
             "replaces": "smuggler_guards",  # какое улучшение автоматически заменяет
-            "protection": 2
+            "protection": 2,
+            "success": [
+                u'Злоумышленник снимает ключевых охранников, перерезав им глотки кинжалом.',
+            ],
+            "fail": [
+                u'Охранники замечают вторжение и атакуют вора. '
+                u'Короткая но ожесточённая схватка оканичвается его смертью.',
+            ]
         },
         "smuggler_guards": {
             "name": u"Наёмные охранники",
             "cost": 100,
-            "protection": 2
+            "protection": 2,
+            "success": [
+                u'Злоумышленник снимает наёмных охранников, перерезав им глотки кинжалом.',
+            ],
+            "fail": [
+                u'Наёмные охранники замечают вторжение и атакуют вора. '
+                u'Короткая но ожесточённая схватка оканичвается его смертью.',
+            ]
         },
         "elite_guards": {
             "name": u"Элитный стражи",
-            "protection": 3
+            "protection": 3,
+            "success": [
+                u'Двигаясь словно ночная тень, вор проскальзывает незамеченным мимо огромного монстра '
+                u'охраняющего двери сокровищницы.',
+            ],
+            "fail": [
+                u'Вор пытается незаметно проскользнуть мимо монстра охраняющего двери в главный зал, но терпит неудачу.'
+                u'Кровожадная тварь разрывает его на куски и пожирает.',
+
+            ]
         },
         "gremlin_fortification": {
             "name": u"Укрепления",
