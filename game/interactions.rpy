@@ -12,7 +12,7 @@ label lb_nature_sex:
             $ description = game.girls_list.impregnate()
             stop music fadeout 1.0            
             game.girl "[description]"
-            show expression sex_imgs("girl") as xxx
+            show expression sex_imgs(game.girl.sex_expression) as xxx
             play sound get_random_file("sound/sex")
             pause (500.0)
             stop sound fadeout 1.0

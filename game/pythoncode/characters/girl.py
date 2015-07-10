@@ -50,4 +50,10 @@ class Girl(Talker):
             self.name = 'Неизвестная Красавица'
         self.jailed = False  # была ли уже в тюрьме, пригодится для описания
         self.treasure = []
-
+        
+    @property
+    def sex_expression(self):
+        if self.type == "mermaid" or self.type == "elf":
+            return self.type
+        else:
+            return "girl"
