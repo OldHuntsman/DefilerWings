@@ -700,7 +700,7 @@ label lb_patrool_plains:
     python:
         game.foe = Enemy(patrool, game_ref=game)
         battle_status = battle.check_fear(game.dragon, game.foe)
-    if 'foe_fear' in battle.check_fear(game.dragon, game.foe):
+    if 'foe_fear' in battle_status:
         $ narrator(game.foe.battle_description(battle_status, game.dragon))
         return
     $ game.dragon.drain_energy()

@@ -52,10 +52,6 @@ label lb_event_thief_lair_enter(thief):
     thief "Ну вот и оно - логово дракона. Я войду словно тень и выскользну обратно с мешком сокровищ тяжким как мои грехи..."
     return
 
-label lb_event_thief_die_item(thief, item):
-    thief "Я умер от [item.name]. Это сообщение - ошибка."
-    return
-
 label lb_event_thief_die_inaccessability(thief):
     "[thief.title] [game.thief.name] не смог даже забраться в логово - укрепления слишком надёжные."
     thief 'Проклятый [game.dragon.kind] окопался лучше чем король цвергов - стены, рвы, ставни, решётки и запоры... я не вижу ни единой лазейки. Видать такое дело мне не по зубам.'
@@ -64,7 +60,7 @@ label lb_event_thief_die_inaccessability(thief):
 label lb_event_thief_die_trap(thief, trap):
     nvl clear    
     show expression "img/scene/thief_in_lair.jpg" as bg    
-    $ txt = game.interpolate(random.choice(txt_thief_fail[trap]))
+    $ txt = game.interpolate(random.choice(data.lair_upgrades[trap].fail))
     '[txt]' 
     return
 
@@ -72,7 +68,7 @@ label lb_event_thief_pass_trap(thief, trap):
     if config.debug:
         'pass_trap [trap]'
     show expression "img/scene/thief_in_lair.jpg" as bg    
-    $ txt = game.interpolate(random.choice(txt_thief_success[trap]))
+    $ txt = game.interpolate(random.choice(data.lair_upgrades[trap].success))
     '[txt]' 
     return
 
@@ -83,26 +79,6 @@ label lb_event_thief_receive_no_item(thief):
     return
     
 # @Review: Alex: Added a bunch of new events to fill in the gaps:
-label lb_event_thief_checking_items(thief):
-    # Checking items before trying to rob the dragon.
-    # Debug message: thief(u"Проверяем предметы на работоспособность, чтобы попасть влогово")
-    return
-    
-label lb_event_thief_checking_item(thief, item):
-    # Checking items before trying to rob the dragon.
-    # Debug message: thief(u"Использую %s" % thief.items[i].name)
-    return
-    
-label lb_event_thief_checking_items_success(thief):
-    # All items are good for use!
-    # Debug message: thief(u"All items passed!")
-    return
-    
-label lb_event_thief_checking_item_success(thief, item):
-    # Item is good for use!
-    # Debug message: thief(u"Item: %s is good!" % thief.items[i].name)
-    return
-    
 label lb_event_thief_checking_accessability(thief):
     # Checking if thief can get past layer defences:
     # Debug message: thief(u"Проверяю неприступность")
