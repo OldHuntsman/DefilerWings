@@ -14,7 +14,7 @@ from talker import Talker
                 
                 
 class Thief(Talker, Mortal):
-    """
+    u"""
     Класс вора.
     """
     last_received_item = None
@@ -50,7 +50,7 @@ class Thief(Talker, Mortal):
 
     @property
     def title(self):
-        """
+        u"""
         :return: Текстовое представление 'звания' вора.
         """
         return self._title
@@ -67,7 +67,7 @@ class Thief(Talker, Mortal):
             return False
 
     def description(self):
-        """
+        u"""
         Описание вора, возвращает строку с описанием.
         """
         d = []
@@ -90,7 +90,7 @@ class Thief(Talker, Mortal):
         return u"\n".join(d)
 
     def steal(self, lair=None, dragon=None):
-        """
+        u"""
         Вор пытается урасть что-нибудь.
         :param lair: Логово из которого происходит кража
         :param dragon: Дракон, логово которого грабим
@@ -208,7 +208,7 @@ class Thief(Talker, Mortal):
         return
 
     def die(self, reason=None):
-        """
+        u"""
         Вор умирает
         """
         for i in self.items:

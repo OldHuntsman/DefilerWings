@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Methods &mdash; Defiler Wings 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Defiler Wings 1.0.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">Defiler Wings 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <dl class="class">
+<dt>
+<tt class="descname">`Thief`</tt></dt>
+<dd></dd></dl>
+
+<p>Класс вора.</p>
+<div class="section" id="methods">
+<h1>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h1>
+<dl class="classmethod">
+<dt>
+<tt class="descname">`__call__`</tt></dt>
+<dd><p>u042du0442u043eu0442 u043cu0435u0442u043eu0434 u0438u0441u043fu043eu043bu044cu0437u0443u0435u0442u0441u044f u043fu0440u0438 u043fu043eu043fu044bu0442u043au0435 u0441u043au0430u0437u0430u0442u044c u0447u0442u043e-u0442u043e u043fu0435u0440u0441u043eu043du0430u0436u0435u043c.
+u041fu0435u0440u0435u043eu043fu0440u0435u0434u0435u043bu044fu0435u043c, u0447u0442u043eu0431u044b u0441u043eu043eu0431u0449u0438u0442u044c u0438u0433u0440u0435, u0447u0442u043e u0441u0435u0439u0447u0430u0441 u0433u043eu0432u043eu0440u0438u0442 u044du0442u043eu0442 u043fu0435u0440u0441u043eu043du0430u0436.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt>
+<tt class="descname">`description`</tt></dt>
+<dd><p>Описание вора, возвращает строку с описанием.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt>
+<tt class="descname">`die`</tt></dt>
+<dd><p>Вор умирает</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt>
+<tt class="descname">`steal`</tt></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lair</strong> &#8211; Логово из которого происходит кража</li>
+<li><strong>dragon</strong> &#8211; Дракон, логово которого грабим</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Вор пытается урасть что-нибудь.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt>
+<tt class="descname">`third`</tt></dt>
+<dd><p>u0413u043eu0432u043eu0440u0438u043c u043eu0442 u0442u0440u0435u0442u044cu0435u0433u043e u043bu0438u0446u0430. u041fu0440u0438u043du0438u043cu0430u044eu0442u0441u044f u043fu0440u0435u0434u043bu043eu0436u0435u043du0438u044f u043du0430 u0431u043eu043bu0435u0435 u0443u0434u0430u0447u043du043eu0435 u043du0430u0437u0432u0430u043du0438u0435.
+u041du0430u043fu0440u0438u043cu0435u0440 u043fu0440u044fu043cu0430u044f u0440u0435u0447u044c:
+$ game.person (&#8220;u0427u0442u043e-u043du0438u0431u0443u0434u044c&#8221;)
+game.person &#8220;u0413u0434u0435-u043du0438u0431u0443u0434u044c&#8221;
+u0420u0430u0441u0441u043au0430u0437 u043e u0442u043eu043c u0447u0442u043e u0434u0435u043bu0430u0435u0442 u044du0442u043eu0442 u043fu0435u0440u0441u043eu043du0430u0436:
+$ game.person.third(&#8220;u0414u0435u043bu0430u044f u0447u0442u043e-u043du0438u0431u0443u0434u044c&#8221;)
+game.person.third &#8220;u0414u0435u043bu0430u044f u0433u0434u0435-u043du0438u0431u0443u0434u044c&#8221;</p>
+</dd></dl>
+
+</div>
+<div class="section" id="static-methods">
+<h1>Static methods<a class="headerlink" href="#static-methods" title="Permalink to this headline">¶</a></h1>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Methods</a></li>
+<li><a class="reference internal" href="#static-methods">Static methods</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/inc/Thief.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">Defiler Wings 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Old Huntsman.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

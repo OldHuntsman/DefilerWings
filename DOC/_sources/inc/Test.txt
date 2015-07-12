@@ -1,0 +1,27 @@
+.. py:class:: `Test`
+
+Олололо
+Test docstring
+
+Methods
+=======
+
+.. py:classmethod:: `othermethod`
+
+   othermethod docstring
+
+
+.. py:classmethod:: `somemethod`
+
+   :param param: Some parameter
+   Method docstring
+
+
+Static methods
+=========
+
+.. py:staticmethod:: `staticmethodtest`
+
+   staticmethod docstring
+
+
