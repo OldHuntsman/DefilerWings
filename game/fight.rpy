@@ -17,7 +17,7 @@ label lb_fight(foe=game.foe, skip_fear=False):
         "[description]"
 
         if 'dragon_dead' in battle_status:
-            game.dragon "Я подвёл тебя, мама..."
+            game.dragon "Oh, Mother..."
             if freeplay or battle.army_battle:
                 jump lb_game_over
             hide foeimg
@@ -35,10 +35,10 @@ label lb_fight(foe=game.foe, skip_fear=False):
                 'Отступить' if not battle.army_battle:
                     if foe.kind == 'knight':
                         # Отступаем в новое логово
-                        "Позорно бежав [game.dragon.name] укрылся в первом попавшемся укромном местечке"
+                        "[game.dragon.name] retreats in disgrace and covers in a makeshift lair"
                         $ game.create_lair()
                     else:
-                        "[game.dragon.name] отступает в своё логово, чтобы собраться с силами и продумать новую стратегию."
+                        "[game.dragon.name] retreats to his lair, to recuperate and make up a new strategy."
                     hide foeimg
                     nvl clear
                     if foe.kind != 'knight':

@@ -554,11 +554,11 @@ screen quick_menu:
         textbutton _("Назад") action Rollback()
         # textbutton _("Сохранить") action ShowMenu('save')
         # textbutton _("Б.сохранение") action QuickSave()
-        textbutton _("Б.загрузка") action QuickLoad()
-        textbutton _("пропуск") action Skip()
-        textbutton _("Б.пропуск") action Skip(fast=True, confirm=True)
-        textbutton _("Авто") action Preference("auto-forward", "toggle")
-        textbutton _("Настройки") action ShowMenu('preferences')
+        textbutton _("F.load") action QuickLoad()
+        textbutton _("Skip") action Skip()
+        textbutton _("F.skip") action Skip(fast=True, confirm=True)
+        textbutton _("Auto") action Preference("auto-forward", "toggle")
+        textbutton _("Options") action ShowMenu('preferences')
 
 init -2:
     style quick_button:
@@ -617,11 +617,11 @@ screen girls_menu:
             xpos 60
             spacing 50
             if girl_page > 0:
-                textbutton _("Предыдущая страница") action[SetVariable('girl_page', prev_girl_page), Show("girls_menu")]
+                textbutton _("Previous") action[SetVariable('girl_page', prev_girl_page), Show("girls_menu")]
             else:
-                textbutton _("Предыдущая страница") action None
-            textbutton _("Вернуться") action Return()
+                textbutton _("Previous") action None
+            textbutton _("Out") action Return()
             if next_girl_page * girls_cells < game.girls_list.prisoners_count:
-                textbutton _("Следующая страница") action[SetVariable('girl_page', next_girl_page), Show("girls_menu")]
+                textbutton _("Next") action[SetVariable('girl_page', next_girl_page), Show("girls_menu")]
             else:
-                textbutton _("Следующая страница") action None
+                textbutton _("Next") action None

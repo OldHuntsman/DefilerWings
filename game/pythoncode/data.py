@@ -155,214 +155,188 @@ def get_description_by_count(description_list, count):
 #
 
 thief_first_names = [
-    u"Джек",
-    u"Гарри",
-    u"Cэм",
-    u"Алекс",
-    u"Бадди",
-    u"Бак",
-    u"Чак",
-    u"Барри",
-    u"Барт",
-    u"Барри",
-    u"Бивис",
-    u"Берт",
-    u"Билли",
-    u"Биф",
-    u"Буч",
-    u"Брук",
-    u"Брэд",
-    u"Вилли",
-    u"Вуди",
-    u"Гейб",
-    u"Генри",
-    u"Глен",
-    u"Грег",
-    u"Дакс",
-    u"Декстер",
-    u"Дэн",
-    u"Джет",
-    u"Джесси",
-    u"Джоб",
-    u"Джой",
-    u"Джонни",
-    u"Джош",
-    u"Двайн",
-    u"Дюк",
-    u"Зак",
-    u"Изи",
-    u"Кенни",
-    u"Кирк",
-    u"Клайв",
-    u"Клифф",
-    u"Клод",
-    u"Ларри",
-    u"Мэддисон",
-    u"Макс",
-    u"Маркус",
-    u"Марвин",
-    u"Марти",
-    u"Мэтт",
-    u"Нэш",
-    u"Ник",
-    u"Олли",
-    u"Пол",
-    u"Рэй",
-    u"Рикки",
-    u"Скот",
-    u"Спайк",
-    u"Стив",
-    u"Тэд",
-    u"Тони",
-    u"Трой",
-    u"Фил",
-    u"Фокс",
-    u"Чак",
-    u"Шон",
+    u"Jack",
+    u"Harry",
+    u"Sem",
+    u"Alex",
+    u"Buddy",
+    u"Buck",
+    u"Chuck",
+    u"Barry",
+    u"Bart",
+    u"Beaves",
+    u"Bert",
+    u"Billy",
+    u"Beef",
+    u"Butch",
+    u"Brook",
+    u"Bred",
+    u"Willie",
+    u"Woodie",
+    u"Geib",
+    u"Henry",
+    u"Glen",
+    u"Greg",
+    u"Dacks",
+    u"Dexter",
+    u"Dean",
+    u"Jet",
+    u"Jessie",
+    u"Jobe",
+    u"Joy",
+    u"Jonnie",
+    u"Jhosh",
+    u"Duaein",
+    u"Duke",
+    u"Zack",
+    u"isie",
+    u"Kennie",
+    u"Kirk",
+    u"Klaive",
+    u"Kliff",
+    u"Klod",
+    u"Larrie",
+    u"Meddison",
+    u"Max",
+    u"Marcus",
+    u"Marvin",
+    u"Martie",
+    u"Mett",
+    u"Nash",
+    u"Nick",
+    u"Ollie",
+    u"Paul",
+    u"Ray",
+    u"Rickkie",
+    u"Scott",
+    u"Spaik",
+    u"Stive",
+    u"Tedd",
+    u"Tonnie",
+    u"Troy",
+    u"Fill",
+    u"Fox",
+    u"Sean",
 ]
 
 thief_last_names = [
-    u"Лысый",
-    u"Скользкий",
-    u"Шустрый",
-    u"Хитрый",
-    u"Лис",
-    u"Прыгун",
-    u"Быстроногий",
-    u"Шутник",
-    u"Шельма",
-    u"Заноза",
-    u"Вонючка",
-    u"Колючка",
-    u"Лис",
-    u"Тень",
-    u"Скрытный",
-    u"Тихоня",
-    u"Шмыга",
-    u"Ловкие Пальцы",
-    u"Крадущийся",
-    u"Косой",
-    u"Шухер",
-    u"Загребущий",
-    u"Обманщик",
-    u"Притворщик",
-    u"Верхолаз",
-    u"Ползун",
-    u"Рифмоплёт",
-    u"Бесчестный",
-    u"Беспринципный",
-    u"Петушок",
-    u"Нервный",
-    u"Визгун",
-    u"Заика",
-    u"Рябой",
-    u"Сиворылый",
-    u"Криволапый",
-    u"Косорылый",
-    u"Хриплый",
-    u"Висельник",
-    u"Хамоватый",
-    u"Грубиян",
-    u"Забияка",
-    u"Лизоблюд",
-    u"Вертихвост",
-    u"Дурной",
-    u"Отморозок",
-    u"Беспечный",
-    u"Змееуст",
-    u"Отравитель",
-    u"Ухват",
-    u"Быстроногий",
-    u"Осторожный",
-    u"Гнилозубый",
-    u"Безубый",
-    u"Белоручка",
-    u"Красавчик",
-    u"Курощуп",
-    u"Клаксон",
-    u"Котофей",
-    u"Чумазик",
-    u"Чумазый",
-    u"Чертяка",
-    u"Каналья",
-    u"Сальный",
-    u"Матершинник",
-    u"Козодой",
-    u"Шустрый",
-    u"Шипач",
-    u"Напильник",
-    u"Бабник",
-    u"Бычара",
-    u"Салага",
-    u"Шнур",
-    u"Отмычка",
-    u"Болторез",
-    u"Свинокол",
-    u"Ручечник",
-    u"Текайка",
-    u"Безбашенный",
-    u"Сорвиголова",
-    u"Головорез",
-    u"Марципан",
-    u"Сладкоречивый",
-    u"Прищур",
-    u"Прихлоп",
-    u"Совратитель",
-    u"Бесстыдник",
+    u"the Bald",
+    u"Sliptoe",
+    u"the Nimble",
+    u"the Cunning",
+    u"Fox",
+    u"Jumper",
+    u"Fastlegs",
+    u"Joker",
+    u"Rascal",
+    u"Spliner",
+    u"Smelly",
+    u"Thorn",
+    u"the Shadow",
+    u"Stealthy",
+    u"the Calm",
+    u"Smugh",
+    u"Agile Fingers",
+    u"Snealing",
+    u"cross-eyed",
+    u"Shuher",
+    u"Crazed",
+    u"Con-artist",
+    u"Pretender",
+    u"Alpinist",
+    u"the Crawler",
+    u"Rimer",
+    u"the Indescent",
+    u"Unprincipled",
+    u"Cock",
+    u"Nervous",
+    u"the Scretchy",
+    u"the Stutterer",
+    u"Pockmarked",
+    u"Curva",
+    u"the Throaty",
+    u"Hungman",
+    u"the Angry",
+    u"Shycopant",
+    u"Headoff",
+    u"Frostbite",
+    u"Immature",
+    u"Snakethongue",
+    u"the Venomous",
+    u"Speedy",
+    u"the Cautious",
+    u"Blacktooth",
+    u"Whitetooth",
+    u"the Witehands",
+    u"the Handsome",
+    u"Cacksone",
+    u"the Pussycat",
+    u"Smutthy",
+    u"the Hellspawn",
+    u"the Greasy",
+    u"Fastone",
+    u"the Rasp",
+    u"the Woomaniser",
+    u"the Bull",
+    u"the Cord",
+    u"Masterkey",
+    u"the Pig Nose",
+    u"the Daredevil",
+    u"the Sweet Talk",
 ]
 
 thief_abilities = Container(
     "thief_abilities",
     {
         "climber": {
-            "name": u"Альпинист",
-            "description": u"лазает по скалам",
+            "name": u"Alpinist",
+            "description": u"can get high",
             "provide": ["alpinism"]
         },
         "diver": {
-            "name": u"Ныряльщик",
-            "description": u"надолго задерживает дыхание",
+            "name": u"Diver",
+            "description": u"holdes breath",
             "provide": ["swimming"]
         },
         "greedy": {
-            "name": u"Жадина",
-            "description": u"крадёт больше сокровищ",
+            "name": u"Greedy",
+            "description": u"will get more treashues from you",
             "provide": []
         },
         "mechanic": {
-            "name": u"Механик",
-            "description": u"легко обходит обычные ловушки",
+            "name": u"Mechanist",
+            "description": u"disarms mechanical traps",
             "avoids": ["mechanic_traps"],
             "provide": []
         },
         "magicproof": {
-            "name": u"Знаток магии",
-            "description": u"разряжает магические ловушки",
+            "name": u"Arcane thief",
+            "description": u"disarms magical traps",
             "avoids": ["magic_traps"],
             "provide": []
         },
         "poisoner": {
-            "name": u"Отравитель",
-            "description": u"игнорирует ядовитых стражей",
+            "name": u"Poisoner",
+            "description": u"ignores venomous guards",
             "avoids": ["poison_guards"],
             "provide": []
         },
         "assassin": {
-            "name": u"Ассасин",
-            "description": u"игнорирует обычных стражей",
+            "name": u"Assasin",
+            "description": u"ignores common guards",
             "avoids": ["regular_guards"],
             "provide": []
         },
         "night_shadow": {
-            "name": u"Ночная тень",
-            "description": u"игнорирует элитных стражей",
+            "name": u"Night Shadow",
+            "description": u"ignores elite guards",
             "avoids": ["elite_guards"],
             # Это странно, что он может быть пойман обычными стражами
             "provide": []
         },
         "trickster": {
-            "name": u"Ловкач",
-            "description": u"не имеет шанса разбудить дракона",
+            "name": u"Trickster",
+            "description": u"no chance to wake you up",
             "provide": []
         },
     })
@@ -371,56 +345,56 @@ thief_items = Container(
     "thief_items",
     {
         "plan": {
-            "name": u"План ограбления",
+            "name": u"Great Plan",
             "level": 1,
-            "description": u"лучше шансы на успех"
+            "description": u"more chances to suceed"
         },
         "scheme": {
-            "name": u"Схема тайных проходов",
-            "description": u"игнорирует стены, решетки и двери"
+            "name": u"Secret passage scheme",
+            "description": u"ignors fortifications"
         },
         "sleep_dust": {
-            "name": u"Сонный порошок",
-            "description": u"дракон не проснётся при грабеже"
+            "name": u"Sleepdust",
+            "description": u"dragon can't wake up"
         },
         "bottomless_sac": {
-            "name": u"Бездонный мешок",
+            "name": u"Bag of holding",
             "dropable": True,
-            "description": u"уносит вдвое больще сокровищ"
+            "description": u"can get more treashures from you"
         },
         "antidot": {
-            "name": u"Антидот",
-            "description": u"спасает от ядовитых стражей",
+            "name": u"Antidote",
+            "description": u"ignores venomous guards",
             "avoids": ["poison_guards"]
         },
         "enchanted_dagger": {
-            "name": u"Зачарованный кинжал",  # Applied
+            "name": u"Envenomed dagger",  # Applied
             "dropable": True,
-            "description": u"эффективен против охранников",
+            "description": u"ignores common guards",
             "avoids": ["regular_guards"]
         },
         "ring_of_invisibility": {
-            "name": u"Кольцо-невидимка",  # Applied
+            "name": u"Ring of invisibility",  # Applied
             "dropable": True,
-            "description": u"проходит мимо стража сокровищницы",
+            "description": u"ignores elite guards",
             "avoids": ["elite_guards"]
         },
         "flying_boots": {
-            "name": u"Летучие сандалии",  # Applied
+            "name": u"Boots of flying",  # Applied
             "dropable": True,
-            "description": u"может летать",
+            "description": u"can fly",
             "provide": ["flight", "alpinism"]
         },
         "cooling_amulet": {
-            "name": u"Охлаждающий амулет",  # Applied
+            "name": u"Cool amulet",  # Applied
             "dropable": True,
-            "description": u"защищает от огня",
+            "description": u"protection from fire",
             "provide": ["fireproof"]
         },
         "warming_amulet": {
-            "name": u"Согревающий амулет",  # Applied
+            "name": u"Hot amulet",  # Applied
             "dropable": True,
-            "description": u"защищает от мороза",
+            "description": u"protection from cold",
             "provide": ["coldproof"]
         }
     })
@@ -478,12 +452,12 @@ thief_items_cursed = Container(
     })
 
 thief_titles = [
-    u"Мародер",
-    u"Грабитель",
-    u"Взломшик",
-    u"Расхититель гробниц",
-    u"Мастер-вор",
-    u"Глава гильдии"
+    u"Marauder",
+    u"Rogue",
+    u"Burglar",
+    u"Tomb Raider",
+    u"Master-thief",
+    u"Thief Prince"
 ]
 
 '''
@@ -530,212 +504,197 @@ thief_events = {
 #
 
 knight_first_names = [
-    u"Гавейн",
-    u"Ланселот",
-    u"Галахад",
-    u"Персиваль",
-    u"Борс",
-    u"Кей",
-    u"Мордред",
-    u"Гарет",
-    u"Уриенс",
-    u"Ивейн",
-    u"Оуэн",
-    u"Бедивер",
-    u"Гахерис",
-    u"Агравейн",
-    u"Алан",
-    u"Алистэйр",
-    u"Алвен",
-    u"Ален",
-    u"Анакин",
-    u"Арден",
-    u"Арман",
-    u"Анри",
-    u"Арчибальд",
-    u"Бардрик",
-    u"Бардолф",
-    u"Барклай",
-    u"Барнабас",
-    u"Бенван",
-    u"Бартоломью",
-    u"Бенджамин",
-    u"Бедивир",
-    u"Беннет",
-    u"Бенедикт",
-    u"Бертран",
-    u"Блейн",
-    u"Блейз",
-    u"Болдуин",
-    u"Валентайн",
-    u"Вирджил",
-    u"Вилфорд",
-    u"Вейланд",
-    u"Габриэль",
-    u"Гамильтон",
-    u"Гарфилд",
-    u"Гилберт",
-    u"Гордон",
-    u"Тайвин",
-    u"Дарнелл",
-    u"Дастин",
-    u"Дейрилл",
-    u"Делберт",
-    u"Дензэль",
-    u"Джаррет",
-    u"Джеральт",
-    u"Джейсон",
-    u"Диггори",
-    u"Дилберт",
-    u"Дуглас",
-    u"Дейтон",
-    u"Иглеберт",
-    u"Инграм",
-    u"Инесент",
-    u"Ирвайн",
-    u"Карлайл",
-    u"Квентин",
-    u"Кертис",
-    u"Кингслей",
-    u"Кларенс",
-    u"Кливленд",
-    u"Коннор",
-    u"Кристофер",
-    u"Криспиан",
-    u"Лайонел",
-    u"Леопольд",
-    u"Линдсей",
-    u"Листар",
-    u"Лоренс",
-    u"Мэйверик",
-    u"Максимилиан",
-    u"Мельбурн",
-    u"Милфорд",
-    u"Монтгомери",
-    u"Мордикейн",
-    u"Найджел",
-    u"Николас",
-    u"Нордберт",
-    u"Нимбус",
-    u"Нортон",
-    u"Норрис",
-    u"Оберон",
-    u"Олдред",
-    u"Орсон",
-    u"Осберт",
-    u"Перси",
-    u"Рассел",
-    u"Редклиф",
-    u"Редмунд",
-    u"Реджинальд",
-    u"Рейнольд",
-    u"Рональдь",
-    u"Рональд",
-    u"Рендалл",
-    u"Сбастиан",
-    u"Сильвестр",
-    u"Стэнли",
-    u"Теобальд",
-    u"Тимоти",
-    u"Тобиас",
-    u"Трейвис",
-    u"Уилберт",
-    u"Уилфред",
-    u"Уоренн",
-    u"Фабиан",
-    u"Фкрдинанд",
-    u"Фредкрик",
-    u"Френсис",
-    u"Хаммонд",
-    u"Харрисон",
-    u"Чарлтон",
-    u"Чедвик",
-    u"Шелтон",
-    u"Шеридан",
-    u"Шерман",
-    u"Эдвард",
-    u"Юлиан",
+    u"Havein",
+    u"Lancelott",
+    u"Gallahad",
+    u"Parcivail",
+    u"Boris",
+    u"Kay",
+    u"Mordredd",
+    u"Harret",
+    u"Urience",
+    u"Yveyn",
+    u"Ouen",
+    u"Bediver",
+    u"Gaheris",
+    u"Argavein",
+    u"Alan",
+    u"Alistair",
+    u"Alven",
+    u"Alen",
+    u"Anakin",
+    u"Ardeen",
+    u"Arman",
+    u"Anrie",
+    u"Archibald",
+    u"Bardrick",
+    u"Bardolf",
+    u"Barklai",
+    u"Barnabas",
+    u"Benvan",
+    u"Bartolomeus",
+    u"Benjamine",
+    u"Bedivir",
+    u"Benneth",
+    u"Benedict",
+    u"Bertran",
+    u"Blaine",
+    u"Blaze",
+    u"Bolduin",
+    u"Valentain",
+    u"Virgile",
+    u"Willford",
+    u"Wayland",
+    u"Gabriel",
+    u"Hammilton",
+    u"Garfild",
+    u"Hilbert",
+    u"Gordon",
+    u"Taiven",
+    u"Darnell",
+    u"Dastin",
+    u"Daireel",
+    u"Dilbert",
+    u"Denzel",
+    u"Jarred",
+    u"Geralt",
+    u"Jaison",
+    u"Diggory",
+    u"Douglass",
+    u"Daiton",
+    u"Igglebert",
+    u"Ingramm",
+    u"Inescent",
+    u"Irvain",
+    u"Carlail",
+    u"Cventine",
+    u"Curtis",
+    u"Kingsley",
+    u"Clarence",
+    u"Clivlend",
+    u"Connor",
+    u"Cristofer",
+    u"Kaspian",
+    u"Lionnel",
+    u"Leopold",
+    u"Lindsey",
+    u"Listar",
+    u"Lorence",
+    u"Maximillian",
+    u"Melburn",
+    u"Milford",
+    u"Montgommery",
+    u"Mordicain",
+    u"Naijell",
+    u"Nicolas",
+    u"Nordbert",
+    u"Nimbus",
+    u"Norton",
+    u"Norris",
+    u"Oberon",
+    u"Oldredd",
+    u"Orson",
+    u"Osbert",
+    u"Percie",
+    u"Rassel",
+    u"Redcliff",
+    u"Redmoond",
+    u"Reginald",
+    u"Rainold",
+    u"Rondile",
+    u"Ronald",
+    u"Rendall",
+    u"Sebastian",
+    u"Silvester",
+    u"Stenlie",
+    u"Theiobald",
+    u"Timoty",
+    u"Thobias",
+    u"Trevice",
+    u"Willbert",
+    u"Willfred",
+    u"Warren",
+    u"Fabian",
+    u"Fredderick",
 ]
 
 knight_last_names = [
-    u"Озерный",
-    u"Славный",
-    u"Луговой",
-    u"Гордый",
-    u"Добрый",
-    u"Храбрый",
-    u"Отважный",
-    u"Верный",
-    u"Доблесный",
-    u"Сияюший",
-    u"Прекрасный",
-    u"Красивый",
-    u"Сверкающий",
-    u"Белый",
-    u"Сильный",
-    u"Зоркий",
-    u"Смелый",
-    u"Дубощит",
-    u"Терпеливый",
-    u"Кроткий",
-    u"Искатель",
-    u"Ревнитель",
-    u"Защитник",
-    u"Спаситель",
-    u"Благонравный",
-    u"Примерный",
-    u"Прозорливый",
-    u"Вещий",
-    u"Мудрый",
-    u"Дивный",
-    u"Мечтатель",
-    u"Избранный",
-    u"Благородный",
-    u"Благословенный",
-    u"Славный",
-    u"Невинный",
-    u"Целомудренный",
-    u"Скромный",
-    u"Щедрый",
-    u"Бережливый",
-    u"Удалой",
-    u"Миосердный",
-    u"Милостивый",
-    u"Сладкозвучный",
-    u"Бережливый",
-    u"Остроумный",
-    u"Безземельный",
-    u"Белоликий",
-    u"Честный",
+    u"of the Lake",
+    u"the Glorious",
+    u"of the Meadows",
+    u"the Proud",
+    u"the Kind",
+    u"the Courageous",
+    u"the Brave",
+    u"the Faithfull",
+    u"the Gallant",
+    u"the Glorious",
+    u"the Handsome",
+    u"the Great",
+    u"the Radiant",
+    u"the Whiteshield",
+    u"the Strong",
+    u"the Kin Eye",
+    u"the Lionehart",
+    u"Oakenshield",
+    u"the Patient",
+    u"the Timid",
+    u"the Seeker",
+    u"the Adherent",
+    u"the Deffender",
+    u"the Savior",
+    u"the Benevolent",
+    u"the Exemplar",
+    u"the Sagacious",
+    u"the Farseer",
+    u"the Wise",
+    u"the Marvellous",
+    u"the Daydreamer",
+    u"a Choosen One",
+    u"the Honorable",
+    u"the Blessed One",
+    u"the Fine",
+    u"the Virgin",
+    u"the Modest",
+    u"the Humble",
+    u"the Generous",
+    u"the Thrifty",
+    u"the Merciful",
+    u"the Benignant",
+    u"the Sweet Woice",
+    u"the Witty",
+    u"the Landless",
+    u"the White Face",
+    u"the Honest",
 ]
 
 knight_abilities = Container(
     "knight_abilities",
     {
         "brave": {
-            "name": u"Отважный",
-            "description": u"не боится дракона, как бы страшен он ни был",
+            "name": u"Braveheart",
+            "description": u"no fear of dragons",
             "modifiers": ["fearless"]
         },
         "charmed": {
-            "name": u"Зачарованный",
-            "description": u"доберётся до любого логова",
+            "name": u"Charmed",
+            "description": u"can get to any lair",
             "modifiers": ["swimming", "flight", "alpinism"]
         },
         "liberator": {
             # Implemented at Knight._ability_modifiers
-            "name": u"Освободитель",
-            "description": u"становится сильнее, если в темнице дракона томятся дамы",
+            "name": u"Liverator",
+            "description": u"goes stronger if you hold a captives",
             "modifiers": []
         },
         "fiery": {
-            "name": u"Вспыльчивый",
-            "description": u"усиленная атака",
+            "name": u"Fiery",
+            "description": u"stronger attack",
             "modifiers": ['atk_up', 'atk_up']
         },
         "cautious": {
-            "name": u"Осторожный",
-            "description": u"усиленная защита",
+            "name": u"Cautious",
+            "description": u"more armor",
             "modifiers": ['def_up', 'def_up']
         }
     }
@@ -747,24 +706,24 @@ knight_items = Container(
         # Нагрудники
         "basic_vest": {
             "id": "basic_vest",
-            "name": u"Кольчуга",
-            "description": u"стандартная защита",
+            "name": u"Chainmail",
+            "description": u"standart armor",
             "type": "vest",
             "basic": True,
             "modifiers": []
         },
         "glittering_vest": {
             "id": "glittering_vest",
-            "name": u"Сверкающий доспех",
-            "description": u"усиленная защита",
+            "name": u"Shining platemail",
+            "description": u"strong armor",
             "type": "vest",
             "basic": False,
             "modifiers": ['def_up', 'def_up']
         },
         "gold_vest": {
             "id": "gold_vest",
-            "name": u"Золочёный доспех",
-            "description": u"отменная защита",
+            "name": u"Golden platemail",
+            "description": u"great armor",
             "type": "vest",
             "basic": False,
             "modifiers": ['sdef_up']
@@ -772,8 +731,8 @@ knight_items = Container(
         "magic_vest": {
             # Implemented at Knight.enchant_equip
             "id": "magic_vest",
-            "name": u"Волшебный доспех",
-            "description": u"защита от стихий",
+            "name": u"Enchanted platemail",
+            "description": u"protection from elements",
             "type": "vest",
             "basic": False,
             "modifiers": []
@@ -781,24 +740,24 @@ knight_items = Container(
         # Копья
         "basic_spear": {
             "id": "basic_spear",
-            "name": u"Стальная пика",
-            "description": u"стандартная атака",
+            "name": u"Steel lance",
+            "description": u"standart weapon",
             "type": "spear",
             "basic": True,
             "modifiers": []
         },
         "blued_spear": {
             "id": "blued_spear",
-            "name": u"Вороненое копье",
-            "description": u"усиленная атака",
+            "name": u"Burhished lance",
+            "description": u"strong weapon",
             "type": "spear",
             "basic": False,
             "modifiers": ['atk_up', 'atk_up']
         },
         "spear_with_scarf": {
             "id": "spear_with_scarf",
-            "name": u"Копье с шарфом дамы",
-            "description": u"отменная атака",
+            "name": u"Lance with scarf",
+            "description": u"great weapon",
             "type": "spear",
             "basic": False,
             "modifiers": ['satk_up']
@@ -806,8 +765,8 @@ knight_items = Container(
         "dragonslayer_spear": {
             # implemented at Knight._item_modifiers and battle_action
             "id": "dragonslayer_spear",
-            "name": u"Копьё-драконобой",  # TODO: implement
-            "description": u"бьёт наповал",
+            "name": u"Dragonslayer lance",  # TODO: implement
+            "description": u"kills you outright",
             "type": "spear",
             "basic": False,
             "modifiers": []
@@ -815,48 +774,48 @@ knight_items = Container(
         # Мечи
         "basic_sword": {
             "id": "basic_sword",
-            "name": u"Стальной меч",
-            "description": u"стандартная атака",
+            "name": u"Longsword",
+            "description": u"standart weapon",
             "type": "sword",
             "basic": True,
             "modifiers": []
         },
         "glittering_sword": {
             "id": "glittering_sword",
-            "name": u"Сияющий клинок",
-            "description": u"усиленная атака",
+            "name": u"Shiny longsword",
+            "description": u"strong weapon",
             "type": "sword",
             "basic": False,
             "modifiers": ['atk_up', 'atk_up']
         },
         "lake_woman_sword": {
             "id": "lake_woman_sword",
-            "name": u"Клинок озёрной девы",
-            "description": u"неотразимая атака",
+            "name": u"Lady of the Lake Sword",
+            "description": u"irresistible attack",
             "type": "sword",
             "basic": False,
             "modifiers": ['satk_up']
         },
         "flameberg_sword": {
             "id": "flameberg_sword",
-            "name": u"Пылающий фламберг",
-            "description": u"огненная атака",
+            "name": u"Flamberge",
+            "description": u"fiery weapon",
             "type": "sword",
             "basic": False,
             "modifiers": ['sfatk_up', 'sfatk_up']
         },
         "icecracker_sword": {
             "id": "icecracker_sword",
-            "name": u"Ледоруб-жыдобой",
-            "description": u"ледяная атка",
+            "name": u"Icecracker sword",
+            "description": u"frost weapon",
             "type": "sword",
             "basic": False,
             "modifiers": ['siatk_up', 'siatk_up']
         },
         "thunderer_sword": {
             "id": "thunderer_sword",
-            "name": u"Меч-громобой",
-            "description": u"атака молнией",
+            "name": u"The Thunderrer",
+            "description": u"thunder weapon",
             "type": "sword",
             "basic": False,
             "modifiers": ['slatk_up', 'slatk_up']
@@ -864,16 +823,16 @@ knight_items = Container(
         # Щиты
         "basic_shield": {
             "id": "basic_shield",
-            "name": u"Геральдический щит",
-            "description": u"стандартная защита",
+            "name": u"Heraldic shield",
+            "description": u"standart",
             "type": "shield",
             "basic": True,
             "modifiers": []
         },
         "polished_shield": {
             "id": "polished_shield",
-            "name": u"Полированный щит",
-            "description": u"усиленная защита",
+            "name": u"Polished shield",
+            "description": u"strong",
             "type": "shield",
             "basic": False,
             "modifiers": ['def_up', 'def_up']
@@ -881,8 +840,8 @@ knight_items = Container(
         "mirror_shield": {
             # Implemented at Knight._item_modifiers
             "id": "mirror_shield",
-            "name": u"Зерцальный щит",
-            "description": u"отражает драконье дыхание",
+            "name": u"Mirror shild",
+            "description": u"reflects your breath weapon",
             "type": "shield",
             "basic": False,
             "modifiers": []
@@ -890,56 +849,56 @@ knight_items = Container(
         # Кони
         "basic_horse": {
             "id": "basic_horse",
-            "name": u"Гнедой конь",
-            "description": u"Не дает преимуществ",
+            "name": u"Horse",
+            "description": u"standart mount",
             "type": "horse",
             "basic": True,
             "modifiers": []
         },
         "white_horse": {
             "id": "white_horse",
-            "name": u"Белый конь",
-            "description": u"усиленная атака и защита",
+            "name": u"White stallion",
+            "description": u"stronger atk and def",
             "type": "horse",
             "basic": False,
             "modifiers": ['atk_up', 'def_up']
         },
         "pegasus": {
             "id": "pegasus",
-            "name": u"Пегас",
-            "description": u"способен летать",
+            "name": u"Pegassus",
+            "description": u"can fly",
             "type": "horse",
             "basic": False,
             "modifiers": ['flight']
         },
         "firehorse": {
             "id": "firehorse",
-            "name": u"Конь-огонь",
-            "description": u"прыгает по скалам, неуязим для огня",
+            "name": u"Firehorse",
+            "description": u"alpinism, protection from fire",
             "type": "horse",
             "basic": False,
             "modifiers": ['alpinism', 'fire_immunity']
         },
         "sivka": {
             "id": "sivka",
-            "name": u"Сивка-Бурка",
-            "description": u"прыгает по скалам, неуязвим для холода",
+            "name": u"Sivka-Burka",
+            "description": u"alpinism, protection from cold",
             "type": "horse",
             "basic": False,
             "modifiers": []
         },
         "kelpie": {
             "id": "kelpie",
-            "name": u"Келпи",
-            "description": u"плавает под водой",
+            "name": u"Kelpie",
+            "description": u"swims underwater",
             "type": "horse",
             "basic": False,
             "modifiers": ['swimming']
         },
         "griffon": {
             "id": "griffon",
-            "name": u"Боевой грифон",
-            "description": u"усиленная атака, защита и полёт",
+            "name": u"Griffin",
+            "description": u"can fly, strong mount",
             "type": "horse",
             "basic": False,
             "modifiers": ['atk_up', 'def_up', 'flight']
@@ -947,40 +906,40 @@ knight_items = Container(
         # Спутники
         "basic_follower": {
             "id": "basic_follower",
-            "name": u"Юный оруженосец",
-            "description": u"бесполезный шалопай",
+            "name": u"Squire",
+            "description": u"no use",
             "type": "follower",
             "basic": True,
             "modifiers": []
         },
         "squire": {
             "id": "squire",
-            "name": u"Ловкий оруженосец",
-            "description": u"карабкается по скалам",
+            "name": u"Agile squire",
+            "description": u"can climb",
             "type": "follower",
             "basic": False,
             "modifiers": ['alpinism']
         },
         "veteran": {
             "id": "veteran",
-            "name": u"Закалённый оруженосец",
-            "description": u"улучшенная защита",
+            "name": u"Veteran squire",
+            "description": u"stronger deffence",
             "type": "follower",
             "basic": False,
             "modifiers": ['sdef_up']
         },
         "pythoness": {
             "id": "pythoness",
-            "name": u"Ясновидящая спутница",
-            "description": u"знает слабости, улучшенная атака",
+            "name": u"Farseer",
+            "description": u"stronger attack",
             "type": "follower",
             "basic": False,
             "modifiers": ['satk_up']
         },
         "thaumaturge": {
             "id": "thaumaturge",
-            "name": u"Мудрый наставник",
-            "description": u"отменная атака и защита",
+            "name": u"Wisard",
+            "description": u"more atk and def",
             "type": "follower",
             "basic": False,
             "modifiers": ['satk_up', 'sdef_up']
@@ -989,12 +948,12 @@ knight_items = Container(
 )
 
 knight_titles = [
-    u"Бедный рыцарь",
-    u"Странствующий рыцарь",
-    u"Межевой рыцарь",
-    u"Благородный рыцарь",
-    u"Паладин рыцарь",
-    u"Прекрасный принц"]
+    u"Poor knight",
+    u"Questing knight",
+    u"Knight of the Mark",
+    u"Noble knight",
+    u"Palladin",
+    u"Prince"]
 
 knight_events = {
     "spawn": "lb_event_knight_spawn",
@@ -1017,106 +976,106 @@ lair_types = Container(
     "lair_types",
     {
         "impassable_coomb": {
-            "name": u"Буреломный овраг",
+            "name": u"impassable comb",
             "inaccessability": 0
         },
         "impregnable_peak": {
-            "name": u"Неприступная вершина",
+            "name": u"impregnable peak",
             "inaccessability": 0,
             "require": ["alpinism"],
             'prerequisite': ['wings']
         },
         "solitude_citadel": {
-            "name": u"Цитадель одиночества",
+            "name": u"Solitude citadel",
             "inaccessability": 0,
             "require": ["alpinism", "coldproof"],
             'prerequisite': ['wings', 'ice_immunity']
         },
         "vulcano_chasm": {
-            "name": u"Вулканическая расселина",
+            "name": u"Voolcano chasm",
             "inaccessability": 0,
             "require": ["alpinism", "fireproof"],
             'prerequisite': ['wings', 'fire_immunity']
         },
         "underwater_grot": {
-            "name": u"Подводный грот",
+            "name": u"Underwater grotto",
             "inaccessability": 0,
             "require": ["swimming"],
             'prerequisite': ['swimming']
         },
         "underground_burrow": {
-            "name": u"Подземная нора",
+            "name": u"Underground burrow",
             "inaccessability": 1,
             "require": [],
             'prerequisite': ['can_dig']
         },
         "dragon_castle": {
-            "name": u"Драконий замок",
+            "name": u"Dragon castle",
             "inaccessability": 1,
             "require": []
         },
         "castle": {
-            "name": u"Старые руины",
+            "name": u"Old ruins",
             "inaccessability": 1,
             "require": []
         },
         "ogre_den": {
-            "name": u"Берлога людоеда",
+            "name": u"Ogre Den",
             "inaccessability": 1,
             "require": []
         },
         "broad_cave": {
-            "name": u"Просторная пещера",
+            "name": u"Broad Cave",
             "inaccessability": 1,
             "require": []
         },
         "tower_ruin": {
-            "name": u"Руины башни",
+            "name": u"Tower Ruin",
             "inaccessability": 1,
             "provide": ["magic_traps"]
         },
         "monastery_ruin": {
-            "name": u"Руины монастыря",
+            "name": u"Monastery Ruin",
             "inaccessability": 1,
             "require": []
         },
         "fortress_ruin": {
-            "name": u"Руины каменной крепости",
+            "name": u"Fortress ruin",
             "inaccessability": 2,
             "require": []
         },
         "castle_ruin": {
-            "name": u"Руины королевского замка",
+            "name": u"Castle ruins",
             "inaccessability": 2,
             "require": []
         },
         "ice_citadel": {
-            "name": u"Ледяная цитадель",
+            "name": u"Ice citadel",
             "inaccessability": 1,
             "require": ["alpinism", "coldproof"]
         },
         "vulcanic_forge": {
-            "name": u"Вулканическая кузница",
+            "name": u"Volcanic Forge",
             "inaccessability": 1,
             "require": ["alpinism", "fireproof"]
         },
         "forest_heart": {
-            "name": u"Дупло Великого Древа",
+            "name": u"Forest Heart",
             "inaccessability": 2,
             "provide": ["magic_traps"]
         },
         "cloud_castle": {
-            "name": u"Замок в облаках",
+            "name": u"Cloud Castle",
             "inaccessability": 2,
             "require": ["flight"]
         },
         "underwater_mansion": {
-            "name": u"Подводные хоромы",
+            "name": u"Underwater mansion",
             "inaccessability": 1,
             "require": ["swimming"]
         },
         "underground_palaces": {
-            "name": u"Подгорные чертоги",
+            "name": u"Underground Palace",
             "inaccessability": 2,
             "require": ["alpinism"],
             "provide": ["mechanic_traps"]
@@ -1128,86 +1087,86 @@ lair_upgrades = Container(
     "lair_upgrades",
     {
         "mechanic_traps": {
-            "name": u"Механические ловушки",
+            "name": u"Mechanical traps",
             "protection": 1,
             "success": [
-                u'Ворюга успешно преодолевает механические ловушки.',
+                u'Thef bypasses the traps.',
             ],
             "fail": [
-                u'Незадачливый расхититель сокровищ наступает на нажимную плиту активирует '
-                u'смертоносную механическую ловушку.',
+                u'Unlucky therf steps on a shiftplate and activates'
+                u'deadly blade trap.',
             ]
         },
         "magic_traps": {
-            "name": u"Магические ловушки",
+            "name": u"Magic trap",
             "protection": 1,
             "success": [
-                u'Вовремя заметив свечение магической ловушки, вор избегает её и проходит дальше.',
+                u'Cunning thief spots a glimer and avoids a magical trap.',
             ],
             "fail": [
-                u'Магическая ловушка распыляет неудачливого вора на атомы.',
+                u'Magical trap desintegtates the tresspasser.',
             ]
         },
         "poison_guards": {
-            "name": u"Ядовитые стражи",
+            "name": u"Venomous guards",
             "protection": 1,
             "success": [
-                u'Ядовитые твари не сумели остановить расхитителя сокровищ.',
+                u'Venomous beasts can't stop the tresspasser.',
             ],
             "fail": [
-                u'Ядовитая тварь неожиданно напала на вора из темноты и ужалила его. '
-                u'Смерть от токсина медленная и мучительная...',
+                u'Sneaky venomous beast bites the unlucky thief. '
+                u'He dies in a great pain...',
             ]
         },
         "regular_guards": {
-            "name": u"Обычные стражи",
+            "name": u"Common guards",
             "replaces": "smuggler_guards",  # какое улучшение автоматически заменяет
             "protection": 2,
             "success": [
-                u'Злоумышленник снимает ключевых охранников, перерезав им глотки кинжалом.',
+                u'Burglar stealthily stabs guards with dagger, one by one.',
             ],
             "fail": [
-                u'Охранники замечают вторжение и атакуют вора. '
-                u'Короткая но ожесточённая схватка оканичвается его смертью.',
+                u'Guard spots the thief and raises the alarm. '
+                u'After a short but brutal fight thef is defeated and murdered.',
             ]
         },
         "smuggler_guards": {
-            "name": u"Наёмные охранники",
+            "name": u"Mercenary guards",
             "cost": 100,
             "protection": 2,
             "success": [
-                u'Злоумышленник снимает наёмных охранников, перерезав им глотки кинжалом.',
+                u'Burglar stealthily stabs guards with dagger, one by one.',
             ],
             "fail": [
-                u'Наёмные охранники замечают вторжение и атакуют вора. '
-                u'Короткая но ожесточённая схватка оканичвается его смертью.',
+                u'Guard spots the thief and raises the alarm. '
+                u'After a short but brutal fight thef is defeated and murdered.',
             ]
         },
         "elite_guards": {
-            "name": u"Элитный стражи",
+            "name": u"Elite guard",
             "protection": 3,
             "success": [
-                u'Двигаясь словно ночная тень, вор проскальзывает незамеченным мимо огромного монстра '
-                u'охраняющего двери сокровищницы.',
+                u'Under the cower of darkness, thief slips behind '
+                u'the elite guard into the treashure chamber.',
             ],
             "fail": [
-                u'Вор пытается незаметно проскользнуть мимо монстра охраняющего двери в главный зал, но терпит неудачу.'
-                u'Кровожадная тварь разрывает его на куски и пожирает.',
+                u'Thef tried to sneak on an guard of treashure chamber but fails.'
+                u'Bloodthirsty beast rips him apart.',
 
             ]
         },
         "gremlin_fortification": {
-            "name": u"Укрепления",
+            "name": u"Fortifications",
             "inaccessability": 1,
             "protection": 0
         },
         "gremlin_servant": {
-            "name": u"Слуги-гремлины",
+            "name": u"Gremlin-servants",
             "cost": 100,
             "protection": 0
         },
         "servant": {
-            "name": u"Слуги",
+            "name": u"Servants",
             "replaces": "gremlin_servant",  # какое улучшение автоматически заменяет
             "protection": 0
         }
@@ -1246,11 +1205,11 @@ reputation_levels = {
 }
 
 reputation_gain = {
-    1: u"Этот поступок люди наверняка заметят.",
-    3: u"Дурная слава о ваших поступках разносится по королевству.",
-    5: u"Сегодня вы стяжали немалую дурную славу.",
-    10: u"Об этом деянии услышат  жители всего королевства. И ужаснутся.",
-    25: u"О деянии столь ужасном будут сложены легенды, которые не забудутся и через сотни лет"
+    1: u"Common folk will notice this mischief.",
+    3: u"Ill fame of dragon rises in Free Kingdoms.",
+    5: u"Defiler ill fame rised considerably.",
+    10: u"This dread deed will be remembered far and wide.",
+    25: u"The legend of this dread deed will persist in ages."
 }
 
 #
@@ -1259,140 +1218,137 @@ reputation_gain = {
 
 # имена
 dragon_names = [
-    u'Азог',
-    u'Ауринг',
-    u'Алафис',
-    u'Брагнор',
-    u'Беливирг',
-    u'Бладвинг',
-    u'Беоргис',
-    u'Буран',
-    u'Висерин',
-    u'Вазгор',
-    u'Балерион',
-    u'Мераксес',
-    u'Вхагар',
-    u'Сиракс',
-    u'Тираксес',
-    u'Вермакс',
-    u'Арракс',
-    u'Караксес',
-    u'Тандрос',
-    u'Мунхайд',
-    u'Силвервинг',
-    u'Вермитор',
-    u'Шиптиф',
-    u'Вермитор',
-    u'Шрикос',
-    u'Моргул',
-    u'Урракс',
-    u'Дрого',
-    u'Рейегаль',
-    u'Визерион',
-    u'Эссовиус',
-    u'Гискар',
-    u'Валерион',
-    u'Вермитракс',
-    u'Архоней',
-    u'Дестирион',
-    u'Алхафтон',
-    u'Торогрим',
-    u'Коринстраз',
-    u'Ираникус',
-    u'Чарис',
-    u'Итариус',
-    u'Изондр',
-    u'Литурган',
-    u'Таэрад',
-    u'Морфалаз',
-    u'Нефариан',
-    u'Сеарнокс',
-    u'Пион',
-    u'Ладон',
-    u'Сципион',
-    u'Эрихтон',
-    u'Горонис',
-    u'Горгатрокс',
-    u'Артаксеркс',
-    u'Айтварас',
-    u'Балаур',
-    u'Орлангур',
-    u'Шадизар',
+    u'Azogh',
+    u'Auring',
+    u'Alaphis',
+    u'Braghnir',
+    u'Bellywyrg',
+    u'Bloodwing',
+    u'Beorgis',
+    u'Buran',
+    u'Wicerin',
+    u'Wazgor',
+    u'Balerion',
+    u'Meraxes',
+    u'Wxagar',
+    u'Syraxis',
+    u'Tyraxes',
+    u'Wermax',
+    u'Arrax',
+    u'Kharaxes',
+    u'Thadnros',
+    u'Moonhide',
+    u'Silverwing',
+    u'Vermitor',
+    u'Shiptif',
+    u'Shrikos',
+    u'Morgul',
+    u'Urraks',
+    u'Drogo',
+    u'Reyerghal',
+    u'Wizerion',
+    u'Essovius',
+    u'Gicksar',
+    u'Wermitrax',
+    u'Archoney',
+    u'Desterion',
+    u'Alhafton',
+    u'Torogrim',
+    u'Korinstraz',
+    u'Ironicus',
+    u'Charris',
+    u'Itarius',
+    u'Izondir',
+    u'Lithurgahn',
+    u'Taeradh',
+    u'Morphals',
+    u'Nepharian',
+    u'Searnox',
+    u'Pyonix',
+    u'Ldorynx',
+    u'Scipionax',
+    u'Erihthon',
+    u'Ghoronis',
+    u'Gorgatrox',
+    u'Artaxerks',
+    u'Aitvaras',
+    u'Balaur',
+    u'Orlangoor',
+    u'Shadizar',
 ]
 
 dragon_surnames = [
-    u'Яростный',
-    u'Могучий',
-    u'Ужасный',
-    u'Бурерождённый',
-    u'Зловещий',
-    u'Тёмный',
-    u'Жестокий',
-    u'Надменный',
-    u'Жадный',
-    u'Алчный',
-    u'Безжалостный',
-    u'Беспощадный',
-    u'Гордый',
-    u'Прожорливый',
-    u'Громогласный',
-    u'Устрашающий',
-    u'Погибельный',
-    u'Сварливый',
-    u'Великолепный',
-    u'Завистливый',
-    u'Порочный',
-    u'Змееглазый',
-    u'Длиннохвостый',
-    u'Уродливый',
-    u'Шипочешуйный',
-    u'Злокозненный',
-    u'Осквернитель',
-    u'Пожиратель',
-    u'Разрыватель',
-    u'Роковой',
-    u'Смертоносный',
-    u'Скрытный',
-    u'Кровавый',
-    u'Саблеклык',
-    u'Искуситель',
-    u'Бесстыдный',
-    u'Смрадный',
-    u'Загребущий',
-    u'Срамотряс',
-    u'Пронзатель',
-    u'Сластолюбивый',
-    u'Гневный',
-    u'Кишкодёр',
-    u'Живодёр',
-    u'Живоглот',
-    u'Праздный',
-    u'Ослизлый',
-    u'Разрушитель',
-    u'Змееед',
-    u'Проклятый',
-    u'Кровожадный',
-    u'Растлитель',
-    u'Безбожный',
-    u'Властный',
-    u'Лживый',
-    u'Буревесник',
-    u'Подлый',
-    u'Двуличный',
-    u'Мудрый',
-    u'Зоркий',
-    u'Стремительный',
-    u'Нечистивый',
+    u'teh Furious',
+    u'teh Mighty',
+    u'teh Sinister',
+    u'teh Shtormborn',
+    u'teh Omnious',
+    u'teh Dark',
+    u'teh Baleful',
+    u'teh Arrogant',
+    u'teh Greedy',
+    u'teh Covetous',
+    u'teh Mercyless',
+    u'teh Ruthless',
+    u'teh Proud',
+    u'teh Glutton',
+    u'teh Loudroar',
+    u'teh Horrendous',
+    u'teh Deadly',
+    u'teh Quarellsome',
+    u'teh Awesome',
+    u'teh Envious',
+    u'teh Vicious',
+    u'teh Snakeeyed',
+    u'teh Longtail',
+    u'teh Ugly',
+    u'teh Spikescale',
+    u'teh Isidious',
+    u'teh Defiller',
+    u'teh Devourer',
+    u'teh Vivisector',
+    u'teh Doomuide',
+    u'teh Deathstalker',
+    u'teh Shaded',
+    u'teh Bloody',
+    u'teh Saberthooth',
+    u'teh Temper',
+    u'teh Shameless',
+    u'teh Foul',
+    u'teh Crazed',
+    u'teh Impaler',
+    u'teh Voloptous',
+    u'teh Angersome',
+    u'teh Gutspiller',
+    u'teh Flayer',
+    u'teh Vorewhole',
+    u'teh Indolent',
+    u'teh Slimy',
+    u'teh Destroer',
+    u'teh Snakeeater',
+    u'teh Cursed',
+    u'teh Bloodthirsty',
+    u'teh Molester',
+    u'teh Godless',
+    u'teh Powerfull',
+    u'teh Lier',
+    u'teh Thunderbird',
+    u'teh Sneaky',
+    u'teh Duplitious',
+    u'teh Wise',
+    u'teh Kineyed',
+    u'teh Impetuous',
+    u'teh Unholy',
 ]
 
 # Размеры
 dragon_size = [
-    u'Мелкий',
-    u'Средних размеров',
-    u'Крупный',
-    u'Внушительный',
-    u'Огромный',
-    u'Исполинский',
+    u'Small',
+    u'Modestsized',
+    u'Large',
+    u'Huge',
+    u'Gigantic',
+    u'Gargantious',
 ]
 
 dragon_size_description = [
@@ -1458,12 +1414,12 @@ special_description = [
 ]
 
 special_features_rus = {
-    "tough_scale": u"Непробиваемая чешуя ",
-    "poisoned_sting": u"Ядовитое жало",
-    "clutches": u"Бритвенно острые когти",
-    "horns": u"Внушительные рога",
-    "fangs": u"Саблезубые клыки",
-    "ugly": u"Уродство",
+    "tough_scale": u"Tough scales",
+    "poisoned_sting": u"Venomous sting",
+    "clutches": u"Razor claws",
+    "horns": u"Magnificent horns",
+    "fangs": u"Saberthoos fangs",
+    "ugly": u"Ugliness",
 }
 
 cunning_description = [
@@ -1477,30 +1433,30 @@ cunning_description = [
 
 # TODO: Текстовый модуль с числительными
 head_num = [
-    u'основная',
-    u'вторая',
-    u'третья',
-    u'четвёртая',
-    u'пятая',
-    u'шестая',
-    u'седьмая',
-    u'восьмая',
-    u'девятая',
-    u'десятая'
+    u'main',
+    u'second',
+    u'third',
+    u'forth',
+    u'fifth',
+    u'sixth',
+    u'seventh',
+    u'eighth',
+    u'nineth',
+    u'tenth'
 ]
 
 # описание числа голов
 head_count = {
-    2: u"двуглавый",
-    3: u"трехглавый",
-    4: u"четырёхглавый",
-    5: u"пятиглавый",
-    6: u"шестиглавый",
-    7: u"семиглавый",
-    8: u"восьмиглавый",
-    9: u"многоглавый",
-    10: u"многоглавый",
-    11: u"многоглавый",
+    2: u"twoheaded",
+    3: u"threheaded",
+    4: u"forheaded",
+    5: u"fiveheaded",
+    6: u"sixheaded",
+    7: u"sevenheaded",
+    8: u"eightheaded",
+    9: u"manyheaded",
+    10: u"manyheaded",
+    11: u"manyheaded",
 }
 
 # Типы голов(цвета)
@@ -1518,16 +1474,16 @@ dragon_heads = {
 }
 
 heads_name_rus = {
-    'red': u"красный",
-    'black': u"чёрный",
-    'blue': u"синий",
-    'gold': u"золотой",
-    'silver': u"серебряный",
-    'bronze': u"бронзовый",
-    'iron': u"стальной",
-    'shadow': u"фантомный",
-    'white': u"белый",
-    'green': u"зеленый"
+    'red': u"red",
+    'black': u"black",
+    'blue': u"blue",
+    'gold': u"golden",
+    'silver': u"silver",
+    'bronze': u"bronze",
+    'iron': u"steel",
+    'shadow': u"phantom",
+    'white': u"white",
+    'green': u"green"
 }
 
 dragon_gifts = dict()
@@ -1558,24 +1514,24 @@ spell_list = {
 # Русское название для отображения заклинания
 spell_list_rus = {
     # заговоры -- дают иммунитет к атаке выбранного типа
-    'fire_protection': u"Защита от огня",
-    'ice_protection': u"Защита от холода",
+    'fire_protection': u"Protection from fire",
+    'ice_protection': u"Protection from cold",
     #'poison_protection': u"Защита от яда",
-    'lightning_protection': u"Защита от молнии",
+    'lightning_protection': u"Protection from lightning",
     #'sound_protection': u"Защита от грома",
     # сердца -- дают дыхание нужного типа
-    'fire_heart': u"Повелитель пламени",
-    'ice_heart': u"Властитель хлада",
-    'poison_heart': u"Токсичный лорд",
-    'thunder_heart': u"Иерихонский рёв",
-    'lightning_heart': u"Сила громовержца",
+    'fire_heart': u"Fire breather",
+    'ice_heart': u"Ice breather",
+    'poison_heart': u"Toxic breather",
+    'thunder_heart': u"Thunder roar",
+    'lightning_heart': u"Lightning thrower",
     # прочие
-    'wings_of_wind': u"Крылья ветра",
-    'aura_of_horror': u"Аура кошмаров",
-    'unbreakable_scale': u"Отрастить фантомную голову",
-    'spellbound_trap': u"Волшебные ловушки в логово",
-    'swimmer_spell': u"Подводное дыхание",
-    'impregnator': u"Осеменитель",
+    'wings_of_wind': u"Wing of Wind",
+    'aura_of_horror': u"Sinister Aura",
+    'unbreakable_scale': u"Phantom head",
+    'spellbound_trap': u"Magic trap",
+    'swimmer_spell': u"Gills",
+    'impregnator': u"Impregnator",
 }
 
 effects_list = {
@@ -1666,45 +1622,45 @@ lair_image = {
 # значение - кортеж из названия этапа для меню и названия метки, к которой нужно совершить переход
 special_places = {
     # лесная пещера с огром
-    'enc_ogre': (u"Пещера людоеда", 'lb_enc_fight_ogre'),
-    'explore_ogre_den': (u"Исследовать пещеру людоеда", 'lb_enc_explore_ogre_den'),
-    'create_ogre_lair': (u"Поселиться в пещере людоеда", 'lb_enc_create_ogre_lair'),
+    'enc_ogre': (u"Ogre den", 'lb_enc_fight_ogre'),
+    'explore_ogre_den': (u"Explore ogre den", 'lb_enc_explore_ogre_den'),
+    'create_ogre_lair': (u"Make lair in ogre den", 'lb_enc_create_ogre_lair'),
     # йотун
-    'jotun_full': (u"Ледяная цитадель", 'lb_jotun'),
-    'jotun_empty': (u"Пустой замок в горах", 'lb_jotun_empty'),
+    'jotun_full': (u"Ice citadel", 'lb_jotun'),
+    'jotun_empty': (u"Abandoned ice citadel", 'lb_jotun_empty'),
     # Ифрит
-    'ifrit_full': (u"Вулканическая кузня", 'lb_ifrit'),
-    'ifrit_empty': (u"Пустая вулканическая кузня", 'lb_ifrit_empty'),
+    'ifrit_full': (u"Volcanic cave", 'lb_ifrit'),
+    'ifrit_empty': (u"Abandoned volcanic cave", 'lb_ifrit_empty'),
     # Тритон
-    'triton_full': (u"Подводные хоромы", 'lb_triton'),
-    'triton_empty': (u"Подводные руины", 'lb_triton_empty'),
+    'triton_full': (u"Underwater mansion", 'lb_triton'),
+    'triton_empty': (u"Abandoned underwater mansion", 'lb_triton_empty'),
     # Титан
-    'titan_full': (u"Облачный замок", 'lb_titan'),
-    'titan_empty': (u"Разорённый облачный замок", 'lb_titan_empty'),
+    'titan_full': (u"Cloud castle", 'lb_titan'),
+    'titan_empty': (u"Abandoned cloud castle", 'lb_titan_empty'),
     # рыцарский манор
-    'manor_full': (u"Укреплённая усадьба", 'lb_manor'),
-    'manor_empty': (u"Заброшенная усадьба", 'lb_manor_empty'),
+    'manor_full': (u"Manor", 'lb_manor'),
+    'manor_empty': (u"Abandoned manor", 'lb_manor_empty'),
     # деревянный замок
-    'wooden_fort_full': (u"Деревянный замок", 'lb_wooden_fort'),
-    'wooden_fort_empty': (u"Опустевший форт", 'lb_wooden_fort_empty'),
+    'wooden_fort_full': (u"Motte and bailey", 'lb_wooden_fort'),
+    'wooden_fort_empty': (u"Abandoned fort", 'lb_wooden_fort_empty'),
     # монастрыь
-    'abbey_full': (u"Укреплённый монастрыь", 'lb_abbey'),
-    'abbey_empty': (u"Разорённый монастырь", 'lb_abbey_empty'),
+    'abbey_full': (u"Monasty", 'lb_abbey'),
+    'abbey_empty': (u"Abandoned monasty", 'lb_abbey_empty'),
     # каменный замок
-    'castle_full': (u"Каменная крепость", 'lb_castle'),
-    'castle_empty': (u"Пустая крепость", 'lb_castle_empty'),
+    'castle_full': (u"Castle", 'lb_castle'),
+    'castle_empty': (u"Abandoned castle", 'lb_castle_empty'),
     # королевский замок
-    'palace_full': (u"Королевский замок", 'lb_palace'),
-    'palace_empty': (u"Пустой дворец", 'lb_palace_empty'),
+    'palace_full': (u"Palace", 'lb_palace'),
+    'palace_empty': (u"Abandoned palace", 'lb_palace_empty'),
     # зачарованный лес
-    'enter_ef': (u"Зачарованный лес", 'lb_enchanted_forest'),
-    'dead_grove': (u"Заброшенная роща альвов", 'lb_dead_grove'),
+    'enter_ef': (u"Enchanted wood", 'lb_enchanted_forest'),
+    'dead_grove': (u"Defiled wood", 'lb_dead_grove'),
     # задний проход в морию
-    'backdor_open': (u"Задний проход", 'lb_backdor'),
-    'backdor_sealed': (u"Задний проход", 'lb_backdor_sealed'),
+    'backdor_open': (u"Back door", 'lb_backdor'),
+    'backdor_sealed': (u"Back door", 'lb_backdor_sealed'),
     # мория
-    'frontgates_guarded': (u"Врата Подгорного Царства", 'lb_frontgates'),
-    'frontgates_open': (u"Разбитые врата", 'lb_dwarf_ruins'),
+    'frontgates_guarded': (u"Mountain Gate", 'lb_frontgates'),
+    'frontgates_open': (u"Brocken Gates", 'lb_dwarf_ruins'),
 }
 
 quest_list = (
@@ -1720,7 +1676,7 @@ quest_list = (
         'min_lvl': 1,  # минимальный уровень дракона для получения квеста
         'max_lvl': 1,  # максимальный уровень дракона для получения квеста
         # текст квеста, {0} будет заменён на требуемый уровень
-        'text': u"Ты уже вырос, пора заняться настоящим делом, сыночек. Там за пределами моих владений, лежат земли Вольных Народов, это они унизили меня и изгнали в эти бесплодные пустоши. Ты станешь началом Рода несущего вольным погибель. \n Давай-ка проверим на что ты способен родной. Отправляйся в земли Вольных Народов и стяжай себе дурную славу - пусть о тебе говорят, пусть тебя боятся. Только не лезь на рожон, мы же не хотим чтобы ты умер не оставив сыновей, верно? Если видишь что враг силён - убегай. Бей исподтишка. Рыскай по лесам и полям, убивай одиноких женщин, разоряй стада. Мы увидим как растёт твоя дурная слава. Когда люди начнут шептаться возвращайся ко мне и я подарю тебе сына, который станет сильнее тебя и сможет сделать больше. \n Мой совет - не оставайся спать в Землях Вольных. Когда ты устанешь то захочешь вздремнуть. И сон твой продлится год, а может быть и дольше если надо будет залечивать раны. А пока ты спишь, люди будут охотиться за тобой и твоими сокровищами. Чем больше твоя дурная слава, тем больше внимания ты привлечёшь, а пока что тебе это не нужно. Если успеешь достаточно набедокурить до того как совсем устанешь и захочешь спать, иди лучше сразу сюда. В крайнем случае переночуй в овражке. \n Но если пропадёшь больше чем на пять лет, я сделаю продолжателем рода другого. ",
+        'text': u"(Gain 1 infamity) \n Ты уже вырос, пора заняться настоящим делом, сыночек. Там за пределами моих владений, лежат земли Вольных Народов, это они унизили меня и изгнали в эти бесплодные пустоши. Ты станешь началом Рода несущего вольным погибель. \n Давай-ка проверим на что ты способен родной. Отправляйся в земли Вольных Народов и стяжай себе дурную славу - пусть о тебе говорят, пусть тебя боятся. Только не лезь на рожон, мы же не хотим чтобы ты умер не оставив сыновей, верно? Если видишь что враг силён - убегай. Бей исподтишка. Рыскай по лесам и полям, убивай одиноких женщин, разоряй стада. Мы увидим как растёт твоя дурная слава. Когда люди начнут шептаться возвращайся ко мне и я подарю тебе сына, который станет сильнее тебя и сможет сделать больше. \n Мой совет - не оставайся спать в Землях Вольных. Когда ты устанешь то захочешь вздремнуть. И сон твой продлится год, а может быть и дольше если надо будет залечивать раны. А пока ты спишь, люди будут охотиться за тобой и твоими сокровищами. Чем больше твоя дурная слава, тем больше внимания ты привлечёшь, а пока что тебе это не нужно. Если успеешь достаточно набедокурить до того как совсем устанешь и захочешь спать, иди лучше сразу сюда. В крайнем случае переночуй в овражке. \n Но если пропадёшь больше чем на пять лет, я сделаю продолжателем рода другого. ",
         'fixed_time': 5,  # количество лет на выполнение квеста, не зависящее от уровня дракона
         # ключевое слово для описания задачи, 'reputation' - проверяется уровень дурной славы
         'task': 'reputation',
@@ -1729,7 +1685,7 @@ quest_list = (
     {   # Породить любое потомство.
         'min_lvl': 2,  # минимальный уровень дракона для получения квеста
         'max_lvl': 2,  # максимальный уровень дракона для получения квеста
-        'text': u"Ну вот ты и подрос, родной. Ты сильнее совего папы, но всё же ещё не так могуч чтобы отомстить за меня - это дело для твоих потомков. А знаешь что нужно делать чтобы завести детей? Нет-нет, не со мной, глупыш. Пока что не со мной. Надо проверить на что ты способен, для продолжения Рода я выберу самого лучшего из выводка. \n   У тебя очень сильное семя, ты сможешь оплодотворить кого захочешь. Но принять и выносить твоего ребёнка смогут не все. Чем больше сил будет у женщины, тем лучше выйдет потомство. Обязательно бери дев, которые ещё не знали мужского прикосновения. Разве что для великанш это не имеет значения, одно отродье они смогут тебе подарить даже если уже рожали обычных детей до того. Ищи для себя лучшую кровь. Горожанка лучше крестьянки. Благородная дама лучше горожанки. У эльфийских дев в крови магия - а значит они дадут отличное потомство. \n   Ты первый в роду и поэтому тебе рано гоняться за волшебными девами, хватит на первой и крестьянок. Поймай где-нибудь у деревни одну, а лучше нескольких. Оплодотвори их и отпусти на волю, ведь в логове за ними некому будет смотреть пока ты спишь. Если их не убьют свои же, то через год, когда проснёшься, они породят тварей. Не драконов конечно, драконов могу породить лишь Я, но всё же это будут монстры которые попортят людям кровушку. Когда что-нибудь вылупится возвращайся ко мне и получишь особую награду!  \n   На всё про всё сроку тебе пять лет. Если не справишься за это время, то назад можешь не возвращаться.",  # текст квеста
+        'text': u"(make any offspring) \n Ну вот ты и подрос, родной. Ты сильнее совего папы, но всё же ещё не так могуч чтобы отомстить за меня - это дело для твоих потомков. А знаешь что нужно делать чтобы завести детей? Нет-нет, не со мной, глупыш. Пока что не со мной. Надо проверить на что ты способен, для продолжения Рода я выберу самого лучшего из выводка. \n   У тебя очень сильное семя, ты сможешь оплодотворить кого захочешь. Но принять и выносить твоего ребёнка смогут не все. Чем больше сил будет у женщины, тем лучше выйдет потомство. Обязательно бери дев, которые ещё не знали мужского прикосновения. Разве что для великанш это не имеет значения, одно отродье они смогут тебе подарить даже если уже рожали обычных детей до того. Ищи для себя лучшую кровь. Горожанка лучше крестьянки. Благородная дама лучше горожанки. У эльфийских дев в крови магия - а значит они дадут отличное потомство. \n   Ты первый в роду и поэтому тебе рано гоняться за волшебными девами, хватит на первой и крестьянок. Поймай где-нибудь у деревни одну, а лучше нескольких. Оплодотвори их и отпусти на волю, ведь в логове за ними некому будет смотреть пока ты спишь. Если их не убьют свои же, то через год, когда проснёшься, они породят тварей. Не драконов конечно, драконов могу породить лишь Я, но всё же это будут монстры которые попортят людям кровушку. Когда что-нибудь вылупится возвращайся ко мне и получишь особую награду!  \n   На всё про всё сроку тебе пять лет. Если не справишься за это время, то назад можешь не возвращаться.",  # текст квеста
         'fixed_time': 5,  # количество лет на выполнение квеста, не зависящее от уровня дракона
         'task': 'offspring',  # ключевое слово для описания задачи, 'offspring' - породить потомство
         # кортеж с требованиями, для выполнения задания нужно выполнить любое из них,
@@ -1739,7 +1695,7 @@ quest_list = (
     {   # Снизить боеспособность королевства.
         'min_lvl': 3,  # минимальный уровень дракона для получения квеста
         'max_lvl': 3,  # максимальный уровень дракона для получения квеста
-        'text': u"Сегодня день твоего совершеннолетия. Это значит, что пришла пора и тебе как до того твоим предкам, отправляться в Земли Вольных народов. Среди всех, люди самые мерзкие. Они многочисленны и организованы. Их королевство огромно. И они уже знают о появлении драконов, а значит будут защищаться. \n   Когда твоя дурная слава растёт, вслед за ней растёт мобилизация королевства. Они будут увеличивать свою армию, вышлют на дороги патрули. Чем выше мобилизация, тем лучше защищено королевство. Но мы можем помешать людям собраться с силами. Для этого подойдут любые способы: можно разорять деревни, жечь амбары и мельницы. Тогда в стране начнётся разруха и мобилизация упадёт. Можно наводнить королевство отродьями, которые отвлекут войска на себя. А можно просто заплатить разбойникам с одинокого острова, чтобы они начали саботаж. Так или иначе, но ты должен уметь справляться с угрозой. Вот что ты должен сделать: \n   Сначала стяжай дурную славу и ложись спать. Как проснёшься, люди уже будут суетиться. Тогда то и надо будет сделать что-нибудь, чтобы умерить их пыл. Когда мобилизация упадёт, считай что сделал всё что нужно. Можешь возвращаться ко мне за наградой! \n   Сроку дам тебе десять лет. Этого должно быть более чем достаточно для такой простой задачи. ",  # текст квеста
+        'text': u"(rise kingdom mobilization, then drop it) \n Сегодня день твоего совершеннолетия. Это значит, что пришла пора и тебе как до того твоим предкам, отправляться в Земли Вольных народов. Среди всех, люди самые мерзкие. Они многочисленны и организованы. Их королевство огромно. И они уже знают о появлении драконов, а значит будут защищаться. \n   Когда твоя дурная слава растёт, вслед за ней растёт мобилизация королевства. Они будут увеличивать свою армию, вышлют на дороги патрули. Чем выше мобилизация, тем лучше защищено королевство. Но мы можем помешать людям собраться с силами. Для этого подойдут любые способы: можно разорять деревни, жечь амбары и мельницы. Тогда в стране начнётся разруха и мобилизация упадёт. Можно наводнить королевство отродьями, которые отвлекут войска на себя. А можно просто заплатить разбойникам с одинокого острова, чтобы они начали саботаж. Так или иначе, но ты должен уметь справляться с угрозой. Вот что ты должен сделать: \n   Сначала стяжай дурную славу и ложись спать. Как проснёшься, люди уже будут суетиться. Тогда то и надо будет сделать что-нибудь, чтобы умерить их пыл. Когда мобилизация упадёт, считай что сделал всё что нужно. Можешь возвращаться ко мне за наградой! \n   Сроку дам тебе десять лет. Этого должно быть более чем достаточно для такой простой задачи. ",  # текст квеста
         'fixed_time': 10,  # количество лет на выполнение квеста, не зависящее от уровня дракона
         # ключевое слово для описания задачи, 'poverty' - проверяется уровень понижения мобилизации из-за разрухи
         'task': 'poverty',
@@ -1751,7 +1707,7 @@ quest_list = (
         # максимальный уровень дракона для получения квеста
         'max_lvl': 4,
         # текст квеста
-        'text': u"Ты уже совсем взрослый, сынок. И ты намного сильнее чем были первые в твоём Роде, настало время драконам вести себя по королевски. Я хочу чтобы ты хорошенько обосновался на Землях Вольных. Тебе понадобится настоящее драконье логово, не какой-нибудь сырой овраг или дыра в земле. Лучше найди хорошую пещеру или отбей у какого-нибудь рыцаря поместье или небольшой замок. Тебе потребуются слуги и охрана. Лучше всего если тебя будут охранять твои же отродья, но для начала сойдут и наёмники с разбойничьего острова. В качестве слуг можно нанять гремлинов, они будут присматривать за пленницами пока ты спишь. Тварям рождённым в твоём логове ты сможешь приказывать что делать. Если хочешь насолить людям - отпусти их резвиться на волю. Если нужна охрана или слуги которые не возьмут с тебя денег, оставь их в логове - там найдётся место для слуг, цепных ядовитых тварей, обычной охраны и элитного защитника сокровищ. Если же твоё логово уже под защитой, отправляй разумных отродий ко мне - они станут дополнением к войску гоблинов и размножатся под моей рукой. \n   Гремлины искусные мастера - обязательно закажи у них ловушки и укрепления для своего нового логова, чтобы ворам было сложнее добраться до сокровищницы. Отнесись к обустройству логова со всем возможным вниманием, ведь менять его дело хлопотное - переселяясь ты потеряешь всё что нажил до того, кроме разве что сокровищ. \n   Когда у тебя будет достойное жильё со слугами, охраной, ловушками и укреплениями, позови меня посмотреть. Сроку даю тебе десять лет, если справишься то станешь продолжателем Рода.",
+        'text': u"(Get good lair, with guards, servants, fortifications and traps) \n Ты уже совсем взрослый, сынок. И ты намного сильнее чем были первые в твоём Роде, настало время драконам вести себя по королевски. Я хочу чтобы ты хорошенько обосновался на Землях Вольных. Тебе понадобится настоящее драконье логово, не какой-нибудь сырой овраг или дыра в земле. Лучше найди хорошую пещеру или отбей у какого-нибудь рыцаря поместье или небольшой замок. Тебе потребуются слуги и охрана. Лучше всего если тебя будут охранять твои же отродья, но для начала сойдут и наёмники с разбойничьего острова. В качестве слуг можно нанять гремлинов, они будут присматривать за пленницами пока ты спишь. Тварям рождённым в твоём логове ты сможешь приказывать что делать. Если хочешь насолить людям - отпусти их резвиться на волю. Если нужна охрана или слуги которые не возьмут с тебя денег, оставь их в логове - там найдётся место для слуг, цепных ядовитых тварей, обычной охраны и элитного защитника сокровищ. Если же твоё логово уже под защитой, отправляй разумных отродий ко мне - они станут дополнением к войску гоблинов и размножатся под моей рукой. \n   Гремлины искусные мастера - обязательно закажи у них ловушки и укрепления для своего нового логова, чтобы ворам было сложнее добраться до сокровищницы. Отнесись к обустройству логова со всем возможным вниманием, ведь менять его дело хлопотное - переселяясь ты потеряешь всё что нажил до того, кроме разве что сокровищ. \n   Когда у тебя будет достойное жильё со слугами, охраной, ловушками и укреплениями, позови меня посмотреть. Сроку даю тебе десять лет, если справишься то станешь продолжателем Рода.",
         # количество лет на выполнение квеста, не зависящее от уровня дракона
         'fixed_time': 10,
         # ключевое слово для описания задачи, 'lair' - проверяется тип логова и его улучшений
@@ -1772,7 +1728,7 @@ quest_list = (
     {   # Поймать вора или одолеть рыцаря в собственном логове.
         'min_lvl': 5,  # минимальный уровень дракона для получения квеста
         'max_lvl': 5,  # максимальный уровень дракона для получения квеста
-        'text': u"В твоём возрасте, твой отец отправился в Земли Вольных и устроил там отличное логово. Правда в деле он его толком так и не проверил. Логово нужно дракону не просто так. Там ты хранишь сокровища и держишь пленниц вынашивающих твоё потомство. Чем больше твоя дурная слава, тем больше злодеев захочет тебя обидеть. \n   Рыцари будут приезжать пока ты спишь, будить тебя громкими звуками боевого рога и вызывать на бой. Ну как их за это ну убивать? Если же рыцарь тебя одолевает, то можно убежать, но тогда все сокровища и пленницы достанутся ему а логово будет потеряно навсегда! \n   Воры не так опасны, но они очень раздражают. Слетаются на золото, словно мухи на мёд. Вор будет пытаться проникнуть в сокровищницу пока ты спишь и стянуть самые ценные вещи прямо у тебя из под носа! Тут то и пригодятся охранники, укрепления и ловушки. \n Обустрой себе неприступное логово и проверь его в деле - поймай вора или одолей рыцаря. Тогда я смогу спать спокойно, зная что мои детки способны сами о себе позаботиться и прожить долгую жизнь в землях наших врагов. \n Четверти века должно хватить, но если справишься быстрее - приходи раньше.",  # текст квеста
+        'text': u"(Kill the thief or knight in your lair) \n В твоём возрасте, твой отец отправился в Земли Вольных и устроил там отличное логово. Правда в деле он его толком так и не проверил. Логово нужно дракону не просто так. Там ты хранишь сокровища и держишь пленниц вынашивающих твоё потомство. Чем больше твоя дурная слава, тем больше злодеев захочет тебя обидеть. \n   Рыцари будут приезжать пока ты спишь, будить тебя громкими звуками боевого рога и вызывать на бой. Ну как их за это ну убивать? Если же рыцарь тебя одолевает, то можно убежать, но тогда все сокровища и пленницы достанутся ему а логово будет потеряно навсегда! \n   Воры не так опасны, но они очень раздражают. Слетаются на золото, словно мухи на мёд. Вор будет пытаться проникнуть в сокровищницу пока ты спишь и стянуть самые ценные вещи прямо у тебя из под носа! Тут то и пригодятся охранники, укрепления и ловушки. \n Обустрой себе неприступное логово и проверь его в деле - поймай вора или одолей рыцаря. Тогда я смогу спать спокойно, зная что мои детки способны сами о себе позаботиться и прожить долгую жизнь в землях наших врагов. \n Четверти века должно хватить, но если справишься быстрее - приходи раньше.",  # текст квеста
         'fixed_time': 25,  # количество лет на выполнение квеста, не зависящее от уровня дракона
         'task': 'event',  # ключевое слово для описания задачи, 'event' - должно произойти какое-то событие
         # кортеж с требованиями, нужно либо 'thief_killer' - поймать вора, либо 'knight_killer' - убить рыцаря
@@ -1782,7 +1738,7 @@ quest_list = (
         'min_lvl': 6,  # минимальный уровень дракона для получения квеста
         'max_lvl': 11,  # максимальный уровень дракона для получения квеста
         # текст квеста, {0} будет заменён на требуемый уровень
-        'text': u"Садись и слушай, дитя моё. Твои беззаботные дни окончены, теперь ты взрослый и будешь сам по себе, один в мире людей. Ты сможешь позаботиться о себе, как и все те твои предки. Если же хочешь стать продолжателем рода, то покажи себя в деле - стяжай дурную славу (не менее {0}) и возвращайся ко мне за наградой. \n   Впрочем не торопись особо. Времени у нас много, но надо думать о будущем. Золото которое ты соберёшь и отродья которых ты отправишь в мою армию очень пригодятся нам когда придёт час войны. \n   И да будет имя твоё ночным кошмаром для всех Вольных Народов!",
+        'text': u"(Gain {0} infamity) \n Садись и слушай, дитя моё. Твои беззаботные дни окончены, теперь ты взрослый и будешь сам по себе, один в мире людей. Ты сможешь позаботиться о себе, как и все те твои предки. Если же хочешь стать продолжателем рода, то покажи себя в деле - стяжай дурную славу (не менее {0}) и возвращайся ко мне за наградой. \n   Впрочем не торопись особо. Времени у нас много, но надо думать о будущем. Золото которое ты соберёшь и отродья которых ты отправишь в мою армию очень пригодятся нам когда придёт час войны. \n   И да будет имя твоё ночным кошмаром для всех Вольных Народов!",
         'lvlscale_time': 5,  # на что нужно умножить уровень дракона, чтобы получить число лет на выполнение
         # ключевое слово для описания задачи, 'reputation' - проверяется уровень дурной славы
         'task': 'reputation',
@@ -1794,7 +1750,7 @@ quest_list = (
         'min_lvl': 6,  # минимальный уровень дракона для получения квеста
         'max_lvl': 10,  # максимальный уровень дракона для получения квеста
         # текст квеста, {0} будет заменён на требуемый уровень
-        'text': u"Вижу как горят твои глаза при виде золота и женских форм. Ты стал совсем взрослым и в тебе окрепли драконьи страсти. Это отлично. Но здесь всё золото принадлежит мне, как и все женские прелести. Если хочешь что-то для себя, милый, отправляйся в земли Вольных Народов. Там достаточно металла и плоти иди и возьми! \n   Наша армия растёт, им нужно снаряжение, оружие, продовольствие. Нужно золото. Собери для меня сокровища которые стоили бы не меньше  {0} фартингов. Если твоё золотое ложе будет достаточно дорогим, я позволю тебе продолжить твой Род и твои потомки прославят тебя!",
+        'text': u"(Gain {0} wealth) \n Вижу как горят твои глаза при виде золота и женских форм. Ты стал совсем взрослым и в тебе окрепли драконьи страсти. Это отлично. Но здесь всё золото принадлежит мне, как и все женские прелести. Если хочешь что-то для себя, милый, отправляйся в земли Вольных Народов. Там достаточно металла и плоти иди и возьми! \n   Наша армия растёт, им нужно снаряжение, оружие, продовольствие. Нужно золото. Собери для меня сокровища которые стоили бы не меньше  {0} фартингов. Если твоё золотое ложе будет достаточно дорогим, я позволю тебе продолжить твой Род и твои потомки прославят тебя!",
         'lvlscale_time': 5,  # на что нужно умножить уровень дракона, чтобы получить число лет на выполнение
         'task': 'wealth',  # ключевое слово для описания задачи, 'wealth' - проверяется стоимость сокровищ
         'fixed_threshold': 10000,  # задаёт фиксированное значения для задачи
@@ -1805,7 +1761,7 @@ quest_list = (
         'min_lvl': 6,  # минимальный уровень дракона для получения квеста
         'max_lvl': 12,  # максимальный уровень дракона для получения квеста
         # текст квеста, {0} будет заменён на требуемый уровень
-        'text': u"Хочешь меня? Я знаю, знаю. Чем старше ты становишься, тем больше хочешь. Тебя снедает желание продолжить свой род, но это право надо заслужить, сын мой. Женщин знаешь ли не всегда похищают и насилуют, со мной этот трюк не пройдёт. Но я буду благосклонна, если ты подаришь мне что-нибудь красивое. И дорогое. Не меньше {0} фартингов, а лучше больше! Уверена ты сможешь отыскать что-нибудь подходящее в сокровищницах Вольных Народов или даже соберёшь нужные материалы и сделаешь что-то уникальное специально для меня. Ведь ты хочешь меня… но пройдут годы прежде чем сможешь получить. Пусть эта страсть питает тебя, дитя моё. Пусть перерастает в злобу. Я хочу чтобы Вольные почувствовали твою ярость! Иди и принеси мне подарок, я буду терпелива, я дождусь тебя. ",
+        'text': u"(Give me a gift, item {0} worth or more) \n Хочешь меня? Я знаю, знаю. Чем старше ты становишься, тем больше хочешь. Тебя снедает желание продолжить свой род, но это право надо заслужить, сын мой. Женщин знаешь ли не всегда похищают и насилуют, со мной этот трюк не пройдёт. Но я буду благосклонна, если ты подаришь мне что-нибудь красивое. И дорогое. Не меньше {0} фартингов, а лучше больше! Уверена ты сможешь отыскать что-нибудь подходящее в сокровищницах Вольных Народов или даже соберёшь нужные материалы и сделаешь что-то уникальное специально для меня. Ведь ты хочешь меня… но пройдут годы прежде чем сможешь получить. Пусть эта страсть питает тебя, дитя моё. Пусть перерастает в злобу. Я хочу чтобы Вольные почувствовали твою ярость! Иди и принеси мне подарок, я буду терпелива, я дождусь тебя. ",
         'lvlscale_time': 5,  # на что нужно умножить уровень дракона, чтобы получить число лет на выполнение
         'task': 'gift',  # ключевое слово для описания задачи, 'wealth' - проверяется стоимость сокровищ
         'fixed_threshold': 1500,
@@ -1815,7 +1771,7 @@ quest_list = (
     {   # Породить потомка от великанши.
         'min_lvl': 7,  # минимальный уровень дракона для получения квеста
         'max_lvl': 11,  # максимальный уровень дракона для получения квеста
-        'text': u"Поздравляю с совершеннолетием. Ты уже вырос и готов, я вижу как ты на меня глядишь. Всему своё время. Сначала докажи что ты настоящий мужчина. Обрюхатить крестьянку много ума не надо, с этим и гоблин справится. Но если ты заведёшь потомство от великанши, это уже достижение. Тогда и я соглашусь что ты достоин стать продолжателем Рода. \n   Только не забывай пожалуйста, что кроме пушечного мяса нашей армии нужно и золото, чем больше ты соберёшь, тем лучше мы будем готовы к войне. \n   Теперь ступай, сей ужас в землях Вольных Народов!",  # текст квеста
+        'text': u"(Make offspring wih giantess) \n Поздравляю с совершеннолетием. Ты уже вырос и готов, я вижу как ты на меня глядишь. Всему своё время. Сначала докажи что ты настоящий мужчина. Обрюхатить крестьянку много ума не надо, с этим и гоблин справится. Но если ты заведёшь потомство от великанши, это уже достижение. Тогда и я соглашусь что ты достоин стать продолжателем Рода. \n   Только не забывай пожалуйста, что кроме пушечного мяса нашей армии нужно и золото, чем больше ты соберёшь, тем лучше мы будем готовы к войне. \n   Теперь ступай, сей ужас в землях Вольных Народов!",  # текст квеста
         'fixed_time': 50,  # количество лет на выполнение квеста, не зависящее от уровня дракона
         'task': 'offspring',  # ключевое слово для описания задачи, 'offspring' - породить потомство
         # кортеж с требованиями, для выполнения задания нужно выполнить любое из них, 'giantess' - потомок от великанши
@@ -1831,7 +1787,7 @@ quest_list = (
     {   # Разорить рощу альвов
         'min_lvl': 8,  # минимальный уровень дракона для получения квеста
         'max_lvl': 12,  # максимальный уровень дракона для получения квеста
-        'text': u"Ты вырос. Стал таким могучим и большим. Сильнее любого из твоих предков, я ведь помню каждого в твоём роду. Ещё немного и драконы будут готовы исполнить своё предназначение. Но не ты. Однако для тебя у меня есть испытание достойное твоего могущества и великолепия. До сих пор мы больше досаждали людям, а они и правда самые мерзкие среди всех. Но есть ещё и другие. В лесах прячутся трусливые альвы, дети богини Дану. Покажи им на что способны драконы. Найди и уничтожь их священное древо, убей их владык, оскверни их волшебные рощи. Там тебя ждут несметные богатства и прекрасные вечно-юные девы. Но помни, что ни одна из них не сравнится со мной. А меня ты сможешь получить только тогда, когда одолеешь лесной народ. \n   Ступай!",  # текст квеста
+        'text': u"(Raze elven forest) \n Ты вырос. Стал таким могучим и большим. Сильнее любого из твоих предков, я ведь помню каждого в твоём роду. Ещё немного и драконы будут готовы исполнить своё предназначение. Но не ты. Однако для тебя у меня есть испытание достойное твоего могущества и великолепия. До сих пор мы больше досаждали людям, а они и правда самые мерзкие среди всех. Но есть ещё и другие. В лесах прячутся трусливые альвы, дети богини Дану. Покажи им на что способны драконы. Найди и уничтожь их священное древо, убей их владык, оскверни их волшебные рощи. Там тебя ждут несметные богатства и прекрасные вечно-юные девы. Но помни, что ни одна из них не сравнится со мной. А меня ты сможешь получить только тогда, когда одолеешь лесной народ. \n   Ступай!",  # текст квеста
         'fixed_time': 75,  # количество лет на выполнение квеста, не зависящее от уровня дракона
         'prerequisite': 'giantess',  # ключ для game.unique, который необходим для получения этой задачи
         'task': 'event',  # ключевое слово для описания задачи, 'event' - должно произойти какое-то событие
@@ -1845,7 +1801,7 @@ quest_list = (
     {   # Устроить логово в подгорном царстве цвергов
         'min_lvl': 9,  # минимальный уровень дракона для получения квеста
         'max_lvl': 12,  # максимальный уровень дракона для получения квеста
-        'text': u"Ох, какой же ты большой стал. Сильнее всех прочих, я уверена что именно ты станешь продолжателем Рода, мой милый. Но как и всем твоим предкам, сначала тебе придётся доказать что ты этого достоин. Люди для тебя не угроза. Даже альвы не устоят. Но в Вольных Землях нет большего богатства чем таят в себе подгорные чертоги цвергов. Наложить на них лапу будет очень и очень не просто, задача как раз для такого могучего змея как ты. Одолей цевргов и устрой своё логово в сокровщнице их короля и тогда я стану твоей. \n    Ступай. Близок час когда все Вольные Народы склонятся перед могуществом моих детей.",  # текст квеста
+        'text': u"(Make lair in Dwarves Kingdom) \n Ох, какой же ты большой стал. Сильнее всех прочих, я уверена что именно ты станешь продолжателем Рода, мой милый. Но как и всем твоим предкам, сначала тебе придётся доказать что ты этого достоин. Люди для тебя не угроза. Даже альвы не устоят. Но в Вольных Землях нет большего богатства чем таят в себе подгорные чертоги цвергов. Наложить на них лапу будет очень и очень не просто, задача как раз для такого могучего змея как ты. Одолей цевргов и устрой своё логово в сокровщнице их короля и тогда я стану твоей. \n    Ступай. Близок час когда все Вольные Народы склонятся перед могуществом моих детей.",  # текст квеста
         'fixed_time': 75,  # количество лет на выполнение квеста, не зависящее от уровня дракона
         'prerequisite': 'ravage_sacred_grove',  # ключ для game.unique, который необходим для получения этой задачи
         'task': 'lair',  # ключевое слово для описания задачи, 'lair' - проверяется тип логова и его улучшений
@@ -1859,7 +1815,7 @@ quest_list = (
     {   # Захватить столицу
         'min_lvl': 13,  # минимальный уровень дракона для получения квеста
         'max_lvl': 20,  # максимальный уровень дракона для получения квеста
-        'text': u"Подойди ко мне, сын мой. Каким же большим и сильным ты вырос. Нам нет нужды больше ждать, ты будешь тем кто отомстит за меня. Ты положишь к моим ногам короны владык Вольных Народов. Исполнишь предназначение ради которого был создан твой Род. \n   Не торопись, я дам тебе достаточно времени на подготовку. Позаботься о том, чтобы наша армия была в полной готовности, нам нужно много бойцов и чем разнообразнее они будут тем лучше. Когда настанет время выступать, помни что тебе придётся пройти несколько битв и времени на отдых не будет. В каждой битве у нас будут потери. Большие если ты останешься в стороне, меньшие если встанешь на остриё атаки. Если понадобится, один раз я сражусь сама. Когда столица людей падёт, остальные сдадутся сами...",  # текст квеста
+        'text': u"(Lead the Army of Darkness and raze the Capital) \n Подойди ко мне, сын мой. Каким же большим и сильным ты вырос. Нам нет нужды больше ждать, ты будешь тем кто отомстит за меня. Ты положишь к моим ногам короны владык Вольных Народов. Исполнишь предназначение ради которого был создан твой Род. \n   Не торопись, я дам тебе достаточно времени на подготовку. Позаботься о том, чтобы наша армия была в полной готовности, нам нужно много бойцов и чем разнообразнее они будут тем лучше. Когда настанет время выступать, помни что тебе придётся пройти несколько битв и времени на отдых не будет. В каждой битве у нас будут потери. Большие если ты останешься в стороне, меньшие если встанешь на остриё атаки. Если понадобится, один раз я сражусь сама. Когда столица людей падёт, остальные сдадутся сами...",  # текст квеста
         'fixed_time': 1000,  # количество лет на выполнение квеста, не зависящее от уровня дракона
         'task': 'event',  # ключевое слово для описания задачи, 'event' - должно произойти какое-то событие
         # кортеж с требованиями, для выполнения задания нужно выполнить любое из них,
