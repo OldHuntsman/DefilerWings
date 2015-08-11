@@ -1,5 +1,5 @@
 # coding=utf-8
-# локация взаимодействий
+# interactions location
 
 label lb_nature_sex:
     if game.girl.jailed:

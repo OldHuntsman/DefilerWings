@@ -7,16 +7,16 @@ init python hide:
     shims.screen_displayable_monkey_patch()
 
 init python:
-    # Импортируем нужные библиотеки. Возможно это надо засунуть в какой-то отдельный файл инициализации.
+    # Importing libraries. Maybe we need separat init file?.
     from pythoncode import data, treasures, focus_mask_ext, battle
     from pythoncode.game import Game
     from copy import deepcopy
     
     focus_mask_ext.load_focus_mask_data()
     
-    # Заряжаем пасхалки. Их можно будет встретить в игре лишь однажды
-    # Встреченную пасхалку следует добавить в persistent.seen_encounters
-    # Проверить была ли встречена пасхалка: if <encounter> (not) in persistent.seen_encounters
+    # Easter eggs. Can be seen once per game
+    # Seen egg should be added to persistent.seen_encounters
+    # To check if egg was seen: if <encounter> (not) in persistent.seen_encounters
     if not hasattr(persistent, 'seen_encounters'):
         persistent.seen_encounters = []
     freeplay = bool()
@@ -35,15 +35,15 @@ screen controls_overwrite():
 label start:
     $ renpy.block_rollback()
     python:
-        # Инициализируем game в начале игры, а не при инициализации. Для того чтобы она сохранялась.
+        # initialize <game> at begining of the game, but no at init. So game could be saved.
         game = Game(adv_character=ADVCharacter, nvl_character=NVLCharacter)
-        narrator = game.narrator    # Ради совместимости с обычным синтаксисом RenPy
+        narrator = game.narrator    # For compability with common Renpy syntax
         # Alex: Zexy Images :)
         sex_imgs = DragonSexImagesDatabase()
     # Added by Alex on Hunters request, we overwrite default game menu leading to save screen:
     show screen controls_overwrite    
         
-    # Alex: Чтобы смотреть на какой находишься локации кода в игре
+    # Alex: To see on which location you are in game
     #if config.developer:
     #    show screen label_callback
         
@@ -54,7 +54,7 @@ label start:
         $ persistent.kali_done = False        
         call screen sc_intro
     while not game.is_won or not game.is_lost:
-        # Если дракона нет выбираем его
+        # Choose dragon if we have no one
         show black as low
         if game.dragon is None or game.dragon.is_dead:
             if not freeplay:

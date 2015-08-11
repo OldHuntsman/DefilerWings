@@ -1,5 +1,5 @@
 # coding=utf-8
-# здесь хранятся тексты для игры
+# Here we keeps game texts
 python early:
     from pythoncode import data
      

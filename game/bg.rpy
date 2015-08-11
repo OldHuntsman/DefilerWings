@@ -3,14 +3,14 @@ init python:
     import random
 
     def get_place_bg(type):
-        relative_path = "img/bg/" + type  # Относительный путь для движка ренпи
+        relative_path = "img/bg/" + type  # relative path for renpy engine
         files = [f for f in renpy.list_files() if f.startswith(relative_path)]        
-        return random.choice(files)  # получаем название файла
+        return random.choice(files)  # get file name
 
 init:
-    image bg main = "img/bg/main.jpg"  # заставка главного меню
+    image bg main = "img/bg/main.jpg"  # main menu background
     image place = ConditionSwitch(
-        "place == 'city_gates'", "img/bg/city/outside.jpg",    # определение фонов для разных мест (потребует доработки)
+        "place == 'city_gates'", "img/bg/city/outside.jpg",    # background defenition for various places (need update?)
         "place == 'impassable_coomb'", "img/bg/lair/ravine.jpg",
         "place == 'impregnable_peak'", "img/bg/lair/cavelarge.jpg",
         "place == 'solitude_citadel'", "img/bg/lair/icecave.jpg",

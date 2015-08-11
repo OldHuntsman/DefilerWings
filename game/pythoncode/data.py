@@ -6,8 +6,8 @@ import collections
 
 class Modifier(object):
     """
-    Класс разнообразных модификаторов.
-    К примеру: даров владычицы, снаряжения рыцарей, заклинаний и.т.д.
+    Various modifiers class.
+    Examples: mistress gifhts, knight's equipment, spells etc.
     """
 
     def __init__(self, attack=('base', (0, 0)), protection=('base', (0, 0)), magic=0, fear=0, energy=0):
@@ -27,7 +27,7 @@ class Modifier(object):
 
 class Container(collections.defaultdict):
     """
-    Класс-хранилище разнообразных свойст/модификаторов
+    Storage class for various properties/modifiers
     TODO: реверсивный поиск
     """
 
@@ -41,8 +41,8 @@ class Container(collections.defaultdict):
 
     def add(self, container_id, data):
         """
-        :param container_id: Идентификатор свойства/модификатора
-        :param data: dict, содержащий парамерты этого свойства/модификатор
+        :param container_id: property/modifier identifier
+        :param data: dict which contais properties of this property/modifier
         """
         if container_id not in self:
             if type(data) is dict:
@@ -54,8 +54,7 @@ class Container(collections.defaultdict):
 
     def sum(self, parameter):
         """
-        :param parameter: Значение, по которому нужно суммировать аттрибуты. Суммирование проводится
-                          рекурсивно.
+        :param parameter: Value by which you should summarize attributes. Summing goes recursively.
         """
         total = 0
         if parameter in self:
@@ -87,9 +86,9 @@ class Container(collections.defaultdict):
 
     def contains(self, key, value=None):
         """
-        Возвращает список айдишников, которые содержат заданный ключ и, если указано, значение.
-        :param key: Ключ который должен содержать элемент
-        :return: список элеметов содержащих ключ, если таких элементов нет, то пустой список
+        Returns a list of IDs that contain given key and and value if specified.
+        :param key: Key which element should contain
+        :return: list of elements that contain key, if there is no such elements, list is empty
         """
         result = []
         if key in self:
@@ -105,9 +104,9 @@ class Container(collections.defaultdict):
 
     def select(self, query):
         """
-        Возвращает список айдишников которые подходят под условия указанные в query. Нерекурсивно.
-        :param query: список кортежей (ключ, значение) которым должен удовлетворять объект поиска
-        :return: спискок удовлетворяюищих элементво
+        Return a list of IDs that fits conditions that set in query. Not recursively.
+        :param query: tuples list (key, value) which object of serach must meet
+        :return: list of satisfying elements
         """
         result = []
         for (key, value) in query:
@@ -137,13 +136,13 @@ class Container(collections.defaultdict):
 
 def get_description_by_count(description_list, count):
     """ 
-    :param description_list: словарь, ключ - минимальное целочисленное значение,
-    при котором выведется значение с этим ключом.
-    Максимальное число, при котором выведется значение - минимальное значение - 1 следующего по размеру ключа
-    :param count: число, для которой нужно подобрать описание
-    :return: описание для числа count из словаря description_list
-    Например, если description_list = {0:'A', 10:'B'}, 
-    то при count < 0 результат - None, при count = 0..9 - 'A', а при count >= 10 - 'B'
+    :param description_list: dictionary, key - minimum integer number,
+    in which value is output with this key.
+    Maximum number, in which value is output - minimum number of a next key minus one
+    :param count: number for which we want to pick description
+    :return: description for number count from dictionary description_list
+    For example, if description_list = {0:'A', 10:'B'}, 
+    than with count < 0 result is None, with count = 0..9 - 'A', and with count >= 10 - 'B'
     """
     count_list = reversed(sorted(description_list.keys()))
     for count_i in count_list:
@@ -400,6 +399,7 @@ thief_items = Container(
     })
 
 # Одинаковые айдишники вещей спасут от того, что у вора может оказаться норамльная.
+# As I remember, we planned to use cursed items, but after all we didn't implemented them
 thief_items_cursed = Container(
     "thief_items_cursed",
     {
@@ -461,16 +461,15 @@ thief_titles = [
 ]
 
 '''
-Вызывает label указанный в value словаря. Если указан list, то вызваются все label'ы указанные в
-списке в указанном порядке.
-В качестве ключевых параметров передаются:
-thief - вор стриггеривший ивент
-Дополнительно для "start_trap", "die_trap", "pass_trap", "pass_trap_by_luck", "pass_trap_no_influence", "end_trap":
-trap - улучшение, которое стриггерило ивент
-Дополнительно для "pass_trap_by_luck":
-drain_luck - количество удачи, которое отнято у вора прошедшего эту ловушку.
-Дополнительно для "die_item", "receive_item":
-item - вещь, которую получил вор
+Calls label shown in value of dictionary. If list is shown, calls all labels shown at list in specified order.
+Crucial parameters are:
+thief - thief which triggered an event
+Additionally for: "start_trap", "die_trap", "pass_trap", "pass_trap_by_luck", "pass_trap_no_influence", "end_trap":
+trap - upgrade which triggered an event
+Additionally for "pass_trap_by_luck":
+drain_luck - amount of luck, removed from thief who passed this trap.
+Additionally for "die_item", "receive_item":
+item - item that thief get
 '''
 thief_events = {
     "spawn": "lb_event_thief_spawn",
@@ -500,7 +499,7 @@ thief_events = {
 }
 
 #
-# Рыцарь
+# Knight
 #
 
 knight_first_names = [
@@ -703,7 +702,7 @@ knight_abilities = Container(
 knight_items = Container(
     "knight_items",
     {
-        # Нагрудники
+        # Breastplates
         "basic_vest": {
             "id": "basic_vest",
             "name": u"Chainmail",
@@ -737,7 +736,7 @@ knight_items = Container(
             "basic": False,
             "modifiers": []
         },
-        # Копья
+        # Spears
         "basic_spear": {
             "id": "basic_spear",
             "name": u"Steel lance",
@@ -771,7 +770,7 @@ knight_items = Container(
             "basic": False,
             "modifiers": []
         },
-        # Мечи
+        # Swords
         "basic_sword": {
             "id": "basic_sword",
             "name": u"Longsword",
@@ -820,7 +819,7 @@ knight_items = Container(
             "basic": False,
             "modifiers": ['slatk_up', 'slatk_up']
         },
-        # Щиты
+        # Shields
         "basic_shield": {
             "id": "basic_shield",
             "name": u"Heraldic shield",
@@ -846,7 +845,7 @@ knight_items = Container(
             "basic": False,
             "modifiers": []
         },
-        # Кони
+        # Horses
         "basic_horse": {
             "id": "basic_horse",
             "name": u"Horse",
@@ -903,7 +902,7 @@ knight_items = Container(
             "basic": False,
             "modifiers": ['atk_up', 'def_up', 'flight']
         },
-        # Спутники
+        # Followers
         "basic_follower": {
             "id": "basic_follower",
             "name": u"Squire",
@@ -969,7 +968,7 @@ knight_events = {
 }
 
 #
-# Логово
+# Lair
 #
 
 lair_types = Container(
@@ -1177,7 +1176,7 @@ attack_types = ['base', 'fire', 'ice', 'poison', 'sound', 'lightning']
 protection_types = ['base', 'scale', 'shield', 'armor']
 
 #
-# Дурная слава
+# Reputation
 #
 
 reputation_levels = {
@@ -1213,10 +1212,10 @@ reputation_gain = {
 }
 
 #
-# Дракон
+# Dragon
 #
 
-# имена
+# Names
 dragon_names = [
     u'Azogh',
     u'Auring',
@@ -1341,7 +1340,7 @@ dragon_surnames = [
     u'teh Unholy',
 ]
 
-# Размеры
+# Sizes
 dragon_size = [
     u'Small',
     u'Modestsized',
@@ -1431,7 +1430,7 @@ cunning_description = [
     u'Взгляд дракона светится нечеловеческим коварством. Сила его колдовских чар просто невероятна.',
 ]
 
-# TODO: Текстовый модуль с числительными
+# TODO: Text module with numerals
 head_num = [
     u'main',
     u'second',
@@ -1445,7 +1444,7 @@ head_num = [
     u'tenth'
 ]
 
-# описание числа голов
+# heads amount description
 head_count = {
     2: u"twoheaded",
     3: u"threheaded",
@@ -1459,7 +1458,7 @@ head_count = {
     11: u"manyheaded",
 }
 
-# Типы голов(цвета)
+# Head types(colors)
 dragon_heads = {
     'green': [],
     'red': ['fire_breath', 'fire_immunity'],
@@ -1488,7 +1487,7 @@ heads_name_rus = {
 
 dragon_gifts = dict()
 
-# Заклинания
+# Spells
 spell_list = {
     # заговоры -- дают иммунитет к атаке выбранного типа
     'fire_protection': ['fire_immunity'],
@@ -1535,7 +1534,7 @@ spell_list_rus = {
 }
 
 effects_list = {
-    # спецеффекты от еды и других прокачек дракона помимо собственных заклинаний
+    # effects from food and other sourcesспецеффекты от еды и других прокачек дракона помимо собственных заклинаний
     'boar_meat': ['atk_up'],
     'bear_meat': ['def_up'],
     'griffin_meat': ['mg_up'],
@@ -1612,14 +1611,14 @@ def get_modifier(name):
         return modifiers[name]
     raise NotImplementedError(name)
 
-# логова, картинки
+# lairs, images
 lair_image = {
     'ravine': 'ravine'
 }
 
-# Словарь с "достопримечательностями",
-# ключ - название этапа,
-# значение - кортеж из названия этапа для меню и названия метки, к которой нужно совершить переход
+# Dictionary with "showplaces",
+# key - stage name,
+# value - tuple of stage name for menu and mark you should jump to
 special_places = {
     # лесная пещера с огром
     'enc_ogre': (u"Ogre den", 'lb_enc_fight_ogre'),

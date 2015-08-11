@@ -1,21 +1,21 @@
 ﻿# coding=utf-8
-# Как это работает
+# How it works
 #
-# В листе map_data содержатся названия локаций
-# По маске 'img/map/button_<localtion>_%s.png' выбираются картинки для imagebutton
-# TODO: добавить описание для Action
+# map_data list contains locations names
+# Images for imagebutton selected with mask 'img/map/button_<location>_%s.png
+# TODO: add description for Action
 #
-# Добавление локации на карте
-# Для того чтобы добавить локацию на карте, нужно добавить в лист map_data название этой локации (location, name)
-# где location - внутреннее название локации, а name - отображаемое название локации пользователю
-# и добавить как минимум две картинки в img/map/ с названиями button_<location>_idle и button_<location>_hover
-# для положений не выделенной локации и локации при наведении соотвественно.
-# Изображения должны по размеру совпадать с размером задника и содержать только саму кнопку -
-# все остальное прозрачный альфа-слой.
+# Adding locations on a map
+# To add location on a map, you should add tuple(<location>, <name>) to map_data list
+# where <location> - internal location name, and <name> - location name displayed to user
+# and add at least two images in img/map/ with names button_<location>_idle and button_<location>_hover
+# for hovered and unhovered states respectively.
+# Image's sizes should match bg sizes and contain only button -
+# everything else is transparent alpha-layer.
 #
 # TODO: Можно добавить map_data куда-нибудь в Game, для того чтобы была возможность управления налету.
 
-# Составляем стиль для подсказки.
+# Making a tooltip style.
 # TODO: выпилить, сделав нормальный стиль для prompt
 init python:
     from pythoncode.focus_mask_ext import FocusMaskCallable
@@ -25,9 +25,9 @@ init python:
 
 screen main_map:
     python:
-        # После добавления новых кнопок или их обновления НЕОБХОДИМО сгенерировать новые координаты
-        # при помощи функции focus_mask_ext.create_focus_mask_data. Получившийся в итоге файл должен
-        # располагаться в focus_mask_ext.COORDINATES_FILE_PATH.
+        # After adding or updating buttons IT's NECESSARY to generate new coordinates
+        # with function focus_mask_ext.create_focus_mask_data. Resulting file should 
+        # be settled at focus_mask_ext.COORDINATES_FILE_PATH.
         map_data = [
             ("sea", "Море"),
             ("mordor", "Земли Владычицы"),
@@ -42,11 +42,11 @@ screen main_map:
             ("plains", "Обжитые земли")
         ]
     
-    default map_tooltip = Tooltip("None")  # Подсказка на что сейчас наведена мышка
-    # Тултип для статусбара, если не объявить в родительском окне, то почему-то не работает.
+    default map_tooltip = Tooltip("None")  # Tootip about what mouse is hoovering now
+    # status bar tooltip, if not declared in parent window, it doesn't work for some reason.
     default status_bar_tooltip = Tooltip("None")
     fixed:
-        fit_first True  # Принимаем размер следущей картинки. Нужно для корректного отображения подсказки посередине.
+        fit_first True  # Receiving size of next image. To display tooltip at middle correctly.
         add "img/map/ground.jpg"
     
         for target, description in map_data:
@@ -56,14 +56,14 @@ screen main_map:
                 focus_mask FocusMaskCallable(target)
                 hovered map_tooltip.Action(description)
     
-        if map_tooltip.value != "None":  # Костыль-костылык. Не показываем подсказу если у нее значение по умолчанию
-            frame:                      # Делаем небольшой фрейм, чтобы показать подсказку
-                style "map_tooltip"     # Ставим ему стиль
+        if map_tooltip.value != "None":  # Don't show tooltip with default value
+            frame:                      # Create little frame to show tooltip
+                style "map_tooltip"     # Makes frame's style
                 xpadding 10
                 ypadding 5
                 xalign 0.5
                 yalign 0.01
-                text map_tooltip.value:  # Выводим собственно текст подсказки
+                text map_tooltip.value:  # Print tooltip's text
                     xalign 0.5
         
         if game.dragon is not None:
@@ -76,7 +76,7 @@ screen main_map:
             size 25
 
 
-    # Выходим из под действия fixed
+    # Leaving from <fixed> effect
     use status_bar
     if game.lair is not None:
         use to_lair_button
@@ -84,7 +84,7 @@ screen main_map:
     if game.dragon is not None and game.dragon.special_places_count > 0:
         use special_places 
 
-# Составляем стиль для подсказки.
+# Making tooltip style.
 # TODO: выпилить, сделав нормальный стиль для prompt
 init python:
     style.status_bar_tooltip = Style("prompt")
@@ -105,7 +105,7 @@ screen status_bar:
                 size 30
                 color "a7926d"      # Цвет взял с шаблона, но тут он почему-то выглядит по-другому.
                 outlines[(2, "#0004", 0, 0), (4, "#0003", 0, 0), (6, "#0002", 0, 0), (8, "#0001", 0, 0)]
-            mousearea:              # Зона при наведении на которую всплывет подсказка
+            mousearea:              # Area which shows tooltip when hoovered
                 area(42, 342, 45, 45)
                 hovered status_bar_tooltip.Action("Запас сил")
 
@@ -115,7 +115,7 @@ screen status_bar:
                 size 30
                 color "a7926d"     
                 outlines[(2, "#0004", 0, 0), (4, "#0003", 0, 0), (6, "#0002", 0, 0), (8, "#0001", 0, 0)]
-            mousearea:              # Зона при наведении на которую всплывет подсказка
+            mousearea:              # Area which shows tooltip when hoovered
                 area(140, 342, 45, 45)
                 hovered status_bar_tooltip.Action("Дурная слава")
 
@@ -136,7 +136,7 @@ screen status_bar:
                 size 30
                 color "a7926d"     
                 outlines[(2, "#0004", 0, 0), (4, "#0003", 0, 0), (6, "#0002", 0, 0), (8, "#0001", 0, 0)]
-            mousearea:              # Зона при наведении на которую всплывет подсказка
+            mousearea:              # Area which shows tooltip when hoovered
                 area(240, 342, 45, 45)
                 hovered status_bar_tooltip.Action("Коварство")
 
@@ -160,7 +160,7 @@ screen status_bar:
                 anchor(0.5, 0.5)
                 size 23
         
-        if status_bar_tooltip.value != "None":  # см. map_tooltip на экране main_map
+        if status_bar_tooltip.value != "None":  # look map_tooltip at screen main_map
             frame:
                 style "status_bar_tooltip"
                 xpadding 10

@@ -8,9 +8,9 @@ army_battle = False
 
 def calc_hit_def(hitdef):
     """
-    вспомогательная функция для вычисления попадания
-    :param hitdef: словарь с атакой либо защитой
-    :return: значение атаки либо защиты
+    secondary function for hit chance calculations
+    :param hitdef: dictionary with attack of defense
+    :return: attack or defense value
     """
     value = sum(hitdef[key][1] for key in hitdef)
     for attacks in range(1, sum(hitdef[key][0] for key in hitdef) + 1):
@@ -22,55 +22,55 @@ def calc_hit_def(hitdef):
 
 def battle_action(dragon, foe):
     """
-    логика сражения.
+    combat logic.
     :type dragon: Dragon
-    :param dragon: текущий дракон
+    :param dragon: current dragon
     :type foe: Enemy
-    :param    foe: текущий противник
-    :return: список, описывающий состояние боя
+    :param foe: current enemy
+    :return: list which describes battle status
     """
     status = []
-    # проверяем атаку дракона
+    # check dragon's attack
     power = dragon.attack()
     immun = foe.immunity()
-    # пробегаем все ключи словаря атаки дракона
+    # check each key of the dragon's attack dictionary
     for key in power.keys():
         (r, p) = power[key]
         if (not (r + p)) or (key in immun):
-            # удаляем нулевые атаки и те, к которым у противника иммунитет
+            # removing null attacks and attacks enemy is immune to
             del power[key]
         else:
-            # записываем чем дракон мог ударить в статус раунда боя
+            # record things that dragon could attack with to a battle status
             status.append('dragon_' + key)
-            # проверяем, если атака больше защиты - противника съели, иначе он еще жив
+            # check if dragon's attack is over foe's protection, if yes foe has been eaten by dragon
     dragon_hit = calc_hit_def(power)
     foe_defence = calc_hit_def(foe.protection())
     if dragon_hit > foe_defence:
-        achieve_target(foe.name, "kill")    # событие для ачивок
+        achieve_target(foe.name, "kill")    # achievement event
         foe.die()
         status.append('foe_dead')
     else:
         status.append('foe_alive')
-    # полностью зеркальная ситуация для атаки противника
+    # now same as before, but for foe's attack
     power = foe.attack()
     immun = dragon.immunity()
-    # пробегаем все ключи словаря атаки противника
+    # check each key of the foe's attack dictionary
     for key in power.keys():
         (r, p) = power[key]
         if (not (r + p)) or (key in immun):
-            # удаляем нулевые атаки и те, к которым у дракона иммунитет
+            # removing null attacks and attacks dragon is immune to
             del power[key]
         else:
-            # записываем чем противник мог ударить в статус раунда боя
+            # record things that foe could attack with to a battle status
             status.append('foe_' + key)
-            # проверяем, если атака противника больше защиты дракона - дракон ранен
+            # check if foe's attack if over dragon's protection, if yes dragon is wounded
     foe_hit = calc_hit_def(power)
     dragon_defence = calc_hit_def(dragon.protection())
     if foe_hit > dragon_defence:
-        # Если противник сразу обезглавливает дракона не наося ему ран.
+        # If enemy decapitates dragon without wounds.
         if 'decapitator' in foe.modifiers():
             status.extend(dragon.decapitate())
-        # А так просто наносим ранения.
+        # Else just wounds.
         else:
             status.extend(dragon.struck())
     else:
@@ -95,7 +95,7 @@ def chance_list(size):
 
 def brute_chance(balance, attack, defence):
     """
-    Честный расчет вероятности.
+    Straight probability calculation.
     """
     # расчет дополнения к функции распределения атаки
     attack_list = chance_list(attack)
@@ -119,7 +119,7 @@ def brute_chance(balance, attack, defence):
 
 def victory_chance(objective, foe):
     """
-    Расчет вероятности победы.
+    Chance of victory calculation.
     :param objective: для кого считается шанс победы
     :param    foe: текущий противник
     :return: вероятность победы в процентах
@@ -145,7 +145,7 @@ def victory_chance(objective, foe):
 def practic_dragon_chance(dragon, foe):
     """
     Оценка вероятности победы на практике.
-    ТОЛЬКО ДЛЯ ТЕСТА, слишком медленно
+    Too slow, just for tests
     """
     count = 100000
     drag_win = 0.0
@@ -162,10 +162,10 @@ def practic_dragon_chance(dragon, foe):
 
 def check_fear(dragon, foe):
     """
-    Проверяет не превышает ли страх дракона сумму защиты и атаки противника
-    :param dragon: текущий дракон
-    :param foe: текущий противник дракона
-    :return: ['foe_intro', 'foe_alive'] если противник преодолел страх, если не смог - ['foe_fear', 'foe_dead']
+    Check if dragon's fear is more than foe's attack+protection
+    :param dragon: current dragon
+    :param foe: current foe
+    :return: ['foe_intro', 'foe_alive'] if foe overcomes fear, else - ['foe_fear', 'foe_dead']
     """
     fear = dragon.fear
     power = foe.attack()
