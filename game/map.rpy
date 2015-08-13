@@ -29,17 +29,17 @@ screen main_map:
         # with function focus_mask_ext.create_focus_mask_data. Resulting file should 
         # be settled at focus_mask_ext.COORDINATES_FILE_PATH.
         map_data = [
-            ("sea", "Море"),
-            ("mordor", "Земли Владычицы"),
-            ("sky", "Небеса"),
-            ("forest", "Лес"),
-            ("smuggler", "Приют контрабандистов"),
-            ("mountain", "Горы"),
-            ("road", "Торговый тракт"),
-            ("ruin", "Старые руины"),
-            ("gremlin", "Деревня гремлинов"),
-            ("city", "Столица"),
-            ("plains", "Обжитые земли")
+            ("sea", "Sea"),
+            ("mordor", "Lands of Darkness"),
+            ("sky", "Sky"),
+            ("forest", "Forest"),
+            ("smuggler", "Smugglers den"),
+            ("mountain", "Mountains"),
+            ("road", "Trade route"),
+            ("ruin", "Old ruins"),
+            ("gremlin", "Gremlin villgae"),
+            ("city", "Capital"),
+            ("plains", "Rural area")
         ]
     
     default map_tooltip = Tooltip("None")  # Tootip about what mouse is hoovering now
@@ -67,10 +67,10 @@ screen main_map:
                     xalign 0.5
         
         if game.dragon is not None:
-            text u"{font=fonts/AnticvarShadow.ttf} Год %d э.д. (Прошло %d) {/font}" % (game.year, game.dragon.age)
+            text u"{font=fonts/AnticvarShadow.ttf} Year %d d.a. (Time passed %d) {/font}" % (game.year, game.dragon.age)
     
     if game.dragon is not None:
-        text "{font=fonts/AnticvarShadow.ttf} %d фартингов {/font}" % game.lair.treasury.money:
+        text "{font=fonts/AnticvarShadow.ttf} %d farthing {/font}" % game.lair.treasury.money:
             xalign 0.7
             yalign 1
             size 25
@@ -107,7 +107,7 @@ screen status_bar:
                 outlines[(2, "#0004", 0, 0), (4, "#0003", 0, 0), (6, "#0002", 0, 0), (8, "#0001", 0, 0)]
             mousearea:              # Area which shows tooltip when hoovered
                 area(42, 342, 45, 45)
-                hovered status_bar_tooltip.Action("Запас сил")
+                hovered status_bar_tooltip.Action("Energy")
 
             text "%d" % game.dragon.reputation.level:
                 pos(160, 365)
@@ -117,7 +117,7 @@ screen status_bar:
                 outlines[(2, "#0004", 0, 0), (4, "#0003", 0, 0), (6, "#0002", 0, 0), (8, "#0001", 0, 0)]
             mousearea:              # Area which shows tooltip when hoovered
                 area(140, 342, 45, 45)
-                hovered status_bar_tooltip.Action("Дурная слава")
+                hovered status_bar_tooltip.Action("Infamy")
 
             add '%s' % game.dragon.avatar:
                 pos(160, 155)
@@ -138,7 +138,7 @@ screen status_bar:
                 outlines[(2, "#0004", 0, 0), (4, "#0003", 0, 0), (6, "#0002", 0, 0), (8, "#0001", 0, 0)]
             mousearea:              # Area which shows tooltip when hoovered
                 area(240, 342, 45, 45)
-                hovered status_bar_tooltip.Action("Коварство")
+                hovered status_bar_tooltip.Action("Magic Power")
 
             text "%s" % hunger_texts[game.dragon.hunger]:
                 pos(160, 447)
@@ -183,7 +183,7 @@ screen special_places:
     fixed:
         xalign 1.0
         xmaximum 320
-        textbutton "{font=fonts/Tchekhonin2.ttf}М{/font}{font=fonts/times.ttf}еста{/font}":
+        textbutton "{font=fonts/Tchekhonin2.ttf}P{/font}{font=fonts/times.ttf}laces{/font}":
             pos(72, 599)
             xysize(174, 36)
             text_xalign 0.5
@@ -196,7 +196,7 @@ screen to_lair_button:
     fixed:
         xalign 1.0
         xmaximum 320
-        textbutton "{font=fonts/Tchekhonin2.ttf}Л{/font}{font=fonts/times.ttf}огово{/font}":
+        textbutton "{font=fonts/Tchekhonin2.ttf}L{/font}{font=fonts/times.ttf}air{/font}":
             pos(72, 649)
             xysize(174, 36)
             text_xalign 0.5

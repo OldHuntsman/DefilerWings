@@ -46,16 +46,16 @@ label lb_enc_tuna:
     '[game.dragon.fullname] замечает крупный косяк тунца плывущий по течению. Некоторые рыбины такие здоровые что могут поспорить по весу с деревенскими быками. Но наверняка они даже вкуснее!'
     nvl clear
     menu:
-        'Заглотнуть тунца' if game.dragon.hunger > 0:
+        'Eat the tuna' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] ловит и пожирает самую крупную рыбу из стаи. Вскоре на кровь сплываются многочисленные акулы, но увидив кто тут трапезничает, мгновенно уплывают прочь.'
             python:
                 if game.dragon.bloodiness > 0:
                     game.dragon.bloodiness = 0
-        'Забить косяк' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
+        'Murder a fish scool' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             'Хорошенько разогнавшись [game.dragon.name] врезается в косяк рыбы буквально взрывая его изнутри. Располосованная зубами и когтями рыба отчаянно бьётся в воде, так что кровь расплывается облаками и вода становится красной. Словно из ниоткуда появляются опьяневшие от крови акулы превнося в действие ещё больше хаоса и смерти. Неплохой способ выпустить ярость, кто бы подумал что можно получить столько радости от отдного единственного косяка?'    
-        'Проплыть мимо' if game.dragon.bloodiness < 5:
+        'Swim away' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
     
@@ -63,7 +63,7 @@ label lb_enc_shark:
     'Навстречу дракону величественно выплывает большая белая акула. Это действительно выдающийся экземпляр, не менее шести метров в длинну. Похоже она считает себя королевой этих вод.'
     nvl clear
     menu:
-        'Сразиться с акулой':
+        'Fight the shark':
             $ game.dragon.drain_energy()
             $ game.foe = Enemy('shark', game_ref=game)
             call lb_fight from _call_lb_fight_20
@@ -76,7 +76,7 @@ label lb_enc_shark:
                     game.dragon.add_effect('shark_meat')
             else:
                 '[game.dragon.fullname] сейчас не голоден, поэтому оставляет изрангенную акулу на растерзание её более мелким но агрессивным сородичам, приплывшим на запах крови.'
-        'Скрыться на глубине' if game.dragon.bloodiness < 5:
+        'Dive deeper' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
     
@@ -84,7 +84,7 @@ label lb_enc_fishers:
     '[game.dragon.fullname] натыкается на рыбацкую лодку идущую в порт. У них на борту полно рыбы.'
     nvl clear
     menu:
-        'Украсть рыбу' if game.dragon.hunger > 0:
+        'Snatch the fish' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             'Рыбаки кричат от удивления и ужаса, когда прямо из воды высовывается голова на длинной шее и хватает рыбу прямо у них из лодки. А потом ещё и ещё, до тех пор пока судно не причалило к берегу. Наверное рыбаки попрыгали бы от страху в море, если бы не знали что там ещё опасней.'
             python:
@@ -92,12 +92,12 @@ label lb_enc_fishers:
                     game.dragon.bloodiness = 0
                 game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
-        'Перевернуть лодку' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
+        'Topple the boat' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             '[game.dragon.kind] выпрыгивает из воды словно резвящийся дельфин и всем своим весом падает поперёк лодки, так что та с хрустом ломается посередине, здымая облака брызг и раскидывая рыбаков встороны. Осталось пустить одному кровь, чтобы акулы доделали своё дело. Но меожеи быть кто-то и спасётся...'    
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Проплыть мимо' if game.dragon.bloodiness < 5:
+        'Swim away' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
     
@@ -105,7 +105,7 @@ label lb_enc_yacht:
     'Вдоль берега неспеша плывёт изящная прогулочная яхта. Судя по запаху, на борту есть невинная девица, наверное дочь какого-нибудь богатого купца а может быть даже и лорда. В любом случае, это законная добыча повелителя окрестных вод!'
     nvl clear
     menu:
-        'Утащить девицу с палубы':
+        'Snatch the girl from board':
             $ chance = random.choice(['citizen', 'citizen', 'citizen', 'princess'])
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl(chance)
@@ -115,14 +115,14 @@ label lb_enc_yacht:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_12      
-        'Оставить яхту в покое' if game.dragon.bloodiness < 5:
+        'Let her be' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()    
     return
     
 label lb_enc_bark:
     'Зная что вдоль береговой линии пролегают торговые маршруты, [game.dragon.kind] решает проплыть вдоль одного из них и натыкается на тяжело гружёный парусник. Судя по запаху, он везёт груз вина, оливкового масла и специй из заморских стран. Наверняка на борту должны быть и звонкие монетки, для украшения дракоьньей кучи.'
     menu:
-        'Вымогать деньги':
+        'Wring the money':
             python:
                 game.dragon.drain_energy()
                 passing_tool = random.randint(1, 20)
@@ -131,7 +131,7 @@ label lb_enc_bark:
             'Капитан решает не испытывать судьбу и отдаёт дракону несколько золотых дублонов, чтобы тот его не трогал и пропустил корабль с миром.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
-        'Потопить корабль' if game.dragon.bloodiness >= 5:
+        'Sink the ship' if game.dragon.bloodiness >= 5:
             $ game.dragon.drain_energy()
             $ game.foe = Enemy('ship', game_ref=game)
             call lb_fight from _call_lb_fight_21
@@ -149,7 +149,7 @@ label lb_enc_bark:
             '[trs_descrptn]'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Пропустить' if game.dragon.bloodiness < 5:
+        'Swim away' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
         
@@ -158,7 +158,7 @@ label lb_enc_galeon:
     $ game.foe = Enemy('battleship', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
-        'Потопить галеон':
+        'Sink the galleon':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_22
             python:
@@ -177,7 +177,7 @@ label lb_enc_galeon:
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
             
-        'Не связываться' if game.dragon.bloodiness < 5:
+        'Swim away' if game.dragon.bloodiness < 5:
             'Груз золота невероятно заманчив, но разумеется у такого груза есть достойная охрана. И как бы ни хотелось быть богатым, живым быть всё же важнее.'       
             $ game.dragon.gain_rage()
     return
@@ -186,7 +186,7 @@ label lb_enc_diver:
     'Эти тёплые прозрачные воды облюбовали ловцы жемчуга. Раз за разом ныряют они на глубину, выискивая раковины-жемчужницы в надежде найти внутри драгоценное содержимое. [game.dragon.fullname] знает что грабить их бесполезно, бедняги считают что им повезло если за целый день работы обнаруживается хотя бы одна стоящая жемчужина. Но на этот раз дракона привлекает пожива другого рода. Загорелая ныряльщица с сильными и крепкими ногами источает аромат невинности привлекающий не менее чем запах денег. Такая может выносить здоровое потомсвто...'
     nvl clear
     menu:
-        'Поймать ныряльщицу':
+        'Snatch the swimmer':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('peasant')
             'Дракон ловит ныряльщицу.'
@@ -195,7 +195,7 @@ label lb_enc_diver:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_13      
-        'Поискать другую добычу' if game.dragon.bloodiness < 5:
+        'Go away' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
     
@@ -203,7 +203,7 @@ label lb_enc_mermaid:
     'У берега на большом камне сидит русалочка, она рассчёсывает длинные волосы блестящим перламутровым гребнем. Похоже ждёт своего принца... или дракона.'
     nvl clear
     menu:
-        'Поймать русалочку':
+        'Catch the little merrimaid':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('mermaid')
             'Дракон ловит русалку.'
@@ -212,7 +212,7 @@ label lb_enc_mermaid:
             nvl clear
             game.girl.third "[description]"
             call lb_water_sex from _call_lb_water_sex      
-        'Поискать другую добычу' if game.dragon.bloodiness < 5:
+        'Swim away' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()    
     return
     
@@ -222,7 +222,7 @@ label lb_enc_merfolks:
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
-        'Напасть':
+        'Attak fishman':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_23
             $ description = game.girls_list.new_girl('mermaid')
@@ -232,7 +232,7 @@ label lb_enc_merfolks:
             nvl clear
             game.girl.third "[description]"
             call lb_water_sex from _call_lb_water_sex_1      
-        'Не связываться' if game.dragon.bloodiness < 5:
+        'Swim away' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()       
     return
     
@@ -240,7 +240,7 @@ label lb_enc_mermaids:
     'Русалки водят подводный хоровод.'
     nvl clear
     menu:
-        'Поймать русалку':
+        'Catch the merrimaid':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('mermaid')
             'Держась на глубине [game.dragon.name] подплывает к самому камню и поднимает из воды шею прямо перед испуганной водяной девой. Та в ужасе дергает хвостом и падает в воду, прямо в объятья морского змея.'
@@ -249,7 +249,7 @@ label lb_enc_mermaids:
             nvl clear
             game.girl.third "[description]"
             call lb_water_sex from _call_lb_water_sex_2      
-        'Поискать другую добычу' if game.dragon.bloodiness < 5:
+        'Swim away' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()       
     return
      
@@ -267,13 +267,13 @@ label lb_enc_shipwreck:
         trs_list = game.lair.treasury.treasures_description(trs)
         trs_descrptn = '\n'.join(trs_list)
     menu:
-        'Нырнуть и отыскать сокровище':
+        'dive for treashures':
             $ game.dragon.drain_energy()
             'Разворотив гнилые борта затонувшего корабля [game.dragon.fullname] добирается до ценного содержимого. В тёмном затопленном трюме покоится тяжёленкий сундук, а внутри сундука:'
             '[trs_descrptn]'
             $ game.lair.treasury.receive_treasures(trs)
             
-        'Не время для сокровищ...' if game.dragon.bloodiness < 5:
+        'No time for this' if game.dragon.bloodiness < 5:
             'Конечно сокровища полезны, но у дракона есть дела поважнее. Какие интересно? Сложно даже представить... ЧТО МОЖЕТ БЫТЬ ВАЖНЕЕ СОКРОВИЩ???!'
     return
     

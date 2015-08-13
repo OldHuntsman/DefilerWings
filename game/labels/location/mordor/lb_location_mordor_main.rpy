@@ -21,28 +21,28 @@ label lb_location_mordor_main:
         mistress.name = "Владычица"
     
     menu:
-        'В земли Вольных Народов':
+        'To a Free Kingdoms':
             $ pass
-        'Армия Тьмы' if not freeplay:
+        'Army of Darkness' if not freeplay:
             show expression 'img/bg/special/army.jpg' as bg
             '[game.army.army_description]'
             nvl clear
             menu:
-                'Собрать армию и начать войну!':
+                'Time for WAR!':
                     $ mistrss_helps = True
                     call lb_war_border from _call_lb_war_border
-                'Продолжить подготовку':
+                'Let them train':
                     'Армия пока не готова.'
                     
             call lb_location_mordor_main from _call_lb_location_mordor_main
             
-        'Аудиенция с владычицей' if not freeplay:
+        'Mistress' if not freeplay:
             jump lb_mistress
-        'Уйти на покой':
+        'Retire':
             menu:
                 "Это действие сбросит текущую игру и позволит начать заново!"
-                "Сдаешься?"
-                "Да":
+                "Whant to give up?!"
+                "Yes":
                     python:
                         if not freeplay:
                             renpy.unlink_save("1-1")
@@ -50,7 +50,7 @@ label lb_location_mordor_main:
                         else:
                             renpy.unlink_save("1-3")
                             renpy.full_restart()
-                "Нет":
+                "No":
                     return
     return
     
@@ -62,7 +62,7 @@ label lb_mistress:
     nvl clear
     show expression 'img/scene/mistress.jpg' as bg    
     menu:
-        'Получить награду' if game.is_quest_complete:
+        'Ask for a revard' if game.is_quest_complete:
             # Если делаем подарок - удаляем его из списка сокровищ
             if game.quest_task == 'gift' and len(game.lair.treasury.jewelry) > 0:
                 $ del game.lair.treasury.jewelry[game.lair.treasury.most_expensive_jewelry_index]
@@ -71,23 +71,23 @@ label lb_mistress:
             call lb_mistress_fuck from _call_lb_mistress_fuck
             call lb_choose_dragon from _call_lb_choose_dragon
             return
-        'Уточнить задание' if not game.is_quest_complete:
+        'Ask about quest' if not game.is_quest_complete:
             "Текущее задание:\n[game.quest_text]\n[game.quest_time_text]"
             call lb_mistress from _call_lb_mistress
-        'Завести разговор':
+        'Chat':
             $ txt = game.interpolate(random.choice(txt_advice))
             mistress '[txt]'   
             nvl clear            
             call lb_mistress from _call_lb_mistress_1
-        'Предательски напасть':
+        'Treacherous attack':
             game.dragon 'Независимо от того выиграю ли я эту битву, мой род прервётся. Стоит ли убивать свою мать?'
             menu:
-                'Она не смеет повелевать мной!':
+                'I will smash her!':
                     jump lb_betrayal
-                'Она же всётаки Мать...':
+                'She is my mother, after all...':
                     'От Госпожи не укрылось напряжение сына, но она лишь загадочно улыбнулась не высказывая ни малейшего беспокойства.'
                     call lb_location_mordor_main from _call_lb_location_mordor_main_1
-        'Лизнуть её руку и уйти':
+        'Go away':
             'Иногда просто хочется прикоснуться к ней ещё раз...'  
             call lb_location_mordor_main from _call_lb_location_mordor_main_2
     return
@@ -108,7 +108,7 @@ label lb_location_mordor_questtime:
         game.dragon 'Я не успел, Владычица. Мне нужно ещё немного времени. Прости меня.'
         mistress 'Я не обижаюсь. Но и жалость мне не ведома. Ты подвёл меня а это можно сделать лишь однажды. Продолжателем рода станет кто-то другой, ты же доживай свои дни как пожелаешь. Изыди с глаз моих!'
         menu:
-            "Дать шанс другому дракону":
+            "Get other dragon":
                 call lb_choose_dragon from _call_lb_choose_dragon_2
                 return
     return
@@ -117,13 +117,13 @@ label lb_location_mordor_questtime:
 label lb_mistress_fuck:
     mistress 'Я могу принять любой облик, приятный тебе. Выбирай, какой ты хочешь меня видеть?'
     menu:
-        'Облик прекрасной девы, мне милее всего':
+        'I like your shapes as is':
             show expression sex_imgs("mistress") as xxx
             pause (500.0)
             $ txt = game.interpolate(random.choice(txt_human_mistress_fuck[game.dragon.kind]))
             '[txt]'    
             hide xxx
-        'Стань драконицей, я устал от немощных смертных дев':
+        'Can you become a dragon-lady?':
             show expression sex_imgs("dragon") as xxx
             pause (500.0)            
             $ txt = game.interpolate(random.choice(txt_dragon_mistress_fuck[game.dragon.kind]))
@@ -151,7 +151,7 @@ label lb_betrayal:
 label lb_new_round:
     nvl clear    
     if mistress_hp < 1:
-        mistress 'Я ещё вернусь!'
+        mistress 'I will be back!'
         $data.achieve_target("betray", "win")
         $ game.win()
         jump lb_you_win
@@ -161,25 +161,25 @@ label lb_new_round:
 
 label lb_tactics_choice:
     menu:
-        'Рвать зубами':
+        'Fangs':
             $ atk_tp = 'physical'
-        'Ударить заклятьем' if game.dragon.mana > 0:
+        'Spell' if game.dragon.mana > 0:
             $ atk_tp = 'magic'
-        'Изрыгнуть пламя' if 'fire_breath' in game.dragon.modifiers():
+        'Breath fire' if 'fire_breath' in game.dragon.modifiers():
             $ atk_tp = 'fire'
-        'Леденящее дыхание' if 'ice_breath' in game.dragon.modifiers():
+        'Icy breath' if 'ice_breath' in game.dragon.modifiers():
             $ atk_tp = 'ice'
-        'Громовой рёв' if 'sound_breath' in game.dragon.modifiers():
+        'Thunder roar' if 'sound_breath' in game.dragon.modifiers():
             $ atk_tp = 'thunder'
-        'Ужалить ядом'  if 'poison_breath' in game.dragon.modifiers() or 'poisoned_sting' in game.dragon.modifiers():
+        'Venomous sting'  if 'poison_breath' in game.dragon.modifiers() or 'poisoned_sting' in game.dragon.modifiers():
             $ atk_tp = 'poison'
-        'Взмыть в небеса' if game.dragon.can_fly:
+        'Dive in the sky' if game.dragon.can_fly:
             $ atk_tp = 'air'
         # 'Зарыться под землю' if game.dragon.can_dig: #TODO надо понять как это правильно проверить
         #    $ atk_tp = 'earth'
-        'Юлить и уклоняться':
+        'Dodge':
             $ atk_tp = 'dodge'
-        'Спрятаться и затихнуть':
+        'Hide':
             $ atk_tp = 'hide'
     return
 
@@ -432,14 +432,14 @@ label lb_war_border:
     $ narrator(show_chances(game.foe))
             
     menu:
-        'Наблюдать за битвой' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Behold calmly' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Армия Тьмы несёт потери, но передовые отряды прорываются к катапультам и уничтожают их. Теперь победа всего в одном шаге.'
             $ game.army.power_percentage -= army_decimator
             
-        'Сокрушить катапульты': #Дракон бережёт армию и сам уничтожает наиболее опасные очаги сопротивления
+        'Crush the catapults': #Дракон бережёт армию и сам уничтожает наиболее опасные очаги сопротивления
             call lb_fight from _call_lb_fight_42
 
-        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+        'Plead for help': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
             python:
                 if reinforcement_used:
@@ -464,15 +464,15 @@ label lb_war_border_continue:
     $ narrator(show_chances(game.foe))
     
     menu:
-        'Наблюдать за битвой' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Behold calmly' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Тяжелые летучие крейсера демонстративно зависают над скоплением монстров и скидывают прямо на головы воинам Владычицы пузатые бочки с заженнйми фитилями. Земля озаряется вспышками и заливается текучим огнём. Объятые пламенем гоблины с визгоми разбегаются и катаются по земле пытвась погасить огонь. Когда запас бомб на кораблях подходит к концу, они мерно разворачиваются и уходят на базу невредимыми. Эта атака стоила Армии Тьмы днсятой части воинов!'
             'Тем не менее, пограничные войска людей выдохнулись и вынуждены были отступить. Путь вглубь страны открыт.'
             $ game.army.power_percentage -= army_decimator
             
-        'Перехватить летучие корабли': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
+        'Intercept skyfleet': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             call lb_fight from _call_lb_fight_43
 
-        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+        'Plead for help': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
             python:
                 if reinforcement_used:
@@ -501,15 +501,15 @@ label lb_war_field:
     $ narrator(show_chances(game.foe))
     
     menu:
-        'Наблюдать за битвой' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Behold calmly' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Титан наносит тёмному воинству огромный урон, но всё же его удаётся одолеть. Вольные дрогнули, осталось лишь надавить!'
             $ game.army.power_percentage -= army_decimator
             
-        'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
+        'Slay the Titan': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             '[game.dragon.fullname] лично вступает в битву с Титаном, чтобы сберечь войска.'
             call lb_fight from _call_lb_fight_44
 
-        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+        'Plead for help': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
             python:
                 if reinforcement_used:
@@ -536,15 +536,15 @@ label lb_war_field_continue:
     $ narrator(show_chances(game.foe))
     
     menu:
-        'Наблюдать за битвой' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Behold calmly' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Ценой огромный потерь, элитные отряды тёмных сил прорываются к королю и рассправляются с ним. Это становится переломным моментом битвы. На закате разрозненные и разбитые войска людей отступают, открывая чудовищам путь вглубь страны.'
             $ game.army.power_percentage -= army_decimator
             
-        'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
+        'Slay the Warrior-King': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             'Битву можно выиграть всего одним точным ударом. [game.dragon.fullname] бросает вызов королю людей!'
             call lb_fight from _call_lb_fight_45
 
-        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+        'Plead for help': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
             python:
                 if reinforcement_used:
@@ -572,15 +572,15 @@ label lb_war_siege:
     $ narrator(show_chances(game.foe))
     
     menu:
-        'Наблюдать за битвой' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Behold calmly' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Войска штурмуюие главные ворота города несут страшные потери, но защитников слишком мало. Монстры сносят ворота и врываются на улицы города.'
             $ game.army.power_percentage -= army_decimator
             
-        'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
+        'Bash the gates': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             'Если проломить главные ворота, обороняющиеся войска окажутся беззащитны перед монстрами Владычицы. [game.dragon.fullname] бросается на штурм. '
             call lb_fight from _call_lb_fight_46
 
-        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+        'Plead for help': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
             python:
                 if reinforcement_used:
@@ -609,15 +609,15 @@ label lb_war_siege_inside:
     $ narrator(show_chances(game.foe))
     
     menu:
-        'Наблюдать за битвой' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Behold calmly' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Бой на улицах города отличается невероятной жестокостью, кровь течёт рекой и множетво раненых и убитых наблюдается с обеих сторон. Темне менее Силы Тьмы слишком многочисленны - защитники города обречены.'
             $ game.army.power_percentage -= army_decimator
             
-        'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
+        'Murder the city guard': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             '[game.dragon.fullname] лично возглавляет атаку своих войск, помогая уничтожить стражей.'
             call lb_fight from _call_lb_fight_47
 
-        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+        'Plead for help': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
             python:
                 if reinforcement_used:
@@ -646,15 +646,15 @@ label lb_war_citadel:
     $ narrator(show_chances(game.foe))
     
     menu:
-        'Наблюдать за битвой' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Behold calmly' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Исчадия Тьмы выпускают в ангела сотни стрел, но они сгорают на подлёте. Небесный страж рубит отряды гоблинов своим мечём, словно скашивая пожухлую траву серпом. Наконец его удаётся сбить метким выстрелом тяжёлой катапульты, но потери очень велики.'
             $ game.army.power_percentage -= army_decimator
             
-        'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
+        'Attack seraph': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             'С этим противником [game.dragon.fullname] решает сразиться сам - обычным гоблинам он не по зубам.'
             call lb_fight from _call_lb_fight_48
 
-        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+        'Plead for help': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
             python:
                 if reinforcement_used:
@@ -679,15 +679,15 @@ label lb_war_final:
     $ narrator(show_chances(game.foe))
     
     menu:
-        'Наблюдать за битвой' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
+        'Behold calmly' if game.army.force >= 1000: # Армия Тьмы теряет 10% силы и разбирается с противником без вмешательства дракона.
             'Железного голема удаётся буквально похоронить под грудой мяса и железа, в которые превращаются идущие волна за волной в самоубийственную атаку Исчадия Тьмы. Тем не мене это победа!'
             $ game.army.power_percentage -= army_decimator
             
-        'Атаковать': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
+        'Attack golem': #Дракон бережёт армию и сам уничтожает наиболее опасных врагов
             'Как бы могуч не был железный страж, это всё что стоит на пути к окочательной победы. [game.dragon.fullname] бросается в атаку.'
             call lb_fight from _call_lb_fight_49
 
-        'Молить Госпожу о помощи': #Владычица вступает в бой и выигрывает его вместо дракона и армии
+        'Plead for help': #Владычица вступает в бой и выигрывает его вместо дракона и армии
             game.dragon '[reinforcement_ask]'
             python:
                 if reinforcement_used:

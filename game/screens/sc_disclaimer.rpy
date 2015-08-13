@@ -1,22 +1,21 @@
 # coding=utf-8
 screen sc_disclaimer:
     frame:
-        text "Внимание!":           # Отдельно так как нужно спозиционировать по центру.
+        text "WARNING!!!":           # Отдельно так как нужно спозиционировать по центру.
             color "#f00"            # Текст красного цвета
             align(0.5, 0.15)      # Положение на экране
             size 40
-        text("   Эта игра содержит сцены секса и экстремального насилия, а поэтому не может быть рекомендована вообще никому. Возрастной рйтинг 99+\n"
-             "   Продолжая игру вы подтверждаете, что прочли это предупреждение, являетесь совершеннолетним и согласны играть на свой страх и риск. Если вы купили эту игру, значит вас жестоко обманули - программа не коммерческая и свободно доступна для скачивания и распространения.\n"
-             "   Все использованные в оформлении игры графические, аудио- и другие элементы либо являются собственностью автора, либо свободно доступны в сети Интернет (откуда и были получены). Они используются исключительно в целях не коммерческой мультижанровой треш-пародии. Все права на эти элементы оформления принадлежат их законным правообладателям.\n"
-             "   Программный код игры, созданный нашей командой, распространяется под лицензией BSD. Подробнее см. LICENCE.txt"):
+            text("   This game contents multiple scenes of the extreme violence and strong sexual contents, and thus cannot be recomended to anyone. PG99.\n"
+            "   By cliking “proceed” you confirm that you are adult and chose to play on your own risk. This game is NOT meant to be commertialy distributed. All grafical, audio and text elements used in the game are either freely aviable on internet or created by autors of the game, and used for the sake of parody.\n"
+            "   Programm code of the game, created by our team, licensesd under BSD license (see LICENCE.txt for details"):
             align(0.5, 0.4)
             color "#f00"            # Текст красного цвета
     
-        textbutton "Принять":       
+        textbutton "Proceed":       
             align(0.4, 0.8)        # Положение на экране
             action Return(True)     # Возвращаем True, что мы приняли дисклеймер
             
-        textbutton "Выйти":
+        textbutton "Stop":
             action Quit(False)      # Сразу выходим
             align(0.6, 0.8)        # Положение на экране
     

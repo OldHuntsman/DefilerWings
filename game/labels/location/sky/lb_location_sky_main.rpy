@@ -47,16 +47,16 @@ label lb_enc_swan:
     'Величественно паря в облаках [game.dragon.fullname] видит стаю белых лебедей. Впереди летит огромный откормленный вожак - он отлично сгодиться в качестве закуски!'
     nvl clear
     menu:
-        'Сожрать гуся' if game.dragon.hunger > 0:
+        'Eat the geese' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] ловит и пожирает гуся.'
             python:
                 if game.dragon.bloodiness > 0:
                     game.dragon.bloodiness = 0
-        'Разогнать стаю' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
+        'Shoo' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] жестоко задирает вожака и ещё несколько птиц, а остальная стая в панике разлетается кто куда.'    
-        'Пролететь мимо' if game.dragon.bloodiness < 5:
+        'Fly away' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
     
@@ -67,7 +67,7 @@ label lb_enc_griffin:
     $ narrator(show_chances(game.foe))
     nvl clear
     menu:
-        'Сразиться с грифоном':
+        'Fight the griffin':
             call lb_fight from _call_lb_fight_50
             if game.dragon.hunger > 0:
                 'Голодный [game.dragon.name] съедает грифона прямо в воздухе и бросает отсанки вниз на поживу шакалам.'
@@ -78,7 +78,7 @@ label lb_enc_griffin:
                     game.dragon.add_effect('boar_meat')
             else:
                 '[game.dragon.fullname] сейчас не голоден, поэтому он даёт смертельно раненому грифону упасть вниз и разбиться о скалы.'
-        'Избежать столкновения' if game.dragon.bloodiness < 5:
+        'Fly off' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
     
@@ -89,7 +89,7 @@ label lb_enc_skyboat:
         game.foe = Enemy('airship', game_ref=game)
         narrator(show_chances(game.foe))
     menu:
-        'Напасть':
+        'Attack th skyboat':
             call lb_fight from _call_lb_fight_51
             '[game.dragon.name] стремительно обыскивает падающий вниз корабль и выгребает всё ценное:'
             python:
@@ -105,7 +105,7 @@ label lb_enc_skyboat:
             '[trs_descrptn]'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Пропустить' if game.dragon.bloodiness < 5:
+        'Let them fly' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()    
     return
     

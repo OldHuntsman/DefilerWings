@@ -199,32 +199,32 @@ screen main_menu:
 
         # has vbox
         if not renpy.can_load("1-1"):
-            textbutton _("Начать сюжет") action Start():
+            textbutton _("Start story") action Start():
                 xalign .966
                 yalign .465
         else:
-            textbutton _("Продолжить сюжет") action FileLoad("1", confirm=False, page="1"):
+            textbutton _("Continue story") action FileLoad("1", confirm=False, page="1"):
                 xalign .966
                 yalign .465
         if not persistent.allow_freeplay and not config.developer:
-            textbutton _("Достижения") action Show("sc_achievements_list"):
+            textbutton _("Achivements") action Show("sc_achievements_list"):
                 xalign .966
                 yalign .580
         elif not renpy.can_load("1-3"):
-            textbutton _("Свободная игра") action SetVariable("freeplay", True), Start():
+            textbutton _("Free play") action SetVariable("freeplay", True), Start():
                     xalign .966
                     yalign .580
         else:
-            textbutton _("Продолжить свободную")action FileLoad("3", confirm=False, page="1"):
+            textbutton _("Cntinue free")action FileLoad("3", confirm=False, page="1"):
                 xalign .966
                 yalign .580
-        textbutton _("Настройки") action ShowMenu("preferences"):
+        textbutton _("Options") action ShowMenu("preferences"):
             xalign .966
             yalign .695
-        textbutton _("Помощь") action Help():
+        textbutton _("Help") action Help():
             xalign .966
             yalign .81
-        textbutton _("Выход") action Quit(confirm=False):
+        textbutton _("Quit") action Quit(confirm=False):
             xalign .966
             yalign .925
     frame:
@@ -286,13 +286,13 @@ screen navigation:
 
         has vbox
 
-        textbutton _("Обратно") ypos 285 action Return()
-        textbutton _("Настройки") ypos 295 action ShowMenu("preferences")
+        textbutton _("Go back") ypos 285 action Return()
+        textbutton _("Options") ypos 295 action ShowMenu("preferences")
         # textbutton _("Сохранить игру") action ShowMenu("save")
         # textbutton _("Загрузить игру") action ShowMenu("load")
-        textbutton _("Главное меню") ypos 305 action MainMenu()
-        textbutton _("От автора") ypos 315 action Help()
-        textbutton _("Сохранить и выйти") ypos 325 action Quit()
+        textbutton _("Main menu") ypos 305 action MainMenu()
+        textbutton _("Autors note") ypos 315 action Help()
+        textbutton _("Save & Quit") ypos 325 action Quit()
 
 init -2 python:
     style.gmnav_frame.background = None
@@ -395,31 +395,31 @@ screen preferences:
     frame:
         style_group "pref"
         has vbox
-        textbutton _("Полный экран") xpos 120 ypos 140 action Preference('display', 'fullscreen')
-        textbutton _("В окне") xpos 280 ypos 80 action Preference('display', 'window')
+        textbutton _("Full screen") xpos 120 ypos 140 action Preference('display', 'fullscreen')
+        textbutton _("Windowed") xpos 280 ypos 80 action Preference('display', 'window')
     frame:
         style_group "pref"
         has vbox
-        textbutton _("Увиденное") xpos 490 ypos 140 action Preference('skip', 'seen')
-        textbutton _("Все") xpos 650 ypos 80 action Preference('skip', 'all')
-        textbutton _("Начать пропуск") xpos 490 ypos 140 xsize 300 ysize 40 action Preference('begin skipping')
+        textbutton _("Seen") xpos 490 ypos 140 action Preference('skip', 'seen')
+        textbutton _("All") xpos 650 ypos 80 action Preference('skip', 'all')
+        textbutton _("Start skipping") xpos 490 ypos 140 xsize 300 ysize 40 action Preference('begin skipping')
     frame:
         style_group "pref"
         has vbox
-        textbutton _("Все") xpos 120 ypos 300 action Preference("transitions", "all")
-        textbutton _("Ничего") xpos 280 ypos 240 action Preference("transitions", "none")
+        textbutton _("All") xpos 120 ypos 300 action Preference("transitions", "all")
+        textbutton _("Nothing") xpos 280 ypos 240 action Preference("transitions", "none")
     frame:
         style_group "pref"
         has vbox
-        textbutton _("Продолжить пропуск") xpos 490 ypos 400 action Preference('after choices', 'skip')
-        textbutton _("Закончить пропуск") xpos 650 ypos 340 action Preference('after choices', 'stop')
+        textbutton _("Contnue skip") xpos 490 ypos 400 action Preference('after choices', 'skip')
+        textbutton _("Stop skiping") xpos 650 ypos 340 action Preference('after choices', 'stop')
     frame:
         style_group "pref"
         has vbox
-        textbutton _("Сюжет") xpos 120 ypos 540 action SensitiveIf(renpy.can_load("1-1")), Show("yesno_prompt",
+        textbutton _("Story") xpos 120 ypos 540 action SensitiveIf(renpy.can_load("1-1")), Show("yesno_prompt",
                                                                                       yes_action=FileDelete("1", confirm=False, page="1"), no_action=NullAction(),
                                                                                       message="Вы уверены что хотите удалить Сюжетную Игру?")
-        textbutton _("Свобод") xpos 280 ypos 480 action SensitiveIf(renpy.can_load("1-3")), Show("yesno_prompt",
+        textbutton _("Free") xpos 280 ypos 480 action SensitiveIf(renpy.can_load("1-3")), Show("yesno_prompt",
                                                                                       yes_action=FileDelete("3", confirm=False, page="1"), no_action=NullAction(),
                                                                                       message="Вы уверены что хотите удалить Свободную Игру?")
     
@@ -496,27 +496,27 @@ screen yesno_prompt:
             spacing 100
             if message == layout.QUIT and not main_menu and not save_blocked:
                 if not freeplay:
-                    textbutton _("Да") action FileSave("1", confirm=False, page="1"), yes_action
-                    textbutton _("Нет") action no_action, Hide("yesno_prompt")
+                    textbutton _("Yes") action FileSave("1", confirm=False, page="1"), yes_action
+                    textbutton _("No") action no_action, Hide("yesno_prompt")
                 else:
-                    textbutton _("Да") action FileSave("3", confirm=False, page="1"), yes_action
-                    textbutton _("Нет") action no_action, Hide("yesno_prompt")
+                    textbutton _("Yes") action FileSave("3", confirm=False, page="1"), yes_action
+                    textbutton _("No") action no_action, Hide("yesno_prompt")
             elif message == layout.MAIN_MENU and not save_blocked:
                 if not freeplay:
-                    textbutton _("Да") action FileSave("1", confirm=False, page="1"), yes_action
-                    textbutton _("Нет") action no_action, Hide("yesno_prompt"), ShowMenu("navigation")
+                    textbutton _("Yes") action FileSave("1", confirm=False, page="1"), yes_action
+                    textbutton _("No") action no_action, Hide("yesno_prompt"), ShowMenu("navigation")
                 else:
-                    textbutton _("Да") action FileSave("3", confirm=False, page="1"), yes_action
-                    textbutton _("Нет") action no_action, Hide("yesno_prompt"), ShowMenu("navigation")
+                    textbutton _("Yes") action FileSave("3", confirm=False, page="1"), yes_action
+                    textbutton _("No") action no_action, Hide("yesno_prompt"), ShowMenu("navigation")
             elif message == "Вы уверены что хотите удалить Сюжетную Игру?":
-                textbutton _("Да") action yes_action, Hide("yesno_prompt"), ShowMenu("preferences")
-                textbutton _("Нет") action no_action, Hide("yesno_prompt"), ShowMenu("preferences")
+                textbutton _("Yes") action yes_action, Hide("yesno_prompt"), ShowMenu("preferences")
+                textbutton _("No") action no_action, Hide("yesno_prompt"), ShowMenu("preferences")
             elif message == "Вы уверены что хотите удалить Свободную Игру?":
-                textbutton _("Да") action yes_action, Hide("yesno_prompt"), ShowMenu("preferences")
-                textbutton _("Нет") action no_action, Hide("yesno_prompt"), ShowMenu("preferences")
+                textbutton _("Yes") action yes_action, Hide("yesno_prompt"), ShowMenu("preferences")
+                textbutton _("No") action no_action, Hide("yesno_prompt"), ShowMenu("preferences")
             else:
-                textbutton _("Да") action yes_action
-                textbutton _("Нет") action no_action, ShowMenu("preferences")
+                textbutton _("Yes") action yes_action
+                textbutton _("No") action no_action, ShowMenu("preferences")
 
     # Right-click and escape answer "no".
     key "game_menu" action no_action
@@ -551,7 +551,7 @@ screen quick_menu:
         xalign 1.0
         yalign 1.0
 
-        textbutton _("Назад") action Rollback()
+        textbutton _("Back") action Rollback()
         # textbutton _("Сохранить") action ShowMenu('save')
         # textbutton _("Б.сохранение") action QuickSave()
         textbutton _("F.load") action QuickLoad()

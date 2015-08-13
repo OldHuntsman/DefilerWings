@@ -15,10 +15,10 @@ label lb_location_lair_main:
     nvl clear
     
     menu:
-        'Осмотреть дракона':
+        'Look in the mirror':
             # чтобы вывести сообщение от имени дракона можно использовать "game.dragon"
             game.dragon.third "{font=fonts/AnticvarShadow.ttf}{size=+5} [game.dragon.fullname] {/size}{/font} \n\n[game.dragon.description]"
-        'Проинспектировать логово':
+        'Inspect your lair':
             python hide:
                 lair_description = u"Логово: %s.\n" % game.lair.type.name
                 if len(game.lair.upgrades) > 0: 
@@ -29,13 +29,13 @@ label lb_location_lair_main:
                     lair_description += u"Улучшений нет"
                 narrator(lair_description)
             call lb_location_lair_main from _call_lb_location_lair_main
-        'Сотворить заклинание' if game.dragon.bloodiness < 5 and game.dragon.mana > 0:
+        'Conjure foul spell' if game.dragon.bloodiness < 5 and game.dragon.mana > 0:
             if game.choose_spell(u"Вернуться в логово"):
                 python:
                     game.dragon.drain_mana()
                     game.dragon.gain_rage()
             call lb_location_lair_main from _call_lb_location_lair_main_1
-        'Чахнуть над златом' if game.lair.treasury.wealth > 0:
+        'Admire treashures' if game.lair.treasury.wealth > 0:
             python:
                 files = [f for f in renpy.list_files() if f.startswith("img/bg/hoard/%s" % game.dragon.color_eng)]    
                 if len(files) > 0:
@@ -63,39 +63,39 @@ label lb_location_lair_main:
                     nvl clear
                 '[game.lair.treasury.jewelry_mass_description]' if len(game.lair.treasury.jewelry) > 0:
                     menu:
-                        'Самая дорогая в сокровищнице':
+                        'Most valuable trinket':
                             "[game.lair.treasury.most_expensive_jewelry]"
                             nvl clear
-                        'Самая дешёвая в сокровищнице':
+                        'Cheapest one':
                             "[game.lair.treasury.cheapest_jewelry]"
                             nvl clear
-                        'Случайная':
+                        'Random one':
                             "[game.lair.treasury.random_jewelry]"
                             nvl clear
-                        'Вернуться в логово':
+                        'Back':
                             jump lb_location_lair_main   
-                'Вернуться в логово':
+                'Back':
                     jump lb_location_lair_main        
             call lb_location_lair_main from _call_lb_location_lair_main_2
-        'Проведать пленниц' if game.girls_list.prisoners_count > 0:
+        'Admire hostages' if game.girls_list.prisoners_count > 0:
             call screen girls_menu
             call lb_location_lair_main from _call_lb_location_lair_main_3            
-        'Смастерить вещь' if ('servant' in game.lair.upgrades) or ('gremlin_servant' in game.lair.upgrades):
+        'Make jewelry' if ('servant' in game.lair.upgrades) or ('gremlin_servant' in game.lair.upgrades):
             $ new_item = game.lair.treasury.craft(**data.craft_options['servant'])
             if new_item:
                 $ game.lair.treasury.receive_treasures([new_item])
                 $ test_description = new_item.description()
                 "Изготовлено: [test_description]."
             call lb_location_lair_main from _call_lb_location_lair_main_4                
-        'Уволить слуг-гремлинов' if 'gremlin_servant' in game.lair.upgrades:
+        'Fire the gremlins' if 'gremlin_servant' in game.lair.upgrades:
             $ del game.lair.upgrades['gremlin_servant']
             "Гремлины уходят"
             call lb_location_lair_main from _call_lb_location_lair_main_5            
-        'Уволить охрану' if 'smuggler_guards' in game.lair.upgrades:
+        'Fire the mercenary guards' if 'smuggler_guards' in game.lair.upgrades:
             $ del game.lair.upgrades['smuggler_guards']
             "Охрана покидает посты"
             call lb_location_lair_main from _call_lb_location_lair_main_6
-        'Лечь спать':
+        'Deep slumber':
             nvl clear
             python:
                 # Делаем хитрую штуку.
@@ -120,7 +120,7 @@ label lb_location_lair_main:
                     save_blocked = False
                     del game_loaded
             $this_turn_achievements = []
-        'Покинуть логово':
+        'Go out':
             $ pass
             
     return

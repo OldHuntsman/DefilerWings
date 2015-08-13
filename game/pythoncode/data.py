@@ -1110,7 +1110,7 @@ lair_upgrades = Container(
             "name": u"Venomous guards",
             "protection": 1,
             "success": [
-                u'Venomous beasts can't stop the tresspasser.',
+                u"Venomous beasts can't stop the tresspasser.",
             ],
             "fail": [
                 u'Sneaky venomous beast bites the unlucky thief. '

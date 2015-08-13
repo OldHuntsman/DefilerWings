@@ -49,7 +49,7 @@ label lb_enc_tornament:
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
-        'Вызвать победителя на бой':
+        'Challenge the Champion':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_13
             'Увидев что их чемпион повержен, гости турнира в панике разбегаются бросая вещи и вопя от ужаса. [game.dragon.name] не обращает на них внимания, он забирает свой приз - "королеву любви и красоты" и её золотой венец.'
@@ -59,7 +59,7 @@ label lb_enc_tornament:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_10      
-        'Не ввязываться' if game.dragon.bloodiness < 5:
+        'Go away' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             'Осторожность не повредит. Если этот рыцарь действительно лучше в округе, он может быть опасен. А девицу и кусок золота можно найти где-нибудь ещё...'
     return
@@ -73,19 +73,19 @@ label lb_enc_inn:
         if 'fire_breath' in game.dragon.modifiers(): 
             doit = True
     menu:
-        'Дыхнуть огнём' if doit:
+        'Breath fire' if doit:
             $ game.dragon.drain_energy()
             "Испольщуя своё огненное дыхание, [game.dragon.name] пожигает здание с четырёх разных сторон. Деревянный трактир сгорает стремительно, погребая под пылающими обломками людей забаррикадировавшихся внутри."
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
-        'Наколдовать ядовитый туман' if game.dragon.magic > 0:
+        'Conjure poisonous vapors' if game.dragon.magic > 0:
             $ game.dragon.drain_mana()
             "[game.dragon.name] призывает тёмную магию, чтобы заполнить помещения где заперлись испуганные люди ядовитым туманом. Трактир остаётся невредимым, но внутри все мертвы."
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
-        'Потребовать бочку эля':
+        'Demand a barrel of ale':
             show expression 'img/bg/special/fear.jpg' as bg  
             $ game.dragon.drain_energy()
             "[game.dragon.name] получает от испуганного хозяина трактира целую бочку лучшего эля. После такой выпивки так и тянет на женщин и хорошую закуску!"
@@ -96,7 +96,7 @@ label lb_enc_inn:
                     game.dragon.lust += 1
                 if game.dragon.hunger < 3:
                     game.dragon.hunger += 1
-        'Пройти мимо' if game.dragon.bloodiness < 5:
+        'Let it be' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             
     return
@@ -104,12 +104,12 @@ label lb_enc_inn:
 label lb_enc_peasant_cart:
     'По дороге медленно едет крестьянская телега гружёная сеном. Такие повозки тут встречаются часто и все как одна совершенно бесполезны, даже лошать и на вид такая жилистая и заморенная что не вызываетни особого аппетита. Аж злость берёт.'
     menu:
-        'Убить крестьянина' if game.dragon.bloodiness >= 5:
+        'Kill the peasant' if game.dragon.bloodiness >= 5:
             $ game.dragon.drain_energy()
             'Дав волю своему гневу, [game.dragon.kind] переворачивает повозку, убивает лошадь и разрывает крестьянина на куски. У жалкого смертного нет ничего ценного! Да как он посмел встретить дракона если с него и взять нечего?!'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Сожрать лошадь' if game.dragon.hunger > 0: 
+        'Vore the horse' if game.dragon.hunger > 0: 
             $ game.dragon.drain_energy()
             'Пока [game.dragon.name] пожирает жилистую крестьянскую лошадку, хозяин повозки в ужасе убегает прочь. Ничего, пусть поведает жалким смертным о вашем величии.'
             python:
@@ -117,7 +117,7 @@ label lb_enc_peasant_cart:
                     game.dragon.bloodiness = 0
                 game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
-        'Пропустить' if game.dragon.bloodiness < 5:
+        'Let them go' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
     
@@ -127,7 +127,7 @@ label lb_enc_carriage:
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
-        'Атаковать кортеж':
+        'Attack the coach':
             call lb_fight from _call_lb_fight_14
             'Теперь когда охрана не представляет угрозы, можно заглянуть внутрь кареты. Разодрав её кузов словно шуршащую подарочную упаковку, [game.dragon.name] обнаруживает внутри трёх женщин - очевидно мать, дочь и служанку. Старухи не представляют никаого интереса, а вот с девицей можно отлично развлечься!'
             $ game.dragon.reputation.points += 5
@@ -137,7 +137,7 @@ label lb_enc_carriage:
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_11      
         
-        'Пропустить' if game.dragon.bloodiness < 5:
+        'Let it go' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()        
     return
     
@@ -146,7 +146,7 @@ label lb_enc_questing_knight:
     $ game.foe = Enemy('champion', game_ref=game)
     $ chances = show_chances(game.foe)
     menu:
-        'Принять вызов':
+        'Accept the challenge':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_15
             $ game.dragon.reputation.points += 5
@@ -163,7 +163,7 @@ label lb_enc_questing_knight:
                 game.lair.treasury.receive_treasures(trs)                
                 trs_descrptn = '\n'.join(trs_list)
             '[trs_descrptn]'
-        'Пропустить' if game.dragon.bloodiness < 5:
+        'Go away' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()   
             
     return
@@ -171,7 +171,7 @@ label lb_enc_questing_knight:
 label lb_enc_trader:
     'На дороге показывается большой крытый фургон, расписанный красочными рекламными надписями. Это какой-то странствующий торговец, не слишком преуспевающий но судя по запаху кое-какое серебро у него в кармана водится. Надо бы облегчить его ношу.'
     menu:
-        'Вымогать деньги':
+        'Wring the money':
             python:
                 game.dragon.drain_energy()
                 passing_tool = random.randint(10, 200)
@@ -180,7 +180,7 @@ label lb_enc_trader:
             'Торговец с облегчением отдаёт дракону несколько серебрянных таллеров, чтобы тот его не трогал и пропустил фургон.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
-        'Убить и ограбить' if game.dragon.bloodiness >= 5:
+        'Rob merchant' if game.dragon.bloodiness >= 5:
             python:
                 game.dragon.drain_energy()
                 gold_trs = [treasures.Coin('farting', 100), treasures.Coin('taller', 10)]
@@ -188,7 +188,7 @@ label lb_enc_trader:
             'Дав волю своему гневу, [game.dragon.name] переворачивает фургон, убивает лошадь и разрывает торговца на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Пропустить' if game.dragon.bloodiness < 5:
+        'Let him go' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
     
@@ -197,7 +197,7 @@ label lb_enc_caravan:
     $ game.foe = Enemy('xbow_rider', game_ref=game)
     $ chances = show_chances(game.foe)
     menu:
-        'Вымогать деньги' if game.dragon.fear > 3:
+        'Wring the money' if game.dragon.fear > 3:
             python:
                 game.dragon.drain_energy()
                 passing_tool = random.randint(1, 20)
@@ -206,7 +206,7 @@ label lb_enc_caravan:
             'Караванщик с ворчанием отдаёт дракону несколько золотых дублонов, чтобы тот не трогал повозки и пропустил из дальше.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
-        'Разграбить корован':
+        'Rob a caravan':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_16
             'Дав волю своему гневу, [game.dragon.name] переворачивает фургон, убивает лошадь и разрывает караванщика на куски. Его товары особого интереса не представляют, зато в кошельке находятся кое какие деньги:'
@@ -223,7 +223,7 @@ label lb_enc_caravan:
             '[trs_descrptn]'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Пропустить' if game.dragon.bloodiness < 5:
+        'Let it go' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()    
     return
    
@@ -232,7 +232,7 @@ label lb_enc_lcaravan:
     $ game.foe = Enemy('mounted_guard', game_ref=game)
     $ chances = show_chances(game.foe)
     menu:
-        'Вымогать деньги' if game.dragon.fear > 6:
+        'Wring the money' if game.dragon.fear > 6:
             python:
                 game.dragon.drain_energy()
                 passing_tool = random.randint(20, 100)
@@ -241,7 +241,7 @@ label lb_enc_lcaravan:
             'Караванщик с ворчанием отдаёт дракону увесистый кошель с золотыми дублонами, чтобы тот не трогал повозки и пропустил их дальше.'
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
-        'Разграбить корован':
+        'Rob the rich caravan':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_17
             'Перебив охрану и караванщиков, [game.dragon.name] отыскивает в разбитых телегах всё ценное. В основном тут разные не нужные уважающему себя дракону товары - ткани, специи, оливковое масло и тому подобное, но у купцов и наемников есть в кошельках звонкие монеты:'
@@ -258,7 +258,7 @@ label lb_enc_lcaravan:
             '[trs_descrptn]'
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Пропустить' if game.dragon.bloodiness < 5:
+        'Let it go' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()        
     return
     
@@ -267,7 +267,7 @@ label lb_enc_outpost:
     $ game.foe = Enemy('footman', game_ref=game)
     nvl clear
     menu:
-        'Напасть на заставу':
+        'Rase outpost':
             $ game.dragon.drain_energy()
             $ chances = show_chances(game.foe)
             call lb_fight from _call_lb_fight_18
@@ -281,7 +281,7 @@ label lb_enc_outpost:
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
   
-        'Аккуратно обойти заставу' if game.dragon.bloodiness < 5:
+        'Go away' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             'Там конечно можно было бы поживиться собранными с купцов пошлинами, но где деньги там и охрана. Связываться сейчас с королевскими латниками особого смысла нет, лучше поискать добычу попроще или хотя бы побогаче.'
         

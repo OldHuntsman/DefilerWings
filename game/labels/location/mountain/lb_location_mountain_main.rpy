@@ -46,7 +46,7 @@ label lb_enc_miner:
     'Ветерок доносит едва заметный запах золота. Аромат приводит дракона к горному ручью. На берегу сидит человек с лотком, старательно просеивающий речной песок в поисках крупинок золота.'
     nvl clear
     menu:
-        'Убить и ограбить':
+        'Slay and loot':
             'В мешке златоискателя обнаруживается почти фунт золотого песка и мелких самородков. Спасибо за работу, смертный.'
             python:
                 gold_trs = treasures.Ingot('gold')
@@ -56,7 +56,7 @@ label lb_enc_miner:
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             
-        'Пусть идёт' if game.dragon.bloodiness < 5:
+        'Let him go' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             return
     return
@@ -75,13 +75,13 @@ label lb_enc_dklad:
         trs_list = game.lair.treasury.treasures_description(trs)
         trs_descrptn = '\n'.join(trs_list)
     menu:
-        'Отыскать и забрать':
+        'Find burried treashures':
             $ game.dragon.drain_energy()
             'Перевернув каждый камень и заглянув в каждую расселину по близости [game.dragon.name] находит наконец тщательно схороненный тайник. Внутри лежит:'
             '[trs_descrptn]'
             $ game.lair.treasury.receive_treasures(trs)
                         
-        'Пусть пока лежат' if game.dragon.bloodiness < 5:
+        'Let them be' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             'Конечно сокровища полезны, но то что тут могли спрятать жалкие смертные вряд ли стоит драгоценного времени благородного змея.'    
     return
@@ -91,17 +91,17 @@ label lb_enc_ram:
     'По скалам скачет здоровенный винторогий баран. Ничего, от дракона не ускачет. Закуска не выдающаяся, но питательная.'
     nvl clear
     menu:
-        'Сожрать барана' if game.dragon.hunger > 0:
+        'Devour the ram' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             $ game.dragon.hunger -= 1
             '[game.dragon.name] ловит и пожирает барана.'
             python:
                 if game.dragon.bloodiness > 0:
                     game.dragon.bloodiness = 0
-        'Разорвать барана' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
+        'Slay the ram' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] жестоко задирает барана просто ради забавы.'    
-        'Просто шугануть' if game.dragon.bloodiness < 5:
+        'Roar' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
     
@@ -109,7 +109,7 @@ label lb_enc_bear:
     'В склоне горы обнаруживается вход в пещеру. Какой же дракон не сунет нос в пещеру? Но пещеры как оказалось представляют интерес не только для драконов. Вот эту например облюбовал огромный пещерный медведь. Опасный противник, однако его жесткое мясо обладает действием укрепляющим организм.'
     nvl clear
     menu:
-        'Сразиться с медведем':
+        'Fight the dire bear':
             $ game.dragon.drain_energy()
             $ game.foe = Enemy('bear', game_ref=game)
             call lb_fight from _call_lb_fight_56
@@ -123,7 +123,7 @@ label lb_enc_bear:
             else:
                 'Дракон торжествует победу, однако есть уже совсем не хочется. Живот и так раздут как барабан. А жаль, такое редкое мясо могло бы придать дракону много здоровья и сил.'
                 
-        'Отступить' if game.dragon.bloodiness < 5:
+        'Flee' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     
     return
@@ -133,7 +133,7 @@ label lb_enc_smugglers:
     $ game.foe = Enemy('band', game_ref=game)
     $ chances = show_chances(game.foe)
     menu:
-        'Вымогать деньги':
+        'Wring money':
             python:
                 game.dragon.drain_energy()
                 passing_tool = game.dragon.fear * 2 + 1 
@@ -141,7 +141,7 @@ label lb_enc_smugglers:
                 game.lair.treasury.receive_treasures([gold_trs])
             'Контрабандисты скидываются по таллеру и отдают [passing_tool] чтобы откупиться и пройти мирно. С паршивой овцы хоть шерсти клок...'
             
-        'Отнять весь товар':
+        'Get all goods':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_57
             python:
@@ -158,7 +158,7 @@ label lb_enc_smugglers:
             'Обыскав тюки контрабандистов [game.dragon.name] находит кое-какие ценные вещи:'
             '[trs_descrptn]'
             
-        'Отпустить их с миром' if game.dragon.bloodiness < 5:    
+        'Let them pass' if game.dragon.bloodiness < 5:    
             'Пусть налаживают торговлю, чем богаче станет страна тем больше можно будет нажиться ограбляя её!'
             $ game.dragon.gain_rage()
     
@@ -169,7 +169,7 @@ label lb_enc_slavers:
     $ game.foe = Enemy('band', game_ref=game)
     $ chances = show_chances(game.foe)
     menu:
-        'Потребовать бесполезного раба' if game.dragon.hunger > 0:
+        'Claim worthless slave' if game.dragon.hunger > 0:
             'Для работорговцев это не слишком большая потеря - они соглашаются отдать самого заморенного раба, чтобы [game.dragon.name] пропустил их без боя. Они даже жалеают дракону приятного аппетита.'
             $ game.dragon.drain_energy()
             'Дракон пожирает измождённого раба. Не самая лучшая закуска на свете, но голод не тётка...'
@@ -178,7 +178,7 @@ label lb_enc_slavers:
                     game.dragon.bloodiness = 0
                 game.dragon.hunger -= 1
         
-        'Потребовать невинную девушку' if game.dragon.lust > 0:
+        'Claim virgin maiden' if game.dragon.lust > 0:
             $ game.dragon.drain_energy()
             'Среди всех рабов, юная красавица самая ценная. Похоже чтобы получить её придётся разогнать охрану, так просто работорговцы её не отдадут...'
             call lb_fight from _call_lb_fight_58
@@ -188,12 +188,12 @@ label lb_enc_slavers:
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_24    
         
-        'Перебить караван':
+        'Massacre':
             $ game.dragon.drain_energy()
             $ game.foe = Enemy('band', game_ref=game)
             call lb_fight from _call_lb_fight_59
         
-        'Отпустить их с миром' if game.dragon.bloodiness < 5:
+        'Let them pass' if game.dragon.bloodiness < 5:
             'Пусть налаживают торговлю, чем богаче станет страна тем больше можно будет нажиться ограбляя её!'        
             $ game.dragon.gain_rage()
     
@@ -204,7 +204,7 @@ label lb_enc_mines_silver:
     $ game.foe = Enemy('xbow', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
-        'Вымогать серебро' if game.dragon.fear > 3:
+        'Wring some silver' if game.dragon.fear > 3:
             $ game.dragon.drain_energy()
             'Начальник рудника отдаёт большой серебряный слиток, чтобы избежать конфликта.'
             python:
@@ -214,7 +214,7 @@ label lb_enc_mines_silver:
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             
-        'Ограбить рудник':
+        'Get all silver':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_60
             python:
@@ -233,7 +233,7 @@ label lb_enc_mines_silver:
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
             
-        'Пройти мимо' if game.dragon.bloodiness < 5:
+        'Let them be' if game.dragon.bloodiness < 5:
             'Человеческое серебро не стоит того чтобы получить в глаз их железо!'       
             $ game.dragon.gain_rage()
     return
@@ -243,7 +243,7 @@ label lb_enc_mines_gold:
     $ game.foe = Enemy('heavy_infantry', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
-        'Вымогать серебро' if game.dragon.fear > 5:
+        'Wring some gold' if game.dragon.fear > 5:
             $ game.dragon.drain_energy()
             'Начальник прииска отдаёт золотой слиток, чтобы избежать конфликта.'
             python:
@@ -253,7 +253,7 @@ label lb_enc_mines_gold:
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
             
-        'Ограбить рудник':
+        'Get all gold':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_61
             python:
@@ -272,7 +272,7 @@ label lb_enc_mines_gold:
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
             
-        'Пройти мимо' if game.dragon.bloodiness < 5:
+        'Let them be' if game.dragon.bloodiness < 5:
             'Человеческое золото не стоит того чтобы получить в глаз их железо!'       
             $ game.dragon.gain_rage()
     return
@@ -282,7 +282,7 @@ label lb_enc_mines_mithril:
     $ game.foe = Enemy('dwarf_guards', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
-        'Вымогать серебро' if game.dragon.fear > 7:
+        'Wring some mithrall' if game.dragon.fear > 7:
             $ game.dragon.drain_energy()
             'Главый цверг отдаёт небольшой слиток мифрила, чтобы избежать конфликта.'
             python:
@@ -292,7 +292,7 @@ label lb_enc_mines_mithril:
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             
-        'Ограбить рудник':
+        'Get it all':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_62
             python:
@@ -311,7 +311,7 @@ label lb_enc_mines_mithril:
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
             
-        'Пройти мимо' if game.dragon.bloodiness < 5:
+        'Let them be' if game.dragon.bloodiness < 5:
             'Мифрил цвергов не стоит того чтобы получить в глаз их сталь!'       
             $ game.dragon.gain_rage()
     return
@@ -321,7 +321,7 @@ label lb_enc_mines_adamantine:
     $ game.foe = Enemy('golem', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
-        'Вымогать серебро' if game.dragon.fear > 8:
+        'Wring some adamanthine' if game.dragon.fear > 8:
             $ game.dragon.drain_energy()
             'Главый цверг отдаёт небольшой слиток адаманта, чтобы избежать конфликта.'
             python:
@@ -331,7 +331,7 @@ label lb_enc_mines_adamantine:
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             
-        'Ограбить рудник':
+        'Get it all':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_63
             python:
@@ -350,7 +350,7 @@ label lb_enc_mines_adamantine:
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
             
-        'Пройти мимо' if game.dragon.bloodiness < 5:
+        'Let them be' if game.dragon.bloodiness < 5:
             'Адамант цвергов не стоит того чтобы получить в глаз их сталь!'       
             $ game.dragon.gain_rage()
     return
@@ -361,7 +361,7 @@ label lb_enc_mines_gem_low:
     $ game.foe = Enemy('xbow', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
-        'Вымогать камушки' if game.dragon.fear > 2:
+        'Wring some gems' if game.dragon.fear > 2:
             $ game.dragon.drain_energy()
             'Начальник рудника отдаёт кое-что чтобы задобрить дракона:'
             python:
@@ -379,7 +379,7 @@ label lb_enc_mines_gem_low:
             $ game.dragon.reputation.points += 1
             '[game.dragon.reputation.gain_description]'
             
-        'Ограбить шахту':
+        'Get it all':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_64
             python:
@@ -398,7 +398,7 @@ label lb_enc_mines_gem_low:
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
             
-        'Пройти мимо' if game.dragon.bloodiness < 5:
+        'Let them be' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
 
@@ -407,7 +407,7 @@ label lb_enc_mines_gem_high:
     $ game.foe = Enemy('heavy_infantry', game_ref=game)
     $ narrator(show_chances(game.foe))
     menu:
-        'Вымогать камушки' if game.dragon.fear > 5:
+        'Wring some gems' if game.dragon.fear > 5:
             $ game.dragon.drain_energy()
             'Начальник рудника отдаёт кое-что чтобы задобрить дракона:'
             python:
@@ -425,7 +425,7 @@ label lb_enc_mines_gem_high:
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
             
-        'Ограбить шахту':
+        'Get it all':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_65
             python:
@@ -444,7 +444,7 @@ label lb_enc_mines_gem_high:
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
             
-        'Пройти мимо' if game.dragon.bloodiness < 5:
+        'Let them be' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
         
@@ -459,7 +459,7 @@ label lb_enc_frontgates_found:
 label lb_enc_cannontower:
     'На склоне горы, словно вырастая прямо из каменной кручи угнездилось небольшой но мощный бастион. Судя по запаху внутри полно цвергов и их механизмов.'
     menu:
-        'Подобраться и заглянуть в бойницу':
+        'Sneak peek':
             'В прорезь бойницы видны суетящиеся цверги. Они готовят ПУШКУ... зачем?'
             show expression 'img/scene/fight/steamgun.jpg' as bg
             'А! Они будут стрелять!'
@@ -474,7 +474,7 @@ label lb_enc_cannontower:
                 'Уйти прочь':
                     $ game.dragon.gain_rage()
                             
-        'Убраться отсюда поскорее' if game.dragon.bloodiness < 5:
+        'Flee' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             
     return

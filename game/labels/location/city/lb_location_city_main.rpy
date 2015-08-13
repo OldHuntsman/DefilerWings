@@ -18,18 +18,18 @@ label lb_location_city_main:
         
     'Столица королевства людей.'
     menu:
-        'Тайный визит' if game.dragon.mana > 0:
+        'Disguise as a human' if game.dragon.mana > 0:
             'Дракон превращается в человека и проходит в город. На это пришлось потратить драгоценную волшебную силу...'
             $ game.dragon.drain_mana()
             nvl clear
             call lb_city_walk from _call_lb_city_walk
-        'Штурморвать ворота' if not game.dragon.can_fly:
+        'Shtorm the gates' if not game.dragon.can_fly:
             'Заметив приближение опасности бдительные стражники закрывают ворота. Прийдётся порываться с боем...'
             call lb_city_gates from _call_lb_city_gates
-        'Влететь внутрь' if game.dragon.can_fly:
+        'Fly in' if game.dragon.can_fly:
             'Легко перемахнув через городскую стену, [game.dragon.kind] оказывается в самом центре города. От летучего врага укрепления не спасут...'
             call lb_city_raze from _call_lb_city_raze
-        'Уйти прочь':
+        'Get away':
             return
             
     return
@@ -45,19 +45,19 @@ label lb_city_raze:
     'Беззащитный город готов познать ярость отродья Госпожи.'
     nvl clear
     menu:
-        'Королевский дворец':
+        'Royal palace':
             call lb_city_palace_atk from _call_lb_city_palace_atk
 
-        'Рыночная площадь':
+        'Marketplace':
             call lb_city_market_atk from _call_lb_city_market_atk
 
-        'Кафедральный собор':
+        'Cathedral':
             call lb_city_cathedral_atk from _call_lb_city_cathedral_atk
             
-        'Богатые кварталы':
+        'Rich district':
             call lb_city_jew_atk from _call_lb_city_jew_atk
             
-        'Покинуть город':
+        'Get away':
             return
             
     return
@@ -68,19 +68,19 @@ label lb_city_walk:
     nvl clear
 
     menu:
-        'Королевский дворец':
+        'Royal palace':
             call lb_city_palace from _call_lb_city_palace
 
-        'Рыночная площадь':
+        'Marketplace':
             call lb_city_market from _call_lb_city_market
 
-        'Кафедральный собор':
+        'Cathedral':
             call lb_city_cathedral from _call_lb_city_cathedral
             
-        'Мастерская ювелира':
+        'Jewelers shop':
             call lb_city_jewler from _call_lb_city_jewler
             
-        'Покинуть город':
+        'Get away':
             return
             
     return
@@ -91,9 +91,9 @@ label lb_city_palace:
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
-        'Напасть':
+        'Attack':
             call lb_city_palace_atk from _call_lb_city_palace_atk_1
-        'Уйти':
+        'Get away':
             call lb_city_walk from _call_lb_city_walk_1
     
     return
@@ -107,7 +107,7 @@ label lb_city_palace_atk:
     $ game.dragon.reputation.points += 3
     '[game.dragon.reputation.gain_description]'
     menu:
-        'Обесчестить благородную девицу':
+        'Defile noble lady':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('princess')
             '[game.dragon.fullname] ловит благородную девицу'
@@ -116,7 +116,7 @@ label lb_city_palace_atk:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex     
-        'Вороватъ @ убиватъ':
+        'plunder @ murder':
             $ game.dragon.drain_energy()
             python:
                 count = random.randint(4, 9)
@@ -132,7 +132,7 @@ label lb_city_palace_atk:
             $ game.lair.treasury.receive_treasures(trs)
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]'
-        'Убежать':
+        'Flee':
             'Решив не искушать судьбу и использовать поднявшуюся суматоху для безопасного отхода, [game.dragon.kind] уходит прочь из города.'
     return
 
@@ -141,9 +141,9 @@ label lb_city_market:
     'Рыночная площадь полна народу. Люди покупают и продают всевозможные ненужные вещи вроде картошки и одежды. Глупые смертные даже не догадываются что прямо здесь стоит их самый жуткий ночной кошмар. Они беззащитны перед внезапной атакой.'
     nvl clear
     menu:
-        'Принять истинный облик':
+        'Drop the disguise':
             call lb_city_market_atk from _call_lb_city_market_atk_1
-        'Уйти':
+        'Get away':
             call lb_city_walk from _call_lb_city_walk_2
 
     return
@@ -153,14 +153,14 @@ label lb_city_market_atk:
     'Дракон возвращает себе истинную форму. Люди в ужасе разбегаются.'
     nvl clear
     menu:
-        'Устроить резню':
+        'Massacre':
             $ game.dragon.drain_energy()
             play sound "sound/eat.ogg"
             show expression 'img/scene/fire.jpg' as bg
             'Зря эти обыватели думали, что за стенами столицы они в безопсности. [game.dragon.fullname] отрывается по полной, чтобы люди уж точно его не забыли. Кровь, кишки, распидорасило...'
             $ game.dragon.reputation.points += 10
             '[game.dragon.reputation.gain_description]'
-        'Схватить девицу':
+        'Defile merchant daughter':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('citizen')
             '[game.dragon.fullname] ловит девицу покрасивее да побогаче. Благородных дам на рынке конечно не найти, но вот дочери богатеев тут иногда появляются.'
@@ -169,7 +169,7 @@ label lb_city_market_atk:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_1     
-        'Покинуть город':
+        'Get away':
             return
     return
 
@@ -177,11 +177,11 @@ label lb_city_cathedral:
     'Огромный готический собор, высится над городом. Кругом нет ни одного здания котором могло бы по вышине сравниться со шпилем соборной колокольни.'
     nvl clear
     menu:
-        'Разграбить собор':
+        'Pillage the Cathedral':
             'Загадочный незнакомец входит под своды храма и прямо на глазах у молящихся преображается в чудовище.'
             call lb_city_cathedral_atk from _call_lb_city_cathedral_atk_1
 
-        'Уйти':
+        'Get away':
             call lb_city_walk from _call_lb_city_walk_4
     return
 
@@ -209,24 +209,24 @@ label lb_city_jewler:
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
-        'Купить драгоценности':
+        'Buy jewels':
             $ new_item = game.lair.treasury.craft(**data.craft_options['jeweler_buy'])
             if new_item:
                 $ game.lair.treasury.receive_treasures([new_item])
                 $ test_description = new_item.description()
                 "Куплено: [test_description]."
             call lb_city_jewler from _call_lb_city_jewler_1
-        'Продать драгоценности':
+        'Sell jewels':
             menu:
-                'Самую дорогую' if len(game.lair.treasury.jewelry) > 0:
+                'Most expensive' if len(game.lair.treasury.jewelry) > 0:
                     $ item_index = game.lair.treasury.most_expensive_jewelry_index
-                'Самую дешёвую' if len(game.lair.treasury.jewelry) > 0:
+                'Chipiest' if len(game.lair.treasury.jewelry) > 0:
                     $ item_index = game.lair.treasury.cheapest_jewelry_index
-                'Случайную' if len(game.lair.treasury.jewelry) > 0:
+                'Random' if len(game.lair.treasury.jewelry) > 0:
                     $ item_index = random.randint(0, len(game.lair.treasury.jewelry) - 1)
-                'Продать все украшения' if len(game.lair.treasury.jewelry) > 0:
+                'All of them' if len(game.lair.treasury.jewelry) > 0:
                     $ item_index = None
-                'Отмена':
+                'Cancel':
                     call lb_city_jewler from _call_lb_city_jewler_2
             python:
                 if (item_index is None):
@@ -238,7 +238,7 @@ label lb_city_jewler:
                         treasures.number_conjugation_rus(game.lair.treasury.jewelry[item_index].cost, u"фартинг"))
             menu:
                 "[description]"
-                'Продать':
+                'Sell':
                     python:
                         if (item_index is None):
                             description = u"Все украшения проданы за %s?" % (
@@ -253,18 +253,18 @@ label lb_city_jewler:
                             game.lair.treasury.jewelry.pop(item_index)
 
                     call lb_city_jewler from _call_lb_city_jewler_3
-                'Оставить':
+                'Do not sell':
                     call lb_city_jewler from _call_lb_city_jewler_4
-        'Драгоценности на заказ':
+        'Make jewel':
             $ new_item = game.lair.treasury.craft(**data.craft_options['jeweler_craft'])
             if new_item:
                 $ game.lair.treasury.receive_treasures([new_item])
                 $ test_description = new_item.description()
                 "Изготовлено: [test_description]."
             call lb_city_jewler from _call_lb_city_jewler_5
-        'Принять истинный облик':
+        'Drop the disguise':
             call lb_city_jew_atk from _call_lb_city_jew_atk_1
-        'Вернуться на площадь':
+        'Go to main street':
             call lb_city_walk from _call_lb_city_walk_5
     return
 
@@ -277,7 +277,7 @@ label lb_city_jew_atk:
     $ game.dragon.reputation.points += 3
     '[game.dragon.reputation.gain_description]'
     menu:
-        'Схватить ювелира':
+        'Rob the jeweler':
             python:
                 count = random.randint(3, 10)
                 alignment = 'human'
@@ -293,7 +293,7 @@ label lb_city_jew_atk:
             $ game.dragon.reputation.points += 5
             '[game.dragon.reputation.gain_description]' 
     
-        'Догнать благородную девицу':
+        'Rape the noble virgin':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('princess')
             'Дракон ловит благородную девицу'
@@ -304,7 +304,7 @@ label lb_city_jew_atk:
             call lb_nature_sex from _call_lb_nature_sex_2     
             return
             
-        'Спасти сокровища из горящего дома':
+        'Get jewels from burning shop':
             python:
                 count = random.randint(3, 10)
                 alignment = 'human'

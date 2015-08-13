@@ -62,7 +62,7 @@ label lb_enc_lumberjack:
         '[game.dragon.name] припадает к земле и медленно, стараясь не шуметь пробирается в сторону шума. К счастью дровосек слишком занят своей интересной и творческой работой, чтобы заметить что в соседних кустах пристраивается гигантский ящер. Теперь остаётся только подождать...'
         nvl clear
         menu:
-            'Наблюдать из засады':
+            'Watch secretly':
                 $ game.dragon.drain_energy()
                 $ description = game.girls_list.new_girl('peasant')
                 'Не прошло и часа, как на тропинке появляется ещё одна фигура, женская. У неё в руках тяжелая корзинка, накрытая белой тряпицей. [game.dragon.name] втягивает нозрями воздух и определяет с точностью - девица! Хотя и низкородная...'
@@ -75,7 +75,7 @@ label lb_enc_lumberjack:
                 game.girl.third "[description]"
                 call lb_nature_sex from _call_lb_nature_sex_21      
                 return        
-            'Оставить его в покое' if game.dragon.bloodiness < 5:
+            'Go away' if game.dragon.bloodiness < 5:
                 $ game.dragon.gain_rage()
     else: 
         'Припадает к земле и медленно, стараясь не шуметь пробирается в сторону шума. Но он слишком велик для таких фокуов, конечно же дровосек слышит пыхтение и треск ломающихся молодых деревьев и бросив в ужасе топор убегает прочь. Какая досада...' 
@@ -88,7 +88,7 @@ label lb_enc_onegirl:
     'Если затаиться у лесной тропинке, то рано или поздно по ней пройдёт кто-нибудь. Вот например на этот раз на тропинке показывается молодая крестьянка с корзинкой. Видимо несёт обел работающему в лесу отцу или брату.'
     nvl clear
     menu:
-        'Поймать девицу':
+        'Get the girl':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('peasant')
             '[game.dragon.name] вываливается на дорогу проламываясь сквозь кусты. Крестьянка в ужасе бросает картинку и замирает от ужаса. Похоже она даже бежать не собирается... впрочем это было бы бессмысленно.'
@@ -97,7 +97,7 @@ label lb_enc_onegirl:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_22      
-        'Отпустить её' if game.dragon.bloodiness < 5:
+        'Let her run' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
 
@@ -105,7 +105,7 @@ label lb_enc_wandergirl:
     'Из лесной чащи доносятся крики "Ау!", голос женский, молодой. Видимо девушка отбилась от группы в лесу и заблудилась. Надеется что её кто-нибудь услышит. Ну, вот её услышал дракон. Интересно, станет ли ей от этого легче?'
     nvl clear
     menu:
-        'Позвать девицу':
+        'Call in human woice':
             $ game.dragon.drain_energy()
             $ description = game.girls_list.new_girl('peasant')
             'Драконы очень коварны и талантливы. Одно из многих их замечательных умений это умение подделывать голоса. Стоит откликнуться на зов девушки по человечески и вот она уже сама бежит к тебе в лапы!'
@@ -114,7 +114,7 @@ label lb_enc_wandergirl:
             nvl clear
             game.girl.third "[description]"
             call lb_nature_sex from _call_lb_nature_sex_23      
-        'Отпустить её' if game.dragon.bloodiness < 5:
+        'Go away' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
 
@@ -122,17 +122,17 @@ label lb_enc_deer:
     'В чаще леса пасётся матёрый откормленный олень. Неплохая закуска, но ничего особенного. Сойдёт если в животе урчит.'
     nvl clear
     menu:
-        'Сожрать оленя' if game.dragon.hunger > 0:
+        'Hunt down the deer' if game.dragon.hunger > 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] ловит и пожирает оленя.'
             python:
                 if game.dragon.bloodiness > 0:
                     game.dragon.bloodiness = 0
                     game.dragon.hunger -= 1
-        'Разорвать оленя' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
+        'Rip the deer in pieces' if game.dragon.bloodiness >= 5 and game.dragon.hunger == 0:
             $ game.dragon.drain_energy()
             '[game.dragon.name] жестоко задирает оленя просто ради забавы.'    
-        'Просто шугануть' if game.dragon.bloodiness < 5:
+        'Roar' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     return
 
@@ -142,7 +142,7 @@ label lb_enc_boar:
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
-        'Сразиться с вепрем':
+        'Fight the boar':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_53
             if game.dragon.hunger > 0:
@@ -169,7 +169,7 @@ label lb_enc_guardian:
     $ chances = show_chances(game.foe)
     nvl clear
     menu:
-        'Атаковать стража':
+        'Attack':
             $ game.dragon.drain_energy()
             call lb_fight from _call_lb_fight_54
             python:
@@ -178,7 +178,7 @@ label lb_enc_guardian:
                     txt = game.interpolate(random.choice(txt_enc_forest_guardian[3]))
                     game.dragon.add_special_place('enchanted_forest', 'enter_ef')
             '[txt]'
-        'Отступить' if game.dragon.bloodiness < 5:
+        'Flee' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
             return            
     return
@@ -192,24 +192,24 @@ label lb_enc_lumbermill:
         if 'fire_breath' in game.dragon.modifiers(): 
             doit = True
     menu:
-        'Дыхнуть огнём' if doit:
+        'Breath fire' if doit:
             $ game.dragon.drain_energy()
             "[game.dragon.name] изрыгает на здание поток всепожирающего пламени. Сухое дерево тут же занимается и вскоре лесопилка сгорает. Теперь у людей будет меньше строительных материалов для их домов и замков."
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Наколдовать синее пламя' if game.dragon.mana > 0:
+        'Conjure blue flames' if game.dragon.mana > 0:
             $ game.dragon.drain_energy()
             $ game.dragon.drain_mana()
             "[game.dragon.name] произносит заклинание призывающее магический огонь. Сухое дерево тут же занимается и вскоре лесопилка сгорает. Теперь у людей будет меньше строительных материалов для их домов и замков."
             $ game.poverty.value += 1
             $ game.dragon.reputation.points += 3
             '[game.dragon.reputation.gain_description]'
-        'Обследовать здание' if game.dragon.size <= 3 and game.dragon.magic == 0:
+        'Incestigate' if game.dragon.size <= 3 and game.dragon.magic == 0:
             $ game.dragon.drain_energy()
             "[game.dragon.name] тщательно обследует необычное строение на предмет важности и уязвимых мест. Вращаемое потоком воды колесо приводит в движение скрытые внутри здания пилы, при помощи которых люди изготавливают из брёвен доски. Огромный штабель готовой продукции сложен неподалёку. Если бы только было чем это всё поджечь..."
             'Только время зря потерял. Придётся уйти несолоно хлебавши.'
-        'Пройти мимо' if game.dragon.bloodiness < 5:
+        'Ignore' if game.dragon.bloodiness < 5:
             $ game.dragon.gain_rage()
     
     return
@@ -228,13 +228,13 @@ label lb_enc_klad:
         trs_list = game.lair.treasury.treasures_description(trs)
         trs_descrptn = '\n'.join(trs_list)
     menu:
-        'Отыскать и раскопать':
+        'Find the buried treashures':
             $ game.dragon.drain_energy()
             'Под корнями старого дуба закопан слега подгивший уже древний сундук. Внутри лежит:'
             '[trs_descrptn]'
             $ game.lair.treasury.receive_treasures(trs)
             
-        'Пусть пока лежат' if game.dragon.bloodiness < 5:
+        'Let it be' if game.dragon.bloodiness < 5:
             'Конечно сокровища полезны, но то что тут могли закопать жалкие людишки вряд ли стоит драгоценного времени благородного змея.'
     return
 

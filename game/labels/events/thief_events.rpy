@@ -2,7 +2,7 @@
 label lb_event_thief_spawn(thief):
     show expression "img/scene/thief.jpg" as bg
     nvl clear
-    "[thief.title] по имени [game.thief.name] хочет порыться в сокровищнице дракона"
+    "[thief.title] known as [game.thief.name] going to get some trinkets from great dragon treashury!"
     nvl clear
     thief "Сокровища станут моими!"
     return
@@ -11,7 +11,7 @@ label lb_event_thief_steal_items(thief, items):
     $ descriptions = "\n".join(game.lair.treasury.treasures_description(items))
     show expression "img/scene/loot.jpg" as bg
     nvl clear
-    "[game.thief.name] выкрал из сокровищницы: [descriptions]"
+    "[game.thief.name] steals: [descriptions]"
     thief "Вот это дело! Еле живым ушел. Зато теперь я могу жить в роскоши как король до конца дней своих!"
     nvl clear
     return

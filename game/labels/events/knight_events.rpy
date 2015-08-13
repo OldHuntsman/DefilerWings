@@ -3,7 +3,7 @@ label lb_event_knight_spawn(knight):
     scene
     show expression "img/scene/oath.jpg" as bg
     nvl clear
-    "[knight.title] принимает на себя священный обет убить дракона"
+    "[knight.title] pleges a sacrament vow to kill a dragon!"
     knight "Готовься исчадие зла, я иду за тобой!"
     return
 
@@ -25,10 +25,10 @@ label lb_event_knight_challenge_start(knight):
     $ narrator(knight.intro % game.format_data)
     $ narrator(show_chances(knight))  #TODO: уровень опасности боя
     menu:
-        "Принять вызов и защитить логово":
+        "Protect your lair":
             "Вы вступаете в бой"
             return True
-        "Бежать и бросить логово":
+        "Flee and abandon your lair":
             # Тут, неверное должна быть проверка на успех побега дракона от рыцаря, но ее нет. (Нет, не нужна. Побег всегда успешен, просто дракон теряет логово, золото и баб - OH)
             if random.choice(range(4)) in range(3): # 75% что рыцарь останется
                 knight "Я все равно тебя найду!"

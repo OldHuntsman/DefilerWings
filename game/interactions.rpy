@@ -7,7 +7,7 @@ label lb_nature_sex:
         show place as bg
     nvl clear
     menu:
-        'Надругаться' if game.girls_list.is_mating_possible:
+        'Defile and impregnate' if game.girls_list.is_mating_possible:
             # Alex: Added sex images:
             $ description = game.girls_list.impregnate()
             stop music fadeout 1.0            
@@ -17,14 +17,14 @@ label lb_nature_sex:
             pause (500.0)
             stop sound fadeout 1.0
             hide xxx
-        'Ограбить' if game.girl.treasure:
+        'Mock and rob' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"
-        'Вернуть в темницу' if game.girl.jailed:
+        'Drop in the jail' if game.girl.jailed:
             $ description = game.girls_list.jail_girl()
             game.girl.third "[description]"
             return
-        'Утащить в логово' if not game.girl.jailed:
+        'Flitch to the lair' if not game.girl.jailed:
             $ description = game.girls_list.steal_girl()
             game.girl.third "[description]"
             $ place = game.lair.type_name
@@ -33,11 +33,11 @@ label lb_nature_sex:
             $ description = game.girls_list.jail_girl()
             game.girl.third "[description]"
             return
-        'Отпустить восвояси':
+        'Let her go':
             $ description = game.girls_list.free_girl()
             game.girl.third "[description]"
             return
-        'Сожрать' if game.dragon.hunger > 0:
+        'Vore lustfully' if game.dragon.hunger > 0:
             $ description =  game.girls_list.eat_girl()
             game.girl "[description]"
             play sound "sound/eat.ogg"
@@ -58,7 +58,7 @@ label lb_lair_sex:
 label lb_gigant_sex:
     nvl clear
     menu:
-        'Надругаться' if game.girls_list.is_mating_possible:
+        'Defile and impregnate' if game.girls_list.is_mating_possible:
             $ description = game.girls_list.impregnate()
             stop music fadeout 1.0   
             game.girl "[description]"
@@ -67,7 +67,7 @@ label lb_gigant_sex:
             pause (500.0)
             stop sound fadeout 1.0            
             hide xxx
-        'Магический рост' if not game.girls_list.is_mating_possible and game.girl.virgin and game.dragon.mana > 0 and game.dragon.lust > 0:
+        'Magical growth' if not game.girls_list.is_mating_possible and game.girl.virgin and game.dragon.mana > 0 and game.dragon.lust > 0:
             $ game.dragon.drain_mana()
             game.dragon 'Заклятье временного роста!'
             $ description = game.girls_list.impregnate()
@@ -77,10 +77,10 @@ label lb_gigant_sex:
             pause (500.0)
             stop sound fadeout 1.0
             hide xxx
-        'Ограбить' if game.girl.treasure:
+        'Mock and rob' if game.girl.treasure:
             $ description = game.girls_list.rob_girl()
             game.girl.third "[description]"
-        'Утащить в логово' if not game.girl.jailed:
+        'Flitch to the lair' if not game.girl.jailed:
             $ description = game.girls_list.steal_girl()
             game.girl.third "[description]"
             $ place = game.lair.type_name
@@ -89,15 +89,15 @@ label lb_gigant_sex:
             $ description = game.girls_list.jail_girl()
             game.girl.third "[description]"
             return          
-        'Вернуть в темницу' if game.girl.jailed:
+        'Drop in the jail' if game.girl.jailed:
             $ description = game.girls_list.jail_girl()
             game.girl.third "[description]"
             return            
-        'Отпустить восвояси':
+        'Let her go':
             $ description = game.girls_list.free_girl()
             game.girl.third "[description]"
             return
-        'Сожрать' if game.dragon.hunger > 0:
+        'Vore lustfully' if game.dragon.hunger > 0:
             $ description = game.girls_list.eat_girl()
             game.girl.third "[description]"
             show expression sex_imgs.get_eat_image() as eat_image
