@@ -14,15 +14,15 @@ class GirlsList(object):
     def __init__(self, game_ref, base_character):
         self.game = game_ref
         self.character = base_character
-        self.prisoners = []  # список заключенных девушек
-        self.free_list = []  # список свободных девушек
-        self.spawn = []  # список отродий, приходящих после пробуждения
-        self.active = 0  # номер текущей девушки
-        self.offspring = []  # типы потомков для выполнения квеста
+        self.prisoners = []  # jailed girls list
+        self.free_list = []  # free girls list
+        self.spawn = []  # list of spawns, that will come after sleep
+        self.active = 0  # cureent girl number
+        self.offspring = []  # offspings type for quest
 
     def new_girl(self, girl_type='peasant'):
         """
-        Генерация новой девушки указанного типа.
+        Generate new girl with specified type.
         """
         self.game.girl = Girl(game_ref=self.game, girl_type=girl_type)
         self.game.girl.treasure = self.gen_tres()
@@ -30,10 +30,10 @@ class GirlsList(object):
 
     def gen_tres(self):
         """
-        Создание списка индивидуальных сокровищ для текущей девушки
+        List of personam treasures for current girl
         """
-        g_type = self.game.girl.type  # упрощение обращения к типу девушки
-        girl_info = girls_data.girls_info[g_type]  # упрощение обращения к информации для данного типа девушки
+        g_type = self.game.girl.type  # simplified access to girl's type
+        girl_info = girls_data.girls_info[g_type]  # simplified access to information for girl's type
         count = random.randint(girl_info['t_count_min'], girl_info['t_count_max'])
         t_list = girl_info['t_list']
         alignment = girl_info['t_alignment']
@@ -44,7 +44,7 @@ class GirlsList(object):
 
     def impregnate(self):
         """
-        Осеменение женщины.
+        Girl impregnation.
         """
         # self.description('prelude', True)
         # self.description('sex', True)
@@ -61,9 +61,9 @@ class GirlsList(object):
 
     def free_girl(self):
         """
-        Выпустить текущую девушку на свободу.
+        Free current girl.
         """
-        # девушка отслеживается только если беременна
+        # girl is tracked only if pregnant
         if self.game.girl.pregnant:
             self.free_list.append(self.game.girl)
         if self.game.girl.jailed:
@@ -73,7 +73,7 @@ class GirlsList(object):
 
     def free_all_girls(self):
         """
-        Выпустить на свободу всех девушек.
+        Frees all girls.
         """
         for girl_i in reversed(xrange(self.prisoners_count)):
             self.game.girl = self.prisoners[girl_i]
@@ -86,7 +86,7 @@ class GirlsList(object):
 
     def jail_girl(self):
         """
-        Посадить текущую девушку за решетку.
+        Jail current girl.
         """
         if self.game.girl.jailed:
             text = self.description('jailed')
@@ -99,7 +99,7 @@ class GirlsList(object):
 
     def set_active(self, index):
         """
-        Достать девушку с номером index из темницы
+        Get girl with number <index> for prison
         """
         self.game.girl = self.prisoners[index]
         self.active = index
@@ -107,7 +107,7 @@ class GirlsList(object):
 
     def eat_girl(self):
         """
-        Скушать девушку.
+        Eat girl.
         """
         self.game.dragon.hunger -= 1
         if self.game.dragon.lust < 3:
@@ -117,14 +117,14 @@ class GirlsList(object):
 
     def rob_girl(self):
         """
-        Ограбить девушку.
+        Rob girl.
         """
         self.game.lair.treasury.receive_treasures(self.game.girl.treasure)
         return self.description('rob')
 
     def prisoners_list(self):
         """
-        Возвращает список плененных девушек.
+        Return list of jailed girls.
         """
         jail_list = []
         for girl_i in xrange(len(self.prisoners)):
@@ -134,16 +134,16 @@ class GirlsList(object):
     @property
     def prisoners_count(self):
         """
-        Возвращает количество плененных девушек.
+        Return amount of jailed girls.
         """
         return len(self.prisoners)
 
     def description(self, status, say=False):
         """
-        Генерация описания ситуации для текущей девушки (self.game.girl).
-        status - кодовое описание ситуации
-        say - если истина - описание выводится сразу на экран
-        Возвращается текст описания или None, если текст в списке не найден
+        Generate situation description for current girl (self.game.girl).
+        status - code description of situation
+        say - if true - description outputs to screen right away
+        Returns description text or None, if there is no text in a list
         """
         format_dict = {
             'dragon_name': self.game.dragon.name,
@@ -158,7 +158,7 @@ class GirlsList(object):
         if status in girls_data.girls_texts[girl_type]:
             text = random.choice(girls_data.girls_texts[girl_type][status])
             if self.spawn:
-                # Если список отродий не пуст - получаем имя последнего для возможной подстановки
+                # If list of spawns is not empty - get last spawn name for possible substitution
                 format_dict['spawn_name'] = girls_data.spawn_info[self.spawn[-1]]['born'].capitalize()
             if status == 'rob':
                 treas_description = self.game.lair.treasury.treasures_description(self.game.girl.treasure)
@@ -169,8 +169,8 @@ class GirlsList(object):
         else:
             text = None
         if say and text:
-            self.game.girl.third(text)  # выдача сообщения
-            store.nvl_list = []  # вариант nvl clear на питоне
+            self.game.girl.third(text)  # message give away
+            store.nvl_list = []  # nvl clear for python
         else:
             return text
 
@@ -185,23 +185,23 @@ class GirlsList(object):
 
     def next_year(self):
         """
-        Все действия с девушками за год.
+        All actions with girrls in a year.
         """
-        # плененные девушки
+        # jailed girls
         for girl_i in reversed(xrange(self.prisoners_count)):
             self.game.girl = self.prisoners[girl_i]
-            # попытка побега
+            # Attempt to escape
             if (random.randint(1, 2) == 1) and self.game.lair.reachable([]) and \
                     'regular_guards' not in self.game.lair.upgrades and \
                     'elite_guards' not in self.game.lair.upgrades and \
                     'smuggler_guards' not in self.game.lair.upgrades:
-                # Девушка сбежала из камеры
+                # Girls escaped chamber
                 del self.prisoners[girl_i]
-                self.event('escape')  # событие "побег из заключения"
+                self.event('escape')  # even "Escape from prison"
                 if self.game.girl.pregnant:
                     self.free_list.append(self.game.girl)
             else:
-                # девушка не убежала
+                # girl didn't escape
                 if ('servant' in self.game.lair.upgrades) or ('gremlin_servant' in self.game.lair.upgrades):
                     if self.game.girl.pregnant:
                         girl_type = girls_data.girls_info[self.game.girl.type]
@@ -220,16 +220,16 @@ class GirlsList(object):
                             self.offspring.append(girl_size)
 
                         self.spawn.append(girl_type[spawn_class])
-                        self.event('spawn', girl_type[spawn_class])  # событие "рождение отродий"
+                        self.event('spawn', girl_type[spawn_class])  # event "spawns birth"
                         self.game.girl.pregnant = 0
                 else:
-                    self.event('hunger_death')  # событие "смерть девушки от голода"
+                    self.event('hunger_death')  # event "girl died from starvation"
                     del self.prisoners[girl_i]
-        # свободные, в том числе только что сбежавшие. Отслеживаются только беременные
+        # Free and just escaped girls. Only preganat girls are tracked
         for girl_i in xrange(len(self.free_list)):
             self.game.girl = self.free_list[girl_i]
             if (random.randint(1, 3) == 1) and not girls_data.girls_info[self.game.girl.type]['giantess']:
-                self.event('kill')  # событие "беременную девушку убивают на свободе"
+                self.event('kill')  # event "pregnant girl is killed in the wild"
             else:
                 girl_type = girls_data.girls_info[self.game.girl.type]
 
@@ -248,13 +248,13 @@ class GirlsList(object):
 
                 spawn_type = girls_data.girls_info[self.game.girl.type][spawn_class]
                 spawn = girls_data.spawn_info[spawn_type]
-                self.event('free_spawn', spawn_type)  # событие "рождение отродий на воле"
+                self.event('free_spawn', spawn_type)  # event "spawns birth in the wild"
                 self.free_spawn(spawn['power'])
-        self.free_list = []  # очистка списка - либо родила, либо убили - отслеживать дальше не имеет смысла
+        self.free_list = []  # list clear - gave birth or killed - no reason to track anymore
 
     def before_sleep(self):
         """
-        Все действия до начала сна - смерть с тоски, может быть что-то еще?
+        All actions beore sleep - death from yearning, something else?
         """
         for girl_i in reversed(xrange(self.prisoners_count)):
             self.game.girl = self.prisoners[girl_i]
@@ -265,19 +265,19 @@ class GirlsList(object):
     # noinspection PyTypeChecker
     def after_awakening(self):
         """
-        Все действия после пробуждения - разбираемся с воспитанными отродьями.
+        All actions after awakening - sort out spawns.
         """
         for spawn_i in xrange(len(self.spawn)):
-            spawn_type = self.spawn[spawn_i]  # упрощение обращения к типу отродий
-            spawn = girls_data.spawn_info[spawn_type]  # упрощение обращения к данным отродий
+            spawn_type = self.spawn[spawn_i]  # simplified access to spawns's type
+            spawn = girls_data.spawn_info[spawn_type]  # simplified access to spawns's data
             renpy.show("meow", what=store.Image("img/scene/spawn/%s.jpg" % spawn_type))
-            spawn_mod = spawn['modifier']  # упрощение обращения к списку модификаторов отродий
-            # Делаем проверку. Истина, если не морское отродье или морское в подводном логове
+            spawn_mod = spawn['modifier']  # simplified access to spawns's modifiers list
+            # Make check. True if not sea spawn or sea spawn in underwater lair
             # TODO: Возможно стоит сделать умирание слуги, если оно не морское и в морском логове.
             marine_check = ('marine' not in spawn_mod) or \
                            (self.game.lair.type.require and 'swimming' in self.game.lair.type.require)
             spawn_menu = [(u"К Вам приходит %s и просит назначения" % spawn['name'], None)]  # меню отродий
-            # Возможные пункты меню
+            # Possible menu points
             if ('poisonous' in spawn_mod) and ('poison_guards' not in self.game.lair.upgrades) and marine_check:
                 spawn_menu.append((u"Выпустить в логово", u'poison_guards'))
             if ('servant' in spawn_mod) and ('servant' not in self.game.lair.upgrades) and marine_check:
@@ -302,14 +302,14 @@ class GirlsList(object):
                 renpy.say(self.game.narrator, u"%s отправляется в армию тьмы." % spawn['name'])
                 self.army_of_darkness(spawn_type)
             else:
-                # выдача сообщения о начале работы
+                # Message about work start
                 renpy.say(self.game.narrator, u"%s приступает к выполнению обязанностей." % spawn['name'])
-                # выдача сообщения о конце работы, если это необходимо
+                # Message about work end
                 if 'replaces' in data.lair_upgrades[menu_action].keys():
                     replace = data.lair_upgrades[menu_action]['replaces']
                     renpy.say(self.game.narrator,
                               u"%s больше не требуются и уходят." % data.lair_upgrades[replace]['name'])
-                # добавление в улучшение логова
+                # add lair improvement
                 self.game.lair.add_upgrade(menu_action)
                 
         renpy.hide("meow")
@@ -317,22 +317,22 @@ class GirlsList(object):
 
     def free_spawn(self, power):
         """
-        Действия отродий на свободе
+        Spawns actions in the wild
         """
-        # Растёт разруха. Надо проверить чтобы это срабатывало по одному разу на тип отродий.
+        # Increase poverty. Should work once by spawn type.
         self.game.poverty.value += 1
         pass
 
     def army_of_darkness(self, warrior_type):
         """
-        Отправка в армию тьмы
+        Send to army of darkness
         """
         self.game.army.add_warrior(warrior_type)
 
     @property
     def is_mating_possible(self):
         """
-        Возвращает возможность совокупления - истину или ложь.
+        Return coition possibility - True or False.
         # TODO: проверка на превращение в человека
         """
         assert self.game.girl, "Girl not found"
