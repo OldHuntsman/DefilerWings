@@ -15,7 +15,7 @@ label lb_location_ruin_main:
         witch.name = "Ведьма"
     
     if game.dragon.energy() == 0:
-        'Даже драконам надо иногда спать. Особенно драконам!'
+        '[game.dragon.name] need some sleep!'
         return
         
     menu:

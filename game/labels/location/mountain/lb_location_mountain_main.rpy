@@ -13,7 +13,7 @@ label lb_location_mountain_main:
     nvl clear
     
     if game.dragon.energy() == 0:
-        'Даже драконам надо иногда спать. Особенно драконам!'
+        '[game.dragon.name] need some sleep!'
         return
         
     $ nochance = game.poverty.value * 3

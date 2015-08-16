@@ -30,9 +30,9 @@ label lb_fight(foe=game.foe, skip_fear=False):
             '[chances]'
             nvl clear
             menu:
-                'Продолжать бой':
+                'Continue battle':
                     pass
-                'Отступить' if not battle.army_battle:
+                'Retreat' if not battle.army_battle:
                     if foe.kind == 'knight':
                         # Отступаем в новое логово
                         "[game.dragon.name] retreats in disgrace and covers in a makeshift lair"

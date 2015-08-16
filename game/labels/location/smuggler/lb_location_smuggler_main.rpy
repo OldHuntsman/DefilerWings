@@ -11,7 +11,7 @@ label lb_location_smuggler_main:
     show expression 'img/bg/special/smugglers.jpg' as bg
     
     if game.dragon.energy() == 0:
-        'Даже драконам надо иногда спать. Особенно драконам!'
+        '[game.dragon.name] need some sleep!'
         return
 
     # Стоимость года работы охранников

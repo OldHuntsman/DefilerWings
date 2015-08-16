@@ -4,19 +4,19 @@ python early:
     from pythoncode import data
      
     chance_win_texts = {
-        0: "{color=#ff0000}призрачные{/color}",
-        10: "{color=#ff00ff}невысокие{/color}",
-        30: "{color=#0000ff}приемлемые {/color}",
-        60: "{color=#EAC117}значительные{/color}",
-        90: "{color=#00ff00}отличные{/color}"
+        0: "{color=#ff0000}miserable{/color}",
+        10: "{color=#ff00ff}low{/color}",
+        30: "{color=#0000ff}acceptable{/color}",
+        60: "{color=#EAC117}good{/color}",
+        90: "{color=#00ff00}splendid{/color}"
     }
     
     chance_wound_texts = {
-        0: "{color=#00ff00}минимальная{/color}",
-        10: "{color=#EAC117}допустимая{/color}",
-        30: "{color=#0000ff}средняя{/color}",
-        60: "{color=#ff00ff}значительная{/color}",
-        90: "{color=#ff0000}катастрофическая{/color}"
+        0: "{color=#00ff00}minimal{/color}",
+        10: "{color=#EAC117}acceptable{/color}",
+        30: "{color=#0000ff}average{/color}",
+        60: "{color=#ff00ff}considerable{/color}",
+        90: "{color=#ff0000}immense{/color}"
     }
     
     def show_chances(foe):
@@ -29,36 +29,36 @@ python early:
         chance = battle.victory_chance(foe, game.dragon)
         chance_wound = data.get_description_by_count(chance_wound_texts, chance)
         
-        return " Шансы на победу: %s.\n Опасность ранения: %s." % (chance_win, chance_wound)
+        return " Chance to win: %s.\n Danger: %s." % (chance_win, chance_wound)
 
     # Описания дракона
     hunger_texts = {
-        0: '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Обожрался{/color}{/font}',
-        1: '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Сытый{/color}{/font}',
-        2: '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Заморил червячка{/color}{/font}',
-        3: '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Голодный{/color}{/font}'
+        0: '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Overfeed{/color}{/font}',
+        1: '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Full{/color}{/font}',
+        2: '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Hungry{/color}{/font}',
+        3: '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Starving{/color}{/font}'
     }
 
     lust_texts = {
-        0: '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Вялый{/color}{/font}',
-        1: '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Возбужден{/color}{/font}',
-        2: '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Осеменитель{/color}{/font}',
-        3: '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Сосуд похоти{/color}{/font}'
+        0: '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Exhaused{/color}{/font}',
+        1: '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Aroused{/color}{/font}',
+        2: '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Horny{/color}{/font}',
+        3: '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Lustful{/color}{/font}'
     }
 
     bloodlust_texts = [
-        '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Умиротворен{/color}{/font}',
-        '{font=fonts/AnticvarShadow.ttf}{color=#ccccff}Спокоен{/color}{/font}',
-        '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Напряжен{/color}{/font}',
-        '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Раздражен{/color}{/font}',
-        '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Разъярен{/color}{/font}',
-        '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Взбешен{/color}{/font}'
+        '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Placid{/color}{/font}',
+        '{font=fonts/AnticvarShadow.ttf}{color=#ccccff}Calm{/color}{/font}',
+        '{font=fonts/AnticvarShadow.ttf}{color=#0000ff}Tense{/color}{/font}',
+        '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Annoyed{/color}{/font}',
+        '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Angry{/color}{/font}',
+        '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Furious{/color}{/font}'
     ]
 
     health_texts = {
-        0: '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Полудохлый{/color}{/font}',
-        1: '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Раненый{/color}{/font}',
-        2: '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Цел и невредим{/color}{/font}'
+        0: '{font=fonts/AnticvarShadow.ttf}{color=#ff0000}Half-dead{/color}{/font}',
+        1: '{font=fonts/AnticvarShadow.ttf}{color=#ff00ff}Wounded{/color}{/font}',
+        2: '{font=fonts/AnticvarShadow.ttf}{color=#00ff00}Healthy{/color}{/font}'
     }
 
     womennum = ['основная', 'вторая', 'третья', 'четвёртая', 'пятая', 'шестая', 'седьмая']
