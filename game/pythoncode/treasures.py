@@ -9,7 +9,7 @@ from copy import deepcopy
 from utils import weighted_random
 from data import achieve_target, get_description_by_count
 
-"""Словарь для драгоценных камней, ключи - названия камней, значения - кортежи вида(шанс появления, ценность)"""
+"""Gems dictionary, key - gem name, value - tuple(drop chance, price)"""
 gem_types = {
     "amber": (5, 3),
     "crystall": (5, 5),
@@ -32,8 +32,12 @@ gem_types = {
     "black_diamond": (1, 100),
     "rose_diamond": (1, 100),
 }
-
-"""словарь для типов материалов, ключи - названия материалов, значения - (шанс, ценность)"""
+gem_types_plurals = {
+        "ruby": "rubies",
+        "topaz": "topazes",
+        "goodruby": "goodrubies"
+}
+"""material types dict, key - material name, value - tuple(drop chance, price)"""
 material_types = {
     "jasper": (5, 1),
     "turquoise": (5, 1),
@@ -46,9 +50,9 @@ material_types = {
     "horn": (1, 25),
 }
 
-"""словарь для описания типов материалов,
-ключи - названия материалов,
-значения - словарь для различных падежей русского названия материала"""
+"""material types descriptions dict,
+key - material name,
+value - dictionary for different cases of material name"""
 material_description_rus = {
     "jasper": {
         'nominative': u'яшма',
@@ -442,17 +446,17 @@ gem_description_rus = {
         }
     },
 }
-"""словарь для типов металлов, ключ - металл, значение - ценность"""
+"""Metal types, key - metal, value - price"""
 metal_types = {
     "silver": 1,
     "gold": 10,
     "mithril": 25,
     "adamantine": 30,
 }
-"""словарь для типов сокровищ, ключ - тип сокровища,
-значение - (базовая цена, пол, можно ли сделать из метала(булевое), можно ли
-            сделать из поделочных материалов(булевое), является ли изображением(булевое),
-            можно ли инкрустировать(булевое), возможность украшения(булевое))"""
+"""treasure types dict, key - treasure type,
+value - (base price, gender, can be metallic(boolean), can be
+            made from materials(boolean), is image(boolean),
+            can be encrusted(boolean), can be decorated(boolean))"""
 treasure_types = {  # допилить типы сокровищ
     "dish": (5, "it", True, False, False, False, True),
     "goblet": (4, "he", True, False, False, True, True),
@@ -549,7 +553,7 @@ metal_description_rus = {
         'genitive' : u"адаманта",
     },
 }
-"""словарь для изображений, ключ - тип культуры, значение - кортеж из вариантов изображений"""
+"""iamges dictionary, key - culture type, value - tuple of available variants"""
 image_types = { 
     'human': (
         'abstract_ornament', 'concentric_circles', 'round_dance', 'fire-breathing_dragon', 'flying_dragon',
@@ -1019,7 +1023,7 @@ quality_description_rus = {
         'she': u"искусно сделанная ",
         'it': u"искусно сделанное ",
     },
-    'mastery': {
+    'masterful': {
         'he': u"мастерски изготовленный ",
         'she': u"мастерски изготовленная ",
         'it': u"мастерски изготовленное ",
@@ -1097,8 +1101,8 @@ treasures_mass_description_rus = {
 }
 
 number_conjugation_end = {
-    1: {'nominative': (u"", u"а", u"ов")},
-    2: {'nominative': (u"ок", u"ка", u"ков")},
+    1: {'nominative': (u"", u"s", u"s")},
+    2: {'nominative': (u"", u"s", u"s")},
 }
 
 
@@ -1111,9 +1115,10 @@ def number_conjugation_type(number):
         return 2
 
 
-def number_conjugation_rus(number, add_name, word_form='nominative', word_type=1):
+def number_conjugation_eng(number, add_name, word_form='nominative', word_type=1):
     description_end = number_conjugation_end[word_type][word_form][number_conjugation_type(number)]
     return u"%s %s%s" % (number, add_name, description_end)
+number_conjugation_rus = number_conjugation_eng
 
 
 def capitalize_first(string):
@@ -1129,9 +1134,10 @@ def weighted_select(d):
     return d.keys()[random.randint(0, len(d.keys()))]
 
 
-class Ingot(object):  # класс для генерации слитков
+class Ingot(object):  # Ingots class
     weights = (1, 4, 8, 16)
-    weights_description_rus = {1: u"крохотный", 4: u"небольшой", 8: u"полновесный", 16: u"массивный"}
+    weights_description_rus = {1: u"крошечный", 4: u"маленький", 8: u"полновесный", 16: u"огромный"}
+    weights_description_eng = {1: u"tiny", 4: u"little", 8: u"sterling", 16: u"massive"}
 
     def __init__(self, metal_type):
         self.metal_type = metal_type
@@ -1145,14 +1151,12 @@ class Ingot(object):  # класс для генерации слитков
     def __repr__(self):
         return "%s pound %s ingot" % (self.weight, self.metal_type)
 
-    def description(self, language='rus'):
-        if language == 'rus':
+    def description(self, language='eng'):
+        if language == 'eng':
             if self.weight in self.weights:
-                return u"%s %s слиток" % (
-                    self.weights_description_rus[self.weight], metal_description_rus[self.metal_type]['he'])
+                return u"%s %s ingot" % (self.weight, self.metal_type)
             else:
-                return u"Несколько %s слитков общим весом %s" % (
-                    metal_description_rus[self.metal_type]['they'], number_conjugation_rus(self.weight, u"фунт"))
+                return u"Some %s ingots weighing %s" % (self.metal_type, number_conjugation_rus(self.weight, u"pound"))
         else:
             return self.__repr__()
 
@@ -1162,18 +1166,17 @@ class Ingot(object):  # класс для генерации слитков
         Функция для вывода описания слитков металла по типу металла и его количеству
         """
         if metal_weight in Ingot.weights:
-            return u"%s %s слиток" % (
-                Ingot.weights_description_rus[metal_weight], metal_description_rus[metal_type]['he'])
+            return u"%s %s ingot" % (
+                Ingot.weights_description_eng[metal_weight], metal_type)
         else:
-            return u"несколько %s слитков общим весом %s" % (
-                metal_description_rus[metal_type]['they'], number_conjugation_rus(metal_weight, u"фунт"))
+            return u"some %s ingots weighing %s" % (metal_type, number_conjugation_rus(metal_weight, u"pound"))
 
 
 class Coin(object):
     coin_types = {"farting": (1, 1), "taller": (1, 10), "dublon": (1, 100)}
     coin_description_rus = {"farting": u"фартинг", "taller": u"таллер", "dublon": u"дублон"}
     """
-    Монеты.
+    Coins class.
     """
 
     def __init__(self, name, amount):
@@ -1188,9 +1191,9 @@ class Coin(object):
     def __repr__(self):
         return str(self.amount) + " " + "%s(s)" % self.name
 
-    def description(self, language='rus'):
-        if language == 'rus':
-            return number_conjugation_rus(self.amount, Coin.coin_description_rus[self.name], 'nominative')
+    def description(self, language='eng'):
+        if language == 'eng':
+            return number_conjugation_rus(self.amount, self.name)
         else:
             return self.__repr__()
 
@@ -1199,7 +1202,7 @@ class Coin(object):
         """
         Функция для вывода описания монет по типу и количеству монет
         """
-        return number_conjugation_rus(coin_count, Coin.coin_description_rus[coin_type])
+        return number_conjugation_rus(coin_count, coin_type)
 
 
 class Gem(object):  # класс для генерации драг.камней
@@ -1254,7 +1257,7 @@ class Gem(object):  # класс для генерации драг.камней
         else:
             return
 
-    def description(self, custom=False, case='nominative', gender='he', language='rus'):
+    def description(self, custom=False, case='nominative', gender='he', language='eng'):
         """
         Создает описание для драгоценного камня
         :custom: - если False - добавляет в описание "горсть"/"несколько" для мелких/обычных камней и
@@ -1262,25 +1265,23 @@ class Gem(object):  # класс для генерации драг.камней
         :case: - в каком падеже описываются камни
         :gender: - какого рода камни - 'he' (мужского), 'she' (женского) или 'they' (множественное число)
         """
-        if language == 'rus':
+        type_desc = ' '.join(self.g_type.split('_'))
+        if language == 'eng':
             if not custom and (self.size == 'small' or self.size == 'common'):
-                case = 'genitive'
-                gender = 'they'
                 if self.size == 'small':
-                    return u"Горсть мелких %s%s" % (
-                        gem_cut_description_rus[self.cut][gender][case], gem_description_rus[self.g_type][gender][case])
+                    if self.g_type in gem_types_plurals:
+                        type_desc = gem_types_plurals[self.g_type]
+                    else:
+                        type_desc += "s"
+                    return u"handful of small %s %s" % (self.cut, type_desc)
                 else:
-                    return u"Несколько %s%s" % (
-                        gem_cut_description_rus[self.cut][gender][case], gem_description_rus[self.g_type][gender][case])
+                    if self.g_type in gem_types_plurals:
+                        type_desc = gem_types_plurals[self.g_type]
+                    else:
+                        type_desc += "s"
+                    return u"some %s %s" % (self.cut, type_desc)
             else:
-                if self.g_type == 'pearl' or self.g_type == 'black_pearl':
-                    gender = 'she'
-                elif gender != 'they':
-                    gender = 'he'
-                return u"%s%s%s" % (
-                    material_size_description_rus[self.size][gender][case],
-                    gem_cut_description_rus[self.cut][gender][case],
-                    gem_description_rus[self.g_type][gender][case])
+                return u"%s %s %s" % (self.size, self.cut, type_desc)
         else:
             return self.__repr__()
 
@@ -1296,34 +1297,16 @@ class Gem(object):  # класс для генерации драг.камней
                 gem_count *= 25
             else:
                 gem_count *= 5
-        conjugation_type = number_conjugation_type(gem_count)  # определяем тип сопряжения
-        # определяем род, некрасивый вариант - лучше использовать словарь:
-        if gem_param[0] == 'pearl' or gem_param[0] == 'black_pearl':
-            gender = 'she'
-        else:
-            gender = 'he'
-        # выводим результат для каждого типа сопряжения
-        # единственное число - именительный падеж, род копируется
-        if conjugation_type == 0:
-            if gem_count != 1:  # если камень один - не ставим число
-                return u"%s %s%s%s" % (gem_count, material_size_description_rus[gem_param[1]][gender]['nominative'],
-                                       gem_cut_description_rus[gem_param[2]][gender]['nominative'],
-                                       gem_description_rus[gem_param[0]][gender]['nominative'])
+        if gem_count != 1:  # don't put number for single gem
+            if gem_param[0] in gem_types_plurals.keys():
+                gem_param[0] = gem_types_plurals[gem_param[0]]
             else:
-                return u"%s%s%s" % (material_size_description_rus[gem_param[1]][gender]['nominative'],
-                                    gem_cut_description_rus[gem_param[2]][gender]['nominative'],
-                                    gem_description_rus[gem_param[0]][gender]['nominative'])
-        # маломножественная форма - родительный падеж, тип в единственном числе, прилагательные - во множественном
-        elif conjugation_type == 1:
-            return u"%s %s%s%s" % (gem_count, material_size_description_rus[gem_param[1]]['they']['genitive'],
-                                   gem_cut_description_rus[gem_param[2]]['they']['genitive'],
-                                   gem_description_rus[gem_param[0]][gender]['genitive'])
-        # множественное число - родительный падеж множественного числа
-        elif conjugation_type == 2:
-            gender = 'they'
-            return u"%s %s%s%s" % (gem_count, material_size_description_rus[gem_param[1]][gender]['genitive'],
-                                   gem_cut_description_rus[gem_param[2]][gender]['genitive'],
-                                   gem_description_rus[gem_param[0]][gender]['genitive'])
+                gem_param[0] = ' '.join(gem_param[0].split('_'))
+                gem_param[0] += "s"
+            return u"%s %s %s %s" % (gem_count, gem_param[1],gem_param[2], gem_param[0])
+        else:
+            gem_param[0] = ' '.join(gem_param[0].split('_'))
+            return u"%s %s %s" % (gem_param[1], gem_param[2], gem_param[0])
 
 
 def generate_gem(count, *args):
@@ -1397,10 +1380,9 @@ class Material(object):  # класс для генерации материал
         else:
             return
 
-    def description(self, language='rus'):
-        if language == 'rus':
-            return u"%sкусок %s" % (material_size_description_rus[self.size]['he']['nominative'],
-                                    material_description_rus[self.m_type]['genitive'])
+    def description(self, language='eng'):
+        if language == 'eng':
+            return u"%s piece of %s" % (self.size, self.m_type)
         else:
             return self.__repr__()
 
@@ -1414,20 +1396,13 @@ class Material(object):  # класс для генерации материал
         # выводим результат для каждого типа сопряжения
         if conjugation_type == 0:  # единственное число - именительный падеж, род копируется
             if material_count != 1:  # если материал один - не ставим число
-                return u"%s %sкусок %s" % (
-                    material_count, material_size_description_rus[material_param[1]]['he']['nominative'],
-                    material_description_rus[material_param[0]]['genitive'])
+                return u"%s %s piece of %s" % (material_count, material_param[1],material_param[0])
             else:
-                return u"%sкусок %s" % (material_size_description_rus[material_param[1]]['he']['nominative'],
-                                        material_description_rus[material_param[0]]['genitive'])
+                return u"%s piece of %s" % (material_param[1], material_param[0])
         elif conjugation_type == 1:
-            return u"%s %sкуска %s" % (
-                material_count, material_size_description_rus[material_param[1]]['they']['genitive'],
-                material_description_rus[material_param[0]]['genitive'])
+            return u"%s %s pieces of %s" % (material_count, material_param[1],material_param[0])
         elif conjugation_type == 2:
-            return u"%s %sкусков %s" % (
-                material_count, material_size_description_rus[material_param[1]]['they']['genitive'],
-                material_description_rus[material_param[0]]['genitive'])
+            return u"%s %s pieces of %s" % (material_count, material_param[1],material_param[0])
 
 
 def generate_mat(count, *args):
@@ -1464,7 +1439,7 @@ def generate_mat(count, *args):
 
 class Treasure(object):  # класс для сокровищ
     decorate_types = {"incuse": (33,), "engrave": (33,), "etching": (33,), "carving": (0,)}
-    quality_types = {"common": (60, 2), "skillfully": (20, 3), "rough": (10, 1), "mastery": (10, 5)}
+    quality_types = {"common": (60, 2), "skillfully": (20, 3), "rough": (10, 1), "masterful": (10, 5)}
 
     def __init__(self, treasure_type, alignment):
         """все значения заносятся из словаря treasure_types"""
@@ -1634,42 +1609,39 @@ class Treasure(object):  # класс для сокровищ
             self.incrustation_cost + self.random_mod
 
     def __repr__(self):
-        return "%s%s" % (self.material, self.treasure_type)
+        return "%s %s" % (self.material, self.treasure_type)
 
-    def description(self, language='rus'):
-        if language == 'rus':
-            quality_str = quality_description_rus[self.quality][self.gender]  # мастерство исполнения
-            treasure_str = treasure_description_rus[self.treasure_type]['nominative']  # тип драгоценности
+    def description(self, language='eng'):
+        if language == 'eng':
+            quality_str = self.quality # item quality
+            treasure_str = self.treasure_type  # treasure type
             # совмещаем мастерство исполнения, тип и материал, из которого изготовлено
             if self.material in metal_types.keys():
                 if self.treasure_type == 'icon' or self.treasure_type == 'tome':
-                    desc_str = u"%s%s в %s окладе" % (
-                        quality_str, treasure_str, metal_description_rus[self.material]['prepositional'])
+                    desc_str = u"%s %s in %s casing" % (
+                        quality_str, treasure_str, self.material)
                 else:
-                    desc_str = u"%s%s %s" % (
-                        quality_str, metal_description_rus[self.material][self.gender], treasure_str)
+                    desc_str = u"%s %s %s" % (
+                        quality_str, self.material, treasure_str)
             else:
-                desc_str = u"%s%s из %s" % (
-                    quality_str, treasure_str, material_description_rus[self.material]['genitive'])
+                desc_str = u"%s %s made of %s" % (quality_str, treasure_str, self.material)
 
             if self.image:
-                desc_str += u", изображающая %s" % image_description_rus[self.decoration_image]['accusative']  
+                self.decoration_image = " ".join(self.decoration_image.split('_'))
+                desc_str += u", showing %s" % self.decoration_image  
                 # только изображение
             else:
                 # добавляем различные украшения
                 enchant_list = []
                 if self.spangled:  # усыпанное камнями
-                    enchant_list.append(u"%s %s" % (decoration_description_rus['spangled'][self.gender],
-                                                    self.spangled.description(True, 'ablative', 'they')))
+                    enchant_list.append(u"spangled with %s" % (self.spangled.description()))
                 if self.inlaid:  # инкрустированное камнями
-                    enchant_list.append(u"%s %s" % (decoration_description_rus['inlaid'][self.gender],
-                                                    self.inlaid.description(True, 'ablative', 'they')))
+                    enchant_list.append(u"inlaid with %s" % (self.inlaid.description()))
                 if self.huge:  # с крупным камнем
                     # только ради "крупной (чёрной) жемчужины":
-                    enchant_list.append(u"с %s" % self.huge.description(True, 'ablative'))
+                    enchant_list.append(u"with %s" % self.huge.description())
                 if self.decoration:  # украшенное чеканкой/гравировкой/травлением/резьбой
-                    enchant_list.append(u"%s %s" % (decoration_description_rus['decoration'][self.gender],
-                                                    decorate_types_description_rus[self.decoration]))
+                    enchant_list.append(u"decorated with %s" % (self.decoration))
                 if len(enchant_list) == 1:
                     if not self.huge:
                         desc_str += u","  # добавляем "с крупным камнем" без запятой
@@ -1678,12 +1650,10 @@ class Treasure(object):  # класс для сокровищ
                     while len(enchant_list) > 1:
                         desc_str += u", %s" % enchant_list[0]  # добавляем через запятую украшения
                         del enchant_list[0]
-                    desc_str += u" и %s" % enchant_list[0]  # последнее добавляется союзом "и"
+                    desc_str += u" and %s" % enchant_list[0]  # последнее добавляется союзом "и"
                 if self.decoration:  # если есть изображение - ставим точку и описываем его
-                    image_description = image_description_rus[self.decoration_image]  # упрощение доступа к свойству
-                    desc_str = u"%s. На %s %s %s" % (desc_str, treasure_description_rus[self.treasure_type]['ablative'],
-                                                     decoration_description_rus['image'][image_description['gender']],
-                                                     image_description['nominative'])
+                    image_description = ' '.join(self.decoration_image.split('_')) # упрощение доступа к свойству
+                    desc_str = u"%s. %s shows on a %s" % (desc_str, image_description, self.treasure_type,)
             return desc_str
         else:
             return self.__repr__()
@@ -2053,7 +2023,7 @@ class Treasury(store.object):
         """
         :return: строка с описанием количества драгоценных камней в сокровищнице
         """
-        gem_str = u"В сокровищнице находится:\n"
+        gem_str = u"Treasury contains:\n"
         gem_list = sorted(self.gems.keys())  # список драгоценных камней, отсортированных по типу/размеру/огранке
         for gem_name in gem_list:
             if self.gems[gem_name]:  # проверка наличия камней такого типа в сокровищнице
@@ -2065,7 +2035,7 @@ class Treasury(store.object):
         """
         :return: строка с описанием количества материалов в сокровищнице
         """
-        material_str = u"В сокровищнице находится:\n"
+        material_str = u"Treasury contains:\n"
         metal_list = sorted(self.metals.keys())
         for metal_name in metal_list:
             metal_weight = self.metals[metal_name]
@@ -2569,7 +2539,7 @@ class Treasury(store.object):
         Функция для вывода меню покупки/создания вещи
         :param is_crafting: создаётся из материалов дракона (True) или покупается (False)
         :param quality: список для выбора возможного качества создаваемой вещи, 
-            может быть rough, common, skillfully, mastery, 
+            может быть rough, common, skillfully, masterful, 
             либо random для случайного выбора из этих вариантов с весовыми коэффициентами
         :param alignment: список для выбора возможного стиля декорации создаваемой вещи, 
             может быть human, knight, cleric, elf, dwarf, merman,
@@ -2591,7 +2561,7 @@ class Treasury(store.object):
             'rough': u"с грубым исполнением",
             'common': u"с обычным исполнением",
             'skillfully': u"с искусным исполнением",
-            'mastery': u"с мастерским исполнением",
+            'masterful': u"с мастерским исполнением",
             'random': u"со случайным исполнением"
         }
         item.quality = quality[0]
@@ -2685,7 +2655,7 @@ class Treasury(store.object):
                     item.decoration_image = None
         if item.quality =='random':
             # случайный выбор качества вещи
-            quality_list = (('rough', 25), ('common', 50), ('skillfully', 20), ('mastery', 10),)
+            quality_list = (('rough', 25), ('common', 50), ('skillfully', 20), ('masterful', 10),)
             item.quality = weighted_random(quality_list)
         self.money -= item.craft_cost(base_cost, price_multiplier)
         if is_crafting:

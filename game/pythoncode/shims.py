@@ -1,10 +1,10 @@
 # coding=utf-8
 
-# Monkey patch для того, чтобы focus_mask воспринимала callable.
-# Без этого код пытается интерпретировать callable как displayable и падает.
-# Вообще говоря надо патчить renpy.styledata.styleutil.expand_focus_mask,
-# но renpy как-то хитро к нему обращается и при замене всё равно работает
-# старая версия.
+# Monkey patch for focus_mask to allow it receive callable.
+# Without it code tryes to interpret callable as displayable and crashes.
+# renpy.styledata.styleutil.expand_focus_mask should be patched,
+# but renpy access it not in common way and when it changed
+# old version still works.
 # TODO: Убрать костыль после патча в RenPy.
 
 import renpy.exports as renpy
@@ -24,17 +24,17 @@ def renpy_easy_monkey_patch():
         
         renpy_easy_monkey_patch.patched = True
         
-# Monkey patch для того, чтобы внедриться в pygame event loop. Таким образом 
-# мы можем получать все возникающие события и реагировать на нужные нам, 
-# а именно на события изменения фокуса клавиатуры и сворачивания окна.
+# Monkey patch to infiltrate in pygame event loop. In this way
+# we can gain access to all arising events and react to needed ones, 
+# specifically on keyboard focus changing and window minimization.
 def screen_displayable_monkey_patch():
     if not hasattr(screen_displayable_monkey_patch, 'patched'):
         event_origin = renpy.display.screen.ScreenDisplayable.event
         
         def event_patched(self, ev, x, y, st):
-            # Обработка фокуса.
+            # Focus processing.
             if ev.type == pygame.ACTIVEEVENT:
-                # Клавиатура или сворачивание.
+                # keyboard or minimize.
                 if (ev.state & 2) or (ev.state & 4):
                     if ev.gain:
                         renpy.audio.audio.unpause_all()

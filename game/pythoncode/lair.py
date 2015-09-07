@@ -10,7 +10,7 @@ class Lair(object):
     def __init__(self, lair_type="impassable_coomb"):
         self.type_name = lair_type
         self.type = data.Container(lair_type, data.lair_types[lair_type])
-        # Список модификаций(ловушки, стражи и.т.п.)
+        # improvements list
         self.upgrades = data.Container('lair_upgrades')
         if 'provide' in self.type:
             for upgrade in self.type['provide']:
@@ -20,10 +20,10 @@ class Lair(object):
 
     def reachable(self, abilities):
         """
-        Функция для проверки доступности логова
-        :param abilities: - список способностей у того, кто пытается достичь логова,
-            например, для вора: [ 'alpinism', 'swimming' ]
-        :return: Возращает True ,если до логова можно добраться и False если нет
+        Function for checking lair approachabillity
+        :param abilities: - list of abilities of that who tries to reach lair
+            thief example: [ 'alpinism', 'swimming' ]
+        :return: return True ,if lair is reachable and False if not
         """
         for r in self.requirements():
             if r not in abilities:
@@ -32,12 +32,12 @@ class Lair(object):
 
     def requirements(self):
         """
-        :return: Возвращает список способностей которые нужны чтобы достичь логова.
+        :return: Return list of abilities needed to reach lair.
         """
         r = []
-        if self.type.require:  # Если тип логова что-то требует добавляем что оно требует
+        if self.type.require:  # If lair type requests something, we add it
             r += self.type.require
-        for u in self.upgrades:  # Тоже самое для каждого апгрейда
+        for u in self.upgrades:  # Same for improvements
             if self.upgrades[u].require:
                 r += self.upgrades[u].require
         return r
@@ -48,11 +48,11 @@ class Lair(object):
 
     def add_upgrade(self, upgrade):
         """
-        Функция для улучшения логова
-        :param upgrade: - название добавляемого апгрейда
+        Function for lair improvements
+        :param upgrade: - name of added improvement
         """
         self.upgrades.add(upgrade, deepcopy(data.lair_upgrades[upgrade]))
-        # замена улучшений, если это необходимо
+        # replace improvement if necesary
         if 'replaces' in self.upgrades[upgrade].keys() and \
             self.upgrades[upgrade]['replaces'] in self.upgrades:
             del self.upgrades[self.upgrades[upgrade]['replaces']]

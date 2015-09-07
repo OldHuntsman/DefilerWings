@@ -7,22 +7,22 @@ from data import reputation_levels, reputation_gain, game_events, achieve_target
 
 
 class Mobilization(store.object):
-    base = 0  # Начальная мобилизация
-    max = 0  # Масимальная
+    base = 0  # Base mobilization
+    max = 0  # Max mobilization
     _lvl = 0
-    decrease = 0  # Уменьшение мобилизации
+    decrease = 0  # Mobilization decrease
 
     def __getinitargs__(self):
         return self.level
 
     def __init__(self, level=0):
         """
-        level - уровень мобилизации
+        level - mobilization level
         """
         self.level = level
 
     @property
-    def level(self):  # Текущая мобилизация
+    def level(self):  # Current mobilization
         return self._lvl
 
     @level.setter
@@ -53,13 +53,13 @@ class Mobilization(store.object):
         self.reset_decrease()
 
     @property
-    def gain(self):  # Изменение текущей мобилизации от базовой
+    def gain(self):  # Current and base mobilization difference
         return self._lvl - self.base
 
 
 class Reputation(store.object):
     """
-    Дурная слава дракона.
+    Dragon' reputation.
     """
     _rp = 0
     _gain = 0
@@ -68,7 +68,7 @@ class Reputation(store.object):
     @property
     def points(self):
         """
-        Количество очков дурной славы
+        Amount of reputation points
         """
         return self._rp
 
@@ -95,7 +95,7 @@ class Reputation(store.object):
 
     def reset_gain(self):
         """
-        Обнуляет прибавку к очкам дурной славы. Используется когда, например, дракон спит.
+        Reset reputation points gain. For example, we use this when dragon sleeps.
         """
         self._gain = 0
 
@@ -110,12 +110,12 @@ class Reputation(store.object):
 
 class Poverty(store.object):
     """
-    Счетчик разрухи. При попытке опустить разруху ниже нуля она примет нулевое значение.
+    Poverty counter. If poverty lowered below zero, sets it to zero.
     Использование:
-    Poverty.value - возвращает текущий уровень разрухи
-    Poverty.value += 1 - планирует увеличение разрухи на единицу
-    Poverty.value -= 1 - планирует уменьшение разрухи на единицу
-    Poverty.apply_value() - Применяет запланированное изменение разрухи
+    Poverty.value - returns current poverty level
+    Poverty.value += 1 - plans to increase poverty by one
+    Poverty.value -= 1 - plans to decrease poverty by one
+    Poverty.apply_value() - applies planned poverty change
     """
     _value = 0
     _planned = 0
@@ -130,7 +130,7 @@ class Poverty(store.object):
 
     def apply_planned(self):
         """
-        Применяем запланированные изменения в разрухе
+        applies planned poverty change
         """
         callback = False
         if self._planned > 0:
@@ -146,7 +146,7 @@ class Poverty(store.object):
 
 class Army(store.object):
     """
-    Класс для армии Тьмы
+    Army of darkness class
     """
 
     def __init__(self):
@@ -157,25 +157,25 @@ class Army(store.object):
 
     def add_warrior(self, warrior_type):
         """
-        Добавляет воина  в армию тьмы. warrior_type - название типа добавляемого воина из словаря girls_data.spawn_info
+        Adds warrior to army. warrior_type - type of added warrior from girls_data.spawn_info
         """
         if 'elite' in girls_data.spawn_info[warrior_type]['modifier']:
-            # воин элитный, добавляется в список элитных 
+            # elite warrior, added to list of elites
             warriors_list = self._elites
         else:
-            # рядовой воин, добавляется в список рядовых 
+            # common warrior, added to list of grunts 
             warriors_list = self._grunts
         if warrior_type in warriors_list:
-            # такой тип воина уже в списке, просто увеличиваем их число
+            # this warrior type allready in list, just increase amount of them
             warriors_list[warrior_type] += 1
         else:
-            # такого типа воина нет в списке, добавляем
+            # no such warrior type in list, add it
             warriors_list[warrior_type] = 1
 
     @property
     def grunts(self):
         """
-        Возвращает число рядовых войск в армии тьмы
+        Returns amount of grunts in army
         """
         grunts_count = 0
         for grunts_i in self._grunts.values():
@@ -185,7 +185,7 @@ class Army(store.object):
     @property
     def grunts_list(self):
         """
-        Возвращает список рядовых войск в армии тьмы
+        Returns list of grunts in army
         """
         grunts_list = u""
         for grunt_name, grunt_count in self._grunts.iteritems():
@@ -195,7 +195,7 @@ class Army(store.object):
     @property
     def elites(self):
         """
-        Возвращает число элитных войск в армии тьмы
+        Returns amount of elites in army
         """
         elites_count = 0
         for elites_i in self._elites.values():
@@ -205,7 +205,7 @@ class Army(store.object):
     @property
     def elites_list(self):
         """
-        Возвращает список элитных войск в армии тьмы
+        returns list of elites in army
         """
         elites_list = u""
         for elite_name, elite_count in self._elites.iteritems():
@@ -215,7 +215,7 @@ class Army(store.object):
     @property
     def diversity(self):
         """
-        Возвращает разнообразие армии тьмы
+        Returns diversity
         """
         diversity = len(self._elites)
         dominant_number = sorted(self._grunts.values())[-1] // 2
@@ -227,7 +227,7 @@ class Army(store.object):
     @property
     def equipment(self):
         """
-        Возвращает уровень экипировки армии тьмы
+        Returns equipment level
         """
         equipment = 1
         aod_money = self.money
@@ -240,7 +240,7 @@ class Army(store.object):
     @property
     def force(self):
         """
-        Возвращает суммарную силу армии тьмы по формуле
+        Return summary force of army by formula:
         (force) = (grunts + 3 * elites) * diversity * equipment * текущий процент мощи
         """
         return (self.grunts + 3 * self.elites) * self.diversity * self.equipment * self._force_residue // 100
@@ -248,14 +248,14 @@ class Army(store.object):
     @property
     def power_percentage(self):
         """
-        Возвращает текущий процент мощи армии тьмы
+        Returns current percentage level of force
         """
         return self._force_residue
 
     @power_percentage.setter
     def power_percentage(self, value):
         """
-        Устанавливает текущий процент мощи армии тьмы
+        Sets current percentage level of force
         """
         self._force_residue = value
 

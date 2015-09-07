@@ -2,12 +2,12 @@
 # Одноразовые противники
 mob = {
     'aircruiser': {
-        'name': u"Летучий крейсер",  # название моба применяемое в описании
-        'power': {'base': (6, 0)},  # сила атаки моба (обычная, верная)
-        'defence': {'base': (6, 2)},  # надежность защиты моба (обычная, верная)
-        'modifiers': ['sfatk_up', 'poison_immunity'],  # особые модификаторы
-        'image': 'aircruiser',  # фоновое изображение для драки в "img/scene/fight/%s.jpg"
-        # набор описаний сцены боя
+        'name': u"Летучий крейсер",  # enemy's name used for description
+        'power': {'base': (6, 0)},  # enemy's attack power (common, true)
+        'defence': {'base': (6, 2)},  # enemy's defence (common, true)
+        'modifiers': ['sfatk_up', 'poison_immunity'],  # special modifiers
+        'image': 'aircruiser',  # battle background located at "img/scene/fight/%s.jpg"
+        # battle scenes descriptions
         'descriptions': [
             [['foe_intro'], u"Летучий крейсер цвергов медлительно разворачивается бортом к угрозе. Паровая артилерия готовится дать первый залп."],
             [['foe_fear'],  u"(you win [fear]) \n Вооруженный до зубов боевой кресейсер стремительно разворачивается и на всех парусах летит прочь. Есть противники с которыми не готовы связываться даже отважные цверги..."],
